@@ -1,3 +1,104 @@
-# Annotating Tree with Silhouette Images
+# Annotating Tree with Silhouette Images and Sub-plots
 
-emoji + image + phylopic
+```{r init, include=F}
+library(knitr)
+opts_chunk$set(message=FALSE, warning=FALSE, eval=TRUE, echo=TRUE, cache=TRUE)
+
+library(ggimage)
+library(ggplot2)
+library(ggtree)
+```
+
+## Annotating Tree with Images
+
+We usually use text to label taxa, i.e. displaying taxa names. If the text is image file name (either local or remote), **ggtree** can read the image and display the actual image as label of the taxa. The `geom_tiplab` and `geom_nodelab` are capable to render silhouette image by internally called [ggimage](https://cran.r-project.org/package=ggimage) package.
+
+
+```{r fig.width=8.5, fig.height=7.5, message=F, warning=F}
+library(ggimage)
+library(ggtree)
+
+nwk <- "((((bufonidae, dendrobatidae), ceratophryidae), (centrolenidae, leptodactylidae)), hylidae);"
+
+x = read.tree(text = nwk)
+ggtree(x) + xlim(NA, 7) + ylim(NA, 6.2) +
+    geom_tiplab(aes(image=paste0("img/frogs/", label, '.jpg')), 
+                geom="image", offset=2, align=2, size=.2)  + 
+    geom_tiplab(geom='label', offset=1, hjust=.5) + 
+    geom_image(x=.8, y=5.5, image="img/frogs/frog.jpg", size=.2)
+```
+
+## Annotating Tree with Phylopic
+
+[Phylopic](phylopic.org) contains more than 3200 silhouettes and covers almost all life forms. **ggtree** also supports using phylopic to annotate the tree. Most importantly, we can color the image using numerical/categorical variable.
+
+
+```{r}
+tree <- ape::read.nexus("https://raw.githubusercontent.com/rgriff23/Dissertation/master/Chapter_2/data/tree.nex")
+phylopic_info <- data.frame(node = c(124, 113, 110, 96, 89, 70),
+                            phylopic = c("7fb9bea8-e758-4986-afb2-95a2c3bf983d",
+                                        "bac25f49-97a4-4aec-beb6-f542158ebd23",
+                                        "f598fb39-facf-43ea-a576-1861304b2fe4",
+                                        "aceb287d-84cf-46f1-868c-4797c4ac54a8",
+                                        "0174801d-15a6-4668-bfe0-4c421fbe51e8",
+                                        "72f2f854-f3cd-4666-887c-35d5c256ab0f"),
+                            species = c("galagoids", "lemurs", "tarsiers",
+                                        "cebids", "hominoids", "cercopithecoids"))
+pg <- ggtree(tree)
+pg %<+% phylopic_info + 
+  geom_nodelab(aes(image=phylopic, color=species, subset=!is.na(species)), geom="phylopic") + 
+  theme(legend.position=c(.1, .8))
+```
+
+
+## Annotating Tree with Sub-plots
+
+## Have Fun with Phylomoji
+
+
+[#phylomoji](https://twitter.com/hashtag/phylomoji?src=hash) is fun and it is internally supported by **ggtree**.
+
+Here, we will use **ggtree** to recreate the figure:
+
+[![](img/phylomoji.png)](https://twitter.com/OxyMLZ/status/1055586178651451392)
+
+
+```{r fig.width=7, fig.height=5, warning=F}
+library(ggplot2)
+library(ggtree)
+
+tt = '((snail,mushroom),(((sunflower,evergreen_tree),leaves),green_salad));'
+tree = read.tree(text = tt)
+d <- data.frame(label = c('snail','mushroom', 'sunflower',
+                          'evergreen_tree','leaves', 'green_salad'),
+                group = c('animal', 'fungi', 'flowering plant',
+                          'conifers', 'ferns', 'mosses'))
+ggtree(tree, linetype = "dashed", size=1, color='firebrick') %<+% d + 
+  xlim(0, 4.5) + ylim(0.5, 6.5) +
+  geom_tiplab(aes(color=label), parse="emoji", size=15, vjust=.25) +
+  geom_tiplab(aes(label = group), geom="label", x=3.5, hjust=.5)
+```
+
+
+With **ggtree**, it is easy to generate phylomoji. The emoji is treated as **text**, like abc. We can use emojis to label taxa, clade, color and ratate emoji with any given color and angle. 
+
+## emoji in cirular layout tree
+
+```{r fig.width=6, fig.height=6, warning=F}
+ggtree(tree, layout = "circular", size=1) + 
+  geom_tiplab2(aes(color=label), parse="emoji", size=15, vjust=.25)
+```
+
+## emoji to label clades
+
+```{r fig.width=6, fig.height=5}
+set.seed(123)
+tr <- rtree(30)
+ggtree(tr) + xlim(NA, 5) +
+    geom_cladelabel(node=41, label="chicken", parse="emoji",
+                    fontsize=12, align=TRUE, color="firebrick") +
+    geom_cladelabel(node=51, label="duck", parse="emoji",
+                    fontsize=12, align=TRUE, color="steelblue") +
+    geom_cladelabel(node=32, label="family", parse="emoji",
+                    fontsize=12, align=TRUE, color="darkkhaki")
+```
