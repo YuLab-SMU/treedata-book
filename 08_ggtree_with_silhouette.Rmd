@@ -53,6 +53,80 @@ pg %<+% phylopic_info +
 
 ## Annotating Tree with Sub-plots
 
+
+`ggtree` provides a function, `inset`, for adding subplots to a phylogenetic tree. The input is a tree graphic object and a named list of ggplot graphic objects (can be any kind of charts), these objects should named by node numbers. To facilitate adding bar and pie charts (e.g. summarized stats of results from ancestral reconstruction) to phylogenetic tree, *ggtree* provides `nodepie` and `nodebar` functions to create a list of pie or bar charts.
+
+### Annotate with bar charts
+
+```{r fig.width=7, fig.height=7}
+set.seed(2015-12-31)
+tr <- rtree(15)
+p <- ggtree(tr)
+
+a <- runif(14, 0, 0.33)
+b <- runif(14, 0, 0.33)
+c <- runif(14, 0, 0.33)
+d <- 1 - a - b - c
+dat <- data.frame(a=a, b=b, c=c, d=d)
+## input data should have a column of `node` that store the node number
+dat$node <- 15+1:14
+
+## cols parameter indicate which columns store stats (a, b, c and d in this example)
+bars <- nodebar(dat, cols=1:4)
+
+inset(p, bars, width=.2, height=1)
+```
+
+Users can set the color via the parameter *color*. The *x* position can be one of 'node' or 'branch' and can be adjusted by the parameter *hjust* and *vjust* for horizontal and vertical adjustment respecitvely.
+
+
+```{r fig.width=7, fig.height=7}
+bars2 <- nodebar(dat, cols=1:4, position='dodge',
+                 color=c(a='blue', b='red', c='green', d='cyan'))
+p2 <- inset(p, bars2, x='branch', width=.2, height=1, vjust=-.3)
+print(p2)
+```
+
+### Annotate with pie charts
+
+Similarly, users can use `nodepie` function to generate a list of pie charts and place these charts to annotate corresponding nodes. Both `nodebar` and `nodepie` accepts parameter *alpha* to allow transparency.
+
+```{r fig.width=7, fig.height=7}
+pies <- nodepie(dat, cols=1:4, alpha=.6)
+inset(p, pies, width=1, height=1, hjust=-.06)
+```
+
+
+### Annotate with other types of charts
+
+The `inset` function accepts a list of ggplot graphic objects and these input objects are not restricted to pie or bar charts. They can be any kinds of charts and hybrid of these charts.
+
+```{r fig.width=7, fig.height=7}
+pies_and_bars <- bars2
+pies_and_bars[9:14] <- pies[9:14]
+inset(p, pies_and_bars, width=.3, height=1)
+
+d <- lapply(1:15, rnorm, n=100)
+ylim <- range(unlist(d))
+bx <- lapply(d, function(y) {
+    dd <- data.frame(y=y)
+    ggplot(dd, aes(x=1, y=y))+geom_boxplot() + ylim(ylim) + theme_inset()
+})
+names(bx) <- 1:15
+inset(p, bx, width=.2, height=2, hjust=-.05)
+```
+
+
+After annotating with insets, users can further annotate the tree with another layer of insets.
+
+```{r fig.width=7, fig.height=7}
+p2 <- inset(p, bars2, x='branch', width=.5, height=1, vjust=-.4)
+p2 <- inset(p2, pies, x='branch', vjust=.4, width=.5, height=1)
+bx2 <- lapply(bx, function(g) g+coord_flip())
+inset(p2, bx2, width=2, height=1, vjust=.04, hjust=p2$data$x[1:15]-5) + xlim(NA, 6)
+```
+
+
 ## Have Fun with Phylomoji
 
 
@@ -82,12 +156,40 @@ ggtree(tree, linetype = "dashed", size=1, color='firebrick') %<+% d +
 
 With **ggtree**, it is easy to generate phylomoji. The emoji is treated as **text**, like abc. We can use emojis to label taxa, clade, color and ratate emoji with any given color and angle. 
 
-### emoji in cirular layout tree
+### emoji in cirular/fan layout tree
 
 ```{r fig.width=6, fig.height=6, warning=F}
-ggtree(tree, layout = "circular", size=1) + 
-  geom_tiplab2(aes(color=label), parse="emoji", size=15, vjust=.25)
+p <- ggtree(tree, layout = "circular", size=1) + 
+  geom_tiplab2(aes(color=label), parse="emoji", size=10, vjust=.25)
+print(p)
 ```
+
+
+```{r fig.width=6, fig.height=3.5, warning=F, eval=F}
+## fan layout
+p2 <- open_tree(p, angle=200) 
+print(p2)
+```
+
+```{r fig.width=6, fig.height=3.5, warning=F, echo=F}
+p2 <- open_tree(p, angle=200)
+ggplot() + ylim(0.5, 1) + xlim(0, 1) + theme_tree() +
+  annotation_custom(ggplotGrob(p2), 
+                    xmin=-.1, xmax=1.1, ymin=-.25, ymax=1.25)
+```
+
+```{r eval=F}
+p2 %>% rotate_tree(-90)
+```
+
+```{r fig.width=3.5, fig.height=6, warning=F, echo=F}
+p3 <- p2 %>% rotate_tree(-90)
+
+ggplot() + ylim(0, 1) + xlim(0.5, 1) + theme_tree() +
+  annotation_custom(ggplotGrob(p3), 
+                    ymin=-.1, ymax=1.1, xmin=-.25, xmax=1.25)
+```
+
 
 ### emoji to label clades
 
@@ -102,3 +204,28 @@ ggtree(tr) + xlim(NA, 5) +
     geom_cladelabel(node=32, label="family", parse="emoji",
                     fontsize=12, align=TRUE, color="darkkhaki")
 ```
+
+
+
+### Apple Color Emoji
+
+Although `R`'s graphical devices don't support `AppleColorEmoji` font, it's still possible to use it. We can export the `plot` to `svg` file and render it in `Safari`.
+
+
+```r
+library(ggtree)
+tree_text <- "(((((cow, (whale, dolphin)), (pig2, boar)), camel), fish), seedling);"
+x <- read.tree(text=tree_text)
+library(ggimage)
+library(gridSVG)
+p <-  ggtree(x, size=2) + geom_tiplab(size=20, parse='emoji') +
+    xlim(NA, 7) + ylim(NA, 8.5) +
+    geom_phylopic(image="79ad5f09-cf21-4c89-8e7d-0c82a00ce728",
+                  color="firebrick", alpha = .3, size=Inf)
+
+p
+ps = grid.export("emoji.svg", addClass=T)
+```
+
+![](img/apple_emoji2.png)
+
