@@ -7,4 +7,161 @@ opts_chunk$set(message=FALSE, warning=FALSE, eval=TRUE, echo=TRUE, cache=TRUE)
 ```
 
 
-treeio + tidytree
+
+```{r echo=FALSE, results="hide", message=FALSE}
+library("ape")
+library("tidytree")
+```
+
+
+Manipulating tree object is frustrated with the fragmented functions available
+for working with `phylo` object, not to mention linking external data to the
+phylogeny structure.
+Using [tidy data principles](https://www.jstatsoft.org/article/view/v059i10) can
+make phylogenetic tree manipulation tasks easier and consistent with tools
+already in wide use,
+including
+[dplyr](https://cran.r-project.org/package=dplyr),
+[tidyr](https://cran.r-project.org/package=tidyr),
+[ggplot2](https://cran.r-project.org/package=ggplot2)
+and [ggtree](https://bioconductor.org/packages/ggtree/).
+
+
+## Convert tree object to tidy data frame and vice versa
+
+### `phylo` object
+
+
+The `phylo` class defined in [ape](https://cran.r-project.org/package=ape) is
+fundamental for phylogenetic analysis in R. Most of the R packages
+in [this field](https://CRAN.R-project.org/view=Phylogenetics) rely
+extensively on `phylo` object. The tidytree package provides `as_tibble`
+method to convert the `phylo` object to tidy data frame, a `tbl_tree` object.
+
+```{r}
+library(ape)
+set.seed(2017)
+tree <- rtree(4)
+tree
+x <- as_tibble(tree)
+x
+```
+
+The `tbl_tree` object can be converted back to a `phylo` object.
+
+
+```{r}
+as.phylo(x)
+```
+
+
+Using `tbl_tree` object makes tree and data manipulation more effective and
+easier. For example, we can link evolutionary trait to phylogeny using the verbs `full_join`
+
+```{r}
+d <- tibble(label = paste0('t', 1:4),
+            trait = rnorm(4))
+
+y <- full_join(x, d, by = 'label')
+```
+
+### treedata object
+
+
+The tidytree package defines a `treedata` class to store phylogenetic tree with
+associated data. After mapping external data to the tree structure, the
+`tbl_tree` object can be converted to a `treedata` object.
+
+
+```{r}
+as.treedata(y)
+```
+
+The `treedata` class is also used
+in [treeio](https://bioconductor.org/packages/treeio/) package to store
+evolutionary evidences inferred by commonly used software (BEAST, EPA, HYPHY,
+MrBayes, PAML, PHYLODOG, pplacer, r8s, RAxML and RevBayes).
+
+The tidytree package also provides `as_tibble` to convert `treedata` object
+to a tidy data frame. The phylogentic tree structure and the evolutionary
+inferences were stored in the tbl_tree object, making it consistent and easier
+for manipulating evolutionary statistics inferred by different software as well
+as linking external data to the same tree structure.
+
+
+```{r}
+y %>% as.treedata %>% as_tibble
+```
+
+
+## Access related nodes
+
+[dplyr](https://cran.r-project.org/package=dplyr) verbs can be applied to `tbl_tree` directly to manipulate tree data. In
+addition, tidytree provides several verbs to filter related nodes, including
+`child`, `parent`, `offspring`, `ancestor`, `sibling` and `MRCA`.
+
+These verbs accept a `tbl_tree` and a selected node which can be node number or label.
+
+
+```{r}
+child(y, 5)
+parent(y, 2)
+offspring(y, 5)
+ancestor(y, 2)
+sibling(y, 2)
+MRCA(y, 2, 3)
+```
+
+## Grouping taxa
+
+tidytree implemented `groupOTU` and `groupClade` for adding taxa grouping
+information to the input `tbl_tree` object. These grouping information can be
+used directly in tree visualization (*e.g.* coloring tree based on grouping)
+with [ggtree](https://bioconductor.org/packages/ggtree/).
+
+### groupClade
+
+The `groupClade` method accepts an internal node or a vector of internal nodes
+to add grouping information of clade/clades.
+
+
+
+```{r}
+nwk <- '(((((((A:4,B:4):6,C:5):8,D:6):3,E:21):10,((F:4,G:12):14,H:8):13):13,((I:5,J:2):30,(K:11,L:11):2):17):4,M:56);'
+tree <- read.tree(text=nwk)
+
+groupClade(as_tibble(tree), c(17, 21))
+```
+
+
+### groupOTU
+
+
+```{r}
+## the input nodes can be node ID or label
+groupOTU(x, c('t1', 't4'), group_name = "fake_group")
+```
+
+The `groupOTU` will trace back from input nodes to most recent common ancestor.
+In this example, nodes 2, 3, 7 and 6 (`2 (t1) -> 7 -> 6` and `3 (t4) -> 6`) are
+grouping together.
+
+Related OTUs are grouping together and they are not necessarily within a clade.
+They can be monophyletic (clade), polyphyletic or paraphyletic.
+
+```{r}
+cls <- list(c1=c("A", "B", "C", "D", "E"),
+            c2=c("F", "G", "H"),
+            c3=c("L", "K", "I", "J"),
+            c4="M")
+
+as_tibble(tree) %>% groupOTU(cls)
+```
+
+If there are conflicts when tracing back to mrca, user can set `overlap`
+parameter to "origin" (the first one counts), "overwrite" (default, the last one
+counts) or "abandon" (un-selected for grouping), see
+also
+[discussion here](https://groups.google.com/forum/#!msg/bioc-ggtree/Q4LnwoTf1DM/uqYdYB_VBAAJ).
+
+
