@@ -192,6 +192,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.4.3" data-path="annotating-tree-with-silhouette-images-and-sub-plots.html"><a href="annotating-tree-with-silhouette-images-and-sub-plots.html#apple-color-emoji"><i class="fa fa-check"></i><b>8.4.3</b> Apple Color Emoji</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="9" data-path="ggtree-extensions.html"><a href="ggtree-extensions.html"><i class="fa fa-check"></i><b>9</b> ggtree extensions</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
@@ -324,11 +325,11 @@ tip labels and colored them by the isolation site stored in <em>place</em> colum
 <pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span>p <span class="op">%&lt;+%</span><span class="st"> </span>dd <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">color=</span>place)) <span class="op">+</span>
 <span class="st">       </span><span class="kw">geom_tippoint</span>(<span class="kw">aes</span>(<span class="dt">size=</span>value, <span class="dt">shape=</span>place, <span class="dt">color=</span>place), <span class="dt">alpha=</span><span class="fl">0.25</span>)
 p <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;right&quot;</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-76-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-80-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Once the data was attached, it is always attached. So that we can add other layers to display these information easily.</p>
 <pre class="sourceCode r"><code class="sourceCode r">p <span class="op">+</span><span class="st"> </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">color=</span>place, <span class="dt">label=</span>place), <span class="dt">hjust=</span><span class="dv">1</span>, <span class="dt">vjust=</span><span class="op">-</span><span class="fl">0.4</span>, <span class="dt">size=</span><span class="dv">3</span>) <span class="op">+</span>
 <span class="st">    </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">color=</span>place, <span class="dt">label=</span>value), <span class="dt">hjust=</span><span class="dv">1</span>, <span class="dt">vjust=</span><span class="fl">1.4</span>, <span class="dt">size=</span><span class="dv">3</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-77-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-81-1.png" width="576" style="display: block; margin: auto;" /></p>
 </div>
 <div id="visualize-tree-with-associated-matrix" class="section level2">
 <h2><span class="header-section-number">7.1</span> Visualize tree with associated matrix</h2>
@@ -347,28 +348,26 @@ p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(beast_tree, <span
 p &lt;-<span class="st"> </span>p <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="dt">size=</span><span class="dv">2</span>)
 <span class="kw">gheatmap</span>(p, genotype, <span class="dt">offset=</span><span class="dv">5</span>, <span class="dt">width=</span><span class="fl">0.5</span>, <span class="dt">font.size=</span><span class="dv">3</span>, <span class="dt">colnames_angle=</span><span class="op">-</span><span class="dv">45</span>, <span class="dt">hjust=</span><span class="dv">0</span>) <span class="op">+</span>
 <span class="st">    </span><span class="kw">scale_fill_manual</span>(<span class="dt">breaks=</span><span class="kw">c</span>(<span class="st">&quot;HuH3N2&quot;</span>, <span class="st">&quot;pdm&quot;</span>, <span class="st">&quot;trig&quot;</span>), <span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;steelblue&quot;</span>, <span class="st">&quot;firebrick&quot;</span>, <span class="st">&quot;darkgreen&quot;</span>))</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-78-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-82-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>The <em>width</em> parameter is to control the width of the heatmap. It supports another parameter <em>offset</em> for controlling the distance between the tree and the heatmap, for instance to allocate space for tip labels.</p>
 <p>For time-scaled tree, as in this example, it’s more often to use <code>x</code> axis by using <code>theme_tree2</code>. But with this solution, the heatmap is just another layer and will change the <code>x</code> axis. To overcome this issue, we implemented <code>scale_x_ggtree</code> to set the x axis more reasonable.</p>
 <!-- User can also use `gplot` and tweak the positions of two plot to align properly. -->
 <pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(beast_tree, <span class="dt">mrsd=</span><span class="st">&quot;2013-01-01&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="dt">size=</span><span class="dv">2</span>, <span class="dt">align=</span><span class="ot">TRUE</span>, <span class="dt">linesize=</span>.<span class="dv">5</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>()
 pp &lt;-<span class="st"> </span>(p <span class="op">+</span><span class="st"> </span><span class="kw">scale_y_continuous</span>(<span class="dt">expand=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.3</span>))) <span class="op">%&gt;%</span>
 <span class="st">    </span><span class="kw">gheatmap</span>(genotype, <span class="dt">offset=</span><span class="dv">8</span>, <span class="dt">width=</span><span class="fl">0.6</span>, <span class="dt">colnames=</span><span class="ot">FALSE</span>) <span class="op">%&gt;%</span>
-<span class="st">        </span><span class="kw">scale_x_ggtree</span>()</code></pre>
-<pre><code>## Scale for &#39;y&#39; is already present. Adding another scale
-## for &#39;y&#39;, which will replace the existing scale.</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">pp <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;right&quot;</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-79-1.png" width="768" style="display: block; margin: auto;" /></p>
+<span class="st">        </span><span class="kw">scale_x_ggtree</span>()
+pp <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;right&quot;</span>)</code></pre>
+<p><img src="treedata_files/figure-html/unnamed-chunk-83-1.png" width="768" style="display: block; margin: auto;" /></p>
 </div>
 <div id="visualize-tree-with-multiple-sequence-alignment" class="section level2">
 <h2><span class="header-section-number">7.2</span> Visualize tree with multiple sequence alignment</h2>
 <p>With <code>msaplot</code> function, user can visualize multiple sequence alignment with phylogenetic tree, as demonstrated below:</p>
 <pre class="sourceCode r"><code class="sourceCode r">fasta &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;examples/FluA_H3_AA.fas&quot;</span>, <span class="dt">package=</span><span class="st">&quot;ggtree&quot;</span>)
 <span class="kw">msaplot</span>(<span class="kw">ggtree</span>(beast_tree), fasta)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-80-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-84-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>A specific slice of the alignment can also be displayed by specific <em>window</em> parameter.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">msaplot</span>(<span class="kw">ggtree</span>(beast_tree), fasta, <span class="dt">window=</span><span class="kw">c</span>(<span class="dv">150</span>, <span class="dv">200</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">coord_polar</span>(<span class="dt">theta=</span><span class="st">&#39;y&#39;</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-81-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-85-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="plot-tree-with-associated-data" class="section level2">
 <h2><span class="header-section-number">7.3</span> Plot tree with associated data</h2>
@@ -382,7 +381,7 @@ p2 &lt;-<span class="st"> </span><span class="kw">facet_plot</span>(p, <span cla
 d2 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">id=</span>tr<span class="op">$</span>tip.label, <span class="dt">value=</span><span class="kw">abs</span>(<span class="kw">rnorm</span>(<span class="dv">30</span>, <span class="dt">mean=</span><span class="dv">100</span>, <span class="dt">sd=</span><span class="dv">50</span>)))
 
 <span class="kw">facet_plot</span>(p2, <span class="dt">panel=</span><span class="st">&#39;bar&#39;</span>, <span class="dt">data=</span>d2, <span class="dt">geom=</span>geom_segment, <span class="kw">aes</span>(<span class="dt">x=</span><span class="dv">0</span>, <span class="dt">xend=</span>value, <span class="dt">y=</span>y, <span class="dt">yend=</span>y), <span class="dt">size=</span><span class="dv">3</span>, <span class="dt">color=</span><span class="st">&#39;steelblue&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>()</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-82-1.png" width="960" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-86-1.png" width="960" /></p>
 
 </div>
 </div>

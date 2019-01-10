@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="plotting-tree-with-data.html">
-<link rel="next" href="references.html">
+<link rel="next" href="ggtree-extensions.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -192,6 +192,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.4.3" data-path="annotating-tree-with-silhouette-images-and-sub-plots.html"><a href="annotating-tree-with-silhouette-images-and-sub-plots.html#apple-color-emoji"><i class="fa fa-check"></i><b>8.4.3</b> Apple Color Emoji</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="9" data-path="ggtree-extensions.html"><a href="ggtree-extensions.html"><i class="fa fa-check"></i><b>9</b> ggtree extensions</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
@@ -227,7 +228,7 @@ x =<span class="st"> </span><span class="kw">read.tree</span>(<span class="dt">t
                 <span class="dt">geom=</span><span class="st">&quot;image&quot;</span>, <span class="dt">offset=</span><span class="dv">2</span>, <span class="dt">align=</span><span class="dv">2</span>, <span class="dt">size=</span>.<span class="dv">2</span>)  <span class="op">+</span><span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_tiplab</span>(<span class="dt">geom=</span><span class="st">&#39;label&#39;</span>, <span class="dt">offset=</span><span class="dv">1</span>, <span class="dt">hjust=</span>.<span class="dv">5</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_image</span>(<span class="dt">x=</span>.<span class="dv">8</span>, <span class="dt">y=</span><span class="fl">5.5</span>, <span class="dt">image=</span><span class="st">&quot;img/frogs/frog.jpg&quot;</span>, <span class="dt">size=</span>.<span class="dv">2</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-83-1.png" width="816" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-87-1.png" width="816" /></p>
 </div>
 <div id="annotating-tree-with-phylopic" class="section level2">
 <h2><span class="header-section-number">8.2</span> Annotating Tree with Phylopic</h2>
@@ -246,7 +247,7 @@ pg &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree)
 pg <span class="op">%&lt;+%</span><span class="st"> </span>phylopic_info <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_nodelab</span>(<span class="kw">aes</span>(<span class="dt">image=</span>phylopic, <span class="dt">color=</span>species, <span class="dt">subset=</span><span class="op">!</span><span class="kw">is.na</span>(species)), <span class="dt">geom=</span><span class="st">&quot;phylopic&quot;</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="kw">c</span>(.<span class="dv">1</span>, <span class="fl">.8</span>))</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-84-1.png" width="672" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-88-1.png" width="672" /></p>
 </div>
 <div id="annotating-tree-with-sub-plots" class="section level2">
 <h2><span class="header-section-number">8.3</span> Annotating Tree with Sub-plots</h2>
@@ -269,20 +270,20 @@ dat<span class="op">$</span>node &lt;-<span class="st"> </span><span class="dv">
 bars &lt;-<span class="st"> </span><span class="kw">nodebar</span>(dat, <span class="dt">cols=</span><span class="dv">1</span><span class="op">:</span><span class="dv">4</span>)
 
 <span class="kw">inset</span>(p, bars, <span class="dt">width=</span>.<span class="dv">2</span>, <span class="dt">height=</span><span class="dv">1</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-85-1.png" width="672" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-89-1.png" width="672" /></p>
 <p>Users can set the color via the parameter <em>color</em>. The <em>x</em> position can be one of ‘node’ or ‘branch’ and can be adjusted by the parameter <em>hjust</em> and <em>vjust</em> for horizontal and vertical adjustment respecitvely.</p>
 <pre class="sourceCode r"><code class="sourceCode r">bars2 &lt;-<span class="st"> </span><span class="kw">nodebar</span>(dat, <span class="dt">cols=</span><span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">position=</span><span class="st">&#39;dodge&#39;</span>,
                  <span class="dt">color=</span><span class="kw">c</span>(<span class="dt">a=</span><span class="st">&#39;blue&#39;</span>, <span class="dt">b=</span><span class="st">&#39;red&#39;</span>, <span class="dt">c=</span><span class="st">&#39;green&#39;</span>, <span class="dt">d=</span><span class="st">&#39;cyan&#39;</span>))
 p2 &lt;-<span class="st"> </span><span class="kw">inset</span>(p, bars2, <span class="dt">x=</span><span class="st">&#39;branch&#39;</span>, <span class="dt">width=</span>.<span class="dv">2</span>, <span class="dt">height=</span><span class="dv">1</span>, <span class="dt">vjust=</span><span class="op">-</span>.<span class="dv">3</span>)
 <span class="kw">print</span>(p2)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-86-1.png" width="672" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-90-1.png" width="672" /></p>
 </div>
 <div id="annotate-with-pie-charts" class="section level3">
 <h3><span class="header-section-number">8.3.2</span> Annotate with pie charts</h3>
 <p>Similarly, users can use <code>nodepie</code> function to generate a list of pie charts and place these charts to annotate corresponding nodes. Both <code>nodebar</code> and <code>nodepie</code> accepts parameter <em>alpha</em> to allow transparency.</p>
 <pre class="sourceCode r"><code class="sourceCode r">pies &lt;-<span class="st"> </span><span class="kw">nodepie</span>(dat, <span class="dt">cols=</span><span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">alpha=</span>.<span class="dv">6</span>)
 <span class="kw">inset</span>(p, pies, <span class="dt">width=</span><span class="dv">1</span>, <span class="dt">height=</span><span class="dv">1</span>, <span class="dt">hjust=</span><span class="op">-</span>.<span class="dv">06</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-87-1.png" width="672" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-91-1.png" width="672" /></p>
 </div>
 <div id="annotate-with-other-types-of-charts" class="section level3">
 <h3><span class="header-section-number">8.3.3</span> Annotate with other types of charts</h3>
@@ -290,7 +291,7 @@ p2 &lt;-<span class="st"> </span><span class="kw">inset</span>(p, bars2, <span c
 <pre class="sourceCode r"><code class="sourceCode r">pies_and_bars &lt;-<span class="st"> </span>bars2
 pies_and_bars[<span class="dv">9</span><span class="op">:</span><span class="dv">14</span>] &lt;-<span class="st"> </span>pies[<span class="dv">9</span><span class="op">:</span><span class="dv">14</span>]
 <span class="kw">inset</span>(p, pies_and_bars, <span class="dt">width=</span>.<span class="dv">3</span>, <span class="dt">height=</span><span class="dv">1</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-88-1.png" width="672" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-92-1.png" width="672" /></p>
 <pre class="sourceCode r"><code class="sourceCode r">d &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>, rnorm, <span class="dt">n=</span><span class="dv">100</span>)
 ylim &lt;-<span class="st"> </span><span class="kw">range</span>(<span class="kw">unlist</span>(d))
 bx &lt;-<span class="st"> </span><span class="kw">lapply</span>(d, <span class="cf">function</span>(y) {
@@ -299,13 +300,13 @@ bx &lt;-<span class="st"> </span><span class="kw">lapply</span>(d, <span class="
 })
 <span class="kw">names</span>(bx) &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">15</span>
 <span class="kw">inset</span>(p, bx, <span class="dt">width=</span>.<span class="dv">2</span>, <span class="dt">height=</span><span class="dv">2</span>, <span class="dt">hjust=</span><span class="op">-</span>.<span class="dv">05</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-88-2.png" width="672" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-92-2.png" width="672" /></p>
 <p>After annotating with insets, users can further annotate the tree with another layer of insets.</p>
 <pre class="sourceCode r"><code class="sourceCode r">p2 &lt;-<span class="st"> </span><span class="kw">inset</span>(p, bars2, <span class="dt">x=</span><span class="st">&#39;branch&#39;</span>, <span class="dt">width=</span>.<span class="dv">5</span>, <span class="dt">height=</span><span class="dv">1</span>, <span class="dt">vjust=</span><span class="op">-</span>.<span class="dv">4</span>)
 p2 &lt;-<span class="st"> </span><span class="kw">inset</span>(p2, pies, <span class="dt">x=</span><span class="st">&#39;branch&#39;</span>, <span class="dt">vjust=</span>.<span class="dv">4</span>, <span class="dt">width=</span>.<span class="dv">5</span>, <span class="dt">height=</span><span class="dv">1</span>)
 bx2 &lt;-<span class="st"> </span><span class="kw">lapply</span>(bx, <span class="cf">function</span>(g) g<span class="op">+</span><span class="kw">coord_flip</span>())
 <span class="kw">inset</span>(p2, bx2, <span class="dt">width=</span><span class="dv">2</span>, <span class="dt">height=</span><span class="dv">1</span>, <span class="dt">vjust=</span>.<span class="dv">04</span>, <span class="dt">hjust=</span>p2<span class="op">$</span>data<span class="op">$</span>x[<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>]<span class="op">-</span><span class="dv">5</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="ot">NA</span>, <span class="dv">6</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-89-1.png" width="672" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-93-1.png" width="672" /></p>
 </div>
 </div>
 <div id="have-fun-with-phylomoji" class="section level2">
@@ -326,20 +327,20 @@ d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="
 <span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="fl">4.5</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylim</span>(<span class="fl">0.5</span>, <span class="fl">6.5</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">color=</span>label), <span class="dt">parse=</span><span class="st">&quot;emoji&quot;</span>, <span class="dt">size=</span><span class="dv">15</span>, <span class="dt">vjust=</span>.<span class="dv">25</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">label =</span> group), <span class="dt">geom=</span><span class="st">&quot;label&quot;</span>, <span class="dt">x=</span><span class="fl">3.5</span>, <span class="dt">hjust=</span>.<span class="dv">5</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-90-1.png" width="672" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-94-1.png" width="672" /></p>
 <p>With <strong>ggtree</strong>, it is easy to generate phylomoji. The emoji is treated as <strong>text</strong>, like abc. We can use emojis to label taxa, clade, color and ratate emoji with any given color and angle.</p>
 <div id="emoji-in-cirularfan-layout-tree" class="section level3">
 <h3><span class="header-section-number">8.4.1</span> emoji in cirular/fan layout tree</h3>
 <pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree, <span class="dt">layout =</span> <span class="st">&quot;circular&quot;</span>, <span class="dt">size=</span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_tiplab2</span>(<span class="kw">aes</span>(<span class="dt">color=</span>label), <span class="dt">parse=</span><span class="st">&quot;emoji&quot;</span>, <span class="dt">size=</span><span class="dv">10</span>, <span class="dt">vjust=</span>.<span class="dv">25</span>)
 <span class="kw">print</span>(p)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-91-1.png" width="576" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-95-1.png" width="576" /></p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co">## fan layout</span>
 p2 &lt;-<span class="st"> </span><span class="kw">open_tree</span>(p, <span class="dt">angle=</span><span class="dv">200</span>) 
 <span class="kw">print</span>(p2)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-93-1.png" width="576" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-97-1.png" width="576" /></p>
 <pre class="sourceCode r"><code class="sourceCode r">p2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">rotate_tree</span>(<span class="op">-</span><span class="dv">90</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-95-1.png" width="336" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-99-1.png" width="336" /></p>
 </div>
 <div id="emoji-to-label-clades" class="section level3">
 <h3><span class="header-section-number">8.4.2</span> emoji to label clades</h3>
@@ -352,7 +353,7 @@ tr &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">
                     <span class="dt">fontsize=</span><span class="dv">12</span>, <span class="dt">align=</span><span class="ot">TRUE</span>, <span class="dt">color=</span><span class="st">&quot;steelblue&quot;</span>) <span class="op">+</span>
 <span class="st">    </span><span class="kw">geom_cladelabel</span>(<span class="dt">node=</span><span class="dv">32</span>, <span class="dt">label=</span><span class="st">&quot;family&quot;</span>, <span class="dt">parse=</span><span class="st">&quot;emoji&quot;</span>,
                     <span class="dt">fontsize=</span><span class="dv">12</span>, <span class="dt">align=</span><span class="ot">TRUE</span>, <span class="dt">color=</span><span class="st">&quot;darkkhaki&quot;</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-96-1.png" width="576" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-100-1.png" width="576" /></p>
 </div>
 <div id="apple-color-emoji" class="section level3">
 <h3><span class="header-section-number">8.4.3</span> Apple Color Emoji</h3>
@@ -374,10 +375,6 @@ ps =<span class="st"> </span><span class="kw">grid.export</span>(<span class="st
 </div>
 </div>
 </div>
-
-
-
-</div>
 <div class="footnotes">
 <hr />
 <ol start="1">
@@ -391,7 +388,7 @@ ps =<span class="st"> </span><span class="kw">grid.export</span>(<span class="st
         </div>
       </div>
 <a href="plotting-tree-with-data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="ggtree-extensions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
