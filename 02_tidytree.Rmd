@@ -322,7 +322,7 @@ also
 [discussion here](https://groups.google.com/forum/#!msg/bioc-ggtree/Q4LnwoTf1DM/uqYdYB_VBAAJ).
 
 
-## Rescaling Tree Branches
+## Rescaling Tree Branches {#rescale-treeio}
 
 Phylogenetic data can be merged for joint analysis (Figure \@ref(fig:correlations)). They can be displayed on the same tree structure as more complex annotation to help visually inspection of their evolutionary patterns. All the numerical data stored in `treedata` object can be used to re-scale tree branches. For example, CodeML infers d~N~/d~S~, d~N~ and d~S~, all these statistics can be used as branch lengths.
 
@@ -333,9 +333,9 @@ Phylogenetic data can be merged for joint analysis (Figure \@ref(fig:correlation
 (ref:rescalecap) **Re-scaling tree branches.** The tree with branches scaled in time (year from the root) (A). The tree was re-scaled using *d~N~* as branch lengths (B). The tree was re-scaled using substitution rates (C).
 
 ```{r rescale, fig.width=12, fig.height=4.5, message=F, echo=T, fig.cap="(ref:rescalecap)", fig.scap="(ref:rescalescap)", out.extra=''}
-p1 <- ggtree(merged_tree)
-p2 <- ggtree(rescale_tree(merged_tree, 'dN'))
-p3 <- ggtree(rescale_tree(merged_tree, 'rate'))
+p1 <- ggtree(merged_tree) + theme_tree2()
+p2 <- ggtree(rescale_tree(merged_tree, 'dN')) + theme_tree2()
+p3 <- ggtree(rescale_tree(merged_tree, 'rate')) + theme_tree2()
 
 cowplot::plot_grid(p1, p2, p3, ncol=3, labels = LETTERS)
 ```

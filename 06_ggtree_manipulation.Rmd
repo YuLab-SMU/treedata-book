@@ -2,9 +2,6 @@
 
 
 ```{r include=FALSE}
-library(knitr)
-opts_chunk$set(message=FALSE, warning=FALSE, eval=TRUE, echo=TRUE, cache=TRUE)
-
 library("ape")
 library("ggplot2")
 library("cowplot")
@@ -12,8 +9,33 @@ library("ggtree")
 expand <- ggtree::expand
 rotate <- ggtree::rotate
 flip <- ggtree::flip
-collapse <- ggtree:::collapse.ggtree
+#collapse <- ggtree:::collapse.ggtree
 ```
+
+
+The *ggtree* supports many ways of manipulating the tree visually, including viewing selected clade to explore large tree (Figure \@ref(fig:viewClade)), taxa clustering (Figure \@ref(fig:groupOTU)), rotating clade or tree (Figure \@ref(fig:rfClade)B and \@ref(fig:rotateTree)), zoom out or collapsing clades (Figure \@ref(fig:collapseExpand)A and \@ref(fig:scaleClade)), *etc.*. Details tree manipulation functions are summarized in Table \@ref(tab:treeman).
+
+
+```{r treeman, echo=FALSE, out.extra='', message=FALSE}
+treeman <- matrix(c(
+  "collapse", "collapse a selecting clade",
+  "expand", "expand collapsed clade",
+  "flip", "exchange position of 2 clades that share a parent node",
+  "groupClade", "grouping clades",
+  "groupOTU", "grouping OTUs by tracing back to most recent common ancestor",
+  "identify", "interactive tree manipulation",
+  "rotate", "rotating a selected clade by 180 degree",
+  "rotate_tree", "rotating circular layout tree by specific angle",
+  "scaleClade", "zoom in or zoom out selecting clade",
+  "open_tree", "convert a tree to fan layout by specific open angle"
+), ncol=2, byrow=TRUE)
+treeman <- as.data.frame(treeman)
+colnames(treeman) <- c("Function", "Descriptiotn")
+knitr::kable(treeman, caption = "Tree manipulation functions.", booktabs = T) %>%
+  kable_styling(latex_options = c("striped", "hold_position"), full_width = T)
+```
+
+
 
 ## Internal node number
 
@@ -46,6 +68,10 @@ viewClade(p+geom_tiplab(), node=21)
 
 
 ## Group Clades
+
+
+The `groupClade` function assigns the branches and nodes under different clades into different groups. Similarly, `groupOTU` function assigns branches and nodes to different groups based on user-specified groups of operational taxonomic units (OTUs) that are not necessarily within a clade, but can be monophyletic (clade), polyphyletic or paraphyletic. A phylogenetic tree can be annotated by mapping different line type, size, color or shape to the branches or nodes that have been assigned to different groups. 
+
 
 The `ggtree` package defined several functions to manipulate tree view. _`groupClade`_ and _`groupOTU`_ methods were designed for clustering clades or related OTUs. _`groupClade`_ accepts an internal node or a vector of internal nodes to cluster clade/clades.
 
@@ -141,6 +167,27 @@ ggtree(tree_iris, aes(color=group)) +
 
 
 
+## Zoom on a portion of tree
+
+`ggtree` provides _`gzoom`_ function that similar to _`zoom`_ function provided in `ape`. This function plots simultaneously a whole phylogenetic tree and a portion of it. It aims at exploring very large trees.
+
+```{r fig.width=9, fig.height=5, fig.align="center"}
+library("ape")
+data(chiroptera)
+library("ggtree")
+gzoom(chiroptera, grep("Plecotus", chiroptera$tip.label))
+```
+
+Zoom in selected clade of a tree that was already annotated with `ggtree` is also supported.
+
+```{r fig.width=9, fig.height=5, message=FALSE, warning=FALSE}
+groupInfo <- split(chiroptera$tip.label, gsub("_\\w+", "", chiroptera$tip.label))
+chiroptera <- groupOTU(chiroptera, groupInfo)
+p <- ggtree(chiroptera, aes(color=group)) + geom_tiplab() + xlim(NA, 23)
+gzoom(p, grep("Plecotus", chiroptera$tip.label), xmax_adjust=2)
+```
+
+
 ## Collapse clade
 
 With _`collapse`_ function, user can collapse a selected clade.
@@ -211,7 +258,7 @@ for (n in reorder(tree, 'postorder')$edge[,1] %>% unique) {
 }
 ```
 
-![](figures/rotate_clade.gif)
+![](img/rotate_clade.gif)
 
 
 
@@ -239,7 +286,7 @@ for (angle in seq(0, 270, 10)) {
 }
 ```
 
-![](figures/fan_layout.gif)
+![](img/fan_layout.gif)
 
 
 ## Rotate tree
@@ -252,7 +299,9 @@ for (angle in seq(0, 270, 10)) {
 }
 ```
 
-![](figures/rotate_tree.gif)
+![](img/rotate_tree.gif)
+
+## rescale tree
 
 
 ## Interactive tree manipulation

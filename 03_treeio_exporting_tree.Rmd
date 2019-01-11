@@ -1,13 +1,6 @@
 # Exporting tree with data {#chapter3}
 
 
-```{r include=FALSE}
-library(knitr)
-opts_chunk$set(message=FALSE, warning=FALSE, eval=TRUE, echo=TRUE, cache=TRUE)
-```
-
-
-
 ```{r echo=FALSE, results="hide", message=FALSE}
 library('jsonlite')
 library("treeio")
@@ -50,7 +43,7 @@ bracket, which is reserved for comments. So that the file can be parsed as
 standard Nexus by ignoring annotate elements and existing programs should be
 able to read them.
 
-## Exporting tree data to BEAST Nexus format
+## Exporting Tree Data to *BEAST* Nexus Format
 
 
 ### Exporting/converting software output
@@ -71,7 +64,7 @@ nhx <- read.nhx(nhxfile)
 write.beast(nhx)
 ```
 
-![](figures/phyldog.png)
+![](img/phyldog.png)
 
 
 ```{r comment=NA}
@@ -81,7 +74,7 @@ ml <- read.codeml_mlc(mlcfile)
 write.beast(ml)
 ```
 
-![](figures/codeml.png)
+![](img/codeml.png)
 
 
 ### Combining tree with external data
@@ -109,8 +102,7 @@ write.beast(fake_tree)
 
 Not only Newick tree text can be combined with associated data, but also tree
 data obtained from software output can be combined with external data, as well
-as different tree objects can be merged together. For details, please refer to
-the [Importer](Importer.html) vignette.
+as different tree objects can be merged together (for details, see [Chapter 2](#chapter2)).
 
 
 ```{r}
@@ -143,7 +135,7 @@ write.beast(tree2, file = outfile)
 read.beast(outfile)
 ```
 
-## Exporting tree data to *jtree* format {#jtree}
+## Exporting Tree Data to *jtree* Format {#wrte-jtree}
 
 The [treeio](https://bioconductor.org/packages/treeio/) package provides
 `write.beast` to export `treedata` to BEAST Nexus file. This is quite useful
@@ -160,7 +152,7 @@ JSON (JavaScript Object Notation)^[https://www.json.org/] is a lightweight data-
 widely supported in almost all modern programming languages. To make it easy
 to import tree with data in other programming
 languages, [treeio](https://bioconductor.org/packages/treeio/) supports
-exporting tree with data in [jtree format](Importer.html#jtree), which is JSON-based and can be easy to parse using any
+exporting tree with data in jtree format, which is JSON-based and can be easy to parse using any
 languages that supports JSON.
 
 ```{r comment=NA}
@@ -178,8 +170,11 @@ jsonlite::fromJSON(jtree_file)
 
 The *jtree* file can be directly imported as a `treedata` object using
 `read.jtree` provided also
-in [treeio](https://bioconductor.org/packages/treeio/) package.
+in [treeio](https://bioconductor.org/packages/treeio/) package (see also [session 1.3](#jtree)).
 
 ```{r}
 read.jtree(jtree_file)
 ```
+
+## Summary
+

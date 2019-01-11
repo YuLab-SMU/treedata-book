@@ -2,29 +2,93 @@
 
 
 ```{r include=FALSE}
-library(knitr)
-opts_chunk$set(message=FALSE, warning=FALSE, eval=TRUE, echo=TRUE, cache=TRUE)
-
 library("ape")
 library("ggplot2")
 library("cowplot")
 library("treeio")
 library("ggtree")
 
-CRANpkg <- function (pkg) {
-    cran <- "https://CRAN.R-project.org/package"
-    fmt <- "[%s](%s=%s)"
-    sprintf(fmt, pkg, cran, pkg)
-}
-
-Biocpkg <- function (pkg) {
-    sprintf("[%s](http://bioconductor.org/packages/%s)", pkg, pkg)
-}
 
 inset <- ggtree::inset
 ```
 
 
+## Visualizing and Annotating Tree using Grammar of Graphics
+
+The *ggtree* is designed for more general purpose or specific type of tree visualization and annotation. It supports grammar of graphics\index{grammar of graphics} implemented in *ggplot2* and users can freely visualize/annotate a tree by combining several annotation layers. 
+
+(ref:ggtreeNHXscap) Annotating tree using grammar of graphics.
+
+(ref:ggtreeNHXcap) **Annotating tree using grammar of graphics.** The NHX tree was annotated using grammar of graphic syntax by combining different layers using `+` operator. Species information were labelled on the middle of the branches, Duplication events were shown on most recent common ancestor and clade bootstrap value were dispalyed near to it.
+
+
+```{r echo=F, message=F, warning=F}
+library(ggtree)
+treetext = "(((ADH2:0.1[&&NHX:S=human], ADH1:0.11[&&NHX:S=human]):
+0.05 [&&NHX:S=primates:D=Y:B=100],ADHY:
+0.1[&&NHX:S=nematode],ADHX:0.12 [&&NHX:S=insect]):
+0.1[&&NHX:S=metazoa:D=N],(ADH4:0.09[&&NHX:S=yeast],
+ADH3:0.13[&&NHX:S=yeast], ADH2:0.12[&&NHX:S=yeast],
+ADH1:0.11[&&NHX:S=yeast]):0.1[&&NHX:S=Fungi])[&&NHX:D=N];"
+tree <- read.nhx(textConnection(treetext))
+p = ggtree(tree) + geom_tiplab() + 
+  geom_label(aes(x=branch, label=S), fill='lightgreen') + 
+  geom_label(aes(label=D), fill='steelblue') + 
+  geom_text(aes(label=B), hjust=-.5)
+p <- p + xlim(NA, 0.28)
+```
+
+\setstretch{1.2}
+
+```{r echo=T, eval=F}
+library(ggtree)
+treetext = "(((ADH2:0.1[&&NHX:S=human], ADH1:0.11[&&NHX:S=human]):
+0.05 [&&NHX:S=primates:D=Y:B=100],ADHY:
+0.1[&&NHX:S=nematode],ADHX:0.12 [&&NHX:S=insect]):
+0.1[&&NHX:S=metazoa:D=N],(ADH4:0.09[&&NHX:S=yeast],
+ADH3:0.13[&&NHX:S=yeast], ADH2:0.12[&&NHX:S=yeast],
+ADH1:0.11[&&NHX:S=yeast]):0.1[&&NHX:S=Fungi])[&&NHX:D=N];"
+tree <- read.nhx(textConnection(treetext))
+ggtree(tree) + geom_tiplab() + 
+  geom_label(aes(x=branch, label=S), fill='lightgreen') + 
+  geom_label(aes(label=D), fill='steelblue') + 
+  geom_text(aes(label=B), hjust=-.5)
+```
+
+```{r ggtreeNHX, warning=FALSE, fig.cap="(ref:ggtreeNHXcap)", fig.scap="(ref:ggtreeNHXscap)", out.extra='', echo=F}
+print(p)
+```
+\setstretch{1.5}
+
+Here, as an example, we visualized the tree with several layers to display annotation stored in NHX tags, including a layer of `geom_tiplab` to display tip labels (gene name in this case), a layer using `geom_label` to show species information (`S` tag) colored by lightgreen, a layer of duplication event information (`D` tag) colored by steelblue and another layer using *geom_text* to show bootstrap value (`B` tag).
+
+Layers defined in *ggplot2* can be applied to *ggtree* directly as demonstrated in Figure \@ref(fig:ggtreeNHX) of using *geom_label* and *geom_text*. But *ggplot2* does not provide graphic layers that are specific designed for phylogenetic tree annotation. For instance, layers for tip labels, tree branch scale legend, highlight or labeling clade are all unavailable. To make tree annotation more flexible, a number of layers have been implemented in *ggtree* (Table \@ref(tab:geoms)), enabling different ways of annotation on various parts/components of a phylogenetic tree.
+
+```{r geoms, echo=FALSE, message=FALSE}
+geoms <- matrix(c(
+  "geom_balance", "highlights the two direct descendant clades of an internal node",
+  "geom_cladelabel", "annotate a clade with bar and text label",
+  "geom_hilight", "highlight a clade with rectangle",
+  "geom_label2", "modified version of geom_label, with subsetting supported",
+  "geom_nodepoint", "annotate internal nodes with symbolic points",
+  "geom_point2", "modified version of geom_point, with subsetting supported",
+  "geom_range", "bar layer to present uncertainty of evolutionary inference",
+  "geom_rootpoint", "annotate root node with symbolic point",
+  "geom_segment2", "modified version of geom_segment, with subsetting supported",
+  "geom_strip", "annotate associated taxa with bar and (optional) text label",
+  "geom_taxalink", "associate two related taxa by linking them with a curve",
+  "geom_text2", "modified version of geom_text, with subsetting supported",
+  "geom_tiplab", "layer of tip labels",
+  "geom_tiplab2", "layer of tip labels for circular layout",
+  "geom_tippoint", "annotate external nodes with symbolic points",
+  "geom_tree", "tree structure layer, with multiple layout supported",
+  "geom_treescale", "tree branch scale legend"
+), ncol=2, byrow=TRUE)
+geoms <- as.data.frame(geoms)
+colnames(geoms) <- c("Layer", "Description")
+knitr::kable(geoms, caption = "Geom layers defined in ggtree.", booktabs = T) %>%
+  kable_styling(latex_options = c("striped", "hold_position"), full_width = T)
+```
 
 ## Annotate clades
 
