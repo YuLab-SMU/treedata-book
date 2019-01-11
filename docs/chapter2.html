@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Chapter 2 Manipulating Tree with Data | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
+  <meta name="description" content="Chapter 2 Manipulating Tree with Data | Data Integration, Manipulation and Visualization of Phylogenetic Trees">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Chapter 2 Manipulating Tree with Data | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Manipulating Tree with Data | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
+  
+  
+  
+
+<meta name="author" content="Guangchuang Yu">
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="chapter1.html">
+<link rel="next" href="chapter3.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="chapter1.html"><a href="chapter1.html"><i class="fa fa-check"></i><b>1</b> Importing Tree with Data</a><ul>
+<li class="chapter" data-level="1.1" data-path="chapter1.html"><a href="chapter1.html#pc"><i class="fa fa-check"></i><b>1.1</b> Overview of Phylogenetic Tree Construction</a></li>
+<li class="chapter" data-level="1.2" data-path="chapter1.html"><a href="chapter1.html#format"><i class="fa fa-check"></i><b>1.2</b> Phylogenetic Tree Formats</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="chapter1.html"><a href="chapter1.html#newick-tree-format"><i class="fa fa-check"></i><b>1.2.1</b> Newick tree format</a></li>
+<li class="chapter" data-level="1.2.2" data-path="chapter1.html"><a href="chapter1.html#nexus-tree-format"><i class="fa fa-check"></i><b>1.2.2</b> NEXUS tree format</a></li>
+<li class="chapter" data-level="1.2.3" data-path="chapter1.html"><a href="chapter1.html#nhxtext"><i class="fa fa-check"></i><b>1.2.3</b> New Hampshire eXtended format</a></li>
+<li class="chapter" data-level="1.2.4" data-path="chapter1.html"><a href="chapter1.html#jplace-format"><i class="fa fa-check"></i><b>1.2.4</b> Jplace format</a></li>
+<li class="chapter" data-level="1.2.5" data-path="chapter1.html"><a href="chapter1.html#software-outputs"><i class="fa fa-check"></i><b>1.2.5</b> Software outputs</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="chapter1.html"><a href="chapter1.html#getting-tree-data-with-treeio"><i class="fa fa-check"></i><b>1.3</b> Getting Tree Data with <em>treeio</em></a><ul>
+<li class="chapter" data-level="1.3.1" data-path="chapter1.html"><a href="chapter1.html#overview-of-treeio"><i class="fa fa-check"></i><b>1.3.1</b> Overview of <em>treeio</em></a></li>
+<li class="chapter" data-level="1.3.2" data-path="chapter1.html"><a href="chapter1.html#function-demonstration"><i class="fa fa-check"></i><b>1.3.2</b> Function Demonstration</a></li>
+<li class="chapter" data-level="1.3.3" data-path="chapter1.html"><a href="chapter1.html#getting-information-from-treedata-object"><i class="fa fa-check"></i><b>1.3.3</b> Getting information from <em>treedata</em> object</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="chapter1.html"><a href="chapter1.html#summary"><i class="fa fa-check"></i><b>1.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="chapter2.html"><a href="chapter2.html"><i class="fa fa-check"></i><b>2</b> Manipulating Tree with Data</a><ul>
+<li class="chapter" data-level="2.1" data-path="chapter2.html"><a href="chapter2.html#tidytree"><i class="fa fa-check"></i><b>2.1</b> Manipulating tree data using tidy interface</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="chapter2.html"><a href="chapter2.html#phylo-object"><i class="fa fa-check"></i><b>2.1.1</b> <code>phylo</code> object</a></li>
+<li class="chapter" data-level="2.1.2" data-path="chapter2.html"><a href="chapter2.html#treedata-object"><i class="fa fa-check"></i><b>2.1.2</b> treedata object</a></li>
+<li class="chapter" data-level="2.1.3" data-path="chapter2.html"><a href="chapter2.html#access-related-nodes"><i class="fa fa-check"></i><b>2.1.3</b> Access related nodes</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="chapter2.html"><a href="chapter2.html#data-integration"><i class="fa fa-check"></i><b>2.2</b> Data Integration</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="chapter2.html"><a href="chapter2.html#combining-tree-data"><i class="fa fa-check"></i><b>2.2.1</b> Combining tree data</a></li>
+<li class="chapter" data-level="2.2.2" data-path="chapter2.html"><a href="chapter2.html#linking-external-data-to-phylogeny"><i class="fa fa-check"></i><b>2.2.2</b> Linking external data to phylogeny</a></li>
+<li class="chapter" data-level="2.2.3" data-path="chapter2.html"><a href="chapter2.html#grouping-taxa"><i class="fa fa-check"></i><b>2.2.3</b> Grouping taxa</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="chapter2.html"><a href="chapter2.html#rescaling-tree-branches"><i class="fa fa-check"></i><b>2.3</b> Rescaling Tree Branches</a></li>
+<li class="chapter" data-level="2.4" data-path="chapter2.html"><a href="chapter2.html#subsetting-tree-with-data"><i class="fa fa-check"></i><b>2.4</b> Subsetting Tree with Data</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="chapter2.html"><a href="chapter2.html#remove-tips-in-a-phylogenetic-tree"><i class="fa fa-check"></i><b>2.4.1</b> Remove tips in a phylogenetic tree</a></li>
+<li class="chapter" data-level="2.4.2" data-path="chapter2.html"><a href="chapter2.html#subset-tree-by-tip-label"><i class="fa fa-check"></i><b>2.4.2</b> Subset tree by tip label</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="chapter2.html"><a href="chapter2.html#summary-1"><i class="fa fa-check"></i><b>2.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="chapter3.html"><a href="chapter3.html"><i class="fa fa-check"></i><b>3</b> Exporting tree with data</a><ul>
+<li class="chapter" data-level="3.1" data-path="chapter3.html"><a href="chapter3.html#introduction"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
+<li class="chapter" data-level="3.2" data-path="chapter3.html"><a href="chapter3.html#exporting-tree-data-to-beast-nexus-format"><i class="fa fa-check"></i><b>3.2</b> Exporting tree data to BEAST Nexus format</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="chapter3.html"><a href="chapter3.html#exportingconverting-software-output"><i class="fa fa-check"></i><b>3.2.1</b> Exporting/converting software output</a></li>
+<li class="chapter" data-level="3.2.2" data-path="chapter3.html"><a href="chapter3.html#combining-tree-with-external-data"><i class="fa fa-check"></i><b>3.2.2</b> Combining tree with external data</a></li>
+<li class="chapter" data-level="3.2.3" data-path="chapter3.html"><a href="chapter3.html#merging-tree-data-from-different-sources"><i class="fa fa-check"></i><b>3.2.3</b> Merging tree data from different sources</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="chapter1.html"><a href="chapter1.html#jtree"><i class="fa fa-check"></i><b>3.3</b> Exporting tree data to <em>jtree</em> format</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="chapter4.html"><a href="chapter4.html"><i class="fa fa-check"></i><b>4</b> Phylogenetic Tree Visualization</a><ul>
+<li class="chapter" data-level="4.1" data-path="chapter4.html"><a href="chapter4.html#viewing-a-phylogenetic-tree-with-ggtree"><i class="fa fa-check"></i><b>4.1</b> Viewing a phylogenetic tree with <em>ggtree</em></a></li>
+<li class="chapter" data-level="4.2" data-path="chapter4.html"><a href="chapter4.html#layout"><i class="fa fa-check"></i><b>4.2</b> Layout</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="chapter4.html"><a href="chapter4.html#phylogram-and-cladogram"><i class="fa fa-check"></i><b>4.2.1</b> Phylogram and Cladogram</a></li>
+<li class="chapter" data-level="4.2.2" data-path="chapter4.html"><a href="chapter4.html#time-scaled-tree"><i class="fa fa-check"></i><b>4.2.2</b> Time-scaled tree</a></li>
+<li class="chapter" data-level="4.2.3" data-path="chapter4.html"><a href="chapter4.html#two-dimensional-tree"><i class="fa fa-check"></i><b>4.2.3</b> Two dimensional tree</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="chapter4.html"><a href="chapter4.html#displaying-tree-scale-evolution-distance"><i class="fa fa-check"></i><b>4.3</b> Displaying tree scale (evolution distance)</a></li>
+<li class="chapter" data-level="4.4" data-path="chapter4.html"><a href="chapter4.html#displaying-nodestips"><i class="fa fa-check"></i><b>4.4</b> Displaying nodes/tips</a></li>
+<li class="chapter" data-level="4.5" data-path="chapter4.html"><a href="chapter4.html#displaying-labels"><i class="fa fa-check"></i><b>4.5</b> Displaying labels</a></li>
+<li class="chapter" data-level="4.6" data-path="chapter4.html"><a href="chapter4.html#update-tree-view-with-a-new-tree"><i class="fa fa-check"></i><b>4.6</b> Update tree view with a new tree</a></li>
+<li class="chapter" data-level="4.7" data-path="chapter4.html"><a href="chapter4.html#theme"><i class="fa fa-check"></i><b>4.7</b> Theme</a></li>
+<li class="chapter" data-level="4.8" data-path="chapter4.html"><a href="chapter4.html#visualize-a-list-of-trees"><i class="fa fa-check"></i><b>4.8</b> Visualize a list of trees</a></li>
+<li class="chapter" data-level="4.9" data-path="chapter4.html"><a href="chapter4.html#rescale-tree"><i class="fa fa-check"></i><b>4.9</b> Rescale tree</a></li>
+<li class="chapter" data-level="4.10" data-path="chapter4.html"><a href="chapter4.html#zoom-on-a-portion-of-tree"><i class="fa fa-check"></i><b>4.10</b> Zoom on a portion of tree</a></li>
+<li class="chapter" data-level="4.11" data-path="chapter4.html"><a href="chapter4.html#color-tree"><i class="fa fa-check"></i><b>4.11</b> Color tree</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="chapter5.html"><a href="chapter5.html"><i class="fa fa-check"></i><b>5</b> Phylogenetic Tree Annotation</a><ul>
+<li class="chapter" data-level="5.1" data-path="chapter5.html"><a href="chapter5.html#annotate-clades"><i class="fa fa-check"></i><b>5.1</b> Annotate clades</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="chapter5.html"><a href="chapter5.html#annotate-clades-for-unrooted-tree"><i class="fa fa-check"></i><b>5.1.1</b> Annotate clades for unrooted tree</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="chapter5.html"><a href="chapter5.html#labelling-associated-taxa-monophyletic-polyphyletic-or-paraphyletic"><i class="fa fa-check"></i><b>5.2</b> Labelling associated taxa (Monophyletic, Polyphyletic or Paraphyletic)</a></li>
+<li class="chapter" data-level="5.3" data-path="chapter5.html"><a href="chapter5.html#highlight-clades"><i class="fa fa-check"></i><b>5.3</b> Highlight clades</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="chapter5.html"><a href="chapter5.html#highlight-balances"><i class="fa fa-check"></i><b>5.3.1</b> Highlight balances</a></li>
+<li class="chapter" data-level="5.3.2" data-path="chapter5.html"><a href="chapter5.html#highlight-clades-for-unrooted-tree"><i class="fa fa-check"></i><b>5.3.2</b> Highlight clades for unrooted tree</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="chapter5.html"><a href="chapter5.html#taxa-connection"><i class="fa fa-check"></i><b>5.4</b> Taxa connection</a></li>
+<li class="chapter" data-level="5.5" data-path="chapter5.html"><a href="chapter5.html#tree-annotation-with-output-from-evolution-software"><i class="fa fa-check"></i><b>5.5</b> Tree annotation with output from evolution software</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="chapter6.html"><a href="chapter6.html"><i class="fa fa-check"></i><b>6</b> Visual Exploration of Phylogenetic Tree</a><ul>
+<li class="chapter" data-level="6.1" data-path="chapter6.html"><a href="chapter6.html#internal-node-number"><i class="fa fa-check"></i><b>6.1</b> Internal node number</a></li>
+<li class="chapter" data-level="6.2" data-path="chapter6.html"><a href="chapter6.html#view-clade"><i class="fa fa-check"></i><b>6.2</b> View Clade</a></li>
+<li class="chapter" data-level="6.3" data-path="chapter6.html"><a href="chapter6.html#group-clades"><i class="fa fa-check"></i><b>6.3</b> Group Clades</a></li>
+<li class="chapter" data-level="6.4" data-path="chapter6.html"><a href="chapter6.html#group-otus"><i class="fa fa-check"></i><b>6.4</b> Group OTUs</a></li>
+<li class="chapter" data-level="6.5" data-path="chapter6.html"><a href="chapter6.html#collapse-clade"><i class="fa fa-check"></i><b>6.5</b> Collapse clade</a></li>
+<li class="chapter" data-level="6.6" data-path="chapter6.html"><a href="chapter6.html#expand-collapsed-clade"><i class="fa fa-check"></i><b>6.6</b> Expand collapsed clade</a></li>
+<li class="chapter" data-level="6.7" data-path="chapter6.html"><a href="chapter6.html#scale-clade"><i class="fa fa-check"></i><b>6.7</b> Scale clade</a></li>
+<li class="chapter" data-level="6.8" data-path="chapter6.html"><a href="chapter6.html#rotate-clade"><i class="fa fa-check"></i><b>6.8</b> Rotate clade</a></li>
+<li class="chapter" data-level="6.9" data-path="chapter6.html"><a href="chapter6.html#flip-clade"><i class="fa fa-check"></i><b>6.9</b> Flip clade</a></li>
+<li class="chapter" data-level="6.10" data-path="chapter6.html"><a href="chapter6.html#open-tree"><i class="fa fa-check"></i><b>6.10</b> Open tree</a></li>
+<li class="chapter" data-level="6.11" data-path="chapter6.html"><a href="chapter6.html#rotate-tree"><i class="fa fa-check"></i><b>6.11</b> Rotate tree</a></li>
+<li class="chapter" data-level="6.12" data-path="chapter6.html"><a href="chapter6.html#interactive-tree-manipulation"><i class="fa fa-check"></i><b>6.12</b> Interactive tree manipulation</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="chapter7.html"><a href="chapter7.html"><i class="fa fa-check"></i><b>7</b> Plotting tree with data</a><ul>
+<li class="chapter" data-level="7.0.1" data-path="chapter7.html"><a href="chapter7.html#the-operator"><i class="fa fa-check"></i><b>7.0.1</b> The <code>%&lt;+%</code> operator</a></li>
+<li class="chapter" data-level="7.1" data-path="chapter7.html"><a href="chapter7.html#visualize-tree-with-associated-matrix"><i class="fa fa-check"></i><b>7.1</b> Visualize tree with associated matrix</a></li>
+<li class="chapter" data-level="7.2" data-path="chapter7.html"><a href="chapter7.html#visualize-tree-with-multiple-sequence-alignment"><i class="fa fa-check"></i><b>7.2</b> Visualize tree with multiple sequence alignment</a></li>
+<li class="chapter" data-level="7.3" data-path="chapter7.html"><a href="chapter7.html#plot-tree-with-associated-data"><i class="fa fa-check"></i><b>7.3</b> Plot tree with associated data</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="chapter8.html"><a href="chapter8.html"><i class="fa fa-check"></i><b>8</b> Annotating Tree with Silhouette Images and Sub-plots</a><ul>
+<li class="chapter" data-level="8.1" data-path="chapter8.html"><a href="chapter8.html#annotating-tree-with-images"><i class="fa fa-check"></i><b>8.1</b> Annotating Tree with Images</a></li>
+<li class="chapter" data-level="8.2" data-path="chapter8.html"><a href="chapter8.html#annotating-tree-with-phylopic"><i class="fa fa-check"></i><b>8.2</b> Annotating Tree with Phylopic</a></li>
+<li class="chapter" data-level="8.3" data-path="chapter8.html"><a href="chapter8.html#annotating-tree-with-sub-plots"><i class="fa fa-check"></i><b>8.3</b> Annotating Tree with Sub-plots</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="chapter8.html"><a href="chapter8.html#annotate-with-bar-charts"><i class="fa fa-check"></i><b>8.3.1</b> Annotate with bar charts</a></li>
+<li class="chapter" data-level="8.3.2" data-path="chapter8.html"><a href="chapter8.html#annotate-with-pie-charts"><i class="fa fa-check"></i><b>8.3.2</b> Annotate with pie charts</a></li>
+<li class="chapter" data-level="8.3.3" data-path="chapter8.html"><a href="chapter8.html#annotate-with-other-types-of-charts"><i class="fa fa-check"></i><b>8.3.3</b> Annotate with other types of charts</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="chapter8.html"><a href="chapter8.html#have-fun-with-phylomoji"><i class="fa fa-check"></i><b>8.4</b> Have Fun with Phylomoji</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="chapter8.html"><a href="chapter8.html#emoji-in-cirularfan-layout-tree"><i class="fa fa-check"></i><b>8.4.1</b> emoji in cirular/fan layout tree</a></li>
+<li class="chapter" data-level="8.4.2" data-path="chapter8.html"><a href="chapter8.html#emoji-to-label-clades"><i class="fa fa-check"></i><b>8.4.2</b> emoji to label clades</a></li>
+<li class="chapter" data-level="8.4.3" data-path="chapter8.html"><a href="chapter8.html#apple-color-emoji"><i class="fa fa-check"></i><b>8.4.3</b> Apple Color Emoji</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="chapter9.html"><a href="chapter9.html"><i class="fa fa-check"></i><b>9</b> ggtree extensions</a></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="figures-and-tables.html"><a href="figures-and-tables.html"><i class="fa fa-check"></i><b>A</b> Figures and Tables</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Integration, Manipulation and Visualization of Phylogenetic Trees</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="chapter2" class="section level1">
+<h1><span class="header-section-number">Chapter 2</span> Manipulating Tree with Data</h1>
+<div id="tidytree" class="section level2">
+<h2><span class="header-section-number">2.1</span> Manipulating tree data using tidy interface</h2>
+<p>All the tree data parsed/merged
+by <a href="https://bioconductor.org/packages/treeio/">treeio</a> can be converted to tidy
+data frame using the <a href="https://cran.r-project.org/package=tidytree">tidytree</a>
+package. The <a href="https://cran.r-project.org/package=tidytree">tidytree</a> package
+provides tidy interfaces to manipulate tree with associated data. For instances,
+external data can be linked to phylogeny or evolutionary data obtained from
+different sources can be merged using tidyverse verbs. After the tree data was
+manipulated, it can be converted back to <code>treedata</code> object and exported to a
+single tree file, further analyzed in R or visualized using <a href="https://bioconductor.org/packages/ggtree/">ggtree</a> <span class="citation">(Yu et al. <a href="#ref-yu_ggtree:_2017">2017</a>)</span>.</p>
+<div id="phylo-object" class="section level3">
+<h3><span class="header-section-number">2.1.1</span> <code>phylo</code> object</h3>
+<p>The <code>phylo</code> class defined in <a href="https://cran.r-project.org/package=ape">ape</a> is
+fundamental for phylogenetic analysis in R. Most of the R packages
+in <a href="https://CRAN.R-project.org/view=Phylogenetics">this field</a> rely
+extensively on <code>phylo</code> object. The tidytree package provides <code>as_tibble</code>
+method to convert the <code>phylo</code> object to tidy data frame, a <code>tbl_tree</code> object.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ape)
+<span class="kw">set.seed</span>(<span class="dv">2017</span>)
+tree &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">4</span>)
+tree</code></pre>
+<pre><code>## 
+## Phylogenetic tree with 4 tips and 3 internal nodes.
+## 
+## Tip labels:
+## [1] &quot;t2&quot; &quot;t1&quot; &quot;t4&quot; &quot;t3&quot;
+## 
+## Rooted; includes branch lengths.</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(tree)
+x</code></pre>
+<pre><code>## # A tibble: 7 x 4
+##   parent  node branch.length label
+##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt;
+## 1      7     1       0.472   t2   
+## 2      7     2       0.274   t1   
+## 3      6     3       0.674   t4   
+## 4      5     4       0.00202 t3   
+## 5      5     5      NA       &lt;NA&gt; 
+## 6      5     6       0.0393  &lt;NA&gt; 
+## 7      6     7       0.435   &lt;NA&gt;</code></pre>
+<p>The <code>tbl_tree</code> object can be converted back to a <code>phylo</code> object.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.phylo</span>(x)</code></pre>
+<pre><code>## 
+## Phylogenetic tree with 4 tips and 3 internal nodes.
+## 
+## Tip labels:
+## [1] &quot;t2&quot; &quot;t1&quot; &quot;t4&quot; &quot;t3&quot;
+## 
+## Rooted; includes branch lengths.</code></pre>
+<p>Using <code>tbl_tree</code> object makes tree and data manipulation more effective and
+easier. For example, we can link evolutionary trait to phylogeny using the verbs <code>full_join</code></p>
+<pre class="sourceCode r"><code class="sourceCode r">d &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">label =</span> <span class="kw">paste0</span>(<span class="st">&#39;t&#39;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>),
+            <span class="dt">trait =</span> <span class="kw">rnorm</span>(<span class="dv">4</span>))
+
+y &lt;-<span class="st"> </span><span class="kw">full_join</span>(x, d, <span class="dt">by =</span> <span class="st">&#39;label&#39;</span>)
+y</code></pre>
+<pre><code>## # A tibble: 7 x 5
+##   parent  node branch.length label     trait
+##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;
+## 1      7     1       0.472   t2     -0.00152
+## 2      7     2       0.274   t1     -1.96   
+## 3      6     3       0.674   t4      1.56   
+## 4      5     4       0.00202 t3     -0.265  
+## 5      5     5      NA       &lt;NA&gt;   NA      
+## 6      5     6       0.0393  &lt;NA&gt;   NA      
+## 7      6     7       0.435   &lt;NA&gt;   NA</code></pre>
+</div>
+<div id="treedata-object" class="section level3">
+<h3><span class="header-section-number">2.1.2</span> treedata object</h3>
+<p>The tidytree package defines a <code>treedata</code> class to store phylogenetic tree with
+associated data. After mapping external data to the tree structure, the
+<code>tbl_tree</code> object can be converted to a <code>treedata</code> object.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.treedata</span>(y)</code></pre>
+<pre><code>## &#39;treedata&#39; S4 object&#39;.
+## 
+## ...@ phylo: 
+## Phylogenetic tree with 4 tips and 3 internal nodes.
+## 
+## Tip labels:
+## [1] &quot;t2&quot; &quot;t1&quot; &quot;t4&quot; &quot;t3&quot;
+## 
+## Rooted; includes branch lengths.
+## 
+## with the following features available:
+##  &#39;trait&#39;.</code></pre>
+<p>The <code>treedata</code> class is also used
+in <a href="https://bioconductor.org/packages/treeio/">treeio</a> package to store
+evolutionary evidences inferred by commonly used software (BEAST, EPA, HYPHY,
+MrBayes, PAML, PHYLODOG, pplacer, r8s, RAxML and RevBayes) (see details in <a href="chapter1.html#chapter1">Chapter 1</a>).</p>
+<p>The tidytree package also provides <code>as_tibble</code> to convert <code>treedata</code> object
+to a tidy data frame. The phylogentic tree structure and the evolutionary
+inferences were stored in the <code>tbl_tree</code> object, making it consistent and easier
+for manipulating evolutionary statistics inferred by different software as well
+as linking external data to the same tree structure.</p>
+<pre class="sourceCode r"><code class="sourceCode r">y <span class="op">%&gt;%</span><span class="st"> </span>as.treedata <span class="op">%&gt;%</span><span class="st"> </span>as_tibble</code></pre>
+<pre><code>## # A tibble: 7 x 5
+##   parent  node branch.length label     trait
+##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;
+## 1      7     1       0.472   t2     -0.00152
+## 2      7     2       0.274   t1     -1.96   
+## 3      6     3       0.674   t4      1.56   
+## 4      5     4       0.00202 t3     -0.265  
+## 5      5     5      NA       &lt;NA&gt;   NA      
+## 6      5     6       0.0393  &lt;NA&gt;   NA      
+## 7      6     7       0.435   &lt;NA&gt;   NA</code></pre>
+</div>
+<div id="access-related-nodes" class="section level3">
+<h3><span class="header-section-number">2.1.3</span> Access related nodes</h3>
+<p><a href="https://cran.r-project.org/package=dplyr">dplyr</a> verbs can be applied to <code>tbl_tree</code> directly to manipulate tree data. In
+addition, tidytree provides several verbs to filter related nodes, including
+<code>child</code>, <code>parent</code>, <code>offspring</code>, <code>ancestor</code>, <code>sibling</code> and <code>MRCA</code>.</p>
+<p>These verbs accept a <code>tbl_tree</code> and a selected node which can be node number or label.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">child</span>(y, <span class="dv">5</span>)</code></pre>
+<pre><code>## # A tibble: 2 x 5
+##   parent  node branch.length label   trait
+##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;
+## 1      5     4       0.00202 t3     -0.265
+## 2      5     6       0.0393  &lt;NA&gt;   NA</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">parent</span>(y, <span class="dv">2</span>)</code></pre>
+<pre><code>## # A tibble: 1 x 5
+##   parent  node branch.length label trait
+##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;
+## 1      6     7         0.435 &lt;NA&gt;     NA</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">offspring</span>(y, <span class="dv">5</span>)</code></pre>
+<pre><code>## # A tibble: 6 x 5
+##   parent  node branch.length label     trait
+##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;
+## 1      7     1       0.472   t2     -0.00152
+## 2      7     2       0.274   t1     -1.96   
+## 3      6     3       0.674   t4      1.56   
+## 4      5     4       0.00202 t3     -0.265  
+## 5      5     6       0.0393  &lt;NA&gt;   NA      
+## 6      6     7       0.435   &lt;NA&gt;   NA</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ancestor</span>(y, <span class="dv">2</span>)</code></pre>
+<pre><code>## # A tibble: 3 x 5
+##   parent  node branch.length label trait
+##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;
+## 1      5     5       NA      &lt;NA&gt;     NA
+## 2      5     6        0.0393 &lt;NA&gt;     NA
+## 3      6     7        0.435  &lt;NA&gt;     NA</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sibling</span>(y, <span class="dv">2</span>)</code></pre>
+<pre><code>## # A tibble: 1 x 5
+##   parent  node branch.length label    trait
+##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;
+## 1      7     1         0.472 t2    -0.00152</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">MRCA</span>(y, <span class="dv">2</span>, <span class="dv">3</span>)</code></pre>
+<pre><code>## # A tibble: 1 x 5
+##   parent  node branch.length label trait
+##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;
+## 1      5     6        0.0393 &lt;NA&gt;     NA</code></pre>
+</div>
+</div>
+<div id="data-integration" class="section level2">
+<h2><span class="header-section-number">2.2</span> Data Integration</h2>
+<div id="combining-tree-data" class="section level3">
+<h3><span class="header-section-number">2.2.1</span> Combining tree data</h3>
+<p>The <a href="https://bioconductor.org/packages/treeio/">treeio</a> package serves as an
+infrastructure that enables various types of phylogenetic data inferred from
+common analysis programs to be imported and used in R. For instance <em>d<sub>N</sub>/d<sub>S</sub></em>
+or ancestral sequences estimated
+by <a href="http://abacus.gene.ucl.ac.uk/software/paml.html">CODEML</a>,
+and clade support values (posterior) inferred
+by <a href="http://beast2.org/">BEAST</a>/<a href="http://nbisweden.github.io/MrBayes/">MrBayes</a>.
+In addition, <a href="https://bioconductor.org/packages/treeio/">treeio</a> package
+supports linking external data to phylogeny. It brings these external
+phylogenetic data (either from software output or exteranl sources) to the R
+community and make it available for further analysis in R.
+Furthermore, <a href="https://bioconductor.org/packages/treeio/">treeio</a> can combine
+multiple phylogenetic trees together into one with their node/branch-specific
+attribute data. Essentially, as a result, one such attribute (<em>e.g.</em>,
+substitution rate) can be mapped to another attribute (<em>e.g.</em>, <em>d<sub>N</sub>/d<sub>S</sub></em>) of
+the same node/branch for comparison and further computations.</p>
+<p>A previously published data set, seventy-six H3 hemagglutinin gene sequences of
+a lineage containing swine and human influenza A viruses
+<span class="citation">(Liang et al. <a href="#ref-liang_expansion_2014">2014</a>)</span>, was here to demonstrate the utilities of comparing
+evolutionary statistics inferred by different software. The dataset was
+re-analyzed by <a href="http://beast2.org/">BEAST</a> for timescale estimation
+and <a href="http://abacus.gene.ucl.ac.uk/software/paml.html">CODEML</a> for synonymous and
+non-synonymous substitution estimation. In this example, we first parsed the
+outputs from <a href="http://beast2.org/">BEAST</a> using <code>read.beast</code> and
+from <a href="http://abacus.gene.ucl.ac.uk/software/paml.html">CODEML</a> using
+<code>read.codeml</code> into two <code>treedata</code> objects. Then the two objects containing
+separate sets of node/branch-specific data were merged via the <code>merge_tree</code> function.</p>
+<pre class="sourceCode r"><code class="sourceCode r">beast_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;examples/MCC_FluA_H3.tree&quot;</span>, <span class="dt">package=</span><span class="st">&quot;ggtree&quot;</span>)
+rst_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;examples/rst&quot;</span>, <span class="dt">package=</span><span class="st">&quot;ggtree&quot;</span>)
+mlc_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;examples/mlc&quot;</span>, <span class="dt">package=</span><span class="st">&quot;ggtree&quot;</span>)
+beast_tree &lt;-<span class="st"> </span><span class="kw">read.beast</span>(beast_file)
+codeml_tree &lt;-<span class="st"> </span><span class="kw">read.codeml</span>(rst_file, mlc_file)
+
+merged_tree &lt;-<span class="st"> </span><span class="kw">merge_tree</span>(beast_tree, codeml_tree)
+merged_tree</code></pre>
+<pre><code>## &#39;treedata&#39; S4 object that stored information of
+##  &#39;C:/Users/YGC/Library/R/library/ggtree/examples/MCC_FluA_H3.tree&#39;,
+##  &#39;C:/Users/YGC/Library/R/library/ggtree/examples/rst&#39;,
+##  &#39;C:/Users/YGC/Library/R/library/ggtree/examples/mlc&#39;.
+## 
+## ...@ phylo: 
+## Phylogenetic tree with 76 tips and 75 internal nodes.
+## 
+## Tip labels:
+##  A/Hokkaido/30-1-a/2013, A/New_York/334/2004, A/New_York/463/2005, A/New_York/452/1999, A/New_York/238/2005, A/New_York/523/1998, ...
+## 
+## Rooted; includes branch lengths.
+## 
+## with the following features available:
+##  &#39;height&#39;,   &#39;height_0.95_HPD&#39;,  &#39;height_median&#39;,
+##  &#39;height_range&#39;, &#39;length&#39;,   &#39;length_0.95_HPD&#39;,
+##  &#39;length_median&#39;,    &#39;length_range&#39;, &#39;posterior&#39;,    &#39;rate&#39;,
+##  &#39;rate_0.95_HPD&#39;,    &#39;rate_median&#39;,  &#39;rate_range&#39;,   &#39;subs&#39;,
+##  &#39;AA_subs&#39;,  &#39;t&#39;,    &#39;N&#39;,    &#39;S&#39;,    &#39;dN_vs_dS&#39;, &#39;dN&#39;,   &#39;dS&#39;,   &#39;N_x_dN&#39;,
+##  &#39;S_x_dS&#39;.</code></pre>
+<p>After merging the <code>beast_tree</code> and <code>codeml_tree</code> objects, all
+node/branch-specific data imported from <a href="http://beast2.org/">BEAST</a>
+and <a href="http://abacus.gene.ucl.ac.uk/software/paml.html">CODEML</a> output files are
+all available in the <code>merged_tree</code> object. The tree object was converted to
+tidy data frame using <a href="https://cran.r-project.org/package=tidytree">tidytree</a>
+package and visualized as hexbin scatterplot of <em>d<sub>N</sub>/d<sub>S</sub></em>, <em>d<sub>N</sub></em> and <em>d<sub>S</sub></em> inferred
+by <a href="http://abacus.gene.ucl.ac.uk/software/paml.html">CODEML</a> versus <em>rate</em>
+(substitution rate in unit of substitutions/site/year) inferred
+by <a href="http://beast2.org/">BEAST</a> on the same branches.</p>
+
+
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
+df &lt;-<span class="st"> </span><span class="kw">fortify</span>(merged_tree) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(dN_vs_dS, dN, dS, rate) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">subset</span>(dN_vs_dS <span class="op">&gt;=</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>dN_vs_dS <span class="op">&lt;=</span><span class="st"> </span><span class="fl">1.5</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span>tidyr<span class="op">::</span><span class="kw">gather</span>(type, value, dN_vs_dS<span class="op">:</span>dS)
+df<span class="op">$</span>type[df<span class="op">$</span>type <span class="op">==</span><span class="st"> &#39;dN_vs_dS&#39;</span>] &lt;-<span class="st"> &#39;dN/dS&#39;</span>
+df<span class="op">$</span>type &lt;-<span class="st"> </span><span class="kw">factor</span>(df<span class="op">$</span>type, <span class="dt">levels=</span><span class="kw">c</span>(<span class="st">&quot;dN/dS&quot;</span>, <span class="st">&quot;dN&quot;</span>, <span class="st">&quot;dS&quot;</span>))
+<span class="kw">ggplot</span>(df, <span class="kw">aes</span>(rate, value)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_hex</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>type, <span class="dt">scale=</span><span class="st">&#39;free_y&#39;</span>) </code></pre>
+<div class="figure"><span id="fig:correlations"></span>
+<img src="treedata_files/figure-html/correlations-1.png" alt="Correlation of dN/dS, dN and dS versus substitution rate. After merging the BEAST and CodeML outputs, the branch-specific estimates (substitution rate, dN/dS , dN and dS) from the two analysis programs are compared on the same branch basis. The associations of dN/dS, dN and dS vs. rate are visualized in hexbin scatter plots." width="864"  />
+<p class="caption">
+Figure 2.1: <strong>Correlation of <em>d<sub>N</sub>/d<sub>S</sub></em>, <em>d<sub>N</sub></em> and <em>d<sub>S</sub></em> versus substitution rate.</strong> After merging the <em>BEAST</em> and <em>CodeML</em> outputs, the branch-specific estimates (substitution rate, <em>d<sub>N</sub>/d<sub>S</sub></em> , <em>d<sub>N</sub></em> and <em>d<sub>S</sub></em>) from the two analysis programs are compared on the same branch basis. The associations of <em>d<sub>N</sub>/d<sub>S</sub></em>, <em>d<sub>N</sub></em> and <em>d<sub>S</sub></em> vs. <em>rate</em> are visualized in hexbin scatter plots.
+</p>
+</div>
+<p>The output is illustrated in Fig. <a href="chapter2.html#fig:correlations">2.1</a>. We can then test the association of these node/branch-specific data using Pearson correlation, which in this case showed that <em>d<sub>N</sub></em> and <em>d<sub>S</sub></em>, but not <em>d<sub>N</sub>/d<sub>S</sub></em> are significantly (<em>p</em>-values) associated with <em>rate</em>.</p>
+<p>Using <code>merge_tree</code>, we are able to compare analysis results using identical
+model from different software packages or different models using different or
+identical software. It also allows users to integrate different analysis finding
+from different software packages. Merging tree data is not restricted to
+software findings, associating external data to analysis findings is also
+granted. The <code>merge_tree</code> function is chainable and allows several tree objects
+to be merged into one.</p>
+<pre class="sourceCode r"><code class="sourceCode r">phylo &lt;-<span class="st"> </span><span class="kw">as.phylo</span>(beast_tree)
+N &lt;-<span class="st"> </span><span class="kw">Nnode2</span>(phylo)
+d &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">node =</span> <span class="dv">1</span><span class="op">:</span>N, <span class="dt">fake_trait =</span> <span class="kw">rnorm</span>(N), <span class="dt">another_trait =</span> <span class="kw">runif</span>(N))
+fake_tree &lt;-<span class="st"> </span><span class="kw">treedata</span>(<span class="dt">phylo =</span> phylo, <span class="dt">data =</span> d)
+triple_tree &lt;-<span class="st"> </span><span class="kw">merge_tree</span>(merged_tree, fake_tree)
+triple_tree</code></pre>
+<pre><code>## &#39;treedata&#39; S4 object that stored information of
+##  &#39;C:/Users/YGC/Library/R/library/ggtree/examples/MCC_FluA_H3.tree&#39;,
+##  &#39;C:/Users/YGC/Library/R/library/ggtree/examples/rst&#39;,
+##  &#39;C:/Users/YGC/Library/R/library/ggtree/examples/mlc&#39;.
+## 
+## ...@ phylo: 
+## Phylogenetic tree with 76 tips and 75 internal nodes.
+## 
+## Tip labels:
+##  A/Hokkaido/30-1-a/2013, A/New_York/334/2004, A/New_York/463/2005, A/New_York/452/1999, A/New_York/238/2005, A/New_York/523/1998, ...
+## 
+## Rooted; includes branch lengths.
+## 
+## with the following features available:
+##  &#39;height&#39;,   &#39;height_0.95_HPD&#39;,  &#39;height_median&#39;,
+##  &#39;height_range&#39;, &#39;length&#39;,   &#39;length_0.95_HPD&#39;,
+##  &#39;length_median&#39;,    &#39;length_range&#39;, &#39;posterior&#39;,    &#39;rate&#39;,
+##  &#39;rate_0.95_HPD&#39;,    &#39;rate_median&#39;,  &#39;rate_range&#39;,   &#39;subs&#39;,
+##  &#39;AA_subs&#39;,  &#39;t&#39;,    &#39;N&#39;,    &#39;S&#39;,    &#39;dN_vs_dS&#39;, &#39;dN&#39;,   &#39;dS&#39;,   &#39;N_x_dN&#39;,
+##  &#39;S_x_dS&#39;,   &#39;fake_trait&#39;,   &#39;another_trait&#39;.</code></pre>
+<p>The <code>triple_tree</code> object showed above contains analysis results obtained from <a href="http://beast2.org/">BEAST</a>
+and <a href="http://abacus.gene.ucl.ac.uk/software/paml.html">CODEML</a>, and evolutionary
+trait from external sources. All these information can be used to annotate the
+tree using <a href="https://bioconductor.org/packages/ggtree/">ggtree</a> <span class="citation">(Yu et al. <a href="#ref-yu_ggtree:_2017">2017</a>)</span>.</p>
+</div>
+<div id="linking-external-data-to-phylogeny" class="section level3">
+<h3><span class="header-section-number">2.2.2</span> Linking external data to phylogeny</h3>
+<p>In addition to analysis findings that are associated with the tree as we showed
+above, there is a wide range of heterogeneous data, including phenotypic data,
+experimental data and clinical data <em>etc.</em>, that need to be integrated and
+linked to phylogeny. For example, in the study of viral evolution, tree nodes may
+associated with epidemiological information, such as location, age and subtype.
+Functional annotations may need to be mapped on gene trees for comparative
+genomics studies. To facilitate data
+integration, <a href="https://bioconductor.org/packages/treeio">treeio</a> provides
+<code>full_join</code> method to link external data to phylogeny and stored in <code>treedata</code> object.</p>
+<p>Here are examples of linking external data to a phylogenetic tree. After that,
+we can use <a href="Exporter.html">exporter</a> to combine the tree and the data to a
+single tree file. The data that mapped on the phylogenetic tree can also be used to visualize or
+annotate the tree using <a href="https://bioconductor.org/packages/ggtree/">ggtree</a>
+<span class="citation">(Yu et al. <a href="#ref-yu_ggtree:_2017">2017</a>)</span>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/BEAST&quot;</span>, <span class="st">&quot;beast_mcc.tree&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)
+beast &lt;-<span class="st"> </span><span class="kw">read.beast</span>(file)
+x &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">label =</span> <span class="kw">as.phylo</span>(beast)<span class="op">$</span>tip.label, <span class="dt">trait =</span> <span class="kw">rnorm</span>(<span class="kw">Ntip</span>(beast)))
+<span class="kw">full_join</span>(beast, x, <span class="dt">by=</span><span class="st">&quot;label&quot;</span>)</code></pre>
+<pre><code>## &#39;treedata&#39; S4 object that stored information of
+##  &#39;C:/Users/YGC/Library/R/library/treeio/extdata/BEAST/beast_mcc.tree&#39;.
+## 
+## ...@ phylo: 
+## Phylogenetic tree with 15 tips and 14 internal nodes.
+## 
+## Tip labels:
+##  A_1995, B_1996, C_1995, D_1987, E_1996, F_1997, ...
+## 
+## Rooted; includes branch lengths.
+## 
+## with the following features available:
+##  &#39;height&#39;,   &#39;height_0.95_HPD&#39;,  &#39;height_median&#39;,
+##  &#39;height_range&#39;, &#39;length&#39;,   &#39;length_0.95_HPD&#39;,
+##  &#39;length_median&#39;,    &#39;length_range&#39;, &#39;posterior&#39;,    &#39;rate&#39;,
+##  &#39;rate_0.95_HPD&#39;,    &#39;rate_median&#39;,  &#39;rate_range&#39;,   &#39;trait&#39;.</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">N &lt;-<span class="st"> </span><span class="kw">Nnode2</span>(beast)
+y &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">node =</span> <span class="dv">1</span><span class="op">:</span>N, <span class="dt">fake_trait =</span> <span class="kw">rnorm</span>(N), <span class="dt">another_trait =</span> <span class="kw">runif</span>(N))
+<span class="kw">full_join</span>(beast, y, <span class="dt">by=</span><span class="st">&quot;node&quot;</span>)</code></pre>
+<pre><code>## &#39;treedata&#39; S4 object that stored information of
+##  &#39;C:/Users/YGC/Library/R/library/treeio/extdata/BEAST/beast_mcc.tree&#39;.
+## 
+## ...@ phylo: 
+## Phylogenetic tree with 15 tips and 14 internal nodes.
+## 
+## Tip labels:
+##  A_1995, B_1996, C_1995, D_1987, E_1996, F_1997, ...
+## 
+## Rooted; includes branch lengths.
+## 
+## with the following features available:
+##  &#39;height&#39;,   &#39;height_0.95_HPD&#39;,  &#39;height_median&#39;,
+##  &#39;height_range&#39;, &#39;length&#39;,   &#39;length_0.95_HPD&#39;,
+##  &#39;length_median&#39;,    &#39;length_range&#39;, &#39;posterior&#39;,    &#39;rate&#39;,
+##  &#39;rate_0.95_HPD&#39;,    &#39;rate_median&#39;,  &#39;rate_range&#39;,   &#39;fake_trait&#39;,
+##  &#39;another_trait&#39;.</code></pre>
+<p>Manipulating tree object is frustrated with the fragmented functions available
+for working with <code>phylo</code> object, not to mention linking external data to the
+phylogeny structure. With <a href="http://bioconductor.org/packages/treeio">treeio</a> package, it is easy to combine tree data from various sources.
+In addition, with <a href="https://CRAN.R-project.org/package=tidytree">tidytree</a> package (<a href="chapter2.html#tidytree">session 1.2</a>), manipulating tree is more easier using
+<a href="https://www.jstatsoft.org/article/view/v059i10">tidy data principles</a> and
+consistent with tools already in wide use, including
+<a href="https://cran.r-project.org/package=dplyr">dplyr</a>,
+<a href="https://cran.r-project.org/package=tidyr">tidyr</a>,
+<a href="https://cran.r-project.org/package=ggplot2">ggplot2</a>
+and <a href="https://bioconductor.org/packages/ggtree/">ggtree</a>.</p>
+</div>
+<div id="grouping-taxa" class="section level3">
+<h3><span class="header-section-number">2.2.3</span> Grouping taxa</h3>
+<p>tidytree implemented <code>groupOTU</code> and <code>groupClade</code> for adding taxa grouping
+information to the input <code>tbl_tree</code> object. These grouping information can be
+used directly in tree visualization (<em>e.g.</em> coloring tree based on grouping)
+with <a href="https://bioconductor.org/packages/ggtree/">ggtree</a>.</p>
+<div id="groupclade" class="section level4">
+<h4><span class="header-section-number">2.2.3.1</span> groupClade</h4>
+<p>The <code>groupClade</code> method accepts an internal node or a vector of internal nodes
+to add grouping information of clade/clades.</p>
+<pre class="sourceCode r"><code class="sourceCode r">nwk &lt;-<span class="st"> &#39;(((((((A:4,B:4):6,C:5):8,D:6):3,E:21):10,((F:4,G:12):14,H:8):13):13,((I:5,J:2):30,(K:11,L:11):2):17):4,M:56);&#39;</span>
+tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="dt">text=</span>nwk)
+
+<span class="kw">groupClade</span>(<span class="kw">as_tibble</span>(tree), <span class="kw">c</span>(<span class="dv">17</span>, <span class="dv">21</span>))</code></pre>
+<pre><code>## # A tibble: 25 x 5
+##    parent  node branch.length label group
+##     &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;fct&gt;
+##  1     20     1             4 A     1    
+##  2     20     2             4 B     1    
+##  3     19     3             5 C     1    
+##  4     18     4             6 D     1    
+##  5     17     5            21 E     1    
+##  6     22     6             4 F     2    
+##  7     22     7            12 G     2    
+##  8     21     8             8 H     2    
+##  9     24     9             5 I     0    
+## 10     24    10             2 J     0    
+## # ... with 15 more rows</code></pre>
+</div>
+<div id="groupotu" class="section level4">
+<h4><span class="header-section-number">2.2.3.2</span> groupOTU</h4>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">## the input nodes can be node ID or label</span>
+<span class="kw">groupOTU</span>(x, <span class="kw">c</span>(<span class="st">&#39;t1&#39;</span>, <span class="st">&#39;t4&#39;</span>), <span class="dt">group_name =</span> <span class="st">&quot;fake_group&quot;</span>)</code></pre>
+<pre><code>## # A tibble: 7 x 5
+##   parent  node branch.length label fake_group
+##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;fct&gt;     
+## 1      7     1       0.472   t2    0         
+## 2      7     2       0.274   t1    1         
+## 3      6     3       0.674   t4    1         
+## 4      5     4       0.00202 t3    0         
+## 5      5     5      NA       &lt;NA&gt;  0         
+## 6      5     6       0.0393  &lt;NA&gt;  1         
+## 7      6     7       0.435   &lt;NA&gt;  1</code></pre>
+<p>The <code>groupOTU</code> will trace back from input nodes to most recent common ancestor.
+In this example, nodes 2, 3, 7 and 6 (<code>2 (t1) -&gt; 7 -&gt; 6</code> and <code>3 (t4) -&gt; 6</code>) are
+grouping together.</p>
+<p>Related OTUs are grouping together and they are not necessarily within a clade.
+They can be monophyletic (clade), polyphyletic or paraphyletic.</p>
+<pre class="sourceCode r"><code class="sourceCode r">cls &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">c1=</span><span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;E&quot;</span>),
+            <span class="dt">c2=</span><span class="kw">c</span>(<span class="st">&quot;F&quot;</span>, <span class="st">&quot;G&quot;</span>, <span class="st">&quot;H&quot;</span>),
+            <span class="dt">c3=</span><span class="kw">c</span>(<span class="st">&quot;L&quot;</span>, <span class="st">&quot;K&quot;</span>, <span class="st">&quot;I&quot;</span>, <span class="st">&quot;J&quot;</span>),
+            <span class="dt">c4=</span><span class="st">&quot;M&quot;</span>)
+
+<span class="kw">as_tibble</span>(tree) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">groupOTU</span>(cls)</code></pre>
+<pre><code>## # A tibble: 25 x 5
+##    parent  node branch.length label group
+##     &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;fct&gt;
+##  1     20     1             4 A     c1   
+##  2     20     2             4 B     c1   
+##  3     19     3             5 C     c1   
+##  4     18     4             6 D     c1   
+##  5     17     5            21 E     c1   
+##  6     22     6             4 F     c2   
+##  7     22     7            12 G     c2   
+##  8     21     8             8 H     c2   
+##  9     24     9             5 I     c3   
+## 10     24    10             2 J     c3   
+## # ... with 15 more rows</code></pre>
+<p>If there are conflicts when tracing back to mrca, user can set <code>overlap</code>
+parameter to “origin” (the first one counts), “overwrite” (default, the last one
+counts) or “abandon” (un-selected for grouping), see
+also
+<a href="https://groups.google.com/forum/#!msg/bioc-ggtree/Q4LnwoTf1DM/uqYdYB_VBAAJ">discussion here</a>.</p>
+</div>
+</div>
+</div>
+<div id="rescaling-tree-branches" class="section level2">
+<h2><span class="header-section-number">2.3</span> Rescaling Tree Branches</h2>
+<p>Phylogenetic data can be merged for joint analysis (Figure <a href="chapter2.html#fig:correlations">2.1</a>). They can be displayed on the same tree structure as more complex annotation to help visually inspection of their evolutionary patterns. All the numerical data stored in <code>treedata</code> object can be used to re-scale tree branches. For example, CodeML infers d<sub>N</sub>/d<sub>S</sub>, d<sub>N</sub> and d<sub>S</sub>, all these statistics can be used as branch lengths.</p>
+
+
+<pre class="sourceCode r"><code class="sourceCode r">p1 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(merged_tree)
+p2 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(<span class="kw">rescale_tree</span>(merged_tree, <span class="st">&#39;dN&#39;</span>))
+p3 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(<span class="kw">rescale_tree</span>(merged_tree, <span class="st">&#39;rate&#39;</span>))
+
+cowplot<span class="op">::</span><span class="kw">plot_grid</span>(p1, p2, p3, <span class="dt">ncol=</span><span class="dv">3</span>, <span class="dt">labels =</span> LETTERS)</code></pre>
+<div class="figure"><span id="fig:rescale"></span>
+<img src="treedata_files/figure-html/rescale-1.png" alt="Re-scaling tree branches. The tree with branches scaled in time (year from the root) (A). The tree was re-scaled using dN as branch lengths (B). The tree was re-scaled using substitution rates (C)." width="1152"  />
+<p class="caption">
+Figure 2.2: <strong>Re-scaling tree branches.</strong> The tree with branches scaled in time (year from the root) (A). The tree was re-scaled using <em>d<sub>N</sub></em> as branch lengths (B). The tree was re-scaled using substitution rates (C).
+</p>
+</div>
+</div>
+<div id="subsetting-tree-with-data" class="section level2">
+<h2><span class="header-section-number">2.4</span> Subsetting Tree with Data</h2>
+<div id="remove-tips-in-a-phylogenetic-tree" class="section level3">
+<h3><span class="header-section-number">2.4.1</span> Remove tips in a phylogenetic tree</h3>
+</div>
+<div id="subset-tree-by-tip-label" class="section level3">
+<h3><span class="header-section-number">2.4.2</span> Subset tree by tip label</h3>
+</div>
+</div>
+<div id="summary-1" class="section level2">
+<h2><span class="header-section-number">2.5</span> Summary</h2>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-yu_ggtree:_2017">
+<p>Yu, Guangchuang, David K. Smith, Huachen Zhu, Yi Guan, and Tommy Tsan-Yuk Lam. 2017. “Ggtree: An R Package for Visualization and Annotation of Phylogenetic Trees with Their Covariates and Other Associated Data.” <em>Methods in Ecology and Evolution</em> 8 (1): 28–36. <a href="https://doi.org/10.1111/2041-210X.12628">https://doi.org/10.1111/2041-210X.12628</a>.</p>
+</div>
+<div id="ref-liang_expansion_2014">
+<p>Liang, Huyi, Tommy Tsan-Yuk Lam, Xiaohui Fan, Xinchun Chen, Yu Zeng, Ji Zhou, Lian Duan, et al. 2014. “Expansion of Genotypic Diversity and Establishment of 2009 H1N1 Pandemic-Origin Internal Genes in Pigs in China.” <em>Journal of Virology</em>, July, JVI.01327–14. <a href="https://doi.org/10.1128/JVI.01327-14">https://doi.org/10.1128/JVI.01327-14</a>.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="chapter1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="chapter3.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["treedata.pdf"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

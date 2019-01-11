@@ -1,4 +1,4 @@
-# Manipulating tree with data
+# Manipulating Tree with Data {#chapter2}
 
 
 ```{r include=FALSE}
@@ -14,41 +14,108 @@ library("tidytree")
 library(treeio)
 ```
 
+## Manipulating tree data using tidy interface {#tidytree}
+
+All the tree data parsed/merged
+by [treeio](https://bioconductor.org/packages/treeio/) can be converted to tidy
+data frame using the [tidytree](https://cran.r-project.org/package=tidytree)
+package. The [tidytree](https://cran.r-project.org/package=tidytree) package
+provides tidy interfaces to manipulate tree with associated data. For instances,
+external data can be linked to phylogeny or evolutionary data obtained from
+different sources can be merged using tidyverse verbs. After the tree data was
+manipulated, it can be converted back to `treedata` object and exported to a
+single tree file, further analyzed in R or visualized using [ggtree](https://bioconductor.org/packages/ggtree/) [@yu_ggtree:_2017].
 
 
-## Linking external data to phylogeny
-
-In addition to analysis findings that are associated with the tree as we showed
-above, there is a wide range of heterogeneous data, including phenotypic data,
-experimental data and clinical data *etc.*, that need to be integrated and
-linked to phylogeny. For example, in the study of viral evolution, tree nodes may
-associated with epidemiological information, such as location, age and subtype.
-Functional annotations may need to be mapped on gene trees for comparative
-genomics studies. To facilitate data
-integration, [treeio](https://bioconductor.org/packages/treeio) provides
-`full_join` method to link external data to phylogeny and stored in `treedata` object.
+### `phylo` object
 
 
-Here are examples of linking external data to a phylogenetic tree. After that,
-we can use [exporter](Exporter.html) to combine the tree and the data to a
-single tree file. The data that mapped on the phylogenetic tree can also be used to visualize or
-annotate the tree using [ggtree](https://bioconductor.org/packages/ggtree/)
-[@yu_ggtree:_2017].
+The `phylo` class defined in [ape](https://cran.r-project.org/package=ape) is
+fundamental for phylogenetic analysis in R. Most of the R packages
+in [this field](https://CRAN.R-project.org/view=Phylogenetics) rely
+extensively on `phylo` object. The tidytree package provides `as_tibble`
+method to convert the `phylo` object to tidy data frame, a `tbl_tree` object.
+
+```{r}
+library(ape)
+set.seed(2017)
+tree <- rtree(4)
+tree
+x <- as_tibble(tree)
+x
+```
+
+The `tbl_tree` object can be converted back to a `phylo` object.
 
 
 ```{r}
-file <- system.file("extdata/BEAST", "beast_mcc.tree", package="treeio")
-beast <- read.beast(file)
-x <- data_frame(label = as.phylo(beast)$tip.label, trait = rnorm(Ntip(beast)))
-full_join(beast, x, by="label")
-
-N <- Nnode2(beast)
-y <- data_frame(node = 1:N, fake_trait = rnorm(N), another_trait = runif(N))
-full_join(beast, y, by="node")
+as.phylo(x)
 ```
 
 
-## Combining tree data
+Using `tbl_tree` object makes tree and data manipulation more effective and
+easier. For example, we can link evolutionary trait to phylogeny using the verbs `full_join`
+
+```{r}
+d <- tibble(label = paste0('t', 1:4),
+            trait = rnorm(4))
+
+y <- full_join(x, d, by = 'label')
+y
+```
+
+### treedata object
+
+
+The tidytree package defines a `treedata` class to store phylogenetic tree with
+associated data. After mapping external data to the tree structure, the
+`tbl_tree` object can be converted to a `treedata` object.
+
+
+```{r}
+as.treedata(y)
+```
+
+The `treedata` class is also used
+in [treeio](https://bioconductor.org/packages/treeio/) package to store
+evolutionary evidences inferred by commonly used software (BEAST, EPA, HYPHY,
+MrBayes, PAML, PHYLODOG, pplacer, r8s, RAxML and RevBayes) (see details in [Chapter 1](#chapter1)).
+
+The tidytree package also provides `as_tibble` to convert `treedata` object
+to a tidy data frame. The phylogentic tree structure and the evolutionary
+inferences were stored in the `tbl_tree` object, making it consistent and easier
+for manipulating evolutionary statistics inferred by different software as well
+as linking external data to the same tree structure.
+
+
+```{r}
+y %>% as.treedata %>% as_tibble
+```
+
+
+
+### Access related nodes
+
+[dplyr](https://cran.r-project.org/package=dplyr) verbs can be applied to `tbl_tree` directly to manipulate tree data. In
+addition, tidytree provides several verbs to filter related nodes, including
+`child`, `parent`, `offspring`, `ancestor`, `sibling` and `MRCA`.
+
+These verbs accept a `tbl_tree` and a selected node which can be node number or label.
+
+
+```{r}
+child(y, 5)
+parent(y, 2)
+offspring(y, 5)
+ancestor(y, 2)
+sibling(y, 2)
+MRCA(y, 2, 3)
+```
+
+## Data Integration
+
+### Combining tree data
+
 
 The [treeio](https://bioconductor.org/packages/treeio/) package serves as an
 infrastructure that enables various types of phylogenetic data inferred from
@@ -103,19 +170,31 @@ by [CODEML](http://abacus.gene.ucl.ac.uk/software/paml.html) versus *rate*
 (substitution rate in unit of substitutions/site/year) inferred
 by [BEAST](http://beast2.org/) on the same branches.
 
-```{r warning=FALSE, fig.width=9, fig.height=3}
-library(tidytree)
-library(ggplot2)
 
-as_tibble(merged_tree) %>%
-    dplyr::select(dN_vs_dS, dN, dS, rate) %>%
-    subset(dN_vs_dS >=0 & dN_vs_dS <= 1.5) %>%
-    tidyr::gather(type, value, dN_vs_dS:dS) %>%
-    ggplot(aes(rate, value)) + geom_hex() +
-    facet_wrap(~factor(type, levels = c('dN_vs_dS', 'dN', 'dS')),
-               scale='free_y') +
-    ylab(NULL)
+(ref:correlationscap) Correlation of *d~N~/d~S~*, *d~N~* and *d~S~* versus substitution rate.
+
+(ref:correlationcap) **Correlation of *d~N~/d~S~*, *d~N~* and *d~S~* versus substitution rate.** After merging the *BEAST* and *CodeML* outputs, the branch-specific estimates (substitution rate, *d~N~/d~S~* , *d~N~* and *d~S~*) from the two analysis programs are compared on the same branch basis. The associations of *d~N~/d~S~*, *d~N~* and *d~S~* vs. *rate* are visualized in hexbin scatter plots.
+
+
+```{r include=FALSE}
+ggplot2::theme_set(theme_grey())
 ```
+
+```{r correlations, fig.width=9, fig.height=4, warning=FALSE, fig.cap="(ref:correlationcap)", fig.scap="(ref:correlationscap)", out.extra=''}
+library(dplyr)
+df <- fortify(merged_tree) %>%
+  select(dN_vs_dS, dN, dS, rate) %>%
+  subset(dN_vs_dS >=0 & dN_vs_dS <= 1.5) %>%
+  tidyr::gather(type, value, dN_vs_dS:dS)
+df$type[df$type == 'dN_vs_dS'] <- 'dN/dS'
+df$type <- factor(df$type, levels=c("dN/dS", "dN", "dS"))
+ggplot(df, aes(rate, value)) + geom_hex() + 
+  facet_wrap(~type, scale='free_y') 
+```
+
+
+The output is illustrated in Fig. \@ref(fig:correlations). We can then test the association of these node/branch-specific data using Pearson correlation, which in this case showed that *d~N~* and *d~S~*, but not *d~N~/d~S~*\index{d\textsubscript{N}/d\textsubscript{S}}  are significantly (*p*-values) associated with *rate*.
+
 
 Using `merge_tree`, we are able to compare analysis results using identical
 model from different software packages or different models using different or
@@ -142,112 +221,62 @@ tree using [ggtree](https://bioconductor.org/packages/ggtree/) [@yu_ggtree:_2017
 
 
 
+
+### Linking external data to phylogeny
+
+
+In addition to analysis findings that are associated with the tree as we showed
+above, there is a wide range of heterogeneous data, including phenotypic data,
+experimental data and clinical data *etc.*, that need to be integrated and
+linked to phylogeny. For example, in the study of viral evolution, tree nodes may
+associated with epidemiological information, such as location, age and subtype.
+Functional annotations may need to be mapped on gene trees for comparative
+genomics studies. To facilitate data
+integration, [treeio](https://bioconductor.org/packages/treeio) provides
+`full_join` method to link external data to phylogeny and stored in `treedata` object.
+
+
+Here are examples of linking external data to a phylogenetic tree. After that,
+we can use [exporter](Exporter.html) to combine the tree and the data to a
+single tree file. The data that mapped on the phylogenetic tree can also be used to visualize or
+annotate the tree using [ggtree](https://bioconductor.org/packages/ggtree/)
+[@yu_ggtree:_2017].
+
+
+```{r}
+file <- system.file("extdata/BEAST", "beast_mcc.tree", package="treeio")
+beast <- read.beast(file)
+x <- data_frame(label = as.phylo(beast)$tip.label, trait = rnorm(Ntip(beast)))
+full_join(beast, x, by="label")
+
+N <- Nnode2(beast)
+y <- data_frame(node = 1:N, fake_trait = rnorm(N), another_trait = runif(N))
+full_join(beast, y, by="node")
+```
+
+
 Manipulating tree object is frustrated with the fragmented functions available
 for working with `phylo` object, not to mention linking external data to the
-phylogeny structure.
-Using [tidy data principles](https://www.jstatsoft.org/article/view/v059i10) can
-make phylogenetic tree manipulation tasks easier and consistent with tools
-already in wide use,
-including
+phylogeny structure. With `r Biocpkg("treeio")` package, it is easy to combine tree data from various sources. 
+In addition, with `r CRANpkg("tidytree")` package ([session 1.2](#tidytree)), manipulating tree is more easier using 
+[tidy data principles](https://www.jstatsoft.org/article/view/v059i10) and 
+consistent with tools already in wide use, including
 [dplyr](https://cran.r-project.org/package=dplyr),
 [tidyr](https://cran.r-project.org/package=tidyr),
 [ggplot2](https://cran.r-project.org/package=ggplot2)
 and [ggtree](https://bioconductor.org/packages/ggtree/).
 
 
-## Convert tree object to tidy data frame and vice versa
-
-### `phylo` object
 
 
-The `phylo` class defined in [ape](https://cran.r-project.org/package=ape) is
-fundamental for phylogenetic analysis in R. Most of the R packages
-in [this field](https://CRAN.R-project.org/view=Phylogenetics) rely
-extensively on `phylo` object. The tidytree package provides `as_tibble`
-method to convert the `phylo` object to tidy data frame, a `tbl_tree` object.
-
-```{r}
-library(ape)
-set.seed(2017)
-tree <- rtree(4)
-tree
-x <- as_tibble(tree)
-x
-```
-
-The `tbl_tree` object can be converted back to a `phylo` object.
-
-
-```{r}
-as.phylo(x)
-```
-
-
-Using `tbl_tree` object makes tree and data manipulation more effective and
-easier. For example, we can link evolutionary trait to phylogeny using the verbs `full_join`
-
-```{r}
-d <- tibble(label = paste0('t', 1:4),
-            trait = rnorm(4))
-
-y <- full_join(x, d, by = 'label')
-```
-
-### treedata object
-
-
-The tidytree package defines a `treedata` class to store phylogenetic tree with
-associated data. After mapping external data to the tree structure, the
-`tbl_tree` object can be converted to a `treedata` object.
-
-
-```{r}
-as.treedata(y)
-```
-
-The `treedata` class is also used
-in [treeio](https://bioconductor.org/packages/treeio/) package to store
-evolutionary evidences inferred by commonly used software (BEAST, EPA, HYPHY,
-MrBayes, PAML, PHYLODOG, pplacer, r8s, RAxML and RevBayes).
-
-The tidytree package also provides `as_tibble` to convert `treedata` object
-to a tidy data frame. The phylogentic tree structure and the evolutionary
-inferences were stored in the tbl_tree object, making it consistent and easier
-for manipulating evolutionary statistics inferred by different software as well
-as linking external data to the same tree structure.
-
-
-```{r}
-y %>% as.treedata %>% as_tibble
-```
-
-
-## Access related nodes
-
-[dplyr](https://cran.r-project.org/package=dplyr) verbs can be applied to `tbl_tree` directly to manipulate tree data. In
-addition, tidytree provides several verbs to filter related nodes, including
-`child`, `parent`, `offspring`, `ancestor`, `sibling` and `MRCA`.
-
-These verbs accept a `tbl_tree` and a selected node which can be node number or label.
-
-
-```{r}
-child(y, 5)
-parent(y, 2)
-offspring(y, 5)
-ancestor(y, 2)
-sibling(y, 2)
-MRCA(y, 2, 3)
-```
-
-## Grouping taxa
+### Grouping taxa
 
 tidytree implemented `groupOTU` and `groupClade` for adding taxa grouping
 information to the input `tbl_tree` object. These grouping information can be
 used directly in tree visualization (*e.g.* coloring tree based on grouping)
 with [ggtree](https://bioconductor.org/packages/ggtree/).
 
-### groupClade
+#### groupClade
 
 The `groupClade` method accepts an internal node or a vector of internal nodes
 to add grouping information of clade/clades.
@@ -262,7 +291,7 @@ groupClade(as_tibble(tree), c(17, 21))
 ```
 
 
-### groupOTU
+#### groupOTU
 
 
 ```{r}
@@ -293,128 +322,32 @@ also
 [discussion here](https://groups.google.com/forum/#!msg/bioc-ggtree/Q4LnwoTf1DM/uqYdYB_VBAAJ).
 
 
+## Rescaling Tree Branches
 
-### Data integration and comparison {#cv}
+Phylogenetic data can be merged for joint analysis (Figure \@ref(fig:correlations)). They can be displayed on the same tree structure as more complex annotation to help visually inspection of their evolutionary patterns. All the numerical data stored in `treedata` object can be used to re-scale tree branches. For example, CodeML infers d~N~/d~S~, d~N~ and d~S~, all these statistics can be used as branch lengths.
 
-The *treeio* serves as an infrastructure that enables various types of phylogenetic data inferred from common analysis programs to be imported and used in `R`. For instance *d~N~/d~S~* or ancestral sequences estimated by *CodeML*, short read placement inferred by *EPA*/*pplacer* and clade support values (posterior probabilities) inferred by *BEAST*/*MrBayes*. *Treeio* brings these external phylogenetic data to the `R` community and makes it available for further analysis in `R`. Furthermore, *treeio* can combine multiple phylogenetic trees together into one with their node/branch-specific attribute data. Essentially, as a result, one such attribute (*e.g.*, substitution rate) can be mapped to another attribute (*e.g.*, *d~N~/d~S~*) of the same node/branch for comparison and further computations.
-
-A previously published data set, seventy-six H3 hemagglutinin gene sequences of a lineage containing swine and human influenza A viruses [@liang_expansion_2014], was used here to demonstrate the utilities of comparing evolutionary statistics inferred by different software. The dataset was re-analyzed by *BEAST* for timescale estimation and *CodeML*\index{CodeML} for synonymous and non-synonymous substitutions estimation. In this example, we first parsed the outputs from *BEAST*\index{BEAST} using `read.beast` and from *CodeML* using `read.codeml` into two `S4` objects. Then the two objects containing separate sets of node/branch-specific data were merged via the `merge_tree` function.
-
-\setstretch{1.2}
-```{r}
-library(treeio)
-library(ggtree)
-beast_file <- system.file("examples/MCC_FluA_H3.tree", 
-                          package="ggtree")
-rst_file <- system.file("examples/rst", package="ggtree")
-mlc_file <- system.file("examples/mlc", package="ggtree")
-
-beast_tree <- read.beast(beast_file)
-codeml_tree <- read.codeml(rst_file, mlc_file)
-merged_tree <- merge_tree(beast_tree, codeml_tree)
-
-get.fields(merged_tree)
-```
-\setstretch{1.5}
-
-After merging the *beast_tree* and *codeml_tree* objects, all node/branch-specific data imported from *BEAST* and *CodeML* output files are all available in the *merged_tree* object. The tree object was converted to data frame and visualized as hexbin scatterplot of *d~N~/d~S~*, *d~N~* and *d~S~* inferred by *CodeML* versus *rate* (substitution rate in unit of substitutions/site/year) inferred by *BEAST* on the same branches.
-
-(ref:correlationscap) Correlation of *d~N~/d~S~*, *d~N~* and *d~S~* versus substitution rate.
-
-(ref:correlationcap) **Correlation of *d~N~/d~S~*, *d~N~* and *d~S~* versus substitution rate.** After merging the *BEAST* and *CodeML* outputs, the branch-specific estimates (substitution rate, *d~N~/d~S~* , *d~N~* and *d~S~*) from the two analysis programs are compared on the same branch basis. The associations of *d~N~/d~S~*, *d~N~* and *d~S~* vs. *rate* are visualized in hexbin scatter plots.
-
-
-\setstretch{1.2}
-```{r correlations, fig.width=9, fig.height=4, warning=FALSE, fig.cap="(ref:correlationcap)", fig.scap="(ref:correlationscap)", out.extra=''}
-library(dplyr)
-df <- fortify(merged_tree) %>%
-  select(dN_vs_dS, dN, dS, rate) %>%
-  subset(dN_vs_dS >=0 & dN_vs_dS <= 1.5) %>%
-  tidyr::gather(type, value, dN_vs_dS:dS)
-df$type[df$type == 'dN_vs_dS'] <- 'dN/dS'
-df$type <- factor(df$type, levels=c("dN/dS", "dN", "dS"))
-ggplot(df, aes(rate, value)) + geom_hex() + 
-  facet_wrap(~type, scale='free_y') 
-```
-\setstretch{1.5}
-
-The output is illustrated in Fig. \@ref(fig:correlations). We can then test the association of these node/branch-specific data using Pearson correlation, which in this case showed that *d~N~* and *d~S~*, but not *d~N~/d~S~*\index{d\textsubscript{N}/d\textsubscript{S}}  are significantly (*p*-values) associated with *rate*.
-
-After merging, all data inferred from different tools can be used to annotate the tree in *ggtree* ([Chapter 3](#chapter-pam)). The following example turned the *merged_tree* into a graphic object with tree branches colored by branches-specific substitution rates (*rate*) as shown in Fig. \@ref(fig:rescale)A.
-
-```{r echo = F}
-p <- ggtree(merged_tree, aes(color=rate)) + theme_tree2() +
-  scale_color_continuous(high='#D55E00', low='#0072B2') + geom_tiplab(size=1)
-```
-
-\setstretch{1.2}
-```{r eval = F}
-ggtree(merged_tree, aes(color=rate)) + theme_tree2() +
-  scale_color_continuous(high='#D55E00', low='#0072B2') + 
-  geom_tiplab(size=2)
-```
-\setstretch{1.5}
-
-
-The *ggtree*\index{ggtree} allows users to easily rescale a tree branches with another numerical variable. Here the tree branch lengths were rescaled and colored by *d~N~*\index{d\textsubscript{N}} inferred by *CodeML* as demonstrated in Fig. \@ref(fig:rescale)B.
-
-\setstretch{1.2}
-```{r eval=F}
-ggtree(merged_tree, branch.length='dN', aes(color=dN)) + 
-  scale_color_continuous(high='#D55E00', low='#0072B2') +
-  theme_tree2() + geom_tiplab(size=2)
-```
-\setstretch{1.5}
-
-```{r, echo=F}
-p2 <- ggtree(merged_tree, branch.length='dN', aes(color=dN)) + 
-  theme_tree2() + geom_tiplab(size=1) + 
-  scale_color_continuous(high='#D55E00', low='#0072B2') 
-```
 
 
 (ref:rescalescap) Re-scaling tree branches.
 
-(ref:rescalecap) **Re-scaling tree branches.** The tree with branches scaled in time (year from the root) and colored by substitution rates (A). The tree was re-scaled using *d~N~* as branch lengths and colored by *d~N~* values (B).
+(ref:rescalecap) **Re-scaling tree branches.** The tree with branches scaled in time (year from the root) (A). The tree was re-scaled using *d~N~* as branch lengths (B). The tree was re-scaled using substitution rates (C).
 
-```{r rescale, fig.width=8, fig.height=4.5, message=F, echo=F, fig.cap="(ref:rescalecap)", fig.scap="(ref:rescalescap)", out.extra=''}
-library(cowplot)
-plot_grid(p+xlim(NA, 26), p2+xlim(NA, 0.07), ncol=2, labels = LETTERS)
+```{r rescale, fig.width=12, fig.height=4.5, message=F, echo=T, fig.cap="(ref:rescalecap)", fig.scap="(ref:rescalescap)", out.extra=''}
+p1 <- ggtree(merged_tree)
+p2 <- ggtree(rescale_tree(merged_tree, 'dN'))
+p3 <- ggtree(rescale_tree(merged_tree, 'rate'))
+
+cowplot::plot_grid(p1, p2, p3, ncol=3, labels = LETTERS)
 ```
 
-As demonstrated above, phylogenetic data inferred from different analysis programs can be imported and used to annotate the tree (*e.g.*, color branches or rescale branch lengths, *etc.*). These data can also be merged for joint analysis (Figure \@ref(fig:correlations)). They can be displayed on the same tree structure as more complex annotation to help visually inspection of their evolutionary patterns. In this example, we used *d~N~/d~S~* inferred by *CodeML* to color the tree and annotate the tree with `posterior` inferred by *BEAST*. Another example of annotating tree with diverse associated data were presented in Figure \@ref(fig:ggtree5).
 
+## Subsetting Tree with Data
 
-(ref:dndsscap) Time-scaled tree colored by *d~N~/d~S~*.
+### Remove tips in a phylogenetic tree
 
-(ref:dndscap) **Time-scaled tree colored by *d~N~/d~S~*.** The tree branches were scaled in time (Gregorian calendar) and colored by *d~N~/d~S~*. Clade posterior was displayed on the most recent common ancestor.
+### Subset tree by tip label
 
-\setstretch{1.2}
-```{r dnds, fig.width=6, fig.height=6, warning=FALSE, fig.cap="(ref:dndscap)", fig.scap="(ref:dndsscap)", out.extra=''}
-ggtree(merged_tree, aes(color=dN_vs_dS), mrsd="2013-01-01", ndigits = 2) +
-    geom_text2(aes(label=posterior), hjust=-.1, size=2, color="black") +
-    scale_color_continuous(name='dN/dS', limits=c(0, 1.5),
-                           oob=scales::squish, low="green", high="red")+
-    theme_tree2(legend.position=c(.1, .8))
-```
-\setstretch{1.5}
-
-Details of annotating phylogenetic tree with covariates and other associated data will be introduced in [Chapter 3](#chapter-ggtree).
-
-
-All the tree data parsed/merged
-by [treeio](https://bioconductor.org/packages/treeio/) can be converted to tidy
-data frame using the [tidytree](https://cran.r-project.org/package=tidytree)
-package. The [tidytree](https://cran.r-project.org/package=tidytree) package
-provides tidy interfaces to manipulate tree with associated data. For instances,
-external data can be linked to phylogeny or evolutionary data obtained from
-different sources can be merged using tidyverse verbs. After the tree data was
-manipulated, it can be converted back to `treedata` object and [exported to a
-single tree file](Exporter.html), further analyzed in R or visualized using [ggtree](https://bioconductor.org/packages/ggtree/) [@yu_ggtree:_2017].
+## Summary
 
 
 
-[treeio](https://bioconductor.org/packages/treeio/) is seamlessly integrated
-into the [ggtree](https://bioconductor.org/packages/ggtree/) [@yu_ggtree:_2017]
-package and all the information either directly imported or linking from
-external sources can be used to visualize and annotate the tree.
