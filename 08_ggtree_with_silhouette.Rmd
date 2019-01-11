@@ -14,7 +14,7 @@ library(ggtree)
 We usually use text to label taxa, i.e. displaying taxa names. If the text is image file name (either local or remote), **ggtree** can read the image and display the actual image as label of the taxa. The `geom_tiplab` and `geom_nodelab` are capable to render silhouette image by internally called [ggimage](https://cran.r-project.org/package=ggimage) package.
 
 
-```{r fig.width=8.5, fig.height=7.5, message=F, warning=F}
+```{r fig.width=8.5, fig.height=7.5, message=F, warning=F, dev='png'}
 library(ggimage)
 library(ggtree)
 
@@ -33,7 +33,7 @@ ggtree(x) + xlim(NA, 7) + ylim(NA, 6.2) +
 [Phylopic](phylopic.org) contains more than 3200 silhouettes and covers almost all life forms. **ggtree** also supports using phylopic^[<https://twitter.com/guangchuangyu/status/593443854541434882>] to annotate the tree. Most importantly, we can color the image using numerical/categorical variable.
 
 
-```{r}
+```{r phylopic, dev='png'}
 tree <- ape::read.nexus("https://raw.githubusercontent.com/rgriff23/Dissertation/master/Chapter_2/data/tree.nex")
 phylopic_info <- data.frame(node = c(124, 113, 110, 96, 89, 70),
                             phylopic = c("7fb9bea8-e758-4986-afb2-95a2c3bf983d",
@@ -137,7 +137,7 @@ Here, we will use **ggtree** to recreate the figure:
 [![](img/phylomoji.png)](https://twitter.com/OxyMLZ/status/1055586178651451392)
 
 
-```{r fig.width=7, fig.height=5, warning=F}
+```{r fig.width=7, fig.height=5, warning=F, dev='png'}
 library(ggplot2)
 library(ggtree)
 
@@ -158,20 +158,20 @@ With **ggtree**, it is easy to generate phylomoji. The emoji is treated as **tex
 
 ### emoji in cirular/fan layout tree
 
-```{r fig.width=6, fig.height=6, warning=F}
+```{r fig.width=6, fig.height=6, warning=F, dev='png'}
 p <- ggtree(tree, layout = "circular", size=1) + 
   geom_tiplab2(aes(color=label), parse="emoji", size=10, vjust=.25)
 print(p)
 ```
 
 
-```{r fig.width=6, fig.height=3.5, warning=F, eval=F}
+```{r fig.width=6, fig.height=3.5, warning=F, eval=F, dev='png'}
 ## fan layout
 p2 <- open_tree(p, angle=200) 
 print(p2)
 ```
 
-```{r fig.width=6, fig.height=3.5, warning=F, echo=F}
+```{r fig.width=6, fig.height=3.5, warning=F, echo=F, dev='png'}
 p2 <- open_tree(p, angle=200)
 ggplot() + ylim(0.5, 1) + xlim(0, 1) + theme_tree() +
   annotation_custom(ggplotGrob(p2), 
@@ -182,7 +182,7 @@ ggplot() + ylim(0.5, 1) + xlim(0, 1) + theme_tree() +
 p2 %>% rotate_tree(-90)
 ```
 
-```{r fig.width=3.5, fig.height=6, warning=F, echo=F}
+```{r fig.width=3.5, fig.height=6, warning=F, echo=F, dev='png'}
 p3 <- p2 %>% rotate_tree(-90)
 
 ggplot() + ylim(0, 1) + xlim(0.5, 1) + theme_tree() +
@@ -193,7 +193,7 @@ ggplot() + ylim(0, 1) + xlim(0.5, 1) + theme_tree() +
 
 ### emoji to label clades
 
-```{r fig.width=6, fig.height=5}
+```{r fig.width=6, fig.height=5, dev='png'}
 set.seed(123)
 tr <- rtree(30)
 ggtree(tr) + xlim(NA, 5) +

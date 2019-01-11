@@ -37,109 +37,117 @@ knitr::kable(treeman, caption = "Tree manipulation functions.", booktabs = T) %>
 
 
 
-## Internal node number
+## Viewing Selected Clade
 
-Some of the functions in `ggtree` work with clade and accept a parameter of internal node number. To get the internal node number, user can use `geom_text2` to display it:
 
-```{r}
+
+A clade is a monophyletic group that contains a single ancestor and all of its descendants. We can visualize a specific selected clade via the `viewClade` function as demonstrated in Figure \@ref(fig:viewClade)B. Another similar function is `gzoom` which plots the tree with selected clade side by side. These two functions are developed to explore large tree.
+
+(ref:viewCladescap) Viewing a selected clade of a tree.
+
+(ref:viewCladecap) **Viewing a selected clade of a tree.** An example tree used to demonstrate how *ggtree* support exploring or manipulating phylogenetic tree visually (A). The *ggtree* supports visualizing selected clade (B). A clade can be selected by specifying a node number or determined by most recent common ancestor of selected tips.
+
+\setstretch{1.2}
+```{r eval=F, fig.cap="(ref:viewCladecap)", fig.scap="(ref:viewCladescap)", out.extra=''}
+library(ggtree)
 nwk <- system.file("extdata", "sample.nwk", package="treeio")
 tree <- read.tree(nwk)
-ggtree(tree) + geom_text2(aes(subset=!isTip, label=node), hjust=-.3) + geom_tiplab()
+p <- ggtree(tree) + geom_tiplab()
+viewClade(p, MRCA(p, "I", "L"))
 ```
+\setstretch{1.5}
 
-Another way to get the internal node number is using `MRCA()` function by providing a vector of taxa names. The function will return node number of input taxa's most recent commond ancestor (MRCA). It works with tree and graphic object.
-
-
-```{r}
-MRCA(tree, 'A', 'E')
-MRCA(tree, 'H', 'G')
-
-p <- ggtree(tree)
-MRCA(p, 'A', 'E')
-```
-
-## View Clade
-
-`ggtree` provides a function `viewClade` to visualize a clade of a phylogenetic tree.
-
-```{r fig.width=5, fig.height=5, fig.align="center", warning=FALSE}
-viewClade(p+geom_tiplab(), node=21)
+```{r viewClade, echo=F, fig.cap="(ref:viewCladecap)", message=F, warning=F, fig.scap="(ref:viewCladescap)", out.extra=''}
+library(ggtree)
+nwk <- system.file("extdata", "sample.nwk", package="treeio")
+tree <- read.tree(nwk)
+p <- ggtree(tree) + geom_tiplab()
+p2 <- viewClade(p, MRCA(p, "I", "L"))
+library(cowplot)
+plot_grid(p, p2, ncol=2, labels = c("A", "B"))
 ```
 
 
-## Group Clades
+Some of the functions, *e.g.* `viewClade`, work with clade and accept a parameter of internal node number. To get the internal node number, user can use `MRCA()` function (as in Figure \@ref(fig:viewClade)) by providing two taxa names. The function will return node number of input taxa's most recent commond ancestor (MRCA). It works with tree and graphic (*i.e.* `ggtree()` output) object. `r CRANpkg("tidytree")` also provide `MRCA` function to extract information of MRCA node (see details in [session 2.1.3](#accesor-tidytree)).
 
 
-The `groupClade` function assigns the branches and nodes under different clades into different groups. Similarly, `groupOTU` function assigns branches and nodes to different groups based on user-specified groups of operational taxonomic units (OTUs) that are not necessarily within a clade, but can be monophyletic (clade), polyphyletic or paraphyletic. A phylogenetic tree can be annotated by mapping different line type, size, color or shape to the branches or nodes that have been assigned to different groups. 
+## Collapsing and Expanding Clade
 
 
-The `ggtree` package defined several functions to manipulate tree view. _`groupClade`_ and _`groupOTU`_ methods were designed for clustering clades or related OTUs. _`groupClade`_ accepts an internal node or a vector of internal nodes to cluster clade/clades.
 
-Both _`groupClade`_ and _`groupOTU`_ work fine with tree and graphic object.
 
-```{r fig.width=5, fig.height=5, fig.align="center", warning=FALSE}
-tree <- groupClade(tree, .node=21)
-ggtree(tree, aes(color=group, linetype=group))
+It is a common practice to prune or collapse clades so that certain aspects of a tree can be emphasized. The *ggtree* supports collapsing selected clades using the `collapse` function as shown in Figure \@ref(fig:collapseExpand)A.
+
+
+(ref:collapseExpandscap) Collapsing selected clades and expanding collapsed clades.
+
+(ref:collapseExpandcap) **Collapsing selected clades and expanding collapsed clades.** Clades can be selected to collapse (A) and the collapsed clades can be expanded back (B) if necessary as *ggtree* stored all information of species relationships. Green and red symbols were displayed on the tree to indicate the collapsed clades. 
+
+
+\setstretch{1.2}
+```{r collapseClade, eval=F, fig.cap="(ref:collapseCladecap)", fig.scap="(ref:collapseCladescap)", out.extra=''}
+p2 <- p %>% collapse(node=21) + 
+  geom_point2(aes(subset=(node==21)), shape=21, size=5, fill='green')
+p2 <- collapse(p2, node=23) + 
+  geom_point2(aes(subset=(node==23)), shape=23, size=5, fill='red')
+print(p2)
+expand(p2, node=23) %>% expand(node=21)
+```
+\setstretch{1.5}
+
+```{r collapseExpand, echo=F, fig.cap="(ref:collapseExpandcap)", fig.scap="(ref:collapseExpandscap)", out.extra=''}
+p2 <- p %>% collapse(node=21) + 
+  geom_point2(aes(subset=(node==21)), shape=21, size=5, fill='green')
+p2 <- collapse(p2, node=23) + 
+  geom_point2(aes(subset=(node==23)), shape=23, size=5, fill='red')
+p3 <- expand(p2, node=23) %>% expand(node=21)
+plot_grid(p2, p3, ncol=2, labels=c("A", "B"))
 ```
 
-The following command will produce the same figure.
+Here two clades were collapsed and labelled by green circle and red square symbolic points. Collapsing is a common strategy to collapse clades that are too large for displaying in full or are not primary interest of the study. In *ggtree*, we can expand (*i.e.*, uncollapse) the collapsed branches back with `expand` function to show details of species relationships as demonstrated in Figure \@ref(fig:collapseExpand)B.
 
-```{r eval=FALSE}
-ggtree(read.tree(nwk)) %>% groupClade(.node=21) + aes(color=group, linetype=group)
+
+## Scaling Selected Clade
+
+
+The *ggtree* provides another option to zoom out (or compress) these clades via the `scaleClade` function. In this way, we retain the topology and branch lengths of compressed clades. This helps to save the space to highlight those clades of primary interest to the study.
+
+(ref:scaleCladescap) Scaling selected clade.
+
+(ref:scaleCladecap) **Scaling selected clade.** Clades can be zoom in (if `scale > 1`) to highlight or zoom out to save space. 
+
+\setstretch{1.2}
+```{r scaleClade, message=FALSE, fig.cap="(ref:scaleCladecap)", fig.scap="(ref:scaleCladescap)", out.extra=''}
+tree2 <- groupClade(tree, c(17, 21))
+p <- ggtree(tree2, aes(color=group)) + 
+  scale_color_manual(values=c("black", "firebrick", "steelblue"))
+scaleClade(p, node=17, scale=.1) 
 ```
+\setstretch{1.5}
+
+If users want to emphasize important clades, they can use `scaleClade` function with `scale` parameter larger than 1. Then the selected clade will be zoomed in. Users can also use `groupClade` to select clades and color them with different colors as shown in Figure \@ref(fig:scaleClade).
+
+## Grouping Taxa
 
 
-With `groupClade` and `groupOTU`, it's easy to highlight selected taxa and easy to select taxa to display related features.
+The `groupClade` function assigns the branches and nodes under different clades into different groups.  _`groupClade`_ accepts an internal node or a vector of internal nodes to cluster clade/clades.
 
-```{r fig.width=5, fig.height=5, fig.align="center", warning=FALSE}
-tree <- groupClade(tree, .node=c(21, 17))
-ggtree(tree, aes(color=group, linetype=group)) + geom_tiplab(aes(subset=(group==2)))
+Similarly, `groupOTU` function assigns branches and nodes to different groups based on user-specified groups of operational taxonomic units (OTUs) that are not necessarily within a clade, but can be monophyletic (clade), polyphyletic or paraphyletic. It accepts a vector of OTUs (taxa name) or a list of OTUs and will trace back from OTUs to their most recent common ancestor (MRCA) and cluster them together as demonstrated in Figure \@ref(fig:groupOTU).
+
+A phylogenetic tree can be annotated by mapping different line type, size, color or shape to the branches or nodes that have been assigned to different groups. 
+
+(ref:groupOTUscap) Grouping OTUs.
+
+(ref:groupOTUcap) **Grouping OTUs.** OTU clustering based on their relationships. Selected OTUs and their ancestors upto MRCA will be clustered together.
+
+
+\setstretch{1.2}
+```{r groupOTU, message=FALSE, fig.cap="(ref:groupOTUcap)", fig.scap="(ref:groupOTUscap)", out.extra=''}
+tree2 <- groupOTU(tree, c("D", "E", "F", "G"))
+ggtree(tree2, aes(color=group)) + geom_tiplab()
 ```
+\setstretch{1.5}
 
-
-## Group OTUs
-_`groupOTU`_ accepts a vector of OTUs (taxa name) or a list of OTUs.  _`groupOTU`_ will trace back from OTUs to their most recent common ancestor and cluster them together. Related OTUs are not necessarily within a clade, they can be monophyletic (clade), polyphyletic or paraphyletic.
-
-
-```{r}
-tree <- groupOTU(tree, .node=c("D", "E", "F", "G"))
-```
-
-```{r fig.width=5, fig.height=5, fig.align="center", warning=FALSE}
-ggtree(tree, aes(color=group)) + geom_tiplab()
-```
-
-_`groupOTU`_ can also input a list of tip groups.
-
-```{r fig.width=5, fig.height=5, fig.align="center", warning=FALSE}
-cls <- list(c1=c("A", "B", "C", "D", "E"),
-            c2=c("F", "G", "H"),
-            c3=c("L", "K", "I", "J"),
-            c4="M")
-
-tree <- groupOTU(tree, cls)
-library("colorspace")
-ggtree(tree, aes(color=group, linetype=group)) + geom_tiplab() +
-     scale_color_manual(values=c("black", rainbow_hcl(4))) + theme(legend.position="right")
-```
-
-
-_`groupOTU`_ also works with graphic object.
-
-```{r fig.width=5, fig.height=5, fig.align="center", warning=FALSE}
-p <- ggtree(tree)
-groupOTU(p, LETTERS[1:5]) + aes(color=group) + geom_tiplab() + scale_color_manual(values=c("black", "firebrick"))
-```
-
-The following example use `groupOTU` to display taxa classification.
-
-```{r fig.width=6, fig.height=6}
-library("ape")
-data(chiroptera)
-groupInfo <- split(chiroptera$tip.label, gsub("_\\w+", "", chiroptera$tip.label))
-chiroptera <- groupOTU(chiroptera, groupInfo)
-ggtree(chiroptera, aes(color=group), layout='circular') + geom_tiplab(size=1, aes(angle=angle))
-```
 
 <!--
 ## iris example
@@ -167,81 +175,31 @@ ggtree(tree_iris, aes(color=group)) +
 
 
 
-## Zoom on a portion of tree
+## Exploring tree structure
 
-`ggtree` provides _`gzoom`_ function that similar to _`zoom`_ function provided in `ape`. This function plots simultaneously a whole phylogenetic tree and a portion of it. It aims at exploring very large trees.
+To facilitate exploring the tree structure, *ggtree* supports rotating selected clade by 180 degree using the `rotate` function (Figure \@ref(fig:rfClade)B). Position of immediate descendant clades of internal node can be exchanged via `flip` function (Figure \@ref(fig:rfClade)C).
 
-```{r fig.width=9, fig.height=5, fig.align="center"}
-library("ape")
-data(chiroptera)
-library("ggtree")
-gzoom(chiroptera, grep("Plecotus", chiroptera$tip.label))
+(ref:rotateCladescap) Exploring tree structure.
+
+(ref:rotateCladecap) **Exploring tree structure.** A clade (indicated by darkgreen circle) in a tree (A) can be rotated by 180&deg; (B) and the positions of its immediate descedant clades (colored by blue and red) can be exchanged (C).
+
+\setstretch{1.2}
+```{r echo=T, eval=F}
+p1 <- p + geom_point2(aes(subset=node==16), color='darkgreen', size=5)
+p2 <- rotate(p1, 17) %>% rotate(21)
+flip(p2, 17, 21)
+```          
+```{r rfClade, fig.cap="(ref:rotateCladecap)", fig.scap="(ref:rotateCladescap)", out.extra='', fig.width=7, fig.height=3, echo=F}
+p1 <- p + geom_point2(aes(subset=node==16), color='darkgreen', size=5)
+p2 <- rotate(p1, 17) %>% rotate(21)
+p3 <- flip(p2, 17, 21)
+plot_grid(p1, p2, p3, ncol=3, labels = LETTERS[1:3])
 ```
+\setstretch{1.5}
 
-Zoom in selected clade of a tree that was already annotated with `ggtree` is also supported.
+<!--
 
-```{r fig.width=9, fig.height=5, message=FALSE, warning=FALSE}
-groupInfo <- split(chiroptera$tip.label, gsub("_\\w+", "", chiroptera$tip.label))
-chiroptera <- groupOTU(chiroptera, groupInfo)
-p <- ggtree(chiroptera, aes(color=group)) + geom_tiplab() + xlim(NA, 23)
-gzoom(p, grep("Plecotus", chiroptera$tip.label), xmax_adjust=2)
-```
-
-
-## Collapse clade
-
-With _`collapse`_ function, user can collapse a selected clade.
-
-```{r fig.width=5, fig.height=5, fig.align="center", warning=FALSE}
-cp <- collapse(p, node=21)
-cp + geom_point2(aes(subset=(node == 21)), size=5, shape=23, fill="steelblue")
-```
-
-## Expand collapsed clade
-
-The collapsed clade can be expanded via _`expand`_ function.
-
-```{r fig.width=5, fig.height=5, fig.align="center", warning=FALSE}
-cp %>% expand(node=21)
-```
-
-```{r fig.width=15, fig.height=3, warning=FALSE}
-p1 <- ggtree(tree)
-p2 <- collapse(p1, 21) + geom_point2(aes(subset=(node==21)), size=5, shape=23, fill="blue")
-p3 <- collapse(p2, 17) + geom_point2(aes(subset=(node==17)), size=5, shape=23, fill="red")
-p4 <- expand(p3, 17)
-p5 <- expand(p4, 21)
-
-library(cowplot)
-plot_grid(p1, p2, p3, p4, p5, ncol=5)
-```
-
-## Scale clade
-
-
-Collpase selected clades can save some space, another approach is to zoom out clade to a small scale.
-
-```{r fig.width=12, fig.height=6, warning=F}
-plot_grid(ggtree(tree) + geom_hilight(21, "steelblue"),
-          ggtree(tree) %>% scaleClade(21, scale=0.3) + geom_hilight(21, "steelblue"),
-          ncol=2)
-```
-
-Of course, _`scaleClade`_ can accept `scale` larger than 1 and zoom in the selected portion.
-
-```{r fig.width=12, fig.height=6, warning=F}
-plot_grid(ggtree(tree) + geom_hilight(17, fill="steelblue") +
-                 geom_hilight(21, fill="darkgreen"),
-          ggtree(tree) %>% scaleClade(17, scale=2) %>% scaleClade(21, scale=0.3) +
-                 geom_hilight(17, "steelblue") + geom_hilight(21, fill="darkgreen"),
-          ncol=2)
-```
-
-## Rotate clade
-
-A selected clade can be rotated by 180 degree using __`rotate`__ function.
-
-
+## Rotate Clade
 ```{r fig.width=8, fig.height=4}
 tree <- groupClade(tree, c(21, 17))
 p <- ggtree(tree, aes(color=group)) + scale_color_manual(values=c("black", "firebrick", "steelblue"))
@@ -260,17 +218,52 @@ for (n in reorder(tree, 'postorder')$edge[,1] %>% unique) {
 
 ![](img/rotate_clade.gif)
 
+-->
 
 
-## Flip clade
+Most of the tree manipulation functions are working on clades, while *ggtree* also provides functions to manipulate a tree, including `open_tree` to transform a tree in either rectangular or circular layout to fan layout, and `rotate_tree` function to rotate a tree for specific angle in both circular or fan layouts, as demonstrated in Figure \@ref(fig:openTree) and \@ref(fig:rotateTree).
 
-The positions of two selected clades (should share a same parent) can be flip over using __`flip`__ function.
 
-```{r fig.width=8, fig.height=4}
-plot_grid(p, flip(p, 17, 21), ncol=2)
+\setstretch{1.2}
+```{r eval=FALSE}
+p3 <- open_tree(p, 180) + geom_tiplab2()
+print(p3)
+```
+\setstretch{1.5}
+
+(ref:openTreescap) Transforming a tree to fan layout.
+
+(ref:openTreecap) **Transforming a tree to fan layout.** A tree can be transformed to fan layout by `open_tree` with specific *angle* parameter.
+
+```{r openTree, fig.cap="(ref:openTreecap)", fig.scap="(ref:openTreescap)",echo=FALSE, fig.width=6, fig.height=3.5, out.extra=''}
+p3 <- open_tree(p, 180) + geom_tiplab2()
+ggplot() + ylim(0.5, 1) + xlim(0, 1) + theme_tree() +
+  annotation_custom(ggplotGrob(p3), 
+                    xmin=-.2, xmax=1.15, ymin=-.25, ymax=1.3)
+```
+
+\setstretch{1.2}
+```{r eval=FALSE}
+rotate_tree(p3, 180)
+```
+\setstretch{1.5}
+
+(ref:rotateTreescap) Rotating tree.
+
+(ref:rotateTreecap) **Rotating tree.** A circular/fan layout tree can be rotated by any specific *angle*.
+
+
+```{r rotateTree, echo=FALSE, fig.cap="(ref:rotateTreecap)", fig.scap="(ref:rotateTreescap)", fig.width=6, fig.height=3.2, out.extra=''}
+ggplot() + ylim(0.5, 1) + xlim(0, 1)  + theme_tree() +
+  annotation_custom(ggplotGrob(rotate_tree(p3, 180)), 
+                    xmin=-.15, xmax=1.15, ymin=.2, ymax=1.75)
 ```
 
 
+
+Interactive tree manipulation is also possible via `identify` methods[^<https://guangchuangyu.github.io/2016/06/identify-method-for-ggtree>].
+
+<!--
 ## Open tree
 
 `ggtree` supports `fan` layout and can also transform the `circular` layout tree to a `fan` tree by specifying an open `angle` to `open_tree` function.
@@ -301,10 +294,36 @@ for (angle in seq(0, 270, 10)) {
 
 ![](img/rotate_tree.gif)
 
-## rescale tree
+-->
 
 
-## Interactive tree manipulation
 
-Interactive tree manipulation is also possible, please refer to <https://guangchuangyu.github.io/2016/06/identify-method-for-ggtree>.
+## Zoom on a portion of tree
+
+
+> tree_subset
+
+> may remove gzoom, for it is easy to be done via tree_subset, need examples
+
+
+`ggtree` provides _`gzoom`_ function that similar to _`zoom`_ function provided in `ape`. This function plots simultaneously a whole phylogenetic tree and a portion of it. It aims at exploring very large trees.
+
+```{r fig.width=9, fig.height=5, fig.align="center"}
+library("ape")
+data(chiroptera)
+library("ggtree")
+gzoom(chiroptera, grep("Plecotus", chiroptera$tip.label))
+```
+
+Zoom in selected clade of a tree that was already annotated with `ggtree` is also supported.
+
+```{r fig.width=9, fig.height=5, message=FALSE, warning=FALSE}
+groupInfo <- split(chiroptera$tip.label, gsub("_\\w+", "", chiroptera$tip.label))
+chiroptera <- groupOTU(chiroptera, groupInfo)
+p <- ggtree(chiroptera, aes(color=group)) + geom_tiplab() + xlim(NA, 23)
+gzoom(p, grep("Plecotus", chiroptera$tip.label), xmax_adjust=2)
+```
+
+
+## Summary
 
