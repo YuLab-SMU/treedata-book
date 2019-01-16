@@ -220,14 +220,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.3" data-path="chapter7.html"><a href="chapter7.html#plot-tree-with-associated-data"><i class="fa fa-check"></i><b>7.3</b> Plot tree with associated data</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="chapter8.html"><a href="chapter8.html"><i class="fa fa-check"></i><b>8</b> Annotating Tree with Silhouette Images and Sub-plots</a><ul>
-<li class="chapter" data-level="8.1" data-path="chapter8.html"><a href="chapter8.html#annotating-tree-with-images"><i class="fa fa-check"></i><b>8.1</b> Annotating Tree with Images</a></li>
-<li class="chapter" data-level="8.2" data-path="chapter8.html"><a href="chapter8.html#annotating-tree-with-phylopic"><i class="fa fa-check"></i><b>8.2</b> Annotating Tree with Phylopic</a></li>
-<li class="chapter" data-level="8.3" data-path="chapter8.html"><a href="chapter8.html#annotating-tree-with-sub-plots"><i class="fa fa-check"></i><b>8.3</b> Annotating Tree with Sub-plots</a><ul>
+<li class="chapter" data-level="8.1" data-path="chapter8.html"><a href="chapter8.html#ggimage"><i class="fa fa-check"></i><b>8.1</b> Annotating Tree with Images</a></li>
+<li class="chapter" data-level="8.2" data-path="chapter8.html"><a href="chapter8.html#phylopic"><i class="fa fa-check"></i><b>8.2</b> Annotating Tree with Phylopic</a></li>
+<li class="chapter" data-level="8.3" data-path="chapter8.html"><a href="chapter8.html#subplots"><i class="fa fa-check"></i><b>8.3</b> Annotating Tree with Sub-plots</a><ul>
 <li class="chapter" data-level="8.3.1" data-path="chapter8.html"><a href="chapter8.html#annotate-with-bar-charts"><i class="fa fa-check"></i><b>8.3.1</b> Annotate with bar charts</a></li>
 <li class="chapter" data-level="8.3.2" data-path="chapter8.html"><a href="chapter8.html#annotate-with-pie-charts"><i class="fa fa-check"></i><b>8.3.2</b> Annotate with pie charts</a></li>
 <li class="chapter" data-level="8.3.3" data-path="chapter8.html"><a href="chapter8.html#annotate-with-other-types-of-charts"><i class="fa fa-check"></i><b>8.3.3</b> Annotate with other types of charts</a></li>
 </ul></li>
-<li class="chapter" data-level="8.4" data-path="chapter8.html"><a href="chapter8.html#have-fun-with-phylomoji"><i class="fa fa-check"></i><b>8.4</b> Have Fun with Phylomoji</a><ul>
+<li class="chapter" data-level="8.4" data-path="chapter8.html"><a href="chapter8.html#phylomoji"><i class="fa fa-check"></i><b>8.4</b> Have Fun with Phylomoji</a><ul>
 <li class="chapter" data-level="8.4.1" data-path="chapter8.html"><a href="chapter8.html#emoji-in-cirularfan-layout-tree"><i class="fa fa-check"></i><b>8.4.1</b> emoji in cirular/fan layout tree</a></li>
 <li class="chapter" data-level="8.4.2" data-path="chapter8.html"><a href="chapter8.html#emoji-to-label-clades"><i class="fa fa-check"></i><b>8.4.2</b> emoji to label clades</a></li>
 <li class="chapter" data-level="8.4.3" data-path="chapter8.html"><a href="chapter8.html#apple-color-emoji"><i class="fa fa-check"></i><b>8.4.3</b> Apple Color Emoji</a></li>
@@ -257,7 +257,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="chapter8" class="section level1">
 <h1><span class="header-section-number">Chapter 8</span> Annotating Tree with Silhouette Images and Sub-plots</h1>
-<div id="annotating-tree-with-images" class="section level2">
+<div id="ggimage" class="section level2">
 <h2><span class="header-section-number">8.1</span> Annotating Tree with Images</h2>
 <p>We usually use text to label taxa, i.e. displaying taxa names. If the text is image file name (either local or remote), <strong>ggtree</strong> can read the image and display the actual image as label of the taxa. The <code>geom_tiplab</code> and <code>geom_nodelab</code> are capable to render silhouette image by internally called <a href="https://cran.r-project.org/package=ggimage">ggimage</a> package.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggimage)
@@ -273,26 +273,42 @@ x =<span class="st"> </span><span class="kw">read.tree</span>(<span class="dt">t
 <span class="st">    </span><span class="kw">geom_image</span>(<span class="dt">x=</span>.<span class="dv">8</span>, <span class="dt">y=</span><span class="fl">5.5</span>, <span class="dt">image=</span><span class="st">&quot;img/frogs/frog.jpg&quot;</span>, <span class="dt">size=</span>.<span class="dv">2</span>)</code></pre>
 <p><img src="treedata_files/figure-html/unnamed-chunk-120-1.png" width="816" /></p>
 </div>
-<div id="annotating-tree-with-phylopic" class="section level2">
+<div id="phylopic" class="section level2">
 <h2><span class="header-section-number">8.2</span> Annotating Tree with Phylopic</h2>
 <p><a href="phylopic.org">Phylopic</a> contains more than 3200 silhouettes and covers almost all life forms. <strong>ggtree</strong> also supports using phylopic<a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a> to annotate the tree. Most importantly, we can color the image using numerical/categorical variable.</p>
 <pre class="sourceCode r"><code class="sourceCode r">tree &lt;-<span class="st"> </span>ape<span class="op">::</span><span class="kw">read.nexus</span>(<span class="st">&quot;https://raw.githubusercontent.com/rgriff23/Dissertation/master/Chapter_2/data/tree.nex&quot;</span>)
 phylopic_info &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">node =</span> <span class="kw">c</span>(<span class="dv">124</span>, <span class="dv">113</span>, <span class="dv">110</span>, <span class="dv">96</span>, <span class="dv">89</span>, <span class="dv">70</span>),
-                            <span class="dt">phylopic =</span> <span class="kw">c</span>(<span class="st">&quot;7fb9bea8-e758-4986-afb2-95a2c3bf983d&quot;</span>,
-                                        <span class="st">&quot;bac25f49-97a4-4aec-beb6-f542158ebd23&quot;</span>,
-                                        <span class="st">&quot;f598fb39-facf-43ea-a576-1861304b2fe4&quot;</span>,
-                                        <span class="st">&quot;aceb287d-84cf-46f1-868c-4797c4ac54a8&quot;</span>,
-                                        <span class="st">&quot;0174801d-15a6-4668-bfe0-4c421fbe51e8&quot;</span>,
-                                        <span class="st">&quot;72f2f854-f3cd-4666-887c-35d5c256ab0f&quot;</span>),
+                            <span class="dt">phylopic =</span> <span class="kw">c</span>(<span class="st">&quot;c4ac9ea6-b465-4ed0-a5de-9fe4eebd3ef9&quot;</span>,
+                                        <span class="st">&quot;5388a472-994a-48e1-86de-d988c6019e72&quot;</span>,
+                                        <span class="st">&quot;615c82cf-fabe-49f8-b571-e8117edfa212&quot;</span>,
+                                        <span class="st">&quot;63ff1b70-6b6e-4412-b4d2-b2e2fb51aa95&quot;</span>,
+                                        <span class="st">&quot;d65d5abd-df8b-4509-912c-e42f6c34861f&quot;</span>,
+                                        <span class="st">&quot;6d54acc7-9e1e-4b79-be88-4904cf58fbb5&quot;</span>),
                             <span class="dt">species =</span> <span class="kw">c</span>(<span class="st">&quot;galagoids&quot;</span>, <span class="st">&quot;lemurs&quot;</span>, <span class="st">&quot;tarsiers&quot;</span>,
                                         <span class="st">&quot;cebids&quot;</span>, <span class="st">&quot;hominoids&quot;</span>, <span class="st">&quot;cercopithecoids&quot;</span>))
 pg &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree)
 pg <span class="op">%&lt;+%</span><span class="st"> </span>phylopic_info <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_nodelab</span>(<span class="kw">aes</span>(<span class="dt">image=</span>phylopic, <span class="dt">color=</span>species, <span class="dt">subset=</span><span class="op">!</span><span class="kw">is.na</span>(species)), <span class="dt">geom=</span><span class="st">&quot;phylopic&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_nodelab</span>(<span class="kw">aes</span>(<span class="dt">image=</span>phylopic, <span class="dt">color=</span>species, <span class="dt">subset=</span><span class="op">!</span><span class="kw">is.na</span>(species)), 
+              <span class="dt">geom=</span><span class="st">&quot;phylopic&quot;</span>, <span class="dt">alpha =</span> <span class="fl">.6</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="kw">c</span>(.<span class="dv">1</span>, <span class="fl">.8</span>))</code></pre>
 <p><img src="treedata_files/figure-html/phylopic-1.png" width="672" /></p>
+<p><code>ggimage</code> package supports querying phylopic uid from scientific name, which is very handy for annotating tree with phylopic.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">require</span>(ggtree)
+newick =<span class="st"> &quot;((Pongo_abelii,(Gorilla_gorilla_gorilla,(Pan_paniscus,Pan_troglodytes)Pan,Homo_sapiens)Homininae)Hominidae,Nomascus_leucogenys)Hominoidea;&quot;</span>
+
+tree =<span class="st"> </span><span class="kw">read.tree</span>(<span class="dt">text=</span>newick)
+
+idlist =<span class="st"> </span>ggimage<span class="op">::</span><span class="kw">phylopic_uid</span>(tree<span class="op">$</span>tip.label)
+ids &lt;-<span class="st"> </span><span class="kw">sapply</span>(idlist, <span class="cf">function</span>(x) x[<span class="dv">1</span>,<span class="dv">1</span>])
+
+d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">label =</span> tree<span class="op">$</span>tip.label, <span class="dt">uid =</span> ids)
+
+p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree)
+p <span class="op">%&lt;+%</span><span class="st"> </span>d <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">image=</span>uid, <span class="dt">color=</span>label), <span class="dt">geom=</span><span class="st">&quot;phylopic&quot;</span>, <span class="dt">offset=</span><span class="fl">2.5</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">label=</span>label), <span class="dt">offset =</span> <span class="fl">.2</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="ot">NA</span>, <span class="dv">7</span>)</code></pre>
+<p><img src="treedata_files/figure-html/ggimage_phylopic-1.png" width="672" /></p>
 </div>
-<div id="annotating-tree-with-sub-plots" class="section level2">
+<div id="subplots" class="section level2">
 <h2><span class="header-section-number">8.3</span> Annotating Tree with Sub-plots</h2>
 <p><code>ggtree</code> provides a function, <code>inset</code>, for adding subplots to a phylogenetic tree. The input is a tree graphic object and a named list of ggplot graphic objects (can be any kind of charts), these objects should named by node numbers. To facilitate adding bar and pie charts (e.g. summarized stats of results from ancestral reconstruction) to phylogenetic tree, <em>ggtree</em> provides <code>nodepie</code> and <code>nodebar</code> functions to create a list of pie or bar charts.</p>
 <div id="annotate-with-bar-charts" class="section level3">
@@ -352,7 +368,7 @@ bx2 &lt;-<span class="st"> </span><span class="kw">lapply</span>(bx, <span class
 <p><img src="treedata_files/figure-html/unnamed-chunk-125-1.png" width="672" /></p>
 </div>
 </div>
-<div id="have-fun-with-phylomoji" class="section level2">
+<div id="phylomoji" class="section level2">
 <h2><span class="header-section-number">8.4</span> Have Fun with Phylomoji</h2>
 <p><a href="https://twitter.com/hashtag/phylomoji?src=hash">#phylomoji</a> is fun and it is internally supported by <strong>ggtree</strong> since 2015<a href="#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a>.</p>
 <p>Here, we will use <strong>ggtree</strong> to recreate the figure:</p>

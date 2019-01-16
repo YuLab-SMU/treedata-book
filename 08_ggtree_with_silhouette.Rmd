@@ -9,7 +9,7 @@ library(ggplot2)
 library(ggtree)
 ```
 
-## Annotating Tree with Images
+## Annotating Tree with Images {#ggimage}
 
 We usually use text to label taxa, i.e. displaying taxa names. If the text is image file name (either local or remote), **ggtree** can read the image and display the actual image as label of the taxa. The `geom_tiplab` and `geom_nodelab` are capable to render silhouette image by internally called [ggimage](https://cran.r-project.org/package=ggimage) package.
 
@@ -28,7 +28,7 @@ ggtree(x) + xlim(NA, 7) + ylim(NA, 6.2) +
     geom_image(x=.8, y=5.5, image="img/frogs/frog.jpg", size=.2)
 ```
 
-## Annotating Tree with Phylopic
+## Annotating Tree with Phylopic {#phylopic}
 
 [Phylopic](phylopic.org) contains more than 3200 silhouettes and covers almost all life forms. **ggtree** also supports using phylopic^[<https://twitter.com/guangchuangyu/status/593443854541434882>] to annotate the tree. Most importantly, we can color the image using numerical/categorical variable.
 
@@ -36,22 +36,40 @@ ggtree(x) + xlim(NA, 7) + ylim(NA, 6.2) +
 ```{r phylopic, dev='png'}
 tree <- ape::read.nexus("https://raw.githubusercontent.com/rgriff23/Dissertation/master/Chapter_2/data/tree.nex")
 phylopic_info <- data.frame(node = c(124, 113, 110, 96, 89, 70),
-                            phylopic = c("7fb9bea8-e758-4986-afb2-95a2c3bf983d",
-                                        "bac25f49-97a4-4aec-beb6-f542158ebd23",
-                                        "f598fb39-facf-43ea-a576-1861304b2fe4",
-                                        "aceb287d-84cf-46f1-868c-4797c4ac54a8",
-                                        "0174801d-15a6-4668-bfe0-4c421fbe51e8",
-                                        "72f2f854-f3cd-4666-887c-35d5c256ab0f"),
+                            phylopic = c("c4ac9ea6-b465-4ed0-a5de-9fe4eebd3ef9",
+                                        "5388a472-994a-48e1-86de-d988c6019e72",
+                                        "615c82cf-fabe-49f8-b571-e8117edfa212",
+                                        "63ff1b70-6b6e-4412-b4d2-b2e2fb51aa95",
+                                        "d65d5abd-df8b-4509-912c-e42f6c34861f",
+                                        "6d54acc7-9e1e-4b79-be88-4904cf58fbb5"),
                             species = c("galagoids", "lemurs", "tarsiers",
                                         "cebids", "hominoids", "cercopithecoids"))
 pg <- ggtree(tree)
 pg %<+% phylopic_info + 
-  geom_nodelab(aes(image=phylopic, color=species, subset=!is.na(species)), geom="phylopic") + 
+  geom_nodelab(aes(image=phylopic, color=species, subset=!is.na(species)), 
+              geom="phylopic", alpha = .6) + 
   theme(legend.position=c(.1, .8))
 ```
 
+`ggimage` package supports querying phylopic uid from scientific name, which is very handy for annotating tree with phylopic.
 
-## Annotating Tree with Sub-plots
+```{r ggimage_phylopic, dev='png'}
+require(ggtree)
+newick = "((Pongo_abelii,(Gorilla_gorilla_gorilla,(Pan_paniscus,Pan_troglodytes)Pan,Homo_sapiens)Homininae)Hominidae,Nomascus_leucogenys)Hominoidea;"
+
+tree = read.tree(text=newick)
+
+idlist = ggimage::phylopic_uid(tree$tip.label)
+ids <- sapply(idlist, function(x) x[1,1])
+
+d <- data.frame(label = tree$tip.label, uid = ids)
+
+p <- ggtree(tree)
+p %<+% d + geom_tiplab(aes(image=uid, color=label), geom="phylopic", offset=2.5) +
+  geom_tiplab(aes(label=label), offset = .2) + xlim(NA, 7)
+```
+
+## Annotating Tree with Sub-plots {#subplots}
 
 
 `ggtree` provides a function, `inset`, for adding subplots to a phylogenetic tree. The input is a tree graphic object and a named list of ggplot graphic objects (can be any kind of charts), these objects should named by node numbers. To facilitate adding bar and pie charts (e.g. summarized stats of results from ancestral reconstruction) to phylogenetic tree, *ggtree* provides `nodepie` and `nodebar` functions to create a list of pie or bar charts.
@@ -127,7 +145,7 @@ inset(p2, bx2, width=2, height=1, vjust=.04, hjust=p2$data$x[1:15]-5) + xlim(NA,
 ```
 
 
-## Have Fun with Phylomoji
+## Have Fun with Phylomoji {#phylomoji}
 
 
 [#phylomoji](https://twitter.com/hashtag/phylomoji?src=hash) is fun and it is internally supported by **ggtree** since 2015^[<https://twitter.com/guangchuangyu/status/662095056610811904> and <https://twitter.com/guangchuangyu/status/667337429704011777>].
