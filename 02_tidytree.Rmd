@@ -350,11 +350,11 @@ cowplot::plot_grid(p1, p2, p3, ncol=3, labels = LETTERS)
 ### Subset tree by tip label
 
 
-## Manipulating tree for visualization
+## Manipulating tree data for visualization {#ggtree-fortify}
 
 Tree visualization is supported by [ggtree](#chapter4). Although *ggtree* implemented several methods for [visual exploration of tree with data](#chapter6), you may want to do something that is not supported directly. In this case, you need to manipulate tree data with node coordination positions that used for visualization. This is quite easy with *ggtree*. User can use `foritfy` method which internally call `tidytree::as_tibble` to convert the tree to tidy data frame and add columns of coordination positions (*i.e.* x, y, branch and angle) that are used to plot the tree. You can also access the data via `ggtree(tree)$data`.
 
-Here is an example to plot two trees side by side that similar to a `cophyloplot`.
+Here is an example to plot two trees face to face that similar to a `cophyloplot`.
 
 ```{r}
 library(dplyr)
@@ -380,23 +380,22 @@ dd <- bind_rows(d1, d2) %>%
 pp + geom_line(aes(x, y, group=label), data=dd, color='grey')
 ```
 
-It is quite easy to plot multiple trees and connect taxa in one figure. For instance, plotting trees contructed from all internal gene segments of influenza virus and connecting equivalent strans across the trees[@venkatesh_avian_2018]. 
+It is quite easy to plot multiple trees and connect taxa in one figure. For instance, plotting trees contructed from all internal gene segments of influenza virus and connecting equivalent strans across the trees [@venkatesh_avian_2018]. 
 
 
 ```{r}
 z <- rtree(30)
-d1 <- p1$data
-d2 <- p2$data
+d2 <- fortify(y)
 d3 <- fortify(z)
 d2$x <- d2$x + max(d1$x) + 1
 d3$x <- d3$x + max(d2$x) + 1
 
-pp <- p1 + geom_tree(data=d2) + geom_tree(data = d3)
+pp <- p1 + geom_tree(data = d2) + geom_tree(data = d3)
 
 dd = bind_rows(d1, d2, d3) %>% 
   filter(!is.na(label))
 
-pp + geom_line(aes(x, y, group=label), data=dd, color='grey')
+pp + geom_line(aes(x, y, group=label, color=node < 15), data=dd, alpha=.3)
 ```
 
 
