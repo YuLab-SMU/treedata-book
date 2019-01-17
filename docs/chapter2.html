@@ -160,7 +160,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.4.1" data-path="chapter2.html"><a href="chapter2.html#remove-tips-in-a-phylogenetic-tree"><i class="fa fa-check"></i><b>2.4.1</b> Remove tips in a phylogenetic tree</a></li>
 <li class="chapter" data-level="2.4.2" data-path="chapter2.html"><a href="chapter2.html#subset-tree-by-tip-label"><i class="fa fa-check"></i><b>2.4.2</b> Subset tree by tip label</a></li>
 </ul></li>
-<li class="chapter" data-level="2.5" data-path="chapter2.html"><a href="chapter2.html#summary-1"><i class="fa fa-check"></i><b>2.5</b> Summary</a></li>
+<li class="chapter" data-level="2.5" data-path="chapter2.html"><a href="chapter2.html#manipulating-tree-for-visualization"><i class="fa fa-check"></i><b>2.5</b> Manipulating tree for visualization</a></li>
+<li class="chapter" data-level="2.6" data-path="chapter2.html"><a href="chapter2.html#summary-1"><i class="fa fa-check"></i><b>2.6</b> Summary</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="chapter3.html"><a href="chapter3.html"><i class="fa fa-check"></i><b>3</b> Exporting tree with data</a><ul>
 <li class="chapter" data-level="3.1" data-path="chapter3.html"><a href="chapter3.html#introduction"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
@@ -705,8 +706,50 @@ Figure 2.2: <strong>Re-scaling tree branches.</strong> The tree with branches sc
 <h3><span class="header-section-number">2.4.2</span> Subset tree by tip label</h3>
 </div>
 </div>
+<div id="manipulating-tree-for-visualization" class="section level2">
+<h2><span class="header-section-number">2.5</span> Manipulating tree for visualization</h2>
+<p>Tree visualization is supported by <a href="chapter4.html#chapter4">ggtree</a>. Although <em>ggtree</em> implemented several methods for <a href="chapter6.html#chapter6">visual exploration of tree with data</a>, you may want to do something that is not supported directly. In this case, you need to manipulate tree data with node coordination positions that used for visualization. This is quite easy with <em>ggtree</em>. User can use <code>foritfy</code> method which internally call <code>tidytree::as_tibble</code> to convert the tree to tidy data frame and add columns of coordination positions (<em>i.e.</em> x, y, branch and angle) that are used to plot the tree. You can also access the data via <code>ggtree(tree)$data</code>.</p>
+<p>Here is an example to plot two trees side by side that similar to a <code>cophyloplot</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
+<span class="kw">library</span>(ggtree)
+
+x &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)
+y &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)
+p1 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(x)
+p2 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(y)
+
+d1 &lt;-<span class="st"> </span>p1<span class="op">$</span>data
+d2 &lt;-<span class="st"> </span>p2<span class="op">$</span>data
+
+<span class="co">## reverse x-axis and </span>
+<span class="co">## set offset to make the tree in the right hand side of the first tree</span>
+d2<span class="op">$</span>x &lt;-<span class="st"> </span><span class="kw">max</span>(d2<span class="op">$</span>x) <span class="op">-</span><span class="st"> </span>d2<span class="op">$</span>x <span class="op">+</span><span class="st"> </span><span class="kw">max</span>(d1<span class="op">$</span>x) <span class="op">+</span><span class="st"> </span><span class="dv">1</span>
+
+pp &lt;-<span class="st"> </span>p1 <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_tree</span>(<span class="dt">data=</span>d2) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="dt">data =</span> d2, <span class="dt">hjust=</span><span class="dv">1</span>)
+
+dd &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(d1, d2) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(label))
+
+pp <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(x, y, <span class="dt">group=</span>label), <span class="dt">data=</span>dd, <span class="dt">color=</span><span class="st">&#39;grey&#39;</span>)</code></pre>
+<p><img src="treedata_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
+<p>It is quite easy to plot multiple trees and connect taxa in one figure. For instance, plotting trees contructed from all internal gene segments of influenza virus and connecting equivalent strans across the trees<span class="citation">(Venkatesh et al. <a href="#ref-venkatesh_avian_2018">2018</a>)</span>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">z &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)
+d1 &lt;-<span class="st"> </span>p1<span class="op">$</span>data
+d2 &lt;-<span class="st"> </span>p2<span class="op">$</span>data
+d3 &lt;-<span class="st"> </span><span class="kw">fortify</span>(z)
+d2<span class="op">$</span>x &lt;-<span class="st"> </span>d2<span class="op">$</span>x <span class="op">+</span><span class="st"> </span><span class="kw">max</span>(d1<span class="op">$</span>x) <span class="op">+</span><span class="st"> </span><span class="dv">1</span>
+d3<span class="op">$</span>x &lt;-<span class="st"> </span>d3<span class="op">$</span>x <span class="op">+</span><span class="st"> </span><span class="kw">max</span>(d2<span class="op">$</span>x) <span class="op">+</span><span class="st"> </span><span class="dv">1</span>
+
+pp &lt;-<span class="st"> </span>p1 <span class="op">+</span><span class="st"> </span><span class="kw">geom_tree</span>(<span class="dt">data=</span>d2) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tree</span>(<span class="dt">data =</span> d3)
+
+dd =<span class="st"> </span><span class="kw">bind_rows</span>(d1, d2, d3) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(label))
+
+pp <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(x, y, <span class="dt">group=</span>label), <span class="dt">data=</span>dd, <span class="dt">color=</span><span class="st">&#39;grey&#39;</span>)</code></pre>
+<p><img src="treedata_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
+</div>
 <div id="summary-1" class="section level2">
-<h2><span class="header-section-number">2.5</span> Summary</h2>
+<h2><span class="header-section-number">2.6</span> Summary</h2>
 
 </div>
 </div>
@@ -717,6 +760,9 @@ Figure 2.2: <strong>Re-scaling tree branches.</strong> The tree with branches sc
 </div>
 <div id="ref-liang_expansion_2014">
 <p>Liang, Huyi, Tommy Tsan-Yuk Lam, Xiaohui Fan, Xinchun Chen, Yu Zeng, Ji Zhou, Lian Duan, et al. 2014. “Expansion of Genotypic Diversity and Establishment of 2009 H1N1 Pandemic-Origin Internal Genes in Pigs in China.” <em>Journal of Virology</em>, July, JVI.01327–14. <a href="https://doi.org/10.1128/JVI.01327-14">https://doi.org/10.1128/JVI.01327-14</a>.</p>
+</div>
+<div id="ref-venkatesh_avian_2018">
+<p>Venkatesh, Divya, Marjolein J. Poen, Theo M. Bestebroer, Rachel D. Scheuer, Oanh Vuong, Mzia Chkhaidze, Anna Machablishvili, et al. 2018. “Avian Influenza Viruses in Wild Birds: Virus Evolution in a Multihost Ecosystem.” <em>Journal of Virology</em> 92 (15). <a href="https://doi.org/10.1128/JVI.00433-18">https://doi.org/10.1128/JVI.00433-18</a>.</p>
 </div>
 </div>
             </section>
