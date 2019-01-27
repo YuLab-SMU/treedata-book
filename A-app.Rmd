@@ -34,6 +34,67 @@ ff <- matrix(c(
   ), ncol=2, byrow=TRUE)
 ff <- as.data.frame(ff)
 colnames(ff) <- c("Function", "Description")
-knitr::kable(ff, caption = "Functions defined in treeio.", booktabs = T) %>%
-  kable_styling(latex_options = c("striped", "hold_position"), full_width = T)
+knitr::kable(ff, caption = "Functions defined in treeio.", booktabs = T) #%>%
+  #kable_styling(latex_options = c("striped", "hold_position"), full_width = T)
 ```
+
+# ggtree utilities
+
+## Functions relative to `facet_plot()`
+
+### facet_labeller
+
+```{r}
+library(ggplot2)
+library(ggstance)
+library(ggtree)
+library(reshape2)
+
+set.seed(123)
+tree <- rtree(30)
+
+p <- ggtree(tree, branch.length = "none") + 
+    geom_tiplab()
+
+a <- runif(30, 0,1)
+b <- 1 - a
+df <- data.frame(tree$tip.label, a, b)
+df <- melt(df, id = "tree.tip.label")
+
+p2 <- facet_plot(p + xlim_tree(8), panel = 'bar', data = df, geom = geom_barh, 
+                 mapping = aes(x = value, fill = as.factor(variable)), 
+                 width = 0.8, stat='identity')
+
+facet_widths(p2, widths = c(1, 2))
+```
+
+It also supports using name vector to set the widths of specific panels.
+
+```{r}
+facet_widths(p3, c(Tree = .5))
+```
+
+
+The `facet_widths` function also work with other `ggplot` object.
+
+```{r}
+head(iris)
+p <- ggplot(iris, aes(Sepal.Width, Petal.Length)) + 
+  geom_point() + facet_grid(.~Species)
+facet_widths(p, c(setosa = .5))
+```
+
+### facet_labeller
+
+The `facet_labeller` function was designed to re-label selected panels, and it currently only works with `ggtree` object (*i.e.* `facet_plot` output).
+
+```{r}
+facet_labeller(p2, c(Tree = "phylogeny", bar = "HELLO"))
+```
+
+If you want to combine `facet_widths` with `facet_labeller`, you need to call `facet_labeller` to re-label the panels before using `facet_widths` to set the relative widths of each panels. Otherwise it wont work since the output of `facet_widths` is re-drawn from `grid` object.
+
+```{r}
+facet_labeller(p2, c(Tree = "phylogeny")) %>% facet_widths(c(Tree = .4))
+```
+
