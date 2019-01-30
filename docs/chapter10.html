@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Chapter 6 Visual Exploration of Phylogenetic Tree | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
-  <meta name="description" content="Chapter 6 Visual Exploration of Phylogenetic Tree | Data Integration, Manipulation and Visualization of Phylogenetic Trees">
+  <title>Chapter 10 ggtree extensions | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
+  <meta name="description" content="Chapter 10 ggtree extensions | Data Integration, Manipulation and Visualization of Phylogenetic Trees">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="Chapter 6 Visual Exploration of Phylogenetic Tree | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
+  <meta property="og:title" content="Chapter 10 ggtree extensions | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 6 Visual Exploration of Phylogenetic Tree | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
+  <meta name="twitter:title" content="Chapter 10 ggtree extensions | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
   
   
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="chapter5.html">
-<link rel="next" href="chapter7.html">
+<link rel="prev" href="chapter9.html">
+<link rel="next" href="figures-and-tables.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -260,342 +260,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="chapter6" class="section level1">
-<h1><span class="header-section-number">Chapter 6</span> Visual Exploration of Phylogenetic Tree</h1>
-<p>The <em>ggtree</em> supports many ways of manipulating the tree visually, including viewing selected clade to explore large tree (Figure <a href="chapter6.html#fig:viewClade">6.1</a>), taxa clustering (Figure <a href="chapter6.html#fig:groupOTU">6.4</a>), rotating clade or tree (Figure <a href="chapter6.html#fig:rfClade">6.5</a>B and <a href="chapter6.html#fig:rotateTree">6.7</a>), zoom out or collapsing clades (Figure <a href="chapter6.html#fig:collapseExpand">6.2</a>A and <a href="chapter6.html#fig:scaleClade">6.3</a>), <em>etc.</em>. Details tree manipulation functions are summarized in Table <a href="chapter6.html#tab:treeman">6.1</a>.</p>
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<caption>
-<span id="tab:treeman">Table 6.1: </span>Tree manipulation functions.
-</caption>
-<thead>
-<tr>
-<th style="text-align:left;">
-Function
-</th>
-<th style="text-align:left;">
-Descriptiotn
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-collapse
-</td>
-<td style="text-align:left;">
-collapse a selecting clade
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-expand
-</td>
-<td style="text-align:left;">
-expand collapsed clade
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-flip
-</td>
-<td style="text-align:left;">
-exchange position of 2 clades that share a parent node
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-groupClade
-</td>
-<td style="text-align:left;">
-grouping clades
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-groupOTU
-</td>
-<td style="text-align:left;">
-grouping OTUs by tracing back to most recent common ancestor
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-identify
-</td>
-<td style="text-align:left;">
-interactive tree manipulation
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-rotate
-</td>
-<td style="text-align:left;">
-rotating a selected clade by 180 degree
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-rotate_tree
-</td>
-<td style="text-align:left;">
-rotating circular layout tree by specific angle
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-scaleClade
-</td>
-<td style="text-align:left;">
-zoom in or zoom out selecting clade
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-open_tree
-</td>
-<td style="text-align:left;">
-convert a tree to fan layout by specific open angle
-</td>
-</tr>
-</tbody>
-</table>
-<div id="viewing-selected-clade" class="section level2">
-<h2><span class="header-section-number">6.1</span> Viewing Selected Clade</h2>
-<p>A clade is a monophyletic group that contains a single ancestor and all of its descendants. We can visualize a specific selected clade via the <code>viewClade</code> function as demonstrated in Figure <a href="chapter6.html#fig:viewClade">6.1</a>B. Another similar function is <code>gzoom</code> which plots the tree with selected clade side by side. These two functions are developed to explore large tree.</p>
-
-
-
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggtree)
-nwk &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;sample.nwk&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)
-tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(nwk)
-p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>()
-<span class="kw">viewClade</span>(p, <span class="kw">MRCA</span>(p, <span class="st">&quot;I&quot;</span>, <span class="st">&quot;L&quot;</span>))</code></pre>
-
-<div class="figure"><span id="fig:viewClade"></span>
-<img src="treedata_files/figure-html/viewClade-1.png" alt="Viewing a selected clade of a tree. An example tree used to demonstrate how ggtree support exploring or manipulating phylogenetic tree visually (A). The ggtree supports visualizing selected clade (B). A clade can be selected by specifying a node number or determined by most recent common ancestor of selected tips." width="672"  />
-<p class="caption">
-Figure 6.1: <strong>Viewing a selected clade of a tree.</strong> An example tree used to demonstrate how <em>ggtree</em> support exploring or manipulating phylogenetic tree visually (A). The <em>ggtree</em> supports visualizing selected clade (B). A clade can be selected by specifying a node number or determined by most recent common ancestor of selected tips.
-</p>
-</div>
-<p>Some of the functions, <em>e.g.</em> <code>viewClade</code>, work with clade and accept a parameter of internal node number. To get the internal node number, user can use <code>MRCA()</code> function (as in Figure <a href="chapter6.html#fig:viewClade">6.1</a>) by providing two taxa names. The function will return node number of input taxa’s most recent commond ancestor (MRCA). It works with tree and graphic (<em>i.e.</em> <code>ggtree()</code> output) object. <a href="https://CRAN.R-project.org/package=tidytree">tidytree</a> also provide <code>MRCA</code> function to extract information of MRCA node (see details in <a href="chapter2.html#accesor-tidytree">session 2.1.3</a>).</p>
-</div>
-<div id="collapsing-and-expanding-clade" class="section level2">
-<h2><span class="header-section-number">6.2</span> Collapsing and Expanding Clade</h2>
-<p>It is a common practice to prune or collapse clades so that certain aspects of a tree can be emphasized. The <em>ggtree</em> supports collapsing selected clades using the <code>collapse</code> function as shown in Figure <a href="chapter6.html#fig:collapseExpand">6.2</a>A.</p>
-
-
-
-<pre class="sourceCode r"><code class="sourceCode r">p2 &lt;-<span class="st"> </span>p <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">collapse</span>(<span class="dt">node=</span><span class="dv">21</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point2</span>(<span class="kw">aes</span>(<span class="dt">subset=</span>(node<span class="op">==</span><span class="dv">21</span>)), <span class="dt">shape=</span><span class="dv">21</span>, <span class="dt">size=</span><span class="dv">5</span>, <span class="dt">fill=</span><span class="st">&#39;green&#39;</span>)
-p2 &lt;-<span class="st"> </span><span class="kw">collapse</span>(p2, <span class="dt">node=</span><span class="dv">23</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point2</span>(<span class="kw">aes</span>(<span class="dt">subset=</span>(node<span class="op">==</span><span class="dv">23</span>)), <span class="dt">shape=</span><span class="dv">23</span>, <span class="dt">size=</span><span class="dv">5</span>, <span class="dt">fill=</span><span class="st">&#39;red&#39;</span>)
-<span class="kw">print</span>(p2)
-<span class="kw">expand</span>(p2, <span class="dt">node=</span><span class="dv">23</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">expand</span>(<span class="dt">node=</span><span class="dv">21</span>)</code></pre>
-
-<div class="figure"><span id="fig:collapseExpand"></span>
-<img src="treedata_files/figure-html/collapseExpand-1.png" alt="Collapsing selected clades and expanding collapsed clades. Clades can be selected to collapse (A) and the collapsed clades can be expanded back (B) if necessary as ggtree stored all information of species relationships. Green and red symbols were displayed on the tree to indicate the collapsed clades." width="672"  />
-<p class="caption">
-Figure 6.2: <strong>Collapsing selected clades and expanding collapsed clades.</strong> Clades can be selected to collapse (A) and the collapsed clades can be expanded back (B) if necessary as <em>ggtree</em> stored all information of species relationships. Green and red symbols were displayed on the tree to indicate the collapsed clades.
-</p>
-</div>
-<p>Here two clades were collapsed and labelled by green circle and red square symbolic points. Collapsing is a common strategy to collapse clades that are too large for displaying in full or are not primary interest of the study. In <em>ggtree</em>, we can expand (<em>i.e.</em>, uncollapse) the collapsed branches back with <code>expand</code> function to show details of species relationships as demonstrated in Figure <a href="chapter6.html#fig:collapseExpand">6.2</a>B.</p>
-</div>
-<div id="scaling-selected-clade" class="section level2">
-<h2><span class="header-section-number">6.3</span> Scaling Selected Clade</h2>
-<p>The <em>ggtree</em> provides another option to zoom out (or compress) these clades via the <code>scaleClade</code> function. In this way, we retain the topology and branch lengths of compressed clades. This helps to save the space to highlight those clades of primary interest to the study.</p>
-
-
-
-<pre class="sourceCode r"><code class="sourceCode r">tree2 &lt;-<span class="st"> </span><span class="kw">groupClade</span>(tree, <span class="kw">c</span>(<span class="dv">17</span>, <span class="dv">21</span>))
-p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree2, <span class="kw">aes</span>(<span class="dt">color=</span>group)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;firebrick&quot;</span>, <span class="st">&quot;steelblue&quot;</span>))
-<span class="kw">scaleClade</span>(p, <span class="dt">node=</span><span class="dv">17</span>, <span class="dt">scale=</span>.<span class="dv">1</span>) </code></pre>
-<div class="figure"><span id="fig:scaleClade"></span>
-<img src="treedata_files/figure-html/scaleClade-1.png" alt="Scaling selected clade. Clades can be zoom in (if scale &gt; 1) to highlight or zoom out to save space." width="672"  />
-<p class="caption">
-Figure 6.3: <strong>Scaling selected clade.</strong> Clades can be zoom in (if <code>scale &gt; 1</code>) to highlight or zoom out to save space.
-</p>
+<div id="chapter10" class="section level1">
+<h1><span class="header-section-number">Chapter 10</span> ggtree extensions</h1>
+<ul>
+<li><a href="https://github.com/willgearty/deeptime">deeptime</a>: Plotting Tools for Anyone Working in Deep Time</li>
+<li><a href="https://github.com/KlausVigo/ggnetworx">ggnetworx</a>: phylogenetic networks using ggplot2 and ggtree</li>
+<li><a href="https://github.com/lch14forever/microbiomeViz">microbiomeViz</a>: Visualize microbiome data with black magic ggtree</li>
+</ul>
+<div class="figure">
+<img src="https://raw.githubusercontent.com/willgearty/deeptime/master/images/example_phylo.png" alt="deeptime" />
+<p class="caption">deeptime</p>
 </div>
 
-<p>If users want to emphasize important clades, they can use <code>scaleClade</code> function with <code>scale</code> parameter larger than 1. Then the selected clade will be zoomed in. Users can also use <code>groupClade</code> to select clades and color them with different colors as shown in Figure <a href="chapter6.html#fig:scaleClade">6.3</a>.</p>
-</div>
-<div id="grouping-taxa-1" class="section level2">
-<h2><span class="header-section-number">6.4</span> Grouping Taxa</h2>
-<p>The <code>groupClade</code> function assigns the branches and nodes under different clades into different groups. <em><code>groupClade</code></em> accepts an internal node or a vector of internal nodes to cluster clade/clades.</p>
-<p>Similarly, <code>groupOTU</code> function assigns branches and nodes to different groups based on user-specified groups of operational taxonomic units (OTUs) that are not necessarily within a clade, but can be monophyletic (clade), polyphyletic or paraphyletic. It accepts a vector of OTUs (taxa name) or a list of OTUs and will trace back from OTUs to their most recent common ancestor (MRCA) and cluster them together as demonstrated in Figure <a href="chapter6.html#fig:groupOTU">6.4</a>.</p>
-<p>A phylogenetic tree can be annotated by mapping different line type, size, color or shape to the branches or nodes that have been assigned to different groups.</p>
-
-
-
-<pre class="sourceCode r"><code class="sourceCode r">tree2 &lt;-<span class="st"> </span><span class="kw">groupOTU</span>(tree, <span class="kw">c</span>(<span class="st">&quot;D&quot;</span>, <span class="st">&quot;E&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;G&quot;</span>))
-<span class="kw">ggtree</span>(tree2, <span class="kw">aes</span>(<span class="dt">color=</span>group)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>()</code></pre>
-<div class="figure"><span id="fig:groupOTU"></span>
-<img src="treedata_files/figure-html/groupOTU-1.png" alt="Grouping OTUs. OTU clustering based on their relationships. Selected OTUs and their ancestors upto MRCA will be clustered together." width="672"  />
-<p class="caption">
-Figure 6.4: <strong>Grouping OTUs.</strong> OTU clustering based on their relationships. Selected OTUs and their ancestors upto MRCA will be clustered together.
-</p>
 </div>
 
-<!--
-## iris example
-
-In this example, we first build a tree based on the iris data, then grouping the tree based on different spacies.
-
-#```{r fig.width=20, fig.height=20, fig.align="center", warning=FALSE}
-data(iris)
-rn <- paste0(iris[,5], "_", 1:150)
-rownames(iris) <- rn
-d_iris <- dist(iris[,-5], method="man")
-
-tree_iris <- bionj(d_iris)
-tree_iris <- groupOTU(tree_iris, list(setosa        = rn[1:50],
-                                      versicolor    = rn[51:100],
-                                      virginica_145 = rn[101:150]))
-cols <- rainbow_hcl(4)
-ggtree(tree_iris, aes(color=group)) +
-    geom_text(aes(label=label), hjust=-.1) +
-    scale_color_manual(values=cols, breaks=1:3,
-                       labels=c("Setosa", "Versicolor", "Virginica")) +
-    theme(legend.position="right")
-#```
--->
-</div>
-<div id="exploring-tree-structure" class="section level2">
-<h2><span class="header-section-number">6.5</span> Exploring tree structure</h2>
-<p>To facilitate exploring the tree structure, <em>ggtree</em> supports rotating selected clade by 180 degree using the <code>rotate</code> function (Figure <a href="chapter6.html#fig:rfClade">6.5</a>B). Position of immediate descendant clades of internal node can be exchanged via <code>flip</code> function (Figure <a href="chapter6.html#fig:rfClade">6.5</a>C).</p>
 
 
-
-<pre class="sourceCode r"><code class="sourceCode r">p1 &lt;-<span class="st"> </span>p <span class="op">+</span><span class="st"> </span><span class="kw">geom_point2</span>(<span class="kw">aes</span>(<span class="dt">subset=</span>node<span class="op">==</span><span class="dv">16</span>), <span class="dt">color=</span><span class="st">&#39;darkgreen&#39;</span>, <span class="dt">size=</span><span class="dv">5</span>)
-p2 &lt;-<span class="st"> </span><span class="kw">rotate</span>(p1, <span class="dv">17</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">rotate</span>(<span class="dv">21</span>)
-<span class="kw">flip</span>(p2, <span class="dv">17</span>, <span class="dv">21</span>)</code></pre>
-<div class="figure"><span id="fig:rfClade"></span>
-<img src="treedata_files/figure-html/rfClade-1.png" alt="Exploring tree structure. A clade (indicated by darkgreen circle) in a tree (A) can be rotated by 180° (B) and the positions of its immediate descedant clades (colored by blue and red) can be exchanged (C)." width="672"  />
-<p class="caption">
-Figure 6.5: <strong>Exploring tree structure.</strong> A clade (indicated by darkgreen circle) in a tree (A) can be rotated by 180° (B) and the positions of its immediate descedant clades (colored by blue and red) can be exchanged (C).
-</p>
-</div>
-
-<!--
-
-## Rotate Clade
-
-```r
-tree <- groupClade(tree, c(21, 17))
-p <- ggtree(tree, aes(color=group)) + scale_color_manual(values=c("black", "firebrick", "steelblue"))
-p2 <- rotate(p, 21) %>% rotate(17)
-plot_grid(p, p2, ncol=2)
-```
-
-<img src="treedata_files/figure-html/unnamed-chunk-102-1.png" width="768" />
-
-
-```r
-set.seed(2016-05-29)
-p <- ggtree(tree <- rtree(50)) + geom_tiplab()
-for (n in reorder(tree, 'postorder')$edge[,1] %>% unique) {
-    p <- rotate(p, n)
-    print(p + geom_point2(aes(subset=(node == n)), color='red'))
-}
-```
-
-![](img/rotate_clade.gif)
-
--->
-<p>Most of the tree manipulation functions are working on clades, while <em>ggtree</em> also provides functions to manipulate a tree, including <code>open_tree</code> to transform a tree in either rectangular or circular layout to fan layout, and <code>rotate_tree</code> function to rotate a tree for specific angle in both circular or fan layouts, as demonstrated in Figure <a href="chapter6.html#fig:openTree">6.6</a> and <a href="chapter6.html#fig:rotateTree">6.7</a>.</p>
-
-<pre class="sourceCode r"><code class="sourceCode r">p3 &lt;-<span class="st"> </span><span class="kw">open_tree</span>(p, <span class="dv">180</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab2</span>()
-<span class="kw">print</span>(p3)</code></pre>
-
-
-
-<div class="figure"><span id="fig:openTree"></span>
-<img src="treedata_files/figure-html/openTree-1.png" alt="Transforming a tree to fan layout. A tree can be transformed to fan layout by open_tree with specific angle parameter." width="576"  />
-<p class="caption">
-Figure 6.6: <strong>Transforming a tree to fan layout.</strong> A tree can be transformed to fan layout by <code>open_tree</code> with specific <em>angle</em> parameter.
-</p>
-</div>
-
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rotate_tree</span>(p3, <span class="dv">180</span>)</code></pre>
-
-
-
-<div class="figure"><span id="fig:rotateTree"></span>
-<img src="treedata_files/figure-html/rotateTree-1.png" alt="Rotating tree. A circular/fan layout tree can be rotated by any specific angle." width="576"  />
-<p class="caption">
-Figure 6.7: <strong>Rotating tree.</strong> A circular/fan layout tree can be rotated by any specific <em>angle</em>.
-</p>
-</div>
-<p>Interactive tree manipulation is also possible via <code>identify</code> methods[^&lt;https://guangchuangyu.github.io/2016/06/identify-method-for-ggtree&gt;].</p>
-<!--
-## Open tree
-
-`ggtree` supports `fan` layout and can also transform the `circular` layout tree to a `fan` tree by specifying an open `angle` to `open_tree` function.
-
-
-```r
-set.seed(123)
-tr <- rtree(50)
-
-p <- ggtree(tr, layout='circular') + geom_tiplab2()
-
-for (angle in seq(0, 270, 10)) {
-    print(open_tree(p, angle=angle) + ggtitle(paste("open angle:", angle)))
-}
-```
-
-![](img/fan_layout.gif)
-
-
-## Rotate tree
-
-Rotating a `circular` tree is supported by `rotate_tree` function.
-
-
-```r
-for (angle in seq(0, 270, 10)) {
-    print(rotate_tree(p, angle) + ggtitle(paste("rotate angle:", angle)))
-}
-```
-
-![](img/rotate_tree.gif)
-
--->
-</div>
-<div id="zoom-on-a-portion-of-tree" class="section level2">
-<h2><span class="header-section-number">6.6</span> Zoom on a portion of tree</h2>
-<blockquote>
-<p>tree_subset</p>
-</blockquote>
-<blockquote>
-<p>may remove gzoom, for it is easy to be done via tree_subset, need examples</p>
-</blockquote>
-<p><code>ggtree</code> provides <em><code>gzoom</code></em> function that similar to <em><code>zoom</code></em> function provided in <code>ape</code>. This function plots simultaneously a whole phylogenetic tree and a portion of it. It aims at exploring very large trees.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;ape&quot;</span>)
-<span class="kw">data</span>(chiroptera)
-<span class="kw">library</span>(<span class="st">&quot;ggtree&quot;</span>)
-<span class="kw">gzoom</span>(chiroptera, <span class="kw">grep</span>(<span class="st">&quot;Plecotus&quot;</span>, chiroptera<span class="op">$</span>tip.label))</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-108-1.png" width="864" style="display: block; margin: auto;" /></p>
-<p>Zoom in selected clade of a tree that was already annotated with <code>ggtree</code> is also supported.</p>
-<pre class="sourceCode r"><code class="sourceCode r">groupInfo &lt;-<span class="st"> </span><span class="kw">split</span>(chiroptera<span class="op">$</span>tip.label, <span class="kw">gsub</span>(<span class="st">&quot;_</span><span class="ch">\\</span><span class="st">w+&quot;</span>, <span class="st">&quot;&quot;</span>, chiroptera<span class="op">$</span>tip.label))
-chiroptera &lt;-<span class="st"> </span><span class="kw">groupOTU</span>(chiroptera, groupInfo)
-p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(chiroptera, <span class="kw">aes</span>(<span class="dt">color=</span>group)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="ot">NA</span>, <span class="dv">23</span>)
-<span class="kw">gzoom</span>(p, <span class="kw">grep</span>(<span class="st">&quot;Plecotus&quot;</span>, chiroptera<span class="op">$</span>tip.label), <span class="dt">xmax_adjust=</span><span class="dv">2</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-109-1.png" width="864" /></p>
-</div>
-<div id="summary-5" class="section level2">
-<h2><span class="header-section-number">6.7</span> Summary</h2>
-
-</div>
-</div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="chapter5.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="chapter7.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="chapter9.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="figures-and-tables.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

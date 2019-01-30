@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Chapter 9 ggtree extensions | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
-  <meta name="description" content="Chapter 9 ggtree extensions | Data Integration, Manipulation and Visualization of Phylogenetic Trees">
+  <title>Chapter 9 ggtree utilities | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
+  <meta name="description" content="Chapter 9 ggtree utilities | Data Integration, Manipulation and Visualization of Phylogenetic Trees">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="Chapter 9 ggtree extensions | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
+  <meta property="og:title" content="Chapter 9 ggtree utilities | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 9 ggtree extensions | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
+  <meta name="twitter:title" content="Chapter 9 ggtree utilities | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
   
   
   
@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="chapter8.html">
-<link rel="next" href="figures-and-tables.html">
+<link rel="next" href="chapter10.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -235,15 +235,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="part"><span><b>Part III: Miscellaneous topics</b></span></li>
-<li class="chapter" data-level="9" data-path="chapter9.html"><a href="chapter9.html"><i class="fa fa-check"></i><b>9</b> ggtree extensions</a></li>
+<li class="chapter" data-level="9" data-path="chapter9.html"><a href="chapter9.html"><i class="fa fa-check"></i><b>9</b> ggtree utilities</a><ul>
+<li class="chapter" data-level="9.1" data-path="chapter9.html"><a href="chapter9.html#facet_widths"><i class="fa fa-check"></i><b>9.1</b> facet_widths</a></li>
+<li class="chapter" data-level="9.2" data-path="chapter9.html"><a href="chapter9.html#facet_labeller"><i class="fa fa-check"></i><b>9.2</b> facet_labeller</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="chapter10.html"><a href="chapter10.html"><i class="fa fa-check"></i><b>10</b> ggtree extensions</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="figures-and-tables.html"><a href="figures-and-tables.html"><i class="fa fa-check"></i><b>A</b> Figures and Tables</a></li>
-<li class="chapter" data-level="B" data-path="ggtree-utilities.html"><a href="ggtree-utilities.html"><i class="fa fa-check"></i><b>B</b> ggtree utilities</a><ul>
-<li class="chapter" data-level="B.1" data-path="ggtree-utilities.html"><a href="ggtree-utilities.html#functions-relative-to-facet_plot"><i class="fa fa-check"></i><b>B.1</b> Functions relative to <code>facet_plot()</code></a><ul>
-<li class="chapter" data-level="B.1.1" data-path="ggtree-utilities.html"><a href="ggtree-utilities.html#facet_labeller"><i class="fa fa-check"></i><b>B.1.1</b> facet_labeller</a></li>
-<li class="chapter" data-level="B.1.2" data-path="ggtree-utilities.html"><a href="ggtree-utilities.html#facet_labeller-1"><i class="fa fa-check"></i><b>B.1.2</b> facet_labeller</a></li>
-</ul></li>
-</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
 
@@ -263,28 +261,58 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="chapter9" class="section level1">
-<h1><span class="header-section-number">Chapter 9</span> ggtree extensions</h1>
-<ul>
-<li><a href="https://github.com/willgearty/deeptime">deeptime</a>: Plotting Tools for Anyone Working in Deep Time</li>
-<li><a href="https://github.com/KlausVigo/ggnetworx">ggnetworx</a>: phylogenetic networks using ggplot2 and ggtree</li>
-<li><a href="https://github.com/lch14forever/microbiomeViz">microbiomeViz</a>: Visualize microbiome data with black magic ggtree</li>
-</ul>
-<div class="figure">
-<img src="https://raw.githubusercontent.com/willgearty/deeptime/master/images/example_phylo.png" alt="deeptime" />
-<p class="caption">deeptime</p>
+<h1><span class="header-section-number">Chapter 9</span> ggtree utilities</h1>
+<div id="facet_widths" class="section level2">
+<h2><span class="header-section-number">9.1</span> facet_widths</h2>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+<span class="kw">library</span>(ggstance)
+<span class="kw">library</span>(ggtree)
+<span class="kw">library</span>(reshape2)
+
+<span class="kw">set.seed</span>(<span class="dv">123</span>)
+tree &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)
+
+p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree, <span class="dt">branch.length =</span> <span class="st">&quot;none&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_tiplab</span>()
+
+a &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">30</span>, <span class="dv">0</span>,<span class="dv">1</span>)
+b &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span>a
+df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(tree<span class="op">$</span>tip.label, a, b)
+df &lt;-<span class="st"> </span><span class="kw">melt</span>(df, <span class="dt">id =</span> <span class="st">&quot;tree.tip.label&quot;</span>)
+
+p2 &lt;-<span class="st"> </span><span class="kw">facet_plot</span>(p <span class="op">+</span><span class="st"> </span><span class="kw">xlim_tree</span>(<span class="dv">8</span>), <span class="dt">panel =</span> <span class="st">&#39;bar&#39;</span>, <span class="dt">data =</span> df, <span class="dt">geom =</span> geom_barh, 
+                 <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> value, <span class="dt">fill =</span> <span class="kw">as.factor</span>(variable)), 
+                 <span class="dt">width =</span> <span class="fl">0.8</span>, <span class="dt">stat=</span><span class="st">&#39;identity&#39;</span>)
+
+<span class="kw">facet_widths</span>(p2, <span class="dt">widths =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</code></pre>
+<p><img src="treedata_files/figure-html/unnamed-chunk-135-1.png" width="672" /></p>
+<p>It also supports using name vector to set the widths of specific panels.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">facet_widths</span>(p2, <span class="kw">c</span>(<span class="dt">Tree =</span> <span class="fl">.5</span>))</code></pre>
+<p><img src="treedata_files/figure-html/unnamed-chunk-136-1.png" width="672" /></p>
+<p>The <code>facet_widths</code> function also work with other <code>ggplot</code> object.</p>
+<pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(iris, <span class="kw">aes</span>(Sepal.Width, Petal.Length)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">facet_grid</span>(.<span class="op">~</span>Species)
+<span class="kw">facet_widths</span>(p, <span class="kw">c</span>(<span class="dt">setosa =</span> <span class="fl">.5</span>))</code></pre>
+<p><img src="treedata_files/figure-html/unnamed-chunk-138-1.png" width="672" /></p>
 </div>
+<div id="facet_labeller" class="section level2">
+<h2><span class="header-section-number">9.2</span> facet_labeller</h2>
+<p>The <code>facet_labeller</code> function was designed to re-label selected panels, and it currently only works with <code>ggtree</code> object (<em>i.e.</em> <code>facet_plot</code> output).</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">facet_labeller</span>(p2, <span class="kw">c</span>(<span class="dt">Tree =</span> <span class="st">&quot;phylogeny&quot;</span>, <span class="dt">bar =</span> <span class="st">&quot;HELLO&quot;</span>))</code></pre>
+<p><img src="treedata_files/figure-html/unnamed-chunk-139-1.png" width="672" /></p>
+<p>If you want to combine <code>facet_widths</code> with <code>facet_labeller</code>, you need to call <code>facet_labeller</code> to re-label the panels before using <code>facet_widths</code> to set the relative widths of each panels. Otherwise it wont work since the output of <code>facet_widths</code> is re-drawn from <code>grid</code> object.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">facet_labeller</span>(p2, <span class="kw">c</span>(<span class="dt">Tree =</span> <span class="st">&quot;phylogeny&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">facet_widths</span>(<span class="kw">c</span>(<span class="dt">Tree =</span> <span class="fl">.4</span>))</code></pre>
+<p><img src="treedata_files/figure-html/unnamed-chunk-140-1.png" width="672" /></p>
 
 </div>
-
-
-
+</div>
             </section>
 
           </div>
         </div>
       </div>
 <a href="chapter8.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="figures-and-tables.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="chapter10.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
