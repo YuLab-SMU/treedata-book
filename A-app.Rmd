@@ -1,5 +1,24 @@
 # (APPENDIX) Appendix {-}
 
+# Image processing using magick package
+
+`r CRANpkg("ggimage")` allows processing images on the fly via the `image_fun` parameter, which accepts a function to process `magick-image` object. The `r CRANpkg("magick")` package provides several functions and these functions can be combined to perform a particular task.
+
+## Example 1: Remove background of images
+
+```{r ggimage-background, fig.width=8, fig.height=4} 
+set.seed(1982)
+x <- rtree(5)
+p <- ggtree(x) + theme_grey()
+p1 <- p + geom_nodelab(image="img/frogs/frog.jpg", geom="image", size=.12) + 
+          ggtitle("original image")
+p2 <- p + geom_nodelab(image="img/frogs/frog.jpg", geom="image", size=.12,
+            image_fun= function(.) magick::image_transparent(., "white")) + 
+            ggtitle("image with background removed")
+plot_grid(p1, p2, ncol=2)
+```
+
+
 # Figures and Tables
 
 ```{r treeio, echo=F, message=FALSE}

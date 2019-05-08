@@ -242,7 +242,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10" data-path="chapter10.html"><a href="chapter10.html"><i class="fa fa-check"></i><b>10</b> ggtree for other tree objects</a></li>
 <li class="chapter" data-level="11" data-path="chapter11.html"><a href="chapter11.html"><i class="fa fa-check"></i><b>11</b> ggtree extensions</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
-<li class="chapter" data-level="A" data-path="figures-and-tables.html"><a href="figures-and-tables.html"><i class="fa fa-check"></i><b>A</b> Figures and Tables</a></li>
+<li class="chapter" data-level="A" data-path="image-processing-using-magick-package.html"><a href="image-processing-using-magick-package.html"><i class="fa fa-check"></i><b>A</b> Image processing using magick package</a><ul>
+<li class="chapter" data-level="A.1" data-path="image-processing-using-magick-package.html"><a href="image-processing-using-magick-package.html#example-1-remove-background-of-images"><i class="fa fa-check"></i><b>A.1</b> Example 1: Remove background of images</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="figures-and-tables.html"><a href="figures-and-tables.html"><i class="fa fa-check"></i><b>B</b> Figures and Tables</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
 
@@ -273,7 +276,7 @@ provides tidy interfaces to manipulate tree with associated data. For instances,
 external data can be linked to phylogeny or evolutionary data obtained from
 different sources can be merged using tidyverse verbs. After the tree data was
 manipulated, it can be converted back to <code>treedata</code> object and exported to a
-single tree file, further analyzed in R or visualized using <a href="https://bioconductor.org/packages/ggtree/">ggtree</a> <span class="citation">(Yu et al. <a href="#ref-yu_ggtree:_2017">2017</a>)</span>.</p>
+single tree file, further analyzed in R or visualized using <a href="https://bioconductor.org/packages/ggtree/">ggtree</a> <span class="citation">(Yu et al. <a href="#ref-yu_ggtree:_2017" role="doc-biblioref">2017</a>)</span>.</p>
 <div id="phylo-object" class="section level3">
 <h3><span class="header-section-number">2.1.1</span> <code>phylo</code> object</h3>
 <p>The <code>phylo</code> class defined in <a href="https://cran.r-project.org/package=ape">ape</a> is
@@ -438,7 +441,7 @@ substitution rate) can be mapped to another attribute (<em>e.g.</em>, <em>d<sub>
 the same node/branch for comparison and further computations.</p>
 <p>A previously published data set, seventy-six H3 hemagglutinin gene sequences of
 a lineage containing swine and human influenza A viruses
-<span class="citation">(Liang et al. <a href="#ref-liang_expansion_2014">2014</a>)</span>, was here to demonstrate the utilities of comparing
+<span class="citation">(Liang et al. <a href="#ref-liang_expansion_2014" role="doc-biblioref">2014</a>)</span>, was here to demonstrate the utilities of comparing
 evolutionary statistics inferred by different software. The dataset was
 re-analyzed by <a href="http://beast2.org/">BEAST</a> for timescale estimation
 and <a href="http://abacus.gene.ucl.ac.uk/software/paml.html">CODEML</a> for synonymous and
@@ -538,7 +541,7 @@ triple_tree</code></pre>
 <p>The <code>triple_tree</code> object showed above contains analysis results obtained from <a href="http://beast2.org/">BEAST</a>
 and <a href="http://abacus.gene.ucl.ac.uk/software/paml.html">CODEML</a>, and evolutionary
 trait from external sources. All these information can be used to annotate the
-tree using <a href="https://bioconductor.org/packages/ggtree/">ggtree</a> <span class="citation">(Yu et al. <a href="#ref-yu_ggtree:_2017">2017</a>)</span>.</p>
+tree using <a href="https://bioconductor.org/packages/ggtree/">ggtree</a> <span class="citation">(Yu et al. <a href="#ref-yu_ggtree:_2017" role="doc-biblioref">2017</a>)</span>.</p>
 </div>
 <div id="linking-external-data-to-phylogeny" class="section level3">
 <h3><span class="header-section-number">2.2.2</span> Linking external data to phylogeny</h3>
@@ -555,7 +558,7 @@ integration, <a href="https://bioconductor.org/packages/treeio">treeio</a> provi
 we can use <a href="Exporter.html">exporter</a> to combine the tree and the data to a
 single tree file. The data that mapped on the phylogenetic tree can also be used to visualize or
 annotate the tree using <a href="https://bioconductor.org/packages/ggtree/">ggtree</a>
-<span class="citation">(Yu et al. <a href="#ref-yu_ggtree:_2017">2017</a>)</span>.</p>
+<span class="citation">(Yu et al. <a href="#ref-yu_ggtree:_2017" role="doc-biblioref">2017</a>)</span>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/BEAST&quot;</span>, <span class="st">&quot;beast_mcc.tree&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)
 beast &lt;-<span class="st"> </span><span class="kw">read.beast</span>(file)
 x &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">label =</span> <span class="kw">as.phylo</span>(beast)<span class="op">$</span>tip.label, <span class="dt">trait =</span> <span class="kw">rnorm</span>(<span class="kw">Ntip</span>(beast)))
@@ -737,7 +740,7 @@ dd &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(d1, d2) <span
 
 pp <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(x, y, <span class="dt">group=</span>label), <span class="dt">data=</span>dd, <span class="dt">color=</span><span class="st">&#39;grey&#39;</span>)</code></pre>
 <p><img src="treedata_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
-<p>It is quite easy to plot multiple trees and connect taxa in one figure. For instance, plotting trees contructed from all internal gene segments of influenza virus and connecting equivalent strans across the trees <span class="citation">(Venkatesh et al. <a href="#ref-venkatesh_avian_2018">2018</a>)</span>.</p>
+<p>It is quite easy to plot multiple trees and connect taxa in one figure. For instance, plotting trees contructed from all internal gene segments of influenza virus and connecting equivalent strans across the trees <span class="citation">(Venkatesh et al. <a href="#ref-venkatesh_avian_2018" role="doc-biblioref">2018</a>)</span>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">z &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)
 d2 &lt;-<span class="st"> </span><span class="kw">fortify</span>(y)
 d3 &lt;-<span class="st"> </span><span class="kw">fortify</span>(z)

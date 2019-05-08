@@ -242,7 +242,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10" data-path="chapter10.html"><a href="chapter10.html"><i class="fa fa-check"></i><b>10</b> ggtree for other tree objects</a></li>
 <li class="chapter" data-level="11" data-path="chapter11.html"><a href="chapter11.html"><i class="fa fa-check"></i><b>11</b> ggtree extensions</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
-<li class="chapter" data-level="A" data-path="figures-and-tables.html"><a href="figures-and-tables.html"><i class="fa fa-check"></i><b>A</b> Figures and Tables</a></li>
+<li class="chapter" data-level="A" data-path="image-processing-using-magick-package.html"><a href="image-processing-using-magick-package.html"><i class="fa fa-check"></i><b>A</b> Image processing using magick package</a><ul>
+<li class="chapter" data-level="A.1" data-path="image-processing-using-magick-package.html"><a href="image-processing-using-magick-package.html#example-1-remove-background-of-images"><i class="fa fa-check"></i><b>A.1</b> Example 1: Remove background of images</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="figures-and-tables.html"><a href="figures-and-tables.html"><i class="fa fa-check"></i><b>B</b> Figures and Tables</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
 
@@ -448,7 +451,7 @@ tree branch scale legend
 <h2><span class="header-section-number">5.2</span> Layers for Tree Annotation</h2>
 <div id="annotate-clades" class="section level3">
 <h3><span class="header-section-number">5.2.1</span> Annotate clades</h3>
-<p><a href="http://bioconductor.org/packages/ggtree">ggtree</a> <span class="citation">(Yu et al. <a href="#ref-yu_ggtree:_2017">2017</a>)</span> implements <em><code>geom_cladelabel</code></em> layer to annotate a selected clade with a bar indicating the clade with a corresponding label.</p>
+<p><a href="http://bioconductor.org/packages/ggtree">ggtree</a> <span class="citation">(Yu et al. <a href="#ref-yu_ggtree:_2017" role="doc-biblioref">2017</a>)</span> implements <em><code>geom_cladelabel</code></em> layer to annotate a selected clade with a bar indicating the clade with a corresponding label.</p>
 <p>The <em><code>geom_cladelabel</code></em> layer accepts a selected internal node number. To get the internal node number, please refer to <a href="treeManipulation.html#internal-node-number">Tree Manipulation</a> vignette.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">2015-12-21</span>)
 tree &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)
@@ -502,9 +505,17 @@ tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(nwk)
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">geom_hilight</span>(<span class="dt">node=</span><span class="dv">21</span>, <span class="dt">fill=</span><span class="st">&quot;steelblue&quot;</span>, <span class="dt">alpha=</span>.<span class="dv">6</span>) <span class="op">+</span>
 <span class="st">    </span><span class="kw">geom_hilight</span>(<span class="dt">node=</span><span class="dv">17</span>, <span class="dt">fill=</span><span class="st">&quot;darkgreen&quot;</span>, <span class="dt">alpha=</span>.<span class="dv">6</span>)</code></pre>
 <p><img src="treedata_files/figure-html/unnamed-chunk-93-1.png" width="480" style="display: block; margin: auto;" /></p>
+<pre><code>## [1] 21
+## [1]  6  7  8 22
+## [1] 17
+## [1]  1  2  3  4  5 18 19 20</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggtree</span>(tree, <span class="dt">layout=</span><span class="st">&quot;circular&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_hilight</span>(<span class="dt">node=</span><span class="dv">21</span>, <span class="dt">fill=</span><span class="st">&quot;steelblue&quot;</span>, <span class="dt">alpha=</span>.<span class="dv">6</span>) <span class="op">+</span>
 <span class="st">    </span><span class="kw">geom_hilight</span>(<span class="dt">node=</span><span class="dv">23</span>, <span class="dt">fill=</span><span class="st">&quot;darkgreen&quot;</span>, <span class="dt">alpha=</span>.<span class="dv">6</span>)</code></pre>
 <p><img src="treedata_files/figure-html/unnamed-chunk-94-1.png" width="480" style="display: block; margin: auto;" /></p>
+<pre><code>## [1] 21
+## [1]  6  7  8 22
+## [1] 23
+## [1]  9 10 11 12 24 25</code></pre>
 <p>Another way to highlight selected clades is setting the clades with different colors and/or line types as demonstrated in <a href="treeManipulation.html#groupclade">Tree Manipulation</a> vignette.</p>
 <div id="highlight-balances" class="section level4">
 <h4><span class="header-section-number">5.2.3.1</span> Highlight balances</h4>
@@ -535,7 +546,7 @@ clades for unrooted layout trees.</p>
 <h2><span class="header-section-number">5.3</span> Tree annotation with output from evolution software</h2>
 <p>The <a href="http://bioconductor.org/packages/treeio">treeio</a> package implemented several parser functions to parse
 output from commonly used software in evolutionary biology.</p>
-<p>Here, we used <a href="http://beast2.org/">BEAST</a> <span class="citation">(Bouckaert et al. <a href="#ref-bouckaert_beast_2014">2014</a>)</span> output as an
+<p>Here, we used <a href="http://beast2.org/">BEAST</a> <span class="citation">(Bouckaert et al. <a href="#ref-bouckaert_beast_2014" role="doc-biblioref">2014</a>)</span> output as an
 example. For details, please refer to the
 <a href="https://bioconductor.org/packages/devel/bioc/vignettes/treeio/inst/doc/Importer.html">Importer</a> vignette.</p>
 <pre class="sourceCode r"><code class="sourceCode r">file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/BEAST&quot;</span>, <span class="st">&quot;beast_mcc.tree&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)
@@ -617,33 +628,38 @@ Figure 5.4: <strong>Annotating tree with animo acid substitution and <em>d<sub>N
 </div>
 <div id="tree-annotation-based-on-tree-classes-defined-in-other-r-packages" class="section level3">
 <h3><span class="header-section-number">5.3.2</span> Tree annotation based on tree classes defined in other R packages</h3>
-<p>The <em>ggtree</em> plays a unique role in R ecosystem to facilitate phylogenetic analysis. It serves as a generic tools for tree visualization and annotation with different associated data from various sources. Most of the phylogenetic tree classes defined in R community are supported, including <code>obkData</code>, <code>phyloseq</code>, <code>phylo</code>, <code>multiPhylo</code>, <code>phylo4</code> and <code>phylo4d</code>. Such that <em>ggtree</em> can be easily integrated into their analysis/packages. For instance, <em>phyloseq</em> users will find <em>ggtree</em> useful for visualizing microbiome data and for further annotations, since <em>ggtree</em> supports high-level of annotation using grammar of graphics and some of its features are not available in <em>phyloseq</em>. Here, examples of using <em>ggtree</em> to annotate <code>obkData</code> and <code>phyloseq</code> tree objects are demonstrated. There example data can be found in vignettes of <em>OutbreakTools</em> <span class="citation">(Jombart et al. <a href="#ref-jombart_outbreaktools_2014">2014</a>)</span> and <em>phyloseq</em> <span class="citation">(McMurdie and Holmes <a href="#ref-mcmurdie_phyloseq_2013">2013</a>)</span> packages.</p>
-<p>The <code>okbData</code> is defined to store incidence-based outbreak data, including meta data of sampling and information of infected individuals such as age and onset of symptoms. The <em>ggtree</em> supports parsing this information which was used to annotate the tree as shown in Figure <a href="chapter5.html#fig:outbreaktools">5.5</a>.</p>
-
-
-
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(OutbreakTools)
-<span class="kw">data</span>(FluH1N1pdm2009)
-<span class="kw">attach</span>(FluH1N1pdm2009)
-
-x &lt;-<span class="st"> </span><span class="kw">new</span>(<span class="st">&quot;obkData&quot;</span>, 
-         <span class="dt">individuals =</span> individuals, 
-         <span class="dt">dna =</span> dna,
-         <span class="dt">dna.individualID =</span> samples<span class="op">$</span>individualID, 
-         <span class="dt">dna.date =</span> samples<span class="op">$</span>date,
-         <span class="dt">trees =</span> FluH1N1pdm2009<span class="op">$</span>trees)
-<span class="kw">ggtree</span>(x, <span class="dt">mrsd=</span><span class="st">&quot;2009-09-30&quot;</span>, <span class="dt">as.Date=</span><span class="ot">TRUE</span>, <span class="dt">right=</span><span class="ot">TRUE</span>) <span class="op">+</span>
-<span class="st">    </span><span class="kw">geom_tippoint</span>(<span class="kw">aes</span>(<span class="dt">color=</span>location), <span class="dt">size=</span><span class="dv">3</span>, <span class="dt">alpha=</span>.<span class="dv">75</span>) <span class="op">+</span>
-<span class="st">    </span><span class="kw">scale_color_brewer</span>(<span class="st">&quot;location&quot;</span>, <span class="dt">palette=</span><span class="st">&quot;Spectral&quot;</span>) <span class="op">+</span>
-<span class="st">    </span><span class="kw">theme_tree2</span>(<span class="dt">legend.position=</span><span class="st">&#39;right&#39;</span>)</code></pre>
-<div class="figure"><span id="fig:outbreaktools"></span>
-<img src="treedata_files/figure-html/outbreaktools-1.png" alt="Visualizing obkData tree object. x-axis was scaled by timeline of the outbreak and tips were colored by location of different individuals." width="604.8"  />
-<p class="caption">
-Figure 5.5: <strong>Visualizing obkData tree object.</strong> <em>x</em>-axis was scaled by timeline of the outbreak and tips were colored by location of different individuals.
-</p>
-</div>
-
+<p>The <em>ggtree</em> plays a unique role in R ecosystem to facilitate phylogenetic analysis. It serves as a generic tools for tree visualization and annotation with different associated data from various sources. Most of the phylogenetic tree classes defined in R community are supported, including <code>obkData</code>, <code>phyloseq</code>, <code>phylo</code>, <code>multiPhylo</code>, <code>phylo4</code> and <code>phylo4d</code>. Such that <em>ggtree</em> can be easily integrated into their analysis/packages. For instance, <em>phyloseq</em> users will find <em>ggtree</em> useful for visualizing microbiome data and for further annotations, since <em>ggtree</em> supports high-level of annotation using grammar of graphics and some of its features are not available in <em>phyloseq</em>. Here, examples of using <em>ggtree</em> to annotate <code>obkData</code> and <code>phyloseq</code> tree objects are demonstrated. There example data can be found in vignettes of <em>OutbreakTools</em> <span class="citation">(Jombart et al. <a href="#ref-jombart_outbreaktools_2014" role="doc-biblioref">2014</a>)</span> and <em>phyloseq</em> <span class="citation">(McMurdie and Holmes <a href="#ref-mcmurdie_phyloseq_2013" role="doc-biblioref">2013</a>)</span> packages.</p>
 <!--
+
+> outbreaktools was removed from CRAN
+
+The `okbData` is defined to store incidence-based outbreak data, including meta data of sampling and information of infected individuals such as age and onset of symptoms. The *ggtree* supports parsing this information which was used to annotate the tree as shown in Figure \@ref(fig:outbreaktools).
+
+(ref:outbreaktoolsscap) Visualizing obkData tree object.
+
+(ref:outbreaktoolscap) **Visualizing obkData tree object.** *x*-axis was scaled by timeline of the outbreak and tips were colored by location of different individuals.
+
+\setstretch{1.2}
+r outbreaktools, fig.width=6.3, fig.height=7, fig.cap="(ref:outbreaktoolscap)", fig.scap="(ref:outbreaktoolsscap)", message=FALSE, out.extra=''}
+library(OutbreakTools)
+data(FluH1N1pdm2009)
+attach(FluH1N1pdm2009)
+
+x <- new("obkData", 
+         individuals = individuals, 
+         dna = dna,
+         dna.individualID = samples$individualID, 
+         dna.date = samples$date,
+         trees = FluH1N1pdm2009$trees)
+ggtree(x, mrsd="2009-09-30", as.Date=TRUE, right=TRUE) +
+    geom_tippoint(aes(color=location), size=3, alpha=.75) +
+    scale_color_brewer("location", palette="Spectral") +
+    theme_tree2(legend.position='right')
+```
+\setstretch{1.5}
+
+
+
 
 
 The `phyloseq` class that defined in the *phyloseq* package was designed for storing microbiome data, including phylogenetic tree, associated sample data and taxonomy assignment. It can import data from popular pipelines, such as *QIIME* [@kuczynski_using_2011], *mothur* [@schloss_introducing_2009], *DADA2* [@callahan_dada2_2016] and *PyroTagger* [@kunin_pyrotagger_2010], *etc.*. The *ggtree* supports visualizing the phylogenetic tree stored in `phyloseq` object and related data can be used to annotate the tree as demonstrated in Figure \@ref(fig:phyloseq).

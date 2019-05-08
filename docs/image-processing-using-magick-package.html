@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Chapter 11 ggtree extensions | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
-  <meta name="description" content="Chapter 11 ggtree extensions | Data Integration, Manipulation and Visualization of Phylogenetic Trees">
+  <title>A Image processing using magick package | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
+  <meta name="description" content="A Image processing using magick package | Data Integration, Manipulation and Visualization of Phylogenetic Trees">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="Chapter 11 ggtree extensions | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
+  <meta property="og:title" content="A Image processing using magick package | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 11 ggtree extensions | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
+  <meta name="twitter:title" content="A Image processing using magick package | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
   
   
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="chapter10.html">
-<link rel="next" href="image-processing-using-magick-package.html">
+<link rel="prev" href="chapter11.html">
+<link rel="next" href="figures-and-tables.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -264,29 +264,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="chapter11" class="section level1">
-<h1><span class="header-section-number">Chapter 11</span> ggtree extensions</h1>
-<ul>
-<li><a href="https://github.com/willgearty/deeptime">deeptime</a>: Plotting Tools for Anyone Working in Deep Time</li>
-<li><a href="https://github.com/KlausVigo/ggnetworx">ggnetworx</a>: phylogenetic networks using ggplot2 and ggtree</li>
-<li><a href="https://github.com/lch14forever/microbiomeViz">microbiomeViz</a>: Visualize microbiome data with black magic ggtree</li>
-</ul>
-<div class="figure">
-<img src="https://raw.githubusercontent.com/willgearty/deeptime/master/images/example_phylo.png" alt="deeptime" />
-<p class="caption">deeptime</p>
+<div id="image-processing-using-magick-package" class="section level1">
+<h1><span class="header-section-number">A</span> Image processing using magick package</h1>
+<p><a href="https://CRAN.R-project.org/package=ggimage">ggimage</a> allows processing images on the fly via the <code>image_fun</code> parameter, which accepts a function to process <code>magick-image</code> object. The <a href="https://CRAN.R-project.org/package=magick">magick</a> package provides several functions and these functions can be combined to perform a particular task.</p>
+<div id="example-1-remove-background-of-images" class="section level2">
+<h2><span class="header-section-number">A.1</span> Example 1: Remove background of images</h2>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1982</span>)
+x &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">5</span>)
+p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(x) <span class="op">+</span><span class="st"> </span><span class="kw">theme_grey</span>()
+p1 &lt;-<span class="st"> </span>p <span class="op">+</span><span class="st"> </span><span class="kw">geom_nodelab</span>(<span class="dt">image=</span><span class="st">&quot;img/frogs/frog.jpg&quot;</span>, <span class="dt">geom=</span><span class="st">&quot;image&quot;</span>, <span class="dt">size=</span>.<span class="dv">12</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">          </span><span class="kw">ggtitle</span>(<span class="st">&quot;original image&quot;</span>)
+p2 &lt;-<span class="st"> </span>p <span class="op">+</span><span class="st"> </span><span class="kw">geom_nodelab</span>(<span class="dt">image=</span><span class="st">&quot;img/frogs/frog.jpg&quot;</span>, <span class="dt">geom=</span><span class="st">&quot;image&quot;</span>, <span class="dt">size=</span>.<span class="dv">12</span>,
+            <span class="dt">image_fun=</span> <span class="cf">function</span>(.) magick<span class="op">::</span><span class="kw">image_transparent</span>(., <span class="st">&quot;white&quot;</span>)) <span class="op">+</span><span class="st"> </span>
+<span class="st">            </span><span class="kw">ggtitle</span>(<span class="st">&quot;image with background removed&quot;</span>)
+<span class="kw">plot_grid</span>(p1, p2, <span class="dt">ncol=</span><span class="dv">2</span>)</code></pre>
+<p><img src="treedata_files/figure-html/ggimage-background-1.png" width="768" /></p>
 </div>
-
 </div>
-
-
-
             </section>
 
           </div>
         </div>
       </div>
-<a href="chapter10.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="image-processing-using-magick-package.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="chapter11.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="figures-and-tables.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
