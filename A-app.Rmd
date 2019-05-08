@@ -57,5 +57,22 @@ knitr::kable(ff, caption = "Functions defined in treeio.", booktabs = T) #%>%
   #kable_styling(latex_options = c("striped", "hold_position"), full_width = T)
 ```
 
+# FAQ
+
+**How can I plot something behind the phylogeny?**
+
+
+```{r tree_behind_box}
+set.seed(1982)
+x <- rtree(5)
+ggtree(x) + geom_hilight(7, alpha=1)
+```
+
+Suppose you want to plot the box behind the tree, you can use `ggplot()` instead of `ggtree()` and `+ geom_tree()` to add the layer of tree structure at the correct position of layer stack.
+
+```{r tree_on_top_of_box}
+ggplot(x) + geom_hilight(7, alpha=1) + geom_tree() + theme_tree()     
+```
+
 
 
