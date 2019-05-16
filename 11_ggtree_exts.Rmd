@@ -1,10 +1,23 @@
 
 # ggtree extensions {#chapter11}
 
+
 ```{r include=F}
 library(knitr)
 opts_chunk$set(message=FALSE, warning=FALSE, eval=TRUE, echo=TRUE, cache=TRUE)
 ```
+
+```{r}
+rp <- BiocManager::repositories()
+db <- utils::available.packages(repo=rp)
+x <- tools::package_dependencies('ggtree', db=db, 
+                                which = c("Depends", "Imports"), 
+                                reverse=TRUE)
+print(x)                                
+```
+
+There are `r length(unlist(x))` packages in CRAN or Bioconductor that depend or import `r Biocpkg("ggtree")`.
+
 
 
 + [deeptime](https://github.com/willgearty/deeptime): Plotting Tools for Anyone Working in Deep Time

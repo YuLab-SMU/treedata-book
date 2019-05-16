@@ -18,6 +18,33 @@ p2 <- p + geom_nodelab(image="img/frogs/frog.jpg", geom="image", size=.12,
 plot_grid(p1, p2, ncol=2)
 ```
 
+# Comic (xkcd-like) phylogenetic tree
+
+```{r fig.show='hide'}
+library(htmltools)    
+library(XML)    
+library(gridSVG)    
+library(ggplot2)    
+library(ggtree)
+library(comicR)    
+
+p <- ggtree(rtree(30), layout="circular")  +
+    geom_tiplab2(aes(label=label), color="purple")
+print(p)
+svg <- grid.export(name="", res=100)$svg
+```
+
+```{r comicR}
+tagList(
+    tags$div(
+             id = "ggtree_comic",
+             tags$style("#ggtree_comic text {font-family:Chalkduster;}"),
+             HTML(saveXML(svg)),
+             comicR("#ggtree_comic", ff=5)
+         )
+) # %>% html_print
+```
+
 
 # Figures and Tables
 
