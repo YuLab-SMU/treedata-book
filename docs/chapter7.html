@@ -516,18 +516,16 @@ df2 &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span cl
 
 
 p1 &lt;-<span class="st"> </span><span class="kw">gheatmap</span>(circ, df, <span class="dt">offset=</span>.<span class="dv">8</span>, <span class="dt">width=</span>.<span class="dv">2</span>,
-               <span class="dt">colnames_angle=</span><span class="dv">95</span>, <span class="dt">colnames_offset_y =</span> <span class="fl">.25</span>,
-               <span class="dt">legend_title=</span><span class="st">&quot;discrete value&quot;</span>) <span class="op">+</span>
-<span class="st">    </span><span class="kw">scale_fill_viridis_d</span>(<span class="dt">option=</span><span class="st">&quot;D&quot;</span>)
+               <span class="dt">colnames_angle=</span><span class="dv">95</span>, <span class="dt">colnames_offset_y =</span> <span class="fl">.25</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">scale_fill_viridis_d</span>(<span class="dt">option=</span><span class="st">&quot;D&quot;</span>, <span class="dt">name=</span><span class="st">&quot;discrete</span><span class="ch">\n</span><span class="st">value&quot;</span>)
 
 
 <span class="kw">library</span>(ggnewscale)
 p2 &lt;-<span class="st"> </span>p1 <span class="op">+</span><span class="st"> </span><span class="kw">new_scale_fill</span>()
 <span class="kw">gheatmap</span>(p2, df2, <span class="dt">offset=</span><span class="dv">15</span>, <span class="dt">width=</span>.<span class="dv">3</span>,
-         <span class="dt">colnames_angle=</span><span class="dv">90</span>, <span class="dt">colnames_offset_y =</span> <span class="fl">.25</span>,
-         <span class="dt">legend_title =</span> <span class="st">&quot;continuous value&quot;</span>) <span class="op">+</span>
-<span class="st">    </span><span class="kw">scale_fill_viridis_c</span>(<span class="dt">option=</span><span class="st">&quot;A&quot;</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-118-1.png" width="864" /></p>
+         <span class="dt">colnames_angle=</span><span class="dv">90</span>, <span class="dt">colnames_offset_y =</span> <span class="fl">.25</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">scale_fill_viridis_c</span>(<span class="dt">option=</span><span class="st">&quot;A&quot;</span>, <span class="dt">name=</span><span class="st">&quot;continuous</span><span class="ch">\n</span><span class="st">value&quot;</span>)</code></pre>
+<p><img src="treedata_files/figure-html/multiple-gheatmap-1.png" width="960" /></p>
 </div>
 </div>
 <div id="visualize-tree-with-multiple-sequence-alignment" class="section level2">
@@ -535,10 +533,10 @@ p2 &lt;-<span class="st"> </span>p1 <span class="op">+</span><span class="st"> <
 <p>With <code>msaplot</code> function, user can visualize multiple sequence alignment with phylogenetic tree, as demonstrated below:</p>
 <pre class="sourceCode r"><code class="sourceCode r">fasta &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;examples/FluA_H3_AA.fas&quot;</span>, <span class="dt">package=</span><span class="st">&quot;ggtree&quot;</span>)
 <span class="kw">msaplot</span>(<span class="kw">ggtree</span>(beast_tree), fasta)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-119-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-118-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>A specific slice of the alignment can also be displayed by specific <em>window</em> parameter.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">msaplot</span>(<span class="kw">ggtree</span>(beast_tree), fasta, <span class="dt">window=</span><span class="kw">c</span>(<span class="dv">150</span>, <span class="dv">200</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">coord_polar</span>(<span class="dt">theta=</span><span class="st">&#39;y&#39;</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-120-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-119-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="plot-tree-with-associated-data" class="section level2">
 <h2><span class="header-section-number">7.3</span> Plot tree with associated data</h2>
@@ -552,7 +550,7 @@ p2 &lt;-<span class="st"> </span><span class="kw">facet_plot</span>(p, <span cla
 d2 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">id=</span>tr<span class="op">$</span>tip.label, <span class="dt">value=</span><span class="kw">abs</span>(<span class="kw">rnorm</span>(<span class="dv">30</span>, <span class="dt">mean=</span><span class="dv">100</span>, <span class="dt">sd=</span><span class="dv">50</span>)))
 
 <span class="kw">facet_plot</span>(p2, <span class="dt">panel=</span><span class="st">&#39;bar&#39;</span>, <span class="dt">data=</span>d2, <span class="dt">geom=</span>geom_segment, <span class="kw">aes</span>(<span class="dt">x=</span><span class="dv">0</span>, <span class="dt">xend=</span>value, <span class="dt">y=</span>y, <span class="dt">yend=</span>y), <span class="dt">size=</span><span class="dv">3</span>, <span class="dt">color=</span><span class="st">&#39;steelblue&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>()</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-121-1.png" width="960" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-120-1.png" width="960" /></p>
 <!--
 ## Update tree view with a new tree
 
@@ -564,7 +562,7 @@ For example, the pattern in the _`p`_ object will be applied to a new tree with 
 p %<% rtree(50)
 ```
 
-<img src="treedata_files/figure-html/unnamed-chunk-122-1.png" width="288" style="display: block; margin: auto;" />
+<img src="treedata_files/figure-html/unnamed-chunk-121-1.png" width="288" style="display: block; margin: auto;" />
 -->
 
 </div>
