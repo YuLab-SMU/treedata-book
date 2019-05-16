@@ -216,7 +216,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="7" data-path="chapter7.html"><a href="chapter7.html"><i class="fa fa-check"></i><b>7</b> Plotting tree with data</a><ul>
 <li class="chapter" data-level="7.0.1" data-path="chapter7.html"><a href="chapter7.html#the-operator"><i class="fa fa-check"></i><b>7.0.1</b> The <code>%&lt;+%</code> operator</a></li>
-<li class="chapter" data-level="7.1" data-path="chapter7.html"><a href="chapter7.html#visualize-tree-with-associated-matrix"><i class="fa fa-check"></i><b>7.1</b> Visualize tree with associated matrix</a></li>
+<li class="chapter" data-level="7.1" data-path="chapter7.html"><a href="chapter7.html#visualize-tree-with-associated-matrix"><i class="fa fa-check"></i><b>7.1</b> Visualize tree with associated matrix</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="chapter7.html"><a href="chapter7.html#visualize-tree-with-multiple-associated-matrix"><i class="fa fa-check"></i><b>7.1.1</b> Visualize tree with multiple associated matrix</a></li>
+</ul></li>
 <li class="chapter" data-level="7.2" data-path="chapter7.html"><a href="chapter7.html#visualize-tree-with-multiple-sequence-alignment"><i class="fa fa-check"></i><b>7.2</b> Visualize tree with multiple sequence alignment</a></li>
 <li class="chapter" data-level="7.3" data-path="chapter7.html"><a href="chapter7.html#plot-tree-with-associated-data"><i class="fa fa-check"></i><b>7.3</b> Plot tree with associated data</a></li>
 </ul></li>
@@ -495,16 +497,48 @@ pp &lt;-<span class="st"> </span>(p <span class="op">+</span><span class="st"> <
 <span class="st">        </span><span class="kw">scale_x_ggtree</span>()
 pp <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;right&quot;</span>)</code></pre>
 <p><img src="treedata_files/figure-html/unnamed-chunk-117-1.png" width="768" style="display: block; margin: auto;" /></p>
+<div id="visualize-tree-with-multiple-associated-matrix" class="section level3">
+<h3><span class="header-section-number">7.1.1</span> Visualize tree with multiple associated matrix</h3>
+<p>Of course, we can use multiple <code>gheatmap</code> function call to align several associated matrix with the tree, however, <code>ggplot2</code> doesn’t allow us to use multiple <code>fill</code> scales, see also discussion in <a href="https://github.com/GuangchuangYu/ggtree/issues/78" class="uri">https://github.com/GuangchuangYu/ggtree/issues/78</a> and <a href="https://groups.google.com/d/msg/bioc-ggtree/VQqbF79NAWU/IjIvpQOBGwAJ" class="uri">https://groups.google.com/d/msg/bioc-ggtree/VQqbF79NAWU/IjIvpQOBGwAJ</a>.</p>
+<p>To solve this issue, we can use <a href="https://github.com/eliocamp/ggnewscale">ggnewscale</a> to create new <code>fill</code> scales. Here is an example of using <a href="https://github.com/eliocamp/ggnewscale">ggnewscale</a> with <code>gheatmap</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">nwk &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;sample.nwk&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)
+
+tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(nwk)
+circ &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree, <span class="dt">layout =</span> <span class="st">&quot;circular&quot;</span>)
+
+df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">first=</span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;c&quot;</span>, <span class="st">&quot;d&quot;</span>, <span class="st">&quot;d&quot;</span>, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;e&quot;</span>, <span class="st">&quot;e&quot;</span>, <span class="st">&quot;f&quot;</span>, <span class="st">&quot;c&quot;</span>, <span class="st">&quot;f&quot;</span>),
+                 <span class="dt">second=</span> <span class="kw">c</span>(<span class="st">&quot;z&quot;</span>, <span class="st">&quot;z&quot;</span>, <span class="st">&quot;z&quot;</span>, <span class="st">&quot;z&quot;</span>, <span class="st">&quot;y&quot;</span>, <span class="st">&quot;y&quot;</span>, <span class="st">&quot;y&quot;</span>, <span class="st">&quot;y&quot;</span>, <span class="st">&quot;x&quot;</span>, <span class="st">&quot;x&quot;</span>, <span class="st">&quot;x&quot;</span>, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;a&quot;</span>))
+<span class="kw">rownames</span>(df) &lt;-<span class="st"> </span>tree<span class="op">$</span>tip.label
+
+df2 &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">matrix</span>(<span class="kw">rnorm</span>(<span class="dv">39</span>), <span class="dt">ncol=</span><span class="dv">3</span>))
+<span class="kw">rownames</span>(df2) &lt;-<span class="st"> </span>tree<span class="op">$</span>tip.label
+<span class="kw">colnames</span>(df2) &lt;-<span class="st"> </span>LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]
+
+
+p1 &lt;-<span class="st"> </span><span class="kw">gheatmap</span>(circ, df, <span class="dt">offset=</span>.<span class="dv">8</span>, <span class="dt">width=</span>.<span class="dv">2</span>,
+               <span class="dt">colnames_angle=</span><span class="dv">95</span>, <span class="dt">colnames_offset_y =</span> <span class="fl">.25</span>,
+               <span class="dt">legend_title=</span><span class="st">&quot;discrete value&quot;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">scale_fill_viridis_d</span>(<span class="dt">option=</span><span class="st">&quot;D&quot;</span>)
+
+
+<span class="kw">library</span>(ggnewscale)
+p2 &lt;-<span class="st"> </span>p1 <span class="op">+</span><span class="st"> </span><span class="kw">new_scale_fill</span>()
+<span class="kw">gheatmap</span>(p2, df2, <span class="dt">offset=</span><span class="dv">15</span>, <span class="dt">width=</span>.<span class="dv">3</span>,
+         <span class="dt">colnames_angle=</span><span class="dv">90</span>, <span class="dt">colnames_offset_y =</span> <span class="fl">.25</span>,
+         <span class="dt">legend_title =</span> <span class="st">&quot;continuous value&quot;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">scale_fill_viridis_c</span>(<span class="dt">option=</span><span class="st">&quot;A&quot;</span>)</code></pre>
+<p><img src="treedata_files/figure-html/unnamed-chunk-118-1.png" width="864" /></p>
+</div>
 </div>
 <div id="visualize-tree-with-multiple-sequence-alignment" class="section level2">
 <h2><span class="header-section-number">7.2</span> Visualize tree with multiple sequence alignment</h2>
 <p>With <code>msaplot</code> function, user can visualize multiple sequence alignment with phylogenetic tree, as demonstrated below:</p>
 <pre class="sourceCode r"><code class="sourceCode r">fasta &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;examples/FluA_H3_AA.fas&quot;</span>, <span class="dt">package=</span><span class="st">&quot;ggtree&quot;</span>)
 <span class="kw">msaplot</span>(<span class="kw">ggtree</span>(beast_tree), fasta)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-118-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-119-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>A specific slice of the alignment can also be displayed by specific <em>window</em> parameter.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">msaplot</span>(<span class="kw">ggtree</span>(beast_tree), fasta, <span class="dt">window=</span><span class="kw">c</span>(<span class="dv">150</span>, <span class="dv">200</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">coord_polar</span>(<span class="dt">theta=</span><span class="st">&#39;y&#39;</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-119-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-120-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="plot-tree-with-associated-data" class="section level2">
 <h2><span class="header-section-number">7.3</span> Plot tree with associated data</h2>
@@ -518,7 +552,7 @@ p2 &lt;-<span class="st"> </span><span class="kw">facet_plot</span>(p, <span cla
 d2 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">id=</span>tr<span class="op">$</span>tip.label, <span class="dt">value=</span><span class="kw">abs</span>(<span class="kw">rnorm</span>(<span class="dv">30</span>, <span class="dt">mean=</span><span class="dv">100</span>, <span class="dt">sd=</span><span class="dv">50</span>)))
 
 <span class="kw">facet_plot</span>(p2, <span class="dt">panel=</span><span class="st">&#39;bar&#39;</span>, <span class="dt">data=</span>d2, <span class="dt">geom=</span>geom_segment, <span class="kw">aes</span>(<span class="dt">x=</span><span class="dv">0</span>, <span class="dt">xend=</span>value, <span class="dt">y=</span>y, <span class="dt">yend=</span>y), <span class="dt">size=</span><span class="dv">3</span>, <span class="dt">color=</span><span class="st">&#39;steelblue&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>()</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-120-1.png" width="960" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-121-1.png" width="960" /></p>
 <!--
 ## Update tree view with a new tree
 
@@ -530,7 +564,7 @@ For example, the pattern in the _`p`_ object will be applied to a new tree with 
 p %<% rtree(50)
 ```
 
-<img src="treedata_files/figure-html/unnamed-chunk-121-1.png" width="288" style="display: block; margin: auto;" />
+<img src="treedata_files/figure-html/unnamed-chunk-122-1.png" width="288" style="display: block; margin: auto;" />
 -->
 
 </div>

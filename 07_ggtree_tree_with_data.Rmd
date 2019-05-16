@@ -108,6 +108,41 @@ pp + theme(legend.position="right")
 ```
 
 
+### Visualize tree with multiple associated matrix
+
+Of course, we can use multiple `gheatmap` function call to align several associated matrix with the tree, however, `ggplot2` doesn't allow us to use multiple `fill` scales, see also discussion in <https://github.com/GuangchuangYu/ggtree/issues/78> and <https://groups.google.com/d/msg/bioc-ggtree/VQqbF79NAWU/IjIvpQOBGwAJ>.
+
+To solve this issue, we can use [ggnewscale](https://github.com/eliocamp/ggnewscale) to create new `fill` scales. Here is an example of using [ggnewscale](https://github.com/eliocamp/ggnewscale) with `gheatmap`.
+
+```{r fig.width=9, fig.height=8}
+nwk <- system.file("extdata", "sample.nwk", package="treeio")
+
+tree <- read.tree(nwk)
+circ <- ggtree(tree, layout = "circular")
+
+df <- data.frame(first=c("a", "b", "a", "c", "d", "d", "a", "b", "e", "e", "f", "c", "f"),
+                 second= c("z", "z", "z", "z", "y", "y", "y", "y", "x", "x", "x", "a", "a"))
+rownames(df) <- tree$tip.label
+
+df2 <- as.data.frame(matrix(rnorm(39), ncol=3))
+rownames(df2) <- tree$tip.label
+colnames(df2) <- LETTERS[1:3]
+
+
+p1 <- gheatmap(circ, df, offset=.8, width=.2,
+               colnames_angle=95, colnames_offset_y = .25,
+               legend_title="discrete value") +
+    scale_fill_viridis_d(option="D")
+
+
+library(ggnewscale)
+p2 <- p1 + new_scale_fill()
+gheatmap(p2, df2, offset=15, width=.3,
+         colnames_angle=90, colnames_offset_y = .25,
+         legend_title = "continuous value") +
+    scale_fill_viridis_c(option="A")
+```
+
 ## Visualize tree with multiple sequence alignment
 
 With `msaplot` function, user can visualize multiple sequence alignment with phylogenetic tree, as demonstrated below:

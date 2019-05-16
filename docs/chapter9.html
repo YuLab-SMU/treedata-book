@@ -216,7 +216,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="7" data-path="chapter7.html"><a href="chapter7.html"><i class="fa fa-check"></i><b>7</b> Plotting tree with data</a><ul>
 <li class="chapter" data-level="7.0.1" data-path="chapter7.html"><a href="chapter7.html#the-operator"><i class="fa fa-check"></i><b>7.0.1</b> The <code>%&lt;+%</code> operator</a></li>
-<li class="chapter" data-level="7.1" data-path="chapter7.html"><a href="chapter7.html#visualize-tree-with-associated-matrix"><i class="fa fa-check"></i><b>7.1</b> Visualize tree with associated matrix</a></li>
+<li class="chapter" data-level="7.1" data-path="chapter7.html"><a href="chapter7.html#visualize-tree-with-associated-matrix"><i class="fa fa-check"></i><b>7.1</b> Visualize tree with associated matrix</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="chapter7.html"><a href="chapter7.html#visualize-tree-with-multiple-associated-matrix"><i class="fa fa-check"></i><b>7.1.1</b> Visualize tree with multiple associated matrix</a></li>
+</ul></li>
 <li class="chapter" data-level="7.2" data-path="chapter7.html"><a href="chapter7.html#visualize-tree-with-multiple-sequence-alignment"><i class="fa fa-check"></i><b>7.2</b> Visualize tree with multiple sequence alignment</a></li>
 <li class="chapter" data-level="7.3" data-path="chapter7.html"><a href="chapter7.html#plot-tree-with-associated-data"><i class="fa fa-check"></i><b>7.3</b> Plot tree with associated data</a></li>
 </ul></li>
@@ -290,24 +292,24 @@ p2 &lt;-<span class="st"> </span><span class="kw">facet_plot</span>(p <span clas
                  <span class="dt">width =</span> <span class="fl">0.8</span>, <span class="dt">stat=</span><span class="st">&#39;identity&#39;</span>)
 
 <span class="kw">facet_widths</span>(p2, <span class="dt">widths =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-135-1.png" width="672" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-136-1.png" width="672" /></p>
 <p>It also supports using name vector to set the widths of specific panels.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">facet_widths</span>(p2, <span class="kw">c</span>(<span class="dt">Tree =</span> <span class="fl">.5</span>))</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-136-1.png" width="672" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-137-1.png" width="672" /></p>
 <p>The <code>facet_widths</code> function also work with other <code>ggplot</code> object.</p>
 <pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(iris, <span class="kw">aes</span>(Sepal.Width, Petal.Length)) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">facet_grid</span>(.<span class="op">~</span>Species)
 <span class="kw">facet_widths</span>(p, <span class="kw">c</span>(<span class="dt">setosa =</span> <span class="fl">.5</span>))</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-138-1.png" width="672" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-139-1.png" width="672" /></p>
 </div>
 <div id="facet_labeller" class="section level2">
 <h2><span class="header-section-number">9.2</span> facet_labeller</h2>
 <p>The <code>facet_labeller</code> function was designed to re-label selected panels, and it currently only works with <code>ggtree</code> object (<em>i.e.</em> <code>facet_plot</code> output).</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">facet_labeller</span>(p2, <span class="kw">c</span>(<span class="dt">Tree =</span> <span class="st">&quot;phylogeny&quot;</span>, <span class="dt">bar =</span> <span class="st">&quot;HELLO&quot;</span>))</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-139-1.png" width="672" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-140-1.png" width="672" /></p>
 <p>If you want to combine <code>facet_widths</code> with <code>facet_labeller</code>, you need to call <code>facet_labeller</code> to re-label the panels before using <code>facet_widths</code> to set the relative widths of each panels. Otherwise it wont work since the output of <code>facet_widths</code> is re-drawn from <code>grid</code> object.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">facet_labeller</span>(p2, <span class="kw">c</span>(<span class="dt">Tree =</span> <span class="st">&quot;phylogeny&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">facet_widths</span>(<span class="kw">c</span>(<span class="dt">Tree =</span> <span class="fl">.4</span>))</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-140-1.png" width="672" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-141-1.png" width="672" /></p>
 
 </div>
 </div>
