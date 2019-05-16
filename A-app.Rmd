@@ -1,6 +1,23 @@
 # (APPENDIX) Appendix {-}
 
-# Image processing using magick package
+# Frequently asked questions (#faq)
+
+## Enlarge center space in circular/fan layout tree {#enlarge-center-space}
+
+This question was asked several times^[<https://groups.google.com/d/msg/bioc-ggtree/gruC4FztU8I/mwavqWCXAQAJ>, <https://groups.google.com/d/msg/bioc-ggtree/UoGQekWHIvw/ZswUUZKSGwAJ> and <https://github.com/GuangchuangYu/ggtree/issues/95>], and a published example can be found in <https://www.ncbi.nlm.nih.gov/pubmed/27605062>. Increasing percentage of center white space in circular tree is useful to avoid overlapping tip labels and to increase readibility of the tree by moving all nodes and branches further out. This can be done simply by using `+xlim()` to allocate more space, just like in Figure \@ref(fig:layout2)G, or assign a long root branch that is similar to the "Root Length" parameter in FigTree. 
+
+
+```{r circular-space, fig.width=8, fig.height=4}
+set.seed(1982)
+tree <- rtree(30)
+plot_grid(
+  ggtree(tree, layout='circular') + xlim(-10, NA),
+  ggtree(tree, layout='circular') + geom_rootedge(5),
+  labels = c("A", "B", ncol=2)
+)
+```
+
+# Image processing using magick package {#ggimage-tips}
 
 `r CRANpkg("ggimage")` allows processing images on the fly via the `image_fun` parameter, which accepts a function to process `magick-image` object. The `r CRANpkg("magick")` package provides several functions and these functions can be combined to perform a particular task.
 
@@ -18,7 +35,7 @@ p2 <- p + geom_nodelab(image="img/frogs/frog.jpg", geom="image", size=.12,
 plot_grid(p1, p2, ncol=2)
 ```
 
-# Comic (xkcd-like) phylogenetic tree
+# Comic (xkcd-like) phylogenetic tree {#commicR}
 
 ```{r fig.show='hide'}
 library(htmltools)    
