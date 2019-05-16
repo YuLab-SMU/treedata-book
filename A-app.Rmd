@@ -2,8 +2,197 @@
 
 # Frequently asked questions {#faq}
 
+## Installation {#installation}
 
-## plot something behind the phylogeny {#under-the-tree}
+`r Biocpkg("ggtree")` is released within the Bioconductor project, you need to use `r CRANpkg("BiocManager")` to install it.
+
+```r
+## you need to install BiocManager before using it
+## install.packages("BiocManager")
+library(BiocManager)
+install("ggtree")
+```
+
+## Basic R related {#faq-r}
+
+### Use your local file {#faq-local-file}
+
+If you are new to `R` and want to use `ggtree` for tree visualization, please do
+learn some basic `R` and `ggplot2`.
+
+A very common issue is that users always copy-paste command without looking at
+the function's behavior. `system.file()` was used in the `treeio` and `ggtree` package documentation to find files in the packages.
+
+
+
+```
+system.file                package:base                R Documentation
+
+Find Names of R System Files
+
+Description:
+
+     Finds the full file names of files in packages etc.
+
+Usage:
+
+     system.file(..., package = "base", lib.loc = NULL,
+                 mustWork = FALSE)
+```
+
+For users who want to use [their own files](https://groups.google.com/forum/?utm_medium=email&utm_source=footer#!msg/bioc-ggtree/VsE22NnScdc/LHtJSEntDAAJ), please just use relative or absolute file path (*e.g.* `f = "your/folder/filename"`).
+
+
+
+## Aesthetic mapping {#faq-aes-mapping}
+
+### Inherit _aes_ {#faq-inherit-aes}
+
+```r
+ggtree(rtree(30)) + geom_point()
+```
+
+For example, we can add symbolic points to nodes with `geom_point()` directly.
+The magic here is we don't need to map `x` and `y` position of the points by providing `aes(x, y)` to `geom_point()` since it was already mapped by `ggtree` function and it serves as a global mapping for all layers.
+
+But what if we provide a `dataset` in a layer and the `dataset` doesn't contain column of `x` and/or `y`,
+the layer function also try to map `x` and `y` and also others if you map them in `ggtree` function.
+As these variable is not available in your `dataset`, you will get the following error:
+
+```
+Error in eval(expr, envir, enclos) : object 'x' not found
+```
+
+This can be fixed by using parameter `inherit.aes=FALSE` which will disable inheriting mapping from `ggtree` function.
+
+### Never use `$` in aes {#faq-dollar-aes}
+
+NEVER DO THIS^[<https://groups.google.com/d/msg/bioc-ggtree/hViM6vRZF94/MsZT8qRgBwAJ>
+and <https://github.com/GuangchuangYu/ggtree/issues/106>].
+
+See the explaination in the [ggplot2 book 2ed](https://github.com/hadley/ggplot2-book/blob/master/layers.rmd#aesthetic-mappings-secaes):
+
+>Never refer to a variable with `$` (e.g., `diamonds$carat`) in `aes()`. This breaks containment, so that the plot no longer contains everything it needs, and causes problems if ggplot2 changes the order of the rows, as it does when facetting.
+
+
+## Text & Label {#faq-text}
+
+### Tip label truncated {#faq-label-truncated}
+
+`r CRANpkg("ggplot2")` can't auto adjust `xlim` based on added text.
+
+```r
+library(ggtree)
+## example tree from https://support.bioconductor.org/p/72398/
+tree<-read.tree(text="(Organism1.006G249400.1:0.03977,(Organism2.022118m:0.01337,(Organism3.J34265.1:0.00284,Organism4.G02633.1:0.00468)0.51:0.0104):0.02469);")
+ggtree(tree) + geom_tiplab()
+```
+
+This is because the units are in two different spaces (data and pixel). Users can use xlim to allocate more space for tip label.
+
+```r
+ggtree(tree) + geom_tiplab() + xlim(0, 0.06)
+```
+
+### Modify (tip) labels {#faq-modify-label}
+
+This could be easily done via the `%<+%` operator to attach the
+modified version of the labels and than use `geom_tiplab` to display
+the modified version.
+
+
+```r
+library(treeio)
+
+raxml_file <- system.file("extdata/RAxML", "RAxML_bipartitionsBranchLabels.H3", package="treeio")
+raxml <- read.raxml(raxml_file)
+
+lb = as.phylo(raxml)$tip.label
+d = data.frame(label=lb, label2 = paste("AA", substring(lb, 1, 5)))
+ggtree(raxml) %<+% d + geom_tiplab(aes(label=label2))
+```
+
+
+### Formatting (tip) labels {#faq-formatting-label}
+
+If you want to format labels, you need to set `parse=TRUE` in `geom_text`/`geom_tiplab` and the `label` should be string that can be parsed into expression and displayed as described in `?plotmath`.
+
+For example, the tiplabels contains two parts, species name and accession number and we want to display species name in _italic_, we can use command like this:
+
+```
+ggtree(rtree(30)) + geom_tiplab(aes(subset=node==35), label='paste(italic("species name"), "accession number")', parse=T)
+```
+
+
+Another example for formating all tip labels:
+
+```r
+ggtree(rtree(30)) + geom_tiplab(aes(label=paste0('bold(', label, ')~italic(', node, ')')), parse=TRUE)
+```
+
+The `label` can be provided by a `data.frame` that contains related information
+of the taxa.
+
+```r
+tr <- read.tree(text = "((a,(b,c)),d);")
+genus <- c("Gorilla", "Pan", "Homo", "Pongo")
+species <- c("gorilla", "spp.", "sapiens", "pygmaeus")
+geo <- c("Africa", "Africa", "World", "Asia")
+d <- data.frame(label = tr$tip.label, genus = genus,
+                species = species, geo = geo)
+ggtree(tr) %<+% d + xlim(NA, 5) +
+    geom_tiplab(aes(label=paste0('italic(', genus, ')~bolditalic(', species, ')~', geo)), parse=T)
+```
+
+see also <https://groups.google.com/forum/?utm_medium=email&utm_source=footer#!msg/bioc-ggtree/BA7g-npY1BM>.
+
+
+
+### Avoid overlapping text labels {#faq-ggrepel}
+
+User can use [ggrepel](https://cran.r-project.org/web/packages/ggrepel/) package to repel overlapping text labels.
+
+For example:
+
+```r
+library(ggrepel)
+library(ggtree)
+raxml_file <- system.file("extdata/RAxML", "RAxML_bipartitionsBranchLabels.H3", package="ggtree")
+raxml <- read.raxml(raxml_file)
+ggtree(raxml) + geom_label_repel(aes(label=bootstrap, fill=bootstrap))
+```
+
+For details, please refer to [ggrepel usage examples](https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html).
+
+### Bootstrap values from newick format {#faq-bootstrap}
+
+It's quite command to store `bootstrap` value as node label in `newick` format. Visualizing node label is easy using `geom_text2(aes(subset = !isTip, label=label))`.
+
+If you want to only display a subset of `bootstrap` (e.g. bootstrap > 80), you can't simply using `geom_text2(subset= (label > 80), label=label)` since `label` is a character vector, which contains node label (bootstrap value) and tip label (taxa name). If we use `geom_text2(subset=(as.numeric(label) > 80), label=label)`, it will also fail since `NAs` were introduced by coercion. We need to convert `NAs` to logical `FALSE`, this can be done by the following code:
+
+```r
+nwk <- system.file("extdata/RAxML","RAxML_bipartitions.H3", package='ggtree')
+tr <- read.tree(nwk)
+ggtree(tr) + geom_text2(aes(label=label, subset = !is.na(as.numeric(label)) & as.numeric(label) > 80))
+```
+
+Another solution is converting the bootstrap value outside `ggtree` as I recommended in [google group](https://groups.google.com/forum/?utm_medium=email&utm_source=footer#!msg/bioc-ggtree/hiRBjGaAfI0/Y-2zDpvtAwAJ).
+
+```r
+q <- ggtree(tr)
+d <- q$data
+d <- d[!d$isTip,]
+d$label <- as.numeric(d$label)
+d <- d[d$label > 80,]
+
+q + geom_text(data=d, aes(label=label))
+```
+
+
+[Here is another exammple](https://groups.google.com/forum/?utm_medium=email&utm_source=footer#!msg/bioc-ggtree/ZeR8YZKIzq8/g5RCB_MiAQAJ) for multiple bootstrap support values.
+
+
+## Plot something behind the phylogeny {#faq-under-the-tree}
 
 
 ```{r tree_behind_box}
@@ -18,7 +207,7 @@ Suppose you want to plot the box behind the tree, you can use `ggplot()` instead
 ggplot(x) + geom_hilight(7, alpha=1) + geom_tree() + theme_tree()     
 ```
 
-## Enlarge center space in circular/fan layout tree {#enlarge-center-space}
+## Enlarge center space in circular/fan layout tree {#faq-enlarge-center-space}
 
 This question was asked several times^[<https://groups.google.com/d/msg/bioc-ggtree/gruC4FztU8I/mwavqWCXAQAJ>, <https://groups.google.com/d/msg/bioc-ggtree/UoGQekWHIvw/ZswUUZKSGwAJ> and <https://github.com/GuangchuangYu/ggtree/issues/95>], and a published example can be found in <https://www.ncbi.nlm.nih.gov/pubmed/27605062>. Increasing percentage of center white space in circular tree is useful to avoid overlapping tip labels and to increase readibility of the tree by moving all nodes and branches further out. This can be done simply by using `+xlim()` to allocate more space, just like in Figure \@ref(fig:layout2)G, or assign a long root branch that is similar to the "Root Length" parameter in FigTree. 
 
