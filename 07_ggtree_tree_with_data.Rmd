@@ -86,8 +86,10 @@ genotype <- read.table(genotype_file, sep="\t", stringsAsFactor=F)
 colnames(genotype) <- sub("\\.$", "", colnames(genotype))
 p <- ggtree(beast_tree, mrsd="2013-01-01") + geom_treescale(x=2008, y=1, offset=2)
 p <- p + geom_tiplab(size=2)
-gheatmap(p, genotype, offset=5, width=0.5, font.size=3, colnames_angle=-45, hjust=0) +
-    scale_fill_manual(breaks=c("HuH3N2", "pdm", "trig"), values=c("steelblue", "firebrick", "darkgreen"))
+gheatmap(p, genotype, offset=5, width=0.5, font.size=3, 
+        colnames_angle=-45, hjust=0) +
+    scale_fill_manual(breaks=c("HuH3N2", "pdm", "trig"), 
+        values=c("steelblue", "firebrick", "darkgreen"), name="genotype")
 ```
 
 The _width_ parameter is to control the width of the heatmap. It supports another parameter _offset_ for controlling the distance between the tree and the heatmap, for instance to allocate space for tip labels.
@@ -101,10 +103,9 @@ For time-scaled tree, as in this example, it's more often to use `x` axis by usi
 
 ```{r fig.width=8, fig.height=6, fig.align="center", warning=FALSE}
 p <- ggtree(beast_tree, mrsd="2013-01-01") + geom_tiplab(size=2, align=TRUE, linesize=.5) + theme_tree2()
-pp <- (p + scale_y_continuous(expand=c(0, 0.3))) %>%
-    gheatmap(genotype, offset=8, width=0.6, colnames=FALSE) %>%
+(p + scale_y_continuous(expand=c(0, 0.3))) %>%
+    gheatmap(genotype, offset=8, width=0.6, colnames=FALSE, legend_title="genotype") %>%
         scale_x_ggtree()
-pp + theme(legend.position="right")
 ```
 
 
