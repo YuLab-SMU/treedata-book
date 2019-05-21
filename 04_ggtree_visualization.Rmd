@@ -118,9 +118,11 @@ ggtree(tree, layout="daylight", branch.length = 'none')
 
 ```{r layout, echo=F, fig.width=8, fig.height=8, fig.cap="(ref:layoutcap)", fig.scap="(ref:layoutscap)", out.extra='', message=FALSE}
 library(ggtree)
+library(cowplot)
+
 set.seed(2017-02-16)
 tree <- rtree(50)
-library(cowplot)
+
 playout <- plot_grid(
   ggtree(tree), # + ggtitle("rectangular layout")+theme(plot.title = element_text(hjust = 0.5)),
   ggtree(tree, layout="slanted"), # + ggtitle("slanted layout")+theme(plot.title = element_text(hjust = 0.5)),
@@ -278,14 +280,14 @@ ggtree(tree) + geom_treescale()
 
 
 ```{r eval=F}
-ggtree(tree) + geom_treescale(x=0, y=12, width=6, color='red')
-ggtree(tree) + geom_treescale(fontsize=8, linesize=2, offset=-1)
+ggtree(tree) + geom_treescale(x=0, y=45, width=1, color='red')
+ggtree(tree) + geom_treescale(fontsize=6, linesize=2, offset=1)
 ```
 
 ```{r fig.width=8, fig.height=4, fig.align="center", echo=F}
 plot_grid(
-    ggtree(tree)+geom_treescale(x=0, y=12, width=6, color='red'),
-    ggtree(tree)+geom_treescale(fontsize=8, linesize=2, offset=-1),
+    ggtree(tree)+geom_treescale(x=0, y=45, width=1, color='red'),
+    ggtree(tree)+geom_treescale(fontsize=6, linesize=2, offset=1),
     ncol=2, labels=LETTERS[1:2])
 ```
 
