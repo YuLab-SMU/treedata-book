@@ -63,7 +63,7 @@ facet_labeller(p2, c(Tree = "phylogeny")) %>% facet_widths(c(Tree = .4))
 
 ## xlim_expand {#xlim_expand}
 
-Sometimes we need to set `xlim` for specific panel (*e.g.* allocate more space for [long tip labels](#faq-label-truncated) at `Tree` panel). However, the `ggplot2::xlim()` function applies to all the panels. `r Biocpkg("ggtree")` provides `xlim_expand()` to adjust `xlim` for user specific panel. It accepts two parameters, `xlim` and `panel`, and can adjust all individual panels as demonstrated in Figure \@ref(fig:xlimExpand)A. 
+Sometimes we need to set `xlim` for specific panel (*e.g.* allocate more space for [long tip labels](#faq-label-truncated) at `Tree` panel). However, the `ggplot2::xlim()` function applies to all the panels. `r Biocpkg("ggtree")` provides `xlim_expand()` to adjust `xlim` for user specific panel. It accepts two parameters, `xlim` and `panel`, and can adjust all individual panels as demonstrated in Figure \@ref(fig:xlimExpand)A. If you only want to adjust `xlim` of the `Tree` panel, you can use `xlim_tree()` as a shortcut.
 
 
 ```{r eval=FALSE}
@@ -74,7 +74,7 @@ d <- data.frame(label = x$tip.label,
                 value = rnorm(30))
 p2 <- facet_plot(p, panel = "Dot", data = d, 
             geom = geom_point, mapping = aes(x = value))
-p2 + xlim_expand(c(0, 6), 'Tree') + xlim_expand(c(-10, 10), 'Dot')
+p2 + xlim_tree(6) + xlim_expand(c(-10, 10), 'Dot')
 ```
 
 
