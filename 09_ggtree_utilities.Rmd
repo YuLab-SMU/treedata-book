@@ -61,3 +61,53 @@ If you want to combine `facet_widths` with `facet_labeller`, you need to call `f
 facet_labeller(p2, c(Tree = "phylogeny")) %>% facet_widths(c(Tree = .4))
 ```
 
+## xlim_expand {#xlim_expand}
+
+Sometimes we need to set `xlim` for specific panel (*e.g.* allocate more space for [long tip labels](#faq-label-truncated) at `Tree` panel). However, the `ggplot2::xlim()` function applies to all the panels. `r Biocpkg("ggtree")` provides `xlim_expand()` to adjust `xlim` for user specific panel. It accepts two parameters, `xlim` and `panel`, and can adjust all individual panels as demonstrated in Figure \@ref(fig:xlimExpand)A. 
+
+
+```{r eval=FALSE}
+set.seed(2019-05-02)
+x <- rtree(30)
+p <- ggtree(x) + geom_tiplab()
+d <- data.frame(label = x$tip.label, 
+                value = rnorm(30))
+p2 <- facet_plot(p, panel = "Dot", data = d, 
+            geom = geom_point, mapping = aes(x = value))
+p2 + xlim_expand(c(0, 6), 'Tree') + xlim_expand(c(-10, 10), 'Dot')
+```
+
+
+
+The `xlim_expand()` function also works with `ggplot2::facet_grid()`. As demonstrating in Figure \@ref(fig:xlimExpand)B, only the `xlim` of *virginica* panel was adjusted by `xlim_expand()`.
+
+
+```{r eval=FALSE}
+g <- ggplot(iris, aes(Sepal.Length, Sepal.Width)) + 
+    geom_point() + facet_grid(. ~ Species, scales = "free_x") 
+g + xlim_expand(c(0, 15), 'virginica')
+```    
+
+(ref:xlimExpandscap) Setting xlim for user specific panel.
+
+(ref:xlimExpandcap) **Setting xlim for user specific panel.** xlim for `ggtree::facet_plot` (A, Tree and Dot panels), and `ggplot2::facet_grid` (B, virginica panel).
+
+
+```{r xlimExpand, echo=FALSE, fig.cap="(ref:xlimExpandcap)", fig.scap="(ref:xlimExpandscap)", fig.width=12, fig.height = 5}
+set.seed(2019-05-02)
+x <- rtree(30)
+p <- ggtree(x) + geom_tiplab()
+d <- data.frame(label = x$tip.label, 
+                value = rnorm(30))
+p2 <- facet_plot(p, panel = "Dot", data = d, 
+            geom = geom_point, mapping = aes(x = value))
+g <- ggplot(iris, aes(Sepal.Length, Sepal.Width)) + 
+    geom_point() + facet_grid(. ~ Species, scales = "free_x") 
+
+plot_grid(p2 + xlim_expand(c(0, 6), 'Tree') + xlim_expand(c(-10, 10), 'Dot'),
+    g + theme_grey() + xlim_expand(c(0, 15), 'virginica'),
+    ncol=2, labels=c("A", "B"))
+```
+
+
+
