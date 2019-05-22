@@ -246,12 +246,18 @@ annotate the tree using [ggtree](https://bioconductor.org/packages/ggtree/)
 ```{r}
 file <- system.file("extdata/BEAST", "beast_mcc.tree", package="treeio")
 beast <- read.beast(file)
-x <- data_frame(label = as.phylo(beast)$tip.label, trait = rnorm(Ntip(beast)))
+x <- tibble(label = as.phylo(beast)$tip.label, trait = rnorm(Ntip(beast)))
 full_join(beast, x, by="label")
+```
 
-N <- Nnode2(beast)
-y <- data_frame(node = 1:N, fake_trait = rnorm(N), another_trait = runif(N))
-full_join(beast, y, by="node")
+```{r}
+library(ape)
+data(woodmouse)
+d <- dist.dna(woodmouse)
+tr <- nj(d)
+bp <- boot.phylo(tr, woodmouse, function(x) nj(dist.dna(x)))
+bp2 <- tibble(node=1:Nnode(tr) + Ntip(tr), bootstrap = bp)
+full_join(tr, bp2, by="node")
 ```
 
 

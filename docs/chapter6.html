@@ -403,8 +403,6 @@ tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(nwk)
 p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>()
 <span class="kw">viewClade</span>(p, <span class="kw">MRCA</span>(p, <span class="st">&quot;I&quot;</span>, <span class="st">&quot;L&quot;</span>))</code></pre>
 
-<pre><code>## [1] 23
-## [1]  9 10 11 12 24 25</code></pre>
 <div class="figure"><span id="fig:viewClade"></span>
 <img src="treedata_files/figure-html/viewClade-1.png" alt="Viewing a selected clade of a tree. An example tree used to demonstrate how ggtree support exploring or manipulating phylogenetic tree visually (A). The ggtree supports visualizing selected clade (B). A clade can be selected by specifying a node number or determined by most recent common ancestor of selected tips." width="672"  />
 <p class="caption">
@@ -521,7 +519,7 @@ p2 <- rotate(p, 21) %>% rotate(17)
 plot_grid(p, p2, ncol=2)
 ```
 
-<img src="treedata_files/figure-html/unnamed-chunk-102-1.png" width="768" />
+<img src="treedata_files/figure-html/unnamed-chunk-103-1.png" width="768" />
 
 
 ```r
@@ -609,16 +607,13 @@ for (angle in seq(0, 270, 10)) {
 <span class="kw">data</span>(chiroptera)
 <span class="kw">library</span>(<span class="st">&quot;ggtree&quot;</span>)
 <span class="kw">gzoom</span>(chiroptera, <span class="kw">grep</span>(<span class="st">&quot;Plecotus&quot;</span>, chiroptera<span class="op">$</span>tip.label))</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-108-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-109-1.png" width="864" style="display: block; margin: auto;" /></p>
 <p>Zoom in selected clade of a tree that was already annotated with <code>ggtree</code> is also supported.</p>
 <pre class="sourceCode r"><code class="sourceCode r">groupInfo &lt;-<span class="st"> </span><span class="kw">split</span>(chiroptera<span class="op">$</span>tip.label, <span class="kw">gsub</span>(<span class="st">&quot;_</span><span class="ch">\\</span><span class="st">w+&quot;</span>, <span class="st">&quot;&quot;</span>, chiroptera<span class="op">$</span>tip.label))
 chiroptera &lt;-<span class="st"> </span><span class="kw">groupOTU</span>(chiroptera, groupInfo)
 p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(chiroptera, <span class="kw">aes</span>(<span class="dt">color=</span>group)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="ot">NA</span>, <span class="dv">23</span>)
 <span class="kw">gzoom</span>(p, <span class="kw">grep</span>(<span class="st">&quot;Plecotus&quot;</span>, chiroptera<span class="op">$</span>tip.label), <span class="dt">xmax_adjust=</span><span class="dv">2</span>)</code></pre>
-<pre><code>## [1] 1288
-##  [1]  739  740  741  742  743  744  745 1289 1290 1291 1292
-## [12] 1293</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-109-1.png" width="864" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-110-1.png" width="864" /></p>
 </div>
 <div id="summary-5" class="section level2">
 <h2><span class="header-section-number">6.7</span> Summary</h2>

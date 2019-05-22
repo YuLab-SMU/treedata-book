@@ -103,9 +103,8 @@ For time-scaled tree, as in this example, it's more often to use `x` axis by usi
 
 ```{r fig.width=8, fig.height=6, fig.align="center", warning=FALSE}
 p <- ggtree(beast_tree, mrsd="2013-01-01") + geom_tiplab(size=2, align=TRUE, linesize=.5) + theme_tree2()
-(p + scale_y_continuous(expand=c(0, 0.3))) %>%
-    gheatmap(genotype, offset=8, width=0.6, colnames=FALSE, legend_title="genotype") %>%
-        scale_x_ggtree()
+gheatmap(p, genotype, offset=8, width=0.6, colnames=FALSE, legend_title="genotype") +
+    scale_x_ggtree() + scale_y_continuous(expand=c(0, 0.3))
 ```
 
 

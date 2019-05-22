@@ -319,7 +319,7 @@ tree</code></pre>
 ## Phylogenetic tree with 4 tips and 3 internal nodes.
 ## 
 ## Tip labels:
-## [1] &quot;t2&quot; &quot;t1&quot; &quot;t4&quot; &quot;t3&quot;
+## [1] &quot;t4&quot; &quot;t1&quot; &quot;t3&quot; &quot;t2&quot;
 ## 
 ## Rooted; includes branch lengths.</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(tree)
@@ -327,20 +327,20 @@ x</code></pre>
 <pre><code>## # A tibble: 7 x 4
 ##   parent  node branch.length label
 ##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt;
-## 1      7     1       0.472   t2   
-## 2      7     2       0.274   t1   
-## 3      6     3       0.674   t4   
-## 4      5     4       0.00202 t3   
+## 1      5     1       0.435   t4   
+## 2      7     2       0.674   t1   
+## 3      7     3       0.00202 t3   
+## 4      6     4       0.0251  t2   
 ## 5      5     5      NA       &lt;NA&gt; 
-## 6      5     6       0.0393  &lt;NA&gt; 
-## 7      6     7       0.435   &lt;NA&gt;</code></pre>
+## 6      5     6       0.472   &lt;NA&gt; 
+## 7      6     7       0.274   &lt;NA&gt;</code></pre>
 <p>The <code>tbl_tree</code> object can be converted back to a <code>phylo</code> object.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.phylo</span>(x)</code></pre>
 <pre><code>## 
 ## Phylogenetic tree with 4 tips and 3 internal nodes.
 ## 
 ## Tip labels:
-## [1] &quot;t2&quot; &quot;t1&quot; &quot;t4&quot; &quot;t3&quot;
+## [1] &quot;t4&quot; &quot;t1&quot; &quot;t3&quot; &quot;t2&quot;
 ## 
 ## Rooted; includes branch lengths.</code></pre>
 <p>Using <code>tbl_tree</code> object makes tree and data manipulation more effective and
@@ -351,15 +351,15 @@ easier. For example, we can link evolutionary trait to phylogeny using the verbs
 y &lt;-<span class="st"> </span><span class="kw">full_join</span>(x, d, <span class="dt">by =</span> <span class="st">&#39;label&#39;</span>)
 y</code></pre>
 <pre><code>## # A tibble: 7 x 5
-##   parent  node branch.length label     trait
-##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;
-## 1      7     1       0.472   t2     -0.00152
-## 2      7     2       0.274   t1     -1.96   
-## 3      6     3       0.674   t4      1.56   
-## 4      5     4       0.00202 t3     -0.265  
-## 5      5     5      NA       &lt;NA&gt;   NA      
-## 6      5     6       0.0393  &lt;NA&gt;   NA      
-## 7      6     7       0.435   &lt;NA&gt;   NA</code></pre>
+##   parent  node branch.length label  trait
+##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
+## 1      5     1       0.435   t4     0.943
+## 2      7     2       0.674   t1    -0.171
+## 3      7     3       0.00202 t3     0.570
+## 4      6     4       0.0251  t2    -0.283
+## 5      5     5      NA       &lt;NA&gt;  NA    
+## 6      5     6       0.472   &lt;NA&gt;  NA    
+## 7      6     7       0.274   &lt;NA&gt;  NA</code></pre>
 </div>
 <div id="treedata-object" class="section level3">
 <h3><span class="header-section-number">2.1.2</span> treedata object</h3>
@@ -373,7 +373,7 @@ associated data. After mapping external data to the tree structure, the
 ## Phylogenetic tree with 4 tips and 3 internal nodes.
 ## 
 ## Tip labels:
-## [1] &quot;t2&quot; &quot;t1&quot; &quot;t4&quot; &quot;t3&quot;
+## [1] &quot;t4&quot; &quot;t1&quot; &quot;t3&quot; &quot;t2&quot;
 ## 
 ## Rooted; includes branch lengths.
 ## 
@@ -390,15 +390,15 @@ for manipulating evolutionary statistics inferred by different software as well
 as linking external data to the same tree structure.</p>
 <pre class="sourceCode r"><code class="sourceCode r">y <span class="op">%&gt;%</span><span class="st"> </span>as.treedata <span class="op">%&gt;%</span><span class="st"> </span>as_tibble</code></pre>
 <pre><code>## # A tibble: 7 x 5
-##   parent  node branch.length label     trait
-##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;
-## 1      7     1       0.472   t2     -0.00152
-## 2      7     2       0.274   t1     -1.96   
-## 3      6     3       0.674   t4      1.56   
-## 4      5     4       0.00202 t3     -0.265  
-## 5      5     5      NA       &lt;NA&gt;   NA      
-## 6      5     6       0.0393  &lt;NA&gt;   NA      
-## 7      6     7       0.435   &lt;NA&gt;   NA</code></pre>
+##   parent  node branch.length label  trait
+##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
+## 1      5     1       0.435   t4     0.943
+## 2      7     2       0.674   t1    -0.171
+## 3      7     3       0.00202 t3     0.570
+## 4      6     4       0.0251  t2    -0.283
+## 5      5     5      NA       &lt;NA&gt;  NA    
+## 6      5     6       0.472   &lt;NA&gt;  NA    
+## 7      6     7       0.274   &lt;NA&gt;  NA</code></pre>
 </div>
 <div id="accesor-tidytree" class="section level3">
 <h3><span class="header-section-number">2.1.3</span> Access related nodes</h3>
@@ -408,42 +408,42 @@ addition, tidytree provides several verbs to filter related nodes, including
 <p>These verbs accept a <code>tbl_tree</code> and a selected node which can be node number or label.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">child</span>(y, <span class="dv">5</span>)</code></pre>
 <pre><code>## # A tibble: 2 x 5
-##   parent  node branch.length label   trait
-##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;
-## 1      5     4       0.00202 t3     -0.265
-## 2      5     6       0.0393  &lt;NA&gt;   NA</code></pre>
+##   parent  node branch.length label  trait
+##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
+## 1      5     1         0.435 t4     0.943
+## 2      5     6         0.472 &lt;NA&gt;  NA</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">parent</span>(y, <span class="dv">2</span>)</code></pre>
 <pre><code>## # A tibble: 1 x 5
 ##   parent  node branch.length label trait
 ##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;
-## 1      6     7         0.435 &lt;NA&gt;     NA</code></pre>
+## 1      6     7         0.274 &lt;NA&gt;     NA</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">offspring</span>(y, <span class="dv">5</span>)</code></pre>
 <pre><code>## # A tibble: 6 x 5
-##   parent  node branch.length label     trait
-##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;
-## 1      7     1       0.472   t2     -0.00152
-## 2      7     2       0.274   t1     -1.96   
-## 3      6     3       0.674   t4      1.56   
-## 4      5     4       0.00202 t3     -0.265  
-## 5      5     6       0.0393  &lt;NA&gt;   NA      
-## 6      6     7       0.435   &lt;NA&gt;   NA</code></pre>
+##   parent  node branch.length label  trait
+##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
+## 1      5     1       0.435   t4     0.943
+## 2      7     2       0.674   t1    -0.171
+## 3      7     3       0.00202 t3     0.570
+## 4      6     4       0.0251  t2    -0.283
+## 5      5     6       0.472   &lt;NA&gt;  NA    
+## 6      6     7       0.274   &lt;NA&gt;  NA</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ancestor</span>(y, <span class="dv">2</span>)</code></pre>
 <pre><code>## # A tibble: 3 x 5
 ##   parent  node branch.length label trait
 ##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;
-## 1      5     5       NA      &lt;NA&gt;     NA
-## 2      5     6        0.0393 &lt;NA&gt;     NA
-## 3      6     7        0.435  &lt;NA&gt;     NA</code></pre>
+## 1      5     5        NA     &lt;NA&gt;     NA
+## 2      5     6         0.472 &lt;NA&gt;     NA
+## 3      6     7         0.274 &lt;NA&gt;     NA</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sibling</span>(y, <span class="dv">2</span>)</code></pre>
 <pre><code>## # A tibble: 1 x 5
-##   parent  node branch.length label    trait
-##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;
-## 1      7     1         0.472 t2    -0.00152</code></pre>
+##   parent  node branch.length label trait
+##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;
+## 1      7     3       0.00202 t3    0.570</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">MRCA</span>(y, <span class="dv">2</span>, <span class="dv">3</span>)</code></pre>
 <pre><code>## # A tibble: 1 x 5
 ##   parent  node branch.length label trait
 ##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;
-## 1      5     6        0.0393 &lt;NA&gt;     NA</code></pre>
+## 1      6     7         0.274 &lt;NA&gt;     NA</code></pre>
 </div>
 </div>
 <div id="data-integration" class="section level2">
@@ -588,7 +588,7 @@ annotate the tree using <a href="https://bioconductor.org/packages/ggtree/">ggtr
 <span class="citation">(Yu et al. <a href="#ref-yu_ggtree:_2017" role="doc-biblioref">2017</a>)</span>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/BEAST&quot;</span>, <span class="st">&quot;beast_mcc.tree&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)
 beast &lt;-<span class="st"> </span><span class="kw">read.beast</span>(file)
-x &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">label =</span> <span class="kw">as.phylo</span>(beast)<span class="op">$</span>tip.label, <span class="dt">trait =</span> <span class="kw">rnorm</span>(<span class="kw">Ntip</span>(beast)))
+x &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">label =</span> <span class="kw">as.phylo</span>(beast)<span class="op">$</span>tip.label, <span class="dt">trait =</span> <span class="kw">rnorm</span>(<span class="kw">Ntip</span>(beast)))
 <span class="kw">full_join</span>(beast, x, <span class="dt">by=</span><span class="st">&quot;label&quot;</span>)</code></pre>
 <pre><code>## &#39;treedata&#39; S4 object that stored information of
 ##  &#39;C:/Users/YGC/Library/R/library/treeio/extdata/BEAST/beast_mcc.tree&#39;.
@@ -606,26 +606,28 @@ x &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="
 ##  &#39;height_range&#39;, &#39;length&#39;,   &#39;length_0.95_HPD&#39;,
 ##  &#39;length_median&#39;,    &#39;length_range&#39;, &#39;posterior&#39;,    &#39;rate&#39;,
 ##  &#39;rate_0.95_HPD&#39;,    &#39;rate_median&#39;,  &#39;rate_range&#39;,   &#39;trait&#39;.</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">N &lt;-<span class="st"> </span><span class="kw">Nnode2</span>(beast)
-y &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">node =</span> <span class="dv">1</span><span class="op">:</span>N, <span class="dt">fake_trait =</span> <span class="kw">rnorm</span>(N), <span class="dt">another_trait =</span> <span class="kw">runif</span>(N))
-<span class="kw">full_join</span>(beast, y, <span class="dt">by=</span><span class="st">&quot;node&quot;</span>)</code></pre>
-<pre><code>## &#39;treedata&#39; S4 object that stored information of
-##  &#39;C:/Users/YGC/Library/R/library/treeio/extdata/BEAST/beast_mcc.tree&#39;.
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ape)
+<span class="kw">data</span>(woodmouse)
+d &lt;-<span class="st"> </span><span class="kw">dist.dna</span>(woodmouse)
+tr &lt;-<span class="st"> </span><span class="kw">nj</span>(d)
+bp &lt;-<span class="st"> </span><span class="kw">boot.phylo</span>(tr, woodmouse, <span class="cf">function</span>(x) <span class="kw">nj</span>(<span class="kw">dist.dna</span>(x)))</code></pre>
+<pre><code>## 
+Running bootstraps:       100 / 100
+## Calculating bootstrap values... done.</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">bp2 &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">node=</span><span class="dv">1</span><span class="op">:</span><span class="kw">Nnode</span>(tr) <span class="op">+</span><span class="st"> </span><span class="kw">Ntip</span>(tr), <span class="dt">bootstrap =</span> bp)
+<span class="kw">full_join</span>(tr, bp2, <span class="dt">by=</span><span class="st">&quot;node&quot;</span>)</code></pre>
+<pre><code>## &#39;treedata&#39; S4 object&#39;.
 ## 
 ## ...@ phylo: 
-## Phylogenetic tree with 15 tips and 14 internal nodes.
+## Phylogenetic tree with 15 tips and 13 internal nodes.
 ## 
 ## Tip labels:
-##  A_1995, B_1996, C_1995, D_1987, E_1996, F_1997, ...
+##  No305, No304, No306, No0906S, No0908S, No0909S, ...
 ## 
-## Rooted; includes branch lengths.
+## Unrooted; includes branch lengths.
 ## 
 ## with the following features available:
-##  &#39;height&#39;,   &#39;height_0.95_HPD&#39;,  &#39;height_median&#39;,
-##  &#39;height_range&#39;, &#39;length&#39;,   &#39;length_0.95_HPD&#39;,
-##  &#39;length_median&#39;,    &#39;length_range&#39;, &#39;posterior&#39;,    &#39;rate&#39;,
-##  &#39;rate_0.95_HPD&#39;,    &#39;rate_median&#39;,  &#39;rate_range&#39;,   &#39;fake_trait&#39;,
-##  &#39;another_trait&#39;.</code></pre>
+##  &#39;bootstrap&#39;.</code></pre>
 <p>Manipulating tree object is frustrated with the fragmented functions available
 for working with <code>phylo</code> object, not to mention linking external data to the
 phylogeny structure. With <a href="http://bioconductor.org/packages/treeio">treeio</a> package, it is easy to combine tree data from various sources.
@@ -675,13 +677,13 @@ x &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(<span class="k
 <pre><code>## # A tibble: 7 x 5
 ##   parent  node branch.length label fake_group
 ##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;fct&gt;     
-## 1      7     1       0.472   t2    0         
-## 2      7     2       0.274   t1    1         
-## 3      6     3       0.674   t4    1         
-## 4      5     4       0.00202 t3    0         
-## 5      5     5      NA       &lt;NA&gt;  0         
-## 6      5     6       0.0393  &lt;NA&gt;  1         
-## 7      6     7       0.435   &lt;NA&gt;  1</code></pre>
+## 1      5     1       0.435   t4    1         
+## 2      7     2       0.674   t1    1         
+## 3      7     3       0.00202 t3    0         
+## 4      6     4       0.0251  t2    0         
+## 5      5     5      NA       &lt;NA&gt;  1         
+## 6      5     6       0.472   &lt;NA&gt;  1         
+## 7      6     7       0.274   &lt;NA&gt;  1</code></pre>
 <p>The <code>groupOTU</code> will trace back from input nodes to most recent common ancestor.
 In this example, nodes 2, 3, 7 and 6 (<code>2 (t1) -&gt; 7 -&gt; 6</code> and <code>3 (t4) -&gt; 6</code>) are
 grouping together.</p>
@@ -766,7 +768,7 @@ dd &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(d1, d2) <span
 <span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(label))
 
 pp <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(x, y, <span class="dt">group=</span>label), <span class="dt">data=</span>dd, <span class="dt">color=</span><span class="st">&#39;grey&#39;</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
 <p>It is quite easy to plot multiple trees and connect taxa in one figure. For instance, plotting trees contructed from all internal gene segments of influenza virus and connecting equivalent strans across the trees <span class="citation">(Venkatesh et al. <a href="#ref-venkatesh_avian_2018" role="doc-biblioref">2018</a>)</span>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">z &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)
 d2 &lt;-<span class="st"> </span><span class="kw">fortify</span>(y)
@@ -780,7 +782,7 @@ dd =<span class="st"> </span><span class="kw">bind_rows</span>(d1, d2, d3) <span
 <span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(label))
 
 pp <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(x, y, <span class="dt">group=</span>label, <span class="dt">color=</span>node <span class="op">&lt;</span><span class="st"> </span><span class="dv">15</span>), <span class="dt">data=</span>dd, <span class="dt">alpha=</span>.<span class="dv">3</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-44-1.png" width="672" /></p>
 </div>
 <div id="summary-1" class="section level2">
 <h2><span class="header-section-number">2.6</span> Summary</h2>
