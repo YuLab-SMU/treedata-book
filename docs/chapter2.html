@@ -150,8 +150,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="2" data-path="chapter2.html"><a href="chapter2.html"><i class="fa fa-check"></i><b>2</b> Manipulating Tree with Data</a><ul>
 <li class="chapter" data-level="2.1" data-path="chapter2.html"><a href="chapter2.html#tidytree"><i class="fa fa-check"></i><b>2.1</b> Manipulating tree data using tidy interface</a><ul>
-<li class="chapter" data-level="2.1.1" data-path="chapter2.html"><a href="chapter2.html#phylo-object"><i class="fa fa-check"></i><b>2.1.1</b> <code>phylo</code> object</a></li>
-<li class="chapter" data-level="2.1.2" data-path="chapter2.html"><a href="chapter2.html#treedata-object"><i class="fa fa-check"></i><b>2.1.2</b> treedata object</a></li>
+<li class="chapter" data-level="2.1.1" data-path="chapter2.html"><a href="chapter2.html#the-phylo-object"><i class="fa fa-check"></i><b>2.1.1</b> The <code>phylo</code> object</a></li>
+<li class="chapter" data-level="2.1.2" data-path="chapter2.html"><a href="chapter2.html#the-treedata-object"><i class="fa fa-check"></i><b>2.1.2</b> The <code>treedata</code> object</a></li>
 <li class="chapter" data-level="2.1.3" data-path="chapter2.html"><a href="chapter2.html#accesor-tidytree"><i class="fa fa-check"></i><b>2.1.3</b> Access related nodes</a></li>
 </ul></li>
 <li class="chapter" data-level="2.2" data-path="chapter2.html"><a href="chapter2.html#data-integration"><i class="fa fa-check"></i><b>2.2</b> Data Integration</a><ul>
@@ -219,7 +219,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.7" data-path="chapter6.html"><a href="chapter6.html#summary-5"><i class="fa fa-check"></i><b>6.7</b> Summary</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="chapter7.html"><a href="chapter7.html"><i class="fa fa-check"></i><b>7</b> Plotting tree with data</a><ul>
-<li class="chapter" data-level="7.1" data-path="chapter7.html"><a href="chapter7.html#the-operator-attach-operator"><i class="fa fa-check"></i><b>7.1</b> The <code>%&lt;+%</code> operator (#attach-operator)</a></li>
+<li class="chapter" data-level="7.1" data-path="chapter7.html"><a href="chapter7.html#attach-operator"><i class="fa fa-check"></i><b>7.1</b> The <code>%&lt;+%</code> operator</a></li>
 <li class="chapter" data-level="7.2" data-path="chapter7.html"><a href="chapter7.html#visualize-tree-with-associated-matrix"><i class="fa fa-check"></i><b>7.2</b> Visualize tree with associated matrix</a><ul>
 <li class="chapter" data-level="7.2.1" data-path="chapter7.html"><a href="chapter7.html#gheatmap"><i class="fa fa-check"></i><b>7.2.1</b> Visualize tree with multiple associated matrix</a></li>
 </ul></li>
@@ -302,14 +302,14 @@ package. The <a href="https://cran.r-project.org/package=tidytree">tidytree</a> 
 provides tidy interfaces to manipulate tree with associated data. For instances,
 external data can be linked to phylogeny or evolutionary data obtained from
 different sources can be merged using tidyverse verbs. After the tree data was
-manipulated, it can be converted back to <code>treedata</code> object and exported to a
-single tree file, further analyzed in R or visualized using <a href="https://bioconductor.org/packages/ggtree/">ggtree</a> <span class="citation">(Yu et al. <a href="#ref-yu_ggtree:_2017" role="doc-biblioref">2017</a>)</span>.</p>
-<div id="phylo-object" class="section level3">
-<h3><span class="header-section-number">2.1.1</span> <code>phylo</code> object</h3>
+manipulated, it can be converted back to <code>treedata</code> object and exported to <a href="chapter3.html#chapter3">a
+single tree file</a>, further analyzed in R or visualized using <a href="https://bioconductor.org/packages/ggtree/">ggtree</a> <span class="citation">(Yu et al. <a href="#ref-yu_ggtree:_2017" role="doc-biblioref">2017</a>)</span>.</p>
+<div id="the-phylo-object" class="section level3">
+<h3><span class="header-section-number">2.1.1</span> The <code>phylo</code> object</h3>
 <p>The <code>phylo</code> class defined in <a href="https://cran.r-project.org/package=ape">ape</a> is
 fundamental for phylogenetic analysis in R. Most of the R packages
 in <a href="https://CRAN.R-project.org/view=Phylogenetics">this field</a> rely
-extensively on <code>phylo</code> object. The tidytree package provides <code>as_tibble</code>
+extensively on <code>phylo</code> object. The <a href="https://CRAN.R-project.org/package=tidytree">tidytree</a> package provides <code>as_tibble</code>
 method to convert the <code>phylo</code> object to tidy data frame, a <code>tbl_tree</code> object.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ape)
 <span class="kw">set.seed</span>(<span class="dv">2017</span>)
@@ -344,7 +344,7 @@ x</code></pre>
 ## 
 ## Rooted; includes branch lengths.</code></pre>
 <p>Using <code>tbl_tree</code> object makes tree and data manipulation more effective and
-easier. For example, we can link evolutionary trait to phylogeny using the verbs <code>full_join</code></p>
+easier. For example, we can link evolutionary trait to phylogeny using <a href="https://CRAN.R-project.org/package=dplyr">dplyr</a> verbs <code>full_join</code>:</p>
 <pre class="sourceCode r"><code class="sourceCode r">d &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">label =</span> <span class="kw">paste0</span>(<span class="st">&#39;t&#39;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>),
             <span class="dt">trait =</span> <span class="kw">rnorm</span>(<span class="dv">4</span>))
 
@@ -361,9 +361,9 @@ y</code></pre>
 ## 6      5     6       0.472   &lt;NA&gt;  NA    
 ## 7      6     7       0.274   &lt;NA&gt;  NA</code></pre>
 </div>
-<div id="treedata-object" class="section level3">
-<h3><span class="header-section-number">2.1.2</span> treedata object</h3>
-<p>The tidytree package defines a <code>treedata</code> class to store phylogenetic tree with
+<div id="the-treedata-object" class="section level3">
+<h3><span class="header-section-number">2.1.2</span> The <code>treedata</code> object</h3>
+<p>The <a href="https://CRAN.R-project.org/package=tidytree">tidytree</a> package defines <code>treedata</code> class to store phylogenetic tree with
 associated data. After mapping external data to the tree structure, the
 <code>tbl_tree</code> object can be converted to a <code>treedata</code> object.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.treedata</span>(y)</code></pre>
@@ -382,8 +382,8 @@ associated data. After mapping external data to the tree structure, the
 <p>The <code>treedata</code> class is also used
 in <a href="https://bioconductor.org/packages/treeio/">treeio</a> package to store
 evolutionary evidences inferred by commonly used software (BEAST, EPA, HYPHY,
-MrBayes, PAML, PHYLODOG, pplacer, r8s, RAxML and RevBayes) (see details in <a href="chapter1.html#chapter1">Chapter 1</a>).</p>
-<p>The tidytree package also provides <code>as_tibble</code> to convert <code>treedata</code> object
+MrBayes, PAML, PHYLODOG, pplacer, r8s, RAxML and RevBayes, etc.) (see details in <a href="chapter1.html#chapter1">Chapter 1</a>).</p>
+<p>The <a href="https://CRAN.R-project.org/package=tidytree">tidytree</a> package also provides <code>as_tibble</code> to convert <code>treedata</code> object
 to a tidy data frame. The phylogentic tree structure and the evolutionary
 inferences were stored in the <code>tbl_tree</code> object, making it consistent and easier
 for manipulating evolutionary statistics inferred by different software as well
@@ -402,8 +402,7 @@ as linking external data to the same tree structure.</p>
 </div>
 <div id="accesor-tidytree" class="section level3">
 <h3><span class="header-section-number">2.1.3</span> Access related nodes</h3>
-<p><a href="https://cran.r-project.org/package=dplyr">dplyr</a> verbs can be applied to <code>tbl_tree</code> directly to manipulate tree data. In
-addition, tidytree provides several verbs to filter related nodes, including
+<p><a href="https://cran.r-project.org/package=dplyr">dplyr</a> verbs can be applied to <code>tbl_tree</code> directly to manipulate tree data. In addition, <a href="https://CRAN.R-project.org/package=tidytree">tidytree</a> provides several verbs to filter related nodes, including
 <code>child</code>, <code>parent</code>, <code>offspring</code>, <code>ancestor</code>, <code>sibling</code> and <code>MRCA</code>.</p>
 <p>These verbs accept a <code>tbl_tree</code> and a selected node which can be node number or label.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">child</span>(y, <span class="dv">5</span>)</code></pre>
@@ -444,6 +443,10 @@ addition, tidytree provides several verbs to filter related nodes, including
 ##   parent  node branch.length label trait
 ##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;
 ## 1      6     7         0.274 &lt;NA&gt;     NA</code></pre>
+<p>All these methods also implemented in <a href="http://bioconductor.org/packages/treeio">treeio</a> for working with <code>phylo</code> and <code>treedata</code> objects. You can try accessing related nodes using the tree object. For instance, the following command will output child nodes of the selected internal node <code>5</code>:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">child</span>(tree, <span class="dv">5</span>)</code></pre>
+<pre><code>## [1] 1 6</code></pre>
+<p>Beware that the methods work for tree objects output related node numbers, while the methods implemented for <code>tbl_tree</code> object output a <code>tibble</code> object that contains related information.</p>
 </div>
 </div>
 <div id="data-integration" class="section level2">
@@ -465,7 +468,7 @@ Furthermore, <a href="https://bioconductor.org/packages/treeio/">treeio</a> can 
 multiple phylogenetic trees together into one with their node/branch-specific
 attribute data. Essentially, as a result, one such attribute (<em>e.g.</em>,
 substitution rate) can be mapped to another attribute (<em>e.g.</em>, <em>d<sub>N</sub>/d<sub>S</sub></em>) of
-the same node/branch for comparison and further computations.</p>
+the same node/branch for comparison and further computations <span class="citation">(Yu et al. <a href="#ref-yu_ggtree:_2017" role="doc-biblioref">2017</a>)</span>.</p>
 <p>A previously published data set, seventy-six H3 hemagglutinin gene sequences of
 a lineage containing swine and human influenza A viruses
 <span class="citation">(Liang et al. <a href="#ref-liang_expansion_2014" role="doc-biblioref">2014</a>)</span>, was here to demonstrate the utilities of comparing
@@ -517,7 +520,8 @@ by <a href="http://beast2.org/">BEAST</a> on the same branches.</p>
 
 
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
-df &lt;-<span class="st"> </span><span class="kw">fortify</span>(merged_tree) <span class="op">%&gt;%</span>
+df &lt;-<span class="st"> </span>merged_tree <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">select</span>(dN_vs_dS, dN, dS, rate) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">subset</span>(dN_vs_dS <span class="op">&gt;=</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>dN_vs_dS <span class="op">&lt;=</span><span class="st"> </span><span class="fl">1.5</span>) <span class="op">%&gt;%</span>
 <span class="st">  </span>tidyr<span class="op">::</span><span class="kw">gather</span>(type, value, dN_vs_dS<span class="op">:</span>dS)
@@ -580,32 +584,8 @@ associated with epidemiological information, such as location, age and subtype.
 Functional annotations may need to be mapped on gene trees for comparative
 genomics studies. To facilitate data
 integration, <a href="https://bioconductor.org/packages/treeio">treeio</a> provides
-<code>full_join</code> method to link external data to phylogeny and stored in <code>treedata</code> object.</p>
-<p>Here are examples of linking external data to a phylogenetic tree. After that,
-we can use <a href="Exporter.html">exporter</a> to combine the tree and the data to a
-single tree file. The data that mapped on the phylogenetic tree can also be used to visualize or
-annotate the tree using <a href="https://bioconductor.org/packages/ggtree/">ggtree</a>
-<span class="citation">(Yu et al. <a href="#ref-yu_ggtree:_2017" role="doc-biblioref">2017</a>)</span>.</p>
-<pre class="sourceCode r"><code class="sourceCode r">file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/BEAST&quot;</span>, <span class="st">&quot;beast_mcc.tree&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)
-beast &lt;-<span class="st"> </span><span class="kw">read.beast</span>(file)
-x &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">label =</span> <span class="kw">as.phylo</span>(beast)<span class="op">$</span>tip.label, <span class="dt">trait =</span> <span class="kw">rnorm</span>(<span class="kw">Ntip</span>(beast)))
-<span class="kw">full_join</span>(beast, x, <span class="dt">by=</span><span class="st">&quot;label&quot;</span>)</code></pre>
-<pre><code>## &#39;treedata&#39; S4 object that stored information of
-##  &#39;C:/Users/YGC/Library/R/library/treeio/extdata/BEAST/beast_mcc.tree&#39;.
-## 
-## ...@ phylo: 
-## Phylogenetic tree with 15 tips and 14 internal nodes.
-## 
-## Tip labels:
-##  A_1995, B_1996, C_1995, D_1987, E_1996, F_1997, ...
-## 
-## Rooted; includes branch lengths.
-## 
-## with the following features available:
-##  &#39;height&#39;,   &#39;height_0.95_HPD&#39;,  &#39;height_median&#39;,
-##  &#39;height_range&#39;, &#39;length&#39;,   &#39;length_0.95_HPD&#39;,
-##  &#39;length_median&#39;,    &#39;length_range&#39;, &#39;posterior&#39;,    &#39;rate&#39;,
-##  &#39;rate_0.95_HPD&#39;,    &#39;rate_median&#39;,  &#39;rate_range&#39;,   &#39;trait&#39;.</code></pre>
+<code>full_join</code> method to link external data to phylogeny and stored in either <code>phylo</code> or <code>treedata</code> object. Beware that linking external data to a <code>phylo</code> object will produce a <code>treedata</code> object to store the input <code>phylo</code> with associated data. The <code>full_join</code> methods can also be used at tidy data frame level (<em>i.e.</em> <code>tbl_tree</code> object described previously) and at <code>ggtree</code> level (described in <a href="chapter7.html#attach-operator">session 7.1</a>).</p>
+<p>The following example calculated bootstrap values and merging that values with the tree (a <code>phylo</code> object) by matching their node numbers.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ape)
 <span class="kw">data</span>(woodmouse)
 d &lt;-<span class="st"> </span><span class="kw">dist.dna</span>(woodmouse)
@@ -628,10 +608,31 @@ Running bootstraps:       100 / 100
 ## 
 ## with the following features available:
 ##  &#39;bootstrap&#39;.</code></pre>
+<p>Another example demonstrates merging evolutionary trait with the tree (a <code>treedata</code> object) by matching their tip labels.</p>
+<pre class="sourceCode r"><code class="sourceCode r">file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/BEAST&quot;</span>, <span class="st">&quot;beast_mcc.tree&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)
+beast &lt;-<span class="st"> </span><span class="kw">read.beast</span>(file)
+x &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">label =</span> <span class="kw">as.phylo</span>(beast)<span class="op">$</span>tip.label, <span class="dt">trait =</span> <span class="kw">rnorm</span>(<span class="kw">Ntip</span>(beast)))
+<span class="kw">full_join</span>(beast, x, <span class="dt">by=</span><span class="st">&quot;label&quot;</span>)</code></pre>
+<pre><code>## &#39;treedata&#39; S4 object that stored information of
+##  &#39;C:/Users/YGC/Library/R/library/treeio/extdata/BEAST/beast_mcc.tree&#39;.
+## 
+## ...@ phylo: 
+## Phylogenetic tree with 15 tips and 14 internal nodes.
+## 
+## Tip labels:
+##  A_1995, B_1996, C_1995, D_1987, E_1996, F_1997, ...
+## 
+## Rooted; includes branch lengths.
+## 
+## with the following features available:
+##  &#39;height&#39;,   &#39;height_0.95_HPD&#39;,  &#39;height_median&#39;,
+##  &#39;height_range&#39;, &#39;length&#39;,   &#39;length_0.95_HPD&#39;,
+##  &#39;length_median&#39;,    &#39;length_range&#39;, &#39;posterior&#39;,    &#39;rate&#39;,
+##  &#39;rate_0.95_HPD&#39;,    &#39;rate_median&#39;,  &#39;rate_range&#39;,   &#39;trait&#39;.</code></pre>
 <p>Manipulating tree object is frustrated with the fragmented functions available
 for working with <code>phylo</code> object, not to mention linking external data to the
 phylogeny structure. With <a href="http://bioconductor.org/packages/treeio">treeio</a> package, it is easy to combine tree data from various sources.
-In addition, with <a href="https://CRAN.R-project.org/package=tidytree">tidytree</a> package (<a href="chapter2.html#tidytree">session 1.2</a>), manipulating tree is more easier using
+In addition, with <a href="https://CRAN.R-project.org/package=tidytree">tidytree</a> package (<a href="chapter2.html#tidytree">session 2.1</a>), manipulating tree is more easier using
 <a href="https://www.jstatsoft.org/article/view/v059i10">tidy data principles</a> and
 consistent with tools already in wide use, including
 <a href="https://cran.r-project.org/package=dplyr">dplyr</a>,
@@ -768,7 +769,7 @@ dd &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(d1, d2) <span
 <span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(label))
 
 pp <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(x, y, <span class="dt">group=</span>label), <span class="dt">data=</span>dd, <span class="dt">color=</span><span class="st">&#39;grey&#39;</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
 <p>It is quite easy to plot multiple trees and connect taxa in one figure. For instance, plotting trees contructed from all internal gene segments of influenza virus and connecting equivalent strans across the trees <span class="citation">(Venkatesh et al. <a href="#ref-venkatesh_avian_2018" role="doc-biblioref">2018</a>)</span>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">z &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)
 d2 &lt;-<span class="st"> </span><span class="kw">fortify</span>(y)
@@ -782,7 +783,7 @@ dd =<span class="st"> </span><span class="kw">bind_rows</span>(d1, d2, d3) <span
 <span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(label))
 
 pp <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(x, y, <span class="dt">group=</span>label, <span class="dt">color=</span>node <span class="op">&lt;</span><span class="st"> </span><span class="dv">15</span>), <span class="dt">data=</span>dd, <span class="dt">alpha=</span>.<span class="dv">3</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-44-1.png" width="672" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
 </div>
 <div id="summary-1" class="section level2">
 <h2><span class="header-section-number">2.6</span> Summary</h2>
