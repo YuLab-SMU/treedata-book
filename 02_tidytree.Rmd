@@ -276,10 +276,14 @@ and [ggtree](https://bioconductor.org/packages/ggtree/).
 
 ### Grouping taxa
 
-tidytree implemented `groupOTU` and `groupClade` for adding taxa grouping
-information to the input `tbl_tree` object. These grouping information can be
-used directly in tree visualization (*e.g.* coloring tree based on grouping)
-with [ggtree](https://bioconductor.org/packages/ggtree/).
+The `groupOTU` and `groupClade` methods are designed for adding taxa grouping
+information to the input tree object. The methods were implemented in `r CRANpkg("tidytree")`,
+`r Biocpkg("treeio")` and `r Biocpkg("ggtree")` respectively to support adding grouping information at 
+`tbl_tree`, `phylo` and `treedata`, and `ggtree` levels. These grouping information can be
+used directly in tree visualization (*e.g.* [coloring tree based on grouping](#group-taxa-vis))
+with [ggtree](https://bioconductor.org/packages/ggtree/) (Figure \@ref(fig:groupOTU)).
+
+
 
 #### groupClade
 
@@ -301,10 +305,21 @@ groupClade(as_tibble(tree), c(17, 21))
 
 ```{r}
 set.seed(2017)
-x <- as_tibble(rtree(4))
+tr <- rtree(4)
+x <- as_tibble(tr)
 ## the input nodes can be node ID or label
 groupOTU(x, c('t1', 't4'), group_name = "fake_group")
 ```
+
+Both `groupClade()` and `groupOTU()` work with `tbl_tree`, `phylo` and `treedata`, and `ggtree` objects. Here is an example of using `groupOTU()` with `phylo` tree object.
+
+```{r}
+groupOTU(tr, c('t1', 't4'), group_name = "fake_group") %>%
+  as_tibble
+```
+
+Another example of working with `ggtree` object can be found in [session 6.5](#group-taxa-vis).
+
 
 The `groupOTU` will trace back from input nodes to most recent common ancestor.
 In this example, nodes 2, 3, 7 and 6 (`2 (t1) -> 7 -> 6` and `3 (t4) -> 6`) are
@@ -324,9 +339,8 @@ as_tibble(tree) %>% groupOTU(cls)
 
 If there are conflicts when tracing back to mrca, user can set `overlap`
 parameter to "origin" (the first one counts), "overwrite" (default, the last one
-counts) or "abandon" (un-selected for grouping), see
-also
-[discussion here](https://groups.google.com/forum/#!msg/bioc-ggtree/Q4LnwoTf1DM/uqYdYB_VBAAJ).
+counts) or "abandon" (un-selected for grouping)^[<https://groups.google.com/forum/#!msg/bioc-ggtree/Q4LnwoTf1DM/uqYdYB_VBAAJ>].
+
 
 
 ## Rescaling Tree Branches {#rescale-treeio}
@@ -344,7 +358,7 @@ p1 <- ggtree(merged_tree) + theme_tree2()
 p2 <- ggtree(rescale_tree(merged_tree, 'dN')) + theme_tree2()
 p3 <- ggtree(rescale_tree(merged_tree, 'rate')) + theme_tree2()
 
-cowplot::plot_grid(p1, p2, p3, ncol=3, labels = LETTERS)
+cowplot::plot_grid(p1, p2, p3, ncol=3, labels = LETTERS[1:3])
 ```
 
 
@@ -357,11 +371,17 @@ cowplot::plot_grid(p1, p2, p3, ncol=3, labels = LETTERS)
 
 ## Manipulating tree data for visualization {#ggtree-fortify}
 
-Tree visualization is supported by [ggtree](#chapter4). Although *ggtree* implemented several methods for [visual exploration of tree with data](#chapter6), you may want to do something that is not supported directly. In this case, you need to manipulate tree data with node coordination positions that used for visualization. This is quite easy with *ggtree*. User can use `foritfy` method which internally call `tidytree::as_tibble` to convert the tree to tidy data frame and add columns of coordination positions (*i.e.* x, y, branch and angle) that are used to plot the tree. You can also access the data via `ggtree(tree)$data`.
+Tree visualization is supported by [ggtree](#chapter4). Although *ggtree* implemented several methods for [visual exploration of tree with data](#chapter6), you may want to do something that is not supported directly. In this case, you need to manipulate tree data with node coordination positions that used for visualization. This is quite easy with *ggtree*. User can use `foritfy()` method which internally call `tidytree::as_tibble()` to convert the tree to tidy data frame and add columns of coordination positions (*i.e.* x, y, branch and angle) that are used to plot the tree. You can also access the data via `ggtree(tree)$data`.
 
-Here is an example to plot two trees face to face that is similar to a `cophyloplot`.
+Here is an example to plot two trees face to face that is similar to a `ape::cophyloplot()`.
 
-```{r}
+
+
+(ref:cophyloscap) Plot two phylogenetic trees face to face.
+
+(ref:cophylocap) **Plot two phylogenetic trees face to face.** Plotting a tree using `ggtree()` (left hand side) and subsequently add another layer of tree by `geom_tree()` (right hand side). The relative positions of the plotted trees can be manual adjusted and adding layers to each of the tree (*e.g.* tip labels) is independent.
+
+```{r cophylo, fig.width=8, fig.height=6, message=F, echo=T, fig.cap="(ref:cophylocap)", fig.scap="(ref:cophyloscap)", out.extra=''}
 library(dplyr)
 library(ggtree)
 
@@ -388,19 +408,22 @@ pp + geom_line(aes(x, y, group=label), data=dd, color='grey')
 It is quite easy to plot multiple trees and connect taxa in one figure. For instance, plotting trees contructed from all internal gene segments of influenza virus and connecting equivalent strans across the trees [@venkatesh_avian_2018]. 
 
 
-```{r}
+(ref:cophylo3scap) Plot multiple phylogenetic trees side by side.
+
+(ref:cophylo3cap) **Plot multiple phylogenetic trees side by side.** Plotting a tree using `ggtree()` and subsequently add multiple layers of trees by `geom_tree()`.
+
+```{r cophylo3, fig.width=8, fig.height=6, message=F, echo=T, fig.cap="(ref:cophylo3cap)", fig.scap="(ref:cophylo3scap)", out.extra=''}
 z <- rtree(30)
 d2 <- fortify(y)
 d3 <- fortify(z)
 d2$x <- d2$x + max(d1$x) + 1
 d3$x <- d3$x + max(d2$x) + 1
 
-pp <- p1 + geom_tree(data = d2) + geom_tree(data = d3)
-
 dd = bind_rows(d1, d2, d3) %>% 
   filter(!is.na(label))
 
-pp + geom_line(aes(x, y, group=label, color=node < 15), data=dd, alpha=.3)
+p1 + geom_tree(data = d2) + geom_tree(data = d3) + geom_tiplab(data=d3) + 
+  geom_line(aes(x, y, group=label, color=node < 15), data=dd, alpha=.3)
 ```
 
 

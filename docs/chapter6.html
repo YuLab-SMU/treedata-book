@@ -213,7 +213,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.1" data-path="chapter6.html"><a href="chapter6.html#viewing-selected-clade"><i class="fa fa-check"></i><b>6.1</b> Viewing Selected Clade</a></li>
 <li class="chapter" data-level="6.2" data-path="chapter6.html"><a href="chapter6.html#collapsing-and-expanding-clade"><i class="fa fa-check"></i><b>6.2</b> Collapsing and Expanding Clade</a></li>
 <li class="chapter" data-level="6.3" data-path="chapter6.html"><a href="chapter6.html#scaling-selected-clade"><i class="fa fa-check"></i><b>6.3</b> Scaling Selected Clade</a></li>
-<li class="chapter" data-level="6.4" data-path="chapter6.html"><a href="chapter6.html#grouping-taxa-1"><i class="fa fa-check"></i><b>6.4</b> Grouping Taxa</a></li>
+<li class="chapter" data-level="6.4" data-path="chapter6.html"><a href="chapter6.html#group-taxa-vis"><i class="fa fa-check"></i><b>6.4</b> Grouping Taxa</a></li>
 <li class="chapter" data-level="6.5" data-path="chapter6.html"><a href="chapter6.html#exploring-tree-structure"><i class="fa fa-check"></i><b>6.5</b> Exploring tree structure</a></li>
 <li class="chapter" data-level="6.6" data-path="chapter6.html"><a href="chapter6.html#zoom-on-a-portion-of-tree"><i class="fa fa-check"></i><b>6.6</b> Zoom on a portion of tree</a></li>
 <li class="chapter" data-level="6.7" data-path="chapter6.html"><a href="chapter6.html#summary-5"><i class="fa fa-check"></i><b>6.7</b> Summary</a></li>
@@ -451,7 +451,7 @@ Figure 6.3: <strong>Scaling selected clade.</strong> Clades can be zoom in (if <
 
 <p>If users want to emphasize important clades, they can use <code>scaleClade</code> function with <code>scale</code> parameter larger than 1. Then the selected clade will be zoomed in. Users can also use <code>groupClade</code> to select clades and color them with different colors as shown in Figure <a href="chapter6.html#fig:scaleClade">6.3</a>.</p>
 </div>
-<div id="grouping-taxa-1" class="section level2">
+<div id="group-taxa-vis" class="section level2">
 <h2><span class="header-section-number">6.4</span> Grouping Taxa</h2>
 <p>The <code>groupClade</code> function assigns the branches and nodes under different clades into different groups. <em><code>groupClade</code></em> accepts an internal node or a vector of internal nodes to cluster clade/clades.</p>
 <p>Similarly, <code>groupOTU</code> function assigns branches and nodes to different groups based on user-specified groups of operational taxonomic units (OTUs) that are not necessarily within a clade, but can be monophyletic (clade), polyphyletic or paraphyletic. It accepts a vector of OTUs (taxa name) or a list of OTUs and will trace back from OTUs to their most recent common ancestor (MRCA) and cluster them together as demonstrated in Figure <a href="chapter6.html#fig:groupOTU">6.4</a>.</p>
@@ -459,8 +459,19 @@ Figure 6.3: <strong>Scaling selected clade.</strong> Clades can be zoom in (if <
 
 
 
-<pre class="sourceCode r"><code class="sourceCode r">tree2 &lt;-<span class="st"> </span><span class="kw">groupOTU</span>(tree, <span class="kw">c</span>(<span class="st">&quot;D&quot;</span>, <span class="st">&quot;E&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;G&quot;</span>))
-<span class="kw">ggtree</span>(tree2, <span class="kw">aes</span>(<span class="dt">color=</span>group)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>()</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(iris)
+rn &lt;-<span class="st"> </span><span class="kw">paste0</span>(iris[,<span class="dv">5</span>], <span class="st">&quot;_&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">150</span>)
+<span class="kw">rownames</span>(iris) &lt;-<span class="st"> </span>rn
+d_iris &lt;-<span class="st"> </span><span class="kw">dist</span>(iris[,<span class="op">-</span><span class="dv">5</span>], <span class="dt">method=</span><span class="st">&quot;man&quot;</span>)
+
+tree_iris &lt;-<span class="st"> </span>ape<span class="op">::</span><span class="kw">bionj</span>(d_iris)
+grp &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">setosa     =</span> rn[<span class="dv">1</span><span class="op">:</span><span class="dv">50</span>],
+            <span class="dt">versicolor =</span> rn[<span class="dv">51</span><span class="op">:</span><span class="dv">100</span>],
+            <span class="dt">virginica  =</span> rn[<span class="dv">101</span><span class="op">:</span><span class="dv">150</span>])
+
+p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree_iris, <span class="dt">layout =</span> <span class="st">&#39;circular&#39;</span>, <span class="dt">branch.length=</span><span class="st">&#39;none&#39;</span>)
+<span class="kw">groupOTU</span>(p, grp, <span class="st">&#39;Species&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">color=</span>Species) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;right&quot;</span>)</code></pre>
 <div class="figure"><span id="fig:groupOTU"></span>
 <img src="treedata_files/figure-html/groupOTU-1.png" alt="Grouping OTUs. OTU clustering based on their relationships. Selected OTUs and their ancestors upto MRCA will be clustered together." width="672"  />
 <p class="caption">
@@ -468,29 +479,10 @@ Figure 6.4: <strong>Grouping OTUs.</strong> OTU clustering based on their relati
 </p>
 </div>
 
-<!--
-## iris example
-
-In this example, we first build a tree based on the iris data, then grouping the tree based on different spacies.
-
-#```{r fig.width=20, fig.height=20, fig.align="center", warning=FALSE}
-data(iris)
-rn <- paste0(iris[,5], "_", 1:150)
-rownames(iris) <- rn
-d_iris <- dist(iris[,-5], method="man")
-
-tree_iris <- bionj(d_iris)
-tree_iris <- groupOTU(tree_iris, list(setosa        = rn[1:50],
-                                      versicolor    = rn[51:100],
-                                      virginica_145 = rn[101:150]))
-cols <- rainbow_hcl(4)
-ggtree(tree_iris, aes(color=group)) +
-    geom_text(aes(label=label), hjust=-.1) +
-    scale_color_manual(values=cols, breaks=1:3,
-                       labels=c("Setosa", "Versicolor", "Virginica")) +
-    theme(legend.position="right")
-#```
--->
+<p>We can grouping taxa at tree level. The following code will produce identical figure of Figure <a href="chapter6.html#fig:groupOTU">6.4</a> (see more details described at <a href="chapter2.html#grouping-taxa">session 2.2.3</a>).</p>
+<pre class="sourceCode r"><code class="sourceCode r">tree_iris &lt;-<span class="st"> </span><span class="kw">groupOTU</span>(tree_iris, grp, <span class="st">&quot;Species&quot;</span>)
+<span class="kw">ggtree</span>(tree_iris, <span class="kw">aes</span>(<span class="dt">color=</span>Species), <span class="dt">layout =</span> <span class="st">&#39;circular&#39;</span>, <span class="dt">branch.length =</span> <span class="st">&#39;none&#39;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;right&quot;</span>)</code></pre>
 </div>
 <div id="exploring-tree-structure" class="section level2">
 <h2><span class="header-section-number">6.5</span> Exploring tree structure</h2>
@@ -519,7 +511,7 @@ p2 <- rotate(p, 21) %>% rotate(17)
 plot_grid(p, p2, ncol=2)
 ```
 
-<img src="treedata_files/figure-html/unnamed-chunk-102-1.png" width="768" />
+<img src="treedata_files/figure-html/unnamed-chunk-101-1.png" width="768" />
 
 
 ```r
@@ -607,13 +599,13 @@ for (angle in seq(0, 270, 10)) {
 <span class="kw">data</span>(chiroptera)
 <span class="kw">library</span>(<span class="st">&quot;ggtree&quot;</span>)
 <span class="kw">gzoom</span>(chiroptera, <span class="kw">grep</span>(<span class="st">&quot;Plecotus&quot;</span>, chiroptera<span class="op">$</span>tip.label))</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-108-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-107-1.png" width="864" style="display: block; margin: auto;" /></p>
 <p>Zoom in selected clade of a tree that was already annotated with <code>ggtree</code> is also supported.</p>
 <pre class="sourceCode r"><code class="sourceCode r">groupInfo &lt;-<span class="st"> </span><span class="kw">split</span>(chiroptera<span class="op">$</span>tip.label, <span class="kw">gsub</span>(<span class="st">&quot;_</span><span class="ch">\\</span><span class="st">w+&quot;</span>, <span class="st">&quot;&quot;</span>, chiroptera<span class="op">$</span>tip.label))
 chiroptera &lt;-<span class="st"> </span><span class="kw">groupOTU</span>(chiroptera, groupInfo)
 p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(chiroptera, <span class="kw">aes</span>(<span class="dt">color=</span>group)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="ot">NA</span>, <span class="dv">23</span>)
 <span class="kw">gzoom</span>(p, <span class="kw">grep</span>(<span class="st">&quot;Plecotus&quot;</span>, chiroptera<span class="op">$</span>tip.label), <span class="dt">xmax_adjust=</span><span class="dv">2</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-109-1.png" width="864" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-108-1.png" width="864" /></p>
 </div>
 <div id="summary-5" class="section level2">
 <h2><span class="header-section-number">6.7</span> Summary</h2>

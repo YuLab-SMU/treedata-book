@@ -213,7 +213,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.1" data-path="chapter6.html"><a href="chapter6.html#viewing-selected-clade"><i class="fa fa-check"></i><b>6.1</b> Viewing Selected Clade</a></li>
 <li class="chapter" data-level="6.2" data-path="chapter6.html"><a href="chapter6.html#collapsing-and-expanding-clade"><i class="fa fa-check"></i><b>6.2</b> Collapsing and Expanding Clade</a></li>
 <li class="chapter" data-level="6.3" data-path="chapter6.html"><a href="chapter6.html#scaling-selected-clade"><i class="fa fa-check"></i><b>6.3</b> Scaling Selected Clade</a></li>
-<li class="chapter" data-level="6.4" data-path="chapter6.html"><a href="chapter6.html#grouping-taxa-1"><i class="fa fa-check"></i><b>6.4</b> Grouping Taxa</a></li>
+<li class="chapter" data-level="6.4" data-path="chapter6.html"><a href="chapter6.html#group-taxa-vis"><i class="fa fa-check"></i><b>6.4</b> Grouping Taxa</a></li>
 <li class="chapter" data-level="6.5" data-path="chapter6.html"><a href="chapter6.html#exploring-tree-structure"><i class="fa fa-check"></i><b>6.5</b> Exploring tree structure</a></li>
 <li class="chapter" data-level="6.6" data-path="chapter6.html"><a href="chapter6.html#zoom-on-a-portion-of-tree"><i class="fa fa-check"></i><b>6.6</b> Zoom on a portion of tree</a></li>
 <li class="chapter" data-level="6.7" data-path="chapter6.html"><a href="chapter6.html#summary-5"><i class="fa fa-check"></i><b>6.7</b> Summary</a></li>
@@ -642,10 +642,12 @@ and <a href="https://bioconductor.org/packages/ggtree/">ggtree</a>.</p>
 </div>
 <div id="grouping-taxa" class="section level3">
 <h3><span class="header-section-number">2.2.3</span> Grouping taxa</h3>
-<p>tidytree implemented <code>groupOTU</code> and <code>groupClade</code> for adding taxa grouping
-information to the input <code>tbl_tree</code> object. These grouping information can be
-used directly in tree visualization (<em>e.g.</em> coloring tree based on grouping)
-with <a href="https://bioconductor.org/packages/ggtree/">ggtree</a>.</p>
+<p>The <code>groupOTU</code> and <code>groupClade</code> methods are designed for adding taxa grouping
+information to the input tree object. The methods were implemented in <a href="https://CRAN.R-project.org/package=tidytree">tidytree</a>,
+<a href="http://bioconductor.org/packages/treeio">treeio</a> and <a href="http://bioconductor.org/packages/ggtree">ggtree</a> respectively to support adding grouping information at
+<code>tbl_tree</code>, <code>phylo</code> and <code>treedata</code>, and <code>ggtree</code> levels. These grouping information can be
+used directly in tree visualization (<em>e.g.</em> <a href="chapter6.html#group-taxa-vis">coloring tree based on grouping</a>)
+with <a href="https://bioconductor.org/packages/ggtree/">ggtree</a> (Figure <a href="chapter6.html#fig:groupOTU">6.4</a>).</p>
 <div id="groupclade" class="section level4">
 <h4><span class="header-section-number">2.2.3.1</span> groupClade</h4>
 <p>The <code>groupClade</code> method accepts an internal node or a vector of internal nodes
@@ -672,7 +674,8 @@ tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class
 <div id="groupotu" class="section level4">
 <h4><span class="header-section-number">2.2.3.2</span> groupOTU</h4>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">2017</span>)
-x &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(<span class="kw">rtree</span>(<span class="dv">4</span>))
+tr &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">4</span>)
+x &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(tr)
 <span class="co">## the input nodes can be node ID or label</span>
 <span class="kw">groupOTU</span>(x, <span class="kw">c</span>(<span class="st">&#39;t1&#39;</span>, <span class="st">&#39;t4&#39;</span>), <span class="dt">group_name =</span> <span class="st">&quot;fake_group&quot;</span>)</code></pre>
 <pre><code>## # A tibble: 7 x 5
@@ -685,6 +688,20 @@ x &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(<span class="k
 ## 5      5     5      NA       &lt;NA&gt;  1         
 ## 6      5     6       0.472   &lt;NA&gt;  1         
 ## 7      6     7       0.274   &lt;NA&gt;  1</code></pre>
+<p>Both <code>groupClade()</code> and <code>groupOTU()</code> work with <code>tbl_tree</code>, <code>phylo</code> and <code>treedata</code>, and <code>ggtree</code> objects. Here is an example of using <code>groupOTU()</code> with <code>phylo</code> tree object.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">groupOTU</span>(tr, <span class="kw">c</span>(<span class="st">&#39;t1&#39;</span>, <span class="st">&#39;t4&#39;</span>), <span class="dt">group_name =</span> <span class="st">&quot;fake_group&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span>as_tibble</code></pre>
+<pre><code>## # A tibble: 7 x 5
+##   parent  node branch.length label fake_group
+##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;fct&gt;     
+## 1      5     1       0.435   t4    1         
+## 2      7     2       0.674   t1    1         
+## 3      7     3       0.00202 t3    0         
+## 4      6     4       0.0251  t2    0         
+## 5      5     5      NA       &lt;NA&gt;  1         
+## 6      5     6       0.472   &lt;NA&gt;  1         
+## 7      6     7       0.274   &lt;NA&gt;  1</code></pre>
+<p>Another example of working with <code>ggtree</code> object can be found in <a href="chapter6.html#group-taxa-vis">session 6.5</a>.</p>
 <p>The <code>groupOTU</code> will trace back from input nodes to most recent common ancestor.
 In this example, nodes 2, 3, 7 and 6 (<code>2 (t1) -&gt; 7 -&gt; 6</code> and <code>3 (t4) -&gt; 6</code>) are
 grouping together.</p>
@@ -712,9 +729,7 @@ They can be monophyletic (clade), polyphyletic or paraphyletic.</p>
 ## # ... with 15 more rows</code></pre>
 <p>If there are conflicts when tracing back to mrca, user can set <code>overlap</code>
 parameter to “origin” (the first one counts), “overwrite” (default, the last one
-counts) or “abandon” (un-selected for grouping), see
-also
-<a href="https://groups.google.com/forum/#!msg/bioc-ggtree/Q4LnwoTf1DM/uqYdYB_VBAAJ">discussion here</a>.</p>
+counts) or “abandon” (un-selected for grouping)<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a>.</p>
 </div>
 </div>
 </div>
@@ -727,7 +742,7 @@ also
 p2 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(<span class="kw">rescale_tree</span>(merged_tree, <span class="st">&#39;dN&#39;</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>()
 p3 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(<span class="kw">rescale_tree</span>(merged_tree, <span class="st">&#39;rate&#39;</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>()
 
-cowplot<span class="op">::</span><span class="kw">plot_grid</span>(p1, p2, p3, <span class="dt">ncol=</span><span class="dv">3</span>, <span class="dt">labels =</span> LETTERS)</code></pre>
+cowplot<span class="op">::</span><span class="kw">plot_grid</span>(p1, p2, p3, <span class="dt">ncol=</span><span class="dv">3</span>, <span class="dt">labels =</span> LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>])</code></pre>
 <div class="figure"><span id="fig:rescale"></span>
 <img src="treedata_files/figure-html/rescale-1.png" alt="Re-scaling tree branches. The tree with branches scaled in time (year from the root) (A). The tree was re-scaled using dN as branch lengths (B). The tree was re-scaled using substitution rates (C)." width="1152"  />
 <p class="caption">
@@ -746,8 +761,10 @@ Figure 2.2: <strong>Re-scaling tree branches.</strong> The tree with branches sc
 </div>
 <div id="ggtree-fortify" class="section level2">
 <h2><span class="header-section-number">2.5</span> Manipulating tree data for visualization</h2>
-<p>Tree visualization is supported by <a href="chapter4.html#chapter4">ggtree</a>. Although <em>ggtree</em> implemented several methods for <a href="chapter6.html#chapter6">visual exploration of tree with data</a>, you may want to do something that is not supported directly. In this case, you need to manipulate tree data with node coordination positions that used for visualization. This is quite easy with <em>ggtree</em>. User can use <code>foritfy</code> method which internally call <code>tidytree::as_tibble</code> to convert the tree to tidy data frame and add columns of coordination positions (<em>i.e.</em> x, y, branch and angle) that are used to plot the tree. You can also access the data via <code>ggtree(tree)$data</code>.</p>
-<p>Here is an example to plot two trees face to face that is similar to a <code>cophyloplot</code>.</p>
+<p>Tree visualization is supported by <a href="chapter4.html#chapter4">ggtree</a>. Although <em>ggtree</em> implemented several methods for <a href="chapter6.html#chapter6">visual exploration of tree with data</a>, you may want to do something that is not supported directly. In this case, you need to manipulate tree data with node coordination positions that used for visualization. This is quite easy with <em>ggtree</em>. User can use <code>foritfy()</code> method which internally call <code>tidytree::as_tibble()</code> to convert the tree to tidy data frame and add columns of coordination positions (<em>i.e.</em> x, y, branch and angle) that are used to plot the tree. You can also access the data via <code>ggtree(tree)$data</code>.</p>
+<p>Here is an example to plot two trees face to face that is similar to a <code>ape::cophyloplot()</code>.</p>
+
+
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
 <span class="kw">library</span>(ggtree)
 
@@ -769,21 +786,32 @@ dd &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(d1, d2) <span
 <span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(label))
 
 pp <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(x, y, <span class="dt">group=</span>label), <span class="dt">data=</span>dd, <span class="dt">color=</span><span class="st">&#39;grey&#39;</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
+<div class="figure"><span id="fig:cophylo"></span>
+<img src="treedata_files/figure-html/cophylo-1.png" alt="Plot two phylogenetic trees face to face. Plotting a tree using ggtree() (left hand side) and subsequently add another layer of tree by geom_tree() (right hand side). The relative positions of the plotted trees can be manual adjusted and adding layers to each of the tree (e.g. tip labels) is independent." width="768"  />
+<p class="caption">
+Figure 2.3: <strong>Plot two phylogenetic trees face to face.</strong> Plotting a tree using <code>ggtree()</code> (left hand side) and subsequently add another layer of tree by <code>geom_tree()</code> (right hand side). The relative positions of the plotted trees can be manual adjusted and adding layers to each of the tree (<em>e.g.</em> tip labels) is independent.
+</p>
+</div>
 <p>It is quite easy to plot multiple trees and connect taxa in one figure. For instance, plotting trees contructed from all internal gene segments of influenza virus and connecting equivalent strans across the trees <span class="citation">(Venkatesh et al. <a href="#ref-venkatesh_avian_2018" role="doc-biblioref">2018</a>)</span>.</p>
+
+
 <pre class="sourceCode r"><code class="sourceCode r">z &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)
 d2 &lt;-<span class="st"> </span><span class="kw">fortify</span>(y)
 d3 &lt;-<span class="st"> </span><span class="kw">fortify</span>(z)
 d2<span class="op">$</span>x &lt;-<span class="st"> </span>d2<span class="op">$</span>x <span class="op">+</span><span class="st"> </span><span class="kw">max</span>(d1<span class="op">$</span>x) <span class="op">+</span><span class="st"> </span><span class="dv">1</span>
 d3<span class="op">$</span>x &lt;-<span class="st"> </span>d3<span class="op">$</span>x <span class="op">+</span><span class="st"> </span><span class="kw">max</span>(d2<span class="op">$</span>x) <span class="op">+</span><span class="st"> </span><span class="dv">1</span>
 
-pp &lt;-<span class="st"> </span>p1 <span class="op">+</span><span class="st"> </span><span class="kw">geom_tree</span>(<span class="dt">data =</span> d2) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tree</span>(<span class="dt">data =</span> d3)
-
 dd =<span class="st"> </span><span class="kw">bind_rows</span>(d1, d2, d3) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(label))
 
-pp <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(x, y, <span class="dt">group=</span>label, <span class="dt">color=</span>node <span class="op">&lt;</span><span class="st"> </span><span class="dv">15</span>), <span class="dt">data=</span>dd, <span class="dt">alpha=</span>.<span class="dv">3</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
+p1 <span class="op">+</span><span class="st"> </span><span class="kw">geom_tree</span>(<span class="dt">data =</span> d2) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tree</span>(<span class="dt">data =</span> d3) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="dt">data=</span>d3) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(x, y, <span class="dt">group=</span>label, <span class="dt">color=</span>node <span class="op">&lt;</span><span class="st"> </span><span class="dv">15</span>), <span class="dt">data=</span>dd, <span class="dt">alpha=</span>.<span class="dv">3</span>)</code></pre>
+<div class="figure"><span id="fig:cophylo3"></span>
+<img src="treedata_files/figure-html/cophylo3-1.png" alt="Plot multiple phylogenetic trees side by side. Plotting a tree using ggtree() and subsequently add multiple layers of trees by geom_tree()." width="768"  />
+<p class="caption">
+Figure 2.4: <strong>Plot multiple phylogenetic trees side by side.</strong> Plotting a tree using <code>ggtree()</code> and subsequently add multiple layers of trees by <code>geom_tree()</code>.
+</p>
+</div>
 </div>
 <div id="summary-1" class="section level2">
 <h2><span class="header-section-number">2.6</span> Summary</h2>
@@ -801,6 +829,12 @@ pp <span class="op">+</span><span class="st"> </span><span class="kw">geom_line<
 <div id="ref-venkatesh_avian_2018">
 <p>Venkatesh, Divya, Marjolein J. Poen, Theo M. Bestebroer, Rachel D. Scheuer, Oanh Vuong, Mzia Chkhaidze, Anna Machablishvili, et al. 2018. “Avian Influenza Viruses in Wild Birds: Virus Evolution in a Multihost Ecosystem.” <em>Journal of Virology</em> 92 (15). <a href="https://doi.org/10.1128/JVI.00433-18">https://doi.org/10.1128/JVI.00433-18</a>.</p>
 </div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="8">
+<li id="fn8"><p><a href="https://groups.google.com/forum/#!msg/bioc-ggtree/Q4LnwoTf1DM/uqYdYB_VBAAJ" class="uri">https://groups.google.com/forum/#!msg/bioc-ggtree/Q4LnwoTf1DM/uqYdYB_VBAAJ</a><a href="chapter2.html#fnref8" class="footnote-back">↩</a></p></li>
+</ol>
 </div>
             </section>
 

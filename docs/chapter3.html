@@ -213,7 +213,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.1" data-path="chapter6.html"><a href="chapter6.html#viewing-selected-clade"><i class="fa fa-check"></i><b>6.1</b> Viewing Selected Clade</a></li>
 <li class="chapter" data-level="6.2" data-path="chapter6.html"><a href="chapter6.html#collapsing-and-expanding-clade"><i class="fa fa-check"></i><b>6.2</b> Collapsing and Expanding Clade</a></li>
 <li class="chapter" data-level="6.3" data-path="chapter6.html"><a href="chapter6.html#scaling-selected-clade"><i class="fa fa-check"></i><b>6.3</b> Scaling Selected Clade</a></li>
-<li class="chapter" data-level="6.4" data-path="chapter6.html"><a href="chapter6.html#grouping-taxa-1"><i class="fa fa-check"></i><b>6.4</b> Grouping Taxa</a></li>
+<li class="chapter" data-level="6.4" data-path="chapter6.html"><a href="chapter6.html#group-taxa-vis"><i class="fa fa-check"></i><b>6.4</b> Grouping Taxa</a></li>
 <li class="chapter" data-level="6.5" data-path="chapter6.html"><a href="chapter6.html#exploring-tree-structure"><i class="fa fa-check"></i><b>6.5</b> Exploring tree structure</a></li>
 <li class="chapter" data-level="6.6" data-path="chapter6.html"><a href="chapter6.html#zoom-on-a-portion-of-tree"><i class="fa fa-check"></i><b>6.6</b> Zoom on a portion of tree</a></li>
 <li class="chapter" data-level="6.7" data-path="chapter6.html"><a href="chapter6.html#summary-5"><i class="fa fa-check"></i><b>6.7</b> Summary</a></li>
@@ -321,7 +321,7 @@ tree with data. <a href="http://www.nexml.org/">NeXML</a> <span class="citation"
 flexible format, however it is currently not widely supported. Most of the
 analysis programs in this field rely extensively on Newick string and Nexus
 format. In my opinion, although BEAST Nexus
-format<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a> may not be the best solution,
+format<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a> may not be the best solution,
 it is currently a good approach for storing heterogeneous associated data. The
 beauty of the format is that all the annotate elements are stored within square
 bracket, which is reserved for comments. So that the file can be parsed as
@@ -338,14 +338,14 @@ With <a href="https://bioconductor.org/packages/treeio/">treeio</a>, it is easy 
 software output to BEAST format if the output can be parsed
 by <a href="https://bioconductor.org/packages/treeio/">treeio</a>. For example, we can
 convert NHX file to BEAST file and use NHX tags to color the tree using
-FigTree<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a> or convert CODEML output and use
+FigTree<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a> or convert CODEML output and use
 <em>d<sub>N</sub>/d<sub>S</sub></em>, <em>d<sub>N</sub></em> or <em>d<sub>S</sub></em> to color the tree in FigTree.</p>
 <pre class="sourceCode r"><code class="sourceCode r">nhxfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/NHX&quot;</span>, <span class="st">&quot;phyldog.nhx&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)
 nhx &lt;-<span class="st"> </span><span class="kw">read.nhx</span>(nhxfile)
 <span class="co"># write.beast(nhx, file = &quot;phyldog.tree&quot;)</span>
 <span class="kw">write.beast</span>(nhx)</code></pre>
 <pre><code>#NEXUS
-[R-package treeio, Thu May 23 17:30:49 2019]
+[R-package treeio, Fri May 24 17:18:13 2019]
 
 BEGIN TAXA;
     DIMENSIONS NTAX = 16;
@@ -395,7 +395,7 @@ ml &lt;-<span class="st"> </span><span class="kw">read.codeml_mlc</span>(mlcfile
 <span class="co"># write.beast(ml, file = &quot;codeml.tree&quot;)</span>
 <span class="kw">write.beast</span>(ml)</code></pre>
 <pre><code>#NEXUS
-[R-package treeio, Thu May 23 17:30:49 2019]
+[R-package treeio, Fri May 24 17:18:14 2019]
 
 BEGIN TAXA;
     DIMENSIONS NTAX = 15;
@@ -454,7 +454,7 @@ fake_data &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span cla
 fake_tree &lt;-<span class="st"> </span><span class="kw">treedata</span>(<span class="dt">phylo =</span> phylo, <span class="dt">data =</span> fake_data)
 <span class="kw">write.beast</span>(fake_tree)</code></pre>
 <pre><code>#NEXUS
-[R-package treeio, Thu May 23 17:30:49 2019]
+[R-package treeio, Fri May 24 17:18:14 2019]
 
 BEGIN TAXA;
     DIMENSIONS NTAX = 16;
@@ -542,7 +542,7 @@ tree2</code></pre>
 be exported into a single file.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write.beast</span>(tree2)</code></pre>
 <pre><code>#NEXUS
-[R-package treeio, Thu May 23 17:30:49 2019]
+[R-package treeio, Fri May 24 17:18:14 2019]
 
 BEGIN TAXA;
     DIMENSIONS NTAX = 16;
@@ -593,7 +593,7 @@ using <a href="https://bioconductor.org/packages/ggtree/">ggtree</a> <span class
 <span class="kw">write.beast</span>(tree2, <span class="dt">file =</span> outfile)
 <span class="kw">read.beast</span>(outfile)</code></pre>
 <pre><code>## &#39;treedata&#39; S4 object that stored information of
-##  &#39;C:\Users\YGC\AppData\Local\Temp\RtmpMnoeLt\file889423607196.tree&#39;.
+##  &#39;C:\Users\YGC\AppData\Local\Temp\RtmpWwknN6\file9cf41ca92361.tree&#39;.
 ## 
 ## ...@ phylo: 
 ## Phylogenetic tree with 16 tips and 15 internal nodes.
@@ -878,7 +878,7 @@ languages that supports JSON.</p>
     &quot;another_trait&quot;: 0.6413
   }
 ],
-    &quot;metadata&quot;: {&quot;info&quot;: &quot;R-package treeio&quot;, &quot;data&quot;: &quot;Thu May 23 17:30:50 2019&quot;}
+    &quot;metadata&quot;: {&quot;info&quot;: &quot;R-package treeio&quot;, &quot;data&quot;: &quot;Fri May 24 17:18:14 2019&quot;}
 }</code></pre>
 <p>The <em>jtree</em> format is based on JSON and can be parsed using JSON parser.</p>
 <pre class="sourceCode r"><code class="sourceCode r">jtree_file &lt;-<span class="st"> </span><span class="kw">tempfile</span>(<span class="dt">fileext =</span> <span class="st">&#39;.jtree&#39;</span>)
@@ -926,13 +926,13 @@ $metadata$info
 [1] &quot;R-package treeio&quot;
 
 $metadata$data
-[1] &quot;Thu May 23 17:30:50 2019&quot;</code></pre>
+[1] &quot;Fri May 24 17:18:14 2019&quot;</code></pre>
 <p>The <em>jtree</em> file can be directly imported as a <code>treedata</code> object using
 <code>read.jtree</code> provided also
 in <a href="https://bioconductor.org/packages/treeio/">treeio</a> package (see also <a href="chapter1.html#jtree">session 1.3</a>).</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read.jtree</span>(jtree_file)</code></pre>
 <pre><code>## &#39;treedata&#39; S4 object that stored information of
-##  &#39;C:\Users\YGC\AppData\Local\Temp\RtmpMnoeLt\file88941b8122b8.jtree&#39;.
+##  &#39;C:\Users\YGC\AppData\Local\Temp\RtmpWwknN6\file9cf455e01594.jtree&#39;.
 ## 
 ## ...@ phylo: 
 ## Phylogenetic tree with 16 tips and 15 internal nodes.
@@ -970,9 +970,9 @@ in <a href="https://bioconductor.org/packages/treeio/">treeio</a> package (see a
 </div>
 <div class="footnotes">
 <hr />
-<ol start="8">
-<li id="fn8"><p><a href="http://beast.community/nexus_metacomments" class="uri">http://beast.community/nexus_metacomments</a><a href="chapter3.html#fnref8" class="footnote-back">↩</a></p></li>
-<li id="fn9"><p><a href="http://beast.community/figtree" class="uri">http://beast.community/figtree</a><a href="chapter3.html#fnref9" class="footnote-back">↩</a></p></li>
+<ol start="9">
+<li id="fn9"><p><a href="http://beast.community/nexus_metacomments" class="uri">http://beast.community/nexus_metacomments</a><a href="chapter3.html#fnref9" class="footnote-back">↩</a></p></li>
+<li id="fn10"><p><a href="http://beast.community/figtree" class="uri">http://beast.community/figtree</a><a href="chapter3.html#fnref10" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
             </section>

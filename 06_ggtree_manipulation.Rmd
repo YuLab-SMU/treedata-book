@@ -127,7 +127,7 @@ scaleClade(p, node=17, scale=.1)
 
 If users want to emphasize important clades, they can use `scaleClade` function with `scale` parameter larger than 1. Then the selected clade will be zoomed in. Users can also use `groupClade` to select clades and color them with different colors as shown in Figure \@ref(fig:scaleClade).
 
-## Grouping Taxa
+## Grouping Taxa {#group-taxa-vis}
 
 
 The `groupClade` function assigns the branches and nodes under different clades into different groups.  _`groupClade`_ accepts an internal node or a vector of internal nodes to cluster clade/clades.
@@ -143,36 +143,29 @@ A phylogenetic tree can be annotated by mapping different line type, size, color
 
 \setstretch{1.2}
 ```{r groupOTU, message=FALSE, fig.cap="(ref:groupOTUcap)", fig.scap="(ref:groupOTUscap)", out.extra=''}
-tree2 <- groupOTU(tree, c("D", "E", "F", "G"))
-ggtree(tree2, aes(color=group)) + geom_tiplab()
-```
-\setstretch{1.5}
-
-
-<!--
-## iris example
-
-In this example, we first build a tree based on the iris data, then grouping the tree based on different spacies.
-
-#```{r fig.width=20, fig.height=20, fig.align="center", warning=FALSE}
 data(iris)
 rn <- paste0(iris[,5], "_", 1:150)
 rownames(iris) <- rn
 d_iris <- dist(iris[,-5], method="man")
 
-tree_iris <- bionj(d_iris)
-tree_iris <- groupOTU(tree_iris, list(setosa        = rn[1:50],
-                                      versicolor    = rn[51:100],
-                                      virginica_145 = rn[101:150]))
-cols <- rainbow_hcl(4)
-ggtree(tree_iris, aes(color=group)) +
-    geom_text(aes(label=label), hjust=-.1) +
-    scale_color_manual(values=cols, breaks=1:3,
-                       labels=c("Setosa", "Versicolor", "Virginica")) +
-    theme(legend.position="right")
-#```
--->
+tree_iris <- ape::bionj(d_iris)
+grp <- list(setosa     = rn[1:50],
+            versicolor = rn[51:100],
+            virginica  = rn[101:150])
 
+p <- ggtree(tree_iris, layout = 'circular', branch.length='none')
+groupOTU(p, grp, 'Species') + aes(color=Species) +
+  theme(legend.position="right")
+```
+\setstretch{1.5}
+
+We can grouping taxa at tree level. The following code will produce identical figure of Figure \@ref(fig:groupOTU) (see more details described at [session 2.2.3](#grouping-taxa)).
+
+```r
+tree_iris <- groupOTU(tree_iris, grp, "Species")
+ggtree(tree_iris, aes(color=Species), layout = 'circular', branch.length = 'none') + 
+  theme(legend.position="right")
+```
 
 
 ## Exploring tree structure

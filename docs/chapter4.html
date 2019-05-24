@@ -213,7 +213,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.1" data-path="chapter6.html"><a href="chapter6.html#viewing-selected-clade"><i class="fa fa-check"></i><b>6.1</b> Viewing Selected Clade</a></li>
 <li class="chapter" data-level="6.2" data-path="chapter6.html"><a href="chapter6.html#collapsing-and-expanding-clade"><i class="fa fa-check"></i><b>6.2</b> Collapsing and Expanding Clade</a></li>
 <li class="chapter" data-level="6.3" data-path="chapter6.html"><a href="chapter6.html#scaling-selected-clade"><i class="fa fa-check"></i><b>6.3</b> Scaling Selected Clade</a></li>
-<li class="chapter" data-level="6.4" data-path="chapter6.html"><a href="chapter6.html#grouping-taxa-1"><i class="fa fa-check"></i><b>6.4</b> Grouping Taxa</a></li>
+<li class="chapter" data-level="6.4" data-path="chapter6.html"><a href="chapter6.html#group-taxa-vis"><i class="fa fa-check"></i><b>6.4</b> Grouping Taxa</a></li>
 <li class="chapter" data-level="6.5" data-path="chapter6.html"><a href="chapter6.html#exploring-tree-structure"><i class="fa fa-check"></i><b>6.5</b> Exploring tree structure</a></li>
 <li class="chapter" data-level="6.6" data-path="chapter6.html"><a href="chapter6.html#zoom-on-a-portion-of-tree"><i class="fa fa-check"></i><b>6.6</b> Zoom on a portion of tree</a></li>
 <li class="chapter" data-level="6.7" data-path="chapter6.html"><a href="chapter6.html#summary-5"><i class="fa fa-check"></i><b>6.7</b> Summary</a></li>
@@ -295,7 +295,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Chapter 4</span> Phylogenetic Tree Visualization</h1>
 <div id="introduction-1" class="section level2">
 <h2><span class="header-section-number">4.1</span> Introduction</h2>
-<p>There are many software packages and webtools that are designed for displaying phylogenetic trees, such as <em>TreeView</em> <span class="citation">(Page <a href="#ref-page_visualizing_2002" role="doc-biblioref">2002</a>)</span>, <em>FigTree</em><a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a>, <em>TreeDyn</em> <span class="citation">(Chevenet et al. <a href="#ref-chevenet_treedyn:_2006" role="doc-biblioref">2006</a>)</span>, <em>Dendroscope</em> <span class="citation">(Huson and Scornavacca <a href="#ref-huson_dendroscope_2012" role="doc-biblioref">2012</a>)</span>, <em>EvolView</em> <span class="citation">(He et al. <a href="#ref-he_evolview_2016" role="doc-biblioref">2016</a>)</span> and <em>iTOL</em> <span class="citation">(Letunic and Bork <a href="#ref-letunic_interactive_2007" role="doc-biblioref">2007</a>)</span>, <em>etc.</em>. Only several of them, such as <em>FigTree</em>, <em>TreeDyn</em> and <em>iTOL</em>, allow users to annotate the trees with coloring branches, highlighted clades and tree features. However, their pre-defined annotating functions are usually limited to some specific phylogenetic data. As phylogenetic trees become more widely used in multidisciplinary studies, there is an increasing need to incorporate various types of the phylogenetic covariates and other associated data from different sources into the trees for visualizations and further analyses. For instance, influenza virus has a wide host range, diverse and dynamic genotypes and characteristic transmission behaviors that are mostly associated with the virus evolution and essentially among themselves. Therefore, in addition to standalone applications that focus on each of the specific analysis and data type, researchers studying molecular evolution need a robust and programmable platform that allows the high levels integration and visualization of many of these different aspects of data (raw or from other primary analyses) over the phylogenetic trees to identify their associations and patterns.</p>
+<p>There are many software packages and webtools that are designed for displaying phylogenetic trees, such as <em>TreeView</em> <span class="citation">(Page <a href="#ref-page_visualizing_2002" role="doc-biblioref">2002</a>)</span>, <em>FigTree</em><a href="#fn11" class="footnote-ref" id="fnref11"><sup>11</sup></a>, <em>TreeDyn</em> <span class="citation">(Chevenet et al. <a href="#ref-chevenet_treedyn:_2006" role="doc-biblioref">2006</a>)</span>, <em>Dendroscope</em> <span class="citation">(Huson and Scornavacca <a href="#ref-huson_dendroscope_2012" role="doc-biblioref">2012</a>)</span>, <em>EvolView</em> <span class="citation">(He et al. <a href="#ref-he_evolview_2016" role="doc-biblioref">2016</a>)</span> and <em>iTOL</em> <span class="citation">(Letunic and Bork <a href="#ref-letunic_interactive_2007" role="doc-biblioref">2007</a>)</span>, <em>etc.</em>. Only several of them, such as <em>FigTree</em>, <em>TreeDyn</em> and <em>iTOL</em>, allow users to annotate the trees with coloring branches, highlighted clades and tree features. However, their pre-defined annotating functions are usually limited to some specific phylogenetic data. As phylogenetic trees become more widely used in multidisciplinary studies, there is an increasing need to incorporate various types of the phylogenetic covariates and other associated data from different sources into the trees for visualizations and further analyses. For instance, influenza virus has a wide host range, diverse and dynamic genotypes and characteristic transmission behaviors that are mostly associated with the virus evolution and essentially among themselves. Therefore, in addition to standalone applications that focus on each of the specific analysis and data type, researchers studying molecular evolution need a robust and programmable platform that allows the high levels integration and visualization of many of these different aspects of data (raw or from other primary analyses) over the phylogenetic trees to identify their associations and patterns.</p>
 <p>To fill this gap, we developed <em>ggtree</em>, a package for the R programming language <span class="citation">(R Core Team <a href="#ref-rstats" role="doc-biblioref">2016</a>)</span> released under the Bioconductor project <span class="citation">(Gentleman et al. <a href="#ref-gentleman_bioconductor_2004" role="doc-biblioref">2004</a>)</span>. The <em>ggtree</em> is built to work with phylogenetic data object generated by <a href="#chapter-treeio"><em>treeio</em></a>, and display tree graphics with <em>ggplot2</em> package <span class="citation">(Wickham <a href="#ref-wickham_ggplot2_2016" role="doc-biblioref">2016</a>)</span> that was based on the grammar of graphics <span class="citation">(Wilkinson et al. <a href="#ref-wilkinson_grammar_2005" role="doc-biblioref">2005</a>)</span>.</p>
 <p>The R language is increasingly being used in phylogenetics. However, a comprehensive package, designed for viewing and annotating phylogenetic trees, particularly with complex data integration, is not yet available. Most of the R packages in phylogenetics focus on specific statistical analyses rather than viewing and annotating the trees with more generalized phylogeny-associated data. Some packages, including <em>ape</em> <span class="citation">(Paradis, Claude, and Strimmer <a href="#ref-paradis_ape_2004" role="doc-biblioref">2004</a>)</span> and <em>phytools</em> <span class="citation">(Revell <a href="#ref-revell_phytools_2012" role="doc-biblioref">2012</a>)</span>, which are capable of displaying and annotating trees, are developed using the base graphics system of R. In particular, <em>ape</em> is one of the fundamental package for phylogenetic analysis and data processing. However, the base graphics system is relatively difficult to extend and limits the complexity of tree figure to be displayed. <em>OutbreakTools</em> <span class="citation">(Jombart et al. <a href="#ref-jombart_outbreaktools_2014" role="doc-biblioref">2014</a>)</span> and <em>phyloseq</em> <span class="citation">(McMurdie and Holmes <a href="#ref-mcmurdie_phyloseq_2013" role="doc-biblioref">2013</a>)</span> extended <em>ggplot2</em> to plot phylogenetic trees. The <em>ggplot2</em> system of graphics allows rapid customization and exploration of design solutions. However these packages were designed for epidemiology and microbiome data respectively and did not aim to provide a general solution for tree visualization and annotation. The <em>ggtree</em> package also inherits versatile properties of <em>ggplot2</em>, and more importantly allows constructing complex tree figures by freely combining multiple layers of annotations using the tree associated data imported from different sources (importation using <em>treeio</em> package is detailed in <a href="chapter1.html#chapter1">Chapter 1</a>).</p>
 </div>
@@ -394,7 +394,7 @@ Figure 4.4: <strong>Time-scaled layout.</strong> The <em>x-axis</em> is the time
 </p>
 </div>
 <p><strong>Two-dimensional tree layout.</strong> A two-dimensional tree is a projection of the phylogenetic tree in a space defined by the associated phenotype (numerical or categorical trait, on the <em>y</em>-axis) and tree branch scale (<em>e.g.</em>, evolutionary distance, divergent time, on the <em>x</em>-axis). The phenotype can be a measure of certain biological characteristics of the taxa and hypothetical ancestors in the tree. This is a new layout we proposed in <em>ggtree</em>, which is useful to track the virus phenotypes or other behaviors (<em>y</em>-axis) changing with the virus evolution (<em>x</em>-axis). In fact, the analysis of phenotypes or genotypes over evolutionary time have been widely used for study influenza virus evolution <span class="citation">(Neher et al. <a href="#ref-neher_prediction_2016" role="doc-biblioref">2016</a>)</span>, though such analysis diagrams are not tree-like, <em>i.e.</em>, no connection between data points, unlike our two-dimensional tree layout that connect data points with the corresponding tree branches. Therefore, this new layout we provided will make such data analysis easier and more scalable for large sequence data sets of influenza viruses.</p>
-<p>In this example, we used the previous time-scaled tree of H3 human and swine influenza viruses (Figure <a href="chapter4.html#fig:timescaled">4.4</a>; data published in <span class="citation">(Liang et al. <a href="#ref-liang_expansion_2014" role="doc-biblioref">2014</a>)</span>) and scaled the <em>y</em>-axis based on the predicted <em>N</em>-linked glycosylation sites (NLG) for each of the taxon and ancestral sequences of hemagglutinin proteins. The NLG sites were predicted using <em>NetNGlyc</em> 1.0 Server<a href="#fn11" class="footnote-ref" id="fnref11"><sup>11</sup></a>. To scaled the <em>y</em>-axis, the parameter <code>yscale</code> in the <code>ggtree()</code> function is set to a numerical or categorical variable. If <code>yscale</code> is a categorical variable as in this example, users should specify how the categories are to be mapped to numerical values via the <code>yscale_mapping</code> variables.</p>
+<p>In this example, we used the previous time-scaled tree of H3 human and swine influenza viruses (Figure <a href="chapter4.html#fig:timescaled">4.4</a>; data published in <span class="citation">(Liang et al. <a href="#ref-liang_expansion_2014" role="doc-biblioref">2014</a>)</span>) and scaled the <em>y</em>-axis based on the predicted <em>N</em>-linked glycosylation sites (NLG) for each of the taxon and ancestral sequences of hemagglutinin proteins. The NLG sites were predicted using <em>NetNGlyc</em> 1.0 Server<a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a>. To scaled the <em>y</em>-axis, the parameter <code>yscale</code> in the <code>ggtree()</code> function is set to a numerical or categorical variable. If <code>yscale</code> is a categorical variable as in this example, users should specify how the categories are to be mapped to numerical values via the <code>yscale_mapping</code> variables.</p>
 
 
 <pre class="sourceCode r"><code class="sourceCode r">NAG_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;examples/NAG_inHA1.txt&quot;</span>, <span class="dt">package=</span><span class="st">&quot;ggtree&quot;</span>)
@@ -444,7 +444,7 @@ Figure 4.5: <strong>Two-dimensional tree layout.</strong> The trunk and other br
 <h3><span class="header-section-number">4.3.1</span> Displaying tree scale (evolution distance)</h3>
 <p>To show tree scale, user can use <code>geom_treescale()</code> layer.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">geom_treescale</span>()</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-63-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-62-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p><code>geom_treescale()</code> supports the following parameters:</p>
 <ul>
 <li><em>x</em> and <em>y</em> for tree scale position</li>
@@ -456,26 +456,26 @@ Figure 4.5: <strong>Two-dimensional tree layout.</strong> The trunk and other br
 </ul>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">geom_treescale</span>(<span class="dt">x=</span><span class="dv">0</span>, <span class="dt">y=</span><span class="dv">45</span>, <span class="dt">width=</span><span class="dv">1</span>, <span class="dt">color=</span><span class="st">&#39;red&#39;</span>)
 <span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">geom_treescale</span>(<span class="dt">fontsize=</span><span class="dv">6</span>, <span class="dt">linesize=</span><span class="dv">2</span>, <span class="dt">offset=</span><span class="dv">1</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-65-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-64-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>We can also use <code>theme_tree2()</code> to display the tree scale by adding <em>x axis</em>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>()</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-66-1.png" width="288" style="display: block; margin: auto;" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-65-1.png" width="288" style="display: block; margin: auto;" /></p>
 <p>Tree scale is not restricted to evolution distance, <a href="http://bioconductor.org/packages/treeio">treeio</a> can re-scale the tree with other numerical variable (details described in <a href="chapter2.html#rescale-treeio">session 2.3</a>).</p>
 </div>
 <div id="displaying-nodestips" class="section level3">
 <h3><span class="header-section-number">4.3.2</span> Displaying nodes/tips</h3>
 <p>Showing all the internal nodes and tips in the tree can be done by adding a layer of points using <code>geom_nodepoint</code>, <code>geom_tippoint</code> or <code>geom_point</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">shape=</span>isTip, <span class="dt">color=</span>isTip), <span class="dt">size=</span><span class="dv">3</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-67-1.png" width="288" style="display: block; margin: auto;" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-66-1.png" width="288" style="display: block; margin: auto;" /></p>
 <pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">geom_nodepoint</span>(<span class="dt">color=</span><span class="st">&quot;#b5e521&quot;</span>, <span class="dt">alpha=</span><span class="dv">1</span><span class="op">/</span><span class="dv">4</span>, <span class="dt">size=</span><span class="dv">10</span>)
 p <span class="op">+</span><span class="st"> </span><span class="kw">geom_tippoint</span>(<span class="dt">color=</span><span class="st">&quot;#FDAC4F&quot;</span>, <span class="dt">shape=</span><span class="dv">8</span>, <span class="dt">size=</span><span class="dv">3</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-68-1.png" width="288" style="display: block; margin: auto;" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-67-1.png" width="288" style="display: block; margin: auto;" /></p>
 </div>
 <div id="displaying-labels" class="section level3">
 <h3><span class="header-section-number">4.3.3</span> Displaying labels</h3>
 <p>Users can use <code>geom_text</code> or <code>geom_label</code> to display the node (if available) and tip labels simultaneously or <code>geom_tiplab</code> to only display tip labels:</p>
 <pre class="sourceCode r"><code class="sourceCode r">p <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="dt">size=</span><span class="dv">3</span>, <span class="dt">color=</span><span class="st">&quot;purple&quot;</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-69-1.png" width="288" style="display: block; margin: auto;" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-68-1.png" width="288" style="display: block; margin: auto;" /></p>
 <p><code>geom_tiplab</code> not only supports using <em>text</em> or <em>label</em> geom to display labels,
 it also supports <em>image</em> geom to label tip with image files. A corresponding
 geom, <code>geom_nodelab</code> is also provided for displaying node labels. For details of
@@ -484,13 +484,13 @@ the vignette,
 <a href="https://guangchuangyu.github.io/software/ggtree/vignettes/ggtree-ggimage.html">Annotating phylogenetic tree with images</a>.</p>
 <p>For <em>circular</em> and <em>unrooted</em> layout, <a href="http://bioconductor.org/packages/ggtree">ggtree</a> supports rotating node labels according to the angles of the branches.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggtree</span>(tree, <span class="dt">layout=</span><span class="st">&quot;circular&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">angle=</span>angle), <span class="dt">color=</span><span class="st">&#39;blue&#39;</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-70-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-69-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>To make it more readable for human eye, <a href="http://bioconductor.org/packages/ggtree">ggtree</a> provides a <code>geom_tiplab2</code> for <code>circular</code> layout (see post <a href="https://groups.google.com/forum/?utm_medium=email&amp;utm_source=footer#!topic/bioc-ggtree/o35PV3iHO-0">1</a> and <a href="https://groups.google.com/forum/#!topic/bioc-ggtree/p42R5l8J-14">2</a>).</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggtree</span>(tree, <span class="dt">layout=</span><span class="st">&quot;circular&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab2</span>(<span class="dt">color=</span><span class="st">&#39;blue&#39;</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-71-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-70-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>By default, the positions are based on the node positions, we can change them to based on the middle of the branch/edge.</p>
 <pre class="sourceCode r"><code class="sourceCode r">p <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">x=</span>branch), <span class="dt">size=</span><span class="dv">3</span>, <span class="dt">color=</span><span class="st">&quot;purple&quot;</span>, <span class="dt">vjust=</span><span class="op">-</span><span class="fl">0.3</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-72-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-71-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p>Based on the middle of branch is very useful when annotating transition from parent node to child node.</p>
 </div>
 <div id="color-tree" class="section level3">
@@ -499,7 +499,7 @@ the vignette,
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggtree</span>(beast_tree, <span class="kw">aes</span>(<span class="dt">color=</span>rate)) <span class="op">+</span>
 <span class="st">    </span><span class="kw">scale_color_continuous</span>(<span class="dt">low=</span><span class="st">&#39;darkgreen&#39;</span>, <span class="dt">high=</span><span class="st">&#39;red&#39;</span>) <span class="op">+</span>
 <span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;right&quot;</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-73-1.png" width="480" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-72-1.png" width="480" /></p>
 <p>User can use any feature (if available), including clade posterior and <em>dN/dS</em> <em>etc.</em>, to scale the color of the tree.</p>
 </div>
 <div id="rescale-tree" class="section level3">
@@ -532,7 +532,7 @@ p2 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(beast_tree, <spa
 
 <span class="kw">library</span>(cowplot)
 <span class="kw">plot_grid</span>(p1, p2, <span class="dt">ncol=</span><span class="dv">2</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-74-1.png" width="960" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-73-1.png" width="960" /></p>
 <pre class="sourceCode r"><code class="sourceCode r">mlcfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/PAML_Codeml&quot;</span>, <span class="st">&quot;mlc&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)
 mlc_tree &lt;-<span class="st"> </span><span class="kw">read.codeml_mlc</span>(mlcfile)
 p1 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(mlc_tree) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>() <span class="op">+</span>
@@ -540,11 +540,11 @@ p1 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(mlc_tree) <span 
 p2 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(mlc_tree, <span class="dt">branch.length=</span><span class="st">&#39;dN_vs_dS&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>() <span class="op">+</span>
 <span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;dN/dS tree&quot;</span>)
 <span class="kw">plot_grid</span>(p1, p2, <span class="dt">ncol=</span><span class="dv">2</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-75-1.png" width="960" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-74-1.png" width="960" /></p>
 <p>In addition to specify <code>branch.length</code> in tree visualization, users can change branch length stored in tree object by using <code>rescale_tree</code> function.</p>
 <pre class="sourceCode r"><code class="sourceCode r">beast_tree2 &lt;-<span class="st"> </span><span class="kw">rescale_tree</span>(beast_tree, <span class="dt">branch.length=</span><span class="st">&#39;rate&#39;</span>)
 <span class="kw">ggtree</span>(beast_tree2) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>()</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-76-1.png" width="672" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-75-1.png" width="672" /></p>
 </div>
 <div id="modify-compenents-of-the-tree-view" class="section level3">
 <h3><span class="header-section-number">4.3.6</span> Modify compenents of the tree view</h3>
@@ -556,7 +556,7 @@ any <a href="http://ggplot2.tidyverse.org/reference/theme.html">theme components
 <code>theme_tree()</code> function to modify them.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggtree</span>(<span class="kw">rtree</span>(<span class="dv">30</span>), <span class="dt">color=</span><span class="st">&quot;red&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree</span>(<span class="st">&quot;steelblue&quot;</span>)
 <span class="kw">ggtree</span>(<span class="kw">rtree</span>(<span class="dv">20</span>), <span class="dt">color=</span><span class="st">&quot;white&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree</span>(<span class="st">&quot;black&quot;</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-78-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-77-1.png" width="768" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="visualize-a-list-of-trees" class="section level2">
@@ -565,18 +565,18 @@ any <a href="http://ggplot2.tidyverse.org/reference/theme.html">theme components
 <pre class="sourceCode r"><code class="sourceCode r">trees &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">40</span>), rtree)
 <span class="kw">class</span>(trees) &lt;-<span class="st"> &quot;multiPhylo&quot;</span>
 <span class="kw">ggtree</span>(trees) <span class="op">+</span><span class="st"> </span><span class="kw">facet_wrap</span>(<span class="op">~</span>.id, <span class="dt">scale=</span><span class="st">&quot;free&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>()</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-79-1.png" width="1152" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-78-1.png" width="1152" /></p>
 <p>One hundred bootstrap trees can also be view simultaneously.</p>
 <pre class="sourceCode r"><code class="sourceCode r">btrees &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="kw">system.file</span>(<span class="st">&quot;extdata/RAxML&quot;</span>, <span class="st">&quot;RAxML_bootstrap.H3&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>))
 <span class="kw">ggtree</span>(btrees) <span class="op">+</span><span class="st"> </span><span class="kw">facet_wrap</span>(<span class="op">~</span>.id, <span class="dt">ncol=</span><span class="dv">10</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-80-1.png" width="1920" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-79-1.png" width="1920" /></p>
 <p>Another way to view the bootstrap trees is to merge them together to form a density tree. We can add a layer of the best tree on the top of the density tree.</p>
 <pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(btrees, <span class="dt">layout=</span><span class="st">&quot;rectangular&quot;</span>, <span class="dt">color=</span><span class="st">&quot;lightblue&quot;</span>, <span class="dt">alpha=</span>.<span class="dv">3</span>)
 
 best_tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="kw">system.file</span>(<span class="st">&quot;extdata/RAxML&quot;</span>, <span class="st">&quot;RAxML_bipartitionsBranchLabels.H3&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>))
 df &lt;-<span class="st"> </span><span class="kw">fortify</span>(best_tree, <span class="dt">branch.length=</span><span class="st">&#39;none&#39;</span>)
 p<span class="op">+</span><span class="kw">geom_tree</span>(<span class="dt">data=</span>df, <span class="dt">color=</span><span class="st">&#39;firebrick&#39;</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-81-1.png" width="672" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-80-1.png" width="672" /></p>
 </div>
 <div id="summary-3" class="section level2">
 <h2><span class="header-section-number">4.5</span> Summary</h2>
@@ -645,9 +645,9 @@ p<span class="op">+</span><span class="kw">geom_tree</span>(<span class="dt">dat
 </div>
 <div class="footnotes">
 <hr />
-<ol start="10">
-<li id="fn10"><p><a href="http://tree.bio.ed.ac.uk/software/figtree/" class="uri">http://tree.bio.ed.ac.uk/software/figtree/</a><a href="chapter4.html#fnref10" class="footnote-back">↩</a></p></li>
-<li id="fn11"><p><a href="http://www.cbs.dtu.dk/services/NetNGlyc/" class="uri">http://www.cbs.dtu.dk/services/NetNGlyc/</a><a href="chapter4.html#fnref11" class="footnote-back">↩</a></p></li>
+<ol start="11">
+<li id="fn11"><p><a href="http://tree.bio.ed.ac.uk/software/figtree/" class="uri">http://tree.bio.ed.ac.uk/software/figtree/</a><a href="chapter4.html#fnref11" class="footnote-back">↩</a></p></li>
+<li id="fn12"><p><a href="http://www.cbs.dtu.dk/services/NetNGlyc/" class="uri">http://www.cbs.dtu.dk/services/NetNGlyc/</a><a href="chapter4.html#fnref12" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
             </section>
