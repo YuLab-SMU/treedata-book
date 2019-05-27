@@ -755,12 +755,33 @@ Figure 2.2: <strong>Re-scaling tree branches.</strong> The tree with branches sc
 <h2><span class="header-section-number">2.4</span> Subsetting Tree with Data</h2>
 <div id="remove-tip" class="section level3">
 <h3><span class="header-section-number">2.4.1</span> Removing tips in a phylogenetic tree</h3>
+<p>Sometimes we want to remove selected tips from a phylogenetic tree. This is due to several reasons, including low sequence quality, errors in sequence assembly, an alignment error in part of the sequence and an error in phylogenetic inference <em>etc</em>.</p>
+<p>Let’s say that we want to remove three tips (colored by red) from the tree (Figure <a href="chapter2.html#fig:removeTip">2.3</a>A), the <code>drop.tip()</code> method removes specified tips and update tree (Figure <a href="chapter2.html#fig:removeTip">2.3</a>B). All associated data will be maintained in the updated tree.</p>
+
+
+<pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/NHX&quot;</span>, <span class="st">&quot;phyldog.nhx&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)
+nhx &lt;-<span class="st"> </span><span class="kw">read.nhx</span>(f)
+to_drop &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Physonect_sp_@2066767&quot;</span>,
+            <span class="st">&quot;Lychnagalma_utricularia@2253871&quot;</span>,
+            <span class="st">&quot;Kephyes_ovata@2606431&quot;</span>)
+p1 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(nhx) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">color =</span> label <span class="op">%in%</span><span class="st"> </span>to_drop)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="fl">0.8</span>)
+
+nhx_reduced &lt;-<span class="st"> </span><span class="kw">drop.tip</span>(nhx, to_drop)
+p2 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(nhx_reduced) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="fl">0.8</span>)  
+<span class="kw">plot_grid</span>(p1, p2, <span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>))</code></pre>
+<div class="figure"><span id="fig:removeTip"></span>
+<img src="treedata_files/figure-html/removeTip-1.png" alt="Removing tips from tree. Original tree with three tips (colored by red) to remove (A). Updated tree that removed selected tips (B)." width="960" />
+<p class="caption">
+Figure 2.3: <strong>Removing tips from tree.</strong> Original tree with three tips (colored by red) to remove (A). Updated tree that removed selected tips (B).
+</p>
+</div>
 </div>
 <div id="subset-tip" class="section level3">
 <h3><span class="header-section-number">2.4.2</span> Subsetting tree by tip label</h3>
-<p>Tree can be large and difficult to look at only the portions of interest. The <code>tree_subset()</code> function was created in <a href="http://bioconductor.org/packages/treeio">treeio</a> package to extract a subset of the tree portion while still maintaining the structure of the tree portion. The <code>beast_tree</code> in Figure <a href="chapter2.html#fig:subsetTip">2.3</a>A is slighly crowded. Obviously, we can make the figure taller to allow more space for the labels or we can make the text smaller. However, these solutions are not always applicable when you have a lot of tips (<em>e.g.</em> hundreds or thousands of tips). In particuarly, when you are only interested in the portion of the tree around a particular tip, you certainly don’t want to explore a large tree to find centain species you are interested in.</p>
-<p>Let’s say you are interested in tip <em>A/Swine/HK/168/2012</em> from the tree (Figure <a href="chapter2.html#fig:subsetTip">2.3</a>A) and you want to look at the immediate relatives of this tip.</p>
-<p>The <code>tree_subset()</code> function allows for you to look at the portions of the tree that are of interest. By default, <code>tree_subset()</code> will internally call <a href="chapter2.html#groupotu"><code>groupOTU()</code></a> to assign group specified tip from the rest of other tips (Figure <a href="chapter2.html#fig:subsetTip">2.3</a>B). Additionally, the branch lengths and related associated data are maintained after subsetting (Figure <a href="chapter2.html#fig:subsetTip">2.3</a>C). The root of the tree is always anchored at zero for the subset tree by default and all the distances are relative to this root. If you want all the distances are relative to the original root, you can specify the root position (by <code>root.position</code> parameter) to the root edge of the subset tree, which is the sum of branch lengths from the original root to the root of the subset tree (Figure <a href="chapter2.html#fig:subsetTip">2.3</a>D and E).</p>
+<p>Tree can be large and difficult to look at only the portions of interest. The <code>tree_subset()</code> function was created in <a href="http://bioconductor.org/packages/treeio">treeio</a> package to extract a subset of the tree portion while still maintaining the structure of the tree portion. The <code>beast_tree</code> in Figure <a href="chapter2.html#fig:subsetTip">2.4</a>A is slighly crowded. Obviously, we can make the figure taller to allow more space for the labels or we can make the text smaller. However, these solutions are not always applicable when you have a lot of tips (<em>e.g.</em> hundreds or thousands of tips). In particuarly, when you are only interested in the portion of the tree around a particular tip, you certainly don’t want to explore a large tree to find centain species you are interested in.</p>
+<p>Let’s say you are interested in tip <em>A/Swine/HK/168/2012</em> from the tree (Figure <a href="chapter2.html#fig:subsetTip">2.4</a>A) and you want to look at the immediate relatives of this tip.</p>
+<p>The <code>tree_subset()</code> function allows for you to look at the portions of the tree that are of interest. By default, <code>tree_subset()</code> will internally call <a href="chapter2.html#groupotu"><code>groupOTU()</code></a> to assign group specified tip from the rest of other tips (Figure <a href="chapter2.html#fig:subsetTip">2.4</a>B). Additionally, the branch lengths and related associated data are maintained after subsetting (Figure <a href="chapter2.html#fig:subsetTip">2.4</a>C). The root of the tree is always anchored at zero for the subset tree by default and all the distances are relative to this root. If you want all the distances are relative to the original root, you can specify the root position (by <code>root.position</code> parameter) to the root edge of the subset tree, which is the sum of branch lengths from the original root to the root of the subset tree (Figure <a href="chapter2.html#fig:subsetTip">2.4</a>D and E).</p>
 
 
 <pre class="sourceCode r"><code class="sourceCode r">beast_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;examples/MCC_FluA_H3.tree&quot;</span>, <span class="dt">package=</span><span class="st">&quot;ggtree&quot;</span>)
@@ -799,13 +820,13 @@ p5 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree2, <span cla
 <div class="figure"><span id="fig:subsetTip"></span>
 <img src="treedata_files/figure-html/subsetTip-1.png" alt="Subsetting tree for specific tip. The original tree (A). The subset tree (B). Subset tree with data (C). Visualize the subset tree relative to original position, without root edge (D) and with root edge (E)." width="1152"  />
 <p class="caption">
-Figure 2.3: <strong>Subsetting tree for specific tip.</strong> The original tree (A). The subset tree (B). Subset tree with data (C). Visualize the subset tree relative to original position, without root edge (D) and with root edge (E).
+Figure 2.4: <strong>Subsetting tree for specific tip.</strong> The original tree (A). The subset tree (B). Subset tree with data (C). Visualize the subset tree relative to original position, without root edge (D) and with root edge (E).
 </p>
 </div>
 </div>
 <div id="subset-node" class="section level3">
 <h3><span class="header-section-number">2.4.3</span> Subsetting tree by internal node number</h3>
-<p>If you are interesting at certain clade, you can specify the input node as an internal node number. The <code>tree_subset()</code> function will take the clade as a whole and also trace back to particular levels to look at the immediate relatives of the clade (Figure <a href="chapter2.html#fig:subsetNode">2.4</a>).</p>
+<p>If you are interesting at certain clade, you can specify the input node as an internal node number. The <code>tree_subset()</code> function will take the clade as a whole and also trace back to particular levels to look at the immediate relatives of the clade (Figure <a href="chapter2.html#fig:subsetNode">2.5</a>).</p>
 
 
 <pre class="sourceCode r"><code class="sourceCode r">clade &lt;-<span class="st"> </span><span class="kw">tree_subset</span>(beast_tree, <span class="dt">node=</span><span class="dv">121</span>, <span class="dt">levels_back=</span><span class="dv">0</span>)
@@ -817,7 +838,7 @@ p2 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(clade2, <span cl
 <div class="figure"><span id="fig:subsetNode"></span>
 <img src="treedata_files/figure-html/subsetNode-1.png" alt="Subsetting tree for specific clade. Extracting a clade (A). Extracting a clade and trace back to look at its immediate relatives (B)." width="960"  />
 <p class="caption">
-Figure 2.4: <strong>Subsetting tree for specific clade.</strong> Extracting a clade (A). Extracting a clade and trace back to look at its immediate relatives (B).
+Figure 2.5: <strong>Subsetting tree for specific clade.</strong> Extracting a clade (A). Extracting a clade and trace back to look at its immediate relatives (B).
 </p>
 </div>
 </div>
@@ -852,7 +873,7 @@ pp <span class="op">+</span><span class="st"> </span><span class="kw">geom_line<
 <div class="figure"><span id="fig:cophylo"></span>
 <img src="treedata_files/figure-html/cophylo-1.png" alt="Plot two phylogenetic trees face to face. Plotting a tree using ggtree() (left hand side) and subsequently add another layer of tree by geom_tree() (right hand side). The relative positions of the plotted trees can be manual adjusted and adding layers to each of the tree (e.g. tip labels) is independent." width="768"  />
 <p class="caption">
-Figure 2.5: <strong>Plot two phylogenetic trees face to face.</strong> Plotting a tree using <code>ggtree()</code> (left hand side) and subsequently add another layer of tree by <code>geom_tree()</code> (right hand side). The relative positions of the plotted trees can be manual adjusted and adding layers to each of the tree (<em>e.g.</em> tip labels) is independent.
+Figure 2.6: <strong>Plot two phylogenetic trees face to face.</strong> Plotting a tree using <code>ggtree()</code> (left hand side) and subsequently add another layer of tree by <code>geom_tree()</code> (right hand side). The relative positions of the plotted trees can be manual adjusted and adding layers to each of the tree (<em>e.g.</em> tip labels) is independent.
 </p>
 </div>
 <p>It is quite easy to plot multiple trees and connect taxa in one figure. For instance, plotting trees contructed from all internal gene segments of influenza virus and connecting equivalent strans across the trees <span class="citation">(Venkatesh et al. <a href="#ref-venkatesh_avian_2018" role="doc-biblioref">2018</a>)</span>.</p>
@@ -872,12 +893,13 @@ p1 <span class="op">+</span><span class="st"> </span><span class="kw">geom_tree<
 <div class="figure"><span id="fig:cophylo3"></span>
 <img src="treedata_files/figure-html/cophylo3-1.png" alt="Plot multiple phylogenetic trees side by side. Plotting a tree using ggtree() and subsequently add multiple layers of trees by geom_tree()." width="768"  />
 <p class="caption">
-Figure 2.6: <strong>Plot multiple phylogenetic trees side by side.</strong> Plotting a tree using <code>ggtree()</code> and subsequently add multiple layers of trees by <code>geom_tree()</code>.
+Figure 2.7: <strong>Plot multiple phylogenetic trees side by side.</strong> Plotting a tree using <code>ggtree()</code> and subsequently add multiple layers of trees by <code>geom_tree()</code>.
 </p>
 </div>
 </div>
 <div id="summary-1" class="section level2">
 <h2><span class="header-section-number">2.6</span> Summary</h2>
+<p>The <a href="http://bioconductor.org/packages/treeio">treeio</a> package allows us to import diverse phylogeny associated data into R. However, phylogenetic tree is stored in way to facilitate computational processing which is not human fridenly and need expertise to manipulate and explore tree data. The <a href="https://CRAN.R-project.org/package=tidytree">tidytree</a> package provides tidy interface for exploring tree data, while <a href="http://bioconductor.org/packages/ggtree">ggtree</a> provides a set of utilitise to visualize and explore tree data using grammar of graphics. This full suit of packages make it easy for ordinary users to interact with tree data, and allow us to integrate phylogeny associated data from different sources (<em>e.g.</em> experimental result or analysis finding), which creates the possibility of comparative study.</p>
 
 </div>
 </div>

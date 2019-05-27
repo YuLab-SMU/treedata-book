@@ -366,6 +366,30 @@ cowplot::plot_grid(p1, p2, p3, ncol=3, labels = LETTERS[1:3])
 
 ### Removing tips in a phylogenetic tree {#remove-tip}
 
+Sometimes we want to remove selected tips from a phylogenetic tree. This is due to several reasons, including low sequence quality, errors in sequence assembly, an alignment error in part of the sequence and an error in phylogenetic inference *etc*.
+
+Let's say that we want to remove three tips (colored by red) from the tree (Figure \@ref(fig:removeTip)A), the `drop.tip()` method removes specified tips and update tree (Figure \@ref(fig:removeTip)B). All associated data will be maintained in the updated tree. 
+
+(ref:removeTipscap) Removing tips from tree.
+
+(ref:removeTipcap) **Removing tips from tree.** Original tree with three tips (colored by red) to remove (A). Updated tree that removed selected tips (B).
+
+
+```{r removeTip, fig.width=10, fig.height=6, fig.cap="(ref:removeTipcap)", fig.scap="(ref:removeTipscap)"}
+f <- system.file("extdata/NHX", "phyldog.nhx", package="treeio")
+nhx <- read.nhx(f)
+to_drop <- c("Physonect_sp_@2066767",
+            "Lychnagalma_utricularia@2253871",
+            "Kephyes_ovata@2606431")
+p1 <- ggtree(nhx) + geom_tiplab(aes(color = label %in% to_drop)) +
+  scale_color_manual(values=c("black", "red")) + xlim(0, 0.8)
+
+nhx_reduced <- drop.tip(nhx, to_drop)
+p2 <- ggtree(nhx_reduced) + geom_tiplab() + xlim(0, 0.8)  
+plot_grid(p1, p2, ncol=2, labels = c("A", "B"))
+```
+
+
 ### Subsetting tree by tip label {#subset-tip}
 
 Tree can be large and difficult to look at only the portions of interest. The `tree_subset()` function was created in `r Biocpkg("treeio")` package to extract a subset of the tree portion while still maintaining the structure of the tree portion. The `beast_tree` in Figure \@ref(fig:subsetTip)A is slighly crowded. Obviously, we can make the figure taller to allow more space for the labels or we can make the text smaller. However, these solutions are not always applicable when you have a lot of tips (*e.g.* hundreds or thousands of tips). In particuarly, when you are only interested in the portion of the tree around a particular tip, you certainly don't want to explore a large tree to find centain species you are interested in.
@@ -492,5 +516,5 @@ p1 + geom_tree(data = d2) + geom_tree(data = d3) + geom_tiplab(data=d3) +
 
 ## Summary
 
-
+The `r Biocpkg("treeio")` package allows us to import diverse phylogeny associated data into R. However, phylogenetic tree is stored in way to facilitate computational processing which is not human fridenly and need expertise to manipulate and explore tree data. The `r CRANpkg("tidytree")` package provides tidy interface for exploring tree data, while `r Biocpkg("ggtree")` provides a set of utilitise to visualize and explore tree data using grammar of graphics. This full suit of packages make it easy for ordinary users to interact with tree data, and allow us to integrate phylogeny associated data from different sources (*e.g.* experimental result or analysis finding), which creates the possibility of comparative study. 
 
