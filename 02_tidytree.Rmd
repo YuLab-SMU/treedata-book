@@ -364,10 +364,72 @@ cowplot::plot_grid(p1, p2, p3, ncol=3, labels = LETTERS[1:3])
 
 ## Subsetting Tree with Data
 
-### Remove tips in a phylogenetic tree
+### Removing tips in a phylogenetic tree {#remove-tip}
 
-### Subset tree by tip label
+### Subsetting tree by tip label {#subset-tip}
 
+Tree can be large and difficult to look at only the portions of interest. The `tree_subset()` function was created in `r Biocpkg("treeio")` package to extract a subset of the tree portion while still maintaining the structure of the tree portion. The `beast_tree` in Figure \@ref(fig:subsetTip)A is slighly crowded. Obviously, we can make the figure taller to allow more space for the labels or we can make the text smaller. However, these solutions are not always applicable when you have a lot of tips (*e.g.* hundreds or thousands of tips). In particuarly, when you are only interested in the portion of the tree around a particular tip, you certainly don't want to explore a large tree to find centain species you are interested in.
+
+Let's say you are interested in tip *A/Swine/HK/168/2012* from the tree (Figure \@ref(fig:subsetTip)A) and you want to look at the immediate relatives of this tip. 
+
+The `tree_subset()` function allows for you to look at the portions of the tree that are of interest. By default, `tree_subset()` will internally call [`groupOTU()`](#groupotu) to assign group specified tip from the rest of other tips (Figure \@ref(fig:subsetTip)B). Additionally, the branch lengths and related associated data are maintained after subsetting (Figure \@ref(fig:subsetTip)C). The root of the tree is always anchored at zero for the subset tree by default and all the distances are relative to this root. If you want all the distances are relative to the original root, you can specify the root position (by `root.position` parameter) to the root edge of the subset tree, which is the sum of branch lengths from the original root to the root of the subset tree (Figure \@ref(fig:subsetTip)D and E).
+
+(ref:subsetTipscap) Subsetting tree for specific tip.
+
+(ref:subsetTipcap) **Subsetting tree for specific tip.** The original tree (A). The subset tree (B). Subset tree with data (C). Visualize the subset tree relative to original position, without root edge (D) and with root edge (E).
+
+```{r subsetTip, fig.width=12, fig.height=7, echo=T, fig.cap="(ref:subsetTipcap)", fig.scap="(ref:subsetTipscap)", out.extra=''}
+beast_file <- system.file("examples/MCC_FluA_H3.tree", package="ggtree")
+beast_tree <- read.beast(beast_file)
+
+p1 = ggtree(beast_tree) + 
+  geom_tiplab() +  xlim(0, 40) + theme_tree2()
+
+tree2 = tree_subset(beast_tree, "A/Swine/HK/168/2012", levels_back=4)  
+p2 <- ggtree(tree2, aes(color=group)) +
+  scale_color_manual(values = c("black", "red")) +
+  geom_tiplab() +  xlim(0, 4) + theme_tree2() 
+
+p3 <- ggtree(tree2, aes(color=group)) +
+  geom_tiplab(hjust = -.1) + xlim(0, 5) + 
+  geom_point(aes(fill = rate), shape = 21, size = 4) +
+  scale_color_manual(values = c("black", "red"), guide = FALSE) +
+  scale_fill_continuous(low = 'blue', high = 'red') +
+  theme_tree2() + theme(legend.position = 'right')
+
+
+p4 <- ggtree(tree2, aes(color=group), 
+          root.position = as.phylo(tree2)$root.edge) +
+  geom_tiplab() + xlim(18, 24) + 
+  scale_color_manual(values = c("black", "red")) +
+  theme_tree2()
+
+p5 <- ggtree(tree2, aes(color=group), 
+          root.position = as.phylo(tree2)$root.edge) +
+  geom_rootedge() + geom_tiplab() + xlim(0, 40) + 
+  scale_color_manual(values = c("black", "red")) +
+  theme_tree2()
+
+plot_grid(p2, p3, p4, p5, ncol=2, labels=LETTERS[2:5]) %>%
+  plot_grid(p1, ., ncol=2, labels=c("A", ""), rel_widths=c(.5, 1))
+```
+
+### Subsetting tree by internal node number {#subset-node}
+
+If you are interesting at certain clade, you can specify the input node as an internal node number. The `tree_subset()` function will take the clade as a whole and also trace back to particular levels to look at the immediate relatives of the clade (Figure \@ref(fig:subsetNode)).
+
+(ref:subsetNodescap) Subsetting tree for specific clade.
+
+(ref:ssubsetNodecap) **Subsetting tree for specific clade.** Extracting a clade (A). Extracting a clade and trace back to look at its immediate relatives (B).
+
+```{r subsetNode, fig.width=10, fig.height=5, echo=T, fig.cap="(ref:ssubsetNodecap)", fig.scap="(ref:subsetNodescap)", out.extra=''}
+clade <- tree_subset(beast_tree, node=121, levels_back=0)
+clade2 <- tree_subset(beast_tree, node=121, levels_back=2)
+p1 <- ggtree(clade) + geom_tiplab() + xlim(0, 5)
+p2 <- ggtree(clade2, aes(color=group)) + geom_tiplab() + 
+  xlim(0, 8) + scale_color_manual(values=c("black", "red"))
+plot_grid(p1, p2, ncol=2, labels=c("A", "B"))
+```  
 
 ## Manipulating tree data for visualization {#ggtree-fortify}
 

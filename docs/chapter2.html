@@ -161,8 +161,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="2.3" data-path="chapter2.html"><a href="chapter2.html#rescale-treeio"><i class="fa fa-check"></i><b>2.3</b> Rescaling Tree Branches</a></li>
 <li class="chapter" data-level="2.4" data-path="chapter2.html"><a href="chapter2.html#subsetting-tree-with-data"><i class="fa fa-check"></i><b>2.4</b> Subsetting Tree with Data</a><ul>
-<li class="chapter" data-level="2.4.1" data-path="chapter2.html"><a href="chapter2.html#remove-tips-in-a-phylogenetic-tree"><i class="fa fa-check"></i><b>2.4.1</b> Remove tips in a phylogenetic tree</a></li>
-<li class="chapter" data-level="2.4.2" data-path="chapter2.html"><a href="chapter2.html#subset-tree-by-tip-label"><i class="fa fa-check"></i><b>2.4.2</b> Subset tree by tip label</a></li>
+<li class="chapter" data-level="2.4.1" data-path="chapter2.html"><a href="chapter2.html#remove-tip"><i class="fa fa-check"></i><b>2.4.1</b> Removing tips in a phylogenetic tree</a></li>
+<li class="chapter" data-level="2.4.2" data-path="chapter2.html"><a href="chapter2.html#subset-tip"><i class="fa fa-check"></i><b>2.4.2</b> Subsetting tree by tip label</a></li>
+<li class="chapter" data-level="2.4.3" data-path="chapter2.html"><a href="chapter2.html#subset-node"><i class="fa fa-check"></i><b>2.4.3</b> Subsetting tree by internal node number</a></li>
 </ul></li>
 <li class="chapter" data-level="2.5" data-path="chapter2.html"><a href="chapter2.html#ggtree-fortify"><i class="fa fa-check"></i><b>2.5</b> Manipulating tree data for visualization</a></li>
 <li class="chapter" data-level="2.6" data-path="chapter2.html"><a href="chapter2.html#summary-1"><i class="fa fa-check"></i><b>2.6</b> Summary</a></li>
@@ -752,11 +753,73 @@ Figure 2.2: <strong>Re-scaling tree branches.</strong> The tree with branches sc
 </div>
 <div id="subsetting-tree-with-data" class="section level2">
 <h2><span class="header-section-number">2.4</span> Subsetting Tree with Data</h2>
-<div id="remove-tips-in-a-phylogenetic-tree" class="section level3">
-<h3><span class="header-section-number">2.4.1</span> Remove tips in a phylogenetic tree</h3>
+<div id="remove-tip" class="section level3">
+<h3><span class="header-section-number">2.4.1</span> Removing tips in a phylogenetic tree</h3>
 </div>
-<div id="subset-tree-by-tip-label" class="section level3">
-<h3><span class="header-section-number">2.4.2</span> Subset tree by tip label</h3>
+<div id="subset-tip" class="section level3">
+<h3><span class="header-section-number">2.4.2</span> Subsetting tree by tip label</h3>
+<p>Tree can be large and difficult to look at only the portions of interest. The <code>tree_subset()</code> function was created in <a href="http://bioconductor.org/packages/treeio">treeio</a> package to extract a subset of the tree portion while still maintaining the structure of the tree portion. The <code>beast_tree</code> in Figure <a href="chapter2.html#fig:subsetTip">2.3</a>A is slighly crowded. Obviously, we can make the figure taller to allow more space for the labels or we can make the text smaller. However, these solutions are not always applicable when you have a lot of tips (<em>e.g.</em> hundreds or thousands of tips). In particuarly, when you are only interested in the portion of the tree around a particular tip, you certainly don’t want to explore a large tree to find centain species you are interested in.</p>
+<p>Let’s say you are interested in tip <em>A/Swine/HK/168/2012</em> from the tree (Figure <a href="chapter2.html#fig:subsetTip">2.3</a>A) and you want to look at the immediate relatives of this tip.</p>
+<p>The <code>tree_subset()</code> function allows for you to look at the portions of the tree that are of interest. By default, <code>tree_subset()</code> will internally call <a href="chapter2.html#groupotu"><code>groupOTU()</code></a> to assign group specified tip from the rest of other tips (Figure <a href="chapter2.html#fig:subsetTip">2.3</a>B). Additionally, the branch lengths and related associated data are maintained after subsetting (Figure <a href="chapter2.html#fig:subsetTip">2.3</a>C). The root of the tree is always anchored at zero for the subset tree by default and all the distances are relative to this root. If you want all the distances are relative to the original root, you can specify the root position (by <code>root.position</code> parameter) to the root edge of the subset tree, which is the sum of branch lengths from the original root to the root of the subset tree (Figure <a href="chapter2.html#fig:subsetTip">2.3</a>D and E).</p>
+
+
+<pre class="sourceCode r"><code class="sourceCode r">beast_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;examples/MCC_FluA_H3.tree&quot;</span>, <span class="dt">package=</span><span class="st">&quot;ggtree&quot;</span>)
+beast_tree &lt;-<span class="st"> </span><span class="kw">read.beast</span>(beast_file)
+
+p1 =<span class="st"> </span><span class="kw">ggtree</span>(beast_tree) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">40</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>()
+
+tree2 =<span class="st"> </span><span class="kw">tree_subset</span>(beast_tree, <span class="st">&quot;A/Swine/HK/168/2012&quot;</span>, <span class="dt">levels_back=</span><span class="dv">4</span>)  
+p2 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree2, <span class="kw">aes</span>(<span class="dt">color=</span>group)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">4</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>() 
+
+p3 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree2, <span class="kw">aes</span>(<span class="dt">color=</span>group)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="dt">hjust =</span> <span class="fl">-.1</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">5</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> rate), <span class="dt">shape =</span> <span class="dv">21</span>, <span class="dt">size =</span> <span class="dv">4</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>), <span class="dt">guide =</span> <span class="ot">FALSE</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_fill_continuous</span>(<span class="dt">low =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">high =</span> <span class="st">&#39;red&#39;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_tree2</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&#39;right&#39;</span>)
+
+
+p4 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree2, <span class="kw">aes</span>(<span class="dt">color=</span>group), 
+          <span class="dt">root.position =</span> <span class="kw">as.phylo</span>(tree2)<span class="op">$</span>root.edge) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">18</span>, <span class="dv">24</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_tree2</span>()
+
+p5 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree2, <span class="kw">aes</span>(<span class="dt">color=</span>group), 
+          <span class="dt">root.position =</span> <span class="kw">as.phylo</span>(tree2)<span class="op">$</span>root.edge) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_rootedge</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">40</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_tree2</span>()
+
+<span class="kw">plot_grid</span>(p2, p3, p4, p5, <span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">labels=</span>LETTERS[<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>]) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">plot_grid</span>(p1, ., <span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;&quot;</span>), <span class="dt">rel_widths=</span><span class="kw">c</span>(.<span class="dv">5</span>, <span class="dv">1</span>))</code></pre>
+<div class="figure"><span id="fig:subsetTip"></span>
+<img src="treedata_files/figure-html/subsetTip-1.png" alt="Subsetting tree for specific tip. The original tree (A). The subset tree (B). Subset tree with data (C). Visualize the subset tree relative to original position, without root edge (D) and with root edge (E)." width="1152"  />
+<p class="caption">
+Figure 2.3: <strong>Subsetting tree for specific tip.</strong> The original tree (A). The subset tree (B). Subset tree with data (C). Visualize the subset tree relative to original position, without root edge (D) and with root edge (E).
+</p>
+</div>
+</div>
+<div id="subset-node" class="section level3">
+<h3><span class="header-section-number">2.4.3</span> Subsetting tree by internal node number</h3>
+<p>If you are interesting at certain clade, you can specify the input node as an internal node number. The <code>tree_subset()</code> function will take the clade as a whole and also trace back to particular levels to look at the immediate relatives of the clade (Figure <a href="chapter2.html#fig:subsetNode">2.4</a>).</p>
+
+
+<pre class="sourceCode r"><code class="sourceCode r">clade &lt;-<span class="st"> </span><span class="kw">tree_subset</span>(beast_tree, <span class="dt">node=</span><span class="dv">121</span>, <span class="dt">levels_back=</span><span class="dv">0</span>)
+clade2 &lt;-<span class="st"> </span><span class="kw">tree_subset</span>(beast_tree, <span class="dt">node=</span><span class="dv">121</span>, <span class="dt">levels_back=</span><span class="dv">2</span>)
+p1 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(clade) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">5</span>)
+p2 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(clade2, <span class="kw">aes</span>(<span class="dt">color=</span>group)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">8</span>) <span class="op">+</span><span class="st"> </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>))
+<span class="kw">plot_grid</span>(p1, p2, <span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>))</code></pre>
+<div class="figure"><span id="fig:subsetNode"></span>
+<img src="treedata_files/figure-html/subsetNode-1.png" alt="Subsetting tree for specific clade. Extracting a clade (A). Extracting a clade and trace back to look at its immediate relatives (B)." width="960"  />
+<p class="caption">
+Figure 2.4: <strong>Subsetting tree for specific clade.</strong> Extracting a clade (A). Extracting a clade and trace back to look at its immediate relatives (B).
+</p>
+</div>
 </div>
 </div>
 <div id="ggtree-fortify" class="section level2">
@@ -789,7 +852,7 @@ pp <span class="op">+</span><span class="st"> </span><span class="kw">geom_line<
 <div class="figure"><span id="fig:cophylo"></span>
 <img src="treedata_files/figure-html/cophylo-1.png" alt="Plot two phylogenetic trees face to face. Plotting a tree using ggtree() (left hand side) and subsequently add another layer of tree by geom_tree() (right hand side). The relative positions of the plotted trees can be manual adjusted and adding layers to each of the tree (e.g. tip labels) is independent." width="768"  />
 <p class="caption">
-Figure 2.3: <strong>Plot two phylogenetic trees face to face.</strong> Plotting a tree using <code>ggtree()</code> (left hand side) and subsequently add another layer of tree by <code>geom_tree()</code> (right hand side). The relative positions of the plotted trees can be manual adjusted and adding layers to each of the tree (<em>e.g.</em> tip labels) is independent.
+Figure 2.5: <strong>Plot two phylogenetic trees face to face.</strong> Plotting a tree using <code>ggtree()</code> (left hand side) and subsequently add another layer of tree by <code>geom_tree()</code> (right hand side). The relative positions of the plotted trees can be manual adjusted and adding layers to each of the tree (<em>e.g.</em> tip labels) is independent.
 </p>
 </div>
 <p>It is quite easy to plot multiple trees and connect taxa in one figure. For instance, plotting trees contructed from all internal gene segments of influenza virus and connecting equivalent strans across the trees <span class="citation">(Venkatesh et al. <a href="#ref-venkatesh_avian_2018" role="doc-biblioref">2018</a>)</span>.</p>
@@ -809,7 +872,7 @@ p1 <span class="op">+</span><span class="st"> </span><span class="kw">geom_tree<
 <div class="figure"><span id="fig:cophylo3"></span>
 <img src="treedata_files/figure-html/cophylo3-1.png" alt="Plot multiple phylogenetic trees side by side. Plotting a tree using ggtree() and subsequently add multiple layers of trees by geom_tree()." width="768"  />
 <p class="caption">
-Figure 2.4: <strong>Plot multiple phylogenetic trees side by side.</strong> Plotting a tree using <code>ggtree()</code> and subsequently add multiple layers of trees by <code>geom_tree()</code>.
+Figure 2.6: <strong>Plot multiple phylogenetic trees side by side.</strong> Plotting a tree using <code>ggtree()</code> and subsequently add multiple layers of trees by <code>geom_tree()</code>.
 </p>
 </div>
 </div>
