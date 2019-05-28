@@ -273,7 +273,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="B.1" data-path="ggimage-tips.html"><a href="ggimage-tips.html#example-1-remove-background-of-images"><i class="fa fa-check"></i><b>B.1</b> Example 1: Remove background of images</a></li>
 </ul></li>
 <li class="chapter" data-level="C" data-path="commicR.html"><a href="commicR.html"><i class="fa fa-check"></i><b>C</b> Comic (xkcd-like) phylogenetic tree</a></li>
-<li class="chapter" data-level="D" data-path="session-info.html"><a href="session-info.html"><i class="fa fa-check"></i><b>D</b> Session Info</a></li>
+<li class="chapter" data-level="D" data-path="print-ascii-art-rooted-tree.html"><a href="print-ascii-art-rooted-tree.html"><i class="fa fa-check"></i><b>D</b> Print ASCII-art rooted tree</a></li>
+<li class="chapter" data-level="E" data-path="session-info.html"><a href="session-info.html"><i class="fa fa-check"></i><b>E</b> Session Info</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
 
@@ -337,10 +338,11 @@ able to read them.</p>
 <code>write.beast</code> to export <code>treedata</code> object as BEAST Nexus file <span class="citation">(Bouckaert et al. <a href="#ref-bouckaert_beast_2014" role="doc-biblioref">2014</a>)</span>.
 With <a href="https://bioconductor.org/packages/treeio/">treeio</a>, it is easy to convert
 software output to BEAST format if the output can be parsed
-by <a href="https://bioconductor.org/packages/treeio/">treeio</a>. For example, we can
+by <a href="https://bioconductor.org/packages/treeio/">treeio</a> (see <a href="chapter1.html#chapter1">Chapter 1</a>). For example, we can
 convert NHX file to BEAST file and use NHX tags to color the tree using
-FigTree<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a> or convert CODEML output and use
-<em>d<sub>N</sub>/d<sub>S</sub></em>, <em>d<sub>N</sub></em> or <em>d<sub>S</sub></em> to color the tree in FigTree.</p>
+FigTree<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a> (Figure <a href="chapter3.html#fig:beastFigtree">3.1</a>A) or convert CODEML output and use
+<em>d<sub>N</sub>/d<sub>S</sub></em>, <em>d<sub>N</sub></em> or <em>d<sub>S</sub></em> to color the tree in FigTree (Figure <a href="chapter3.html#fig:beastFigtree">3.1</a>B).</p>
+<p>Here is an example of converting NHX file to BEAST format:</p>
 <pre class="sourceCode r"><code class="sourceCode r">nhxfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/NHX&quot;</span>, <span class="st">&quot;phyldog.nhx&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)
 nhx &lt;-<span class="st"> </span><span class="kw">read.nhx</span>(nhxfile)
 <span class="co"># write.beast(nhx, file = &quot;phyldog.tree&quot;)</span>
@@ -390,7 +392,7 @@ BEGIN TREES;
     ;
     TREE * UNTITLED = [&amp;R] (((1[&amp;Ev=S,S=58,ND=0]:0.0682841,(2[&amp;Ev=S,S=69,ND=1]:0.0193941,3[&amp;Ev=S,S=70,ND=2]:0.0121378)[&amp;Ev=S,S=60,ND=3]:0.0217782)[&amp;Ev=S,S=36,ND=4]:0.0607598,((4[&amp;Ev=S,S=31,ND=9]:0.11832,(((5[&amp;Ev=S,S=37,ND=10]:0.0144549,6[&amp;Ev=S,S=38,ND=11]:0.0149723)[&amp;Ev=S,S=33,ND=12]:0.0925388,7[&amp;Ev=S,S=61,ND=13]:0.077429)[&amp;Ev=S,S=24,ND=14]:0.0274637,(8[&amp;Ev=S,S=52,ND=15]:0.0761163,((9[&amp;Ev=S,S=53,ND=16]:0.0906068,10[&amp;Ev=S,S=54,ND=17]:1e-06)[&amp;Ev=S,S=45,ND=18]:1e-06,((11[&amp;Ev=S,S=65,ND=19]:0.120851,12[&amp;Ev=S,S=71,ND=20]:0.133939)[&amp;Ev=S,S=56,ND=21]:1e-06,13[&amp;Ev=S,S=64,ND=22]:0.0693814)[&amp;Ev=S,S=46,ND=23]:1e-06)[&amp;Ev=S,S=40,ND=24]:0.0333823)[&amp;Ev=S,S=35,ND=25]:1e-06)[&amp;Ev=D,S=24,ND=26]:0.0431861)[&amp;Ev=S,S=19,ND=27]:1e-06,14[&amp;Ev=S,S=26,ND=28]:0.22283)[&amp;Ev=S,S=17,ND=29]:0.0292362)[&amp;Ev=D,S=17,ND=8]:0.185603,(15[&amp;Ev=S,S=16,ND=5]:0.0621782,16[&amp;Ev=S,S=15,ND=6]:0.332505)[&amp;Ev=S,S=12,ND=7]:0.185603)[&amp;Ev=S,S=9,ND=30];
 END;</code></pre>
-<p><img src="img/phyldog.png" /></p>
+<p>Another example of converting CodeML output to BEAST format:</p>
 <pre class="sourceCode r"><code class="sourceCode r">mlcfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/PAML_Codeml&quot;</span>, <span class="st">&quot;mlc&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)
 ml &lt;-<span class="st"> </span><span class="kw">read.codeml_mlc</span>(mlcfile)
 <span class="co"># write.beast(ml, file = &quot;codeml.tree&quot;)</span>
@@ -438,24 +440,31 @@ BEGIN TREES;
     ;
     TREE * UNTITLED = [&amp;U] (11[&amp;t=0.082,N=1514.9,S=633.1,dN_vs_dS=0.0224,dN=0.002,dS=0.0878,N_x_dN=3,S_x_dS=55.6]:0.081785,14[&amp;t=0.062,N=1514.9,S=633.1,dN_vs_dS=0.0095,dN=7e-04,dS=0.0689,N_x_dN=1,S_x_dS=43.6]:0.062341,(4[&amp;t=0.082,N=1514.9,S=633.1,dN_vs_dS=0.0385,dN=0.0033,dS=0.0849,N_x_dN=5,S_x_dS=53.8]:0.082021,(12[&amp;t=0.006,N=1514.9,S=633.1,dN_vs_dS=1e-04,dN=0,dS=0.0062,N_x_dN=0,S_x_dS=3.9]:0.005508,(10[&amp;t=0.014,N=1514.9,S=633.1,dN_vs_dS=0.0457,dN=7e-04,dS=0.0143,N_x_dN=1,S_x_dS=9]:0.013996,(7[&amp;t=0.046,N=1514.9,S=633.1,dN_vs_dS=0.1621,dN=0.006,dS=0.0373,N_x_dN=9.2,S_x_dS=23.6]:0.045746,((3[&amp;t=0.028,N=1514.9,S=633.1,dN_vs_dS=0.0461,dN=0.0013,dS=0.0282,N_x_dN=2,S_x_dS=17.9]:0.02773,(5[&amp;t=0.031,N=1514.9,S=633.1,dN_vs_dS=0.0641,dN=0.002,dS=0.0305,N_x_dN=3,S_x_dS=19.3]:0.031104,15[&amp;t=0.048,N=1514.9,S=633.1,dN_vs_dS=0.0538,dN=0.0026,dS=0.0485,N_x_dN=4,S_x_dS=30.7]:0.048389)23[&amp;t=0.008,N=1514.9,S=633.1,dN_vs_dS=1e-04,dN=0,dS=0.0094,N_x_dN=0,S_x_dS=6]:0.008328)22[&amp;t=0.016,N=1514.9,S=633.1,dN_vs_dS=0.0395,dN=7e-04,dS=0.0165,N_x_dN=1,S_x_dS=10.4]:0.015959,(8[&amp;t=0.021,N=1514.9,S=633.1,dN_vs_dS=0.1028,dN=0.002,dS=0.0191,N_x_dN=3,S_x_dS=12.1]:0.021007,(9[&amp;t=0.015,N=1514.9,S=633.1,dN_vs_dS=1e-04,dN=0,dS=0.0167,N_x_dN=0,S_x_dS=10.6]:0.014739,(2[&amp;t=0.032,N=1514.9,S=633.1,dN_vs_dS=1e-04,dN=0,dS=0.0358,N_x_dN=0,S_x_dS=22.7]:0.031643,(1[&amp;t=0.01,N=1514.9,S=633.1,dN_vs_dS=0.0646,dN=7e-04,dS=0.0101,N_x_dN=1,S_x_dS=6.4]:0.01034,(6[&amp;t=0.007,N=1514.9,S=633.1,dN_vs_dS=0.298,dN=0.0013,dS=0.0044,N_x_dN=2,S_x_dS=2.8]:0.006649,13[&amp;t=0.009,N=1514.9,S=633.1,dN_vs_dS=0.0738,dN=7e-04,dS=0.0088,N_x_dN=1,S_x_dS=5.6]:0.009195)28[&amp;t=0.028,N=1514.9,S=633.1,dN_vs_dS=0.0453,dN=0.0013,dS=0.0289,N_x_dN=2,S_x_dS=18.3]:0.028303)27[&amp;t=0.008,N=1514.9,S=633.1,dN_vs_dS=0.0863,dN=7e-04,dS=0.0076,N_x_dN=1,S_x_dS=4.8]:0.008072)26[&amp;t=0.003,N=1514.9,S=633.1,dN_vs_dS=1.5591,dN=0.0013,dS=8e-04,N_x_dN=2,S_x_dS=0.5]:0.0035)25[&amp;t=0.02,N=1514.9,S=633.1,dN_vs_dS=1e-04,dN=0,dS=0.023,N_x_dN=0,S_x_dS=14.6]:0.020359)24[&amp;t=0.001,N=1514.9,S=633.1,dN_vs_dS=1e-04,dN=0,dS=6e-04,N_x_dN=0,S_x_dS=0.4]:0.000555)21[&amp;t=0.024,N=1514.9,S=633.1,dN_vs_dS=0.0549,dN=0.0013,dS=0.0237,N_x_dN=2,S_x_dS=15]:0.023675)20[&amp;t=0.046,N=1514.9,S=633.1,dN_vs_dS=0.0419,dN=0.002,dS=0.047,N_x_dN=3,S_x_dS=29.8]:0.045745)19[&amp;t=0.015,N=1514.9,S=633.1,dN_vs_dS=1e-04,dN=0,dS=0.0166,N_x_dN=0,S_x_dS=10.5]:0.014684)18[&amp;t=0.059,N=1514.9,S=633.1,dN_vs_dS=0.0964,dN=0.0053,dS=0.0545,N_x_dN=8,S_x_dS=34.5]:0.059308)17[&amp;t=0.232,N=1514.9,S=633.1,dN_vs_dS=0.0129,dN=0.0033,dS=0.2541,N_x_dN=5,S_x_dS=160.9]:0.231628)16;
 END;</code></pre>
-<p><img src="img/codeml.png" /></p>
+
+
+<div class="figure"><span id="fig:beastFigtree"></span>
+<img src="treedata_files/figure-html/beastFigtree-1.png" alt="Visualizing BEAST file in FigTree. Directly visualizing NHX file (A) and CodeML output (B) in FigTree is not supported. treeio can convert these files to BEAST compatible NEXUS format which can be directly opened in FigTree and visualized annotated data." width="768" />
+<p class="caption">
+Figure 3.1: <strong>Visualizing BEAST file in FigTree.</strong> Directly visualizing <code>NHX</code> file (A) and <code>CodeML</code> output (B) in <code>FigTree</code> is not supported. <code>treeio</code> can convert these files to BEAST compatible NEXUS format which can be directly opened in <code>FigTree</code> and visualized annotated data.
+</p>
+</div>
 </div>
 <div id="combining-tree-with-external-data" class="section level3">
 <h3><span class="header-section-number">3.2.2</span> Combining tree with external data</h3>
 <p>Using the utilities provided
-by <a href="https://bioconductor.org/packages/treeio/">treeio</a>, it is easy to link
+by <a href="https://CRAN.R-project.org/package=tidytree">tidytree</a> and <a href="https://bioconductor.org/packages/treeio/">treeio</a>, it is easy to link
 external data onto the corresponding phylogeny. The <code>write.beast</code> function enable users
-to combine the tree with external data to a single tree file.</p>
+to export the tree with external data to a single tree file.</p>
 <pre class="sourceCode r"><code class="sourceCode r">phylo &lt;-<span class="st"> </span><span class="kw">as.phylo</span>(nhx)
 <span class="co">## print the newick text</span>
 <span class="kw">write.tree</span>(phylo)</code></pre>
 <pre><code>[1] &quot;(((Prayidae_D27SS7@2825365:0.0682841,(Kephyes_ovata@2606431:0.0193941,Chuniphyes_multidentata@1277217:0.0121378):0.0217782):0.0607598,((Apolemia_sp_@1353964:0.11832,(((Bargmannia_amoena@263997:0.0144549,Bargmannia_elongata@946788:0.0149723):0.0925388,Physonect_sp_@2066767:0.077429):0.0274637,(Stephalia_dilata@2960089:0.0761163,((Frillagalma_vityazi@1155031:0.0906068,Resomia_ornicephala@3111757:1e-06):1e-06,((Lychnagalma_utricularia@2253871:0.120851,Nanomia_bijuga@717864:0.133939):1e-06,Cordagalma_sp_@1525873:0.0693814):1e-06):0.0333823):1e-06):0.0431861):1e-06,Rhizophysa_filiformis@3073669:0.22283):0.0292362):0.185603,(Hydra_magnipapillata@52244:0.0621782,Ectopleura_larynx@3556167:0.332505):0.185603);&quot;</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r">N &lt;-<span class="st"> </span><span class="kw">Nnode2</span>(phylo)
 fake_data &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">node =</span> <span class="dv">1</span><span class="op">:</span>N, <span class="dt">fake_trait =</span> <span class="kw">rnorm</span>(N), <span class="dt">another_trait =</span> <span class="kw">runif</span>(N))
-fake_tree &lt;-<span class="st"> </span><span class="kw">treedata</span>(<span class="dt">phylo =</span> phylo, <span class="dt">data =</span> fake_data)
+fake_tree &lt;-<span class="st"> </span><span class="kw">full_join</span>(phylo, fake_data, <span class="dt">by =</span> <span class="st">&quot;node&quot;</span>)
 <span class="kw">write.beast</span>(fake_tree)</code></pre>
 <pre><code>#NEXUS
-[R-package treeio, Fri May 24 17:18:14 2019]
+[R-package treeio, Tue May 28 15:46:12 2019]
 
 BEGIN TAXA;
     DIMENSIONS NTAX = 16;
@@ -497,8 +506,9 @@ BEGIN TREES;
         15  Hydra_magnipapillata@52244,
         16  Ectopleura_larynx@3556167
     ;
-    TREE * UNTITLED = [&amp;R] (((1[&amp;fake_trait=-0.118140158479532,another_trait=0.358319966588169]:0.0682841,(2[&amp;fake_trait=-1.02308336346315,another_trait=0.178163790609688]:0.0193941,3[&amp;fake_trait=0.103599672229184,another_trait=0.93473564600572]:0.0121378)[&amp;fake_trait=-0.59581303574252,another_trait=0.922105083474889]:0.0217782)[&amp;fake_trait=-0.300012313113108,another_trait=0.119739749003202]:0.0607598,((4[&amp;fake_trait=-0.765460180119788,another_trait=0.888429019600153]:0.11832,(((5[&amp;fake_trait=-0.357587376956114,another_trait=0.547185462666675]:0.0144549,6[&amp;fake_trait=0.582576884787801,another_trait=0.00538489152677357]:0.0149723)[&amp;fake_trait=1.68690137848482,another_trait=0.634304485516623]:0.0925388,7[&amp;fake_trait=-0.306908277375037,another_trait=0.650574740953743]:0.077429)[&amp;fake_trait=1.00444824814337,another_trait=0.420116872293875]:0.0274637,(8[&amp;fake_trait=1.10912385375853,another_trait=0.583255837904289]:0.0761163,((9[&amp;fake_trait=-0.707380205642954,another_trait=0.808900895994157]:0.0906068,10[&amp;fake_trait=0.838100693609065,another_trait=0.0142157829832286]:1e-06)[&amp;fake_trait=-0.509864481867074,another_trait=0.939013464609161]:1e-06,((11[&amp;fake_trait=1.45882763141046,another_trait=0.516774294432253]:0.120851,12[&amp;fake_trait=2.43471798636817,another_trait=0.00467536062933505]:0.133939)[&amp;fake_trait=-1.07656365665571,another_trait=0.518969761673361]:1e-06,13[&amp;fake_trait=1.56583127248603,another_trait=0.0454649559687823]:0.0693814)[&amp;fake_trait=-1.48426105861817,another_trait=0.044428545050323]:1e-06)[&amp;fake_trait=0.409198668366587,another_trait=0.538205695804209]:0.0333823)[&amp;fake_trait=-0.692527146833782,another_trait=0.58515489147976]:1e-06)[&amp;fake_trait=-1.41216094329287,another_trait=0.935482121771201]:0.0431861)[&amp;fake_trait=1.65980403458888,another_trait=0.125082567567006]:1e-06,14[&amp;fake_trait=0.589053316158453,another_trait=0.565819646697491]:0.22283)[&amp;fake_trait=0.476325081878056,another_trait=0.262554442277178]:0.0292362)[&amp;fake_trait=1.15832764983724,another_trait=0.646949481917545]:0.185603,(15[&amp;fake_trait=0.704447323258862,another_trait=0.663062628591433]:0.0621782,16[&amp;fake_trait=-0.659190065346089,another_trait=0.505218442762271]:0.332505)[&amp;fake_trait=-1.04282102019802,another_trait=0.641324875177816]:0.185603)[&amp;fake_trait=-0.479609047683268,another_trait=0.519890103489161];
+    TREE * UNTITLED = [&amp;R] (((1[&amp;fake_trait=-0.118140158479532,another_trait=0.358319966588169]:0.0682841,(2[&amp;fake_trait=-1.02308336346315,another_trait=0.178163790609688]:0.0193941,3[&amp;fake_trait=0.103599672229184,another_trait=0.93473564600572]:0.0121378)[&amp;fake_trait=-0.59581303574252,another_trait=0.922105083474889]:0.0217782)[&amp;fake_trait=-0.300012313113108,another_trait=0.119739749003202]:0.0607598,(14[&amp;fake_trait=0.589053316158453,another_trait=0.565819646697491]:0.22283,(4[&amp;fake_trait=-0.765460180119788,another_trait=0.888429019600153]:0.11832,((7[&amp;fake_trait=-0.306908277375037,another_trait=0.650574740953743]:0.077429,(5[&amp;fake_trait=-0.357587376956114,another_trait=0.547185462666675]:0.0144549,6[&amp;fake_trait=0.582576884787801,another_trait=0.00538489152677357]:0.0149723)[&amp;fake_trait=1.68690137848482,another_trait=0.634304485516623]:0.0925388)[&amp;fake_trait=1.00444824814337,another_trait=0.420116872293875]:0.0274637,(8[&amp;fake_trait=1.10912385375853,another_trait=0.583255837904289]:0.0761163,((9[&amp;fake_trait=-0.707380205642954,another_trait=0.808900895994157]:0.0906068,10[&amp;fake_trait=0.838100693609065,another_trait=0.0142157829832286]:1e-06)[&amp;fake_trait=-0.509864481867074,another_trait=0.939013464609161]:1e-06,(13[&amp;fake_trait=1.56583127248603,another_trait=0.0454649559687823]:0.0693814,(11[&amp;fake_trait=1.45882763141046,another_trait=0.516774294432253]:0.120851,12[&amp;fake_trait=2.43471798636817,another_trait=0.00467536062933505]:0.133939)[&amp;fake_trait=-1.07656365665571,another_trait=0.518969761673361]:1e-06)[&amp;fake_trait=-1.48426105861817,another_trait=0.044428545050323]:1e-06)[&amp;fake_trait=0.409198668366587,another_trait=0.538205695804209]:0.0333823)[&amp;fake_trait=-0.692527146833782,another_trait=0.58515489147976]:1e-06)[&amp;fake_trait=-1.41216094329287,another_trait=0.935482121771201]:0.0431861)[&amp;fake_trait=1.65980403458888,another_trait=0.125082567567006]:1e-06)[&amp;fake_trait=0.476325081878056,another_trait=0.262554442277178]:0.0292362)[&amp;fake_trait=1.15832764983724,another_trait=0.646949481917545]:0.185603,(15[&amp;fake_trait=0.704447323258862,another_trait=0.663062628591433]:0.0621782,16[&amp;fake_trait=-0.659190065346089,another_trait=0.505218442762271]:0.332505)[&amp;fake_trait=-1.04282102019802,another_trait=0.641324875177816]:0.185603)[&amp;fake_trait=-0.479609047683268,another_trait=0.519890103489161];
 END;</code></pre>
+<p>After merging, the <code>fake_trait</code> and <code>another_trait</code> stored in <code>fake_data</code> will be linked to the tree, <code>phylo</code>, and store in the <code>treedata</code> object, the <code>fake_tree</code>. The <code>write.beast()</code> function export the tree with associated data to a single BEAST format file. The associated data can be used to visualized the tree using <a href="http://bioconductor.org/packages/ggtree">ggtree</a> (Figure <a href="chapter5.html#fig:beast">5.2</a>) or <code>FigTree</code> (Figure <a href="chapter3.html#fig:beastFigtree">3.1</a>).</p>
 </div>
 <div id="merging-tree-data-from-different-sources" class="section level3">
 <h3><span class="header-section-number">3.2.3</span> Merging tree data from different sources</h3>
@@ -543,7 +553,7 @@ tree2</code></pre>
 be exported into a single file.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write.beast</span>(tree2)</code></pre>
 <pre><code>#NEXUS
-[R-package treeio, Fri May 24 17:18:14 2019]
+[R-package treeio, Tue May 28 15:06:01 2019]
 
 BEGIN TAXA;
     DIMENSIONS NTAX = 16;
@@ -594,7 +604,7 @@ using <a href="https://bioconductor.org/packages/ggtree/">ggtree</a> <span class
 <span class="kw">write.beast</span>(tree2, <span class="dt">file =</span> outfile)
 <span class="kw">read.beast</span>(outfile)</code></pre>
 <pre><code>## &#39;treedata&#39; S4 object that stored information of
-##  &#39;C:\Users\YGC\AppData\Local\Temp\RtmpWwknN6\file9cf41ca92361.tree&#39;.
+##  &#39;C:\Users\YGC\AppData\Local\Temp\RtmpsVLkaK\fileddf81bab6526.tree&#39;.
 ## 
 ## ...@ phylo: 
 ## Phylogenetic tree with 16 tips and 15 internal nodes.
@@ -614,7 +624,7 @@ using <a href="https://bioconductor.org/packages/ggtree/">ggtree</a> <span class
 <code>write.beast</code> to export <code>treedata</code> to BEAST Nexus file. This is quite useful
 to convert file format, combine tree with data and merging tree data from
 different sources as we demonstrated in
-<a href="chapter3.html#exporting-tree-data-to-beast-nexus-format">Exporting tree data to BEAST Nexus format</a> session.
+<a href="chapter3.html#exporting-tree-data-to-beast-nexus-format">session 3.2</a>.
 The <a href="https://bioconductor.org/packages/treeio/">treeio</a> package also supplies
 <code>read.beast</code> function to parse output file of <code>write.beast</code>. Although
 with <a href="https://bioconductor.org/packages/treeio/">treeio</a>, the R community has the ability to
@@ -879,7 +889,7 @@ languages that supports JSON.</p>
     &quot;another_trait&quot;: 0.6413
   }
 ],
-    &quot;metadata&quot;: {&quot;info&quot;: &quot;R-package treeio&quot;, &quot;data&quot;: &quot;Fri May 24 17:18:14 2019&quot;}
+    &quot;metadata&quot;: {&quot;info&quot;: &quot;R-package treeio&quot;, &quot;data&quot;: &quot;Tue May 28 15:06:02 2019&quot;}
 }</code></pre>
 <p>The <em>jtree</em> format is based on JSON and can be parsed using JSON parser.</p>
 <pre class="sourceCode r"><code class="sourceCode r">jtree_file &lt;-<span class="st"> </span><span class="kw">tempfile</span>(<span class="dt">fileext =</span> <span class="st">&#39;.jtree&#39;</span>)
@@ -927,13 +937,13 @@ $metadata$info
 [1] &quot;R-package treeio&quot;
 
 $metadata$data
-[1] &quot;Fri May 24 17:18:14 2019&quot;</code></pre>
+[1] &quot;Tue May 28 15:06:02 2019&quot;</code></pre>
 <p>The <em>jtree</em> file can be directly imported as a <code>treedata</code> object using
 <code>read.jtree</code> provided also
 in <a href="https://bioconductor.org/packages/treeio/">treeio</a> package (see also <a href="chapter1.html#jtree">session 1.3</a>).</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read.jtree</span>(jtree_file)</code></pre>
 <pre><code>## &#39;treedata&#39; S4 object that stored information of
-##  &#39;C:\Users\YGC\AppData\Local\Temp\RtmpWwknN6\file9cf455e01594.jtree&#39;.
+##  &#39;C:\Users\YGC\AppData\Local\Temp\RtmpsVLkaK\fileddf87011f74.jtree&#39;.
 ## 
 ## ...@ phylo: 
 ## Phylogenetic tree with 16 tips and 15 internal nodes.
@@ -948,6 +958,7 @@ in <a href="https://bioconductor.org/packages/treeio/">treeio</a> package (see a
 </div>
 <div id="summary-2" class="section level2">
 <h2><span class="header-section-number">3.4</span> Summary</h2>
+<p>Phylogenetic tree associated data is often stored in a separate file and need expertise to map the data to the tree structure. Lacking standardization to store and represent phylogeny and associated data makes it difficult for researchers to access and integrate the phylogenetic data into their studies. The <a href="http://bioconductor.org/packages/treeio">treeio</a> package provides functions to import phylogeny with associated data from a number of sources, including analysis finding from commonly used software and external data such as experimental, clinical or meta data. These tree + data can be exported into a single file as a BEAST or jtree formats, and the output file can be parsed back to R by <a href="http://bioconductor.org/packages/treeio">treeio</a> and the data is easy to access. The input and output utilities supplied by <a href="http://bioconductor.org/packages/treeio">treeio</a> package lay the foundation for phylogenetic data integration for downstream comparative study and visualization.</p>
 
 </div>
 </div>
