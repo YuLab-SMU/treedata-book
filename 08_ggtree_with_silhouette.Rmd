@@ -34,7 +34,8 @@ ggtree(x) + xlim(NA, 7) + ylim(NA, 6.2) +
 
 
 ```{r phylopic, dev='png'}
-tree <- ape::read.nexus("https://raw.githubusercontent.com/rgriff23/Dissertation/master/Chapter_2/data/tree.nex")
+## tree <- ape::read.nexus("https://raw.githubusercontent.com/rgriff23/Dissertation/master/Chapter_2/data/tree.nex")
+tree <- ape::read.nexus("data/tree.nex")
 phylopic_info <- data.frame(node = c(124, 113, 110, 96, 89, 70),
                             phylopic = c("c4ac9ea6-b465-4ed0-a5de-9fe4eebd3ef9",
                                         "5388a472-994a-48e1-86de-d988c6019e72",
@@ -165,32 +166,35 @@ d <- data.frame(label = c('snail','mushroom', 'sunflower',
                           'evergreen_tree','leaves', 'green_salad'),
                 group = c('animal', 'fungi', 'flowering plant',
                           'conifers', 'ferns', 'mosses'))
+
 ggtree(tree, linetype = "dashed", size=1, color='firebrick') %<+% d + 
   xlim(0, 4.5) + ylim(0.5, 6.5) +
   geom_tiplab(aes(color=label), parse="emoji", size=15, vjust=.25) +
   geom_tiplab(aes(label = group), geom="label", x=3.5, hjust=.5)
 ```
 
+Note that the output may depends on what emoji fonts installed in your system^[Google Noto emoji fonts was installed in my system].
 
 With **ggtree**, it is easy to generate phylomoji. The emoji is treated as **text**, like abc. We can use emojis to label taxa, clade, color and ratate emoji with any given color and angle. 
 
 ### emoji in cirular/fan layout tree
 
 ```{r fig.width=6, fig.height=6, warning=F, dev='png'}
-p <- ggtree(tree, layout = "circular", size=1) + 
+p <- ggtree(tree, layout = "circular", size=1) +  
   geom_tiplab2(aes(color=label), parse="emoji", size=10, vjust=.25)
 print(p)
 ```
 
 
 ```{r fig.width=6, fig.height=3.5, warning=F, eval=F, dev='png'}
-## fan layout
+## fan layout 
 p2 <- open_tree(p, angle=200) 
 print(p2)
 ```
 
 ```{r fig.width=6, fig.height=3.5, warning=F, echo=F, dev='png'}
 p2 <- open_tree(p, angle=200)
+
 ggplot() + ylim(0.5, 1) + xlim(0, 1) + theme_tree() +
   annotation_custom(ggplotGrob(p2), 
                     xmin=-.1, xmax=1.1, ymin=-.25, ymax=1.25)
@@ -201,7 +205,7 @@ p2 %>% rotate_tree(-90)
 ```
 
 ```{r fig.width=3.5, fig.height=6, warning=F, echo=F, dev='png'}
-p3 <- p2 %>% rotate_tree(-90)
+p3 <- p2 %>% rotate_tree(-90) 
 
 ggplot() + ylim(0, 1) + xlim(0.5, 1) + theme_tree() +
   annotation_custom(ggplotGrob(p3), 
@@ -214,12 +218,13 @@ ggplot() + ylim(0, 1) + xlim(0.5, 1) + theme_tree() +
 ```{r fig.width=6, fig.height=5, dev='png'}
 set.seed(123)
 tr <- rtree(30)
-ggtree(tr) + xlim(NA, 5) +
+
+ggtree(tr) + xlim(NA, 5.2) +
     geom_cladelabel(node=41, label="chicken", parse="emoji",
                     fontsize=12, align=TRUE, color="firebrick") +
-    geom_cladelabel(node=51, label="duck", parse="emoji",
+    geom_cladelabel(node=53, label="duck", parse="emoji",
                     fontsize=12, align=TRUE, color="steelblue") +
-    geom_cladelabel(node=32, label="family", parse="emoji",
+    geom_cladelabel(node=48, label="family", parse="emoji",
                     fontsize=12, align=TRUE, color="darkkhaki")
 ```
 
