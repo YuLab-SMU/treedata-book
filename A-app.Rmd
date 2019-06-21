@@ -81,17 +81,42 @@ See the explaination in the [ggplot2 book 2ed](https://github.com/hadley/ggplot2
 
 `r CRANpkg("ggplot2")` can't auto adjust `xlim` based on added text^[<https://twitter.com/hadleywickham/status/600280284869697538>].
 
+
 ```r
 library(ggtree)
 ## example tree from https://support.bioconductor.org/p/72398/
-tree<-read.tree(text="(Organism1.006G249400.1:0.03977,(Organism2.022118m:0.01337,(Organism3.J34265.1:0.00284,Organism4.G02633.1:0.00468)0.51:0.0104):0.02469);")
-ggtree(tree) + geom_tiplab()
+tree <- read.tree(text= paste("(Organism1.006G249400.1:0.03977,(Organism2.022118m:0.01337,",              "(Organism3.J34265.1:0.00284,Organism4.G02633.1:0.00468)0.51:0.0104):0.02469);"))
+p <- ggtree(tree) + geom_tiplab()  
 ```
 
-This is because the units are in two different spaces (data and pixel). Users can use xlim to allocate more space for tip label.
+In this example, the tip labels displayed on Figure \@ref(fig:truncatedTip)A are truncated. This is because the units are in two different spaces (data and pixel). Users can use `xlim` to allocate more spaces for tip labels (Figure \@ref(fig:truncatedTip)B).
 
 ```r
-ggtree(tree) + geom_tiplab() + xlim(0, 0.06)
+p + xlim(0, 0.08)
+```
+
+Another solution is to set `clip = "off"` to allow drawing outside of the plot panel. We may also need to set `plot.margin` to allocate more spaces for margin (Figure \@ref(fig:truncatedTip)C).
+
+```r
+p + coord_cartesian(clip = 'off') + 
+  theme_tree2(plot.margin=margin(6, 120, 6, 6))
+```
+
+(ref:truncatedTipscap) Allocating more spaces for truncated tip lables.
+
+(ref:truncatedTipcap) **Allocating more spaces for truncated tip lables.** Long tip lables may be truncated (A). One solution is to allocate more spaces for plot panel (B) and another solution is to allow plotting labels outside the plot panel (C).
+
+
+```{r truncatedTip, fig.width=12, fig.height=4, echo=FALSE, fig.cap="(ref:truncatedTipcap)", fig.scap="(ref:truncatedTipscap)"}
+library(ggplot2)
+library(ggtree)
+## example tree from https://support.bioconductor.org/p/72398/
+tree<-read.tree(text="(Organism1.006G249400.1:0.03977,(Organism2.022118m:0.01337,(Organism3.J34265.1:0.00284,Organism4.G02633.1:0.00468)0.51:0.0104):0.02469);")
+p <- ggtree(tree) + geom_tiplab()
+p2 <- ggtree(tree) + geom_tiplab() + xlim(0, 0.08)
+p3 <- p + coord_cartesian(clip = 'off') + 
+  theme_tree2(plot.margin=margin(6, 120, 6, 6))
+cowplot::plot_grid(p, p2, p3, ncol=3, labels=c("A", "B", "C"))
 ```
 
 ### Modify (tip) labels {#faq-modify-label}

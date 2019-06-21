@@ -354,10 +354,21 @@ As these variable is not available in your <code>dataset</code>, you will get th
 <p><a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> can’t auto adjust <code>xlim</code> based on added text<a href="#fn19" class="footnote-ref" id="fnref19"><sup>19</sup></a>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggtree)
 <span class="co">## example tree from https://support.bioconductor.org/p/72398/</span>
-tree&lt;-<span class="kw">read.tree</span>(<span class="dt">text=</span><span class="st">&quot;(Organism1.006G249400.1:0.03977,(Organism2.022118m:0.01337,(Organism3.J34265.1:0.00284,Organism4.G02633.1:0.00468)0.51:0.0104):0.02469);&quot;</span>)
-<span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>()</code></pre>
-<p>This is because the units are in two different spaces (data and pixel). Users can use xlim to allocate more space for tip label.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="fl">0.06</span>)</code></pre>
+tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="dt">text=</span> <span class="kw">paste</span>(<span class="st">&quot;(Organism1.006G249400.1:0.03977,(Organism2.022118m:0.01337,&quot;</span>,              <span class="st">&quot;(Organism3.J34265.1:0.00284,Organism4.G02633.1:0.00468)0.51:0.0104):0.02469);&quot;</span>))
+p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>()  </code></pre>
+<p>In this example, the tip labels displayed on Figure <a href="faq.html#fig:truncatedTip">A.1</a>A are truncated. This is because the units are in two different spaces (data and pixel). Users can use <code>xlim</code> to allocate more spaces for tip labels (Figure <a href="faq.html#fig:truncatedTip">A.1</a>B).</p>
+<pre class="sourceCode r"><code class="sourceCode r">p <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="fl">0.08</span>)</code></pre>
+<p>Another solution is to set <code>clip = "off"</code> to allow drawing outside of the plot panel. We may also need to set <code>plot.margin</code> to allocate more spaces for margin (Figure <a href="faq.html#fig:truncatedTip">A.1</a>C).</p>
+<pre class="sourceCode r"><code class="sourceCode r">p <span class="op">+</span><span class="st"> </span><span class="kw">coord_cartesian</span>(<span class="dt">clip =</span> <span class="st">&#39;off&#39;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">theme_tree2</span>(<span class="dt">plot.margin=</span><span class="kw">margin</span>(<span class="dv">6</span>, <span class="dv">120</span>, <span class="dv">6</span>, <span class="dv">6</span>))</code></pre>
+
+
+<div class="figure"><span id="fig:truncatedTip"></span>
+<img src="treedata_files/figure-html/truncatedTip-1.png" alt="Allocating more spaces for truncated tip lables. Long tip lables may be truncated (A). One solution is to allocate more spaces for plot panel (B) and another solution is to allow plotting labels outside the plot panel (C)." width="1152" />
+<p class="caption">
+Figure A.1: <strong>Allocating more spaces for truncated tip lables.</strong> Long tip lables may be truncated (A). One solution is to allocate more spaces for plot panel (B) and another solution is to allow plotting labels outside the plot panel (C).
+</p>
+</div>
 </div>
 <div id="faq-modify-label" class="section level3">
 <h3><span class="header-section-number">A.4.2</span> Modify (tip) labels</h3>
