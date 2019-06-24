@@ -421,18 +421,18 @@ Figure A.2: <strong>Alternative tip labels.</strong> Original tip lables (A) and
 <h3><span class="header-section-number">A.4.3</span> Formatting (tip) labels</h3>
 <p>If you want to format labels, you need to set <code>parse=TRUE</code> in <code>geom_text</code>/<code>geom_tiplab</code> and the <code>label</code> should be string that can be parsed into expression and displayed as described in <code>?plotmath</code>.</p>
 <p>For example, the tip labels contains two parts, species name and accession number and we want to display species name in <em>italic</em>, we can use command like this to format specific tip/node label (Figure <a href="faq.html#fig:formatTip">A.3</a>A):</p>
-<pre><code>set.seed(2019-06-24)
-tree &lt;- rtree(30)
-ggtree(tree) + 
-  geom_tiplab(aes(subset=node==35), 
-                  label=&#39;paste(italic(&quot;species name&quot;), 
-                              &quot;accession number&quot;)&#39;, 
-              parse=T)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">2019-06-24</span>)
+tree &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)
+p1 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">subset=</span>node<span class="op">==</span><span class="dv">35</span>), 
+                  <span class="dt">label=</span><span class="st">&#39;paste(italic(&quot;species name&quot;), </span>
+<span class="st">                              &quot;accession number&quot;)&#39;</span>, 
+              <span class="dt">parse=</span>T) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">6</span>)</code></pre>
 <p>Another example for formating all tip labels is demonstrated in Figure <a href="faq.html#fig:formatTip">A.3</a>B:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span>
+<pre class="sourceCode r"><code class="sourceCode r">p2 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">label=</span><span class="kw">paste0</span>(<span class="st">&#39;bold(&#39;</span>, label, 
                   <span class="st">&#39;)~italic(&#39;</span>, node, <span class="st">&#39;)&#39;</span>)), 
-            <span class="dt">parse=</span><span class="ot">TRUE</span>)</code></pre>
+            <span class="dt">parse=</span><span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">5</span>)</code></pre>
 <p>The <code>label</code> can be provided by a <code>data.frame</code> that contains related information
 of the taxa (Figure <a href="faq.html#fig:formatTip">A.3</a>C).</p>
 <pre class="sourceCode r"><code class="sourceCode r">tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="dt">text =</span> <span class="st">&quot;((a,(b,c)),d);&quot;</span>)
@@ -441,10 +441,12 @@ species &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st"
 geo &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Africa&quot;</span>, <span class="st">&quot;Africa&quot;</span>, <span class="st">&quot;World&quot;</span>, <span class="st">&quot;Asia&quot;</span>)
 d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">label =</span> tree<span class="op">$</span>tip.label, <span class="dt">genus =</span> genus,
                 <span class="dt">species =</span> species, <span class="dt">geo =</span> geo)
-<span class="kw">ggtree</span>(tree) <span class="op">%&lt;+%</span><span class="st"> </span>d <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="ot">NA</span>, <span class="dv">5</span>) <span class="op">+</span>
+
+p3 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree) <span class="op">%&lt;+%</span><span class="st"> </span>d <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="ot">NA</span>, <span class="dv">6</span>) <span class="op">+</span>
 <span class="st">    </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">label=</span><span class="kw">paste0</span>(<span class="st">&#39;italic(&#39;</span>, genus, 
                   <span class="st">&#39;)~bolditalic(&#39;</span>, species, <span class="st">&#39;)~&#39;</span>, geo)), 
-                <span class="dt">parse=</span>T)</code></pre>
+                <span class="dt">parse=</span>T)
+cowplot<span class="op">::</span><span class="kw">plot_grid</span>(p1, p2, p3, <span class="dt">ncol=</span><span class="dv">3</span>, <span class="dt">labels =</span> LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>])                </code></pre>
 
 
 <div class="figure"><span id="fig:formatTip"></span>
