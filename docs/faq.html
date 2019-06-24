@@ -301,7 +301,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span class="co">## install.packages(&quot;BiocManager&quot;)</span>
 <span class="kw">library</span>(BiocManager)
 <span class="kw">install</span>(<span class="st">&quot;ggtree&quot;</span>)</code></pre>
-<p>Bioconductor release is adhere to specific R version. Please make sure you are using latest version of R if you want to install the latest release of Bioconductor packages, including <code>ggtree</code>. Beware that bugs will only be fixed in current release and develop branches. If you find a bug, please make sure that the bug is exist in current release, then file an issue on github with reproducible example.</p>
+<p>Bioconductor release is adhere to specific R version. Please make sure you are using latest version of R if you want to install the latest release of Bioconductor packages, including <code>ggtree</code>. Beware that bugs will only be fixed in current release and develop branches. If you find a bug, please follow the guide<a href="#fn18" class="footnote-ref" id="fnref18"><sup>18</sup></a> to report it.</p>
 </div>
 <div id="faq-r" class="section level2">
 <h2><span class="header-section-number">A.2</span> Basic R related</h2>
@@ -341,7 +341,7 @@ As these variable is not available in your <code>dataset</code>, you will get th
 </div>
 <div id="faq-dollar-aes" class="section level3">
 <h3><span class="header-section-number">A.3.2</span> Never use <code>$</code> in aes</h3>
-<p>NEVER DO THIS<a href="#fn18" class="footnote-ref" id="fnref18"><sup>18</sup></a>.</p>
+<p>NEVER DO THIS<a href="#fn19" class="footnote-ref" id="fnref19"><sup>19</sup></a>.</p>
 <p>See the explaination in the <a href="https://github.com/hadley/ggplot2-book/blob/master/layers.rmd#aesthetic-mappings-secaes">ggplot2 book 2ed</a>:</p>
 <blockquote>
 <p>Never refer to a variable with <code>$</code> (e.g., <code>diamonds$carat</code>) in <code>aes()</code>. This breaks containment, so that the plot no longer contains everything it needs, and causes problems if ggplot2 changes the order of the rows, as it does when facetting.</p>
@@ -352,7 +352,7 @@ As these variable is not available in your <code>dataset</code>, you will get th
 <h2><span class="header-section-number">A.4</span> Text &amp; Label</h2>
 <div id="faq-label-truncated" class="section level3">
 <h3><span class="header-section-number">A.4.1</span> Tip label truncated</h3>
-<p><a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> can’t auto adjust <code>xlim</code> based on added text<a href="#fn19" class="footnote-ref" id="fnref19"><sup>19</sup></a>.</p>
+<p><a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> can’t auto adjust <code>xlim</code> based on added text<a href="#fn20" class="footnote-ref" id="fnref20"><sup>20</sup></a>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggtree)
 <span class="co">## example tree from https://support.bioconductor.org/p/72398/</span>
 tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="dt">text=</span> <span class="kw">paste</span>(<span class="st">&quot;(Organism1.006G249400.1:0.03977,(Organism2.022118m:0.01337,&quot;</span>, 
@@ -374,55 +374,105 @@ Figure A.1: <strong>Allocating more spaces for truncated tip lables.</strong> Lo
 </div>
 <div id="faq-modify-label" class="section level3">
 <h3><span class="header-section-number">A.4.2</span> Modify (tip) labels</h3>
-<p>This could be easily done via the <code>%&lt;+%</code> operator to attach the
-modified version of the labels and than use <code>geom_tiplab</code> to display
-the modified version.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(treeio)
-
-raxml_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/RAxML&quot;</span>, <span class="st">&quot;RAxML_bipartitionsBranchLabels.H3&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)
-raxml &lt;-<span class="st"> </span><span class="kw">read.raxml</span>(raxml_file)
-
-lb =<span class="st"> </span><span class="kw">as.phylo</span>(raxml)<span class="op">$</span>tip.label
-d =<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">label=</span>lb, <span class="dt">label2 =</span> <span class="kw">paste</span>(<span class="st">&quot;AA&quot;</span>, <span class="kw">substring</span>(lb, <span class="dv">1</span>, <span class="dv">5</span>)))
-<span class="kw">ggtree</span>(raxml) <span class="op">%&lt;+%</span><span class="st"> </span>d <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">label=</span>label2))</code></pre>
 <p>If you want to modify tip labels of the tree, you can use <code>treeio::rename_taxa()</code> to rename a <code>phylo</code> or <code>treedata</code> object.</p>
-<pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">3</span>)
-d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">old =</span> <span class="kw">paste0</span>(<span class="st">&#39;t&#39;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>),
-                <span class="dt">new =</span> LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>])
+<pre class="sourceCode r"><code class="sourceCode r">tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="dt">text =</span> <span class="st">&quot;((A, B), (C, D));&quot;</span>)
+d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">label =</span> LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>], 
+                <span class="dt">label2 =</span> <span class="kw">c</span>(<span class="st">&quot;sunflower&quot;</span>, <span class="st">&quot;tree&quot;</span>, <span class="st">&quot;snail&quot;</span>, <span class="st">&quot;mushroom&quot;</span>))
+
 <span class="co">## rename_taxa use 1st column as key and 2nd column as value by default                </span>
-<span class="co">## rename_taxa(x, d)</span>
-<span class="kw">rename_taxa</span>(x, d, old, new) <span class="op">%&gt;%</span><span class="st"> </span>write.tree</code></pre>
-<pre><code>## [1] &quot;((C:0.065173615,B:0.942158934):0.4385539924,A:0.8224781922);&quot;</code></pre>
+<span class="co">## rename_taxa(tree, d)</span>
+<span class="kw">rename_taxa</span>(tree, d, label, label2) <span class="op">%&gt;%</span><span class="st"> </span>write.tree</code></pre>
+<pre><code>## [1] &quot;((sunflower,tree),(snail,mushroom));&quot;</code></pre>
+<p>If the input tree object is a <code>treedata</code> instance, you can use <code>write.beast()</code> to export the tree with with associated data to a BEAST compatible NEXUS file.</p>
+<p>Renaming phylogeny tip labels seems not be a good idea, since it may introduce problems when mapping the original sequence alignment to the tree. Personally, I recommend to store the new labels as a tip annotation in <code>treedata</code> object.</p>
+<pre class="sourceCode r"><code class="sourceCode r">tree2 &lt;-<span class="st"> </span><span class="kw">full_join</span>(tree, d, <span class="dt">by =</span> <span class="st">&quot;label&quot;</span>)
+tree2</code></pre>
+<pre><code>## &#39;treedata&#39; S4 object&#39;.
+## 
+## ...@ phylo: 
+## Phylogenetic tree with 4 tips and 3 internal nodes.
+## 
+## Tip labels:
+## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot;
+## 
+## Rooted; no branch lengths.
+## 
+## with the following features available:
+##  &#39;label2&#39;.</code></pre>
+<p>If you just want to show different or additional information when plotting the tree, you don’t need to modify tip labels. This could be easily done via the <code>%&lt;+%</code> operator to attach the modified version of the labels and than use <code>geom_tiplab</code> to display
+the modified version (Figure <a href="faq.html#fig:renameTip">A.2</a>).</p>
+
+
+<pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="ot">NA</span>, <span class="dv">3</span>)
+p1 &lt;-<span class="st"> </span>p <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>()
+
+<span class="co">## the following command will produce identical figure of p2</span>
+<span class="co">## ggtree(tree2) + geom_tiplab(aes(label = label2))</span>
+p2 &lt;-<span class="st"> </span>p <span class="op">%&lt;+%</span><span class="st"> </span>d <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">label=</span>label2))
+cowplot<span class="op">::</span><span class="kw">plot_grid</span>(p1, p2, <span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>))</code></pre>
+<div class="figure"><span id="fig:renameTip"></span>
+<img src="treedata_files/figure-html/renameTip-1.png" alt="Alternative tip labels. Original tip lables (A) and modified version (B)." width="768" />
+<p class="caption">
+Figure A.2: <strong>Alternative tip labels.</strong> Original tip lables (A) and modified version (B).
+</p>
+</div>
 </div>
 <div id="faq-formatting-label" class="section level3">
 <h3><span class="header-section-number">A.4.3</span> Formatting (tip) labels</h3>
 <p>If you want to format labels, you need to set <code>parse=TRUE</code> in <code>geom_text</code>/<code>geom_tiplab</code> and the <code>label</code> should be string that can be parsed into expression and displayed as described in <code>?plotmath</code>.</p>
-<p>For example, the tiplabels contains two parts, species name and accession number and we want to display species name in <em>italic</em>, we can use command like this:</p>
-<pre><code>ggtree(rtree(30)) + geom_tiplab(aes(subset=node==35), label=&#39;paste(italic(&quot;species name&quot;), &quot;accession number&quot;)&#39;, parse=T)</code></pre>
-<p>Another example for formating all tip labels:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggtree</span>(<span class="kw">rtree</span>(<span class="dv">30</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">label=</span><span class="kw">paste0</span>(<span class="st">&#39;bold(&#39;</span>, label, <span class="st">&#39;)~italic(&#39;</span>, node, <span class="st">&#39;)&#39;</span>)), <span class="dt">parse=</span><span class="ot">TRUE</span>)</code></pre>
+<p>For example, the tip labels contains two parts, species name and accession number and we want to display species name in <em>italic</em>, we can use command like this to format specific tip/node label (Figure <a href="faq.html#fig:formatTip">A.3</a>A):</p>
+<pre><code>set.seed(2019-06-24)
+tree &lt;- rtree(30)
+ggtree(tree) + 
+  geom_tiplab(aes(subset=node==35), 
+                  label=&#39;paste(italic(&quot;species name&quot;), 
+                              &quot;accession number&quot;)&#39;, 
+              parse=T)</code></pre>
+<p>Another example for formating all tip labels is demonstrated in Figure <a href="faq.html#fig:formatTip">A.3</a>B:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">label=</span><span class="kw">paste0</span>(<span class="st">&#39;bold(&#39;</span>, label, 
+                  <span class="st">&#39;)~italic(&#39;</span>, node, <span class="st">&#39;)&#39;</span>)), 
+            <span class="dt">parse=</span><span class="ot">TRUE</span>)</code></pre>
 <p>The <code>label</code> can be provided by a <code>data.frame</code> that contains related information
-of the taxa.</p>
-<pre class="sourceCode r"><code class="sourceCode r">tr &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="dt">text =</span> <span class="st">&quot;((a,(b,c)),d);&quot;</span>)
+of the taxa (Figure <a href="faq.html#fig:formatTip">A.3</a>C).</p>
+<pre class="sourceCode r"><code class="sourceCode r">tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="dt">text =</span> <span class="st">&quot;((a,(b,c)),d);&quot;</span>)
 genus &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Gorilla&quot;</span>, <span class="st">&quot;Pan&quot;</span>, <span class="st">&quot;Homo&quot;</span>, <span class="st">&quot;Pongo&quot;</span>)
 species &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;gorilla&quot;</span>, <span class="st">&quot;spp.&quot;</span>, <span class="st">&quot;sapiens&quot;</span>, <span class="st">&quot;pygmaeus&quot;</span>)
 geo &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Africa&quot;</span>, <span class="st">&quot;Africa&quot;</span>, <span class="st">&quot;World&quot;</span>, <span class="st">&quot;Asia&quot;</span>)
-d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">label =</span> tr<span class="op">$</span>tip.label, <span class="dt">genus =</span> genus,
+d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">label =</span> tree<span class="op">$</span>tip.label, <span class="dt">genus =</span> genus,
                 <span class="dt">species =</span> species, <span class="dt">geo =</span> geo)
-<span class="kw">ggtree</span>(tr) <span class="op">%&lt;+%</span><span class="st"> </span>d <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="ot">NA</span>, <span class="dv">5</span>) <span class="op">+</span>
-<span class="st">    </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">label=</span><span class="kw">paste0</span>(<span class="st">&#39;italic(&#39;</span>, genus, <span class="st">&#39;)~bolditalic(&#39;</span>, species, <span class="st">&#39;)~&#39;</span>, geo)), <span class="dt">parse=</span>T)</code></pre>
-<p>see also <a href="https://groups.google.com/forum/?utm_medium=email&amp;utm_source=footer#!msg/bioc-ggtree/BA7g-npY1BM" class="uri">https://groups.google.com/forum/?utm_medium=email&amp;utm_source=footer#!msg/bioc-ggtree/BA7g-npY1BM</a>.</p>
+<span class="kw">ggtree</span>(tree) <span class="op">%&lt;+%</span><span class="st"> </span>d <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="ot">NA</span>, <span class="dv">5</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">label=</span><span class="kw">paste0</span>(<span class="st">&#39;italic(&#39;</span>, genus, 
+                  <span class="st">&#39;)~bolditalic(&#39;</span>, species, <span class="st">&#39;)~&#39;</span>, geo)), 
+                <span class="dt">parse=</span>T)</code></pre>
+
+
+<div class="figure"><span id="fig:formatTip"></span>
+<img src="treedata_files/figure-html/formatTip-1.png" alt="Formatting labels. Formatting specific tip/node label (A), all tip labels (B &amp; C)." width="1152" />
+<p class="caption">
+Figure A.3: <strong>Formatting labels.</strong> Formatting specific tip/node label (A), all tip labels (B &amp; C).
+</p>
+</div>
 </div>
 <div id="faq-ggrepel" class="section level3">
 <h3><span class="header-section-number">A.4.4</span> Avoid overlapping text labels</h3>
-<p>User can use <a href="https://cran.r-project.org/web/packages/ggrepel/">ggrepel</a> package to repel overlapping text labels.</p>
+<p>User can use <a href="https://cran.r-project.org/web/packages/ggrepel/">ggrepel</a> package to repel overlapping text labels<a href="#fn21" class="footnote-ref" id="fnref21"><sup>21</sup></a>.
+.</p>
 <p>For example:</p>
+
+
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggrepel)
 <span class="kw">library</span>(ggtree)
-raxml_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/RAxML&quot;</span>, <span class="st">&quot;RAxML_bipartitionsBranchLabels.H3&quot;</span>, <span class="dt">package=</span><span class="st">&quot;ggtree&quot;</span>)
+raxml_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/RAxML&quot;</span>, <span class="st">&quot;RAxML_bipartitionsBranchLabels.H3&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)
 raxml &lt;-<span class="st"> </span><span class="kw">read.raxml</span>(raxml_file)
-<span class="kw">ggtree</span>(raxml) <span class="op">+</span><span class="st"> </span><span class="kw">geom_label_repel</span>(<span class="kw">aes</span>(<span class="dt">label=</span>bootstrap, <span class="dt">fill=</span>bootstrap))</code></pre>
-<p>For details, please refer to <a href="https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html">ggrepel usage examples</a>.</p>
+<span class="kw">ggtree</span>(raxml) <span class="op">+</span><span class="st"> </span><span class="kw">geom_label_repel</span>(<span class="kw">aes</span>(<span class="dt">label=</span>bootstrap, <span class="dt">fill=</span>bootstrap)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(.<span class="dv">1</span>, <span class="fl">.8</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">scale_fill_viridis_c</span>()</code></pre>
+<div class="figure"><span id="fig:repelTip"></span>
+<img src="treedata_files/figure-html/repelTip-1.png" alt="Repel labels. Repel labels to avoid overlapping." width="1152" />
+<p class="caption">
+Figure A.4: <strong>Repel labels.</strong> Repel labels to avoid overlapping.
+</p>
+</div>
 </div>
 <div id="faq-bootstrap" class="section level3">
 <h3><span class="header-section-number">A.4.5</span> Bootstrap values from newick format</h3>
@@ -454,7 +504,7 @@ x &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">5
 </div>
 <div id="faq-enlarge-center-space" class="section level2">
 <h2><span class="header-section-number">A.6</span> Enlarge center space in circular/fan layout tree</h2>
-<p>This question was asked several times<a href="#fn20" class="footnote-ref" id="fnref20"><sup>20</sup></a>, and a published example can be found in <a href="https://www.ncbi.nlm.nih.gov/pubmed/27605062" class="uri">https://www.ncbi.nlm.nih.gov/pubmed/27605062</a>. Increasing percentage of center white space in circular tree is useful to avoid overlapping tip labels and to increase readibility of the tree by moving all nodes and branches further out. This can be done simply by using <code>+xlim()</code> to allocate more space, just like in Figure <a href="chapter4.html#fig:layout2">4.3</a>G, or assign a long root branch that is similar to the “Root Length” parameter in FigTree.</p>
+<p>This question was asked several times<a href="#fn22" class="footnote-ref" id="fnref22"><sup>22</sup></a>, and a published example can be found in <a href="https://www.ncbi.nlm.nih.gov/pubmed/27605062" class="uri">https://www.ncbi.nlm.nih.gov/pubmed/27605062</a>. Increasing percentage of center white space in circular tree is useful to avoid overlapping tip labels and to increase readibility of the tree by moving all nodes and branches further out. This can be done simply by using <code>+xlim()</code> to allocate more space, just like in Figure <a href="chapter4.html#fig:layout2">4.3</a>G, or assign a long root branch that is similar to the “Root Length” parameter in FigTree.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1982</span>)
 tree &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)
 <span class="kw">plot_grid</span>(
@@ -468,10 +518,12 @@ tree &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv
 <div class="footnotes">
 <hr />
 <ol start="18">
-<li id="fn18"><p><a href="https://groups.google.com/d/msg/bioc-ggtree/hViM6vRZF94/MsZT8qRgBwAJ" class="uri">https://groups.google.com/d/msg/bioc-ggtree/hViM6vRZF94/MsZT8qRgBwAJ</a>
-and <a href="https://github.com/GuangchuangYu/ggtree/issues/106" class="uri">https://github.com/GuangchuangYu/ggtree/issues/106</a><a href="faq.html#fnref18" class="footnote-back">↩</a></p></li>
-<li id="fn19"><p><a href="https://twitter.com/hadleywickham/status/600280284869697538" class="uri">https://twitter.com/hadleywickham/status/600280284869697538</a><a href="faq.html#fnref19" class="footnote-back">↩</a></p></li>
-<li id="fn20"><p><a href="https://groups.google.com/d/msg/bioc-ggtree/gruC4FztU8I/mwavqWCXAQAJ" class="uri">https://groups.google.com/d/msg/bioc-ggtree/gruC4FztU8I/mwavqWCXAQAJ</a>, <a href="https://groups.google.com/d/msg/bioc-ggtree/UoGQekWHIvw/ZswUUZKSGwAJ" class="uri">https://groups.google.com/d/msg/bioc-ggtree/UoGQekWHIvw/ZswUUZKSGwAJ</a> and <a href="https://github.com/GuangchuangYu/ggtree/issues/95" class="uri">https://github.com/GuangchuangYu/ggtree/issues/95</a><a href="faq.html#fnref20" class="footnote-back">↩</a></p></li>
+<li id="fn18"><p><a href="https://guangchuangyu.github.io/2016/07/how-to-bug-author/" class="uri">https://guangchuangyu.github.io/2016/07/how-to-bug-author/</a><a href="faq.html#fnref18" class="footnote-back">↩</a></p></li>
+<li id="fn19"><p><a href="https://groups.google.com/d/msg/bioc-ggtree/hViM6vRZF94/MsZT8qRgBwAJ" class="uri">https://groups.google.com/d/msg/bioc-ggtree/hViM6vRZF94/MsZT8qRgBwAJ</a>
+and <a href="https://github.com/GuangchuangYu/ggtree/issues/106" class="uri">https://github.com/GuangchuangYu/ggtree/issues/106</a><a href="faq.html#fnref19" class="footnote-back">↩</a></p></li>
+<li id="fn20"><p><a href="https://twitter.com/hadleywickham/status/600280284869697538" class="uri">https://twitter.com/hadleywickham/status/600280284869697538</a><a href="faq.html#fnref20" class="footnote-back">↩</a></p></li>
+<li id="fn21"><p>For details, please refer to <a href="https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html" class="uri">https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html</a><a href="faq.html#fnref21" class="footnote-back">↩</a></p></li>
+<li id="fn22"><p><a href="https://groups.google.com/d/msg/bioc-ggtree/gruC4FztU8I/mwavqWCXAQAJ" class="uri">https://groups.google.com/d/msg/bioc-ggtree/gruC4FztU8I/mwavqWCXAQAJ</a>, <a href="https://groups.google.com/d/msg/bioc-ggtree/UoGQekWHIvw/ZswUUZKSGwAJ" class="uri">https://groups.google.com/d/msg/bioc-ggtree/UoGQekWHIvw/ZswUUZKSGwAJ</a> and <a href="https://github.com/GuangchuangYu/ggtree/issues/95" class="uri">https://github.com/GuangchuangYu/ggtree/issues/95</a><a href="faq.html#fnref22" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
             </section>

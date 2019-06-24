@@ -13,7 +13,7 @@ library(BiocManager)
 install("ggtree")
 ```
 
-Bioconductor release is adhere to specific R version. Please make sure you are using latest version of R if you want to install the latest release of Bioconductor packages, including `ggtree`. Beware that bugs will only be fixed in current release and develop branches. If you find a bug, please make sure that the bug is exist in current release, then file an issue on github with reproducible example.
+Bioconductor release is adhere to specific R version. Please make sure you are using latest version of R if you want to install the latest release of Bioconductor packages, including `ggtree`. Beware that bugs will only be fixed in current release and develop branches. If you find a bug, please follow the guide^[<https://guangchuangyu.github.io/2016/07/how-to-bug-author/>] to report it.
 
 
 ## Basic R related {#faq-r}
@@ -125,83 +125,142 @@ cowplot::plot_grid(p, p2, p3, ncol=3, labels=c("A", "B", "C"))
 
 ### Modify (tip) labels {#faq-modify-label}
 
-This could be easily done via the `%<+%` operator to attach the
-modified version of the labels and than use `geom_tiplab` to display
-the modified version.
-
-
-```r
-library(treeio)
-
-raxml_file <- system.file("extdata/RAxML", "RAxML_bipartitionsBranchLabels.H3", package="treeio")
-raxml <- read.raxml(raxml_file)
-
-lb = as.phylo(raxml)$tip.label
-d = data.frame(label=lb, label2 = paste("AA", substring(lb, 1, 5)))
-ggtree(raxml) %<+% d + geom_tiplab(aes(label=label2))
-```
 
 If you want to modify tip labels of the tree, you can use `treeio::rename_taxa()` to rename a `phylo` or `treedata` object.
 
 ```{r}
-x <- rtree(3)
-d <- data.frame(old = paste0('t', 1:3),
-                new = LETTERS[1:3])
+tree <- read.tree(text = "((A, B), (C, D));")
+d <- data.frame(label = LETTERS[1:4], 
+                label2 = c("sunflower", "tree", "snail", "mushroom"))
+
 ## rename_taxa use 1st column as key and 2nd column as value by default                
-## rename_taxa(x, d)
-rename_taxa(x, d, old, new) %>% write.tree
+## rename_taxa(tree, d)
+rename_taxa(tree, d, label, label2) %>% write.tree
+```
+
+If the input tree object is a `treedata` instance, you can use `write.beast()` to export the tree with with associated data to a BEAST compatible NEXUS file.
+
+Renaming phylogeny tip labels seems not be a good idea, since it may introduce problems when mapping the original sequence alignment to the tree. Personally, I recommend to store the new labels as a tip annotation in `treedata` object. 
+
+```{r warnings = F}
+tree2 <- full_join(tree, d, by = "label")
+tree2
+```
+
+If you just want to show different or additional information when plotting the tree, you don't need to modify tip labels. This could be easily done via the `%<+%` operator to attach the modified version of the labels and than use `geom_tiplab` to display
+the modified version (Figure \@ref(fig:renameTip)).
+
+
+(ref:renameTipscap) Alternative tip labels.
+
+(ref:renameTipcap) **Alternative tip labels.** Original tip lables (A) and modified version (B).
+
+
+```{r renameTip, fig.width=8, fig.height=3, fig.cap="(ref:renameTipcap)", fig.scap="(ref:renameTipscap)"}
+p <- ggtree(tree) + xlim(NA, 3)
+p1 <- p + geom_tiplab()
+
+## the following command will produce identical figure of p2
+## ggtree(tree2) + geom_tiplab(aes(label = label2))
+p2 <- p %<+% d + geom_tiplab(aes(label=label2))
+cowplot::plot_grid(p1, p2, ncol=2, labels = c("A", "B"))
 ```
 
 ### Formatting (tip) labels {#faq-formatting-label}
 
 If you want to format labels, you need to set `parse=TRUE` in `geom_text`/`geom_tiplab` and the `label` should be string that can be parsed into expression and displayed as described in `?plotmath`.
 
-For example, the tiplabels contains two parts, species name and accession number and we want to display species name in _italic_, we can use command like this:
+For example, the tip labels contains two parts, species name and accession number and we want to display species name in _italic_, we can use command like this to format specific tip/node label (Figure \@ref(fig:formatTip)A):
 
 ```
-ggtree(rtree(30)) + geom_tiplab(aes(subset=node==35), label='paste(italic("species name"), "accession number")', parse=T)
+set.seed(2019-06-24)
+tree <- rtree(30)
+ggtree(tree) + 
+  geom_tiplab(aes(subset=node==35), 
+                  label='paste(italic("species name"), 
+                              "accession number")', 
+              parse=T)
 ```
 
 
-Another example for formating all tip labels:
+Another example for formating all tip labels is demonstrated in Figure \@ref(fig:formatTip)B:
 
 ```r
-ggtree(rtree(30)) + geom_tiplab(aes(label=paste0('bold(', label, ')~italic(', node, ')')), parse=TRUE)
+ggtree(tree) + 
+  geom_tiplab(aes(label=paste0('bold(', label, 
+                  ')~italic(', node, ')')), 
+            parse=TRUE)
 ```
 
 The `label` can be provided by a `data.frame` that contains related information
-of the taxa.
+of the taxa (Figure \@ref(fig:formatTip)C).
 
 ```r
-tr <- read.tree(text = "((a,(b,c)),d);")
+tree <- read.tree(text = "((a,(b,c)),d);")
 genus <- c("Gorilla", "Pan", "Homo", "Pongo")
 species <- c("gorilla", "spp.", "sapiens", "pygmaeus")
 geo <- c("Africa", "Africa", "World", "Asia")
-d <- data.frame(label = tr$tip.label, genus = genus,
+d <- data.frame(label = tree$tip.label, genus = genus,
                 species = species, geo = geo)
-ggtree(tr) %<+% d + xlim(NA, 5) +
-    geom_tiplab(aes(label=paste0('italic(', genus, ')~bolditalic(', species, ')~', geo)), parse=T)
+ggtree(tree) %<+% d + xlim(NA, 5) +
+    geom_tiplab(aes(label=paste0('italic(', genus, 
+                  ')~bolditalic(', species, ')~', geo)), 
+                parse=T)
 ```
 
-see also <https://groups.google.com/forum/?utm_medium=email&utm_source=footer#!msg/bioc-ggtree/BA7g-npY1BM>.
+
+(ref:formatTipscap) Formatting labels.
+
+(ref:formatTipcap) **Formatting labels.** Formatting specific tip/node label (A), all tip labels (B & C).
 
 
+```{r formatTip, fig.width=12, fig.height=4, echo = F, fig.cap="(ref:formatTipcap)", fig.scap="(ref:formatTipscap)"}
+set.seed(2019-06-24)
+tree <- rtree(30)
+p1 = ggtree(tree) + 
+  geom_tiplab(aes(subset=node==35), 
+                  label='paste(italic("species name"), 
+                              " accession number")', 
+              parse=T) + xlim(0, 6)
+
+p2= ggtree(tree) + 
+  geom_tiplab(aes(label=paste0('bold(', label, 
+                  ')~italic(', node, ')')), 
+            parse=TRUE) + xlim(0, 5)
+
+tree <- read.tree(text = "((a,(b,c)),d);")
+genus <- c("Gorilla", "Pan", "Homo", "Pongo")
+species <- c("gorilla", "spp.", "sapiens", "pygmaeus")
+geo <- c("Africa", "Africa", "World", "Asia")
+d <- data.frame(label = tree$tip.label, genus = genus,
+                species = species, geo = geo)
+p3= ggtree(tree) %<+% d + xlim(NA, 5) +
+    geom_tiplab(aes(label=paste0('italic(', genus, 
+                  ')~bolditalic(', species, ')~', geo)), 
+                parse=T) + xlim(0, 6)
+cowplot::plot_grid(p1, p2, p3, ncol=3, labels = LETTERS[1:3])
+```
 
 ### Avoid overlapping text labels {#faq-ggrepel}
 
-User can use [ggrepel](https://cran.r-project.org/web/packages/ggrepel/) package to repel overlapping text labels.
+User can use [ggrepel](https://cran.r-project.org/web/packages/ggrepel/) package to repel overlapping text labels^[For details, please refer to <https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html>].
+.
 
 For example:
 
-```r
+(ref:repelTipscap) Repel labels.
+
+(ref:repelTipcap) **Repel labels.** Repel labels to avoid overlapping.
+
+
+```{r repelTip, fig.width=12, fig.height=8, fig.cap="(ref:repelTipcap)", fig.scap="(ref:repelTipscap)"}
 library(ggrepel)
 library(ggtree)
-raxml_file <- system.file("extdata/RAxML", "RAxML_bipartitionsBranchLabels.H3", package="ggtree")
+raxml_file <- system.file("extdata/RAxML", "RAxML_bipartitionsBranchLabels.H3", package="treeio")
 raxml <- read.raxml(raxml_file)
-ggtree(raxml) + geom_label_repel(aes(label=bootstrap, fill=bootstrap))
+ggtree(raxml) + geom_label_repel(aes(label=bootstrap, fill=bootstrap)) + 
+  theme(legend.position = c(.1, .8)) + scale_fill_viridis_c()
 ```
-
-For details, please refer to [ggrepel usage examples](https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html).
 
 ### Bootstrap values from newick format {#faq-bootstrap}
 
