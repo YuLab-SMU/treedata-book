@@ -503,6 +503,28 @@ the vignette,
 <span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;right&quot;</span>)</code></pre>
 <p><img src="treedata_files/figure-html/unnamed-chunk-72-1.png" width="480" /></p>
 <p>User can use any feature (if available), including clade posterior and <em>dN/dS</em> <em>etc.</em>, to scale the color of the tree.</p>
+<p><a href="http://www.phytools.org/eqg2015/asr.html" class="uri">http://www.phytools.org/eqg2015/asr.html</a>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">anole.tree&lt;-<span class="kw">read.tree</span>(<span class="st">&quot;http://www.phytools.org/eqg2015/data/anole.tre&quot;</span>)
+
+svl &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;http://www.phytools.org/eqg2015/data/svl.csv&quot;</span>,
+    <span class="dt">row.names=</span><span class="dv">1</span>)
+svl &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(svl)[,<span class="dv">1</span>]
+fit &lt;-<span class="st"> </span>phytools<span class="op">::</span><span class="kw">fastAnc</span>(anole.tree,svl,<span class="dt">vars=</span><span class="ot">TRUE</span>,<span class="dt">CI=</span><span class="ot">TRUE</span>)
+
+td &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">node =</span> <span class="kw">nodeid</span>(anole.tree, <span class="kw">names</span>(svl)),
+               <span class="dt">trait =</span> svl)
+nd &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">node =</span> <span class="kw">names</span>(fit<span class="op">$</span>ace), <span class="dt">trait =</span> fit<span class="op">$</span>ace)
+
+d &lt;-<span class="st"> </span><span class="kw">rbind</span>(td, nd)
+d<span class="op">$</span>node &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(d<span class="op">$</span>node)
+
+tree &lt;-<span class="st"> </span><span class="kw">full_join</span>(anole.tree, d, <span class="dt">by =</span> <span class="st">&#39;node&#39;</span>)
+
+<span class="kw">ggtree</span>(tree, <span class="kw">aes</span>(<span class="dt">color=</span>trait), <span class="dt">layout =</span> <span class="st">&#39;circular&#39;</span>, 
+        <span class="dt">ladderize =</span> <span class="ot">FALSE</span>, <span class="dt">continuous =</span> <span class="ot">TRUE</span>, <span class="dt">size=</span><span class="dv">2</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">scale_color_gradientn</span>(<span class="dt">colours=</span><span class="kw">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&#39;orange&#39;</span>, <span class="st">&#39;green&#39;</span>, <span class="st">&#39;cyan&#39;</span>, <span class="st">&#39;blue&#39;</span>)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_tiplab2</span>(<span class="dt">hjust =</span> <span class="fl">-.1</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="fl">1.2</span>)</code></pre>
+<p><img src="treedata_files/figure-html/continuousColor-1.png" width="768" /></p>
 </div>
 <div id="rescale-tree" class="section level3">
 <h3><span class="header-section-number">4.3.5</span> Rescale tree</h3>

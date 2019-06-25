@@ -374,8 +374,30 @@ ggtree(beast_tree, aes(color=rate)) +
 
 User can use any feature (if available), including clade posterior and *dN/dS* _etc._, to scale the color of the tree.
 
+<http://www.phytools.org/eqg2015/asr.html>.
 
+```{r continuousColor, fig.width=8, fig.height=8}
+anole.tree<-read.tree("http://www.phytools.org/eqg2015/data/anole.tre")
 
+svl <- read.csv("http://www.phytools.org/eqg2015/data/svl.csv",
+    row.names=1)
+svl <- as.matrix(svl)[,1]
+fit <- phytools::fastAnc(anole.tree,svl,vars=TRUE,CI=TRUE)
+
+td <- data.frame(node = nodeid(anole.tree, names(svl)),
+               trait = svl)
+nd <- data.frame(node = names(fit$ace), trait = fit$ace)
+
+d <- rbind(td, nd)
+d$node <- as.numeric(d$node)
+
+tree <- full_join(anole.tree, d, by = 'node')
+
+ggtree(tree, aes(color=trait), layout = 'circular', 
+        ladderize = FALSE, continuous = TRUE, size=2) +
+    scale_color_gradientn(colours=c("red", 'orange', 'green', 'cyan', 'blue')) +
+    geom_tiplab2(hjust = -.1) + xlim(0, 1.2)
+```
 
 ### Rescale tree
 
