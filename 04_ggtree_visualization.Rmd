@@ -256,7 +256,7 @@ p + geom_nodepoint(color="grey", size=3, alpha=.8) +
 ```
 
 
-As shown in Figure \@ref(fig:2d), two-dimensional tree good at visualizing the change of phenotype over the evolution in the phylogenetic tree. In this example, it is shown that H3 gene of human influenza A virus maintained high level of *N*-linked glycosylation sites (n=8 to 9) over last two decades and dropped significantly to 5 or 6 in a separate viral lineage transmitted to swine populations and established there. It was indeed hypothesized that the human influenza virus with high level of glycosylation on the viral hemagglutinin protein provides better shielding effect to protect the antigenic sites from exposure to the herd immunity, and thus has selective advantage in human populations that maintain high level of herd immunity against the circulating human influenza virus strains. For the viral lineage that newly jumped across the species barrier and transmitted to swine population, the shielding effect of the high-level surface glycan oppositely impose selective disadvantage because the receptor-binding domain may also be shielded which greatly affect the viral fitness of the lineage that newly adapted to a new host species.
+As shown in Figure \@ref(fig:2d), two-dimensional tree good at visualizing the change of phenotype over the evolution in the phylogenetic tree. In this example, it is shown that H3 gene of human influenza A virus maintained high level of *N*-linked glycosylation sites (n=8 to 9) over last two decades and dropped significantly to 5 or 6 in a separate viral lineage transmitted to swine populations and established there. It was indeed hypothesized that the human influenza virus with high level of glycosylation on the viral hemagglutinin protein provides better shielding effect to protect the antigenic sites from exposure to the herd immunity, and thus has selective advantage in human populations that maintain high level of herd immunity against the circulating human influenza virus strains. For the viral lineage that newly jumped across the species barrier and transmitted to swine population, the shielding effect of the high-level surface glycan oppositely impose selective disadvantage because the receptor-binding domain may also be shielded which greatly affect the viral fitness of the lineage that newly adapted to a new host species. Another example of two-dimensional tree can be found on Figure \@ref(fig:phenogram).
 
 
 ## Displaying Tree Components
@@ -366,7 +366,13 @@ Based on the middle of branch is very useful when annotating transition from par
 
 In `ggtree`, coloring phylogenetic tree is easy, by using `aes(color=VAR)` to map the color of tree based on a specific variable (numeric and category are both supported).
 
-```{r fig.width=5, fig.height=5}
+
+(ref:colortreescap) Color tree by continuous or discrete feature.
+
+(ref:colortreecap) **Color tree by continuous or discrete feature.** Edges are colored by values that associated with child node.
+
+
+```{r colortree, fig.width=5, fig.height=5, fig.cap="(ref:colortreecap)", fig.scap="(ref:colortreescap)"}
 ggtree(beast_tree, aes(color=rate)) +
     scale_color_continuous(low='darkgreen', high='red') +
     theme(legend.position="right")
@@ -374,11 +380,19 @@ ggtree(beast_tree, aes(color=rate)) +
 
 User can use any feature (if available), including clade posterior and *dN/dS* _etc._, to scale the color of the tree.
 
-<http://www.phytools.org/eqg2015/asr.html>.
+If the feature is continuous numerical value, `r Biocpkg("ggtree")` provides a `continuous` parameter to support plotting continuous state transition in edges.
 
-```{r continuousColor, fig.width=8, fig.height=8}
+Here, we use the example provided in <http://www.phytools.org/eqg2015/asr.html> to demonstrate this functionality.
+
+
+
+(ref:continuousColorscap) Continuous state transition in edges.
+
+(ref:continuousColorcap) **Continuous state transition in edges.** Edges are colored by the values from ancestral trait to offspring.
+
+ 
+```{r continuousColor, fig.width=6, fig.height=6, fig.cap="(ref:continuousColorcap)", fig.scap="(ref:continuousColorscap)"}
 anole.tree<-read.tree("http://www.phytools.org/eqg2015/data/anole.tre")
-
 svl <- read.csv("http://www.phytools.org/eqg2015/data/svl.csv",
     row.names=1)
 svl <- as.matrix(svl)[,1]
@@ -390,14 +404,27 @@ nd <- data.frame(node = names(fit$ace), trait = fit$ace)
 
 d <- rbind(td, nd)
 d$node <- as.numeric(d$node)
-
 tree <- full_join(anole.tree, d, by = 'node')
 
 ggtree(tree, aes(color=trait), layout = 'circular', 
         ladderize = FALSE, continuous = TRUE, size=2) +
     scale_color_gradientn(colours=c("red", 'orange', 'green', 'cyan', 'blue')) +
-    geom_tiplab2(hjust = -.1) + xlim(0, 1.2)
+    geom_tiplab2(hjust = -.1) + xlim(0, 1.2) + theme(legend.position = c(.05, .85))
 ```
+
+Besides, we can use two-dimensional tree (as demonstrated in Figure \@ref(fig:2d)) to visualize phenotype on the vertical dimension to create the phenogram. We can use `r CRANpkg("ggrepel")` package to repel tip labels to avoid overlapping as demonstrated in Figure \@ref(fig:repelTip).
+
+
+(ref:phenogramscap) Phenogram.
+
+(ref:phenogramcap) **Phenogram.** Projecting the tree into a space defined by time (or genetic distance) on the horizontal axis and phenotype on the vertical dimension.
+
+
+```{r phenogram, fig.width=6, fig.height=8, fig.cap="(ref:phenogramcap)", fig.scap="(ref:phenogramscap)"}
+ggtree(tree, aes(color=trait), continuous = TRUE, yscale = "trait") + 
+    scale_color_viridis_c() + theme_minimal() 
+```
+
 
 ### Rescale tree
 
