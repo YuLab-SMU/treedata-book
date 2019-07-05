@@ -116,6 +116,31 @@ inset(p, pies, width=1, height=1, hjust=-.06)
 ```
 
 
+```{r fig.width=10, fig.height=9.6}
+library(phytools)
+data(anoletree)
+x <- getStates(anoletree,"tips")
+tree <- anoletree
+
+cols <- setNames(palette()[1:length(unique(x))],sort(unique(x)))
+fitER <- ape::ace(x,tree,model="ER",type="discrete")
+ancstats <- as.data.frame(fitER$lik.anc)
+ancstats$node <- 1:tree$Nnode+Ntip(tree)
+
+pies2 <- nodepie(ancstats, cols = 1:6)
+pies2 <- lapply(pies2, function(g) g+scale_fill_manual(values = cols))
+
+tree2 <- full_join(tree, data.frame(label = names(x), stat = x ), by = 'label')
+p2 <- ggtree(tree2) + geom_tiplab() +
+    geom_tippoint(aes(color = stat)) + 
+    scale_color_manual(values = cols) +
+    theme(legend.position = "right") + 
+    xlim(NA, 8)
+inset(p2, pies2, width = .2, height = .2, hjust = .02, vjust = .05) 
+```
+
+
+
 ### Annotate with other types of charts
 
 The `inset` function accepts a list of ggplot graphic objects and these input objects are not restricted to pie or bar charts. They can be any kinds of charts and hybrid of these charts.
@@ -131,7 +156,7 @@ bx <- lapply(d, function(y) {
     dd <- data.frame(y=y)
     ggplot(dd, aes(x=1, y=y))+geom_boxplot() + ylim(ylim) + theme_inset()
 })
-names(bx) <- 1:15
+names(bx) <- 1:15 
 inset(p, bx, width=.2, height=2, hjust=-.05)
 ```
 
@@ -141,7 +166,7 @@ After annotating with insets, users can further annotate the tree with another l
 ```{r fig.width=7, fig.height=7}
 p2 <- inset(p, bars2, x='branch', width=.5, height=1, vjust=-.4)
 p2 <- inset(p2, pies, x='branch', vjust=.4, width=.5, height=1)
-bx2 <- lapply(bx, function(g) g+coord_flip())
+bx2 <- lapply(bx, function(g) g+coord_flip()) 
 inset(p2, bx2, width=2, height=1, vjust=.04, hjust=p2$data$x[1:15]-5) + xlim(NA, 6)
 ```
 
