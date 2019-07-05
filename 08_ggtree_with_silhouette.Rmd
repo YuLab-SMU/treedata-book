@@ -77,46 +77,13 @@ p %<+% d + geom_tiplab(aes(image=uid, color=label), geom="phylopic", offset=2.5)
 
 ### Annotate with bar charts
 
-```{r fig.width=7, fig.height=7}
-set.seed(2015-12-31)
-tr <- rtree(15)
-p <- ggtree(tr)
+(ref:barInsetscap) Annotate internal nodes with barplots.
 
-a <- runif(14, 0, 0.33)
-b <- runif(14, 0, 0.33)
-c <- runif(14, 0, 0.33)
-d <- 1 - a - b - c
-dat <- data.frame(a=a, b=b, c=c, d=d)
-## input data should have a column of `node` that store the node number
-dat$node <- 15+1:14
-
-## cols parameter indicate which columns store stats (a, b, c and d in this example)
-bars <- nodebar(dat, cols=1:4)
-
-inset(p, bars, width=.2, height=1)
-```
-
-Users can set the color via the parameter *color*. The *x* position can be one of 'node' or 'branch' and can be adjusted by the parameter *hjust* and *vjust* for horizontal and vertical adjustment respecitvely.
+(ref:barInsetcap) **Annotate internal nodes with barplots.** 
 
 
-```{r fig.width=7, fig.height=7}
-bars2 <- nodebar(dat, cols=1:4, position='dodge',
-                 color=c(a='blue', b='red', c='green', d='cyan'))
-p2 <- inset(p, bars2, x='branch', width=.2, height=1, vjust=-.3)
-print(p2)
-```
 
-### Annotate with pie charts
-
-Similarly, users can use `nodepie` function to generate a list of pie charts and place these charts to annotate corresponding nodes. Both `nodebar` and `nodepie` accepts parameter *alpha* to allow transparency.
-
-```{r fig.width=7, fig.height=7}
-pies <- nodepie(dat, cols=1:4, alpha=.6)
-inset(p, pies, width=1, height=1, hjust=-.06)
-```
-
-
-```{r fig.width=10, fig.height=9.6}
+```{r barInset, fig.width=10, fig.height=9.6, fig.cap="(ref:barInsetcap)", fig.scap="(ref:barInsetscap)"}
 library(phytools)
 data(anoletree)
 x <- getStates(anoletree,"tips")
@@ -127,48 +94,61 @@ fitER <- ape::ace(x,tree,model="ER",type="discrete")
 ancstats <- as.data.frame(fitER$lik.anc)
 ancstats$node <- 1:tree$Nnode+Ntip(tree)
 
-pies2 <- nodepie(ancstats, cols = 1:6)
-pies2 <- lapply(pies2, function(g) g+scale_fill_manual(values = cols))
+## cols parameter indicate which columns store stats
+bars <- nodebar(ancstats, cols=1:6)
+bars <- lapply(bars, function(g) g+scale_fill_manual(values = cols))
 
 tree2 <- full_join(tree, data.frame(label = names(x), stat = x ), by = 'label')
-p2 <- ggtree(tree2) + geom_tiplab() +
+p <- ggtree(tree2) + geom_tiplab() +
     geom_tippoint(aes(color = stat)) + 
     scale_color_manual(values = cols) +
     theme(legend.position = "right") + 
     xlim(NA, 8)
-inset(p2, pies2, width = .2, height = .2, hjust = .02, vjust = .05) 
+p + geom_inset(bars, width = .08, height = .05, x = "branch") 
 ```
 
+
+
+Users can set the color via the parameter *color*. The *x* position can be one of 'node' or 'branch' and can be adjusted by the parameter *hjust* and *vjust* for horizontal and vertical adjustment respecitvely.
+
+
+
+
+### Annotate with pie charts
+
+Similarly, users can use `nodepie` function to generate a list of pie charts and place these charts to annotate corresponding nodes. Both `nodebar` and `nodepie` accepts parameter *alpha* to allow transparency.
+
+(ref:pieInsetscap) Annotate internal nodes with pie plots.
+
+(ref:pieInsetcap) **Annotate internal nodes with pie plots.** 
+
+
+
+```{r pieInset, fig.width=10, fig.height=9.6, fig.cap="(ref:pieInsetcap)", fig.scap="(ref:pieInsetscap)"}
+pies <- nodepie(ancstats, cols = 1:6)
+pies <- lapply(pies, function(g) g+scale_fill_manual(values = cols))
+p + geom_inset(pies, width = .1, height = .1) 
+```
 
 
 ### Annotate with other types of charts
 
 The `inset` function accepts a list of ggplot graphic objects and these input objects are not restricted to pie or bar charts. They can be any kinds of charts and hybrid of these charts.
 
-```{r fig.width=7, fig.height=7}
-pies_and_bars <- bars2
-pies_and_bars[9:14] <- pies[9:14]
-inset(p, pies_and_bars, width=.3, height=1)
+(ref:barpieInsetscap) Annotate internal nodes with different types of subplots (bar and pie).
 
-d <- lapply(1:15, rnorm, n=100)
-ylim <- range(unlist(d))
-bx <- lapply(d, function(y) {
-    dd <- data.frame(y=y)
-    ggplot(dd, aes(x=1, y=y))+geom_boxplot() + ylim(ylim) + theme_inset()
-})
-names(bx) <- 1:15 
-inset(p, bx, width=.2, height=2, hjust=-.05)
+(ref:barpieInsetcap) **Annotate internal nodes with different types of subplots (bar and pie).** 
+
+
+
+```{r barpieInset, fig.width=10, fig.height=9.6, fig.cap="(ref:barpieInsetcap)", fig.scap="(ref:barpieInsetscap)"}
+pies_and_bars <- pies
+i <- sample(length(pies), 20)
+pies_and_bars[i] <- bars[i]
+p + geom_inset(pies_and_bars, width=.08, height=.05)
 ```
 
 
-After annotating with insets, users can further annotate the tree with another layer of insets.
-
-```{r fig.width=7, fig.height=7}
-p2 <- inset(p, bars2, x='branch', width=.5, height=1, vjust=-.4)
-p2 <- inset(p2, pies, x='branch', vjust=.4, width=.5, height=1)
-bx2 <- lapply(bx, function(g) g+coord_flip()) 
-inset(p2, bx2, width=2, height=1, vjust=.04, hjust=p2$data$x[1:15]-5) + xlim(NA, 6)
-```
 
 
 ## Have Fun with Phylomoji {#phylomoji}

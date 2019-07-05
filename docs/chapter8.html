@@ -352,36 +352,8 @@ p <span class="op">%&lt;+%</span><span class="st"> </span>d <span class="op">+</
 <p><code>ggtree</code> provides a function, <code>inset</code>, for adding subplots to a phylogenetic tree. The input is a tree graphic object and a named list of ggplot graphic objects (can be any kind of charts), these objects should named by node numbers. To facilitate adding bar and pie charts (e.g. summarized stats of results from ancestral reconstruction) to phylogenetic tree, <em>ggtree</em> provides <code>nodepie</code> and <code>nodebar</code> functions to create a list of pie or bar charts.</p>
 <div id="annotate-with-bar-charts" class="section level3">
 <h3><span class="header-section-number">8.3.1</span> Annotate with bar charts</h3>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">2015-12-31</span>)
-tr &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">15</span>)
-p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tr)
 
-a &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">14</span>, <span class="dv">0</span>, <span class="fl">0.33</span>)
-b &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">14</span>, <span class="dv">0</span>, <span class="fl">0.33</span>)
-c &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">14</span>, <span class="dv">0</span>, <span class="fl">0.33</span>)
-d &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span>a <span class="op">-</span><span class="st"> </span>b <span class="op">-</span><span class="st"> </span>c
-dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">a=</span>a, <span class="dt">b=</span>b, <span class="dt">c=</span>c, <span class="dt">d=</span>d)
-<span class="co">## input data should have a column of `node` that store the node number</span>
-dat<span class="op">$</span>node &lt;-<span class="st"> </span><span class="dv">15</span><span class="op">+</span><span class="dv">1</span><span class="op">:</span><span class="dv">14</span>
 
-<span class="co">## cols parameter indicate which columns store stats (a, b, c and d in this example)</span>
-bars &lt;-<span class="st"> </span><span class="kw">nodebar</span>(dat, <span class="dt">cols=</span><span class="dv">1</span><span class="op">:</span><span class="dv">4</span>)
-
-<span class="kw">inset</span>(p, bars, <span class="dt">width=</span>.<span class="dv">2</span>, <span class="dt">height=</span><span class="dv">1</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-121-1.png" width="672" /></p>
-<p>Users can set the color via the parameter <em>color</em>. The <em>x</em> position can be one of ‘node’ or ‘branch’ and can be adjusted by the parameter <em>hjust</em> and <em>vjust</em> for horizontal and vertical adjustment respecitvely.</p>
-<pre class="sourceCode r"><code class="sourceCode r">bars2 &lt;-<span class="st"> </span><span class="kw">nodebar</span>(dat, <span class="dt">cols=</span><span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">position=</span><span class="st">&#39;dodge&#39;</span>,
-                 <span class="dt">color=</span><span class="kw">c</span>(<span class="dt">a=</span><span class="st">&#39;blue&#39;</span>, <span class="dt">b=</span><span class="st">&#39;red&#39;</span>, <span class="dt">c=</span><span class="st">&#39;green&#39;</span>, <span class="dt">d=</span><span class="st">&#39;cyan&#39;</span>))
-p2 &lt;-<span class="st"> </span><span class="kw">inset</span>(p, bars2, <span class="dt">x=</span><span class="st">&#39;branch&#39;</span>, <span class="dt">width=</span>.<span class="dv">2</span>, <span class="dt">height=</span><span class="dv">1</span>, <span class="dt">vjust=</span><span class="op">-</span>.<span class="dv">3</span>)
-<span class="kw">print</span>(p2)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-122-1.png" width="672" /></p>
-</div>
-<div id="annotate-with-pie-charts" class="section level3">
-<h3><span class="header-section-number">8.3.2</span> Annotate with pie charts</h3>
-<p>Similarly, users can use <code>nodepie</code> function to generate a list of pie charts and place these charts to annotate corresponding nodes. Both <code>nodebar</code> and <code>nodepie</code> accepts parameter <em>alpha</em> to allow transparency.</p>
-<pre class="sourceCode r"><code class="sourceCode r">pies &lt;-<span class="st"> </span><span class="kw">nodepie</span>(dat, <span class="dt">cols=</span><span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">alpha=</span>.<span class="dv">6</span>)
-<span class="kw">inset</span>(p, pies, <span class="dt">width=</span><span class="dv">1</span>, <span class="dt">height=</span><span class="dv">1</span>, <span class="dt">hjust=</span><span class="op">-</span>.<span class="dv">06</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-123-1.png" width="672" /></p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(phytools)
 <span class="kw">data</span>(anoletree)
 x &lt;-<span class="st"> </span><span class="kw">getStates</span>(anoletree,<span class="st">&quot;tips&quot;</span>)
@@ -392,40 +364,55 @@ fitER &lt;-<span class="st"> </span>ape<span class="op">::</span><span class="kw
 ancstats &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(fitER<span class="op">$</span>lik.anc)
 ancstats<span class="op">$</span>node &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span>tree<span class="op">$</span>Nnode<span class="op">+</span><span class="kw">Ntip</span>(tree)
 
-pies2 &lt;-<span class="st"> </span><span class="kw">nodepie</span>(ancstats, <span class="dt">cols =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>)
-pies2 &lt;-<span class="st"> </span><span class="kw">lapply</span>(pies2, <span class="cf">function</span>(g) g<span class="op">+</span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> cols))
+<span class="co">## cols parameter indicate which columns store stats</span>
+bars &lt;-<span class="st"> </span><span class="kw">nodebar</span>(ancstats, <span class="dt">cols=</span><span class="dv">1</span><span class="op">:</span><span class="dv">6</span>)
+bars &lt;-<span class="st"> </span><span class="kw">lapply</span>(bars, <span class="cf">function</span>(g) g<span class="op">+</span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> cols))
 
 tree2 &lt;-<span class="st"> </span><span class="kw">full_join</span>(tree, <span class="kw">data.frame</span>(<span class="dt">label =</span> <span class="kw">names</span>(x), <span class="dt">stat =</span> x ), <span class="dt">by =</span> <span class="st">&#39;label&#39;</span>)
-p2 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree2) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span>
+p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree2) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span>
 <span class="st">    </span><span class="kw">geom_tippoint</span>(<span class="kw">aes</span>(<span class="dt">color =</span> stat)) <span class="op">+</span><span class="st"> </span>
 <span class="st">    </span><span class="kw">scale_color_manual</span>(<span class="dt">values =</span> cols) <span class="op">+</span>
 <span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;right&quot;</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">    </span><span class="kw">xlim</span>(<span class="ot">NA</span>, <span class="dv">8</span>)
-<span class="kw">inset</span>(p2, pies2, <span class="dt">width =</span> <span class="fl">.2</span>, <span class="dt">height =</span> <span class="fl">.2</span>, <span class="dt">hjust =</span> <span class="fl">.02</span>, <span class="dt">vjust =</span> <span class="fl">.05</span>) </code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-124-1.png" width="960" /></p>
+p <span class="op">+</span><span class="st"> </span><span class="kw">geom_inset</span>(bars, <span class="dt">width =</span> <span class="fl">.08</span>, <span class="dt">height =</span> <span class="fl">.05</span>, <span class="dt">x =</span> <span class="st">&quot;branch&quot;</span>) </code></pre>
+<div class="figure"><span id="fig:barInset"></span>
+<img src="treedata_files/figure-html/barInset-1.png" alt="Annotate internal nodes with barplots." width="960" />
+<p class="caption">
+Figure 8.1: <strong>Annotate internal nodes with barplots.</strong>
+</p>
+</div>
+<p>Users can set the color via the parameter <em>color</em>. The <em>x</em> position can be one of ‘node’ or ‘branch’ and can be adjusted by the parameter <em>hjust</em> and <em>vjust</em> for horizontal and vertical adjustment respecitvely.</p>
+</div>
+<div id="annotate-with-pie-charts" class="section level3">
+<h3><span class="header-section-number">8.3.2</span> Annotate with pie charts</h3>
+<p>Similarly, users can use <code>nodepie</code> function to generate a list of pie charts and place these charts to annotate corresponding nodes. Both <code>nodebar</code> and <code>nodepie</code> accepts parameter <em>alpha</em> to allow transparency.</p>
+
+
+<pre class="sourceCode r"><code class="sourceCode r">pies &lt;-<span class="st"> </span><span class="kw">nodepie</span>(ancstats, <span class="dt">cols =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>)
+pies &lt;-<span class="st"> </span><span class="kw">lapply</span>(pies, <span class="cf">function</span>(g) g<span class="op">+</span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> cols))
+p <span class="op">+</span><span class="st"> </span><span class="kw">geom_inset</span>(pies, <span class="dt">width =</span> <span class="fl">.1</span>, <span class="dt">height =</span> <span class="fl">.1</span>) </code></pre>
+<div class="figure"><span id="fig:pieInset"></span>
+<img src="treedata_files/figure-html/pieInset-1.png" alt="Annotate internal nodes with pie plots." width="960" />
+<p class="caption">
+Figure 8.2: <strong>Annotate internal nodes with pie plots.</strong>
+</p>
+</div>
 </div>
 <div id="annotate-with-other-types-of-charts" class="section level3">
 <h3><span class="header-section-number">8.3.3</span> Annotate with other types of charts</h3>
 <p>The <code>inset</code> function accepts a list of ggplot graphic objects and these input objects are not restricted to pie or bar charts. They can be any kinds of charts and hybrid of these charts.</p>
-<pre class="sourceCode r"><code class="sourceCode r">pies_and_bars &lt;-<span class="st"> </span>bars2
-pies_and_bars[<span class="dv">9</span><span class="op">:</span><span class="dv">14</span>] &lt;-<span class="st"> </span>pies[<span class="dv">9</span><span class="op">:</span><span class="dv">14</span>]
-<span class="kw">inset</span>(p, pies_and_bars, <span class="dt">width=</span>.<span class="dv">3</span>, <span class="dt">height=</span><span class="dv">1</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-125-1.png" width="672" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">d &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>, rnorm, <span class="dt">n=</span><span class="dv">100</span>)
-ylim &lt;-<span class="st"> </span><span class="kw">range</span>(<span class="kw">unlist</span>(d))
-bx &lt;-<span class="st"> </span><span class="kw">lapply</span>(d, <span class="cf">function</span>(y) {
-    dd &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">y=</span>y)
-    <span class="kw">ggplot</span>(dd, <span class="kw">aes</span>(<span class="dt">x=</span><span class="dv">1</span>, <span class="dt">y=</span>y))<span class="op">+</span><span class="kw">geom_boxplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">ylim</span>(ylim) <span class="op">+</span><span class="st"> </span><span class="kw">theme_inset</span>()
-})
-<span class="kw">names</span>(bx) &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">15</span> 
-<span class="kw">inset</span>(p, bx, <span class="dt">width=</span>.<span class="dv">2</span>, <span class="dt">height=</span><span class="dv">2</span>, <span class="dt">hjust=</span><span class="op">-</span>.<span class="dv">05</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-125-2.png" width="672" /></p>
-<p>After annotating with insets, users can further annotate the tree with another layer of insets.</p>
-<pre class="sourceCode r"><code class="sourceCode r">p2 &lt;-<span class="st"> </span><span class="kw">inset</span>(p, bars2, <span class="dt">x=</span><span class="st">&#39;branch&#39;</span>, <span class="dt">width=</span>.<span class="dv">5</span>, <span class="dt">height=</span><span class="dv">1</span>, <span class="dt">vjust=</span><span class="op">-</span>.<span class="dv">4</span>)
-p2 &lt;-<span class="st"> </span><span class="kw">inset</span>(p2, pies, <span class="dt">x=</span><span class="st">&#39;branch&#39;</span>, <span class="dt">vjust=</span>.<span class="dv">4</span>, <span class="dt">width=</span>.<span class="dv">5</span>, <span class="dt">height=</span><span class="dv">1</span>)
-bx2 &lt;-<span class="st"> </span><span class="kw">lapply</span>(bx, <span class="cf">function</span>(g) g<span class="op">+</span><span class="kw">coord_flip</span>()) 
-<span class="kw">inset</span>(p2, bx2, <span class="dt">width=</span><span class="dv">2</span>, <span class="dt">height=</span><span class="dv">1</span>, <span class="dt">vjust=</span>.<span class="dv">04</span>, <span class="dt">hjust=</span>p2<span class="op">$</span>data<span class="op">$</span>x[<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>]<span class="op">-</span><span class="dv">5</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="ot">NA</span>, <span class="dv">6</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-126-1.png" width="672" /></p>
+
+
+<pre class="sourceCode r"><code class="sourceCode r">pies_and_bars &lt;-<span class="st"> </span>pies
+i &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">length</span>(pies), <span class="dv">20</span>)
+pies_and_bars[i] &lt;-<span class="st"> </span>bars[i]
+p <span class="op">+</span><span class="st"> </span><span class="kw">geom_inset</span>(pies_and_bars, <span class="dt">width=</span>.<span class="dv">08</span>, <span class="dt">height=</span>.<span class="dv">05</span>)</code></pre>
+<div class="figure"><span id="fig:barpieInset"></span>
+<img src="treedata_files/figure-html/barpieInset-1.png" alt="Annotate internal nodes with different types of subplots (bar and pie)." width="960" />
+<p class="caption">
+Figure 8.3: <strong>Annotate internal nodes with different types of subplots (bar and pie).</strong>
+</p>
+</div>
 </div>
 </div>
 <div id="phylomoji" class="section level2">
@@ -452,7 +439,7 @@ d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="
 <div class="figure"><span id="fig:phylomoji1"></span>
 <img src="treedata_files/figure-html/phylomoji1-1.png" alt="Parsing label as emoji. Text (e.g. node or tip labels) can be parsed as emoji." width="672" />
 <p class="caption">
-Figure 8.1: <strong>Parsing label as emoji.</strong> Text (<em>e.g.</em> node or tip labels) can be parsed as emoji.
+Figure 8.4: <strong>Parsing label as emoji.</strong> Text (<em>e.g.</em> node or tip labels) can be parsed as emoji.
 </p>
 </div>
 <p>Note that the output may depends on what emoji fonts installed in your system<a href="#fn17" class="footnote-ref" id="fnref17"><sup>17</sup></a>.</p>
@@ -462,13 +449,13 @@ Figure 8.1: <strong>Parsing label as emoji.</strong> Text (<em>e.g.</em> node or
 <pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree, <span class="dt">layout =</span> <span class="st">&quot;circular&quot;</span>, <span class="dt">size=</span><span class="dv">1</span>) <span class="op">+</span><span class="st">  </span>
 <span class="st">  </span><span class="kw">geom_tiplab2</span>(<span class="kw">aes</span>(<span class="dt">color=</span>label), <span class="dt">parse=</span><span class="st">&quot;emoji&quot;</span>, <span class="dt">size=</span><span class="dv">10</span>, <span class="dt">vjust=</span>.<span class="dv">25</span>)
 <span class="kw">print</span>(p)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-127-1.png" width="576" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-121-1.png" width="576" /></p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co">## fan layout </span>
 p2 &lt;-<span class="st"> </span><span class="kw">open_tree</span>(p, <span class="dt">angle=</span><span class="dv">200</span>) 
 <span class="kw">print</span>(p2)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-129-1.png" width="576" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-123-1.png" width="576" /></p>
 <pre class="sourceCode r"><code class="sourceCode r">p2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">rotate_tree</span>(<span class="op">-</span><span class="dv">90</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-131-1.png" width="336" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-125-1.png" width="336" /></p>
 </div>
 <div id="emoji-to-label-clades" class="section level3">
 <h3><span class="header-section-number">8.4.2</span> emoji to label clades</h3>
@@ -482,7 +469,7 @@ tr &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">
                     <span class="dt">fontsize=</span><span class="dv">12</span>, <span class="dt">align=</span><span class="ot">TRUE</span>, <span class="dt">color=</span><span class="st">&quot;steelblue&quot;</span>) <span class="op">+</span>
 <span class="st">    </span><span class="kw">geom_cladelabel</span>(<span class="dt">node=</span><span class="dv">48</span>, <span class="dt">label=</span><span class="st">&quot;family&quot;</span>, <span class="dt">parse=</span><span class="st">&quot;emoji&quot;</span>,
                     <span class="dt">fontsize=</span><span class="dv">12</span>, <span class="dt">align=</span><span class="ot">TRUE</span>, <span class="dt">color=</span><span class="st">&quot;darkkhaki&quot;</span>)</code></pre>
-<p><img src="treedata_files/figure-html/unnamed-chunk-132-1.png" width="576" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-126-1.png" width="576" /></p>
 </div>
 <div id="apple-color-emoji" class="section level3">
 <h3><span class="header-section-number">8.4.3</span> Apple Color Emoji</h3>
