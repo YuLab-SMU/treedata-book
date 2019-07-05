@@ -297,6 +297,23 @@ plot_grid(
 )
 ```
 
+## Use the most distant tip from the root as the origin of the time scale
+
+The `revts` will reverse the x-axis by setting the most recent tip to 0. We can use `scale_x_continuous(labels=abs)` to label x-axis using absolute values.
+
+(ref:distantTipscap) Origin of the time scale.
+
+(ref:distantTipcap) **Origin of the time scale.** Forward: from the root to tips (A). Backward: from the most distant tip to the root (B).
+
+
+```{r distantTip, fig.cap="(ref:distantTipcap)", fig.scap="(ref:distantTipscap)"}
+tr <- rtree(10)
+p <- ggtree(tr) + theme_tree2()
+p2 <- revts(p) + scale_x_continuous(labels=abs)
+cowplot::plot_grid(p, p2, ncol=2, labels=c("A", "B"))
+```
+
+
 # Image processing using magick package {#ggimage-tips}
 
 `r CRANpkg("ggimage")` allows processing images on the fly via the `image_fun` parameter, which accepts a function to process `magick-image` object. The `r CRANpkg("magick")` package provides several functions and these functions can be combined to perform a particular task.
@@ -354,7 +371,7 @@ tagList(
 
 
 
-# Print ASCII-art rooted tree
+# Print ASCII-art rooted tree {#ascii-tree}
 
 ```{r comment=NA}
 library(data.tree)
@@ -366,6 +383,18 @@ print(d, row.names=FALSE)
 
 It is neat to print ASCII-art of phylogeny. Sometimes we don't want to plot the tree, but just take a glance at the tree structure without leaving the focus from R console. However, it is not a good idea to print the whole tree as ASCII text if the tree is large. Sometimes we just want to look at a specific portion of the tree and their immediate relatives. At this scenario, we can use `treeio::tree_subset()` function (see [session 2.4](subsetting-tree-with-data)) to extract selected portion of a tree. Then we can print ASCII-art of the tree subset to explore evolutionary relationship of interested species in R console.
 
+`r Biocpkg("ggtree")` supports parsing tip labels as emoji to create [phylomoji](#phylomoji). With the `r CRANpkg("data.tree")` and `r CRANpkg("emojifont")` packages, we can also print phylomoji as ASCII text.
+
+```{r comment=NA}
+library(emojifont)
+
+tt <- '((snail,mushroom),(((sunflower,evergreen_tree),leaves),green_salad));'
+tree <- read.tree(text = tt)
+tree$tip.label <- emoji(tree$tip.label)
+d <- as.data.frame(as.Node(tree))
+names(d) <- NULL
+print(d, row.names=FALSE)
+```
 
 # Run ggtree in Jupyter notebook
 

@@ -238,6 +238,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.4.1" data-path="chapter8.html"><a href="chapter8.html#emoji-in-cirularfan-layout-tree"><i class="fa fa-check"></i><b>8.4.1</b> emoji in cirular/fan layout tree</a></li>
 <li class="chapter" data-level="8.4.2" data-path="chapter8.html"><a href="chapter8.html#emoji-to-label-clades"><i class="fa fa-check"></i><b>8.4.2</b> emoji to label clades</a></li>
 <li class="chapter" data-level="8.4.3" data-path="chapter8.html"><a href="chapter8.html#apple-color-emoji"><i class="fa fa-check"></i><b>8.4.3</b> Apple Color Emoji</a></li>
+<li class="chapter" data-level="8.4.4" data-path="chapter8.html"><a href="chapter8.html#phylomoji-in-ascii-art"><i class="fa fa-check"></i><b>8.4.4</b> Phylomoji in ASCII art</a></li>
 </ul></li>
 </ul></li>
 <li class="part"><span><b>Part III: Miscellaneous topics</b></span></li>
@@ -267,12 +268,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="A.5" data-path="faq.html"><a href="faq.html#faq-under-the-tree"><i class="fa fa-check"></i><b>A.5</b> Plot something behind the phylogeny</a></li>
 <li class="chapter" data-level="A.6" data-path="faq.html"><a href="faq.html#faq-enlarge-center-space"><i class="fa fa-check"></i><b>A.6</b> Enlarge center space in circular/fan layout tree</a></li>
+<li class="chapter" data-level="A.7" data-path="faq.html"><a href="faq.html#use-the-most-distant-tip-from-the-root-as-the-origin-of-the-time-scale"><i class="fa fa-check"></i><b>A.7</b> Use the most distant tip from the root as the origin of the time scale</a></li>
 </ul></li>
 <li class="chapter" data-level="B" data-path="ggimage-tips.html"><a href="ggimage-tips.html"><i class="fa fa-check"></i><b>B</b> Image processing using magick package</a><ul>
 <li class="chapter" data-level="B.1" data-path="ggimage-tips.html"><a href="ggimage-tips.html#example-1-remove-background-of-images"><i class="fa fa-check"></i><b>B.1</b> Example 1: Remove background of images</a></li>
 </ul></li>
 <li class="chapter" data-level="C" data-path="commicR.html"><a href="commicR.html"><i class="fa fa-check"></i><b>C</b> Comic (xkcd-like) phylogenetic tree</a></li>
-<li class="chapter" data-level="D" data-path="print-ascii-art-rooted-tree.html"><a href="print-ascii-art-rooted-tree.html"><i class="fa fa-check"></i><b>D</b> Print ASCII-art rooted tree</a></li>
+<li class="chapter" data-level="D" data-path="ascii-tree.html"><a href="ascii-tree.html"><i class="fa fa-check"></i><b>D</b> Print ASCII-art rooted tree</a></li>
 <li class="chapter" data-level="E" data-path="run-ggtree-in-jupyter-notebook.html"><a href="run-ggtree-in-jupyter-notebook.html"><i class="fa fa-check"></i><b>E</b> Run ggtree in Jupyter notebook</a></li>
 <li class="chapter" data-level="F" data-path="session-info.html"><a href="session-info.html"><i class="fa fa-check"></i><b>F</b> Session Info</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -516,6 +518,22 @@ tree &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv
   <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="dt">ncol=</span><span class="dv">2</span>)
 )</code></pre>
 <p><img src="treedata_files/figure-html/circular-space-1.png" width="768" /></p>
+</div>
+<div id="use-the-most-distant-tip-from-the-root-as-the-origin-of-the-time-scale" class="section level2">
+<h2><span class="header-section-number">A.7</span> Use the most distant tip from the root as the origin of the time scale</h2>
+<p>The <code>revts</code> will reverse the x-axis by setting the most recent tip to 0. We can use <code>scale_x_continuous(labels=abs)</code> to label x-axis using absolute values.</p>
+
+
+<pre class="sourceCode r"><code class="sourceCode r">tr &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">10</span>)
+p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tr) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>()
+p2 &lt;-<span class="st"> </span><span class="kw">revts</span>(p) <span class="op">+</span><span class="st"> </span><span class="kw">scale_x_continuous</span>(<span class="dt">labels=</span>abs)
+cowplot<span class="op">::</span><span class="kw">plot_grid</span>(p, p2, <span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>))</code></pre>
+<div class="figure"><span id="fig:distantTip"></span>
+<img src="treedata_files/figure-html/distantTip-1.png" alt="Origin of the time scale. Forward: from the root to tips (A). Backward: from the most distant tip to the root (B)." width="672" />
+<p class="caption">
+Figure A.5: <strong>Origin of the time scale.</strong> Forward: from the root to tips (A). Backward: from the most distant tip to the root (B).
+</p>
+</div>
 </div>
 </div>
 <div class="footnotes">

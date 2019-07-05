@@ -267,6 +267,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="A.5" data-path="faq.html"><a href="faq.html#faq-under-the-tree"><i class="fa fa-check"></i><b>A.5</b> Plot something behind the phylogeny</a></li>
 <li class="chapter" data-level="A.6" data-path="faq.html"><a href="faq.html#faq-enlarge-center-space"><i class="fa fa-check"></i><b>A.6</b> Enlarge center space in circular/fan layout tree</a></li>
+<li class="chapter" data-level="A.7" data-path="faq.html"><a href="faq.html#use-the-most-distant-tip-from-the-root-as-the-origin-of-the-time-scale"><i class="fa fa-check"></i><b>A.7</b> Use the most distant tip from the root as the origin of the time scale</a></li>
 </ul></li>
 <li class="chapter" data-level="B" data-path="ggimage-tips.html"><a href="ggimage-tips.html"><i class="fa fa-check"></i><b>B</b> Image processing using magick package</a><ul>
 <li class="chapter" data-level="B.1" data-path="ggimage-tips.html"><a href="ggimage-tips.html#example-1-remove-background-of-images"><i class="fa fa-check"></i><b>B.1</b> Example 1: Remove background of images</a></li>
@@ -321,6 +322,27 @@ d &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span clas
                           ¦--t3
                           °--t4</code></pre>
 <p>It is neat to print ASCII-art of phylogeny. Sometimes we don’t want to plot the tree, but just take a glance at the tree structure without leaving the focus from R console. However, it is not a good idea to print the whole tree as ASCII text if the tree is large. Sometimes we just want to look at a specific portion of the tree and their immediate relatives. At this scenario, we can use <code>treeio::tree_subset()</code> function (see <a href="subsetting-tree-with-data">session 2.4</a>) to extract selected portion of a tree. Then we can print ASCII-art of the tree subset to explore evolutionary relationship of interested species in R console.</p>
+<p>We cam also print phylomoji as ASCII text, see the following example:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(emojifont)
+
+tt &lt;-<span class="st"> &#39;((snail,mushroom),(((sunflower,evergreen_tree),leaves),green_salad));&#39;</span>
+tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="dt">text =</span> tt)
+tree<span class="op">$</span>tip.label &lt;-<span class="st"> </span><span class="kw">emoji</span>(tree<span class="op">$</span>tip.label)
+d &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">as.Node</span>(tree))
+<span class="kw">names</span>(d) &lt;-<span class="st"> </span><span class="ot">NULL</span>
+<span class="kw">print</span>(d, <span class="dt">row.names=</span><span class="ot">FALSE</span>)</code></pre>
+<pre><code>                  
+ 7                
+  ¦--8            
+  ¦   ¦--🐌        
+  ¦   °--🍄        
+  °--9            
+      ¦--10       
+      ¦   ¦--11   
+      ¦   ¦   ¦--🌻
+      ¦   ¦   °--🌲
+      ¦   °--🍃    
+      °--🥗        </code></pre>
 </div>
             </section>
 
