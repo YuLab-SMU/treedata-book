@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 7 Plotting tree with data | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
   <meta name="description" content="Chapter 7 Plotting tree with data | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
-  <meta name="generator" content="bookdown 0.11 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.11.3 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 7 Plotting tree with data | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
   <meta property="og:type" content="book" />
@@ -59,7 +59,6 @@ code.sourceCode > span { color: inherit; text-decoration: inherit; }
 code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
@@ -310,7 +309,7 @@ visualization and annotation on the fly.</p>
 <div id="attach-operator" class="section level2">
 <h2><span class="header-section-number">7.1</span> The <code>%&lt;+%</code> operator</h2>
 <p>Suppose we have the following data that associate with the tree and would like to attach the data in the tree.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="chapter7.html#cb180-1"></a>nwk &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;sample.nwk&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="chapter7.html#cb180-1"></a>nwk &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;sample.nwk&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
 <span id="cb180-2"><a href="chapter7.html#cb180-2"></a>tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(nwk)</span>
 <span id="cb180-3"><a href="chapter7.html#cb180-3"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree)</span>
 <span id="cb180-4"><a href="chapter7.html#cb180-4"></a></span>
@@ -321,7 +320,7 @@ visualization and annotation on the fly.</p>
 <span id="cb180-9"><a href="chapter7.html#cb180-9"></a><span class="co">## data was reshuffled just for demonstration</span></span>
 <span id="cb180-10"><a href="chapter7.html#cb180-10"></a>dd &lt;-<span class="st"> </span>dd[<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">13</span>, <span class="dv">13</span>), ]</span>
 <span id="cb180-11"><a href="chapter7.html#cb180-11"></a><span class="kw">row.names</span>(dd) &lt;-<span class="st"> </span><span class="ot">NULL</span></span></code></pre></div>
-<pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="chapter7.html#cb181-1"></a><span class="kw">print</span>(dd)</span></code></pre></div>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="chapter7.html#cb181-1"></a><span class="kw">print</span>(dd)</span></code></pre></div>
 <table>
 <thead>
 <tr>
@@ -492,12 +491,12 @@ column should be matched with the node/tip labels of the tree.</p>
 the data are visible to <a href="http://bioconductor.org/packages/ggtree">ggtree</a>. As an example, here we attach the
 above annotation data to the tree view, <code>p</code>, and add a layer that showing the
 tip labels and colored them by the isolation site stored in <em>place</em> column.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="chapter7.html#cb182-1"></a>p &lt;-<span class="st"> </span>p <span class="op">%&lt;+%</span><span class="st"> </span>dd <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">color=</span>place)) <span class="op">+</span></span>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="chapter7.html#cb182-1"></a>p &lt;-<span class="st"> </span>p <span class="op">%&lt;+%</span><span class="st"> </span>dd <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">color=</span>place)) <span class="op">+</span></span>
 <span id="cb182-2"><a href="chapter7.html#cb182-2"></a><span class="st">       </span><span class="kw">geom_tippoint</span>(<span class="kw">aes</span>(<span class="dt">size=</span>value, <span class="dt">shape=</span>place, <span class="dt">color=</span>place), <span class="dt">alpha=</span><span class="fl">0.25</span>)</span>
 <span id="cb182-3"><a href="chapter7.html#cb182-3"></a>p <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;right&quot;</span>)</span></code></pre></div>
 <p><img src="treedata_files/figure-html/unnamed-chunk-112-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Once the data was attached, it is always attached. So that we can add other layers to display these information easily.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="chapter7.html#cb183-1"></a>p <span class="op">+</span><span class="st"> </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">color=</span>place, <span class="dt">label=</span>place), <span class="dt">hjust=</span><span class="dv">1</span>, <span class="dt">vjust=</span><span class="op">-</span><span class="fl">0.4</span>, <span class="dt">size=</span><span class="dv">3</span>) <span class="op">+</span></span>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="chapter7.html#cb183-1"></a>p <span class="op">+</span><span class="st"> </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">color=</span>place, <span class="dt">label=</span>place), <span class="dt">hjust=</span><span class="dv">1</span>, <span class="dt">vjust=</span><span class="op">-</span><span class="fl">0.4</span>, <span class="dt">size=</span><span class="dv">3</span>) <span class="op">+</span></span>
 <span id="cb183-2"><a href="chapter7.html#cb183-2"></a><span class="st">    </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">color=</span>place, <span class="dt">label=</span>value), <span class="dt">hjust=</span><span class="dv">1</span>, <span class="dt">vjust=</span><span class="fl">1.4</span>, <span class="dt">size=</span><span class="dv">3</span>)</span></code></pre></div>
 <p><img src="treedata_files/figure-html/unnamed-chunk-113-1.png" width="576" style="display: block; margin: auto;" /></p>
 </div>
@@ -508,7 +507,7 @@ At first we implemented `gplot` function to visualize tree with heatmap but it h
 -->
 <p>The <code>gheatmap</code> function is designed to visualize phylogenetic tree with heatmap of associated matrix.</p>
 <p>In the following example, we visualized a tree of H3 influenza viruses with their associated genotype.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="chapter7.html#cb184-1"></a>beast_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;examples/MCC_FluA_H3.tree&quot;</span>, <span class="dt">package=</span><span class="st">&quot;ggtree&quot;</span>)</span>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="chapter7.html#cb184-1"></a>beast_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;examples/MCC_FluA_H3.tree&quot;</span>, <span class="dt">package=</span><span class="st">&quot;ggtree&quot;</span>)</span>
 <span id="cb184-2"><a href="chapter7.html#cb184-2"></a>beast_tree &lt;-<span class="st"> </span><span class="kw">read.beast</span>(beast_file)</span>
 <span id="cb184-3"><a href="chapter7.html#cb184-3"></a></span>
 <span id="cb184-4"><a href="chapter7.html#cb184-4"></a>genotype_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;examples/Genotype.txt&quot;</span>, <span class="dt">package=</span><span class="st">&quot;ggtree&quot;</span>)</span>
@@ -524,7 +523,7 @@ At first we implemented `gplot` function to visualize tree with heatmap but it h
 <p>The <em>width</em> parameter is to control the width of the heatmap. It supports another parameter <em>offset</em> for controlling the distance between the tree and the heatmap, for instance to allocate space for tip labels.</p>
 <p>For time-scaled tree, as in this example, it’s more often to use <code>x</code> axis by using <code>theme_tree2</code>. But with this solution, the heatmap is just another layer and will change the <code>x</code> axis. To overcome this issue, we implemented <code>scale_x_ggtree</code> to set the x axis more reasonable.</p>
 <!-- User can also use `gplot` and tweak the positions of two plot to align properly. -->
-<pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="chapter7.html#cb185-1"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(beast_tree, <span class="dt">mrsd=</span><span class="st">&quot;2013-01-01&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="dt">size=</span><span class="dv">2</span>, <span class="dt">align=</span><span class="ot">TRUE</span>, <span class="dt">linesize=</span>.<span class="dv">5</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>()</span>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="chapter7.html#cb185-1"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(beast_tree, <span class="dt">mrsd=</span><span class="st">&quot;2013-01-01&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="dt">size=</span><span class="dv">2</span>, <span class="dt">align=</span><span class="ot">TRUE</span>, <span class="dt">linesize=</span>.<span class="dv">5</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>()</span>
 <span id="cb185-2"><a href="chapter7.html#cb185-2"></a><span class="kw">gheatmap</span>(p, genotype, <span class="dt">offset=</span><span class="dv">8</span>, <span class="dt">width=</span><span class="fl">0.6</span>, <span class="dt">colnames=</span><span class="ot">FALSE</span>, <span class="dt">legend_title=</span><span class="st">&quot;genotype&quot;</span>) <span class="op">+</span></span>
 <span id="cb185-3"><a href="chapter7.html#cb185-3"></a><span class="st">    </span><span class="kw">scale_x_ggtree</span>() <span class="op">+</span><span class="st"> </span><span class="kw">scale_y_continuous</span>(<span class="dt">expand=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.3</span>))</span></code></pre></div>
 <p><img src="treedata_files/figure-html/unnamed-chunk-115-1.png" width="768" style="display: block; margin: auto;" /></p>
@@ -532,7 +531,7 @@ At first we implemented `gplot` function to visualize tree with heatmap but it h
 <h3><span class="header-section-number">7.2.1</span> Visualize tree with multiple associated matrix</h3>
 <p>Of course, we can use multiple <code>gheatmap</code> function call to align several associated matrix with the tree, however, <code>ggplot2</code> doesn’t allow us to use multiple <code>fill</code> scales<a href="references.html#fn14" class="footnote-ref" id="fnref14"><sup>14</sup></a>.</p>
 <p>To solve this issue, we can use <a href="https://github.com/eliocamp/ggnewscale">ggnewscale</a> to create new <code>fill</code> scales. Here is an example of using <a href="https://github.com/eliocamp/ggnewscale">ggnewscale</a> with <code>gheatmap</code>.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="chapter7.html#cb186-1"></a>nwk &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;sample.nwk&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="chapter7.html#cb186-1"></a>nwk &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;sample.nwk&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
 <span id="cb186-2"><a href="chapter7.html#cb186-2"></a></span>
 <span id="cb186-3"><a href="chapter7.html#cb186-3"></a>tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(nwk)</span>
 <span id="cb186-4"><a href="chapter7.html#cb186-4"></a>circ &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree, <span class="dt">layout =</span> <span class="st">&quot;circular&quot;</span>)</span>
@@ -562,17 +561,17 @@ At first we implemented `gplot` function to visualize tree with heatmap but it h
 <div id="msaplot" class="section level2">
 <h2><span class="header-section-number">7.3</span> Visualize tree with multiple sequence alignment</h2>
 <p>With <code>msaplot</code> function, user can visualize multiple sequence alignment with phylogenetic tree, as demonstrated below:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="chapter7.html#cb187-1"></a>fasta &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;examples/FluA_H3_AA.fas&quot;</span>, <span class="dt">package=</span><span class="st">&quot;ggtree&quot;</span>)</span>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="chapter7.html#cb187-1"></a>fasta &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;examples/FluA_H3_AA.fas&quot;</span>, <span class="dt">package=</span><span class="st">&quot;ggtree&quot;</span>)</span>
 <span id="cb187-2"><a href="chapter7.html#cb187-2"></a><span class="kw">msaplot</span>(<span class="kw">ggtree</span>(beast_tree), fasta)</span></code></pre></div>
 <p><img src="treedata_files/figure-html/unnamed-chunk-116-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>A specific slice of the alignment can also be displayed by specific <em>window</em> parameter.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="chapter7.html#cb188-1"></a><span class="kw">msaplot</span>(<span class="kw">ggtree</span>(beast_tree), fasta, <span class="dt">window=</span><span class="kw">c</span>(<span class="dv">150</span>, <span class="dv">200</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">coord_polar</span>(<span class="dt">theta=</span><span class="st">&#39;y&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="chapter7.html#cb188-1"></a><span class="kw">msaplot</span>(<span class="kw">ggtree</span>(beast_tree), fasta, <span class="dt">window=</span><span class="kw">c</span>(<span class="dv">150</span>, <span class="dv">200</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">coord_polar</span>(<span class="dt">theta=</span><span class="st">&#39;y&#39;</span>)</span></code></pre></div>
 <p><img src="treedata_files/figure-html/unnamed-chunk-117-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="plot-tree-with-associated-data" class="section level2">
 <h2><span class="header-section-number">7.4</span> Plot tree with associated data</h2>
 <p>For associating phylogenetic tree with different type of plot produced by user’s data, <code>ggtree</code> provides <code>facet_plot</code> function which accepts an input <code>data.frame</code> and a <code>geom</code> function to draw the input data. The data will be displayed in an additional panel of the plot.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="chapter7.html#cb189-1"></a>tr &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)</span>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="chapter7.html#cb189-1"></a>tr &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)</span>
 <span id="cb189-2"><a href="chapter7.html#cb189-2"></a></span>
 <span id="cb189-3"><a href="chapter7.html#cb189-3"></a>d1 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">id=</span>tr<span class="op">$</span>tip.label, <span class="dt">val=</span><span class="kw">rnorm</span>(<span class="dv">30</span>, <span class="dt">sd=</span><span class="dv">3</span>))</span>
 <span id="cb189-4"><a href="chapter7.html#cb189-4"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tr)</span>

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 6 Visual Exploration of Phylogenetic Tree | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
   <meta name="description" content="Chapter 6 Visual Exploration of Phylogenetic Tree | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
-  <meta name="generator" content="bookdown 0.11 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.11.3 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 6 Visual Exploration of Phylogenetic Tree | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
   <meta property="og:type" content="book" />
@@ -59,7 +59,6 @@ code.sourceCode > span { color: inherit; text-decoration: inherit; }
 code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
@@ -404,7 +403,7 @@ convert a tree to fan layout by specific open angle
 
 
 
-<pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="chapter6.html#cb170-1"></a><span class="kw">library</span>(ggtree)</span>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="chapter6.html#cb170-1"></a><span class="kw">library</span>(ggtree)</span>
 <span id="cb170-2"><a href="chapter6.html#cb170-2"></a>nwk &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;sample.nwk&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
 <span id="cb170-3"><a href="chapter6.html#cb170-3"></a>tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(nwk)</span>
 <span id="cb170-4"><a href="chapter6.html#cb170-4"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>()</span>
@@ -424,7 +423,7 @@ Figure 6.1: <strong>Viewing a selected clade of a tree.</strong> An example tree
 
 
 
-<pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="chapter6.html#cb171-1"></a>p2 &lt;-<span class="st"> </span>p <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">collapse</span>(<span class="dt">node=</span><span class="dv">21</span>) <span class="op">+</span><span class="st"> </span></span>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="chapter6.html#cb171-1"></a>p2 &lt;-<span class="st"> </span>p <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">collapse</span>(<span class="dt">node=</span><span class="dv">21</span>) <span class="op">+</span><span class="st"> </span></span>
 <span id="cb171-2"><a href="chapter6.html#cb171-2"></a><span class="st">  </span><span class="kw">geom_point2</span>(<span class="kw">aes</span>(<span class="dt">subset=</span>(node<span class="op">==</span><span class="dv">21</span>)), <span class="dt">shape=</span><span class="dv">21</span>, <span class="dt">size=</span><span class="dv">5</span>, <span class="dt">fill=</span><span class="st">&#39;green&#39;</span>)</span>
 <span id="cb171-3"><a href="chapter6.html#cb171-3"></a>p2 &lt;-<span class="st"> </span><span class="kw">collapse</span>(p2, <span class="dt">node=</span><span class="dv">23</span>) <span class="op">+</span><span class="st"> </span></span>
 <span id="cb171-4"><a href="chapter6.html#cb171-4"></a><span class="st">  </span><span class="kw">geom_point2</span>(<span class="kw">aes</span>(<span class="dt">subset=</span>(node<span class="op">==</span><span class="dv">23</span>)), <span class="dt">shape=</span><span class="dv">23</span>, <span class="dt">size=</span><span class="dv">5</span>, <span class="dt">fill=</span><span class="st">&#39;red&#39;</span>)</span>
@@ -445,7 +444,7 @@ Figure 6.2: <strong>Collapsing selected clades and expanding collapsed clades.</
 
 
 
-<pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="chapter6.html#cb172-1"></a>tree2 &lt;-<span class="st"> </span><span class="kw">groupClade</span>(tree, <span class="kw">c</span>(<span class="dv">17</span>, <span class="dv">21</span>))</span>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="chapter6.html#cb172-1"></a>tree2 &lt;-<span class="st"> </span><span class="kw">groupClade</span>(tree, <span class="kw">c</span>(<span class="dv">17</span>, <span class="dv">21</span>))</span>
 <span id="cb172-2"><a href="chapter6.html#cb172-2"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree2, <span class="kw">aes</span>(<span class="dt">color=</span>group)) <span class="op">+</span><span class="st"> </span></span>
 <span id="cb172-3"><a href="chapter6.html#cb172-3"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;firebrick&quot;</span>, <span class="st">&quot;steelblue&quot;</span>))</span>
 <span id="cb172-4"><a href="chapter6.html#cb172-4"></a><span class="kw">scaleClade</span>(p, <span class="dt">node=</span><span class="dv">17</span>, <span class="dt">scale=</span>.<span class="dv">1</span>) </span></code></pre></div>
@@ -466,7 +465,7 @@ Figure 6.3: <strong>Scaling selected clade.</strong> Clades can be zoom in (if <
 
 
 
-<pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="chapter6.html#cb173-1"></a><span class="kw">data</span>(iris)</span>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="chapter6.html#cb173-1"></a><span class="kw">data</span>(iris)</span>
 <span id="cb173-2"><a href="chapter6.html#cb173-2"></a>rn &lt;-<span class="st"> </span><span class="kw">paste0</span>(iris[,<span class="dv">5</span>], <span class="st">&quot;_&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">150</span>)</span>
 <span id="cb173-3"><a href="chapter6.html#cb173-3"></a><span class="kw">rownames</span>(iris) &lt;-<span class="st"> </span>rn</span>
 <span id="cb173-4"><a href="chapter6.html#cb173-4"></a>d_iris &lt;-<span class="st"> </span><span class="kw">dist</span>(iris[,<span class="op">-</span><span class="dv">5</span>], <span class="dt">method=</span><span class="st">&quot;man&quot;</span>)</span>
@@ -487,7 +486,7 @@ Figure 6.4: <strong>Grouping OTUs.</strong> OTU clustering based on their relati
 </div>
 
 <p>We can grouping taxa at tree level. The following code will produce identical figure of Figure <a href="chapter6.html#fig:groupOTU">6.4</a> (see more details described at <a href="chapter2.html#grouping-taxa">session 2.2.3</a>).</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="chapter6.html#cb174-1"></a>tree_iris &lt;-<span class="st"> </span><span class="kw">groupOTU</span>(tree_iris, grp, <span class="st">&quot;Species&quot;</span>)</span>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="chapter6.html#cb174-1"></a>tree_iris &lt;-<span class="st"> </span><span class="kw">groupOTU</span>(tree_iris, grp, <span class="st">&quot;Species&quot;</span>)</span>
 <span id="cb174-2"><a href="chapter6.html#cb174-2"></a><span class="kw">ggtree</span>(tree_iris, <span class="kw">aes</span>(<span class="dt">color=</span>Species), <span class="dt">layout =</span> <span class="st">&#39;circular&#39;</span>, <span class="dt">branch.length =</span> <span class="st">&#39;none&#39;</span>) <span class="op">+</span><span class="st"> </span></span>
 <span id="cb174-3"><a href="chapter6.html#cb174-3"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;right&quot;</span>)</span></code></pre></div>
 </div>
@@ -497,7 +496,7 @@ Figure 6.4: <strong>Grouping OTUs.</strong> OTU clustering based on their relati
 
 
 
-<pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="chapter6.html#cb175-1"></a>p1 &lt;-<span class="st"> </span>p <span class="op">+</span><span class="st"> </span><span class="kw">geom_point2</span>(<span class="kw">aes</span>(<span class="dt">subset=</span>node<span class="op">==</span><span class="dv">16</span>), <span class="dt">color=</span><span class="st">&#39;darkgreen&#39;</span>, <span class="dt">size=</span><span class="dv">5</span>)</span>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="chapter6.html#cb175-1"></a>p1 &lt;-<span class="st"> </span>p <span class="op">+</span><span class="st"> </span><span class="kw">geom_point2</span>(<span class="kw">aes</span>(<span class="dt">subset=</span>node<span class="op">==</span><span class="dv">16</span>), <span class="dt">color=</span><span class="st">&#39;darkgreen&#39;</span>, <span class="dt">size=</span><span class="dv">5</span>)</span>
 <span id="cb175-2"><a href="chapter6.html#cb175-2"></a>p2 &lt;-<span class="st"> </span><span class="kw">rotate</span>(p1, <span class="dv">17</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">rotate</span>(<span class="dv">21</span>)</span>
 <span id="cb175-3"><a href="chapter6.html#cb175-3"></a><span class="kw">flip</span>(p2, <span class="dv">17</span>, <span class="dv">21</span>)</span></code></pre></div>
 <div class="figure"><span id="fig:rfClade"></span>
@@ -535,7 +534,7 @@ for (n in reorder(tree, 'postorder')$edge[,1] %>% unique) {
 -->
 <p>Most of the tree manipulation functions are working on clades, while <em>ggtree</em> also provides functions to manipulate a tree, including <code>open_tree</code> to transform a tree in either rectangular or circular layout to fan layout, and <code>rotate_tree</code> function to rotate a tree for specific angle in both circular or fan layouts, as demonstrated in Figure <a href="chapter6.html#fig:openTree">6.6</a> and <a href="chapter6.html#fig:rotateTree">6.7</a>.</p>
 
-<pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="chapter6.html#cb176-1"></a>p3 &lt;-<span class="st"> </span><span class="kw">open_tree</span>(p, <span class="dv">180</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab2</span>()</span>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="chapter6.html#cb176-1"></a>p3 &lt;-<span class="st"> </span><span class="kw">open_tree</span>(p, <span class="dv">180</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab2</span>()</span>
 <span id="cb176-2"><a href="chapter6.html#cb176-2"></a><span class="kw">print</span>(p3)</span></code></pre></div>
 
 
@@ -547,7 +546,7 @@ Figure 6.6: <strong>Transforming a tree to fan layout.</strong> A tree can be tr
 </p>
 </div>
 
-<pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="chapter6.html#cb177-1"></a><span class="kw">rotate_tree</span>(p3, <span class="dv">180</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="chapter6.html#cb177-1"></a><span class="kw">rotate_tree</span>(p3, <span class="dv">180</span>)</span></code></pre></div>
 
 
 
@@ -602,13 +601,13 @@ for (angle in seq(0, 270, 10)) {
 <p>may remove gzoom, for it is easy to be done via tree_subset, need examples</p>
 </blockquote>
 <p><code>ggtree</code> provides <em><code>gzoom</code></em> function that similar to <em><code>zoom</code></em> function provided in <code>ape</code>. This function plots simultaneously a whole phylogenetic tree and a portion of it. It aims at exploring very large trees.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="chapter6.html#cb178-1"></a><span class="kw">library</span>(<span class="st">&quot;ape&quot;</span>)</span>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="chapter6.html#cb178-1"></a><span class="kw">library</span>(<span class="st">&quot;ape&quot;</span>)</span>
 <span id="cb178-2"><a href="chapter6.html#cb178-2"></a><span class="kw">data</span>(chiroptera)</span>
 <span id="cb178-3"><a href="chapter6.html#cb178-3"></a><span class="kw">library</span>(<span class="st">&quot;ggtree&quot;</span>)</span>
 <span id="cb178-4"><a href="chapter6.html#cb178-4"></a><span class="kw">gzoom</span>(chiroptera, <span class="kw">grep</span>(<span class="st">&quot;Plecotus&quot;</span>, chiroptera<span class="op">$</span>tip.label))</span></code></pre></div>
 <p><img src="treedata_files/figure-html/unnamed-chunk-106-1.png" width="864" style="display: block; margin: auto;" /></p>
 <p>Zoom in selected clade of a tree that was already annotated with <code>ggtree</code> is also supported.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="chapter6.html#cb179-1"></a>groupInfo &lt;-<span class="st"> </span><span class="kw">split</span>(chiroptera<span class="op">$</span>tip.label, <span class="kw">gsub</span>(<span class="st">&quot;_</span><span class="ch">\\</span><span class="st">w+&quot;</span>, <span class="st">&quot;&quot;</span>, chiroptera<span class="op">$</span>tip.label))</span>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="chapter6.html#cb179-1"></a>groupInfo &lt;-<span class="st"> </span><span class="kw">split</span>(chiroptera<span class="op">$</span>tip.label, <span class="kw">gsub</span>(<span class="st">&quot;_</span><span class="ch">\\</span><span class="st">w+&quot;</span>, <span class="st">&quot;&quot;</span>, chiroptera<span class="op">$</span>tip.label))</span>
 <span id="cb179-2"><a href="chapter6.html#cb179-2"></a>chiroptera &lt;-<span class="st"> </span><span class="kw">groupOTU</span>(chiroptera, groupInfo)</span>
 <span id="cb179-3"><a href="chapter6.html#cb179-3"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(chiroptera, <span class="kw">aes</span>(<span class="dt">color=</span>group)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="ot">NA</span>, <span class="dv">23</span>)</span>
 <span id="cb179-4"><a href="chapter6.html#cb179-4"></a><span class="kw">gzoom</span>(p, <span class="kw">grep</span>(<span class="st">&quot;Plecotus&quot;</span>, chiroptera<span class="op">$</span>tip.label), <span class="dt">xmax_adjust=</span><span class="dv">2</span>)</span></code></pre></div>
