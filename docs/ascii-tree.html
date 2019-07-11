@@ -212,8 +212,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="6" data-path="chapter6.html"><a href="chapter6.html"><i class="fa fa-check"></i><b>6</b> Visual Exploration of Phylogenetic Tree</a><ul>
 <li class="chapter" data-level="6.1" data-path="chapter6.html"><a href="chapter6.html#viewing-selected-clade"><i class="fa fa-check"></i><b>6.1</b> Viewing Selected Clade</a></li>
-<li class="chapter" data-level="6.2" data-path="chapter6.html"><a href="chapter6.html#collapsing-and-expanding-clade"><i class="fa fa-check"></i><b>6.2</b> Collapsing and Expanding Clade</a></li>
-<li class="chapter" data-level="6.3" data-path="chapter6.html"><a href="chapter6.html#scaling-selected-clade"><i class="fa fa-check"></i><b>6.3</b> Scaling Selected Clade</a></li>
+<li class="chapter" data-level="6.2" data-path="chapter6.html"><a href="chapter6.html#scale-clade"><i class="fa fa-check"></i><b>6.2</b> Scaling Selected Clade</a></li>
+<li class="chapter" data-level="6.3" data-path="chapter6.html"><a href="chapter6.html#collapsing-and-expanding-clade"><i class="fa fa-check"></i><b>6.3</b> Collapsing and Expanding Clade</a></li>
 <li class="chapter" data-level="6.4" data-path="chapter6.html"><a href="chapter6.html#group-taxa-vis"><i class="fa fa-check"></i><b>6.4</b> Grouping Taxa</a></li>
 <li class="chapter" data-level="6.5" data-path="chapter6.html"><a href="chapter6.html#exploring-tree-structure"><i class="fa fa-check"></i><b>6.5</b> Exploring tree structure</a></li>
 <li class="chapter" data-level="6.6" data-path="chapter6.html"><a href="chapter6.html#zoom-on-a-portion-of-tree"><i class="fa fa-check"></i><b>6.6</b> Zoom on a portion of tree</a></li>
@@ -299,11 +299,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="ascii-tree" class="section level1">
 <h1><span class="header-section-number">D</span> Print ASCII-art rooted tree</h1>
-<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="ascii-tree.html#cb237-1"></a><span class="kw">library</span>(data.tree)</span>
-<span id="cb237-2"><a href="ascii-tree.html#cb237-2"></a>tree &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">10</span>)</span>
-<span id="cb237-3"><a href="ascii-tree.html#cb237-3"></a>d &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">as.Node</span>(tree))</span>
-<span id="cb237-4"><a href="ascii-tree.html#cb237-4"></a><span class="kw">names</span>(d) &lt;-<span class="st"> </span><span class="ot">NULL</span></span>
-<span id="cb237-5"><a href="ascii-tree.html#cb237-5"></a><span class="kw">print</span>(d, <span class="dt">row.names=</span><span class="ot">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="ascii-tree.html#cb240-1"></a><span class="kw">library</span>(data.tree)</span>
+<span id="cb240-2"><a href="ascii-tree.html#cb240-2"></a>tree &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">10</span>)</span>
+<span id="cb240-3"><a href="ascii-tree.html#cb240-3"></a>d &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">as.Node</span>(tree))</span>
+<span id="cb240-4"><a href="ascii-tree.html#cb240-4"></a><span class="kw">names</span>(d) &lt;-<span class="st"> </span><span class="ot">NULL</span></span>
+<span id="cb240-5"><a href="ascii-tree.html#cb240-5"></a><span class="kw">print</span>(d, <span class="dt">row.names=</span><span class="ot">FALSE</span>)</span></code></pre></div>
 <pre><code>                               
  11                            
   ¦--t10                       
@@ -326,14 +326,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
                           °--t4</code></pre>
 <p>It is neat to print ASCII-art of phylogeny. Sometimes we don’t want to plot the tree, but just take a glance at the tree structure without leaving the focus from R console. However, it is not a good idea to print the whole tree as ASCII text if the tree is large. Sometimes we just want to look at a specific portion of the tree and their immediate relatives. At this scenario, we can use <code>treeio::tree_subset()</code> function (see <a href="subsetting-tree-with-data">session 2.4</a>) to extract selected portion of a tree. Then we can print ASCII-art of the tree subset to explore evolutionary relationship of interested species in R console.</p>
 <p><a href="http://bioconductor.org/packages/ggtree">ggtree</a> supports parsing tip labels as emoji to create <a href="chapter8.html#phylomoji">phylomoji</a>. With the <a href="https://CRAN.R-project.org/package=data.tree">data.tree</a> and <a href="https://CRAN.R-project.org/package=emojifont">emojifont</a> packages, we can also print phylomoji as ASCII text.</p>
-<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="ascii-tree.html#cb239-1"></a><span class="kw">library</span>(emojifont)</span>
-<span id="cb239-2"><a href="ascii-tree.html#cb239-2"></a></span>
-<span id="cb239-3"><a href="ascii-tree.html#cb239-3"></a>tt &lt;-<span class="st"> &#39;((snail,mushroom),(((sunflower,evergreen_tree),leaves),green_salad));&#39;</span></span>
-<span id="cb239-4"><a href="ascii-tree.html#cb239-4"></a>tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="dt">text =</span> tt)</span>
-<span id="cb239-5"><a href="ascii-tree.html#cb239-5"></a>tree<span class="op">$</span>tip.label &lt;-<span class="st"> </span><span class="kw">emoji</span>(tree<span class="op">$</span>tip.label)</span>
-<span id="cb239-6"><a href="ascii-tree.html#cb239-6"></a>d &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">as.Node</span>(tree))</span>
-<span id="cb239-7"><a href="ascii-tree.html#cb239-7"></a><span class="kw">names</span>(d) &lt;-<span class="st"> </span><span class="ot">NULL</span></span>
-<span id="cb239-8"><a href="ascii-tree.html#cb239-8"></a><span class="kw">print</span>(d, <span class="dt">row.names=</span><span class="ot">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="ascii-tree.html#cb242-1"></a><span class="kw">library</span>(emojifont)</span>
+<span id="cb242-2"><a href="ascii-tree.html#cb242-2"></a></span>
+<span id="cb242-3"><a href="ascii-tree.html#cb242-3"></a>tt &lt;-<span class="st"> &#39;((snail,mushroom),(((sunflower,evergreen_tree),leaves),green_salad));&#39;</span></span>
+<span id="cb242-4"><a href="ascii-tree.html#cb242-4"></a>tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="dt">text =</span> tt)</span>
+<span id="cb242-5"><a href="ascii-tree.html#cb242-5"></a>tree<span class="op">$</span>tip.label &lt;-<span class="st"> </span><span class="kw">emoji</span>(tree<span class="op">$</span>tip.label)</span>
+<span id="cb242-6"><a href="ascii-tree.html#cb242-6"></a>d &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">as.Node</span>(tree))</span>
+<span id="cb242-7"><a href="ascii-tree.html#cb242-7"></a><span class="kw">names</span>(d) &lt;-<span class="st"> </span><span class="ot">NULL</span></span>
+<span id="cb242-8"><a href="ascii-tree.html#cb242-8"></a><span class="kw">print</span>(d, <span class="dt">row.names=</span><span class="ot">FALSE</span>)</span></code></pre></div>
 <pre><code>                  
  7                
   ¦--8            
