@@ -248,7 +248,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.2" data-path="chapter9.html"><a href="chapter9.html#facet_labeller"><i class="fa fa-check"></i><b>9.2</b> facet_labeller</a></li>
 <li class="chapter" data-level="9.3" data-path="chapter9.html"><a href="chapter9.html#xlim_expand"><i class="fa fa-check"></i><b>9.3</b> xlim_expand</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="chapter10.html"><a href="chapter10.html"><i class="fa fa-check"></i><b>10</b> ggtree for other tree objects</a></li>
+<li class="chapter" data-level="10" data-path="chapter10.html"><a href="chapter10.html"><i class="fa fa-check"></i><b>10</b> ggtree for other tree objects</a><ul>
+<li class="chapter" data-level="10.1" data-path="chapter10.html"><a href="chapter10.html#phylobase"><i class="fa fa-check"></i><b>10.1</b> phylo4 and phylo4d</a></li>
+<li class="chapter" data-level="10.2" data-path="chapter10.html"><a href="chapter10.html#phyloseq"><i class="fa fa-check"></i><b>10.2</b> phyloseq</a></li>
+<li class="chapter" data-level="10.3" data-path="chapter10.html"><a href="chapter10.html#outbreaktools"><i class="fa fa-check"></i><b>10.3</b> OutbreakTools</a></li>
+</ul></li>
 <li class="chapter" data-level="11" data-path="chapter11.html"><a href="chapter11.html"><i class="fa fa-check"></i><b>11</b> ggtree extensions</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="faq.html"><a href="faq.html"><i class="fa fa-check"></i><b>A</b> Frequently asked questions</a><ul>
@@ -654,77 +658,6 @@ Figure 5.4: <strong>Annotating tree with animo acid substitution and <em>d<sub>N
 <div id="tree-annotation-based-on-tree-classes-defined-in-other-r-packages" class="section level3">
 <h3><span class="header-section-number">5.3.2</span> Tree annotation based on tree classes defined in other R packages</h3>
 <p>The <em>ggtree</em> plays a unique role in R ecosystem to facilitate phylogenetic analysis. It serves as a generic tools for tree visualization and annotation with different associated data from various sources. Most of the phylogenetic tree classes defined in R community are supported, including <code>obkData</code>, <code>phyloseq</code>, <code>phylo</code>, <code>multiPhylo</code>, <code>phylo4</code> and <code>phylo4d</code>. Such that <em>ggtree</em> can be easily integrated into their analysis/packages. For instance, <em>phyloseq</em> users will find <em>ggtree</em> useful for visualizing microbiome data and for further annotations, since <em>ggtree</em> supports high-level of annotation using grammar of graphics and some of its features are not available in <em>phyloseq</em>. Here, examples of using <em>ggtree</em> to annotate <code>obkData</code> and <code>phyloseq</code> tree objects are demonstrated. There example data can be found in vignettes of <em>OutbreakTools</em> <span class="citation">(Jombart et al. <a href="#ref-jombart_outbreaktools_2014" role="doc-biblioref">2014</a>)</span> and <em>phyloseq</em> <span class="citation">(McMurdie and Holmes <a href="#ref-mcmurdie_phyloseq_2013" role="doc-biblioref">2013</a>)</span> packages.</p>
-<!--
-
-> outbreaktools was removed from CRAN
-
-The `okbData` is defined to store incidence-based outbreak data, including meta data of sampling and information of infected individuals such as age and onset of symptoms. The *ggtree* supports parsing this information which was used to annotate the tree as shown in Figure \@ref(fig:outbreaktools).
-
-(ref:outbreaktoolsscap) Visualizing obkData tree object.
-
-(ref:outbreaktoolscap) **Visualizing obkData tree object.** *x*-axis was scaled by timeline of the outbreak and tips were colored by location of different individuals.
-
-\setstretch{1.2}
-r outbreaktools, fig.width=6.3, fig.height=7, fig.cap="(ref:outbreaktoolscap)", fig.scap="(ref:outbreaktoolsscap)", message=FALSE, out.extra=''}
-library(OutbreakTools)
-data(FluH1N1pdm2009)
-attach(FluH1N1pdm2009)
-
-x <- new("obkData", 
-         individuals = individuals, 
-         dna = dna,
-         dna.individualID = samples$individualID, 
-         dna.date = samples$date,
-         trees = FluH1N1pdm2009$trees)
-ggtree(x, mrsd="2009-09-30", as.Date=TRUE, right=TRUE) +
-    geom_tippoint(aes(color=location), size=3, alpha=.75) +
-    scale_color_brewer("location", palette="Spectral") +
-    theme_tree2(legend.position='right')
-```
-\setstretch{1.5}
-
-
-
-
-
-The `phyloseq` class that defined in the *phyloseq* package was designed for storing microbiome data, including phylogenetic tree, associated sample data and taxonomy assignment. It can import data from popular pipelines, such as *QIIME* [@kuczynski_using_2011], *mothur* [@schloss_introducing_2009], *DADA2* [@callahan_dada2_2016] and *PyroTagger* [@kunin_pyrotagger_2010], *etc.*. The *ggtree* supports visualizing the phylogenetic tree stored in `phyloseq` object and related data can be used to annotate the tree as demonstrated in Figure \@ref(fig:phyloseq).
- 
-(ref:phyloseqscap) Visualizing phyloseq tree object.
-
-(ref:phyloseqcap) **Visualizing phyloseq tree object.** Tips were colored by Phylum and corresponding abundance across different samples were visualized as joyplots and sorted according to the tree structure.
-
-\setstretch{1.2} 
-r phyloseq, fig.height=8.5, fig.width=9, message=FALSE, fig.cap="(ref:phyloseqcap)", fig.scap="(ref:phyloseqscap)", out.extra='', warning=FALSE}
-
-library(phyloseq)
-library(ggridges)
-library(dplyr)
-library(ggtree)
-
-data("GlobalPatterns")
-GP <- GlobalPatterns
-GP <- prune_taxa(taxa_sums(GP) > 600, GP)
-sample_data(GP)$human <- get_variable(GP, "SampleType") %in% 
-  c("Feces", "Skin") 
-
-mergedGP <- merge_samples(GP, "SampleType")
-mergedGP <- rarefy_even_depth(mergedGP,rngseed=394582)
-mergedGP <- tax_glom(mergedGP,"Order") 
-
-melt_simple <- psmelt(mergedGP) %>% 
-  filter(Abundance < 120) %>% 
-  select(OTU, val=Abundance)
-
-p <- ggtree(mergedGP) + 
-  geom_tippoint(aes(color=Phylum), size=1.5)
-
-facet_plot(p, panel="Abundance", data=melt_simple, 
-           geom_joy, mapping = aes(x=val,group=label, 
-                                        fill=Phylum), 
-           color='grey80', lwd=.3)
-
-\setstretch{1.5}
--->
 </div>
 </div>
 <div id="summary-4" class="section level2">

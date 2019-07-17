@@ -248,7 +248,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.2" data-path="chapter9.html"><a href="chapter9.html#facet_labeller"><i class="fa fa-check"></i><b>9.2</b> facet_labeller</a></li>
 <li class="chapter" data-level="9.3" data-path="chapter9.html"><a href="chapter9.html#xlim_expand"><i class="fa fa-check"></i><b>9.3</b> xlim_expand</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="chapter10.html"><a href="chapter10.html"><i class="fa fa-check"></i><b>10</b> ggtree for other tree objects</a></li>
+<li class="chapter" data-level="10" data-path="chapter10.html"><a href="chapter10.html"><i class="fa fa-check"></i><b>10</b> ggtree for other tree objects</a><ul>
+<li class="chapter" data-level="10.1" data-path="chapter10.html"><a href="chapter10.html#phylobase"><i class="fa fa-check"></i><b>10.1</b> phylo4 and phylo4d</a></li>
+<li class="chapter" data-level="10.2" data-path="chapter10.html"><a href="chapter10.html#phyloseq"><i class="fa fa-check"></i><b>10.2</b> phyloseq</a></li>
+<li class="chapter" data-level="10.3" data-path="chapter10.html"><a href="chapter10.html#outbreaktools"><i class="fa fa-check"></i><b>10.3</b> OutbreakTools</a></li>
+</ul></li>
 <li class="chapter" data-level="11" data-path="chapter11.html"><a href="chapter11.html"><i class="fa fa-check"></i><b>11</b> ggtree extensions</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="faq.html"><a href="faq.html"><i class="fa fa-check"></i><b>A</b> Frequently asked questions</a><ul>
@@ -299,7 +303,144 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="chapter10" class="section level1">
 <h1><span class="header-section-number">Chapter 10</span> ggtree for other tree objects</h1>
+<p>The <a href="http://bioconductor.org/packages/treeio">treeio</a> packages allows parsing evolutionary inferences from a number of software outputs and linking external data to the tree structure. It serves as an infrastructure to bring evolutionary data to the R community. The <a href="http://bioconductor.org/packages/ggtree">ggtree</a> package works seamlessly with <a href="http://bioconductor.org/packages/treeio">treeio</a> to visualize tree associated data to annotate the tree. The <a href="http://bioconductor.org/packages/ggtree">ggtree</a> package is general tool for tree visualization and annotation and it fits the ecosystem of R packages. Most of the S3/S4 tree objects defined by other R packages are also supported by <a href="http://bioconductor.org/packages/ggtree">ggtree</a>, including <code>phylo</code>(<a href="chapter4.html#visualizing-phylogenetic-tree-with-ggtree">session 4.2</a>), <code>multiPhylo</code> (<a href="chapter4.html#visualize-a-list-of-trees">session 4.4</a>), <code>phylo4</code>, <code>phylo4d</code>, <code>phyloseq</code> and <code>obkData</code>. With <a href="http://bioconductor.org/packages/ggtree">ggtree</a>, we are able to generate more complex tree graph which is not possible or easy to do with other packages. For example, the visualization of the <code>phyloseq</code> object in Figure <a href="chapter10.html#fig:phyloseq">10.3</a> is not supported by the <a href="http://bioconductor.org/packages/phyloseq">phyloseq</a> package. The <a href="http://bioconductor.org/packages/ggtree">ggtree</a> package also extend the possibility of linking external data to these tree object <span class="citation">(Yu et al. <a href="#ref-yu_two_2018" role="doc-biblioref">2018</a>)</span>.</p>
+<div id="phylobase" class="section level2">
+<h2><span class="header-section-number">10.1</span> phylo4 and phylo4d</h2>
+<p>The <code>phylo4</code> and <code>phylo4d</code> are defined in the <a href="https://CRAN.R-project.org/package=phylobase">phylobase</a> package. The <code>phylo4</code> object is a S4 version of <code>phylo</code>, while <code>phylo4d</code> extends <code>phylo4</code> with a data frame that contains trait data. The <a href="https://CRAN.R-project.org/package=phylobase">phylobase</a> package provides <code>plot</code> method, which internally calls the <code>treePlot</code> function, to display the tree with the data. However there are some restrictions of the <code>plot</code> method, it can only plot numeric values for tree-associated data as bubbles and cannot generate figure legend. <code>Phylobase</code> doesn’t implement visualization method to display categorical values. Using associated data as visual characteristics such as color, size and shape, is also not supported. Although it is possible to color the tree using associated data, it requires users to extract the data and map them to color vector manually follow by passing the color vector to the <code>plot</code> method. This is tedious and error-prone since the order of the color vector needs to be consistent with the edge list stored in the object.</p>
+<p>The <a href="http://bioconductor.org/packages/ggtree">ggtree</a> package supports <code>phylo4d</code> object and all the associated data stored in the <code>phylo4d</code> object can be used directly to annotate the tree (Fig. ).</p>
 
+
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="chapter10.html#cb216-1"></a><span class="kw">library</span>(phylobase)</span>
+<span id="cb216-2"><a href="chapter10.html#cb216-2"></a><span class="kw">data</span>(geospiza_raw)</span>
+<span id="cb216-3"><a href="chapter10.html#cb216-3"></a>g1 &lt;-<span class="st"> </span><span class="kw">as</span>(geospiza_raw<span class="op">$</span>tree, <span class="st">&quot;phylo4&quot;</span>)</span>
+<span id="cb216-4"><a href="chapter10.html#cb216-4"></a>g2 &lt;-<span class="st"> </span><span class="kw">phylo4d</span>(g1, geospiza_raw<span class="op">$</span>data, <span class="dt">missing.data=</span><span class="st">&quot;warn&quot;</span>)</span>
+<span id="cb216-5"><a href="chapter10.html#cb216-5"></a></span>
+<span id="cb216-6"><a href="chapter10.html#cb216-6"></a>d1 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x =</span> <span class="kw">seq</span>(<span class="fl">0.93</span>, <span class="fl">1.15</span>, <span class="dt">length.out =</span> <span class="dv">5</span>),</span>
+<span id="cb216-7"><a href="chapter10.html#cb216-7"></a>                <span class="dt">lab =</span> <span class="kw">names</span>(geospiza_raw<span class="op">$</span>data))</span>
+<span id="cb216-8"><a href="chapter10.html#cb216-8"></a></span>
+<span id="cb216-9"><a href="chapter10.html#cb216-9"></a><span class="kw">ggtree</span>(g2) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tippoint</span>(<span class="kw">aes</span>(<span class="dt">size =</span> wingL), <span class="dt">x =</span> d1<span class="op">$</span>x[<span class="dv">1</span>], <span class="dt">shape =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb216-10"><a href="chapter10.html#cb216-10"></a><span class="st">    </span><span class="kw">geom_tippoint</span>(<span class="kw">aes</span>(<span class="dt">size =</span> tarsusL), <span class="dt">x =</span> d1<span class="op">$</span>x[<span class="dv">2</span>], <span class="dt">shape =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb216-11"><a href="chapter10.html#cb216-11"></a><span class="st">    </span><span class="kw">geom_tippoint</span>(<span class="kw">aes</span>(<span class="dt">size =</span> culmenL), <span class="dt">x =</span> d1<span class="op">$</span>x[<span class="dv">3</span>], <span class="dt">shape =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb216-12"><a href="chapter10.html#cb216-12"></a><span class="st">    </span><span class="kw">geom_tippoint</span>(<span class="kw">aes</span>(<span class="dt">size =</span> beakD),   <span class="dt">x =</span> d1<span class="op">$</span>x[<span class="dv">4</span>], <span class="dt">shape =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb216-13"><a href="chapter10.html#cb216-13"></a><span class="st">    </span><span class="kw">geom_tippoint</span>(<span class="kw">aes</span>(<span class="dt">size =</span> gonysW),  <span class="dt">x =</span> d1<span class="op">$</span>x[<span class="dv">5</span>], <span class="dt">shape =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb216-14"><a href="chapter10.html#cb216-14"></a><span class="st">    </span><span class="kw">scale_size_continuous</span>(<span class="dt">range =</span> <span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">12</span>), <span class="dt">name=</span><span class="st">&quot;&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb216-15"><a href="chapter10.html#cb216-15"></a><span class="st">    </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> <span class="dv">0</span>, <span class="dt">label =</span> lab), <span class="dt">data =</span> d1, <span class="dt">angle =</span> <span class="dv">90</span>) <span class="op">+</span></span>
+<span id="cb216-16"><a href="chapter10.html#cb216-16"></a><span class="st">    </span><span class="kw">geom_tiplab</span>(<span class="dt">offset =</span> <span class="fl">.3</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="fl">1.3</span>) <span class="op">+</span></span>
+<span id="cb216-17"><a href="chapter10.html#cb216-17"></a><span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(.<span class="dv">1</span>, <span class="fl">.75</span>))  </span></code></pre></div>
+<div class="figure"><span id="fig:fp4d"></span>
+<img src="treedata_files/figure-html/fp4d-1.png" alt="Visualizing phylo4d data using ggtree." width="90%" />
+<p class="caption">
+Figure 10.1: <strong>Visualizing phylo4d data using ggtree.</strong>
+</p>
+</div>
+</div>
+<div id="phyloseq" class="section level2">
+<h2><span class="header-section-number">10.2</span> phyloseq</h2>
+<p>The <code>phyloseq</code> class that defined in the <a href="http://bioconductor.org/packages/phyloseq">phyloseq</a> package was designed for storing microbiome data, including phylogenetic tree, associated sample data and taxonomy assignment. It can import data from popular pipelines, such as <em>QIIME</em> <span class="citation">(Kuczynski et al. <a href="#ref-kuczynski_using_2011" role="doc-biblioref">2011</a>)</span>, <em>mothur</em> <span class="citation">(Schloss et al. <a href="#ref-schloss_introducing_2009" role="doc-biblioref">2009</a>)</span>, <em>DADA2</em> <span class="citation">(Callahan et al. <a href="#ref-callahan_dada2_2016" role="doc-biblioref">2016</a>)</span> and <em>PyroTagger</em> <span class="citation">(Kunin and Hugenholtz <a href="#ref-kunin_pyrotagger_2010" role="doc-biblioref">2010</a>)</span>, <em>etc.</em>. The <em>ggtree</em> supports visualizing the phylogenetic tree stored in <code>phyloseq</code> object and related data can be used to annotate the tree as demonstrated in Figure <a href="chapter10.html#fig:reproducephyloseq">10.2</a> and <a href="chapter10.html#fig:phyloseq">10.3</a>.</p>
+
+
+<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="chapter10.html#cb217-1"></a><span class="kw">library</span>(phyloseq)</span>
+<span id="cb217-2"><a href="chapter10.html#cb217-2"></a><span class="kw">library</span>(scales)</span>
+<span id="cb217-3"><a href="chapter10.html#cb217-3"></a></span>
+<span id="cb217-4"><a href="chapter10.html#cb217-4"></a><span class="kw">data</span>(GlobalPatterns)</span>
+<span id="cb217-5"><a href="chapter10.html#cb217-5"></a>GP &lt;-<span class="st"> </span><span class="kw">prune_taxa</span>(<span class="kw">taxa_sums</span>(GlobalPatterns) <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, GlobalPatterns)</span>
+<span id="cb217-6"><a href="chapter10.html#cb217-6"></a>GP.chl &lt;-<span class="st"> </span><span class="kw">subset_taxa</span>(GP, Phylum<span class="op">==</span><span class="st">&quot;Chlamydiae&quot;</span>)</span>
+<span id="cb217-7"><a href="chapter10.html#cb217-7"></a></span>
+<span id="cb217-8"><a href="chapter10.html#cb217-8"></a><span class="kw">ggtree</span>(GP.chl) <span class="op">+</span><span class="st"> </span><span class="kw">geom_text2</span>(<span class="kw">aes</span>(<span class="dt">subset=</span><span class="op">!</span>isTip, <span class="dt">label=</span>label), <span class="dt">hjust=</span><span class="op">-</span>.<span class="dv">2</span>, <span class="dt">size=</span><span class="dv">4</span>) <span class="op">+</span></span>
+<span id="cb217-9"><a href="chapter10.html#cb217-9"></a><span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">label=</span>Genus), <span class="dt">hjust=</span><span class="op">-</span>.<span class="dv">3</span>) <span class="op">+</span></span>
+<span id="cb217-10"><a href="chapter10.html#cb217-10"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span>x<span class="op">+</span>hjust, <span class="dt">color=</span>SampleType, <span class="dt">shape=</span>Family, <span class="dt">size=</span>Abundance),<span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb217-11"><a href="chapter10.html#cb217-11"></a><span class="st">  </span><span class="kw">scale_size_continuous</span>(<span class="dt">trans=</span><span class="kw">log_trans</span>(<span class="dv">5</span>)) <span class="op">+</span></span>
+<span id="cb217-12"><a href="chapter10.html#cb217-12"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;right&quot;</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:reproducephyloseq"></span>
+<img src="treedata_files/figure-html/reproducephyloseq-1.png" alt="Visualizing phyloseq tree object." width="768"  />
+<p class="caption">
+Figure 10.2: <strong>Visualizing phyloseq tree object.</strong>
+</p>
+</div>
+<p>Figure <a href="chapter10.html#fig:reproducephyloseq">10.2</a> reproduce output of <code>phyloseq::plot_tree()</code>. Users of <a href="http://bioconductor.org/packages/phyloseq">phyloseq</a> will find <a href="http://bioconductor.org/packages/ggtree">ggtree</a> useful for visualizing microbiome data and for further annotation, since <a href="http://bioconductor.org/packages/ggtree">ggtree</a> supports high-level of annotation using grammar of graphics and can add tree data layers that are not available in <a href="http://bioconductor.org/packages/phyloseq">phyloseq</a>.</p>
+
+
+
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="chapter10.html#cb218-1"></a><span class="kw">library</span>(ggridges)</span>
+<span id="cb218-2"><a href="chapter10.html#cb218-2"></a></span>
+<span id="cb218-3"><a href="chapter10.html#cb218-3"></a><span class="kw">data</span>(<span class="st">&quot;GlobalPatterns&quot;</span>)</span>
+<span id="cb218-4"><a href="chapter10.html#cb218-4"></a>GP &lt;-<span class="st"> </span>GlobalPatterns</span>
+<span id="cb218-5"><a href="chapter10.html#cb218-5"></a>GP &lt;-<span class="st"> </span><span class="kw">prune_taxa</span>(<span class="kw">taxa_sums</span>(GP) <span class="op">&gt;</span><span class="st"> </span><span class="dv">600</span>, GP)</span>
+<span id="cb218-6"><a href="chapter10.html#cb218-6"></a><span class="kw">sample_data</span>(GP)<span class="op">$</span>human &lt;-<span class="st"> </span><span class="kw">get_variable</span>(GP, <span class="st">&quot;SampleType&quot;</span>) <span class="op">%in%</span><span class="st"> </span></span>
+<span id="cb218-7"><a href="chapter10.html#cb218-7"></a><span class="st">  </span><span class="kw">c</span>(<span class="st">&quot;Feces&quot;</span>, <span class="st">&quot;Skin&quot;</span>) </span>
+<span id="cb218-8"><a href="chapter10.html#cb218-8"></a></span>
+<span id="cb218-9"><a href="chapter10.html#cb218-9"></a>mergedGP &lt;-<span class="st"> </span><span class="kw">merge_samples</span>(GP, <span class="st">&quot;SampleType&quot;</span>)</span>
+<span id="cb218-10"><a href="chapter10.html#cb218-10"></a>mergedGP &lt;-<span class="st"> </span><span class="kw">rarefy_even_depth</span>(mergedGP,<span class="dt">rngseed=</span><span class="dv">394582</span>)</span>
+<span id="cb218-11"><a href="chapter10.html#cb218-11"></a>mergedGP &lt;-<span class="st"> </span><span class="kw">tax_glom</span>(mergedGP,<span class="st">&quot;Order&quot;</span>) </span>
+<span id="cb218-12"><a href="chapter10.html#cb218-12"></a></span>
+<span id="cb218-13"><a href="chapter10.html#cb218-13"></a>melt_simple &lt;-<span class="st"> </span><span class="kw">psmelt</span>(mergedGP) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb218-14"><a href="chapter10.html#cb218-14"></a><span class="st">  </span><span class="kw">filter</span>(Abundance <span class="op">&lt;</span><span class="st"> </span><span class="dv">120</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb218-15"><a href="chapter10.html#cb218-15"></a><span class="st">  </span><span class="kw">select</span>(OTU, <span class="dt">val=</span>Abundance)</span>
+<span id="cb218-16"><a href="chapter10.html#cb218-16"></a></span>
+<span id="cb218-17"><a href="chapter10.html#cb218-17"></a><span class="kw">ggtree</span>(mergedGP) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb218-18"><a href="chapter10.html#cb218-18"></a><span class="st">  </span><span class="kw">geom_tippoint</span>(<span class="kw">aes</span>(<span class="dt">color=</span>Phylum), <span class="dt">size=</span><span class="fl">1.5</span>) <span class="op">+</span></span>
+<span id="cb218-19"><a href="chapter10.html#cb218-19"></a><span class="st">  </span><span class="kw">geom_facet</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>val,<span class="dt">group=</span>label, </span>
+<span id="cb218-20"><a href="chapter10.html#cb218-20"></a>                           <span class="dt">fill=</span>Phylum),</span>
+<span id="cb218-21"><a href="chapter10.html#cb218-21"></a>            <span class="dt">data =</span> melt_simple, </span>
+<span id="cb218-22"><a href="chapter10.html#cb218-22"></a>            <span class="dt">geom =</span> geom_density_ridges,</span>
+<span id="cb218-23"><a href="chapter10.html#cb218-23"></a>            <span class="dt">panel=</span><span class="st">&quot;Abundance&quot;</span>,  </span>
+<span id="cb218-24"><a href="chapter10.html#cb218-24"></a>            <span class="dt">color=</span><span class="st">&#39;grey80&#39;</span>, <span class="dt">lwd=</span>.<span class="dv">3</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:phyloseq"></span>
+<img src="treedata_files/figure-html/phyloseq-1.png" alt="Phylogenetic tree with OTU abundance densities. Tips were colored by Phylum and corresponding abundance across different samples were visualized as density ridgelines and sorted according to the tree structure." width="864"  />
+<p class="caption">
+Figure 10.3: <strong>Phylogenetic tree with OTU abundance densities.</strong> Tips were colored by Phylum and corresponding abundance across different samples were visualized as density ridgelines and sorted according to the tree structure.
+</p>
+</div>
+
+<p>This example uses microbiome data that provided in <code>phyloseq</code> package and density ridgeline is employed to visualize species abundance data. The <code>geom_facet</code> layer automatically re-arranges the abundance data according to the tree structure, visualizes the data using the specify <code>geom</code> function, <em>i.e.</em> <code>geom_density_ridges</code>, and aligns the density curves with the tree as demonstrated in Fig. . Note that data stored in the <code>phyloseq</code> object is visible to <code>ggtree</code> and can be used directly in tree visualization (<code>Phylum</code> was used to color tips and density ridgelines in this example).</p>
+</div>
+<div id="outbreaktools" class="section level2">
+<h2><span class="header-section-number">10.3</span> OutbreakTools</h2>
+<p>The <code>okbData</code> is defined in the <a href="https://CRAN.R-project.org/package=OutbreakTools">OutbreakTools</a> package to store incidence-based outbreak data, including meta data of sampling and information of infected individuals such as age and onset of symptoms. The <code>ggtree</code> supports the <code>obkData</code> object and the information can be used to annotate the tree as shown in Figure <a href="chapter10.html#fig:outbreaktools">10.4</a>.</p>
+
+
+
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="chapter10.html#cb219-1"></a><span class="kw">library</span>(OutbreakTools)</span>
+<span id="cb219-2"><a href="chapter10.html#cb219-2"></a><span class="kw">data</span>(FluH1N1pdm2009)</span>
+<span id="cb219-3"><a href="chapter10.html#cb219-3"></a><span class="kw">attach</span>(FluH1N1pdm2009)</span>
+<span id="cb219-4"><a href="chapter10.html#cb219-4"></a></span>
+<span id="cb219-5"><a href="chapter10.html#cb219-5"></a>x &lt;-<span class="st"> </span><span class="kw">new</span>(<span class="st">&quot;obkData&quot;</span>, </span>
+<span id="cb219-6"><a href="chapter10.html#cb219-6"></a>         <span class="dt">individuals =</span> individuals, </span>
+<span id="cb219-7"><a href="chapter10.html#cb219-7"></a>         <span class="dt">dna =</span> dna,</span>
+<span id="cb219-8"><a href="chapter10.html#cb219-8"></a>         <span class="dt">dna.individualID =</span> samples<span class="op">$</span>individualID, </span>
+<span id="cb219-9"><a href="chapter10.html#cb219-9"></a>         <span class="dt">dna.date =</span> samples<span class="op">$</span>date,</span>
+<span id="cb219-10"><a href="chapter10.html#cb219-10"></a>         <span class="dt">trees =</span> FluH1N1pdm2009<span class="op">$</span>trees)</span>
+<span id="cb219-11"><a href="chapter10.html#cb219-11"></a><span class="kw">ggtree</span>(x, <span class="dt">mrsd=</span><span class="st">&quot;2009-09-30&quot;</span>, <span class="dt">as.Date=</span><span class="ot">TRUE</span>, <span class="dt">right=</span><span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb219-12"><a href="chapter10.html#cb219-12"></a><span class="st">    </span><span class="kw">geom_tippoint</span>(<span class="kw">aes</span>(<span class="dt">color=</span>location), <span class="dt">size=</span><span class="dv">3</span>, <span class="dt">alpha=</span>.<span class="dv">75</span>) <span class="op">+</span></span>
+<span id="cb219-13"><a href="chapter10.html#cb219-13"></a><span class="st">    </span><span class="kw">scale_color_brewer</span>(<span class="st">&quot;location&quot;</span>, <span class="dt">palette=</span><span class="st">&quot;Spectral&quot;</span>) <span class="op">+</span></span>
+<span id="cb219-14"><a href="chapter10.html#cb219-14"></a><span class="st">    </span><span class="kw">theme_tree2</span>(<span class="dt">legend.position=</span><span class="st">&#39;right&#39;</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:outbreaktools"></span>
+<img src="treedata_files/figure-html/outbreaktools-1.png" alt="Visualizing obkData tree object. x-axis was scaled by timeline of the outbreak and tips were colored by location of different individuals." width="604.8"  />
+<p class="caption">
+Figure 10.4: <strong>Visualizing obkData tree object.</strong> <em>x</em>-axis was scaled by timeline of the outbreak and tips were colored by location of different individuals.
+</p>
+</div>
+
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-callahan_dada2_2016">
+<p>Callahan, Benjamin J., Paul J. McMurdie, Michael J. Rosen, Andrew W. Han, Amy Jo A. Johnson, and Susan P. Holmes. 2016. “DADA2: High-Resolution Sample Inference from Illumina Amplicon Data.” <em>Nature Methods</em> 13 (7): 581–83. <a href="https://doi.org/10.1038/nmeth.3869">https://doi.org/10.1038/nmeth.3869</a>.</p>
+</div>
+<div id="ref-kuczynski_using_2011">
+<p>Kuczynski, Justin, Jesse Stombaugh, William Anton Walters, Antonio González, J. Gregory Caporaso, and Rob Knight. 2011. “Using QIIME to Analyze 16S rRNA Gene Sequences from Microbial Communities.” <em>Current Protocols in Bioinformatics / Editoral Board, Andreas D. Baxevanis ... [et Al.]</em> CHAPTER (December): Unit10.7. <a href="https://doi.org/10.1002/0471250953.bi1007s36">https://doi.org/10.1002/0471250953.bi1007s36</a>.</p>
+</div>
+<div id="ref-kunin_pyrotagger_2010">
+<p>Kunin, Victor, and Philip Hugenholtz. 2010. “PyroTagger : A Fast , Accurate Pipeline for Analysis of rRNA Amplicon Pyrosequence Data.” <em>The Open Journal</em>, 1–8. <a href="http://www.theopenjournal.org/toj_articles/1">http://www.theopenjournal.org/toj_articles/1</a>.</p>
+</div>
+<div id="ref-schloss_introducing_2009">
+<p>Schloss, Patrick D., Sarah L. Westcott, Thomas Ryabin, Justine R. Hall, Martin Hartmann, Emily B. Hollister, Ryan A. Lesniewski, et al. 2009. “Introducing Mothur: Open-Source, Platform-Independent, Community-Supported Software for Describing and Comparing Microbial Communities.” <em>Applied and Environmental Microbiology</em> 75 (23): 7537–41. <a href="https://doi.org/10.1128/AEM.01541-09">https://doi.org/10.1128/AEM.01541-09</a>.</p>
+</div>
+<div id="ref-yu_two_2018">
+<p>Yu, Guangchuang, Tommy Tsan-Yuk Lam, Huachen Zhu, and Yi Guan. 2018. “Two Methods for Mapping and Visualizing Associated Data on Phylogeny Using Ggtree.” <em>Molecular Biology and Evolution</em> 35 (12): 3041–3. <a href="https://doi.org/10.1093/molbev/msy194">https://doi.org/10.1093/molbev/msy194</a>.</p>
+</div>
 </div>
             </section>
 
