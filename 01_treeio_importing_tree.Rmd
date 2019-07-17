@@ -369,6 +369,7 @@ jplace and Phylip as well as the data outputs from the following analysis progra
 [BEAST](http://beast2.org/),
 [EPA](http://sco.h-its.org/exelixis/web/software/epa/index.html),
 [HyPhy](https://veg.github.io/hyphy-site/),
+[MEGA](https://www.megasoftware.net/),
 [MrBayes](http://nbisweden.github.io/MrBayes/),
 [PAML](http://abacus.gene.ucl.ac.uk/software/paml.html),
 [PHYLDOG](https://pbil.univ-lyon1.fr/software/phyldog/),
@@ -381,25 +382,27 @@ jplace and Phylip as well as the data outputs from the following analysis progra
 ```{r treeio-function, echo=F, message=FALSE}
 ff <- tibble::tribble(
   ~`Parser function`, ~Description,
-  "read.astral"		, "parsing output of ASTRAL",
-  "read.beast"      , "parsing output of BEAST",
-  "read.codeml"     , "parsing output of CodeML (rst and mlc files)",
-  "read.codeml_mlc" , "parsing mlc file (output of CodeML)",
-  "read.fasta"		, "parsing FASTA format sequence file",
-  "read.hyphy"      , "parsing output of HYPHY",
-  "read.hyphy.seq"  , "parsing ancestral sequences from HYPHY output",
-  "read.iqtree"		, "parsing IQ-Tree newick string, with ability to parse SH-aLRT and UFBoot support values",
-  "read.jplace"     , "parsing jplace file including output of EPA and pplacer",
-  "read.jtree"		, "parsing [jtree](#write-jtree) format",
-  "read.mrbayes"    , "parsing output of MrBayes",
-  "read.newick"     , "parsing newick string, with ability to parse node label as support values",
-  "read.nhx"        , "parsing NHX file including output of PHYLDOG and RevBayes",
-  "read.paml_rst"   , "parsing rst file (output of BaseML or CodeML)",
-  "read.phylip"     , "parsing phylip file (phylip alignment + newick string)",
-  "read.phylip.seq" , "parsing multiple sequence alignment from phylip file",
-  "read.phylip.tree", "parsing newick string from phylip file",
-  "read.r8s"        , "parsing output of r8s",
-  "read.raxml"      , "parsing output of RAxML"
+  "read.astral"			, "parsing output of ASTRAL",
+  "read.beast"      	, "parsing output of BEAST",
+  "read.codeml"     	, "parsing output of CodeML (rst and mlc files)",
+  "read.codeml_mlc" 	, "parsing mlc file (output of CodeML)",
+  "read.fasta"			, "parsing FASTA format sequence file",
+  "read.hyphy"      	, "parsing output of HYPHY",
+  "read.hyphy.seq"  	, "parsing ancestral sequences from HYPHY output",
+  "read.iqtree"			, "parsing IQ-Tree newick string, with ability to parse SH-aLRT and UFBoot support values",
+  "read.jplace"     	, "parsing jplace file including output of EPA and pplacer",
+  "read.jtree"			, "parsing [jtree](#write-jtree) format",
+  "read.mega"			, "parsing MEGA Nexus output",
+  "read.mega_tabular"	, "parsing MEGA tabular output",
+  "read.mrbayes"    	, "parsing output of MrBayes",
+  "read.newick"     	, "parsing newick string, with ability to parse node label as support values",
+  "read.nhx"        	, "parsing NHX file including output of PHYLDOG and RevBayes",
+  "read.paml_rst"   	, "parsing rst file (output of BaseML or CodeML)",
+  "read.phylip"     	, "parsing phylip file (phylip alignment + newick string)",
+  "read.phylip.seq" 	, "parsing multiple sequence alignment from phylip file",
+  "read.phylip.tree"	, "parsing newick string from phylip file",
+  "read.r8s"        	, "parsing output of r8s",
+  "read.raxml"      	, "parsing output of RAxML"
   )
 
 knitr::kable(ff, caption = "Parser functions defined in treeio", booktabs = T)
@@ -467,6 +470,24 @@ beast
 Since _`%`_ is not a valid character in _`names`_, all the feature names that contain _`x%`_ will convert to _`0.x`_. For example, _`length_95%_HPD`_ will be changed to _`length_0.95_HPD`_.
 
 Not only tree structure but also all the features inferred by *BEAST* will be stored in the `S4` object. These features can be used for tree annotation (Figure \@ref(fig:beast)). 
+
+#### Parsing MEGA output {#mega}
+
+[MEGA](https://www.megasoftware.net/) [@kumar_mega7_2016] supports exporting trees in three distinct formats: Newick, tabular and Nexus. The Newick file can be parsed using the `read.tree` or `read.newick` functions. MEGA Nexus file is similar to BEAST Nexus and `r Biocpkg("treeio")` provides `read.mega` function to parse the tree.
+
+```{r}
+file <- system.file("extdata/MEGA7", "mtCDNA_timetree.nex", package = "treeio")
+read.mega(file)
+```
+
+The tabular output contains tree and associated information (divergence time in this example) in a tabular flat text file. The `read.mega_tabular` function can parse the tree with data simultaneously.
+
+
+```{r}
+file <- system.file("extdata/MEGA7", "mtCDNA_timetree_tabular.txt", package = "treeio")
+read.mega_tabular(file) 
+```
+
 
 #### Parsing MrBayes output
 

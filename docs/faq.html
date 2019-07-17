@@ -302,10 +302,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="installation" class="section level2">
 <h2><span class="header-section-number">A.1</span> Installation</h2>
 <p><a href="http://bioconductor.org/packages/ggtree">ggtree</a> is released within the Bioconductor project, you need to use <a href="https://CRAN.R-project.org/package=BiocManager">BiocManager</a> to install it.</p>
-<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="faq.html#cb214-1"></a><span class="co">## you need to install BiocManager before using it</span></span>
-<span id="cb214-2"><a href="faq.html#cb214-2"></a><span class="co">## install.packages(&quot;BiocManager&quot;)</span></span>
-<span id="cb214-3"><a href="faq.html#cb214-3"></a><span class="kw">library</span>(BiocManager)</span>
-<span id="cb214-4"><a href="faq.html#cb214-4"></a><span class="kw">install</span>(<span class="st">&quot;ggtree&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="faq.html#cb218-1"></a><span class="co">## you need to install BiocManager before using it</span></span>
+<span id="cb218-2"><a href="faq.html#cb218-2"></a><span class="co">## install.packages(&quot;BiocManager&quot;)</span></span>
+<span id="cb218-3"><a href="faq.html#cb218-3"></a><span class="kw">library</span>(BiocManager)</span>
+<span id="cb218-4"><a href="faq.html#cb218-4"></a><span class="kw">install</span>(<span class="st">&quot;ggtree&quot;</span>)</span></code></pre></div>
 <p>Bioconductor release is adhere to specific R version. Please make sure you are using latest version of R if you want to install the latest release of Bioconductor packages, including <code>ggtree</code>. Beware that bugs will only be fixed in current release and develop branches. If you find a bug, please follow the guide<a href="references.html#fn18" class="footnote-ref" id="fnref18"><sup>18</sup></a> to report it.</p>
 </div>
 <div id="faq-r" class="section level2">
@@ -335,7 +335,7 @@ Usage:
 <h2><span class="header-section-number">A.3</span> Aesthetic mapping</h2>
 <div id="faq-inherit-aes" class="section level3">
 <h3><span class="header-section-number">A.3.1</span> Inherit <em>aes</em></h3>
-<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="faq.html#cb216-1"></a><span class="kw">ggtree</span>(<span class="kw">rtree</span>(<span class="dv">30</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="faq.html#cb220-1"></a><span class="kw">ggtree</span>(<span class="kw">rtree</span>(<span class="dv">30</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>()</span></code></pre></div>
 <p>For example, we can add symbolic points to nodes with <code>geom_point()</code> directly.
 The magic here is we don’t need to map <code>x</code> and <code>y</code> position of the points by providing <code>aes(x, y)</code> to <code>geom_point()</code> since it was already mapped by <code>ggtree</code> function and it serves as a global mapping for all layers.</p>
 <p>But what if we provide a <code>dataset</code> in a layer and the <code>dataset</code> doesn’t contain column of <code>x</code> and/or <code>y</code>,
@@ -358,16 +358,16 @@ As these variable is not available in your <code>dataset</code>, you will get th
 <div id="faq-label-truncated" class="section level3">
 <h3><span class="header-section-number">A.4.1</span> Tip label truncated</h3>
 <p><a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> can’t auto adjust <code>xlim</code> based on added text<a href="references.html#fn20" class="footnote-ref" id="fnref20"><sup>20</sup></a>.</p>
-<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="faq.html#cb218-1"></a><span class="kw">library</span>(ggtree)</span>
-<span id="cb218-2"><a href="faq.html#cb218-2"></a><span class="co">## example tree from https://support.bioconductor.org/p/72398/</span></span>
-<span id="cb218-3"><a href="faq.html#cb218-3"></a>tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="dt">text=</span> <span class="kw">paste</span>(<span class="st">&quot;(Organism1.006G249400.1:0.03977,(Organism2.022118m:0.01337,&quot;</span>, </span>
-<span id="cb218-4"><a href="faq.html#cb218-4"></a>             <span class="st">&quot;(Organism3.J34265.1:0.00284,Organism4.G02633.1:0.00468)0.51:0.0104):0.02469);&quot;</span>))</span>
-<span id="cb218-5"><a href="faq.html#cb218-5"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>()  </span></code></pre></div>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="faq.html#cb222-1"></a><span class="kw">library</span>(ggtree)</span>
+<span id="cb222-2"><a href="faq.html#cb222-2"></a><span class="co">## example tree from https://support.bioconductor.org/p/72398/</span></span>
+<span id="cb222-3"><a href="faq.html#cb222-3"></a>tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="dt">text=</span> <span class="kw">paste</span>(<span class="st">&quot;(Organism1.006G249400.1:0.03977,(Organism2.022118m:0.01337,&quot;</span>, </span>
+<span id="cb222-4"><a href="faq.html#cb222-4"></a>             <span class="st">&quot;(Organism3.J34265.1:0.00284,Organism4.G02633.1:0.00468)0.51:0.0104):0.02469);&quot;</span>))</span>
+<span id="cb222-5"><a href="faq.html#cb222-5"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>()  </span></code></pre></div>
 <p>In this example, the tip labels displayed on Figure <a href="faq.html#fig:truncatedTip">A.1</a>A are truncated. This is because the units are in two different spaces (data and pixel). Users can use <code>xlim</code> to allocate more spaces for tip labels (Figure <a href="faq.html#fig:truncatedTip">A.1</a>B).</p>
-<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="faq.html#cb219-1"></a>p <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="fl">0.08</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="faq.html#cb223-1"></a>p <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="fl">0.08</span>)</span></code></pre></div>
 <p>Another solution is to set <code>clip = "off"</code> to allow drawing outside of the plot panel. We may also need to set <code>plot.margin</code> to allocate more spaces for margin (Figure <a href="faq.html#fig:truncatedTip">A.1</a>C).</p>
-<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="faq.html#cb220-1"></a>p <span class="op">+</span><span class="st"> </span><span class="kw">coord_cartesian</span>(<span class="dt">clip =</span> <span class="st">&#39;off&#39;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb220-2"><a href="faq.html#cb220-2"></a><span class="st">  </span><span class="kw">theme_tree2</span>(<span class="dt">plot.margin=</span><span class="kw">margin</span>(<span class="dv">6</span>, <span class="dv">120</span>, <span class="dv">6</span>, <span class="dv">6</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="faq.html#cb224-1"></a>p <span class="op">+</span><span class="st"> </span><span class="kw">coord_cartesian</span>(<span class="dt">clip =</span> <span class="st">&#39;off&#39;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb224-2"><a href="faq.html#cb224-2"></a><span class="st">  </span><span class="kw">theme_tree2</span>(<span class="dt">plot.margin=</span><span class="kw">margin</span>(<span class="dv">6</span>, <span class="dv">120</span>, <span class="dv">6</span>, <span class="dv">6</span>))</span></code></pre></div>
 
 
 <div class="figure"><span id="fig:truncatedTip"></span>
@@ -380,18 +380,18 @@ Figure A.1: <strong>Allocating more spaces for truncated tip lables.</strong> Lo
 <div id="faq-modify-label" class="section level3">
 <h3><span class="header-section-number">A.4.2</span> Modify (tip) labels</h3>
 <p>If you want to modify tip labels of the tree, you can use <code>treeio::rename_taxa()</code> to rename a <code>phylo</code> or <code>treedata</code> object.</p>
-<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="faq.html#cb221-1"></a>tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="dt">text =</span> <span class="st">&quot;((A, B), (C, D));&quot;</span>)</span>
-<span id="cb221-2"><a href="faq.html#cb221-2"></a>d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">label =</span> LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>], </span>
-<span id="cb221-3"><a href="faq.html#cb221-3"></a>                <span class="dt">label2 =</span> <span class="kw">c</span>(<span class="st">&quot;sunflower&quot;</span>, <span class="st">&quot;tree&quot;</span>, <span class="st">&quot;snail&quot;</span>, <span class="st">&quot;mushroom&quot;</span>))</span>
-<span id="cb221-4"><a href="faq.html#cb221-4"></a></span>
-<span id="cb221-5"><a href="faq.html#cb221-5"></a><span class="co">## rename_taxa use 1st column as key and 2nd column as value by default                </span></span>
-<span id="cb221-6"><a href="faq.html#cb221-6"></a><span class="co">## rename_taxa(tree, d)</span></span>
-<span id="cb221-7"><a href="faq.html#cb221-7"></a><span class="kw">rename_taxa</span>(tree, d, label, label2) <span class="op">%&gt;%</span><span class="st"> </span>write.tree</span></code></pre></div>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="faq.html#cb225-1"></a>tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="dt">text =</span> <span class="st">&quot;((A, B), (C, D));&quot;</span>)</span>
+<span id="cb225-2"><a href="faq.html#cb225-2"></a>d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">label =</span> LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>], </span>
+<span id="cb225-3"><a href="faq.html#cb225-3"></a>                <span class="dt">label2 =</span> <span class="kw">c</span>(<span class="st">&quot;sunflower&quot;</span>, <span class="st">&quot;tree&quot;</span>, <span class="st">&quot;snail&quot;</span>, <span class="st">&quot;mushroom&quot;</span>))</span>
+<span id="cb225-4"><a href="faq.html#cb225-4"></a></span>
+<span id="cb225-5"><a href="faq.html#cb225-5"></a><span class="co">## rename_taxa use 1st column as key and 2nd column as value by default                </span></span>
+<span id="cb225-6"><a href="faq.html#cb225-6"></a><span class="co">## rename_taxa(tree, d)</span></span>
+<span id="cb225-7"><a href="faq.html#cb225-7"></a><span class="kw">rename_taxa</span>(tree, d, label, label2) <span class="op">%&gt;%</span><span class="st"> </span>write.tree</span></code></pre></div>
 <pre><code>## [1] &quot;((sunflower,tree),(snail,mushroom));&quot;</code></pre>
 <p>If the input tree object is a <code>treedata</code> instance, you can use <code>write.beast()</code> to export the tree with with associated data to a BEAST compatible NEXUS file.</p>
 <p>Renaming phylogeny tip labels seems not be a good idea, since it may introduce problems when mapping the original sequence alignment to the tree. Personally, I recommend to store the new labels as a tip annotation in <code>treedata</code> object.</p>
-<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="faq.html#cb223-1"></a>tree2 &lt;-<span class="st"> </span><span class="kw">full_join</span>(tree, d, <span class="dt">by =</span> <span class="st">&quot;label&quot;</span>)</span>
-<span id="cb223-2"><a href="faq.html#cb223-2"></a>tree2</span></code></pre></div>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="faq.html#cb227-1"></a>tree2 &lt;-<span class="st"> </span><span class="kw">full_join</span>(tree, d, <span class="dt">by =</span> <span class="st">&quot;label&quot;</span>)</span>
+<span id="cb227-2"><a href="faq.html#cb227-2"></a>tree2</span></code></pre></div>
 <pre><code>## &#39;treedata&#39; S4 object&#39;.
 ## 
 ## ...@ phylo: 
@@ -408,13 +408,13 @@ Figure A.1: <strong>Allocating more spaces for truncated tip lables.</strong> Lo
 the modified version (Figure <a href="faq.html#fig:renameTip">A.2</a>).</p>
 
 
-<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="faq.html#cb225-1"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="ot">NA</span>, <span class="dv">3</span>)</span>
-<span id="cb225-2"><a href="faq.html#cb225-2"></a>p1 &lt;-<span class="st"> </span>p <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>()</span>
-<span id="cb225-3"><a href="faq.html#cb225-3"></a></span>
-<span id="cb225-4"><a href="faq.html#cb225-4"></a><span class="co">## the following command will produce identical figure of p2</span></span>
-<span id="cb225-5"><a href="faq.html#cb225-5"></a><span class="co">## ggtree(tree2) + geom_tiplab(aes(label = label2))</span></span>
-<span id="cb225-6"><a href="faq.html#cb225-6"></a>p2 &lt;-<span class="st"> </span>p <span class="op">%&lt;+%</span><span class="st"> </span>d <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">label=</span>label2))</span>
-<span id="cb225-7"><a href="faq.html#cb225-7"></a>cowplot<span class="op">::</span><span class="kw">plot_grid</span>(p1, p2, <span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="faq.html#cb229-1"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="ot">NA</span>, <span class="dv">3</span>)</span>
+<span id="cb229-2"><a href="faq.html#cb229-2"></a>p1 &lt;-<span class="st"> </span>p <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>()</span>
+<span id="cb229-3"><a href="faq.html#cb229-3"></a></span>
+<span id="cb229-4"><a href="faq.html#cb229-4"></a><span class="co">## the following command will produce identical figure of p2</span></span>
+<span id="cb229-5"><a href="faq.html#cb229-5"></a><span class="co">## ggtree(tree2) + geom_tiplab(aes(label = label2))</span></span>
+<span id="cb229-6"><a href="faq.html#cb229-6"></a>p2 &lt;-<span class="st"> </span>p <span class="op">%&lt;+%</span><span class="st"> </span>d <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">label=</span>label2))</span>
+<span id="cb229-7"><a href="faq.html#cb229-7"></a>cowplot<span class="op">::</span><span class="kw">plot_grid</span>(p1, p2, <span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>))</span></code></pre></div>
 <div class="figure"><span id="fig:renameTip"></span>
 <img src="treedata_files/figure-html/renameTip-1.png" alt="Alternative tip labels. Original tip lables (A) and modified version (B)." width="768" />
 <p class="caption">
@@ -426,32 +426,32 @@ Figure A.2: <strong>Alternative tip labels.</strong> Original tip lables (A) and
 <h3><span class="header-section-number">A.4.3</span> Formatting (tip) labels</h3>
 <p>If you want to format labels, you need to set <code>parse=TRUE</code> in <code>geom_text</code>/<code>geom_tiplab</code> and the <code>label</code> should be string that can be parsed into expression and displayed as described in <code>?plotmath</code>.</p>
 <p>For example, the tip labels contains two parts, species name and accession number and we want to display species name in <em>italic</em>, we can use command like this to format specific tip/node label (Figure <a href="faq.html#fig:formatTip">A.3</a>A):</p>
-<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="faq.html#cb226-1"></a><span class="kw">set.seed</span>(<span class="dv">2019-06-24</span>)</span>
-<span id="cb226-2"><a href="faq.html#cb226-2"></a>tree &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)</span>
-<span id="cb226-3"><a href="faq.html#cb226-3"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb226-4"><a href="faq.html#cb226-4"></a><span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">subset=</span>node<span class="op">==</span><span class="dv">35</span>), </span>
-<span id="cb226-5"><a href="faq.html#cb226-5"></a>                  <span class="dt">label=</span><span class="st">&#39;paste(italic(&quot;species name&quot;), </span></span>
-<span id="cb226-6"><a href="faq.html#cb226-6"></a><span class="st">                              &quot; accession number&quot;)&#39;</span>, </span>
-<span id="cb226-7"><a href="faq.html#cb226-7"></a>              <span class="dt">parse=</span>T) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">6</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="faq.html#cb230-1"></a><span class="kw">set.seed</span>(<span class="dv">2019-06-24</span>)</span>
+<span id="cb230-2"><a href="faq.html#cb230-2"></a>tree &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)</span>
+<span id="cb230-3"><a href="faq.html#cb230-3"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb230-4"><a href="faq.html#cb230-4"></a><span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">subset=</span>node<span class="op">==</span><span class="dv">35</span>), </span>
+<span id="cb230-5"><a href="faq.html#cb230-5"></a>                  <span class="dt">label=</span><span class="st">&#39;paste(italic(&quot;species name&quot;), </span></span>
+<span id="cb230-6"><a href="faq.html#cb230-6"></a><span class="st">                              &quot; accession number&quot;)&#39;</span>, </span>
+<span id="cb230-7"><a href="faq.html#cb230-7"></a>              <span class="dt">parse=</span>T) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">6</span>)</span></code></pre></div>
 <p>Another example for formating all tip labels is demonstrated in Figure <a href="faq.html#fig:formatTip">A.3</a>B:</p>
-<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="faq.html#cb227-1"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb227-2"><a href="faq.html#cb227-2"></a><span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">label=</span><span class="kw">paste0</span>(<span class="st">&#39;bold(&#39;</span>, label, </span>
-<span id="cb227-3"><a href="faq.html#cb227-3"></a>                  <span class="st">&#39;)~italic(&#39;</span>, node, <span class="st">&#39;)&#39;</span>)), </span>
-<span id="cb227-4"><a href="faq.html#cb227-4"></a>            <span class="dt">parse=</span><span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="faq.html#cb231-1"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb231-2"><a href="faq.html#cb231-2"></a><span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">label=</span><span class="kw">paste0</span>(<span class="st">&#39;bold(&#39;</span>, label, </span>
+<span id="cb231-3"><a href="faq.html#cb231-3"></a>                  <span class="st">&#39;)~italic(&#39;</span>, node, <span class="st">&#39;)&#39;</span>)), </span>
+<span id="cb231-4"><a href="faq.html#cb231-4"></a>            <span class="dt">parse=</span><span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">5</span>)</span></code></pre></div>
 <p>The <code>label</code> can be provided by a <code>data.frame</code> that contains related information
 of the taxa (Figure <a href="faq.html#fig:formatTip">A.3</a>C).</p>
-<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="faq.html#cb228-1"></a>tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="dt">text =</span> <span class="st">&quot;((a,(b,c)),d);&quot;</span>)</span>
-<span id="cb228-2"><a href="faq.html#cb228-2"></a>genus &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Gorilla&quot;</span>, <span class="st">&quot;Pan&quot;</span>, <span class="st">&quot;Homo&quot;</span>, <span class="st">&quot;Pongo&quot;</span>)</span>
-<span id="cb228-3"><a href="faq.html#cb228-3"></a>species &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;gorilla&quot;</span>, <span class="st">&quot;spp.&quot;</span>, <span class="st">&quot;sapiens&quot;</span>, <span class="st">&quot;pygmaeus&quot;</span>)</span>
-<span id="cb228-4"><a href="faq.html#cb228-4"></a>geo &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Africa&quot;</span>, <span class="st">&quot;Africa&quot;</span>, <span class="st">&quot;World&quot;</span>, <span class="st">&quot;Asia&quot;</span>)</span>
-<span id="cb228-5"><a href="faq.html#cb228-5"></a>d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">label =</span> tree<span class="op">$</span>tip.label, <span class="dt">genus =</span> genus,</span>
-<span id="cb228-6"><a href="faq.html#cb228-6"></a>                <span class="dt">species =</span> species, <span class="dt">geo =</span> geo)</span>
-<span id="cb228-7"><a href="faq.html#cb228-7"></a></span>
-<span id="cb228-8"><a href="faq.html#cb228-8"></a>p3 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree) <span class="op">%&lt;+%</span><span class="st"> </span>d <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="ot">NA</span>, <span class="dv">6</span>) <span class="op">+</span></span>
-<span id="cb228-9"><a href="faq.html#cb228-9"></a><span class="st">    </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">label=</span><span class="kw">paste0</span>(<span class="st">&#39;italic(&#39;</span>, genus, </span>
-<span id="cb228-10"><a href="faq.html#cb228-10"></a>                  <span class="st">&#39;)~bolditalic(&#39;</span>, species, <span class="st">&#39;)~&#39;</span>, geo)), </span>
-<span id="cb228-11"><a href="faq.html#cb228-11"></a>                <span class="dt">parse=</span>T)</span>
-<span id="cb228-12"><a href="faq.html#cb228-12"></a>cowplot<span class="op">::</span><span class="kw">plot_grid</span>(p1, p2, p3, <span class="dt">ncol=</span><span class="dv">3</span>, <span class="dt">labels =</span> LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>])                </span></code></pre></div>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="faq.html#cb232-1"></a>tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="dt">text =</span> <span class="st">&quot;((a,(b,c)),d);&quot;</span>)</span>
+<span id="cb232-2"><a href="faq.html#cb232-2"></a>genus &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Gorilla&quot;</span>, <span class="st">&quot;Pan&quot;</span>, <span class="st">&quot;Homo&quot;</span>, <span class="st">&quot;Pongo&quot;</span>)</span>
+<span id="cb232-3"><a href="faq.html#cb232-3"></a>species &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;gorilla&quot;</span>, <span class="st">&quot;spp.&quot;</span>, <span class="st">&quot;sapiens&quot;</span>, <span class="st">&quot;pygmaeus&quot;</span>)</span>
+<span id="cb232-4"><a href="faq.html#cb232-4"></a>geo &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Africa&quot;</span>, <span class="st">&quot;Africa&quot;</span>, <span class="st">&quot;World&quot;</span>, <span class="st">&quot;Asia&quot;</span>)</span>
+<span id="cb232-5"><a href="faq.html#cb232-5"></a>d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">label =</span> tree<span class="op">$</span>tip.label, <span class="dt">genus =</span> genus,</span>
+<span id="cb232-6"><a href="faq.html#cb232-6"></a>                <span class="dt">species =</span> species, <span class="dt">geo =</span> geo)</span>
+<span id="cb232-7"><a href="faq.html#cb232-7"></a></span>
+<span id="cb232-8"><a href="faq.html#cb232-8"></a>p3 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree) <span class="op">%&lt;+%</span><span class="st"> </span>d <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="ot">NA</span>, <span class="dv">6</span>) <span class="op">+</span></span>
+<span id="cb232-9"><a href="faq.html#cb232-9"></a><span class="st">    </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">label=</span><span class="kw">paste0</span>(<span class="st">&#39;italic(&#39;</span>, genus, </span>
+<span id="cb232-10"><a href="faq.html#cb232-10"></a>                  <span class="st">&#39;)~bolditalic(&#39;</span>, species, <span class="st">&#39;)~&#39;</span>, geo)), </span>
+<span id="cb232-11"><a href="faq.html#cb232-11"></a>                <span class="dt">parse=</span>T)</span>
+<span id="cb232-12"><a href="faq.html#cb232-12"></a>cowplot<span class="op">::</span><span class="kw">plot_grid</span>(p1, p2, p3, <span class="dt">ncol=</span><span class="dv">3</span>, <span class="dt">labels =</span> LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>])                </span></code></pre></div>
 
 
 <div class="figure"><span id="fig:formatTip"></span>
@@ -468,12 +468,12 @@ Figure A.3: <strong>Formatting labels.</strong> Formatting specific tip/node lab
 <p>For example:</p>
 
 
-<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="faq.html#cb229-1"></a><span class="kw">library</span>(ggrepel)</span>
-<span id="cb229-2"><a href="faq.html#cb229-2"></a><span class="kw">library</span>(ggtree)</span>
-<span id="cb229-3"><a href="faq.html#cb229-3"></a>raxml_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/RAxML&quot;</span>, <span class="st">&quot;RAxML_bipartitionsBranchLabels.H3&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
-<span id="cb229-4"><a href="faq.html#cb229-4"></a>raxml &lt;-<span class="st"> </span><span class="kw">read.raxml</span>(raxml_file)</span>
-<span id="cb229-5"><a href="faq.html#cb229-5"></a><span class="kw">ggtree</span>(raxml) <span class="op">+</span><span class="st"> </span><span class="kw">geom_label_repel</span>(<span class="kw">aes</span>(<span class="dt">label=</span>bootstrap, <span class="dt">fill=</span>bootstrap)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb229-6"><a href="faq.html#cb229-6"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(.<span class="dv">1</span>, <span class="fl">.8</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">scale_fill_viridis_c</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="faq.html#cb233-1"></a><span class="kw">library</span>(ggrepel)</span>
+<span id="cb233-2"><a href="faq.html#cb233-2"></a><span class="kw">library</span>(ggtree)</span>
+<span id="cb233-3"><a href="faq.html#cb233-3"></a>raxml_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/RAxML&quot;</span>, <span class="st">&quot;RAxML_bipartitionsBranchLabels.H3&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
+<span id="cb233-4"><a href="faq.html#cb233-4"></a>raxml &lt;-<span class="st"> </span><span class="kw">read.raxml</span>(raxml_file)</span>
+<span id="cb233-5"><a href="faq.html#cb233-5"></a><span class="kw">ggtree</span>(raxml) <span class="op">+</span><span class="st"> </span><span class="kw">geom_label_repel</span>(<span class="kw">aes</span>(<span class="dt">label=</span>bootstrap, <span class="dt">fill=</span>bootstrap)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb233-6"><a href="faq.html#cb233-6"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(.<span class="dv">1</span>, <span class="fl">.8</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">scale_fill_viridis_c</span>()</span></code></pre></div>
 <div class="figure"><span id="fig:repelTip"></span>
 <img src="treedata_files/figure-html/repelTip-1.png" alt="Repel labels. Repel labels to avoid overlapping." width="1152" />
 <p class="caption">
@@ -485,29 +485,29 @@ Figure A.4: <strong>Repel labels.</strong> Repel labels to avoid overlapping.
 <h3><span class="header-section-number">A.4.5</span> Bootstrap values from newick format</h3>
 <p>It’s quite command to store <code>bootstrap</code> value as node label in <code>newick</code> format. Visualizing node label is easy using <code>geom_text2(aes(subset = !isTip, label=label))</code>.</p>
 <p>If you want to only display a subset of <code>bootstrap</code> (e.g. bootstrap &gt; 80), you can’t simply using <code>geom_text2(subset= (label &gt; 80), label=label)</code> since <code>label</code> is a character vector, which contains node label (bootstrap value) and tip label (taxa name). If we use <code>geom_text2(subset=(as.numeric(label) &gt; 80), label=label)</code>, it will also fail since <code>NAs</code> were introduced by coercion. We need to convert <code>NAs</code> to logical <code>FALSE</code>, this can be done by the following code:</p>
-<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="faq.html#cb230-1"></a>nwk &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/RAxML&quot;</span>,<span class="st">&quot;RAxML_bipartitions.H3&quot;</span>, <span class="dt">package=</span><span class="st">&#39;ggtree&#39;</span>)</span>
-<span id="cb230-2"><a href="faq.html#cb230-2"></a>tr &lt;-<span class="st"> </span><span class="kw">read.tree</span>(nwk)</span>
-<span id="cb230-3"><a href="faq.html#cb230-3"></a><span class="kw">ggtree</span>(tr) <span class="op">+</span><span class="st"> </span><span class="kw">geom_text2</span>(<span class="kw">aes</span>(<span class="dt">label=</span>label, <span class="dt">subset =</span> <span class="op">!</span><span class="kw">is.na</span>(<span class="kw">as.numeric</span>(label)) <span class="op">&amp;</span><span class="st"> </span><span class="kw">as.numeric</span>(label) <span class="op">&gt;</span><span class="st"> </span><span class="dv">80</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="faq.html#cb234-1"></a>nwk &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/RAxML&quot;</span>,<span class="st">&quot;RAxML_bipartitions.H3&quot;</span>, <span class="dt">package=</span><span class="st">&#39;ggtree&#39;</span>)</span>
+<span id="cb234-2"><a href="faq.html#cb234-2"></a>tr &lt;-<span class="st"> </span><span class="kw">read.tree</span>(nwk)</span>
+<span id="cb234-3"><a href="faq.html#cb234-3"></a><span class="kw">ggtree</span>(tr) <span class="op">+</span><span class="st"> </span><span class="kw">geom_text2</span>(<span class="kw">aes</span>(<span class="dt">label=</span>label, <span class="dt">subset =</span> <span class="op">!</span><span class="kw">is.na</span>(<span class="kw">as.numeric</span>(label)) <span class="op">&amp;</span><span class="st"> </span><span class="kw">as.numeric</span>(label) <span class="op">&gt;</span><span class="st"> </span><span class="dv">80</span>))</span></code></pre></div>
 <p>Another solution is converting the bootstrap value outside <code>ggtree</code>.</p>
-<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="faq.html#cb231-1"></a>q &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tr)</span>
-<span id="cb231-2"><a href="faq.html#cb231-2"></a>d &lt;-<span class="st"> </span>q<span class="op">$</span>data</span>
-<span id="cb231-3"><a href="faq.html#cb231-3"></a>d &lt;-<span class="st"> </span>d[<span class="op">!</span>d<span class="op">$</span>isTip,]</span>
-<span id="cb231-4"><a href="faq.html#cb231-4"></a>d<span class="op">$</span>label &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(d<span class="op">$</span>label)</span>
-<span id="cb231-5"><a href="faq.html#cb231-5"></a>d &lt;-<span class="st"> </span>d[d<span class="op">$</span>label <span class="op">&gt;</span><span class="st"> </span><span class="dv">80</span>,]</span>
-<span id="cb231-6"><a href="faq.html#cb231-6"></a></span>
-<span id="cb231-7"><a href="faq.html#cb231-7"></a>q <span class="op">+</span><span class="st"> </span><span class="kw">geom_text</span>(<span class="dt">data=</span>d, <span class="kw">aes</span>(<span class="dt">label=</span>label))</span></code></pre></div>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="faq.html#cb235-1"></a>q &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tr)</span>
+<span id="cb235-2"><a href="faq.html#cb235-2"></a>d &lt;-<span class="st"> </span>q<span class="op">$</span>data</span>
+<span id="cb235-3"><a href="faq.html#cb235-3"></a>d &lt;-<span class="st"> </span>d[<span class="op">!</span>d<span class="op">$</span>isTip,]</span>
+<span id="cb235-4"><a href="faq.html#cb235-4"></a>d<span class="op">$</span>label &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(d<span class="op">$</span>label)</span>
+<span id="cb235-5"><a href="faq.html#cb235-5"></a>d &lt;-<span class="st"> </span>d[d<span class="op">$</span>label <span class="op">&gt;</span><span class="st"> </span><span class="dv">80</span>,]</span>
+<span id="cb235-6"><a href="faq.html#cb235-6"></a></span>
+<span id="cb235-7"><a href="faq.html#cb235-7"></a>q <span class="op">+</span><span class="st"> </span><span class="kw">geom_text</span>(<span class="dt">data=</span>d, <span class="kw">aes</span>(<span class="dt">label=</span>label))</span></code></pre></div>
 </div>
 </div>
 <div id="faq-under-the-tree" class="section level2">
 <h2><span class="header-section-number">A.5</span> Plot something behind the phylogeny</h2>
 <p>The <code>ggtree</code> function plot the tree structure and normally we add layers on top of the tree.</p>
-<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="faq.html#cb232-1"></a><span class="kw">set.seed</span>(<span class="dv">1982</span>)</span>
-<span id="cb232-2"><a href="faq.html#cb232-2"></a>x &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">5</span>)</span>
-<span id="cb232-3"><a href="faq.html#cb232-3"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(x) <span class="op">+</span><span class="st"> </span><span class="kw">geom_hilight</span>(<span class="dv">7</span>, <span class="dt">alpha=</span><span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="faq.html#cb236-1"></a><span class="kw">set.seed</span>(<span class="dv">1982</span>)</span>
+<span id="cb236-2"><a href="faq.html#cb236-2"></a>x &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">5</span>)</span>
+<span id="cb236-3"><a href="faq.html#cb236-3"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(x) <span class="op">+</span><span class="st"> </span><span class="kw">geom_hilight</span>(<span class="dv">7</span>, <span class="dt">alpha=</span><span class="dv">1</span>)</span></code></pre></div>
 <p>If we want the layers behind the tree layer, we can reverse the order of all the layers.</p>
-<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="faq.html#cb233-1"></a>p<span class="op">$</span>layers &lt;-<span class="st"> </span><span class="kw">rev</span>(p<span class="op">$</span>layers)</span></code></pre></div>
+<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="faq.html#cb237-1"></a>p<span class="op">$</span>layers &lt;-<span class="st"> </span><span class="kw">rev</span>(p<span class="op">$</span>layers)</span></code></pre></div>
 <p>Another solution is to use <code>ggplot()</code> instead of <code>ggtree()</code> and <code>+ geom_tree()</code> to add the layer of tree structure at the correct position of layer stack.</p>
-<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="faq.html#cb234-1"></a><span class="kw">ggplot</span>(x) <span class="op">+</span><span class="st"> </span><span class="kw">geom_hilight</span>(<span class="dv">7</span>, <span class="dt">alpha=</span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tree</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree</span>()     </span></code></pre></div>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="faq.html#cb238-1"></a><span class="kw">ggplot</span>(x) <span class="op">+</span><span class="st"> </span><span class="kw">geom_hilight</span>(<span class="dv">7</span>, <span class="dt">alpha=</span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tree</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree</span>()     </span></code></pre></div>
 
 
 <div class="figure"><span id="fig:treeLayerOrder"></span>
@@ -522,13 +522,13 @@ Figure A.5: <strong>Add layers behind tree structure.</strong> A layer on top of
 <p>This question was asked several times<a href="references.html#fn22" class="footnote-ref" id="fnref22"><sup>22</sup></a>, and a published example can be found in <a href="https://www.ncbi.nlm.nih.gov/pubmed/27605062" class="uri">https://www.ncbi.nlm.nih.gov/pubmed/27605062</a>. Increasing percentage of center white space in circular tree is useful to avoid overlapping tip labels and to increase readibility of the tree by moving all nodes and branches further out. This can be done simply by using <code>+xlim()</code> to allocate more space, just like in Figure <a href="chapter4.html#fig:layout2">4.3</a>G, or assign a long root branch that is similar to the “Root Length” parameter in FigTree.</p>
 
 
-<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="faq.html#cb235-1"></a><span class="kw">set.seed</span>(<span class="dv">1982</span>)</span>
-<span id="cb235-2"><a href="faq.html#cb235-2"></a>tree &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)</span>
-<span id="cb235-3"><a href="faq.html#cb235-3"></a><span class="kw">plot_grid</span>(</span>
-<span id="cb235-4"><a href="faq.html#cb235-4"></a>  <span class="kw">ggtree</span>(tree, <span class="dt">layout=</span><span class="st">&#39;circular&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="op">-</span><span class="dv">10</span>, <span class="ot">NA</span>),</span>
-<span id="cb235-5"><a href="faq.html#cb235-5"></a>  <span class="kw">ggtree</span>(tree, <span class="dt">layout=</span><span class="st">&#39;circular&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_rootedge</span>(<span class="dv">5</span>),</span>
-<span id="cb235-6"><a href="faq.html#cb235-6"></a>  <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="dt">ncol=</span><span class="dv">2</span>)</span>
-<span id="cb235-7"><a href="faq.html#cb235-7"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="faq.html#cb239-1"></a><span class="kw">set.seed</span>(<span class="dv">1982</span>)</span>
+<span id="cb239-2"><a href="faq.html#cb239-2"></a>tree &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)</span>
+<span id="cb239-3"><a href="faq.html#cb239-3"></a><span class="kw">plot_grid</span>(</span>
+<span id="cb239-4"><a href="faq.html#cb239-4"></a>  <span class="kw">ggtree</span>(tree, <span class="dt">layout=</span><span class="st">&#39;circular&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="op">-</span><span class="dv">10</span>, <span class="ot">NA</span>),</span>
+<span id="cb239-5"><a href="faq.html#cb239-5"></a>  <span class="kw">ggtree</span>(tree, <span class="dt">layout=</span><span class="st">&#39;circular&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_rootedge</span>(<span class="dv">5</span>),</span>
+<span id="cb239-6"><a href="faq.html#cb239-6"></a>  <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="dt">ncol=</span><span class="dv">2</span>)</span>
+<span id="cb239-7"><a href="faq.html#cb239-7"></a>)</span></code></pre></div>
 <div class="figure"><span id="fig:circular-space"></span>
 <img src="treedata_files/figure-html/circular-space-1.png" alt="Enlarge center space in circular tree. Allocate more space by xlim (A) or long root branch (B)." width="768" />
 <p class="caption">
@@ -541,10 +541,10 @@ Figure A.6: <strong>Enlarge center space in circular tree.</strong> Allocate mor
 <p>The <code>revts</code> will reverse the x-axis by setting the most recent tip to 0. We can use <code>scale_x_continuous(labels=abs)</code> to label x-axis using absolute values.</p>
 
 
-<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="faq.html#cb236-1"></a>tr &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">10</span>)</span>
-<span id="cb236-2"><a href="faq.html#cb236-2"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tr) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>()</span>
-<span id="cb236-3"><a href="faq.html#cb236-3"></a>p2 &lt;-<span class="st"> </span><span class="kw">revts</span>(p) <span class="op">+</span><span class="st"> </span><span class="kw">scale_x_continuous</span>(<span class="dt">labels=</span>abs)</span>
-<span id="cb236-4"><a href="faq.html#cb236-4"></a>cowplot<span class="op">::</span><span class="kw">plot_grid</span>(p, p2, <span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="faq.html#cb240-1"></a>tr &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">10</span>)</span>
+<span id="cb240-2"><a href="faq.html#cb240-2"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tr) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>()</span>
+<span id="cb240-3"><a href="faq.html#cb240-3"></a>p2 &lt;-<span class="st"> </span><span class="kw">revts</span>(p) <span class="op">+</span><span class="st"> </span><span class="kw">scale_x_continuous</span>(<span class="dt">labels=</span>abs)</span>
+<span id="cb240-4"><a href="faq.html#cb240-4"></a>cowplot<span class="op">::</span><span class="kw">plot_grid</span>(p, p2, <span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>))</span></code></pre></div>
 <div class="figure"><span id="fig:distantTip"></span>
 <img src="treedata_files/figure-html/distantTip-1.png" alt="Origin of the time scale. Forward: from the root to tips (A). Backward: from the most distant tip to the root (B)." width="672" />
 <p class="caption">
