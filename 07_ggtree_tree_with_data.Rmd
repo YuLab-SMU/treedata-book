@@ -11,59 +11,56 @@ levels. The `r Biocpkg("treeio")` package implements `full_join` methods to
 The `r CRANpkg("tidytree")` package supports [linking tree data to phylogeny
 using tidyverse verbs](https://cran.r-project.org/web/packages/tidytree/vignette/tiytree.html).
 `r Biocpkg("ggtree")` supports mapping external data to phylogeny for
-visualization  and annotation on the fly.
+visualization  and annotation on the fly. Although the feature of linking external data is overlapping among these packages, they have different application scopes. For example, in addition to the `treedata` object, `r Biocpkg("ggtree")` also supports several other tree objects (see [chapter 10](#chapter10)), including `phylo4d`, `phyloseq` and `obkData` that were designed to contain domain specific data. The design of these objects did not consider to support linking external data to the object (it can not be done at tree object level). We can visualize trees from these objects using `r Biocpkg("ggtree")` and link external data at visualization level [@yu_two_2018].
 
+`r Biocpkg("ggtree")` provides twwo general methods for mapping and visualizing associated external data on phylogenies. [Method 1](#attach-operator) allows external data to be mapped on the tree structure and used as visual characteristic in tree and data visualization. [Method 2](#facet_plot) plots the data with the tree side by side using different geometric functions after reordering the data based on the tree structure. These two methods integrate data with phylogeny for further exploration and comparison in the evolutionary biology context. 
 
-## The `%<+%` operator {#attach-operator}
+## Mapping data to the tree structure {#attach-operator}
 
-Suppose we have the following data that associate with the tree and would like to attach the data in the tree.
+In `r Biocpkg("ggtree")`, we implemented an operator, `%<+%`, to attach annotation data to a `ggtree` graphic object. Any data that contains a column of "node" or first column of taxa labels can be integrated using the `%<+%` operator. Multiple datasets can be attached progressively. When the data are attached, all the information stored in the data serve as numerical/categorical node attributes and can be directly used to visualize the tree by scaling the attributes as different colors or line sizes, label the tree using the original values of the attributes or parsing them as [math expression](#faq-formatting-label), [emoji](#phylomoji) or [silhouette image](#ggimage). The following example uses the `%<+%` operator to integrat taxon (tip\_data.csv) and internal node (inode\_data.csv) information and map the data to different colors or shapes of symbolic points and labels (Figure \@ref(fig:attacher)). The tip data contains `imageURL` that links to online figures of the species, which can be parsed and used as tip labels in `r Biocpkg("ggtree")` (see [chapter 8](#chapter8)). 
 
-```{r}
-nwk <- system.file("extdata", "sample.nwk", package="treeio")
-tree <- read.tree(nwk)
-p <- ggtree(tree)
+(ref:attacherscap) Example of attaching multiple datasets.
 
-dd <- data.frame(taxa = LETTERS[1:13],
-                 place = c(rep("GZ", 5), rep("HK", 3), rep("CZ", 4), NA),
-                 value = round(abs(rnorm(13, mean=70, sd=10)), digits=1))
-## you don't need to order the data
-## data was reshuffled just for demonstration
-dd <- dd[sample(1:13, 13), ]
-row.names(dd) <- NULL
+(ref:attachercap) **Example of attaching multiple datasets**. 
+
+```{r attacher, fig.width=9.5, fig.height=6.2, warning=FALSE, message=FALSE, fig.cap="(ref:attachercap)"}
+library(ggimage)
+library(ggtree)
+url <- paste0("https://raw.githubusercontent.com/TreeViz/",
+            "metastyle/master/design/viz_targets_exercise/")
+
+x <- read.tree(paste0(url, "tree_boots.nwk"))
+info <- read.csv(paste0(url, "tip_data.csv"))
+
+p <- ggtree(x) %<+% info + xlim(-.1, 4)
+p2 <- p + geom_tiplab(offset = .6, hjust = .5) +
+    geom_tippoint(aes(shape = trophic_habit, color = trophic_habit, size = mass_in_kg)) + 
+    theme(legend.position = "right") + scale_size_continuous(range = c(3, 10))
+
+d2 <- read.csv(paste0(url, "inode_data.csv"))
+p2 %<+% d2 + geom_label(aes(label = vernacularName.y, fill = posterior)) + 
+    scale_fill_gradientn(colors = RColorBrewer::brewer.pal(3, "YlGnBu"))
 ```
 
-```{r eval=FALSE}
-print(dd)
-```
+Although the data integrated by the `%<+%` operator in `r Biocpkg("ggtree")` is for tree visualization, the data attached to the `ggtree` graphic object can be converted to `treedata` object that contains the tree and the attached data (see [session 7.5](#ggtree_object)).
 
-```{r echo=FALSE, results='asis'}
-knitr::kable(dd)
-```
 
-We can imaging that the _place_ column stores the location that we isolated the
-species and _value_ column stores numerical values (*e.g.* bootstrap values).
 
-We have demonstrated using the operator, `%<%`, to update a tree view with a new
-tree. Here, we will introduce another operator, `%<+%`, that attaches annotation
-data to a tree view. The only requirement of the input data is that its first
-column should be matched with the node/tip labels of the tree.
 
-After attaching the annotation data to the tree by `%<+%`, all the columns in
-the data are visible to `r Biocpkg("ggtree")`. As an example, here we attach the
-above annotation data to the tree view, `p`, and add a layer that showing the
-tip labels and colored them by the isolation site stored in _place_ column.
+## Alignning graph to the tree based on tree structure {#facet_plot}
 
-```{r fig.width=6, fig.height=5, warning=FALSE, fig.align="center"}
-p <- p %<+% dd + geom_tiplab(aes(color=place)) +
-       geom_tippoint(aes(size=value, shape=place, color=place), alpha=0.25)
-p + theme(legend.position="right")
-```
+For associating phylogenetic tree with different type of plot produced by user's data, `ggtree` provides `facet_plot` function which accepts an input `data.frame` and a `geom` function to draw the input data. The data will be displayed in an additional panel of the plot.
 
-Once the data was attached, it is always attached. So that we can add other layers to display these information easily.
+```{r warning=F, fig.width=10, fig.height=6}
+tr <- rtree(30)
 
-```{r fig.width=6, fig.height=5, warning=FALSE, fig.align="center"}
-p + geom_text(aes(color=place, label=place), hjust=1, vjust=-0.4, size=3) +
-    geom_text(aes(color=place, label=value), hjust=1, vjust=1.4, size=3)
+d1 <- data.frame(id=tr$tip.label, val=rnorm(30, sd=3))
+p <- ggtree(tr)
+
+p2 <- facet_plot(p, panel="dot", data=d1, geom=geom_point, aes(x=val), color='firebrick')
+d2 <- data.frame(id=tr$tip.label, value=abs(rnorm(30, mean=100, sd=50)))
+
+facet_plot(p2, panel='bar', data=d2, geom=geom_segment, aes(x=0, xend=value, y=y, yend=y), size=3, color='steelblue') + theme_tree2()
 ```
 
 
@@ -156,21 +153,7 @@ msaplot(ggtree(beast_tree), fasta, window=c(150, 200)) + coord_polar(theta='y')
 ```
 
 
-## Plot tree with associated data
-
-For associating phylogenetic tree with different type of plot produced by user's data, `ggtree` provides `facet_plot` function which accepts an input `data.frame` and a `geom` function to draw the input data. The data will be displayed in an additional panel of the plot.
-
-```{r warning=F, fig.width=10, fig.height=6}
-tr <- rtree(30)
-
-d1 <- data.frame(id=tr$tip.label, val=rnorm(30, sd=3))
-p <- ggtree(tr)
-
-p2 <- facet_plot(p, panel="dot", data=d1, geom=geom_point, aes(x=val), color='firebrick')
-d2 <- data.frame(id=tr$tip.label, value=abs(rnorm(30, mean=100, sd=50)))
-
-facet_plot(p2, panel='bar', data=d2, geom=geom_segment, aes(x=0, xend=value, y=y, yend=y), size=3, color='steelblue') + theme_tree2()
-```
+## The `ggtree` object {#ggtree_object}
 
 
 <!--
