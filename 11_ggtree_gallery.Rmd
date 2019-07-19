@@ -1,1 +1,134 @@
 # Gallery of reproducible examples {#chapter11}
+
+
+
+
+## Visualizing pairwise nucleotide sequence distance with phylogenetic tree
+
+
+This example reproduces Fig. 1 of [@chen_ancient_2017]. It extracts accession numbers from tip labels of the HPV58 tree and calculates pairwise nucleotide sequence distances. The distance matrix is visualized as dot and line plots. This example demonstrates the abilities of adding multiple layers to a specific panel. As illustrated on Figure \@ref(fig:jv2017), the `facet_plot` function displays sequence distances as a dot plot and then adds a layer of line plot to the same panel, *i.e.* Sequence Distance. In addition, the tree in `facet_plot` can be fully annotated with multiple layers (clade labels, bootstrap support values, *etc*).
+
+```{r message=FALSE}
+
+library(tibble)
+library(tidyr)
+library(Biostrings)
+library(treeio)
+library(ggplot2)
+library(ggtree)
+
+hpvtree <- paste0("https://raw.githubusercontent.com/GuangchuangYu/",
+                  "plotting_tree_with_data/master/HPV58.tree")
+tree <- read.tree(hpvtree)
+
+clade <- c(A3 = 92, A1 = 94, A2 = 108, B1 = 156, B2 = 159, C = 163, D1 = 173, D2 = 176)
+tree <- groupClade(tree, clade)
+cols <- c(A1 = "#EC762F", A2 = "#CA6629", A3 = "#894418", B1 = "#0923FA", 
+         B2 = "#020D87", C = "#000000", D1 = "#9ACD32",D2 = "#08630A")
+
+## visualize the tree with tip labels and tree scale
+p <- ggtree(tree, aes(color = group), ladderize = FALSE) %>% rotate(rootnode(tree)) + 
+    geom_tiplab(aes(label = paste0("italic('", label, "')")), parse = TRUE, size = 2.5) +
+    geom_treescale(x = 0, y = 1, width = 0.002) + 
+    scale_color_manual(values = c(cols, "black"), na.value = "black", name = "Lineage",
+                      breaks = c("A1", "A2", "A3", "B1", "B2", "C", "D1", "D2")) +
+    guides(color = guide_legend(override.aes = list(size = 5, shape = 15))) +
+    theme_tree2(legend.position = c(.1, .88))
+## Optional
+## add labels for monophyletic (A, C and D) and paraphyletic (B) groups  
+p <- p + geom_cladelabel(94, "italic(A1)", color = cols[["A1"]], offset = .003, align = TRUE, 
+                    offset.text = -.001, barsize = 1.2, extend = c(0, 0.5), parse = TRUE) +
+    geom_cladelabel(108, "italic(A2)", color = cols[["A2"]], offset = .003, align = TRUE, 
+                   offset.text = -.001, barsize = 1.2, extend = 0.5, parse = TRUE) +
+    geom_cladelabel(131, "italic(A3)", color = cols[["A3"]], offset = .003, align = TRUE, 
+                   offset.text = -.001, barsize = 1.2, extend = c(0.5, 0), parse = TRUE) +
+    geom_cladelabel(92, "italic(A)", color = "darkgrey", offset = .00315, align = TRUE, 
+                   offset.text = 0.0002, barsize = 2, fontsize = 5, parse = TRUE) +
+    geom_cladelabel(156, "italic(B1)", color = cols[["B1"]], offset = .003, align = TRUE, 
+                   offset.text = -.001, barsize = 1.2, extend = c(0, 0.5), parse = TRUE) +
+    geom_cladelabel(159, "italic(B2)", color = cols[["B2"]], offset = .003, align = TRUE, 
+                   offset.text = -.001, barsize = 1.2, extend = c(0.5, 0), parse = TRUE) +
+    geom_strip(65, 71, "italic(B)", color = "darkgrey", offset = 0.00315, align = TRUE, 
+                   offset.text = 0.0002, barsize = 2, fontsize = 5, parse = TRUE) + 
+    geom_cladelabel(163, "italic(C)", color = "darkgrey", offset = .0031, align = TRUE, 
+                   offset.text = 0.0002, barsize = 3.2, fontsize = 5, parse = TRUE) +
+    geom_cladelabel(173, "italic(D1)", color = cols[["D1"]], offset = .003, align = TRUE, 
+                   offset.text = -.001, barsize = 1.2, extend = c(0, 0.5), parse = TRUE) +
+    geom_cladelabel(176, "italic(D2)", color = cols[["D2"]], offset = .003, align = TRUE, 
+                   offset.text = -.001, barsize = 1.2, extend = c(0.5, 0), parse = TRUE) +
+    geom_cladelabel(172, "italic(D)", color = "darkgrey", offset = .00315, align = TRUE, 
+                   offset.text = 0.0002, barsize = 2, fontsize = 5, parse = TRUE) 
+## Optional
+## display support values
+p <- p + geom_nodelab(aes(subset = (node == 92), label = "*"), 
+                    color = "black", nudge_x = -.001, nudge_y = 1) +
+    geom_nodelab(aes(subset = (node == 155), label = "*"), 
+                    color = "black", nudge_x = -.0003, nudge_y = -1) +
+    geom_nodelab(aes(subset = (node == 158), label = "95/92/1.00"), 
+                    color = "black", nudge_x = -0.0001, nudge_y = -1, hjust = 1) +
+    geom_nodelab(aes(subset = (node == 162), label = "98/97/1.00"), 
+                    color = "black", nudge_x = -0.0001, nudge_y = -1, hjust = 1) +
+    geom_nodelab(aes(subset = (node == 172), label = "*"), 
+                    color = "black", nudge_x = -.0003, nudge_y = -1) 
+```
+
+```{r eval=F}
+## extract accession numbers from tip labels
+tl <- tree$tip.label
+acc <- sub("\\w+\\|", "", tl)
+names(tl) <- acc
+
+## read sequences from GenBank directly into R
+## and convert the object to DNAStringSet
+tipseq <- ape::read.GenBank(acc) %>% as.character %>% 
+    lapply(., paste0, collapse = "") %>% unlist %>% 
+    DNAStringSet
+## align the sequences using muscle
+tipseq_aln <- muscle::muscle(tipseq)
+tipseq_aln <- DNAStringSet(tipseq_aln)
+```
+
+```{r echo=F}
+## extract accession numbers from tip labels
+tl <- tree$tip.label
+acc <- sub("\\w+\\|", "", tl)
+names(tl) <- acc
+
+## writeXStringSet(tipseq_aln, file = "data/HPV58_aln.fas")
+tipseq_aln <- readDNAStringSet("data/HPV58_aln.fas")
+```
+
+
+(ref:jv2017scap) Phylogeny of HPV58 complete genomes with dot and line plots of pairwise nucleotide sequence distances.
+
+(ref:jv2017cap) **Phylogeny of HPV58 complete genomes with dot and line plots of pairwise nucleotide sequence distances**. 
+
+
+```{r jv2017, fig.width=12, fig.height=12, , fig.cap="(ref:jv2017cap)", fig.scap="(ref:jv2017scap)", warning=FALSE}
+## calculate pairwise hamming distances among sequences
+tipseq_dist <- stringDist(tipseq_aln, method = "hamming")
+
+## calculate percentage of differences
+tipseq_d <- as.matrix(tipseq_dist) / width(tipseq_aln[1]) * 100
+
+## convert the matrix to tidy data frame for facet_plot
+dd <- as_data_frame(tipseq_d)
+dd$seq1 <- rownames(tipseq_d)
+td <- gather(dd,seq2, dist, -seq1)
+td$seq1 <- tl[td$seq1]
+td$seq2 <- tl[td$seq2]
+
+g <- p$data$group
+names(g) <- p$data$label
+td$clade <- g[td$seq2]
+
+## visualize the sequence differences using dot plot and line plot
+## and align the sequence difference plot to the tree using facet_plot
+p2 <- facet_plot(p, panel = "Sequence Distance", data = td, geom_point, 
+            mapping = aes(x = dist, color = clade, shape = clade), alpha = .6) %>%
+    facet_plot(panel = "Sequence Distance", data = td, geom = geom_path, 
+            mapping=aes(x = dist, group = seq2, color = clade), alpha = .6) + 
+    scale_shape_manual(values = 1:8, guide = FALSE) 
+
+print(p2)
+```
