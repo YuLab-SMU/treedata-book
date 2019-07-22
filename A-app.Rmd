@@ -346,50 +346,6 @@ It's hard and maybe impossible to modify plot details using `r CRANpkg("ggplot2"
 
 
 
-<!--
-# Figures and Tables
-
-#``` r treeio, echo=F, message=FALSE}
-library(kableExtra)
-ff <- matrix(c(
-  'read.beast',  "parsing output of BEAST",
-  "read.codeml", "parsing output of CodeML (rst and mlc files)",
-  "read.codeml_mlc", "parsing mlc file (output of CodeML)",
-  "read.hyphy", "parsing output of HYPHY",
-  "read.jplace", "parsing jplace file including output of EPA and pplacer",
-  "read.nhx", "parsing NHX file including output of PHYLODOG and RevBayes",
-  "read.paml_rst", "parsing rst file (output of BaseML or CodeML)",
-  "read.phylip", "parsing phylip file",
-  "read.phyloT", "parsing output of phyloT (http://phylot.biobyte.de/)",
-  "read.r8s", "parsing output of r8s",
-  "read.raxml", "parsing output of RAxML",
-  "Nnode", "get number of internal nodes",
-  "Nnode2", "get number of all nodes (including internal and external nodes)",
-  "Ntip", "get number of all tips (external nodes)",
-  "as.phylo", "convert tree object to phylo object",
-  "as.treedata", "convert tree object to treedata object",
-  "drop.tip", "remove tips in a tree",
-  "get.fields", "get available tree attributes stored in tree object",
-  "get.placements", "get placement result of jplace object",
-  "get.subs", "get substitution by comparing parent node and child node",
-  "get.tipseq", "get tip sequences",
-  "get.treetext", "get newick text of a tree object",
-  "groupClade", "add clade grouping information to tree object",
-  "groupOTU", "grouping OTUs by tracing back to most recent commond ancestor",
-  "merge_tree", "merging tree objects into one",
-  "write.jpace", "write tree with associated annotation data to a jplace file"
-  ), ncol=2, byrow=TRUE)
-ff <- as.data.frame(ff)
-colnames(ff) <- c("Function", "Description")
-knitr::kable(ff, caption = "Functions defined in treeio.", booktabs = T) #%>%
-  #kable_styling(latex_options = c("striped", "hold_position"), full_width = T)
-```
-
-
--->
-
-
-
 
 # Image processing using magick package {#ggimage-tips}
 
@@ -493,6 +449,104 @@ Then you can use ggtree and other R packages in Jupyter notebook. Here is a scre
 ## htmltools::includeHTML("img/ggtree_jupyter.html")
 knitr::include_graphics("img/Screenshot_2019-06-24_ggtree-jupyter.png")
 ```
+
+
+
+
+# Figures and Tables
+
+
+
+```{r facet-geom, echo=FALSE,results='asis'}
+
+x <- "ggalt\tgeom_dumbbell\tcreates dumbbell charts\n
+ggbio\tgeom_alignment\tshows interval data as alignment\n
+ggfittext\tgeom_fit_text\tshrinks, grows or wraps text to fit inside a defined rectangular area\n
+gggenes\tgeom_gene_arrow\tdraws genes as arrows\n
+ggimage\tgeom_image\tvisualizes image files\n
+ggimage\tgeom_phylopic\tqueries image files from phylopic database and visualizes them\n
+ggplot2\tgeom_hline\tadds horizontal lines\n
+ggplot2\tgeom_jitter\tadds a small amount of random variation to the location of each point\n
+ggplot2\tgeom_label\tdraws a rectangle behind the text\n
+ggplot2\tgeom_point\tcreats scatterplots\n
+ggplot2\tgeom_raster\ta high performance special case for all the tiles are the same size\n
+ggplot2\tgeom_rect\tdraws rectangle by using the locations of the four coners\n
+ggplot2\tgeom_segment\tdraws a straight line between points\n
+ggplot2\tgeom_spoke\ta polar parameterisation of 'geom_segment()'\n
+ggplot2\tgeom_text\tadds text to the plot\n
+ggplot2\tgeom_tile\tdraws rectangle by using the center of the tile and its size\n
+ggplot2\tgeom_vline\tadds vertical lines\n
+ggrepel\tgeom_text_repel\tadds text to the plot. The text labels repel away from each other and away from the data points\n
+ggrepel\tgeom_label_repel\tdraws a rectangle underneath the text. The text labels repel away from each other and away from the data ponts\n
+ggridges\tgeom_density_ridges\tarranges multiple density plots in a staggered fashion\n
+ggridges\tgeom_density_ridges_gradient\tworks just like 'geom_density_ridges' except that the 'fill' aesthetic can vary along the x axis\n
+ggridges\tgeom_ridgeline\tplots the sum of the 'y' and 'height' aesthetics versus 'x', filling the area between 'y' and 'y + height' with a color\n
+ggridges\tgeom_ridgeline_gradient\tworks just like 'geom_ridgeline' except that the 'fill' aesthetic can vary along the x axis\n
+ggstance\tgeom_barh\thorizontal version of 'geom_bar()'\n
+ggstance\tgeom_boxploth\thorizontal version of 'geom_boxplot()'\n
+ggstance\tgeom_crossbarh\thorizontal version of 'geom_crossbar()'\n
+ggstance\tgeom_errorbarh\thorizontal version of 'geom_errorbarh()'\n
+ggstance\tgeom_histogramh\thorizontal version of 'geom_histogram()'\n
+ggstance\tgeom_linerangeh\thorizontal version of 'geom_linerange()'\n
+ggstance\tgeom_pointrangeh\thorizontal version of 'geom_pointrange()'\n
+ggstance\tgeom_violinh\thorizontal version of 'geom_violin()'\n
+ggtree\tgeom_motif\tdraws aligned motifs\n
+"
+
+xx <- strsplit(x, "\n\n")[[1]]
+y <- strsplit(xx, "\t") %>% do.call("rbind", .)
+y <- as.data.frame(y)
+colnames(y) <- c("Package", "Geom Layer", "Description")
+
+require(kableExtra)
+caption = "Geometric layers that supported by 'geom_facet()' and 'facet_plot()'"
+knitr::kable(y, caption=caption, booktabs = T) %>% 
+  collapse_rows(columns = 1, latex_hline = "major", valign ="top") %>%
+  kable_styling(latex_options = c("striped", "scale_down"),
+                bootstrap_options = c("striped", "hover")) #%>% landscape
+```
+
+
+<!--
+#``` r treeio, echo=F, message=FALSE}
+library(kableExtra)
+ff <- matrix(c(
+  'read.beast',  "parsing output of BEAST",
+  "read.codeml", "parsing output of CodeML (rst and mlc files)",
+  "read.codeml_mlc", "parsing mlc file (output of CodeML)",
+  "read.hyphy", "parsing output of HYPHY",
+  "read.jplace", "parsing jplace file including output of EPA and pplacer",
+  "read.nhx", "parsing NHX file including output of PHYLODOG and RevBayes",
+  "read.paml_rst", "parsing rst file (output of BaseML or CodeML)",
+  "read.phylip", "parsing phylip file",
+  "read.phyloT", "parsing output of phyloT (http://phylot.biobyte.de/)",
+  "read.r8s", "parsing output of r8s",
+  "read.raxml", "parsing output of RAxML",
+  "Nnode", "get number of internal nodes",
+  "Nnode2", "get number of all nodes (including internal and external nodes)",
+  "Ntip", "get number of all tips (external nodes)",
+  "as.phylo", "convert tree object to phylo object",
+  "as.treedata", "convert tree object to treedata object",
+  "drop.tip", "remove tips in a tree",
+  "get.fields", "get available tree attributes stored in tree object",
+  "get.placements", "get placement result of jplace object",
+  "get.subs", "get substitution by comparing parent node and child node",
+  "get.tipseq", "get tip sequences",
+  "get.treetext", "get newick text of a tree object",
+  "groupClade", "add clade grouping information to tree object",
+  "groupOTU", "grouping OTUs by tracing back to most recent commond ancestor",
+  "merge_tree", "merging tree objects into one",
+  "write.jpace", "write tree with associated annotation data to a jplace file"
+  ), ncol=2, byrow=TRUE)
+ff <- as.data.frame(ff)
+colnames(ff) <- c("Function", "Description")
+knitr::kable(ff, caption = "Functions defined in treeio.", booktabs = T) #%>%
+  #kable_styling(latex_options = c("striped", "hold_position"), full_width = T)
+```
+
+
+-->
+
 
 
 # Session Info {#session-info}
