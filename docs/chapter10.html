@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 10 ggtree for other tree objects | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
-  <meta name="description" content="Chapter 10 ggtree for other tree objects | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
+  <title>Chapter 10 ggtree for other tree-like objects | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
+  <meta name="description" content="Chapter 10 ggtree for other tree-like objects | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
   <meta name="generator" content="bookdown 0.12 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 10 ggtree for other tree objects | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
+  <meta property="og:title" content="Chapter 10 ggtree for other tree-like objects | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 10 ggtree for other tree objects | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
+  <meta name="twitter:title" content="Chapter 10 ggtree for other tree-like objects | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
   
   
   
@@ -251,10 +251,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.2" data-path="chapter9.html"><a href="chapter9.html#facet_labeller"><i class="fa fa-check"></i><b>9.2</b> facet_labeller</a></li>
 <li class="chapter" data-level="9.3" data-path="chapter9.html"><a href="chapter9.html#xlim_expand"><i class="fa fa-check"></i><b>9.3</b> xlim_expand</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="chapter10.html"><a href="chapter10.html"><i class="fa fa-check"></i><b>10</b> ggtree for other tree objects</a><ul>
-<li class="chapter" data-level="10.1" data-path="chapter10.html"><a href="chapter10.html#phylobase"><i class="fa fa-check"></i><b>10.1</b> phylo4 and phylo4d</a></li>
-<li class="chapter" data-level="10.2" data-path="chapter10.html"><a href="chapter10.html#phyloseq"><i class="fa fa-check"></i><b>10.2</b> phyloseq</a></li>
-<li class="chapter" data-level="10.3" data-path="chapter10.html"><a href="chapter10.html#outbreaktools"><i class="fa fa-check"></i><b>10.3</b> OutbreakTools</a></li>
+<li class="chapter" data-level="10" data-path="chapter10.html"><a href="chapter10.html"><i class="fa fa-check"></i><b>10</b> ggtree for other tree-like objects</a><ul>
+<li class="chapter" data-level="10.1" data-path="chapter10.html"><a href="chapter10.html#ggtree-for-phylogenetic-tree-objects"><i class="fa fa-check"></i><b>10.1</b> ggtree for phylogenetic tree objects</a><ul>
+<li class="chapter" data-level="10.1.1" data-path="chapter10.html"><a href="chapter10.html#phylobase"><i class="fa fa-check"></i><b>10.1.1</b> phylo4 and phylo4d</a></li>
+<li class="chapter" data-level="10.1.2" data-path="chapter10.html"><a href="chapter10.html#phyloseq"><i class="fa fa-check"></i><b>10.1.2</b> phyloseq</a></li>
+<li class="chapter" data-level="10.1.3" data-path="chapter10.html"><a href="chapter10.html#outbreaktools"><i class="fa fa-check"></i><b>10.1.3</b> OutbreakTools</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="chapter10.html"><a href="chapter10.html#dendrogram"><i class="fa fa-check"></i><b>10.2</b> ggtree for dendrograms</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="chapter11.html"><a href="chapter11.html"><i class="fa fa-check"></i><b>11</b> Gallery of reproducible examples</a><ul>
 <li class="chapter" data-level="11.1" data-path="chapter11.html"><a href="chapter11.html#visualizing-pairwise-nucleotide-sequence-distance-with-phylogenetic-tree"><i class="fa fa-check"></i><b>11.1</b> Visualizing pairwise nucleotide sequence distance with phylogenetic tree</a></li>
@@ -309,10 +312,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="chapter10" class="section level1">
-<h1><span class="header-section-number">Chapter 10</span> ggtree for other tree objects</h1>
+<h1><span class="header-section-number">Chapter 10</span> ggtree for other tree-like objects</h1>
+<div id="ggtree-for-phylogenetic-tree-objects" class="section level2">
+<h2><span class="header-section-number">10.1</span> ggtree for phylogenetic tree objects</h2>
 <p>The <a href="http://bioconductor.org/packages/treeio">treeio</a> packages allows parsing evolutionary inferences from a number of software outputs and linking external data to the tree structure. It serves as an infrastructure to bring evolutionary data to the R community. The <a href="http://bioconductor.org/packages/ggtree">ggtree</a> package works seamlessly with <a href="http://bioconductor.org/packages/treeio">treeio</a> to visualize tree associated data to annotate the tree. The <a href="http://bioconductor.org/packages/ggtree">ggtree</a> package is general tool for tree visualization and annotation and it fits the ecosystem of R packages. Most of the S3/S4 tree objects defined by other R packages are also supported by <a href="http://bioconductor.org/packages/ggtree">ggtree</a>, including <code>phylo</code>(<a href="chapter4.html#visualizing-phylogenetic-tree-with-ggtree">session 4.2</a>), <code>multiPhylo</code> (<a href="chapter4.html#visualize-a-list-of-trees">session 4.4</a>), <code>phylo4</code>, <code>phylo4d</code>, <code>phyloseq</code> and <code>obkData</code>. With <a href="http://bioconductor.org/packages/ggtree">ggtree</a>, we are able to generate more complex tree graph which is not possible or easy to do with other packages. For example, the visualization of the <code>phyloseq</code> object in Figure <a href="chapter10.html#fig:phyloseq">10.3</a> is not supported by the <a href="http://bioconductor.org/packages/phyloseq">phyloseq</a> package. The <a href="http://bioconductor.org/packages/ggtree">ggtree</a> package also extend the possibility of linking external data to these tree object <span class="citation">(Yu et al. <a href="#ref-yu_two_2018" role="doc-biblioref">2018</a>)</span>.</p>
-<div id="phylobase" class="section level2">
-<h2><span class="header-section-number">10.1</span> phylo4 and phylo4d</h2>
+<div id="phylobase" class="section level3">
+<h3><span class="header-section-number">10.1.1</span> phylo4 and phylo4d</h3>
 <p>The <code>phylo4</code> and <code>phylo4d</code> are defined in the <a href="https://CRAN.R-project.org/package=phylobase">phylobase</a> package. The <code>phylo4</code> object is a S4 version of <code>phylo</code>, while <code>phylo4d</code> extends <code>phylo4</code> with a data frame that contains trait data. The <a href="https://CRAN.R-project.org/package=phylobase">phylobase</a> package provides <code>plot</code> method, which internally calls the <code>treePlot</code> function, to display the tree with the data. However there are some restrictions of the <code>plot</code> method, it can only plot numeric values for tree-associated data as bubbles and cannot generate figure legend. <code>Phylobase</code> doesn’t implement visualization method to display categorical values. Using associated data as visual characteristics such as color, size and shape, is also not supported. Although it is possible to color the tree using associated data, it requires users to extract the data and map them to color vector manually follow by passing the color vector to the <code>plot</code> method. This is tedious and error-prone since the order of the color vector needs to be consistent with the edge list stored in the object.</p>
 <p>The <a href="http://bioconductor.org/packages/ggtree">ggtree</a> package supports <code>phylo4d</code> object and all the associated data stored in the <code>phylo4d</code> object can be used directly to annotate the tree (Fig. ).</p>
 
@@ -341,8 +346,8 @@ Figure 10.1: <strong>Visualizing phylo4d data using ggtree.</strong>
 </p>
 </div>
 </div>
-<div id="phyloseq" class="section level2">
-<h2><span class="header-section-number">10.2</span> phyloseq</h2>
+<div id="phyloseq" class="section level3">
+<h3><span class="header-section-number">10.1.2</span> phyloseq</h3>
 <p>The <code>phyloseq</code> class that defined in the <a href="http://bioconductor.org/packages/phyloseq">phyloseq</a> package was designed for storing microbiome data, including phylogenetic tree, associated sample data and taxonomy assignment. It can import data from popular pipelines, such as <em>QIIME</em> <span class="citation">(Kuczynski et al. <a href="#ref-kuczynski_using_2011" role="doc-biblioref">2011</a>)</span>, <em>mothur</em> <span class="citation">(Schloss et al. <a href="#ref-schloss_introducing_2009" role="doc-biblioref">2009</a>)</span>, <em>DADA2</em> <span class="citation">(Callahan et al. <a href="#ref-callahan_dada2_2016" role="doc-biblioref">2016</a>)</span> and <em>PyroTagger</em> <span class="citation">(Kunin and Hugenholtz <a href="#ref-kunin_pyrotagger_2010" role="doc-biblioref">2010</a>)</span>, <em>etc.</em>. The <em>ggtree</em> supports visualizing the phylogenetic tree stored in <code>phyloseq</code> object and related data can be used to annotate the tree as demonstrated in Figure <a href="chapter10.html#fig:reproducephyloseq">10.2</a> and <a href="chapter10.html#fig:phyloseq">10.3</a>.</p>
 
 
@@ -401,8 +406,8 @@ Figure 10.3: <strong>Phylogenetic tree with OTU abundance densities.</strong> Ti
 
 <p>This example uses microbiome data that provided in <code>phyloseq</code> package and density ridgeline is employed to visualize species abundance data. The <code>geom_facet</code> layer automatically re-arranges the abundance data according to the tree structure, visualizes the data using the specify <code>geom</code> function, <em>i.e.</em> <code>geom_density_ridges</code>, and aligns the density curves with the tree as demonstrated in Fig. . Note that data stored in the <code>phyloseq</code> object is visible to <code>ggtree</code> and can be used directly in tree visualization (<code>Phylum</code> was used to color tips and density ridgelines in this example). The source code of this example was firstly published in Supplemental File of <span class="citation">(Yu et al. <a href="#ref-yu_two_2018" role="doc-biblioref">2018</a>)</span>.</p>
 </div>
-<div id="outbreaktools" class="section level2">
-<h2><span class="header-section-number">10.3</span> OutbreakTools</h2>
+<div id="outbreaktools" class="section level3">
+<h3><span class="header-section-number">10.1.3</span> OutbreakTools</h3>
 <p>The <code>okbData</code> is defined in the <a href="https://CRAN.R-project.org/package=OutbreakTools">OutbreakTools</a> package to store incidence-based outbreak data, including meta data of sampling and information of infected individuals such as age and onset of symptoms. The <code>ggtree</code> supports the <code>obkData</code> object and the information can be used to annotate the tree as shown in Figure <a href="chapter10.html#fig:outbreaktools">10.4</a>.</p>
 
 
@@ -428,6 +433,43 @@ Figure 10.4: <strong>Visualizing obkData tree object.</strong> <em>x</em>-axis w
 </p>
 </div>
 
+</div>
+</div>
+<div id="dendrogram" class="section level2">
+<h2><span class="header-section-number">10.2</span> ggtree for dendrograms</h2>
+<p>A dendrogram is a tree diagram to display hierachical clustering and classification/regression trees.</p>
+<p>We can calculate a hierachical clustering using the function <code>hclust</code></p>
+<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="chapter10.html#cb217-1"></a>hc &lt;-<span class="st"> </span><span class="kw">hclust</span>(<span class="kw">dist</span>(mtcars))</span>
+<span id="cb217-2"><a href="chapter10.html#cb217-2"></a>hc</span></code></pre></div>
+<pre><code>## 
+## Call:
+## hclust(d = dist(mtcars))
+## 
+## Cluster method   : complete 
+## Distance         : euclidean 
+## Number of objects: 32</code></pre>
+<p>The <code>hclust</code> object describes the tree produced by the clustering process. It can be converted to <code>dendrogram</code> object, which stores the tree as deeply-nested lists.</p>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="chapter10.html#cb219-1"></a>den &lt;-<span class="st"> </span><span class="kw">as.dendrogram</span>(hc)</span>
+<span id="cb219-2"><a href="chapter10.html#cb219-2"></a>den</span></code></pre></div>
+<pre><code>## &#39;dendrogram&#39; with 2 branches and 32 members total, at height 425.3447</code></pre>
+<p>Both <code>hclust</code> and <code>dendrogram</code> objects can be converted to <code>phylo</code> object via <code>ape::as.phylo</code> (for <code>hclust</code>) and <code>phylogram::as.phylo</code> (for <code>dendrogram</code>).</p>
+<p>After converting the object to <code>phylo</code>, we can use <code>ggtree</code> to display its tree structure, customize the graph and of course add annotation to the tree.</p>
+<p><a href="http://bioconductor.org/packages/ggtree">ggtree</a> provides <code>layout_dendrogram</code> to layout the tree top down, and <code>theme_dendrogram</code> to display tree height (similar to <code>theme_tree2</code> for phylogenetic tree) as demonstrated in Figure <a href="chapter10.html#fig:ggtreehclust">10.5</a>.</p>
+
+
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="chapter10.html#cb221-1"></a>clus &lt;-<span class="st"> </span><span class="kw">cutree</span>(hc, <span class="dv">4</span>)</span>
+<span id="cb221-2"><a href="chapter10.html#cb221-2"></a>d =<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">label=</span><span class="kw">names</span>(clus), <span class="dt">member=</span><span class="kw">factor</span>(clus))</span>
+<span id="cb221-3"><a href="chapter10.html#cb221-3"></a></span>
+<span id="cb221-4"><a href="chapter10.html#cb221-4"></a><span class="kw">ggtree</span>(<span class="kw">as.phylo</span>(hc), <span class="dt">linetype=</span><span class="st">&#39;dashed&#39;</span>, <span class="dt">color =</span> <span class="st">&quot;#487AA1&quot;</span>) <span class="op">%&lt;+%</span><span class="st"> </span>d <span class="op">+</span><span class="st"> </span></span>
+<span id="cb221-5"><a href="chapter10.html#cb221-5"></a><span class="st">  </span><span class="kw">layout_dendrogram</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb221-6"><a href="chapter10.html#cb221-6"></a><span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">color =</span> member), <span class="dt">angle=</span><span class="dv">90</span>, <span class="dt">hjust=</span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb221-7"><a href="chapter10.html#cb221-7"></a><span class="st">  </span><span class="kw">theme_dendrogram</span>(<span class="dt">plot.margin=</span><span class="kw">margin</span>(<span class="dv">6</span>,<span class="dv">6</span>,<span class="dv">80</span>,<span class="dv">6</span>))</span></code></pre></div>
+<div class="figure"><span id="fig:ggtreehclust"></span>
+<img src="treedata_files/figure-html/ggtreehclust-1.png" alt="Visualizing dendrogram." width="768" />
+<p class="caption">
+Figure 10.5: <strong>Visualizing dendrogram.</strong>
+</p>
+</div>
 
 </div>
 </div>
