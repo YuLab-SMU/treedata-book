@@ -214,27 +214,37 @@ ggtree(tree) + geom_tiplab() + geom_taxalink('A', 'E') +
   geom_taxalink('F', 'K', color='red', arrow=grid::arrow(length=grid::unit(0.02, "npc")))
 ```
 
+### Uncertainty of evolutionary inference
 
-## Tree annotation with output from evolution software
-
-The `r Biocpkg("treeio")` package implemented several parser functions to parse
-output from commonly used software in evolutionary biology.
-
-Here, we used [BEAST](http://beast2.org/) [@bouckaert_beast_2014] output as an
-example. For details, please refer to the
-[Importer](https://bioconductor.org/packages/devel/bioc/vignettes/treeio/inst/doc/Importer.html) vignette.
+The `geom_range` layer supports displaying interval (highest posterior density, confidence interval, range) as horizontal bars on tree nodes. The center of the interval will anchor to corresponding node. The center by default is the mean value of the interval (Figure \@ref(fig:geomRange)A). We can set the `center` to estimated mean or median value (Figure \@ref(fig:geomRange)B), or observed value. As the tree branch and the interval may not be in the same scale, `r Biocpkg("ggtree")` provides `scale_x_range` to add second x axis for the range (Figure \@ref(fig:geomRange)C). Note that x axis is disable by default theme and we need to enable it if we want to dispaly it (*e.g.* `theme_tree2`).
 
 
-```{r warning=FALSE, fig.width=5, fig.height=5, fig.align='center'}
-file <- system.file("extdata/BEAST", "beast_mcc.tree", package="treeio")
-beast <- read.beast(file)
-ggtree(beast, aes(color=rate))  +
-    geom_range(range='length_0.95_HPD', color='red', alpha=.6, size=2) +
-    geom_nodelab(aes(x=branch, label=round(posterior, 2)), vjust=-.5, size=3) +
-    scale_color_continuous(low="darkgreen", high="red") +
-    theme(legend.position=c(.1, .8))
+
+
+(ref:geomRangescap) Displaying uncertainty of evolutoinary inference.
+
+(ref:geomRangecap) **Displaying uncertainty of evolutoinary inference.** The center (mean value of the range (A) or estimated value (B)) is anchor to the tree nodes. A second x axis was used for range scaling (C). 
+
+```{ eval=FALSE}
+file <- system.file("extdata/MEGA7", "mtCDNA_timetree.nex", package = "treeio")
+x <- read.mega(file)
+p1 <- ggtree(x) + geom_range('reltime_0.95_CI', color='red', size=3, alpha=.3)
+p2 <- ggtree(x) + geom_range('reltime_0.95_CI', color='red', size=3, alpha=.3, center='reltime')  
+p3 <- p2 + scale_x_range() + theme_tree2()
 ```
 
+```{r geomRange, fig.cap="(ref:geomRangecap)", fig.scap="(ref:geomRangescap)", fig.width=12, fig.height=4, echo=F}
+file <- system.file("extdata/MEGA7", "mtCDNA_timetree.nex", package = "treeio")
+x <- read.mega(file)
+p1 <- ggtree(x) + geom_range('reltime_0.95_CI', color='red', size=3, alpha=.3)
+p2 <- ggtree(x) + geom_range('reltime_0.95_CI', color='red', size=3, alpha=.3, center='reltime') + coord_cartesian(ylim = c(1, 7))
+ 
+p3 <- p2 + scale_x_range() + theme_tree2()
+plot_grid(p1, p2, p3, ncol=3, labels = LETTERS[1:3])
+```
+
+
+## Tree annotation with output from evolution software
 
 
 ### Tree annotation using data from evolutionary analysis software
@@ -248,17 +258,16 @@ Furthermore, the evolutionary data from the inference of *BEAST*, *MrBayes* and 
 
 (ref:beastcap) **Annotating *BEAST* tree with _length\_95%\_HPD_ and posterior.** Branch length credible intervals (95% HPD) were displayed as red horizontal bars and clade posterior values were shown on the middle of branches. 
 
+
 \setstretch{1.2}
 ```{r beast, fig.cap="(ref:beastcap)", fig.scap="(ref:beastscap)", fig.width=7, out.extra=''}
-file <- system.file("extdata/BEAST", "beast_mcc.tree", 
-                    package="treeio")
+file <- system.file("extdata/BEAST", "beast_mcc.tree", package="treeio")
 beast <- read.beast(file)
-ggtree(beast) + 
-  geom_tiplab(align=TRUE, linetype='dashed', linesize=.3) + 
-  geom_range("length_0.95_HPD", color='red', size=2, alpha=.5) + 
-  geom_text2(aes(label=round(as.numeric(posterior), 2), 
-                 subset=as.numeric(posterior)> 0.9, 
-                 x=branch), vjust=0) 
+ggtree(beast, aes(color=rate))  +
+    geom_range(range='length_0.95_HPD', color='red', alpha=.6, size=2) +
+    geom_nodelab(aes(x=branch, label=round(posterior, 2)), vjust=-.5, size=3) +
+    scale_color_continuous(low="darkgreen", high="red") +
+    theme(legend.position=c(.1, .8))
 ```
 \setstretch{1.5}
 

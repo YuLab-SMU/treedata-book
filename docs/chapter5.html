@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 5 Phylogenetic Tree Annotation | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
   <meta name="description" content="Chapter 5 Phylogenetic Tree Annotation | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
-  <meta name="generator" content="bookdown 0.11.3 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.12 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 5 Phylogenetic Tree Annotation | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
   <meta property="og:type" content="book" />
@@ -203,6 +203,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.2.2" data-path="chapter5.html"><a href="chapter5.html#labelling-associated-taxa-monophyletic-polyphyletic-or-paraphyletic"><i class="fa fa-check"></i><b>5.2.2</b> Labelling associated taxa (Monophyletic, Polyphyletic or Paraphyletic)</a></li>
 <li class="chapter" data-level="5.2.3" data-path="chapter5.html"><a href="chapter5.html#highlight-clades"><i class="fa fa-check"></i><b>5.2.3</b> Highlight clades</a></li>
 <li class="chapter" data-level="5.2.4" data-path="chapter5.html"><a href="chapter5.html#taxa-connection"><i class="fa fa-check"></i><b>5.2.4</b> Taxa connection</a></li>
+<li class="chapter" data-level="5.2.5" data-path="chapter5.html"><a href="chapter5.html#uncertainty-of-evolutionary-inference"><i class="fa fa-check"></i><b>5.2.5</b> Uncertainty of evolutionary inference</a></li>
 </ul></li>
 <li class="chapter" data-level="5.3" data-path="chapter5.html"><a href="chapter5.html#tree-annotation-with-output-from-evolution-software"><i class="fa fa-check"></i><b>5.3</b> Tree annotation with output from evolution software</a><ul>
 <li class="chapter" data-level="5.3.1" data-path="chapter5.html"><a href="chapter5.html#tree-annotation-using-data-from-evolutionary-analysis-software"><i class="fa fa-check"></i><b>5.3.1</b> Tree annotation using data from evolutionary analysis software</a></li>
@@ -576,22 +577,26 @@ clades for unrooted layout trees.</p>
 <span id="cb169-2"><a href="chapter5.html#cb169-2"></a><span class="st">  </span><span class="kw">geom_taxalink</span>(<span class="st">&#39;F&#39;</span>, <span class="st">&#39;K&#39;</span>, <span class="dt">color=</span><span class="st">&#39;red&#39;</span>, <span class="dt">arrow=</span>grid<span class="op">::</span><span class="kw">arrow</span>(<span class="dt">length=</span>grid<span class="op">::</span><span class="kw">unit</span>(<span class="fl">0.02</span>, <span class="st">&quot;npc&quot;</span>)))</span></code></pre></div>
 <p><img src="treedata_files/figure-html/unnamed-chunk-97-1.png" width="480" style="display: block; margin: auto;" /></p>
 </div>
+<div id="uncertainty-of-evolutionary-inference" class="section level3">
+<h3><span class="header-section-number">5.2.5</span> Uncertainty of evolutionary inference</h3>
+<p>The <code>geom_range</code> layer supports displaying interval (highest posterior density, confidence interval, range) as horizontal bars on tree nodes. The center of the interval will anchor to corresponding node. The center by default is the mean value of the interval (Figure <a href="chapter5.html#fig:geomRange">5.2</a>A). We can set the <code>center</code> to estimated mean or median value (Figure <a href="chapter5.html#fig:geomRange">5.2</a>B), or observed value. As the tree branch and the interval may not be in the same scale, <a href="http://bioconductor.org/packages/ggtree">ggtree</a> provides <code>scale_x_range</code> to add second x axis for the range (Figure <a href="chapter5.html#fig:geomRange">5.2</a>C). Note that x axis is disable by default theme and we need to enable it if we want to dispaly it (<em>e.g.</em> <code>theme_tree2</code>).</p>
+
+
+<pre eval="FALSE"><code>file &lt;- system.file(&quot;extdata/MEGA7&quot;, &quot;mtCDNA_timetree.nex&quot;, package = &quot;treeio&quot;)
+x &lt;- read.mega(file)
+p1 &lt;- ggtree(x) + geom_range(&#39;reltime_0.95_CI&#39;, color=&#39;red&#39;, size=3, alpha=.3)
+p2 &lt;- ggtree(x) + geom_range(&#39;reltime_0.95_CI&#39;, color=&#39;red&#39;, size=3, alpha=.3, center=&#39;reltime&#39;)  
+p3 &lt;- p2 + scale_x_range() + theme_tree2()</code></pre>
+<div class="figure"><span id="fig:geomRange"></span>
+<img src="treedata_files/figure-html/geomRange-1.png" alt="Displaying uncertainty of evolutoinary inference. The center (mean value of the range (A) or estimated value (B)) is anchor to the tree nodes. A second x axis was used for range scaling (C)." width="1152" />
+<p class="caption">
+Figure 5.2: <strong>Displaying uncertainty of evolutoinary inference.</strong> The center (mean value of the range (A) or estimated value (B)) is anchor to the tree nodes. A second x axis was used for range scaling (C).
+</p>
+</div>
+</div>
 </div>
 <div id="tree-annotation-with-output-from-evolution-software" class="section level2">
 <h2><span class="header-section-number">5.3</span> Tree annotation with output from evolution software</h2>
-<p>The <a href="http://bioconductor.org/packages/treeio">treeio</a> package implemented several parser functions to parse
-output from commonly used software in evolutionary biology.</p>
-<p>Here, we used <a href="http://beast2.org/">BEAST</a> <span class="citation">(Bouckaert et al. <a href="#ref-bouckaert_beast_2014" role="doc-biblioref">2014</a>)</span> output as an
-example. For details, please refer to the
-<a href="https://bioconductor.org/packages/devel/bioc/vignettes/treeio/inst/doc/Importer.html">Importer</a> vignette.</p>
-<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="chapter5.html#cb170-1"></a>file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/BEAST&quot;</span>, <span class="st">&quot;beast_mcc.tree&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
-<span id="cb170-2"><a href="chapter5.html#cb170-2"></a>beast &lt;-<span class="st"> </span><span class="kw">read.beast</span>(file)</span>
-<span id="cb170-3"><a href="chapter5.html#cb170-3"></a><span class="kw">ggtree</span>(beast, <span class="kw">aes</span>(<span class="dt">color=</span>rate))  <span class="op">+</span></span>
-<span id="cb170-4"><a href="chapter5.html#cb170-4"></a><span class="st">    </span><span class="kw">geom_range</span>(<span class="dt">range=</span><span class="st">&#39;length_0.95_HPD&#39;</span>, <span class="dt">color=</span><span class="st">&#39;red&#39;</span>, <span class="dt">alpha=</span>.<span class="dv">6</span>, <span class="dt">size=</span><span class="dv">2</span>) <span class="op">+</span></span>
-<span id="cb170-5"><a href="chapter5.html#cb170-5"></a><span class="st">    </span><span class="kw">geom_nodelab</span>(<span class="kw">aes</span>(<span class="dt">x=</span>branch, <span class="dt">label=</span><span class="kw">round</span>(posterior, <span class="dv">2</span>)), <span class="dt">vjust=</span><span class="op">-</span>.<span class="dv">5</span>, <span class="dt">size=</span><span class="dv">3</span>) <span class="op">+</span></span>
-<span id="cb170-6"><a href="chapter5.html#cb170-6"></a><span class="st">    </span><span class="kw">scale_color_continuous</span>(<span class="dt">low=</span><span class="st">&quot;darkgreen&quot;</span>, <span class="dt">high=</span><span class="st">&quot;red&quot;</span>) <span class="op">+</span></span>
-<span id="cb170-7"><a href="chapter5.html#cb170-7"></a><span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="kw">c</span>(.<span class="dv">1</span>, <span class="fl">.8</span>))</span></code></pre></div>
-<p><img src="treedata_files/figure-html/unnamed-chunk-98-1.png" width="480" style="display: block; margin: auto;" /></p>
 <div id="tree-annotation-using-data-from-evolutionary-analysis-software" class="section level3">
 <h3><span class="header-section-number">5.3.1</span> Tree annotation using data from evolutionary analysis software</h3>
 <p><a href="#chapter-treeio">Chapter 2</a> has introduced using <em>treeio</em> packages to parse different tree formats and commonly used software outputs to obtain phylogeny-associated data. These imported data as <code>S4</code> objects can be visualized directly using <em>ggtree</em>. Figure <a href="chapter5.html#fig:ggtreeNHX">5.1</a> demonstrates a tree annotated using the information (species classification, duplication event and bootstrap value) stored in NHX file. <em>PHYLODOG</em> and <em>RevBayes</em> output NHX files that can be parsed by <em>treeio</em> and visualized by <em>ggtree</em> with annotation using their inference data.</p>
@@ -599,24 +604,22 @@ example. For details, please refer to the
 
 
 
-<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="chapter5.html#cb171-1"></a>file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/BEAST&quot;</span>, <span class="st">&quot;beast_mcc.tree&quot;</span>, </span>
-<span id="cb171-2"><a href="chapter5.html#cb171-2"></a>                    <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
-<span id="cb171-3"><a href="chapter5.html#cb171-3"></a>beast &lt;-<span class="st"> </span><span class="kw">read.beast</span>(file)</span>
-<span id="cb171-4"><a href="chapter5.html#cb171-4"></a><span class="kw">ggtree</span>(beast) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb171-5"><a href="chapter5.html#cb171-5"></a><span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="dt">align=</span><span class="ot">TRUE</span>, <span class="dt">linetype=</span><span class="st">&#39;dashed&#39;</span>, <span class="dt">linesize=</span>.<span class="dv">3</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb171-6"><a href="chapter5.html#cb171-6"></a><span class="st">  </span><span class="kw">geom_range</span>(<span class="st">&quot;length_0.95_HPD&quot;</span>, <span class="dt">color=</span><span class="st">&#39;red&#39;</span>, <span class="dt">size=</span><span class="dv">2</span>, <span class="dt">alpha=</span>.<span class="dv">5</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb171-7"><a href="chapter5.html#cb171-7"></a><span class="st">  </span><span class="kw">geom_text2</span>(<span class="kw">aes</span>(<span class="dt">label=</span><span class="kw">round</span>(<span class="kw">as.numeric</span>(posterior), <span class="dv">2</span>), </span>
-<span id="cb171-8"><a href="chapter5.html#cb171-8"></a>                 <span class="dt">subset=</span><span class="kw">as.numeric</span>(posterior)<span class="op">&gt;</span><span class="st"> </span><span class="fl">0.9</span>, </span>
-<span id="cb171-9"><a href="chapter5.html#cb171-9"></a>                 <span class="dt">x=</span>branch), <span class="dt">vjust=</span><span class="dv">0</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="chapter5.html#cb171-1"></a>file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/BEAST&quot;</span>, <span class="st">&quot;beast_mcc.tree&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
+<span id="cb171-2"><a href="chapter5.html#cb171-2"></a>beast &lt;-<span class="st"> </span><span class="kw">read.beast</span>(file)</span>
+<span id="cb171-3"><a href="chapter5.html#cb171-3"></a><span class="kw">ggtree</span>(beast, <span class="kw">aes</span>(<span class="dt">color=</span>rate))  <span class="op">+</span></span>
+<span id="cb171-4"><a href="chapter5.html#cb171-4"></a><span class="st">    </span><span class="kw">geom_range</span>(<span class="dt">range=</span><span class="st">&#39;length_0.95_HPD&#39;</span>, <span class="dt">color=</span><span class="st">&#39;red&#39;</span>, <span class="dt">alpha=</span>.<span class="dv">6</span>, <span class="dt">size=</span><span class="dv">2</span>) <span class="op">+</span></span>
+<span id="cb171-5"><a href="chapter5.html#cb171-5"></a><span class="st">    </span><span class="kw">geom_nodelab</span>(<span class="kw">aes</span>(<span class="dt">x=</span>branch, <span class="dt">label=</span><span class="kw">round</span>(posterior, <span class="dv">2</span>)), <span class="dt">vjust=</span><span class="op">-</span>.<span class="dv">5</span>, <span class="dt">size=</span><span class="dv">3</span>) <span class="op">+</span></span>
+<span id="cb171-6"><a href="chapter5.html#cb171-6"></a><span class="st">    </span><span class="kw">scale_color_continuous</span>(<span class="dt">low=</span><span class="st">&quot;darkgreen&quot;</span>, <span class="dt">high=</span><span class="st">&quot;red&quot;</span>) <span class="op">+</span></span>
+<span id="cb171-7"><a href="chapter5.html#cb171-7"></a><span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="kw">c</span>(.<span class="dv">1</span>, <span class="fl">.8</span>))</span></code></pre></div>
 <div class="figure"><span id="fig:beast"></span>
 <img src="treedata_files/figure-html/beast-1.png" alt="Annotating BEAST tree with length_95%_HPD and posterior. Branch length credible intervals (95% HPD) were displayed as red horizontal bars and clade posterior values were shown on the middle of branches." width="672"  />
 <p class="caption">
-Figure 5.2: <strong>Annotating <em>BEAST</em> tree with <em>length_95%_HPD</em> and posterior.</strong> Branch length credible intervals (95% HPD) were displayed as red horizontal bars and clade posterior values were shown on the middle of branches.
+Figure 5.3: <strong>Annotating <em>BEAST</em> tree with <em>length_95%_HPD</em> and posterior.</strong> Branch length credible intervals (95% HPD) were displayed as red horizontal bars and clade posterior values were shown on the middle of branches.
 </p>
 </div>
 
-<p>In Figure <a href="chapter5.html#fig:beast">5.2</a>, the tree was visualized and annotated with posterior &gt; 0.9 and demonstrated length uncertainty (95% Highest Posterior Density (HPD) interval).</p>
-<p>Ancestral sequences inferred by <em>HyPhy</em> can be parsed using <a href="chapter1.html#parsing-hyphy-output"><em>treeio</em></a>, whereas the substitutions along each tree branch was automatically computed and stored inside the phylogenetic tree object (<em>i.e.</em>, <code>S4</code> object). The <em>ggtree</em> can utilize this information in the object to annotate the tree, as demonstrated in Figure <a href="chapter5.html#fig:hyphy">5.3</a>.</p>
+<p>In Figure <a href="chapter5.html#fig:beast">5.3</a>, the tree was visualized and annotated with posterior &gt; 0.9 and demonstrated length uncertainty (95% Highest Posterior Density (HPD) interval).</p>
+<p>Ancestral sequences inferred by <em>HyPhy</em> can be parsed using <a href="chapter1.html#parsing-hyphy-output"><em>treeio</em></a>, whereas the substitutions along each tree branch was automatically computed and stored inside the phylogenetic tree object (<em>i.e.</em>, <code>S4</code> object). The <em>ggtree</em> can utilize this information in the object to annotate the tree, as demonstrated in Figure <a href="chapter5.html#fig:hyphy">5.4</a>.</p>
 
 
 
@@ -632,11 +635,11 @@ Figure 5.2: <strong>Annotating <em>BEAST</em> tree with <em>length_95%_HPD</em> 
 <div class="figure"><span id="fig:hyphy"></span>
 <img src="treedata_files/figure-html/hyphy-1.png" alt="Annotating tree with amino acid substitution determined by ancestral sequences inferred by HYPHY. Amino acid substitutions were displayed on the middle of branches." width="748.8"  />
 <p class="caption">
-Figure 5.3: <strong>Annotating tree with amino acid substitution determined by ancestral sequences inferred by HYPHY.</strong> Amino acid substitutions were displayed on the middle of branches.
+Figure 5.4: <strong>Annotating tree with amino acid substitution determined by ancestral sequences inferred by HYPHY.</strong> Amino acid substitutions were displayed on the middle of branches.
 </p>
 </div>
 
-<p><em>PAML</em>’s <em>BaseML</em> and <em>CodeML</em> can be also used to infer ancestral sequences, whereas <em>CodeML</em> can infer selection pressure. After parsing this information using <a href="chapter1.html#parsing-paml-output"><em>treeio</em></a>, <em>ggtree</em> can integrate this information into the same tree structure and used for annotation as illustrated in Figure <a href="chapter5.html#fig:codeml">5.4</a>.</p>
+<p><em>PAML</em>’s <em>BaseML</em> and <em>CodeML</em> can be also used to infer ancestral sequences, whereas <em>CodeML</em> can infer selection pressure. After parsing this information using <a href="chapter1.html#parsing-paml-output"><em>treeio</em></a>, <em>ggtree</em> can integrate this information into the same tree structure and used for annotation as illustrated in Figure <a href="chapter5.html#fig:codeml">5.5</a>.</p>
 
 
 
@@ -655,7 +658,7 @@ Figure 5.3: <strong>Annotating tree with amino acid substitution determined by a
 <div class="figure"><span id="fig:codeml"></span>
 <img src="treedata_files/figure-html/codeml-1.png" alt="Annotating tree with animo acid substitution and dN/dS inferred by CodeML. Branches were rescaled and colored by dN/dS values and amino acid substitutions were displayed on the middle of branches." width="672"  />
 <p class="caption">
-Figure 5.4: <strong>Annotating tree with animo acid substitution and <em>d<sub>N</sub>/d<sub>S</sub></em> inferred by <em>CodeML</em>.</strong> Branches were rescaled and colored by <em>d<sub>N</sub>/d<sub>S</sub></em> values and amino acid substitutions were displayed on the middle of branches.
+Figure 5.5: <strong>Annotating tree with animo acid substitution and <em>d<sub>N</sub>/d<sub>S</sub></em> inferred by <em>CodeML</em>.</strong> Branches were rescaled and colored by <em>d<sub>N</sub>/d<sub>S</sub></em> values and amino acid substitutions were displayed on the middle of branches.
 </p>
 </div>
 
@@ -673,9 +676,6 @@ Figure 5.4: <strong>Annotating tree with animo acid substitution and <em>d<sub>N
 </div>
 <h3>References</h3>
 <div id="refs" class="references">
-<div id="ref-bouckaert_beast_2014">
-<p>Bouckaert, Remco, Joseph Heled, Denise Kühnert, Tim Vaughan, Chieh-Hsi Wu, Dong Xie, Marc A. Suchard, Andrew Rambaut, and Alexei J. Drummond. 2014. “BEAST 2: A Software Platform for Bayesian Evolutionary Analysis.” <em>PLoS Comput Biol</em> 10 (4): e1003537. <a href="https://doi.org/10.1371/journal.pcbi.1003537">https://doi.org/10.1371/journal.pcbi.1003537</a>.</p>
-</div>
 <div id="ref-jombart_outbreaktools_2014">
 <p>Jombart, Thibaut, David M. Aanensen, Marc Baguelin, Paul Birrell, Simon Cauchemez, Anton Camacho, Caroline Colijn, et al. 2014. “OutbreakTools: A New Platform for Disease Outbreak Analysis Using the R Software.” <em>Epidemics</em> 7 (June): 28–34. <a href="https://doi.org/10.1016/j.epidem.2014.04.003">https://doi.org/10.1016/j.epidem.2014.04.003</a>.</p>
 </div>
