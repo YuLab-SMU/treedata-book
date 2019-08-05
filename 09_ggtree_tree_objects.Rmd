@@ -1,4 +1,4 @@
-# ggtree for other tree-like objects {#chapter10}
+# ggtree for other tree-like objects {#chapter9}
 
 ## ggtree for phylogenetic tree objects
 
@@ -160,11 +160,15 @@ The `r Biocpkg("ggtree")` package supports both `hclust` and `dendrogram` object
 
 ```{r ggtreehclust, fig.width=8, fig.height=5, fig.cap="(ref:ggtreehclustcap)", fig.scap="(ref:ggtreehclustscap)"}
 clus <- cutree(hc, 4)
-d = data.frame(label=names(clus), member=factor(clus))
+d = data.frame(label = names(clus), 
+               member = factor(clus), 
+               cyl = mtcars[names(clus), "cyl"])
 
 ggtree(hc, linetype='dashed', color = "#487AA1") %<+% d + 
   layout_dendrogram() + 
-  geom_tiplab(aes(color = member), angle=90, hjust=1) + 
+  geom_tippoint(size=5, shape=21, aes(fill=factor(cyl), x=x+.5)) + 
+  geom_tiplab(aes(label=cyl), size=3, hjust=.5) +
+  geom_tiplab(aes(color = member), angle=90, hjust=1, offset=-5) + 
   theme_dendrogram(plot.margin=margin(6,6,80,6))
 ```
 
