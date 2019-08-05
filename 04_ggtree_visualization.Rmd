@@ -77,7 +77,7 @@ ggtree(tree, branch.length="none")
 (ref:basicvizcap) **Basic tree visualization.** 
 
 
-```{r basicviz, fig.width=12, fig.height=3, fig.align="center", echo=F, fig.cap="(ref:basicvizcap)", fig.scap="(ref:basicvizscap)"}
+```{r basicviz, fig.width=12, fig.height=3, echo=F, fig.cap="(ref:basicvizcap)", fig.scap="(ref:basicvizscap)"}
 
 library("treeio")
 library("ggtree")
@@ -145,10 +145,12 @@ playout
 
 
 There are also other possible layouts that can be drawn by modifying
-scales/coordination, for examples, [reverse label of time
+scales/coordination (Figure \@ref(fig:layout2)).
+
+<!-- for examples, [reverse label of time
 scale](https://github.com/GuangchuangYu/ggtree/issues/87), [repropotion
 circular/fan tree](
-https://groups.google.com/d/msg/bioc-ggtree/UoGQekWHIvw/ZswUUZKSGwAJ), *etc.*.
+https://groups.google.com/d/msg/bioc-ggtree/UoGQekWHIvw/ZswUUZKSGwAJ), *etc.*. -->
 
 ```{r eval=FALSE}
 ggtree(tree) + scale_x_reverse()
@@ -267,9 +269,9 @@ As shown in Figure \@ref(fig:2d), two-dimensional tree good at visualizing the c
 
 ### Displaying tree scale (evolution distance)
 
-To show tree scale, user can use `geom_treescale()` layer.
+To show tree scale, user can use `geom_treescale()` layer (Figure \@ref(fig:treescale)A).
 
-```{r fig.width=4, fig.height=4, fig.align="center"}
+```{r fig.width=4, fig.height=4, fig.align="center", eval=F}
 ggtree(tree) + geom_treescale()
 ```
 
@@ -288,19 +290,27 @@ ggtree(tree) + geom_treescale(x=0, y=45, width=1, color='red')
 ggtree(tree) + geom_treescale(fontsize=6, linesize=2, offset=1)
 ```
 
-```{r fig.width=8, fig.height=4, fig.align="center", echo=F}
-plot_grid(
-    ggtree(tree)+geom_treescale(x=0, y=45, width=1, color='red'),
-    ggtree(tree)+geom_treescale(fontsize=6, linesize=2, offset=1),
-    ncol=2, labels=LETTERS[1:2])
-```
-
 
 We can also use `theme_tree2()` to display the tree scale by adding *x axis*.
 
 
-```{r fig.width=3, fig.height=3, fig.align="center"}
+```{r fig.width=3, fig.height=3, fig.align="center", eval=F}
 ggtree(tree) + theme_tree2()
+```
+
+
+(ref:treescalescap) Display tree scale.
+
+(ref:treescalecap) **Display tree scale.** `geom_treescale` automatically add a scale bar for evolutionary distance (A). Users can modify color, width and position of the scale (B) as well as size of the scale bar and text and their relative position (C). Another possible solution is to enable x-axis which is useful for time-scale tree (D).
+
+```{r treescale, fig.width=8, fig.height=6, echo=F, fig.cap="(ref:treescalecap)", fig.scap="(ref:treescalescap)"}
+
+cowplot::plot_grid(
+    ggtree(tree) + geom_treescale(),
+    ggtree(tree)+geom_treescale(x=0, y=45, width=1, color='red'),
+    ggtree(tree)+geom_treescale(fontsize=6, linesize=2, offset=1),
+    ggtree(tree) + theme_tree2(),
+    ncol=2, labels=LETTERS[1:4])
 ```
 
 
@@ -478,15 +488,23 @@ any [theme components](http://ggplot2.tidyverse.org/reference/theme.html) to the
 
 
 ```{r eval=F}
-ggtree(rtree(30), color="red") + theme_tree("steelblue")
-ggtree(rtree(20), color="white") + theme_tree("black")
+set.seed(2019)
+x <- rtree(30)
+ggtree(x, color="red") + theme_tree("steelblue")
+ggtree(x, color="white") + theme_tree("black")
+ggtree(x, size=1, color="white") + geom_bgimage('img/blackboard.jpg')
 ```
 
-```{r fig.width=8, fig.height=3, fig.align="center", echo=F}
+```{r fig.width=10, fig.height=3, fig.align="center", echo=F}
+library(ggimage)
+set.seed(2019)
+x <- rtree(30)
+
 cowplot::plot_grid(
-    ggtree(rtree(30), color="red") + theme_tree("steelblue"),
-    ggtree(rtree(20), color="purple") + theme_tree("black"),
-    ncol=2)
+    ggtree(x, color="red") + theme_tree("steelblue"),
+    ggtree(x, color="purple") + theme_tree("black"),
+    ggtree(x, size=1, color="white") + geom_bgimage('img/blackboard.jpg'),
+    ncol=3)
 ```
 
 
