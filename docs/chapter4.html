@@ -291,8 +291,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="A.7" data-path="faq.html"><a href="faq.html#use-the-most-distant-tip-from-the-root-as-the-origin-of-the-time-scale"><i class="fa fa-check"></i><b>A.7</b> Use the most distant tip from the root as the origin of the time scale</a></li>
 <li class="chapter" data-level="A.8" data-path="faq.html"><a href="faq.html#export-edit"><i class="fa fa-check"></i><b>A.8</b> Edit tree graphic details</a></li>
 </ul></li>
-<li class="chapter" data-level="B" data-path="ggimage-tips.html"><a href="ggimage-tips.html"><i class="fa fa-check"></i><b>B</b> Image processing using magick package</a><ul>
-<li class="chapter" data-level="B.1" data-path="ggimage-tips.html"><a href="ggimage-tips.html#example-1-remove-background-of-images"><i class="fa fa-check"></i><b>B.1</b> Example 1: Remove background of images</a></li>
+<li class="chapter" data-level="B" data-path="ggimage-tips.html"><a href="ggimage-tips.html"><i class="fa fa-check"></i><b>B</b> Tips for using <code>ggtree</code> with <code>ggimage</code></a><ul>
+<li class="chapter" data-level="B.1" data-path="ggimage-tips.html"><a href="ggimage-tips.html#ggimage-rm-image-bg"><i class="fa fa-check"></i><b>B.1</b> Example 1: Remove background of images</a></li>
+<li class="chapter" data-level="B.2" data-path="ggimage-tips.html"><a href="ggimage-tips.html#ggimage-bgimage"><i class="fa fa-check"></i><b>B.2</b> Example 2: Plot tree on a background image</a></li>
 </ul></li>
 <li class="chapter" data-level="C" data-path="commicR.html"><a href="commicR.html"><i class="fa fa-check"></i><b>C</b> Comic (xkcd-like) phylogenetic tree</a></li>
 <li class="chapter" data-level="D" data-path="ascii-tree.html"><a href="ascii-tree.html"><i class="fa fa-check"></i><b>D</b> Print ASCII-art rooted tree</a></li>
@@ -630,15 +631,15 @@ Figure 4.9: <strong>Phenogram.</strong> Projecting the tree into a space defined
 <p>scale &amp; theme</p>
 <p><code>theme_tree()</code> defined a totally blank canvas, while <em><code>theme_tree2()</code></em> adds
 phylogenetic distance (via x-axis). These two themes all accept a parameter of
-<em><code>bgcolor</code></em> that defined the background color. Users can pass
+<code>bgcolor</code> that defined the background color. Users can pass
 any <a href="http://ggplot2.tidyverse.org/reference/theme.html">theme components</a> to the
-<code>theme_tree()</code> function to modify them.</p>
+<code>theme_tree()</code> or <code>theme_tree2()</code> functions to modify them.</p>
 <div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="chapter4.html#cb151-1"></a><span class="kw">set.seed</span>(<span class="dv">2019</span>)</span>
 <span id="cb151-2"><a href="chapter4.html#cb151-2"></a>x &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)</span>
 <span id="cb151-3"><a href="chapter4.html#cb151-3"></a><span class="kw">ggtree</span>(x, <span class="dt">color=</span><span class="st">&quot;red&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree</span>(<span class="st">&quot;steelblue&quot;</span>)</span>
-<span id="cb151-4"><a href="chapter4.html#cb151-4"></a><span class="kw">ggtree</span>(x, <span class="dt">color=</span><span class="st">&quot;white&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree</span>(<span class="st">&quot;black&quot;</span>)</span>
-<span id="cb151-5"><a href="chapter4.html#cb151-5"></a><span class="kw">ggtree</span>(x, <span class="dt">size=</span><span class="dv">1</span>, <span class="dt">color=</span><span class="st">&quot;white&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_bgimage</span>(<span class="st">&#39;img/blackboard.jpg&#39;</span>)</span></code></pre></div>
-<p><img src="treedata_files/figure-html/unnamed-chunk-76-1.png" width="960" style="display: block; margin: auto;" /></p>
+<span id="cb151-4"><a href="chapter4.html#cb151-4"></a><span class="kw">ggtree</span>(x, <span class="dt">color=</span><span class="st">&quot;white&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree</span>(<span class="st">&quot;black&quot;</span>)</span></code></pre></div>
+<p><img src="treedata_files/figure-html/unnamed-chunk-76-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>Users can also use image file as tree background, see example in <a href="ggimage-tips.html#ggimage-bgimage">Appendix B</a>.</p>
 </div>
 </div>
 <div id="visualize-a-list-of-trees" class="section level2">

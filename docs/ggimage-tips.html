@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>B Image processing using magick package | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
-  <meta name="description" content="B Image processing using magick package | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
+  <title>B Tips for using ggtree with ggimage | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
+  <meta name="description" content="B Tips for using ggtree with ggimage | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
   <meta name="generator" content="bookdown 0.12 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="B Image processing using magick package | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
+  <meta property="og:title" content="B Tips for using ggtree with ggimage | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="B Image processing using magick package | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
+  <meta name="twitter:title" content="B Tips for using ggtree with ggimage | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
   
   
   
@@ -291,8 +291,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="A.7" data-path="faq.html"><a href="faq.html#use-the-most-distant-tip-from-the-root-as-the-origin-of-the-time-scale"><i class="fa fa-check"></i><b>A.7</b> Use the most distant tip from the root as the origin of the time scale</a></li>
 <li class="chapter" data-level="A.8" data-path="faq.html"><a href="faq.html#export-edit"><i class="fa fa-check"></i><b>A.8</b> Edit tree graphic details</a></li>
 </ul></li>
-<li class="chapter" data-level="B" data-path="ggimage-tips.html"><a href="ggimage-tips.html"><i class="fa fa-check"></i><b>B</b> Image processing using magick package</a><ul>
-<li class="chapter" data-level="B.1" data-path="ggimage-tips.html"><a href="ggimage-tips.html#example-1-remove-background-of-images"><i class="fa fa-check"></i><b>B.1</b> Example 1: Remove background of images</a></li>
+<li class="chapter" data-level="B" data-path="ggimage-tips.html"><a href="ggimage-tips.html"><i class="fa fa-check"></i><b>B</b> Tips for using <code>ggtree</code> with <code>ggimage</code></a><ul>
+<li class="chapter" data-level="B.1" data-path="ggimage-tips.html"><a href="ggimage-tips.html#ggimage-rm-image-bg"><i class="fa fa-check"></i><b>B.1</b> Example 1: Remove background of images</a></li>
+<li class="chapter" data-level="B.2" data-path="ggimage-tips.html"><a href="ggimage-tips.html#ggimage-bgimage"><i class="fa fa-check"></i><b>B.2</b> Example 2: Plot tree on a background image</a></li>
 </ul></li>
 <li class="chapter" data-level="C" data-path="commicR.html"><a href="commicR.html"><i class="fa fa-check"></i><b>C</b> Comic (xkcd-like) phylogenetic tree</a></li>
 <li class="chapter" data-level="D" data-path="ascii-tree.html"><a href="ascii-tree.html"><i class="fa fa-check"></i><b>D</b> Print ASCII-art rooted tree</a></li>
@@ -318,9 +319,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="ggimage-tips" class="section level1">
-<h1><span class="header-section-number">B</span> Image processing using magick package</h1>
-<p><a href="https://CRAN.R-project.org/package=ggimage">ggimage</a> allows processing images on the fly via the <code>image_fun</code> parameter, which accepts a function to process <code>magick-image</code> object. The <a href="https://CRAN.R-project.org/package=magick">magick</a> package provides several functions and these functions can be combined to perform a particular task.</p>
-<div id="example-1-remove-background-of-images" class="section level2">
+<h1><span class="header-section-number">B</span> Tips for using <code>ggtree</code> with <code>ggimage</code></h1>
+<p><a href="http://bioconductor.org/packages/ggtree">ggtree</a> supports annotating tree with silhouette images via the <a href="https://CRAN.R-project.org/package=ggimage">ggimage</a> package. <a href="https://CRAN.R-project.org/package=ggimage">ggimage</a> provides grammar of graphic syntax to work with image files. It allows processing images on the fly via the <code>image_fun</code> parameter, which accepts a function to process <code>magick-image</code> object. The <a href="https://CRAN.R-project.org/package=magick">magick</a> package provides several functions and these functions can be combined to perform a particular task.</p>
+<div id="ggimage-rm-image-bg" class="section level2">
 <h2><span class="header-section-number">B.1</span> Example 1: Remove background of images</h2>
 
 
@@ -337,6 +338,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <img src="treedata_files/figure-html/ggimagebg-1.png" alt="Remove image background. Plotting silhouette images on phylogenetic tree without (A) and with (B) background remove." width="768" />
 <p class="caption">
 Figure B.1: <strong>Remove image background.</strong> Plotting silhouette images on phylogenetic tree without (A) and with (B) background remove.
+</p>
+</div>
+</div>
+<div id="ggimage-bgimage" class="section level2">
+<h2><span class="header-section-number">B.2</span> Example 2: Plot tree on a background image</h2>
+<p>The <code>geom_bgimage</code> add a layer of the image and put the layer to the bottom of the layer stack. It is a normal layer and doesn’t change the structure of the output <code>ggtree</code> object. Users can add annotation layers as without the background image layer.</p>
+
+
+<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="ggimage-tips.html#cb251-1"></a><span class="kw">ggtree</span>(<span class="kw">rtree</span>(<span class="dv">30</span>), <span class="dt">size=</span><span class="fl">1.5</span>, <span class="dt">color=</span><span class="st">&quot;white&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb251-2"><a href="ggimage-tips.html#cb251-2"></a><span class="st">  </span><span class="kw">geom_bgimage</span>(<span class="st">&#39;img/blackboard.jpg&#39;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb251-3"><a href="ggimage-tips.html#cb251-3"></a><span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="dt">color=</span><span class="st">&quot;white&quot;</span>, <span class="dt">size=</span><span class="dv">4</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:bgimage"></span>
+<img src="treedata_files/figure-html/bgimage-1.png" alt="Use image file as tree background." width="576" />
+<p class="caption">
+Figure B.2: <strong>Use image file as tree background.</strong>
 </p>
 </div>
 </div>

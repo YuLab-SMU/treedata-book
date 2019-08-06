@@ -482,9 +482,9 @@ scale & theme
 
 `theme_tree()` defined a totally blank canvas, while _`theme_tree2()`_ adds
 phylogenetic distance (via x-axis). These two themes all accept a parameter of
-_`bgcolor`_ that defined the background color. Users can pass
+`bgcolor` that defined the background color. Users can pass
 any [theme components](http://ggplot2.tidyverse.org/reference/theme.html) to the
-`theme_tree()` function to modify them.
+`theme_tree()` or `theme_tree2()` functions to modify them.
 
 
 ```{r eval=F}
@@ -492,10 +492,9 @@ set.seed(2019)
 x <- rtree(30)
 ggtree(x, color="red") + theme_tree("steelblue")
 ggtree(x, color="white") + theme_tree("black")
-ggtree(x, size=1, color="white") + geom_bgimage('img/blackboard.jpg')
 ```
 
-```{r fig.width=10, fig.height=3, fig.align="center", echo=F}
+```{r fig.width=8, fig.height=3, fig.align="center", echo=F}
 library(ggimage)
 set.seed(2019)
 x <- rtree(30)
@@ -503,11 +502,10 @@ x <- rtree(30)
 cowplot::plot_grid(
     ggtree(x, color="red") + theme_tree("steelblue"),
     ggtree(x, color="purple") + theme_tree("black"),
-    ggtree(x, size=1, color="white") + geom_bgimage('img/blackboard.jpg'),
-    ncol=3)
+    ncol=2)
 ```
 
-
+Users can also use image file as tree background, see example in [Appendix B](#ggimage-bgimage).
 
 ## Visualize a list of trees
 

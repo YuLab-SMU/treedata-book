@@ -347,11 +347,11 @@ It's hard and maybe impossible to modify plot details using `r CRANpkg("ggplot2"
 
 
 
-# Image processing using magick package {#ggimage-tips}
+# Tips for using `ggtree` with `ggimage` {#ggimage-tips}
 
-`r CRANpkg("ggimage")` allows processing images on the fly via the `image_fun` parameter, which accepts a function to process `magick-image` object. The `r CRANpkg("magick")` package provides several functions and these functions can be combined to perform a particular task.
+`r Biocpkg("ggtree")` supports annotating tree with silhouette images via the `r CRANpkg("ggimage")` package. `r CRANpkg("ggimage")` provides grammar of graphic syntax to work with image files. It allows processing images on the fly via the `image_fun` parameter, which accepts a function to process `magick-image` object. The `r CRANpkg("magick")` package provides several functions and these functions can be combined to perform a particular task.
 
-## Example 1: Remove background of images
+## Example 1: Remove background of images {#ggimage-rm-image-bg}
 
 (ref:ggimagebgscap) Remove image background.
 
@@ -368,6 +368,21 @@ p2 <- p + geom_nodelab(image="img/frogs/frog.jpg", geom="image", size=.12,
             image_fun= function(.) magick::image_transparent(., "white")) + 
             ggtitle("image with background removed")
 plot_grid(p1, p2, ncol=2)
+```
+
+## Example 2: Plot tree on a background image {#ggimage-bgimage}
+
+The `geom_bgimage` add a layer of the image and put the layer to the bottom of the layer stack. It is a normal layer and doesn't change the structure of the output `ggtree` object. Users can add annotation layers as without the background image layer.
+
+(ref:bgimagescap) Use image file as tree background.
+
+(ref:bgimagecap) **Use image file as tree background.**
+
+
+```{r bgimage, fig.width=6, fig.height=4, fig.cap="(ref:bgimagecap)", fig.scap="(ref:bgimagescap)"} 
+ggtree(rtree(30), size=1.5, color="white") + 
+  geom_bgimage('img/blackboard.jpg') + 
+  geom_tiplab(color="white", size=4)
 ```
 
 # Comic (xkcd-like) phylogenetic tree {#commicR}

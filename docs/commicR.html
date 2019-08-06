@@ -291,8 +291,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="A.7" data-path="faq.html"><a href="faq.html#use-the-most-distant-tip-from-the-root-as-the-origin-of-the-time-scale"><i class="fa fa-check"></i><b>A.7</b> Use the most distant tip from the root as the origin of the time scale</a></li>
 <li class="chapter" data-level="A.8" data-path="faq.html"><a href="faq.html#export-edit"><i class="fa fa-check"></i><b>A.8</b> Edit tree graphic details</a></li>
 </ul></li>
-<li class="chapter" data-level="B" data-path="ggimage-tips.html"><a href="ggimage-tips.html"><i class="fa fa-check"></i><b>B</b> Image processing using magick package</a><ul>
-<li class="chapter" data-level="B.1" data-path="ggimage-tips.html"><a href="ggimage-tips.html#example-1-remove-background-of-images"><i class="fa fa-check"></i><b>B.1</b> Example 1: Remove background of images</a></li>
+<li class="chapter" data-level="B" data-path="ggimage-tips.html"><a href="ggimage-tips.html"><i class="fa fa-check"></i><b>B</b> Tips for using <code>ggtree</code> with <code>ggimage</code></a><ul>
+<li class="chapter" data-level="B.1" data-path="ggimage-tips.html"><a href="ggimage-tips.html#ggimage-rm-image-bg"><i class="fa fa-check"></i><b>B.1</b> Example 1: Remove background of images</a></li>
+<li class="chapter" data-level="B.2" data-path="ggimage-tips.html"><a href="ggimage-tips.html#ggimage-bgimage"><i class="fa fa-check"></i><b>B.2</b> Example 2: Plot tree on a background image</a></li>
 </ul></li>
 <li class="chapter" data-level="C" data-path="commicR.html"><a href="commicR.html"><i class="fa fa-check"></i><b>C</b> Comic (xkcd-like) phylogenetic tree</a></li>
 <li class="chapter" data-level="D" data-path="ascii-tree.html"><a href="ascii-tree.html"><i class="fa fa-check"></i><b>D</b> Print ASCII-art rooted tree</a></li>
@@ -319,27 +320,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="commicR" class="section level1">
 <h1><span class="header-section-number">C</span> Comic (xkcd-like) phylogenetic tree</h1>
-<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="commicR.html#cb251-1"></a><span class="kw">library</span>(htmltools)    </span>
-<span id="cb251-2"><a href="commicR.html#cb251-2"></a><span class="kw">library</span>(XML)    </span>
-<span id="cb251-3"><a href="commicR.html#cb251-3"></a><span class="kw">library</span>(gridSVG)    </span>
-<span id="cb251-4"><a href="commicR.html#cb251-4"></a><span class="kw">library</span>(ggplot2)    </span>
-<span id="cb251-5"><a href="commicR.html#cb251-5"></a><span class="kw">library</span>(ggtree)</span>
-<span id="cb251-6"><a href="commicR.html#cb251-6"></a><span class="kw">library</span>(comicR)    </span>
-<span id="cb251-7"><a href="commicR.html#cb251-7"></a></span>
-<span id="cb251-8"><a href="commicR.html#cb251-8"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(<span class="kw">rtree</span>(<span class="dv">30</span>), <span class="dt">layout=</span><span class="st">&quot;circular&quot;</span>)  <span class="op">+</span></span>
-<span id="cb251-9"><a href="commicR.html#cb251-9"></a><span class="st">    </span><span class="kw">geom_tiplab2</span>(<span class="kw">aes</span>(<span class="dt">label=</span>label), <span class="dt">color=</span><span class="st">&quot;purple&quot;</span>)</span>
-<span id="cb251-10"><a href="commicR.html#cb251-10"></a><span class="kw">print</span>(p)</span>
-<span id="cb251-11"><a href="commicR.html#cb251-11"></a>svg &lt;-<span class="st"> </span><span class="kw">grid.export</span>(<span class="dt">name=</span><span class="st">&quot;&quot;</span>, <span class="dt">res=</span><span class="dv">100</span>)<span class="op">$</span>svg</span></code></pre></div>
+<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="commicR.html#cb252-1"></a><span class="kw">library</span>(htmltools)    </span>
+<span id="cb252-2"><a href="commicR.html#cb252-2"></a><span class="kw">library</span>(XML)    </span>
+<span id="cb252-3"><a href="commicR.html#cb252-3"></a><span class="kw">library</span>(gridSVG)    </span>
+<span id="cb252-4"><a href="commicR.html#cb252-4"></a><span class="kw">library</span>(ggplot2)    </span>
+<span id="cb252-5"><a href="commicR.html#cb252-5"></a><span class="kw">library</span>(ggtree)</span>
+<span id="cb252-6"><a href="commicR.html#cb252-6"></a><span class="kw">library</span>(comicR)    </span>
+<span id="cb252-7"><a href="commicR.html#cb252-7"></a></span>
+<span id="cb252-8"><a href="commicR.html#cb252-8"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(<span class="kw">rtree</span>(<span class="dv">30</span>), <span class="dt">layout=</span><span class="st">&quot;circular&quot;</span>)  <span class="op">+</span></span>
+<span id="cb252-9"><a href="commicR.html#cb252-9"></a><span class="st">    </span><span class="kw">geom_tiplab2</span>(<span class="kw">aes</span>(<span class="dt">label=</span>label), <span class="dt">color=</span><span class="st">&quot;purple&quot;</span>)</span>
+<span id="cb252-10"><a href="commicR.html#cb252-10"></a><span class="kw">print</span>(p)</span>
+<span id="cb252-11"><a href="commicR.html#cb252-11"></a>svg &lt;-<span class="st"> </span><span class="kw">grid.export</span>(<span class="dt">name=</span><span class="st">&quot;&quot;</span>, <span class="dt">res=</span><span class="dv">100</span>)<span class="op">$</span>svg</span></code></pre></div>
 
 
-<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="commicR.html#cb252-1"></a><span class="kw">tagList</span>(</span>
-<span id="cb252-2"><a href="commicR.html#cb252-2"></a>    tags<span class="op">$</span><span class="kw">div</span>(</span>
-<span id="cb252-3"><a href="commicR.html#cb252-3"></a>             <span class="dt">id =</span> <span class="st">&quot;ggtree_comic&quot;</span>,</span>
-<span id="cb252-4"><a href="commicR.html#cb252-4"></a>             tags<span class="op">$</span><span class="kw">style</span>(<span class="st">&quot;#ggtree_comic text {font-family:Chalkduster;}&quot;</span>),</span>
-<span id="cb252-5"><a href="commicR.html#cb252-5"></a>             <span class="kw">HTML</span>(<span class="kw">saveXML</span>(svg)),</span>
-<span id="cb252-6"><a href="commicR.html#cb252-6"></a>             <span class="kw">comicR</span>(<span class="st">&quot;#ggtree_comic&quot;</span>, <span class="dt">ff=</span><span class="dv">5</span>)</span>
-<span id="cb252-7"><a href="commicR.html#cb252-7"></a>         )</span>
-<span id="cb252-8"><a href="commicR.html#cb252-8"></a>) <span class="co"># %&gt;% html_print</span></span></code></pre></div>
+<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="commicR.html#cb253-1"></a><span class="kw">tagList</span>(</span>
+<span id="cb253-2"><a href="commicR.html#cb253-2"></a>    tags<span class="op">$</span><span class="kw">div</span>(</span>
+<span id="cb253-3"><a href="commicR.html#cb253-3"></a>             <span class="dt">id =</span> <span class="st">&quot;ggtree_comic&quot;</span>,</span>
+<span id="cb253-4"><a href="commicR.html#cb253-4"></a>             tags<span class="op">$</span><span class="kw">style</span>(<span class="st">&quot;#ggtree_comic text {font-family:Chalkduster;}&quot;</span>),</span>
+<span id="cb253-5"><a href="commicR.html#cb253-5"></a>             <span class="kw">HTML</span>(<span class="kw">saveXML</span>(svg)),</span>
+<span id="cb253-6"><a href="commicR.html#cb253-6"></a>             <span class="kw">comicR</span>(<span class="st">&quot;#ggtree_comic&quot;</span>, <span class="dt">ff=</span><span class="dv">5</span>)</span>
+<span id="cb253-7"><a href="commicR.html#cb253-7"></a>         )</span>
+<span id="cb253-8"><a href="commicR.html#cb253-8"></a>) <span class="co"># %&gt;% html_print</span></span></code></pre></div>
 <div id="ggtree_comic">
 <style>#ggtree_comic text {font-family:Chalkduster;}</style>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="700px" height="500px" viewBox="0 0 700 500" version="1.1">
