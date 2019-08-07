@@ -132,3 +132,35 @@ p2 <- facet_plot(p, panel = "Sequence Distance", data = td, geom_point,
 
 print(p2)
 ```
+
+## Displaying different symbolic points for bootstrap values.
+
+We can cut the bootstrap values into several intervals, *e.g.* to indicate whether the clade is high, moderate or low support. Then we can use these intervals as categorical variable to set different color or shape of symbolic points to indicate the bootstrap values belong to which category.
+
+(ref:bpintervalscap) Partitioning bootstrap values.
+
+(ref:bpintervalcap) **Partitioning bootstrap values**. Bootstrap values were divided to three categories and this information was used to color circle points.
+
+```{r include = FALSE}
+## phytools also have a read.newick function
+read.newick <- treeio::read.newick
+```
+
+```{r bpinterval, fig.width=7.5, fig.height=8.6, fig.cap="(ref:bpintervalcap)", fig.scap="(ref:bpintervalscap)", dev="jpeg"}
+library(treeio)
+library(ggplot2)
+library(ggtree)
+
+tree <- read.newick("data/RMI.phy_phyml_tree_rooted_labeled.txt", node.label='support') 
+root <- rootnode(tree)  
+ggtree(tree, color="black", size=1.5, linetype=1,  right=TRUE) + 
+    geom_tiplab(size=4.5, hjust = -0.060, fontface="bold") +  xlim(0, 0.09) + 
+    geom_point2(aes(subset=!isTip & node != root, 
+                    fill=cut(support, c(0, 700, 900, 1000))), 
+                    shape=21, size=4) + 
+    theme_tree(legend.position=c(0.2, 0.2)) + 
+    scale_fill_manual(values=c("white", "grey", "black"), guide='legend', 
+                    name='Bootstrap Percentage(BP)', 
+                    breaks=c('(900,1e+03]', '(700,900]', '(0,700]'), 
+                    labels=expression(BP>=90,70 <= BP * " < 90", BP < 70))
+```

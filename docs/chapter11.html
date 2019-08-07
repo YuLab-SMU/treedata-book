@@ -267,6 +267,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="11" data-path="chapter11.html"><a href="chapter11.html"><i class="fa fa-check"></i><b>11</b> Gallery of reproducible examples</a><ul>
 <li class="chapter" data-level="11.1" data-path="chapter11.html"><a href="chapter11.html#visualizing-pairwise-nucleotide-sequence-distance-with-phylogenetic-tree"><i class="fa fa-check"></i><b>11.1</b> Visualizing pairwise nucleotide sequence distance with phylogenetic tree</a></li>
+<li class="chapter" data-level="11.2" data-path="chapter11.html"><a href="chapter11.html#displaying-different-symbolic-points-for-bootstrap-values."><i class="fa fa-check"></i><b>11.2</b> Displaying different symbolic points for bootstrap values.</a></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="chapter12.html"><a href="chapter12.html"><i class="fa fa-check"></i><b>12</b> ggtree extensions</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
@@ -429,6 +430,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <img src="treedata_files/figure-html/jv2017-1.png" alt="Phylogeny of HPV58 complete genomes with dot and line plots of pairwise nucleotide sequence distances." width="1152" />
 <p class="caption">
 Figure 11.1: <strong>Phylogeny of HPV58 complete genomes with dot and line plots of pairwise nucleotide sequence distances</strong>.
+</p>
+</div>
+</div>
+<div id="displaying-different-symbolic-points-for-bootstrap-values." class="section level2">
+<h2><span class="header-section-number">11.2</span> Displaying different symbolic points for bootstrap values.</h2>
+<p>We can cut the bootstrap values into several intervals, <em>e.g.</em> to indicate whether the clade is high, moderate or low support. Then we can use these intervals as categorical variable to set different color or shape of symbolic points to indicate the bootstrap values belong to which category.</p>
+
+
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="chapter11.html#cb225-1"></a><span class="kw">library</span>(treeio)</span>
+<span id="cb225-2"><a href="chapter11.html#cb225-2"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb225-3"><a href="chapter11.html#cb225-3"></a><span class="kw">library</span>(ggtree)</span>
+<span id="cb225-4"><a href="chapter11.html#cb225-4"></a></span>
+<span id="cb225-5"><a href="chapter11.html#cb225-5"></a>tree &lt;-<span class="st"> </span><span class="kw">read.newick</span>(<span class="st">&quot;data/RMI.phy_phyml_tree_rooted_labeled.txt&quot;</span>, <span class="dt">node.label=</span><span class="st">&#39;support&#39;</span>) </span>
+<span id="cb225-6"><a href="chapter11.html#cb225-6"></a>root &lt;-<span class="st"> </span><span class="kw">rootnode</span>(tree)  </span>
+<span id="cb225-7"><a href="chapter11.html#cb225-7"></a><span class="kw">ggtree</span>(tree, <span class="dt">color=</span><span class="st">&quot;black&quot;</span>, <span class="dt">size=</span><span class="fl">1.5</span>, <span class="dt">linetype=</span><span class="dv">1</span>,  <span class="dt">right=</span><span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb225-8"><a href="chapter11.html#cb225-8"></a><span class="st">    </span><span class="kw">geom_tiplab</span>(<span class="dt">size=</span><span class="fl">4.5</span>, <span class="dt">hjust =</span> <span class="fl">-0.060</span>, <span class="dt">fontface=</span><span class="st">&quot;bold&quot;</span>) <span class="op">+</span><span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="fl">0.09</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb225-9"><a href="chapter11.html#cb225-9"></a><span class="st">    </span><span class="kw">geom_point2</span>(<span class="kw">aes</span>(<span class="dt">subset=</span><span class="op">!</span>isTip <span class="op">&amp;</span><span class="st"> </span>node <span class="op">!=</span><span class="st"> </span>root, </span>
+<span id="cb225-10"><a href="chapter11.html#cb225-10"></a>                    <span class="dt">fill=</span><span class="kw">cut</span>(support, <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">700</span>, <span class="dv">900</span>, <span class="dv">1000</span>))), </span>
+<span id="cb225-11"><a href="chapter11.html#cb225-11"></a>                    <span class="dt">shape=</span><span class="dv">21</span>, <span class="dt">size=</span><span class="dv">4</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb225-12"><a href="chapter11.html#cb225-12"></a><span class="st">    </span><span class="kw">theme_tree</span>(<span class="dt">legend.position=</span><span class="kw">c</span>(<span class="fl">0.2</span>, <span class="fl">0.2</span>)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb225-13"><a href="chapter11.html#cb225-13"></a><span class="st">    </span><span class="kw">scale_fill_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;white&quot;</span>, <span class="st">&quot;grey&quot;</span>, <span class="st">&quot;black&quot;</span>), <span class="dt">guide=</span><span class="st">&#39;legend&#39;</span>, </span>
+<span id="cb225-14"><a href="chapter11.html#cb225-14"></a>                    <span class="dt">name=</span><span class="st">&#39;Bootstrap Percentage(BP)&#39;</span>, </span>
+<span id="cb225-15"><a href="chapter11.html#cb225-15"></a>                    <span class="dt">breaks=</span><span class="kw">c</span>(<span class="st">&#39;(900,1e+03]&#39;</span>, <span class="st">&#39;(700,900]&#39;</span>, <span class="st">&#39;(0,700]&#39;</span>), </span>
+<span id="cb225-16"><a href="chapter11.html#cb225-16"></a>                    <span class="dt">labels=</span><span class="kw">expression</span>(BP<span class="op">&gt;=</span><span class="dv">90</span>,<span class="dv">70</span> <span class="op">&lt;=</span><span class="st"> </span>BP <span class="op">*</span><span class="st"> &quot; &lt; 90&quot;</span>, BP <span class="op">&lt;</span><span class="st"> </span><span class="dv">70</span>))</span></code></pre></div>
+<div class="figure"><span id="fig:bpinterval"></span>
+<img src="treedata_files/figure-html/bpinterval-1.jpeg" alt="Partitioning bootstrap values. Bootstrap values were divided to three categories and this information was used to color circle points." width="720" />
+<p class="caption">
+Figure 11.2: <strong>Partitioning bootstrap values</strong>. Bootstrap values were divided to three categories and this information was used to color circle points.
 </p>
 </div>
 
