@@ -340,34 +340,6 @@ for (angle in seq(0, 270, 10)) {
 
 
 
-## Zoom on a portion of tree
-
-
-> tree_subset
-
-> may remove gzoom, for it is easy to be done via tree_subset, need examples
-
-
-`ggtree` provides _`gzoom`_ function that similar to _`zoom`_ function provided in `ape`. This function plots simultaneously a whole phylogenetic tree and a portion of it. It aims at exploring very large trees.
-
-```{r fig.width=9, fig.height=5, fig.align="center"}
-library("ape")
-data(chiroptera)
-library("ggtree")
-gzoom(chiroptera, grep("Plecotus", chiroptera$tip.label))
-```
-
-Zoom in selected clade of a tree that was already annotated with `ggtree` is also supported.
-
-```{r fig.width=9, fig.height=5, message=FALSE, warning=FALSE}
-groupInfo <- split(chiroptera$tip.label, gsub("_\\w+", "", chiroptera$tip.label))
-chiroptera <- groupOTU(chiroptera, groupInfo)
-p <- ggtree(chiroptera, aes(color=group)) + geom_tiplab() + xlim(NA, 23)
-gzoom(p, grep("Plecotus", chiroptera$tip.label), xmax_adjust=2)
-```
-
-
-
 
 
 ## Summary

@@ -439,20 +439,41 @@ plot_grid(p2, p3, p4, p5, ncol=2, labels=LETTERS[2:5]) %>%
 
 ### Subsetting tree by internal node number {#subset-node}
 
-If you are interesting at certain clade, you can specify the input node as an internal node number. The `tree_subset()` function will take the clade as a whole and also trace back to particular levels to look at the immediate relatives of the clade (Figure \@ref(fig:subsetNode)).
+If you are interesting at certain clade, you can specify the input node as an internal node number. The `tree_subset()` function will take the clade as a whole and also trace back to particular levels to look at the immediate relatives of the clade (Figure \@ref(fig:subsetNode)A and B). We can use `tree_subset` to zoom in selected portions and plot a whole tree with the portion of it, that is similar to the `ape::zoom()` function to explore very large tree (Figure \@ref(fig:subsetNode)C and D).
 
 (ref:subsetNodescap) Subsetting tree for specific clade.
 
-(ref:ssubsetNodecap) **Subsetting tree for specific clade.** Extracting a clade (A). Extracting a clade and trace back to look at its immediate relatives (B).
+(ref:ssubsetNodecap) **Subsetting tree for specific clade.** Extracting a clade (A). Extracting a clade and trace back to look at its immediate relatives (B). Viewing a very large tree (C) and a selected portion of it (D).
 
-```{r subsetNode, fig.width=10, fig.height=5, echo=T, fig.cap="(ref:ssubsetNodecap)", fig.scap="(ref:subsetNodescap)", out.extra=''}
+```{r subsetNode, fig.width=10, fig.height=10, echo=T, fig.cap="(ref:ssubsetNodecap)", fig.scap="(ref:subsetNodescap)", out.extra=''}
 clade <- tree_subset(beast_tree, node=121, levels_back=0)
 clade2 <- tree_subset(beast_tree, node=121, levels_back=2)
 p1 <- ggtree(clade) + geom_tiplab() + xlim(0, 5)
 p2 <- ggtree(clade2, aes(color=group)) + geom_tiplab() + 
   xlim(0, 8) + scale_color_manual(values=c("black", "red"))
-plot_grid(p1, p2, ncol=2, labels=c("A", "B"))
+
+
+library(ape)
+library(tidytree)
+library(treeio)
+
+data(chiroptera)
+
+nodes <- grep("Plecotus", chiroptera$tip.label)
+chiroptera <- groupOTU(chiroptera, nodes)
+
+clade <- MRCA(chiroptera, nodes)
+x <- tree_subset(chiroptera, clade, levels_back = 0)
+
+p3 <- ggtree(chiroptera, aes(colour = group)) + 
+  scale_color_manual(values=c("black", "red")) +
+  theme(legend.position = "none")
+p4 <- ggtree(x) + geom_tiplab() + xlim(0, 5)
+plot_grid(p1, p2, p3, p4, 
+  ncol=2, labels=LETTERS[1:4])
 ```  
+
+
 
 ## Manipulating tree data for visualization {#ggtree-fortify}
 

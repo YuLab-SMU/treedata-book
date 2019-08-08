@@ -217,8 +217,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.3" data-path="chapter6.html"><a href="chapter6.html#collapsing-and-expanding-clade"><i class="fa fa-check"></i><b>6.3</b> Collapsing and Expanding Clade</a></li>
 <li class="chapter" data-level="6.4" data-path="chapter6.html"><a href="chapter6.html#group-taxa-vis"><i class="fa fa-check"></i><b>6.4</b> Grouping Taxa</a></li>
 <li class="chapter" data-level="6.5" data-path="chapter6.html"><a href="chapter6.html#exploring-tree-structure"><i class="fa fa-check"></i><b>6.5</b> Exploring tree structure</a></li>
-<li class="chapter" data-level="6.6" data-path="chapter6.html"><a href="chapter6.html#zoom-on-a-portion-of-tree"><i class="fa fa-check"></i><b>6.6</b> Zoom on a portion of tree</a></li>
-<li class="chapter" data-level="6.7" data-path="chapter6.html"><a href="chapter6.html#summary-5"><i class="fa fa-check"></i><b>6.7</b> Summary</a></li>
+<li class="chapter" data-level="6.6" data-path="chapter6.html"><a href="chapter6.html#summary-5"><i class="fa fa-check"></i><b>6.6</b> Summary</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="chapter7.html"><a href="chapter7.html"><i class="fa fa-check"></i><b>7</b> Plotting tree with data</a><ul>
 <li class="chapter" data-level="7.1" data-path="chapter7.html"><a href="chapter7.html#attach-operator"><i class="fa fa-check"></i><b>7.1</b> Mapping data to the tree structure</a></li>
@@ -854,7 +853,7 @@ Figure 2.4: <strong>Subsetting tree for specific tip.</strong> The original tree
 </div>
 <div id="subset-node" class="section level3">
 <h3><span class="header-section-number">2.4.3</span> Subsetting tree by internal node number</h3>
-<p>If you are interesting at certain clade, you can specify the input node as an internal node number. The <code>tree_subset()</code> function will take the clade as a whole and also trace back to particular levels to look at the immediate relatives of the clade (Figure <a href="chapter2.html#fig:subsetNode">2.5</a>).</p>
+<p>If you are interesting at certain clade, you can specify the input node as an internal node number. The <code>tree_subset()</code> function will take the clade as a whole and also trace back to particular levels to look at the immediate relatives of the clade (Figure <a href="chapter2.html#fig:subsetNode">2.5</a>A and B). We can use <code>tree_subset</code> to zoom in selected portions and plot a whole tree with the portion of it, that is similar to the <code>ape::zoom()</code> function to explore very large tree (Figure <a href="chapter2.html#fig:subsetNode">2.5</a>C and D).</p>
 
 
 <div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="chapter2.html#cb99-1"></a>clade &lt;-<span class="st"> </span><span class="kw">tree_subset</span>(beast_tree, <span class="dt">node=</span><span class="dv">121</span>, <span class="dt">levels_back=</span><span class="dv">0</span>)</span>
@@ -862,11 +861,30 @@ Figure 2.4: <strong>Subsetting tree for specific tip.</strong> The original tree
 <span id="cb99-3"><a href="chapter2.html#cb99-3"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(clade) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">5</span>)</span>
 <span id="cb99-4"><a href="chapter2.html#cb99-4"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(clade2, <span class="kw">aes</span>(<span class="dt">color=</span>group)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span></span>
 <span id="cb99-5"><a href="chapter2.html#cb99-5"></a><span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">8</span>) <span class="op">+</span><span class="st"> </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>))</span>
-<span id="cb99-6"><a href="chapter2.html#cb99-6"></a><span class="kw">plot_grid</span>(p1, p2, <span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>))</span></code></pre></div>
+<span id="cb99-6"><a href="chapter2.html#cb99-6"></a></span>
+<span id="cb99-7"><a href="chapter2.html#cb99-7"></a></span>
+<span id="cb99-8"><a href="chapter2.html#cb99-8"></a><span class="kw">library</span>(ape)</span>
+<span id="cb99-9"><a href="chapter2.html#cb99-9"></a><span class="kw">library</span>(tidytree)</span>
+<span id="cb99-10"><a href="chapter2.html#cb99-10"></a><span class="kw">library</span>(treeio)</span>
+<span id="cb99-11"><a href="chapter2.html#cb99-11"></a></span>
+<span id="cb99-12"><a href="chapter2.html#cb99-12"></a><span class="kw">data</span>(chiroptera)</span>
+<span id="cb99-13"><a href="chapter2.html#cb99-13"></a></span>
+<span id="cb99-14"><a href="chapter2.html#cb99-14"></a>nodes &lt;-<span class="st"> </span><span class="kw">grep</span>(<span class="st">&quot;Plecotus&quot;</span>, chiroptera<span class="op">$</span>tip.label)</span>
+<span id="cb99-15"><a href="chapter2.html#cb99-15"></a>chiroptera &lt;-<span class="st"> </span><span class="kw">groupOTU</span>(chiroptera, nodes)</span>
+<span id="cb99-16"><a href="chapter2.html#cb99-16"></a></span>
+<span id="cb99-17"><a href="chapter2.html#cb99-17"></a>clade &lt;-<span class="st"> </span><span class="kw">MRCA</span>(chiroptera, nodes)</span>
+<span id="cb99-18"><a href="chapter2.html#cb99-18"></a>x &lt;-<span class="st"> </span><span class="kw">tree_subset</span>(chiroptera, clade, <span class="dt">levels_back =</span> <span class="dv">0</span>)</span>
+<span id="cb99-19"><a href="chapter2.html#cb99-19"></a></span>
+<span id="cb99-20"><a href="chapter2.html#cb99-20"></a>p3 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(chiroptera, <span class="kw">aes</span>(<span class="dt">colour =</span> group)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb99-21"><a href="chapter2.html#cb99-21"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>)) <span class="op">+</span></span>
+<span id="cb99-22"><a href="chapter2.html#cb99-22"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span>
+<span id="cb99-23"><a href="chapter2.html#cb99-23"></a>p4 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(x) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">5</span>)</span>
+<span id="cb99-24"><a href="chapter2.html#cb99-24"></a><span class="kw">plot_grid</span>(p1, p2, p3, p4, </span>
+<span id="cb99-25"><a href="chapter2.html#cb99-25"></a>  <span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">labels=</span>LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>])</span></code></pre></div>
 <div class="figure"><span id="fig:subsetNode"></span>
-<img src="treedata_files/figure-html/subsetNode-1.png" alt="Subsetting tree for specific clade. Extracting a clade (A). Extracting a clade and trace back to look at its immediate relatives (B)." width="960"  />
+<img src="treedata_files/figure-html/subsetNode-1.png" alt="Subsetting tree for specific clade. Extracting a clade (A). Extracting a clade and trace back to look at its immediate relatives (B). Viewing a very large tree (C) and a selected portion of it (D)." width="960"  />
 <p class="caption">
-Figure 2.5: <strong>Subsetting tree for specific clade.</strong> Extracting a clade (A). Extracting a clade and trace back to look at its immediate relatives (B).
+Figure 2.5: <strong>Subsetting tree for specific clade.</strong> Extracting a clade (A). Extracting a clade and trace back to look at its immediate relatives (B). Viewing a very large tree (C) and a selected portion of it (D).
 </p>
 </div>
 </div>
