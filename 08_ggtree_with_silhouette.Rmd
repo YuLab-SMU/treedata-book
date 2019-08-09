@@ -182,7 +182,7 @@ d <- data.frame(label = c('snail','mushroom', 'sunflower',
 
 ggtree(tree, linetype = "dashed", size=1, color='firebrick') %<+% d + 
   xlim(0, 4.5) + ylim(0.5, 6.5) +
-  geom_tiplab(aes(color=label), parse="emoji", size=15, vjust=.25) +
+  geom_tiplab(parse="emoji", size=15, vjust=.25) +
   geom_tiplab(aes(label = group), geom="label", x=3.5, hjust=.5)
 ```
 
@@ -194,20 +194,20 @@ With `r Biocpkg("ggtree")`, it is easy to generate phylomoji. The emoji is treat
 
 ```{r fig.width=6, fig.height=6, warning=F, dev='png'}
 p <- ggtree(tree, layout = "circular", size=1) +  
-  geom_tiplab2(aes(color=label), parse="emoji", size=10, vjust=.25)
+  geom_tiplab2(parse="emoji", size=10, vjust=.25)
 print(p)
 ```
 
 
 ```{r fig.width=6, fig.height=3.5, warning=F, eval=F, dev='png'}
-## fan layout 
+## fan layout  
 p2 <- open_tree(p, angle=200) 
 print(p2)
 ```
 
 ```{r fig.width=6, fig.height=3.5, warning=F, echo=F, dev='png'}
 p2 <- open_tree(p, angle=200)
-
+ 
 ggplot() + ylim(0.5, 1) + xlim(0, 1) + theme_tree() +
   annotation_custom(ggplotGrob(p2), 
                     xmin=-.1, xmax=1.1, ymin=-.25, ymax=1.25)
@@ -219,7 +219,7 @@ p2 %>% rotate_tree(-90)
 
 ```{r fig.width=3.5, fig.height=6, warning=F, echo=F, dev='png'}
 p3 <- p2 %>% rotate_tree(-90) 
-
+ 
 ggplot() + ylim(0, 1) + xlim(0.5, 1) + theme_tree() +
   annotation_custom(ggplotGrob(p3), 
                     ymin=-.1, ymax=1.1, xmin=-.25, xmax=1.25)
