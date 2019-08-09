@@ -128,7 +128,7 @@ cowplot::plot_grid(p, p2, p3, ncol=3, labels=c("A", "B", "C"))
 
 If you want to modify tip labels of the tree, you can use `treeio::rename_taxa()` to rename a `phylo` or `treedata` object.
 
-```{r}
+```{r renameTaxa}
 tree <- read.tree(text = "((A, B), (C, D));")
 d <- data.frame(label = LETTERS[1:4], 
                 label2 = c("sunflower", "tree", "snail", "mushroom"))
@@ -387,7 +387,7 @@ ggtree(rtree(20), size=1.5, color="white") +
 
 # Comic (xkcd-like) phylogenetic tree {#commicR}
 
-```{r fig.show='hide'}
+```{r ggsvg, fig.show='hide'}
 library(htmltools)    
 library(XML)    
 library(gridSVG)    
@@ -421,7 +421,7 @@ tagList(
 
 # Print ASCII-art rooted tree {#ascii-tree}
 
-```{r comment=NA}
+```{r asciiTree, comment=NA}
 library(data.tree)
 tree <- rtree(10)
 d <- as.data.frame(as.Node(tree))
@@ -433,7 +433,7 @@ It is neat to print ASCII-art of phylogeny. Sometimes we don't want to plot the 
 
 `r Biocpkg("ggtree")` supports parsing tip labels as emoji to create [phylomoji](#phylomoji). With the `r CRANpkg("data.tree")` and `r CRANpkg("emojifont")` packages, we can also print phylomoji as ASCII text.
 
-```{r comment=NA}
+```{r asciiTreeEmoji, comment=NA}
 library(emojifont)
 
 tt <- '((snail,mushroom),(((sunflower,evergreen_tree),leaves),green_salad));'
@@ -584,7 +584,7 @@ knitr::kable(ff, caption = "Functions defined in treeio.", booktabs = T) #%>%
 
 The book was written using R Markdown and was compiled by `r CRANpkg("bookdown")` package. Here is the session information on the system on which this thesis was compiled:
 
-```{r echo=FALSE}
+```{r sessionInfo, echo=FALSE}
 options(width=90)
 devtools::session_info()
 ## sessionInfo() %>% capture.output %>%
