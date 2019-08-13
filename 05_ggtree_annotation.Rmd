@@ -68,12 +68,15 @@ Layers defined in *ggplot2* can be applied to *ggtree* directly as demonstrated 
 geoms <- matrix(c(
   "geom_balance", "highlights the two direct descendant clades of an internal node",
   "geom_cladelabel", "annotate a clade with bar and text label",
+  "geom_facet", "plot associated data in specific panel (facet) and align the plot with the tree",
   "geom_hilight", "highlight a clade with rectangle",
+  "geom_inset", "add insets (subplots) to tree nodes",
   "geom_label2", "modified version of geom_label, with subsetting supported",
   "geom_nodepoint", "annotate internal nodes with symbolic points",
   "geom_point2", "modified version of geom_point, with subsetting supported",
   "geom_range", "bar layer to present uncertainty of evolutionary inference",
   "geom_rootpoint", "annotate root node with symbolic point",
+  "geom_rootedge", "add root edge to a tree", 
   "geom_segment2", "modified version of geom_segment, with subsetting supported",
   "geom_strip", "annotate associated taxa with bar and (optional) text label",
   "geom_taxalink", "associate two related taxa by linking them with a curve",
@@ -95,10 +98,10 @@ knitr::kable(geoms, caption = "Geom layers defined in ggtree.", booktabs = T) %>
 
 `r Biocpkg("ggtree")` [@yu_ggtree:_2017] implements _`geom_cladelabel`_ layer to annotate a selected clade with a bar indicating the clade with a corresponding label.
 
-The _`geom_cladelabel`_ layer accepts a selected internal node number. To get the internal node number, please refer to [Tree Manipulation](treeManipulation.html#internal-node-number) vignette.
+The _`geom_cladelabel`_ layer accepts a selected internal node number and label corresponding clade automatically (Figure \@ref(fig:cladelabel)A). To get the internal node number, please refer to [Chapter 2](#accesor-tidytree).
 
 
-```{r}
+```{r eval=F}
 set.seed(2015-12-21)
 tree <- rtree(30)
 p <- ggtree(tree) + xlim(NA, 6)
@@ -107,62 +110,85 @@ p + geom_cladelabel(node=45, label="test label") +
     geom_cladelabel(node=34, label="another clade")
 ```
 
-Users can set the parameter, `align = TRUE`, to align the clade label, and use the parameter, `offset`, to adjust the position.
+Users can set the parameter, `align = TRUE`, to align the clade label, `offset`, to adjust the position and color to set the color of bar and label text *etc* (Figure \@ref(fig:cladelabel)B). 
 
-```{r}
-p + geom_cladelabel(node=45, label="test label", align=TRUE, offset=.5) +
-    geom_cladelabel(node=34, label="another clade", align=TRUE, offset=.5)
+
+```{r eval=F}
+p + geom_cladelabel(node=45, label="test label", align=TRUE,  offset = .2, color='red') +
+    geom_cladelabel(node=34, label="another clade", align=TRUE, offset = .2, color='blue')
 ```
 
-Users can change the color of the clade label via the parameter `color`.
+Users can change the `angle` of the clade label text and relative position from text to bar via the parameter `offset.text`. The size of the bar and text can be changed via the parameters `barsize` and `fontsize` respectively (Figure \@ref(fig:cladelabel)C).
 
-```{r}
-p + geom_cladelabel(node=45, label="test label", align=T, color='red') +
-    geom_cladelabel(node=34, label="another clade", align=T, color='blue')
-```
-
-Users can change the `angle` of the clade label text and relative position from text to bar via the parameter `offset.text`.
-
-```{r}
-p + geom_cladelabel(node=45, label="test label", align=T, angle=270, hjust='center', offset.text=.5) +
-    geom_cladelabel(node=34, label="another clade", align=T, angle=45)
-```
-
-The size of the bar and text can be changed via the parameters `barsize` and `fontsize` respectively.
-
-```{r}
+```{r eval=F}
 p + geom_cladelabel(node=45, label="test label", align=T, angle=270, hjust='center', offset.text=.5, barsize=1.5) +
     geom_cladelabel(node=34, label="another clade", align=T, angle=45, fontsize=8)
 ```
 
-Users can also use `geom_label` to label the text.
+Users can also use `geom_label` to label the text and can set the background color by `fill` parameter (Figure \@ref(fig:cladelabel)D).
 
-```{r}
+```{r eval=F}
 p + geom_cladelabel(node=34, label="another clade", align=T, geom='label', fill='lightblue')
 ```
 
-#### Annotate clades for unrooted tree
 
-`r Biocpkg("ggtree")` provides `geom_clade2` for labeling clades of unrooted
-layout trees.
+(ref:cladelabelscap) Labelling clades.
+
+(ref:cladelabelcap) **Labeling clades.** 
+
+```{r cladelabel, echo=FALSE, fig.width=12, fig.height=7.6, fig.cap="(ref:cladelabelcap)", fig.scap="(ref:cladelabelscap)"}
+set.seed(2015-12-21)
+tree <- rtree(30)
+p <- ggtree(tree) + xlim(NA, 8)
+
+p1 = p + geom_cladelabel(node=45, label="test label") +
+    geom_cladelabel(node=34, label="another clade")
 
 
-```{r fig.wdith=7, fig.height=7, fig.align='center', warning=FALSE, message=FALSE}
-pg <- ggtree(tree, layout="daylight")
-pg + geom_cladelabel2(node=45, label="test label", angle=10) +
-    geom_cladelabel2(node=34, label="another clade", angle=305)
+p2 = p + geom_cladelabel(node=45, label="test label", align=T, color='red') +
+    geom_cladelabel(node=34, label="another clade", align=T, color='blue')
+
+p3 = p + geom_cladelabel(node=45, label="test label", align=T, angle=270, 
+  hjust='center', offset.text=.5, barsize=1.5, fontsize=8) +
+    geom_cladelabel(node=34, label="another clade", align=T, angle=45)
+
+p4 = p + geom_cladelabel(node=34, label="another clade", align=T, geom='label', fill='lightblue')
+
+plot_grid(p1, p2, p3, p4, ncol=2, labels = LETTERS[1:4])
 ```
 
-### Labelling associated taxa (Monophyletic, Polyphyletic or Paraphyletic)
+`geom_cladelabel` also supports unrooted tree layouts (Figure \@ref(fig:striplabel)A).
 
-`geom_cladelabel` is designed for labelling Monophyletic (Clade) while there are related taxa that are not form a clade. `ggtree` provides `geom_strip` to add a strip/bar to indicate the association with optional label (see [the issue](https://github.com/GuangchuangYu/ggtree/issues/52)).
+```{r fig.wdith=7, fig.height=7, fig.align='center', warning=FALSE, message=FALSE, eval=F}
+ggtree(tree, layout="daylight") + 
+  geom_cladelabel(node=35, label="test label", angle=0, 
+                  fontsize=8, offset=.5, vjust=.5)  + 
+  geom_cladelabel(node=55, label='another clade', 
+                  angle=-95, hjust=.5, fontsize=8)
+```
 
-```{r fig.width=5, fig.height=5, fig.align="center", warning=FALSE}
-nwk <- system.file("extdata", "sample.nwk", package="treeio")
-tree <- read.tree(nwk)
-ggtree(tree) + geom_tiplab() + 
-  geom_strip(5, 7, barsize=2, color='red') + 
-  geom_strip(6, 12, barsize=2, color='blue')
+`geom_cladelabel` is designed for labeling Monophyletic (Clade) while there are related taxa that are not form a clade. `ggtree` provides `geom_strip` to add a strip/bar to indicate the association with optional label for Polyphyletic or Paraphyletic (Figure \@ref(fig:striplabel)B).
+
+```{r eval=F}
+p + geom_tiplab() + 
+  geom_strip(5, 11, barsize=2, color='red', label="associated taxa") + 
+  geom_strip(24, 21, barsize=2, color='blue', label = "another label")
+```  
+
+(ref:striplabelscap) Labeling associated taxa.
+
+(ref:striplabelcap) **Labeling associated taxa.** `geom_cladelabel` is for labeling Monophyletic and it also supports unrooted layout (A). `geom_strip` is designed for labeling associated taxa (Monophyletic, Polyphyletic or Paraphyletic) (B).
+
+```{r striplabel, fig.width=13.5, fig.height=6.5, echo=FALSE, warning=FALSE, fig.cap="(ref:striplabelcap)", fig.scap="(ref:striplabelscap)"}
+
+pg <- ggtree(tree, layout="daylight")
+p5 <- pg + geom_cladelabel(node=35, label="test label", angle=0, fontsize=8, offset=.5, vjust=.5)  + 
+  geom_cladelabel(node=55, label='another clade', angle=-95, hjust=.5, fontsize=8)
+
+p6 <- p + geom_tiplab() + 
+  geom_strip(5, 11, barsize=2, color='red', label="associated taxa") + 
+  geom_strip(24, 21, barsize=2, color='blue', label = "another label")
+plot_grid(p5, p6, ncol=2, labels=LETTERS[1:2])  
 ```
 
 

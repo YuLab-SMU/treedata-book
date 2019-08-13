@@ -201,10 +201,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.1" data-path="chapter5.html"><a href="chapter5.html#visualizing-and-annotating-tree-using-grammar-of-graphics"><i class="fa fa-check"></i><b>5.1</b> Visualizing and Annotating Tree using Grammar of Graphics</a></li>
 <li class="chapter" data-level="5.2" data-path="chapter5.html"><a href="chapter5.html#layers-for-tree-annotation"><i class="fa fa-check"></i><b>5.2</b> Layers for Tree Annotation</a><ul>
 <li class="chapter" data-level="5.2.1" data-path="chapter5.html"><a href="chapter5.html#annotate-clades"><i class="fa fa-check"></i><b>5.2.1</b> Annotate clades</a></li>
-<li class="chapter" data-level="5.2.2" data-path="chapter5.html"><a href="chapter5.html#labelling-associated-taxa-monophyletic-polyphyletic-or-paraphyletic"><i class="fa fa-check"></i><b>5.2.2</b> Labelling associated taxa (Monophyletic, Polyphyletic or Paraphyletic)</a></li>
-<li class="chapter" data-level="5.2.3" data-path="chapter5.html"><a href="chapter5.html#highlight-clades"><i class="fa fa-check"></i><b>5.2.3</b> Highlight clades</a></li>
-<li class="chapter" data-level="5.2.4" data-path="chapter5.html"><a href="chapter5.html#taxa-connection"><i class="fa fa-check"></i><b>5.2.4</b> Taxa connection</a></li>
-<li class="chapter" data-level="5.2.5" data-path="chapter5.html"><a href="chapter5.html#uncertainty-of-evolutionary-inference"><i class="fa fa-check"></i><b>5.2.5</b> Uncertainty of evolutionary inference</a></li>
+<li class="chapter" data-level="5.2.2" data-path="chapter5.html"><a href="chapter5.html#highlight-clades"><i class="fa fa-check"></i><b>5.2.2</b> Highlight clades</a></li>
+<li class="chapter" data-level="5.2.3" data-path="chapter5.html"><a href="chapter5.html#taxa-connection"><i class="fa fa-check"></i><b>5.2.3</b> Taxa connection</a></li>
+<li class="chapter" data-level="5.2.4" data-path="chapter5.html"><a href="chapter5.html#uncertainty-of-evolutionary-inference"><i class="fa fa-check"></i><b>5.2.4</b> Uncertainty of evolutionary inference</a></li>
 </ul></li>
 <li class="chapter" data-level="5.3" data-path="chapter5.html"><a href="chapter5.html#tree-annotation-with-output-from-evolution-software"><i class="fa fa-check"></i><b>5.3</b> Tree annotation with output from evolution software</a><ul>
 <li class="chapter" data-level="5.3.1" data-path="chapter5.html"><a href="chapter5.html#tree-annotation-using-data-from-evolutionary-analysis-software"><i class="fa fa-check"></i><b>5.3.1</b> Tree annotation using data from evolutionary analysis software</a></li>
@@ -326,45 +325,45 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">10.1</span> facet utilities</h2>
 <div id="facet_widths" class="section level3">
 <h3><span class="header-section-number">10.1.1</span> facet_widths</h3>
-<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="chapter10.html#cb211-1"></a><span class="kw">library</span>(ggplot2)</span>
-<span id="cb211-2"><a href="chapter10.html#cb211-2"></a><span class="kw">library</span>(ggstance)</span>
-<span id="cb211-3"><a href="chapter10.html#cb211-3"></a><span class="kw">library</span>(ggtree)</span>
-<span id="cb211-4"><a href="chapter10.html#cb211-4"></a><span class="kw">library</span>(reshape2)</span>
-<span id="cb211-5"><a href="chapter10.html#cb211-5"></a></span>
-<span id="cb211-6"><a href="chapter10.html#cb211-6"></a><span class="kw">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb211-7"><a href="chapter10.html#cb211-7"></a>tree &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)</span>
-<span id="cb211-8"><a href="chapter10.html#cb211-8"></a></span>
-<span id="cb211-9"><a href="chapter10.html#cb211-9"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree, <span class="dt">branch.length =</span> <span class="st">&quot;none&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb211-10"><a href="chapter10.html#cb211-10"></a><span class="st">    </span><span class="kw">geom_tiplab</span>()</span>
-<span id="cb211-11"><a href="chapter10.html#cb211-11"></a></span>
-<span id="cb211-12"><a href="chapter10.html#cb211-12"></a>a &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">30</span>, <span class="dv">0</span>,<span class="dv">1</span>)</span>
-<span id="cb211-13"><a href="chapter10.html#cb211-13"></a>b &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span>a</span>
-<span id="cb211-14"><a href="chapter10.html#cb211-14"></a>df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(tree<span class="op">$</span>tip.label, a, b)</span>
-<span id="cb211-15"><a href="chapter10.html#cb211-15"></a>df &lt;-<span class="st"> </span><span class="kw">melt</span>(df, <span class="dt">id =</span> <span class="st">&quot;tree.tip.label&quot;</span>)</span>
-<span id="cb211-16"><a href="chapter10.html#cb211-16"></a></span>
-<span id="cb211-17"><a href="chapter10.html#cb211-17"></a>p2 &lt;-<span class="st"> </span><span class="kw">facet_plot</span>(p <span class="op">+</span><span class="st"> </span><span class="kw">xlim_tree</span>(<span class="dv">8</span>), <span class="dt">panel =</span> <span class="st">&#39;bar&#39;</span>, <span class="dt">data =</span> df, <span class="dt">geom =</span> geom_barh, </span>
-<span id="cb211-18"><a href="chapter10.html#cb211-18"></a>                 <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> value, <span class="dt">fill =</span> <span class="kw">as.factor</span>(variable)), </span>
-<span id="cb211-19"><a href="chapter10.html#cb211-19"></a>                 <span class="dt">width =</span> <span class="fl">0.8</span>, <span class="dt">stat=</span><span class="st">&#39;identity&#39;</span>)</span>
-<span id="cb211-20"><a href="chapter10.html#cb211-20"></a></span>
-<span id="cb211-21"><a href="chapter10.html#cb211-21"></a><span class="kw">facet_widths</span>(p2, <span class="dt">widths =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span></code></pre></div>
-<p><img src="treedata_files/figure-html/unnamed-chunk-112-1.png" width="672" /></p>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="chapter10.html#cb209-1"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb209-2"><a href="chapter10.html#cb209-2"></a><span class="kw">library</span>(ggstance)</span>
+<span id="cb209-3"><a href="chapter10.html#cb209-3"></a><span class="kw">library</span>(ggtree)</span>
+<span id="cb209-4"><a href="chapter10.html#cb209-4"></a><span class="kw">library</span>(reshape2)</span>
+<span id="cb209-5"><a href="chapter10.html#cb209-5"></a></span>
+<span id="cb209-6"><a href="chapter10.html#cb209-6"></a><span class="kw">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb209-7"><a href="chapter10.html#cb209-7"></a>tree &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)</span>
+<span id="cb209-8"><a href="chapter10.html#cb209-8"></a></span>
+<span id="cb209-9"><a href="chapter10.html#cb209-9"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree, <span class="dt">branch.length =</span> <span class="st">&quot;none&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb209-10"><a href="chapter10.html#cb209-10"></a><span class="st">    </span><span class="kw">geom_tiplab</span>()</span>
+<span id="cb209-11"><a href="chapter10.html#cb209-11"></a></span>
+<span id="cb209-12"><a href="chapter10.html#cb209-12"></a>a &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">30</span>, <span class="dv">0</span>,<span class="dv">1</span>)</span>
+<span id="cb209-13"><a href="chapter10.html#cb209-13"></a>b &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span>a</span>
+<span id="cb209-14"><a href="chapter10.html#cb209-14"></a>df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(tree<span class="op">$</span>tip.label, a, b)</span>
+<span id="cb209-15"><a href="chapter10.html#cb209-15"></a>df &lt;-<span class="st"> </span><span class="kw">melt</span>(df, <span class="dt">id =</span> <span class="st">&quot;tree.tip.label&quot;</span>)</span>
+<span id="cb209-16"><a href="chapter10.html#cb209-16"></a></span>
+<span id="cb209-17"><a href="chapter10.html#cb209-17"></a>p2 &lt;-<span class="st"> </span><span class="kw">facet_plot</span>(p <span class="op">+</span><span class="st"> </span><span class="kw">xlim_tree</span>(<span class="dv">8</span>), <span class="dt">panel =</span> <span class="st">&#39;bar&#39;</span>, <span class="dt">data =</span> df, <span class="dt">geom =</span> geom_barh, </span>
+<span id="cb209-18"><a href="chapter10.html#cb209-18"></a>                 <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> value, <span class="dt">fill =</span> <span class="kw">as.factor</span>(variable)), </span>
+<span id="cb209-19"><a href="chapter10.html#cb209-19"></a>                 <span class="dt">width =</span> <span class="fl">0.8</span>, <span class="dt">stat=</span><span class="st">&#39;identity&#39;</span>)</span>
+<span id="cb209-20"><a href="chapter10.html#cb209-20"></a></span>
+<span id="cb209-21"><a href="chapter10.html#cb209-21"></a><span class="kw">facet_widths</span>(p2, <span class="dt">widths =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span></code></pre></div>
+<p><img src="treedata_files/figure-html/unnamed-chunk-110-1.png" width="672" /></p>
 <p>It also supports using name vector to set the widths of specific panels.</p>
-<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="chapter10.html#cb212-1"></a><span class="kw">facet_widths</span>(p2, <span class="kw">c</span>(<span class="dt">Tree =</span> <span class="fl">.5</span>))</span></code></pre></div>
-<p><img src="treedata_files/figure-html/unnamed-chunk-113-1.png" width="672" /></p>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="chapter10.html#cb210-1"></a><span class="kw">facet_widths</span>(p2, <span class="kw">c</span>(<span class="dt">Tree =</span> <span class="fl">.5</span>))</span></code></pre></div>
+<p><img src="treedata_files/figure-html/unnamed-chunk-111-1.png" width="672" /></p>
 <p>The <code>facet_widths</code> function also work with other <code>ggplot</code> object.</p>
-<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="chapter10.html#cb213-1"></a>p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(iris, <span class="kw">aes</span>(Sepal.Width, Petal.Length)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb213-2"><a href="chapter10.html#cb213-2"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">facet_grid</span>(.<span class="op">~</span>Species)</span>
-<span id="cb213-3"><a href="chapter10.html#cb213-3"></a><span class="kw">facet_widths</span>(p, <span class="kw">c</span>(<span class="dt">setosa =</span> <span class="fl">.5</span>))</span></code></pre></div>
-<p><img src="treedata_files/figure-html/unnamed-chunk-115-1.png" width="672" /></p>
+<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="chapter10.html#cb211-1"></a>p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(iris, <span class="kw">aes</span>(Sepal.Width, Petal.Length)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb211-2"><a href="chapter10.html#cb211-2"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">facet_grid</span>(.<span class="op">~</span>Species)</span>
+<span id="cb211-3"><a href="chapter10.html#cb211-3"></a><span class="kw">facet_widths</span>(p, <span class="kw">c</span>(<span class="dt">setosa =</span> <span class="fl">.5</span>))</span></code></pre></div>
+<p><img src="treedata_files/figure-html/unnamed-chunk-113-1.png" width="672" /></p>
 </div>
 <div id="facet_labeller" class="section level3">
 <h3><span class="header-section-number">10.1.2</span> facet_labeller</h3>
 <p>The <code>facet_labeller</code> function was designed to re-label selected panels, and it currently only works with <code>ggtree</code> object (<em>i.e.</em> <code>facet_plot</code> output).</p>
-<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="chapter10.html#cb214-1"></a><span class="kw">facet_labeller</span>(p2, <span class="kw">c</span>(<span class="dt">Tree =</span> <span class="st">&quot;phylogeny&quot;</span>, <span class="dt">bar =</span> <span class="st">&quot;HELLO&quot;</span>))</span></code></pre></div>
-<p><img src="treedata_files/figure-html/unnamed-chunk-116-1.png" width="672" /></p>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="chapter10.html#cb212-1"></a><span class="kw">facet_labeller</span>(p2, <span class="kw">c</span>(<span class="dt">Tree =</span> <span class="st">&quot;phylogeny&quot;</span>, <span class="dt">bar =</span> <span class="st">&quot;HELLO&quot;</span>))</span></code></pre></div>
+<p><img src="treedata_files/figure-html/unnamed-chunk-114-1.png" width="672" /></p>
 <p>If you want to combine <code>facet_widths</code> with <code>facet_labeller</code>, you need to call <code>facet_labeller</code> to re-label the panels before using <code>facet_widths</code> to set the relative widths of each panels. Otherwise it wont work since the output of <code>facet_widths</code> is re-drawn from <code>grid</code> object.</p>
-<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="chapter10.html#cb215-1"></a><span class="kw">facet_labeller</span>(p2, <span class="kw">c</span>(<span class="dt">Tree =</span> <span class="st">&quot;phylogeny&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">facet_widths</span>(<span class="kw">c</span>(<span class="dt">Tree =</span> <span class="fl">.4</span>))</span></code></pre></div>
-<p><img src="treedata_files/figure-html/unnamed-chunk-117-1.png" width="672" /></p>
+<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="chapter10.html#cb213-1"></a><span class="kw">facet_labeller</span>(p2, <span class="kw">c</span>(<span class="dt">Tree =</span> <span class="st">&quot;phylogeny&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">facet_widths</span>(<span class="kw">c</span>(<span class="dt">Tree =</span> <span class="fl">.4</span>))</span></code></pre></div>
+<p><img src="treedata_files/figure-html/unnamed-chunk-115-1.png" width="672" /></p>
 </div>
 </div>
 <div id="layout-utilities" class="section level2">
@@ -419,13 +418,13 @@ transform circular/fan layout to rectangular layout
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="chapter10.html#cb216-1"></a><span class="kw">set.seed</span>(<span class="dv">2019</span>)</span>
-<span id="cb216-2"><a href="chapter10.html#cb216-2"></a>x &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">20</span>)</span>
-<span id="cb216-3"><a href="chapter10.html#cb216-3"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(x)</span>
-<span id="cb216-4"><a href="chapter10.html#cb216-4"></a>p <span class="op">+</span><span class="st"> </span><span class="kw">layout_dendrogram</span>()</span>
-<span id="cb216-5"><a href="chapter10.html#cb216-5"></a><span class="kw">ggtree</span>(x, <span class="dt">layout =</span> <span class="st">&quot;circular&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">layout_rectangular</span>()</span>
-<span id="cb216-6"><a href="chapter10.html#cb216-6"></a>p <span class="op">+</span><span class="st"> </span><span class="kw">layout_circular</span>()</span>
-<span id="cb216-7"><a href="chapter10.html#cb216-7"></a>p <span class="op">+</span><span class="st"> </span><span class="kw">layout_fan</span>(<span class="dt">angle=</span><span class="dv">90</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="chapter10.html#cb214-1"></a><span class="kw">set.seed</span>(<span class="dv">2019</span>)</span>
+<span id="cb214-2"><a href="chapter10.html#cb214-2"></a>x &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">20</span>)</span>
+<span id="cb214-3"><a href="chapter10.html#cb214-3"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(x)</span>
+<span id="cb214-4"><a href="chapter10.html#cb214-4"></a>p <span class="op">+</span><span class="st"> </span><span class="kw">layout_dendrogram</span>()</span>
+<span id="cb214-5"><a href="chapter10.html#cb214-5"></a><span class="kw">ggtree</span>(x, <span class="dt">layout =</span> <span class="st">&quot;circular&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">layout_rectangular</span>()</span>
+<span id="cb214-6"><a href="chapter10.html#cb214-6"></a>p <span class="op">+</span><span class="st"> </span><span class="kw">layout_circular</span>()</span>
+<span id="cb214-7"><a href="chapter10.html#cb214-7"></a>p <span class="op">+</span><span class="st"> </span><span class="kw">layout_fan</span>(<span class="dt">angle=</span><span class="dv">90</span>)</span></code></pre></div>
 
 
 <div class="figure"><span id="fig:layoutLayer"></span>
@@ -443,18 +442,18 @@ Figure 10.1: <strong>Layout layers for transforming among different layouts</str
 <div id="xlim_expand" class="section level3">
 <h3><span class="header-section-number">10.4.1</span> xlim_expand</h3>
 <p>Sometimes we need to set <code>xlim</code> for specific panel (<em>e.g.</em> allocate more space for <a href="faq.html#faq-label-truncated">long tip labels</a> at <code>Tree</code> panel). However, the <code>ggplot2::xlim()</code> function applies to all the panels. <a href="http://bioconductor.org/packages/ggtree">ggtree</a> provides <code>xlim_expand()</code> to adjust <code>xlim</code> for user specific panel. It accepts two parameters, <code>xlim</code> and <code>panel</code>, and can adjust all individual panels as demonstrated in Figure <a href="chapter10.html#fig:xlimExpand">10.2</a>A. If you only want to adjust <code>xlim</code> of the <code>Tree</code> panel, you can use <code>xlim_tree()</code> as a shortcut.</p>
-<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="chapter10.html#cb217-1"></a><span class="kw">set.seed</span>(<span class="dv">2019-05-02</span>)</span>
-<span id="cb217-2"><a href="chapter10.html#cb217-2"></a>x &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)</span>
-<span id="cb217-3"><a href="chapter10.html#cb217-3"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(x) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>()</span>
-<span id="cb217-4"><a href="chapter10.html#cb217-4"></a>d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">label =</span> x<span class="op">$</span>tip.label, </span>
-<span id="cb217-5"><a href="chapter10.html#cb217-5"></a>                <span class="dt">value =</span> <span class="kw">rnorm</span>(<span class="dv">30</span>))</span>
-<span id="cb217-6"><a href="chapter10.html#cb217-6"></a>p2 &lt;-<span class="st"> </span><span class="kw">facet_plot</span>(p, <span class="dt">panel =</span> <span class="st">&quot;Dot&quot;</span>, <span class="dt">data =</span> d, </span>
-<span id="cb217-7"><a href="chapter10.html#cb217-7"></a>            <span class="dt">geom =</span> geom_point, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> value))</span>
-<span id="cb217-8"><a href="chapter10.html#cb217-8"></a>p2 <span class="op">+</span><span class="st"> </span><span class="kw">xlim_tree</span>(<span class="dv">6</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlim_expand</span>(<span class="kw">c</span>(<span class="op">-</span><span class="dv">10</span>, <span class="dv">10</span>), <span class="st">&#39;Dot&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="chapter10.html#cb215-1"></a><span class="kw">set.seed</span>(<span class="dv">2019-05-02</span>)</span>
+<span id="cb215-2"><a href="chapter10.html#cb215-2"></a>x &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)</span>
+<span id="cb215-3"><a href="chapter10.html#cb215-3"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(x) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>()</span>
+<span id="cb215-4"><a href="chapter10.html#cb215-4"></a>d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">label =</span> x<span class="op">$</span>tip.label, </span>
+<span id="cb215-5"><a href="chapter10.html#cb215-5"></a>                <span class="dt">value =</span> <span class="kw">rnorm</span>(<span class="dv">30</span>))</span>
+<span id="cb215-6"><a href="chapter10.html#cb215-6"></a>p2 &lt;-<span class="st"> </span><span class="kw">facet_plot</span>(p, <span class="dt">panel =</span> <span class="st">&quot;Dot&quot;</span>, <span class="dt">data =</span> d, </span>
+<span id="cb215-7"><a href="chapter10.html#cb215-7"></a>            <span class="dt">geom =</span> geom_point, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> value))</span>
+<span id="cb215-8"><a href="chapter10.html#cb215-8"></a>p2 <span class="op">+</span><span class="st"> </span><span class="kw">xlim_tree</span>(<span class="dv">6</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlim_expand</span>(<span class="kw">c</span>(<span class="op">-</span><span class="dv">10</span>, <span class="dv">10</span>), <span class="st">&#39;Dot&#39;</span>)</span></code></pre></div>
 <p>The <code>xlim_expand()</code> function also works with <code>ggplot2::facet_grid()</code>. As demonstrating in Figure <a href="chapter10.html#fig:xlimExpand">10.2</a>B, only the <code>xlim</code> of <em>virginica</em> panel was adjusted by <code>xlim_expand()</code>.</p>
-<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="chapter10.html#cb218-1"></a>g &lt;-<span class="st"> </span><span class="kw">ggplot</span>(iris, <span class="kw">aes</span>(Sepal.Length, Sepal.Width)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb218-2"><a href="chapter10.html#cb218-2"></a><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">facet_grid</span>(. <span class="op">~</span><span class="st"> </span>Species, <span class="dt">scales =</span> <span class="st">&quot;free_x&quot;</span>) </span>
-<span id="cb218-3"><a href="chapter10.html#cb218-3"></a>g <span class="op">+</span><span class="st"> </span><span class="kw">xlim_expand</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">15</span>), <span class="st">&#39;virginica&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="chapter10.html#cb216-1"></a>g &lt;-<span class="st"> </span><span class="kw">ggplot</span>(iris, <span class="kw">aes</span>(Sepal.Length, Sepal.Width)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb216-2"><a href="chapter10.html#cb216-2"></a><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">facet_grid</span>(. <span class="op">~</span><span class="st"> </span>Species, <span class="dt">scales =</span> <span class="st">&quot;free_x&quot;</span>) </span>
+<span id="cb216-3"><a href="chapter10.html#cb216-3"></a>g <span class="op">+</span><span class="st"> </span><span class="kw">xlim_expand</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">15</span>), <span class="st">&#39;virginica&#39;</span>)</span></code></pre></div>
 
 
 <div class="figure"><span id="fig:xlimExpand"></span>
