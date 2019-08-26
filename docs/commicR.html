@@ -54,18 +54,17 @@
 
 
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -85,7 +84,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -246,9 +245,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="9" data-path="chapter9.html"><a href="chapter9.html"><i class="fa fa-check"></i><b>9</b> ggtree for other tree-like objects</a><ul>
 <li class="chapter" data-level="9.1" data-path="chapter9.html"><a href="chapter9.html#ggtree-for-phylogenetic-tree-objects"><i class="fa fa-check"></i><b>9.1</b> ggtree for phylogenetic tree objects</a><ul>
-<li class="chapter" data-level="9.1.1" data-path="chapter9.html"><a href="chapter9.html#phylobase"><i class="fa fa-check"></i><b>9.1.1</b> phylo4 and phylo4d</a></li>
-<li class="chapter" data-level="9.1.2" data-path="chapter9.html"><a href="chapter9.html#phyloseq"><i class="fa fa-check"></i><b>9.1.2</b> phyloseq</a></li>
-<li class="chapter" data-level="9.1.3" data-path="chapter9.html"><a href="chapter9.html#outbreaktools"><i class="fa fa-check"></i><b>9.1.3</b> OutbreakTools</a></li>
+<li class="chapter" data-level="9.1.1" data-path="chapter9.html"><a href="chapter9.html#phylobase"><i class="fa fa-check"></i><b>9.1.1</b> The phylo4 and phylo4d objects</a></li>
+<li class="chapter" data-level="9.1.2" data-path="chapter9.html"><a href="chapter9.html#phylog"><i class="fa fa-check"></i><b>9.1.2</b> The phylog object</a></li>
+<li class="chapter" data-level="9.1.3" data-path="chapter9.html"><a href="chapter9.html#phyloseq"><i class="fa fa-check"></i><b>9.1.3</b> The phyloseq object</a></li>
+<li class="chapter" data-level="9.1.4" data-path="chapter9.html"><a href="chapter9.html#obkdata"><i class="fa fa-check"></i><b>9.1.4</b> The obkData object</a></li>
 </ul></li>
 <li class="chapter" data-level="9.2" data-path="chapter9.html"><a href="chapter9.html#dendrogram"><i class="fa fa-check"></i><b>9.2</b> ggtree for dendrograms</a></li>
 </ul></li>
@@ -321,27 +321,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="commicR" class="section level1">
 <h1><span class="header-section-number">C</span> Comic (xkcd-like) phylogenetic tree</h1>
-<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="commicR.html#cb248-1"></a><span class="kw">library</span>(htmltools)    </span>
-<span id="cb248-2"><a href="commicR.html#cb248-2"></a><span class="kw">library</span>(XML)    </span>
-<span id="cb248-3"><a href="commicR.html#cb248-3"></a><span class="kw">library</span>(gridSVG)    </span>
-<span id="cb248-4"><a href="commicR.html#cb248-4"></a><span class="kw">library</span>(ggplot2)    </span>
-<span id="cb248-5"><a href="commicR.html#cb248-5"></a><span class="kw">library</span>(ggtree)</span>
-<span id="cb248-6"><a href="commicR.html#cb248-6"></a><span class="kw">library</span>(comicR)    </span>
-<span id="cb248-7"><a href="commicR.html#cb248-7"></a></span>
-<span id="cb248-8"><a href="commicR.html#cb248-8"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(<span class="kw">rtree</span>(<span class="dv">30</span>), <span class="dt">layout=</span><span class="st">&quot;circular&quot;</span>)  <span class="op">+</span></span>
-<span id="cb248-9"><a href="commicR.html#cb248-9"></a><span class="st">    </span><span class="kw">geom_tiplab2</span>(<span class="kw">aes</span>(<span class="dt">label=</span>label), <span class="dt">color=</span><span class="st">&quot;purple&quot;</span>)</span>
-<span id="cb248-10"><a href="commicR.html#cb248-10"></a><span class="kw">print</span>(p)</span>
-<span id="cb248-11"><a href="commicR.html#cb248-11"></a>svg &lt;-<span class="st"> </span><span class="kw">grid.export</span>(<span class="dt">name=</span><span class="st">&quot;&quot;</span>, <span class="dt">res=</span><span class="dv">100</span>)<span class="op">$</span>svg</span></code></pre></div>
+<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="commicR.html#cb253-1"></a><span class="kw">library</span>(htmltools)    </span>
+<span id="cb253-2"><a href="commicR.html#cb253-2"></a><span class="kw">library</span>(XML)    </span>
+<span id="cb253-3"><a href="commicR.html#cb253-3"></a><span class="kw">library</span>(gridSVG)    </span>
+<span id="cb253-4"><a href="commicR.html#cb253-4"></a><span class="kw">library</span>(ggplot2)    </span>
+<span id="cb253-5"><a href="commicR.html#cb253-5"></a><span class="kw">library</span>(ggtree)</span>
+<span id="cb253-6"><a href="commicR.html#cb253-6"></a><span class="kw">library</span>(comicR)    </span>
+<span id="cb253-7"><a href="commicR.html#cb253-7"></a></span>
+<span id="cb253-8"><a href="commicR.html#cb253-8"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(<span class="kw">rtree</span>(<span class="dv">30</span>), <span class="dt">layout=</span><span class="st">&quot;circular&quot;</span>)  <span class="op">+</span></span>
+<span id="cb253-9"><a href="commicR.html#cb253-9"></a><span class="st">    </span><span class="kw">geom_tiplab2</span>(<span class="kw">aes</span>(<span class="dt">label=</span>label), <span class="dt">color=</span><span class="st">&quot;purple&quot;</span>)</span>
+<span id="cb253-10"><a href="commicR.html#cb253-10"></a><span class="kw">print</span>(p)</span>
+<span id="cb253-11"><a href="commicR.html#cb253-11"></a>svg &lt;-<span class="st"> </span><span class="kw">grid.export</span>(<span class="dt">name=</span><span class="st">&quot;&quot;</span>, <span class="dt">res=</span><span class="dv">100</span>)<span class="op">$</span>svg</span></code></pre></div>
 
 
-<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="commicR.html#cb249-1"></a><span class="kw">tagList</span>(</span>
-<span id="cb249-2"><a href="commicR.html#cb249-2"></a>    tags<span class="op">$</span><span class="kw">div</span>(</span>
-<span id="cb249-3"><a href="commicR.html#cb249-3"></a>             <span class="dt">id =</span> <span class="st">&quot;ggtree_comic&quot;</span>,</span>
-<span id="cb249-4"><a href="commicR.html#cb249-4"></a>             tags<span class="op">$</span><span class="kw">style</span>(<span class="st">&quot;#ggtree_comic text {font-family:Chalkduster;}&quot;</span>),</span>
-<span id="cb249-5"><a href="commicR.html#cb249-5"></a>             <span class="kw">HTML</span>(<span class="kw">saveXML</span>(svg)),</span>
-<span id="cb249-6"><a href="commicR.html#cb249-6"></a>             <span class="kw">comicR</span>(<span class="st">&quot;#ggtree_comic&quot;</span>, <span class="dt">ff=</span><span class="dv">5</span>)</span>
-<span id="cb249-7"><a href="commicR.html#cb249-7"></a>         )</span>
-<span id="cb249-8"><a href="commicR.html#cb249-8"></a>) <span class="co"># %&gt;% html_print</span></span></code></pre></div>
+<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="commicR.html#cb254-1"></a><span class="kw">tagList</span>(</span>
+<span id="cb254-2"><a href="commicR.html#cb254-2"></a>    tags<span class="op">$</span><span class="kw">div</span>(</span>
+<span id="cb254-3"><a href="commicR.html#cb254-3"></a>             <span class="dt">id =</span> <span class="st">&quot;ggtree_comic&quot;</span>,</span>
+<span id="cb254-4"><a href="commicR.html#cb254-4"></a>             tags<span class="op">$</span><span class="kw">style</span>(<span class="st">&quot;#ggtree_comic text {font-family:Chalkduster;}&quot;</span>),</span>
+<span id="cb254-5"><a href="commicR.html#cb254-5"></a>             <span class="kw">HTML</span>(<span class="kw">saveXML</span>(svg)),</span>
+<span id="cb254-6"><a href="commicR.html#cb254-6"></a>             <span class="kw">comicR</span>(<span class="st">&quot;#ggtree_comic&quot;</span>, <span class="dt">ff=</span><span class="dv">5</span>)</span>
+<span id="cb254-7"><a href="commicR.html#cb254-7"></a>         )</span>
+<span id="cb254-8"><a href="commicR.html#cb254-8"></a>) <span class="co"># %&gt;% html_print</span></span></code></pre></div>
 <div id="ggtree_comic">
 <style>#ggtree_comic text {font-family:Chalkduster;}</style>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="700px" height="500px" viewBox="0 0 700 500" version="1.1">

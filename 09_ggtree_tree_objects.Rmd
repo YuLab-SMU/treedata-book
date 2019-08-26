@@ -4,7 +4,7 @@
 
 The `r Biocpkg("treeio")` packages allows parsing evolutionary inferences from a number of software outputs and linking external data to the tree structure. It serves as an infrastructure to bring evolutionary data to the R community. The `r Biocpkg("ggtree")` package works seamlessly with `r Biocpkg("treeio")` to visualize tree associated data to annotate the tree. The `r Biocpkg("ggtree")` package is general tool for tree visualization and annotation and it fits the ecosystem of R packages. Most of the S3/S4 tree objects defined by other R packages are also supported by `r Biocpkg("ggtree")`, including `phylo`([session 4.2](#visualizing-phylogenetic-tree-with-ggtree)), `multiPhylo` ([session 4.4](#visualize-a-list-of-trees)), `phylo4`, `phylo4d`, `phyloseq` and `obkData`. With `r Biocpkg("ggtree")`, we are able to generate more complex tree graph which is not possible or easy to do with other packages. For example, the visualization of the `phyloseq` object in Figure \@ref(fig:phyloseq) is not supported by the `r Biocpkg("phyloseq")` package. The `r Biocpkg("ggtree")` package also extend the possibility of linking external data to these tree object [@yu_two_2018].
 
-### phylo4 and phylo4d {#phylobase}
+### The phylo4 and phylo4d objects {#phylobase}
 
 The `phylo4` and `phylo4d` are defined in the `r CRANpkg("phylobase")` package. The `phylo4` object is a S4 version of `phylo`, while `phylo4d` extends `phylo4` with a data frame that contains trait data. The `r CRANpkg("phylobase")` package provides `plot` method, which internally calls the `treePlot` function, to display the tree with the data. However there are some restrictions of the `plot` method, it can only plot numeric values for tree-associated data as bubbles and cannot generate figure legend. `Phylobase` doesn't implement visualization method to display categorical values. Using associated data as visual characteristics such as color, size and shape, is also not supported. Although it is possible to color the tree using associated data, it requires users to extract the data and map them to color vector manually follow by passing the color vector to the `plot` method. This is tedious and error-prone since the order of the color vector needs to be consistent with the edge list stored in the object.
 
@@ -36,8 +36,28 @@ ggtree(g2) + geom_tippoint(aes(size = wingL), x = d1$x[1], shape = 1) +
 ```
 
 
+### The phylog object {#phylog}
 
-### phyloseq
+The `phylog` is defined in `r CRANpkg("ade4")` package. The package is designed for analyzing ecological data and provides `newick2phylog`, `hclust2phylog` and `taxo2phylog` functions to create phylogeny from Newick string, hierachical clustering result or a taxonomy. The `phylog` object is also supported by `ggtree` as demonstrated in Figure \@ref(fig:phylog).
+
+(ref:phylogscap) Visualizing phylog tree object.
+
+(ref:phylogcap) **Visualizing phylog tree object.** 
+
+
+```{r phylog, fig.width=7, fig.height=4.8, fig.cap="(ref:phylogcap)", fig.scap="(ref:phylogscap)"}
+library(ade4)
+data(taxo.eg)
+tax <- as.taxo(taxo.eg[[1]])
+print(tax)
+tax.phy <- taxo2phylog(as.taxo(taxo.eg[[1]]))
+print(tax.phy)
+
+ggtree(tax.phy) + geom_tiplab() + geom_nodelab(geom='label')
+```
+
+
+### The phyloseq object {#phyloseq}
 
 The `phyloseq` class that defined in the `r Biocpkg("phyloseq")` package was designed for storing microbiome data, including phylogenetic tree, associated sample data and taxonomy assignment. It can import data from popular pipelines, such as *QIIME* [@kuczynski_using_2011], *mothur* [@schloss_introducing_2009], *DADA2* [@callahan_dada2_2016] and *PyroTagger* [@kunin_pyrotagger_2010], *etc.*. The *ggtree* supports visualizing the phylogenetic tree stored in `phyloseq` object and related data can be used to annotate the tree as demonstrated in Figure \@ref(fig:reproducephyloseq) and \@ref(fig:phyloseq).
 
@@ -101,7 +121,7 @@ This example uses microbiome data that provided in `phyloseq` package and densit
 
 
 
-### OutbreakTools
+### The obkData object {#obkdata}
 
 The `okbData` is defined in the `r CRANpkg("OutbreakTools")` package to store incidence-based outbreak data, including meta data of sampling and information of infected individuals such as age and onset of symptoms. The `ggtree` supports the `obkData` object and the information can be used to annotate the tree as shown in Figure \@ref(fig:outbreaktools).
 
@@ -127,7 +147,6 @@ ggtree(x, mrsd="2009-09-30", as.Date=TRUE, right=TRUE) +
     theme_tree2(legend.position='right')
 ```
 \setstretch{1.5}
-
 
 
 ## ggtree for dendrograms {#dendrogram}

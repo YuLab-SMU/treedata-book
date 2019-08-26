@@ -54,18 +54,17 @@
 
 
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -85,7 +84,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -246,9 +245,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="9" data-path="chapter9.html"><a href="chapter9.html"><i class="fa fa-check"></i><b>9</b> ggtree for other tree-like objects</a><ul>
 <li class="chapter" data-level="9.1" data-path="chapter9.html"><a href="chapter9.html#ggtree-for-phylogenetic-tree-objects"><i class="fa fa-check"></i><b>9.1</b> ggtree for phylogenetic tree objects</a><ul>
-<li class="chapter" data-level="9.1.1" data-path="chapter9.html"><a href="chapter9.html#phylobase"><i class="fa fa-check"></i><b>9.1.1</b> phylo4 and phylo4d</a></li>
-<li class="chapter" data-level="9.1.2" data-path="chapter9.html"><a href="chapter9.html#phyloseq"><i class="fa fa-check"></i><b>9.1.2</b> phyloseq</a></li>
-<li class="chapter" data-level="9.1.3" data-path="chapter9.html"><a href="chapter9.html#outbreaktools"><i class="fa fa-check"></i><b>9.1.3</b> OutbreakTools</a></li>
+<li class="chapter" data-level="9.1.1" data-path="chapter9.html"><a href="chapter9.html#phylobase"><i class="fa fa-check"></i><b>9.1.1</b> The phylo4 and phylo4d objects</a></li>
+<li class="chapter" data-level="9.1.2" data-path="chapter9.html"><a href="chapter9.html#phylog"><i class="fa fa-check"></i><b>9.1.2</b> The phylog object</a></li>
+<li class="chapter" data-level="9.1.3" data-path="chapter9.html"><a href="chapter9.html#phyloseq"><i class="fa fa-check"></i><b>9.1.3</b> The phyloseq object</a></li>
+<li class="chapter" data-level="9.1.4" data-path="chapter9.html"><a href="chapter9.html#obkdata"><i class="fa fa-check"></i><b>9.1.4</b> The obkData object</a></li>
 </ul></li>
 <li class="chapter" data-level="9.2" data-path="chapter9.html"><a href="chapter9.html#dendrogram"><i class="fa fa-check"></i><b>9.2</b> ggtree for dendrograms</a></li>
 </ul></li>
@@ -323,10 +323,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">E</span> Zoom in selected portion</h1>
 
 
-<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="facet-zoom.html#cb254-1"></a><span class="kw">set.seed</span>(<span class="dv">2019-08-05</span>)</span>
-<span id="cb254-2"><a href="facet-zoom.html#cb254-2"></a>x &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)</span>
-<span id="cb254-3"><a href="facet-zoom.html#cb254-3"></a>nn &lt;-<span class="st"> </span>tidytree<span class="op">::</span><span class="kw">offspring</span>(x, <span class="dv">43</span>, <span class="dt">self_include=</span><span class="ot">TRUE</span>)</span>
-<span id="cb254-4"><a href="facet-zoom.html#cb254-4"></a><span class="kw">ggtree</span>(x) <span class="op">+</span><span class="st"> </span>ggforce<span class="op">::</span><span class="kw">facet_zoom</span>(<span class="dt">xy =</span> node <span class="op">%in%</span><span class="st"> </span>nn)</span></code></pre></div>
+<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="facet-zoom.html#cb259-1"></a><span class="kw">set.seed</span>(<span class="dv">2019-08-05</span>)</span>
+<span id="cb259-2"><a href="facet-zoom.html#cb259-2"></a>x &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)</span>
+<span id="cb259-3"><a href="facet-zoom.html#cb259-3"></a>nn &lt;-<span class="st"> </span>tidytree<span class="op">::</span><span class="kw">offspring</span>(x, <span class="dv">43</span>, <span class="dt">self_include=</span><span class="ot">TRUE</span>)</span>
+<span id="cb259-4"><a href="facet-zoom.html#cb259-4"></a><span class="kw">ggtree</span>(x) <span class="op">+</span><span class="st"> </span>ggforce<span class="op">::</span><span class="kw">facet_zoom</span>(<span class="dt">xy =</span> node <span class="op">%in%</span><span class="st"> </span>nn)</span></code></pre></div>
 <div class="figure"><span id="fig:facetZoom"></span>
 <img src="treedata_files/figure-html/facetZoom-1.png" alt="Zoom in selected clade." width="576" />
 <p class="caption">
