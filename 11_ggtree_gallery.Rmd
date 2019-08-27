@@ -165,12 +165,11 @@ ggtree(tree, color="black", size=1.5, linetype=1,  right=TRUE) +
                     labels=expression(BP>=90,70 <= BP * " < 90", BP < 70))
 ```
 
-<!--
+
 
 ## Phylogenetic tree with genome locus structure
 
-The `geom_motif` is defined in `ggtree` and it is a wrapper layer of `gggenes::geom_gene_arrow`. 
-
+The `geom_motif` is defined in `ggtree` and it is a wrapper layer of `gggenes::geom_gene_arrow`. The `geom_motif` can automatically adjust genomic alignment by selective gene (via the `on` parameter).
 
 
 (ref:gggenesscap) Genomic features with phylogenetic tree.
@@ -178,7 +177,7 @@ The `geom_motif` is defined in `ggtree` and it is a wrapper layer of `gggenes::g
 (ref:gggenescap) **Genomic features with phylogenetic tree.**
 
 
-``` r gggenes, fig.width=7, fig.height=4, fig.cap="(ref:gggenescap)", fig.scap="(ref:gggenesscap)"}
+```{r gggenes, fig.width=9, fig.height=4, fig.cap="(ref:gggenescap)", fig.scap="(ref:gggenesscap)"}
 library(dplyr)
 library(ggplot2)
 library(gggenes)
@@ -205,11 +204,9 @@ for (i in 1:n) {
 
 tree <- ape::bionj(d)
 ggtree(tree, branch.length='none') + 
-    geom_tiplab() + xlim(NA, 5) + 
+    geom_tiplab() + xlim_tree(5) + 
     geom_facet(mapping = aes(xmin = start, xmax = end, fill = gene),
-               data=example_genes, geom=geom_motif, panel='alignment',
+               data=example_genes, geom=geom_motif, panel='Alignment',
                on = 'genE') +
     scale_fill_brewer(palette = "Set3")
 ```
-
--->

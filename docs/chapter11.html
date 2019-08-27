@@ -267,6 +267,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="11" data-path="chapter11.html"><a href="chapter11.html"><i class="fa fa-check"></i><b>11</b> Gallery of reproducible examples</a><ul>
 <li class="chapter" data-level="11.1" data-path="chapter11.html"><a href="chapter11.html#visualizing-pairwise-nucleotide-sequence-distance-with-phylogenetic-tree"><i class="fa fa-check"></i><b>11.1</b> Visualizing pairwise nucleotide sequence distance with phylogenetic tree</a></li>
 <li class="chapter" data-level="11.2" data-path="chapter11.html"><a href="chapter11.html#displaying-different-symbolic-points-for-bootstrap-values."><i class="fa fa-check"></i><b>11.2</b> Displaying different symbolic points for bootstrap values.</a></li>
+<li class="chapter" data-level="11.3" data-path="chapter11.html"><a href="chapter11.html#phylogenetic-tree-with-genome-locus-structure"><i class="fa fa-check"></i><b>11.3</b> Phylogenetic tree with genome locus structure</a></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="chapter12.html"><a href="chapter12.html"><i class="fa fa-check"></i><b>12</b> ggtree extensions</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
@@ -459,54 +460,49 @@ Figure 11.1: <strong>Phylogeny of HPV58 complete genomes with dot and line plots
 Figure 11.2: <strong>Partitioning bootstrap values</strong>. Bootstrap values were divided into three categories and this information was used to color circle points.
 </p>
 </div>
-<!--
-
-## Phylogenetic tree with genome locus structure
-
-The `geom_motif` is defined in `ggtree` and it is a wrapper layer of `gggenes::geom_gene_arrow`. 
-
+</div>
+<div id="phylogenetic-tree-with-genome-locus-structure" class="section level2">
+<h2><span class="header-section-number">11.3</span> Phylogenetic tree with genome locus structure</h2>
+<p>The <code>geom_motif</code> is defined in <code>ggtree</code> and it is a wrapper layer of <code>gggenes::geom_gene_arrow</code>. The <code>geom_motif</code> can automatically adjust genomic alignment by selective gene (via the <code>on</code> parameter).</p>
 
 
-(ref:gggenesscap) Genomic features with phylogenetic tree.
-
-(ref:gggenescap) **Genomic features with phylogenetic tree.**
-
-
-``` r gggenes, fig.width=7, fig.height=4, fig.cap="(ref:gggenescap)", fig.scap="(ref:gggenesscap)"}
-library(dplyr)
-library(ggplot2)
-library(gggenes)
-library(ggtree)
-
-get_genes <- function(data, genome) {
-    filter(data, molecule == genome) %>% pull(gene)
-}
-
-g <- unique(example_genes[,1])
-n <- length(g)
-d <- matrix(nrow = n, ncol = n)
-rownames(d) <- colnames(d) <- g
-genes <- lapply(g, get_genes, data = example_genes)
-
-for (i in 1:n) {
-    for (j in 1:i) {
-        jaccard_sim <- length(intersect(genes[[i]], genes[[j]])) / 
-                       length(union(genes[[i]], genes[[j]]))
-        d[j, i] <- d[i, j] <- 1 - jaccard_sim
-    }
-}
-
-
-tree <- ape::bionj(d)
-ggtree(tree, branch.length='none') + 
-    geom_tiplab() + xlim(NA, 5) + 
-    geom_facet(mapping = aes(xmin = start, xmax = end, fill = gene),
-               data=example_genes, geom=geom_motif, panel='alignment',
-               on = 'genE') +
-    scale_fill_brewer(palette = "Set3")
-```
-
--->
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="chapter11.html#cb226-1"></a><span class="kw">library</span>(dplyr)</span>
+<span id="cb226-2"><a href="chapter11.html#cb226-2"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb226-3"><a href="chapter11.html#cb226-3"></a><span class="kw">library</span>(gggenes)</span>
+<span id="cb226-4"><a href="chapter11.html#cb226-4"></a><span class="kw">library</span>(ggtree)</span>
+<span id="cb226-5"><a href="chapter11.html#cb226-5"></a></span>
+<span id="cb226-6"><a href="chapter11.html#cb226-6"></a>get_genes &lt;-<span class="st"> </span><span class="cf">function</span>(data, genome) {</span>
+<span id="cb226-7"><a href="chapter11.html#cb226-7"></a>    <span class="kw">filter</span>(data, molecule <span class="op">==</span><span class="st"> </span>genome) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(gene)</span>
+<span id="cb226-8"><a href="chapter11.html#cb226-8"></a>}</span>
+<span id="cb226-9"><a href="chapter11.html#cb226-9"></a></span>
+<span id="cb226-10"><a href="chapter11.html#cb226-10"></a>g &lt;-<span class="st"> </span><span class="kw">unique</span>(example_genes[,<span class="dv">1</span>])</span>
+<span id="cb226-11"><a href="chapter11.html#cb226-11"></a>n &lt;-<span class="st"> </span><span class="kw">length</span>(g)</span>
+<span id="cb226-12"><a href="chapter11.html#cb226-12"></a>d &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dt">nrow =</span> n, <span class="dt">ncol =</span> n)</span>
+<span id="cb226-13"><a href="chapter11.html#cb226-13"></a><span class="kw">rownames</span>(d) &lt;-<span class="st"> </span><span class="kw">colnames</span>(d) &lt;-<span class="st"> </span>g</span>
+<span id="cb226-14"><a href="chapter11.html#cb226-14"></a>genes &lt;-<span class="st"> </span><span class="kw">lapply</span>(g, get_genes, <span class="dt">data =</span> example_genes)</span>
+<span id="cb226-15"><a href="chapter11.html#cb226-15"></a></span>
+<span id="cb226-16"><a href="chapter11.html#cb226-16"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>n) {</span>
+<span id="cb226-17"><a href="chapter11.html#cb226-17"></a>    <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>i) {</span>
+<span id="cb226-18"><a href="chapter11.html#cb226-18"></a>        jaccard_sim &lt;-<span class="st"> </span><span class="kw">length</span>(<span class="kw">intersect</span>(genes[[i]], genes[[j]])) <span class="op">/</span><span class="st"> </span></span>
+<span id="cb226-19"><a href="chapter11.html#cb226-19"></a><span class="st">                       </span><span class="kw">length</span>(<span class="kw">union</span>(genes[[i]], genes[[j]]))</span>
+<span id="cb226-20"><a href="chapter11.html#cb226-20"></a>        d[j, i] &lt;-<span class="st"> </span>d[i, j] &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span>jaccard_sim</span>
+<span id="cb226-21"><a href="chapter11.html#cb226-21"></a>    }</span>
+<span id="cb226-22"><a href="chapter11.html#cb226-22"></a>}</span>
+<span id="cb226-23"><a href="chapter11.html#cb226-23"></a></span>
+<span id="cb226-24"><a href="chapter11.html#cb226-24"></a></span>
+<span id="cb226-25"><a href="chapter11.html#cb226-25"></a>tree &lt;-<span class="st"> </span>ape<span class="op">::</span><span class="kw">bionj</span>(d)</span>
+<span id="cb226-26"><a href="chapter11.html#cb226-26"></a><span class="kw">ggtree</span>(tree, <span class="dt">branch.length=</span><span class="st">&#39;none&#39;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb226-27"><a href="chapter11.html#cb226-27"></a><span class="st">    </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">xlim_tree</span>(<span class="dv">5</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb226-28"><a href="chapter11.html#cb226-28"></a><span class="st">    </span><span class="kw">geom_facet</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">xmin =</span> start, <span class="dt">xmax =</span> end, <span class="dt">fill =</span> gene),</span>
+<span id="cb226-29"><a href="chapter11.html#cb226-29"></a>               <span class="dt">data=</span>example_genes, <span class="dt">geom=</span>geom_motif, <span class="dt">panel=</span><span class="st">&#39;Alignment&#39;</span>,</span>
+<span id="cb226-30"><a href="chapter11.html#cb226-30"></a>               <span class="dt">on =</span> <span class="st">&#39;genE&#39;</span>) <span class="op">+</span></span>
+<span id="cb226-31"><a href="chapter11.html#cb226-31"></a><span class="st">    </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Set3&quot;</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:gggenes"></span>
+<img src="treedata_files/figure-html/gggenes-1.png" alt="Genomic features with phylogenetic tree." width="864" />
+<p class="caption">
+Figure 11.3: <strong>Genomic features with phylogenetic tree.</strong>
+</p>
+</div>
 
 </div>
 </div>
