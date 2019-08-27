@@ -247,11 +247,13 @@ msaplot(p, "data/sequence.fasta", window=c(120, 200))
 
 ```{r msaplot, fig.width=14, fig.height=7, warning=FALSE, echo=F, fig.cap="(ref:msaplotcap)", fig.scap="(ref:msaplotscap)"}
 tree <- read.tree("data/tree.nwk")
-p <- ggtree(tree) + geom_tiplab(size=3)
+p <- ggtree(tree) + geom_tiplab(size=3) + 
+    theme(legend.position="none")
 g1 = msaplot(p, "data/sequence.fasta", offset=3, width=2)
 
 p2 <- ggtree(tree, layout='circular') + 
-    geom_tiplab(offset=4, align=TRUE) + xlim(NA, 12)
+    geom_tiplab(offset=4, align=TRUE) + xlim(NA, 12) + 
+    theme(legend.position="none")
 g2 = msaplot(p2, "data/sequence.fasta", window=c(120, 200))  
 cowplot::plot_grid(g1, g2, ncol=2, labels=c("A", "B"))
 ```
