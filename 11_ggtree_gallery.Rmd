@@ -169,7 +169,7 @@ ggtree(tree, color="black", size=1.5, linetype=1,  right=TRUE) +
 
 ## Phylogenetic tree with genome locus structure {#genome-locus}
 
-The `geom_motif` is defined in `ggtree` and it is a wrapper layer of `gggenes::geom_gene_arrow`. The `geom_motif` can automatically adjust genomic alignment by selective gene (via the `on` parameter) and can label genes via the `label` parameter.
+The `geom_motif` is defined in `ggtree` and it is a wrapper layer of `gggenes::geom_gene_arrow`. The `geom_motif` can automatically adjust genomic alignment by selective gene (via the `on` parameter) and can label genes via the `label` parameter. In the following example, we use `example_genes` dataset provided by `r CRANpkg("gggenes")`. As the dataset only provide genomic coordinations of a set of genes, a phylogeny for the genomes need to be firstly constructed. We calculate jaccard similarity based on the ratio of overlapping genes among genomes and correspondingly determine genome distance. BioNJ algorithm was applied to construct the tree (Figure \@ref(fig:gggenes)). 
 
 
 (ref:gggenesscap) Genomic features with phylogenetic tree.
@@ -201,12 +201,17 @@ for (i in 1:n) {
     }
 }
 
-
 tree <- ape::bionj(d)
-ggtree(tree, branch.length='none') + 
-    geom_tiplab() + xlim_tree(5) + 
+
+p <- ggtree(tree, branch.length='none') + 
+    geom_tiplab() + xlim_tree(5.5) + 
     geom_facet(mapping = aes(xmin = start, xmax = end, fill = gene),
-               data=example_genes, geom=geom_motif, panel='Alignment',
-               on = 'genE', label = 'gene') +
-    scale_fill_brewer(palette = "Set3") 
+               data = example_genes, geom = geom_motif, panel = 'Alignment',
+               on = 'genE', label = 'gene', align = 'left') +
+    scale_fill_brewer(palette = "Set3") + 
+    scale_x_continuous(expand=c(0,0)) +
+    theme(strip.text=element_blank(),
+        panel.spacing=unit(0, 'cm'))
+
+facet_widths(p, widths=c(1,2))
 ```

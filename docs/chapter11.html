@@ -463,7 +463,7 @@ Figure 11.2: <strong>Partitioning bootstrap values</strong>. Bootstrap values we
 </div>
 <div id="genome-locus" class="section level2">
 <h2><span class="header-section-number">11.3</span> Phylogenetic tree with genome locus structure</h2>
-<p>The <code>geom_motif</code> is defined in <code>ggtree</code> and it is a wrapper layer of <code>gggenes::geom_gene_arrow</code>. The <code>geom_motif</code> can automatically adjust genomic alignment by selective gene (via the <code>on</code> parameter) and can label genes via the <code>label</code> parameter.</p>
+<p>The <code>geom_motif</code> is defined in <code>ggtree</code> and it is a wrapper layer of <code>gggenes::geom_gene_arrow</code>. The <code>geom_motif</code> can automatically adjust genomic alignment by selective gene (via the <code>on</code> parameter) and can label genes via the <code>label</code> parameter. In the following example, we use <code>example_genes</code> dataset provided by <a href="https://CRAN.R-project.org/package=gggenes">gggenes</a>. As the dataset only provide genomic coordinations of a set of genes, a phylogeny for the genomes need to be firstly constructed. We calculate jaccard similarity based on the ratio of overlapping genes among genomes and correspondingly determine genome distance. BioNJ algorithm was applied to construct the tree (Figure <a href="chapter11.html#fig:gggenes">11.3</a>).</p>
 
 
 <div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="chapter11.html#cb226-1"></a><span class="kw">library</span>(dplyr)</span>
@@ -489,14 +489,19 @@ Figure 11.2: <strong>Partitioning bootstrap values</strong>. Bootstrap values we
 <span id="cb226-21"><a href="chapter11.html#cb226-21"></a>    }</span>
 <span id="cb226-22"><a href="chapter11.html#cb226-22"></a>}</span>
 <span id="cb226-23"><a href="chapter11.html#cb226-23"></a></span>
-<span id="cb226-24"><a href="chapter11.html#cb226-24"></a></span>
-<span id="cb226-25"><a href="chapter11.html#cb226-25"></a>tree &lt;-<span class="st"> </span>ape<span class="op">::</span><span class="kw">bionj</span>(d)</span>
-<span id="cb226-26"><a href="chapter11.html#cb226-26"></a><span class="kw">ggtree</span>(tree, <span class="dt">branch.length=</span><span class="st">&#39;none&#39;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb226-27"><a href="chapter11.html#cb226-27"></a><span class="st">    </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">xlim_tree</span>(<span class="dv">5</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb226-24"><a href="chapter11.html#cb226-24"></a>tree &lt;-<span class="st"> </span>ape<span class="op">::</span><span class="kw">bionj</span>(d)</span>
+<span id="cb226-25"><a href="chapter11.html#cb226-25"></a></span>
+<span id="cb226-26"><a href="chapter11.html#cb226-26"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree, <span class="dt">branch.length=</span><span class="st">&#39;none&#39;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb226-27"><a href="chapter11.html#cb226-27"></a><span class="st">    </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">xlim_tree</span>(<span class="fl">5.5</span>) <span class="op">+</span><span class="st"> </span></span>
 <span id="cb226-28"><a href="chapter11.html#cb226-28"></a><span class="st">    </span><span class="kw">geom_facet</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">xmin =</span> start, <span class="dt">xmax =</span> end, <span class="dt">fill =</span> gene),</span>
-<span id="cb226-29"><a href="chapter11.html#cb226-29"></a>               <span class="dt">data=</span>example_genes, <span class="dt">geom=</span>geom_motif, <span class="dt">panel=</span><span class="st">&#39;Alignment&#39;</span>,</span>
-<span id="cb226-30"><a href="chapter11.html#cb226-30"></a>               <span class="dt">on =</span> <span class="st">&#39;genE&#39;</span>, <span class="dt">label =</span> <span class="st">&#39;gene&#39;</span>) <span class="op">+</span></span>
-<span id="cb226-31"><a href="chapter11.html#cb226-31"></a><span class="st">    </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Set3&quot;</span>) </span></code></pre></div>
+<span id="cb226-29"><a href="chapter11.html#cb226-29"></a>               <span class="dt">data =</span> example_genes, <span class="dt">geom =</span> geom_motif, <span class="dt">panel =</span> <span class="st">&#39;Alignment&#39;</span>,</span>
+<span id="cb226-30"><a href="chapter11.html#cb226-30"></a>               <span class="dt">on =</span> <span class="st">&#39;genE&#39;</span>, <span class="dt">label =</span> <span class="st">&#39;gene&#39;</span>, <span class="dt">align =</span> <span class="st">&#39;left&#39;</span>) <span class="op">+</span></span>
+<span id="cb226-31"><a href="chapter11.html#cb226-31"></a><span class="st">    </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Set3&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb226-32"><a href="chapter11.html#cb226-32"></a><span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="dt">expand=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)) <span class="op">+</span></span>
+<span id="cb226-33"><a href="chapter11.html#cb226-33"></a><span class="st">    </span><span class="kw">theme</span>(<span class="dt">strip.text=</span><span class="kw">element_blank</span>(),</span>
+<span id="cb226-34"><a href="chapter11.html#cb226-34"></a>        <span class="dt">panel.spacing=</span><span class="kw">unit</span>(<span class="dv">0</span>, <span class="st">&#39;cm&#39;</span>))</span>
+<span id="cb226-35"><a href="chapter11.html#cb226-35"></a></span>
+<span id="cb226-36"><a href="chapter11.html#cb226-36"></a><span class="kw">facet_widths</span>(p, <span class="dt">widths=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span></code></pre></div>
 <div class="figure"><span id="fig:gggenes"></span>
 <img src="treedata_files/figure-html/gggenes-1.png" alt="Genomic features with phylogenetic tree." width="864" />
 <p class="caption">
