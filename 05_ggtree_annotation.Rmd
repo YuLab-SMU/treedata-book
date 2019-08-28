@@ -7,9 +7,6 @@ library("ggplot2")
 library("cowplot")
 library("treeio")
 library("ggtree")
-
-
-inset <- ggtree::inset
 ```
 
 
@@ -94,7 +91,8 @@ knitr::kable(geoms, caption = "Geom layers defined in ggtree.", booktabs = T) %>
 ```
 
 ## Layers for Tree Annotation
-### Annotate clades
+
+### Colored strips
 
 `r Biocpkg("ggtree")` [@yu_ggtree:_2017] implements _`geom_cladelabel`_ layer to annotate a selected clade with a bar indicating the clade with a corresponding label.
 
@@ -171,8 +169,10 @@ ggtree(tree, layout="daylight") +
 
 ```{r eval=F}
 p + geom_tiplab() + 
-  geom_strip(5, 11, barsize=2, color='red', label="associated taxa") + 
-  geom_strip(24, 21, barsize=2, color='blue', label = "another label")
+  geom_strip('t10', 't30', barsize=2, color='red', 
+            label="associated taxa", offset.text=.1) + 
+  geom_strip('t1', 't18', barsize=2, color='blue', 
+            label = "another label", offset.text=.1)
 ```  
 
 (ref:striplabelscap) Labeling associated taxa.
@@ -186,8 +186,11 @@ p5 <- pg + geom_cladelabel(node=35, label="test label", angle=0, fontsize=8, off
   geom_cladelabel(node=55, label='another clade', angle=-95, hjust=.5, fontsize=8)
 
 p6 <- p + geom_tiplab() + 
-  geom_strip(5, 11, barsize=2, color='red', label="associated taxa") + 
-  geom_strip(24, 21, barsize=2, color='blue', label = "another label")
+  geom_strip('t10', 't30', barsize=2, color='red', 
+            label="associated taxa", offset.text=.1) + 
+  geom_strip('t1', 't18', barsize=2, color='blue', 
+            label = "another label", offset.text=.1)
+
 plot_grid(p5, p6, ncol=2, labels=LETTERS[1:2])  
 ```
 
@@ -200,7 +203,7 @@ plot_grid(p5, p6, ncol=2, labels=LETTERS[1:2])
 nwk <- system.file("extdata", "sample.nwk", package="treeio")
 tree <- read.tree(nwk)
 ggtree(tree) + geom_hilight(node=21, fill="steelblue", alpha=.6) +
-    geom_hilight(node=17, fill="darkgreen", alpha=.6)
+    geom_hilight(node=17, fill="darkgreen", alpha=.6) 
 ```
 
 
@@ -219,7 +222,7 @@ which is designed to highlight neighboring subclades of a given internal node.
 ```{r fig.width=4, fig.height=5, fig.align='center', warning=FALSE}
 ggtree(tree) +
   geom_balance(node=16, fill='steelblue', color='white', alpha=0.6, extend=1) +
-  geom_balance(node=19, fill='darkgreen', color='white', alpha=0.6, extend=1)
+  geom_balance(node=19, fill='darkgreen', color='white', alpha=0.6, extend=1) 
 ```
 
 #### Highlight clades for unrooted tree
