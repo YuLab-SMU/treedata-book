@@ -206,7 +206,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="5.3" data-path="chapter5.html"><a href="chapter5.html#tree-annotation-with-output-from-evolution-software"><i class="fa fa-check"></i><b>5.3</b> Tree annotation with output from evolution software</a><ul>
 <li class="chapter" data-level="5.3.1" data-path="chapter5.html"><a href="chapter5.html#tree-annotation-using-data-from-evolutionary-analysis-software"><i class="fa fa-check"></i><b>5.3.1</b> Tree annotation using data from evolutionary analysis software</a></li>
-<li class="chapter" data-level="5.3.2" data-path="chapter5.html"><a href="chapter5.html#tree-annotation-based-on-tree-classes-defined-in-other-r-packages"><i class="fa fa-check"></i><b>5.3.2</b> Tree annotation based on tree classes defined in other R packages</a></li>
 </ul></li>
 <li class="chapter" data-level="5.4" data-path="chapter5.html"><a href="chapter5.html#summary-4"><i class="fa fa-check"></i><b>5.4</b> Summary</a></li>
 </ul></li>
@@ -347,24 +346,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb214-19"><a href="chapter10.html#cb214-19"></a>                 <span class="dt">width =</span> <span class="fl">0.8</span>, <span class="dt">stat=</span><span class="st">&#39;identity&#39;</span>)</span>
 <span id="cb214-20"><a href="chapter10.html#cb214-20"></a></span>
 <span id="cb214-21"><a href="chapter10.html#cb214-21"></a><span class="kw">facet_widths</span>(p2, <span class="dt">widths =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span></code></pre></div>
-<p><img src="treedata_files/figure-html/unnamed-chunk-110-1.png" width="672" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-109-1.png" width="672" /></p>
 <p>It also supports using name vector to set the widths of specific panels.</p>
 <div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="chapter10.html#cb215-1"></a><span class="kw">facet_widths</span>(p2, <span class="kw">c</span>(<span class="dt">Tree =</span> <span class="fl">.5</span>))</span></code></pre></div>
-<p><img src="treedata_files/figure-html/unnamed-chunk-111-1.png" width="672" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-110-1.png" width="672" /></p>
 <p>The <code>facet_widths</code> function also work with other <code>ggplot</code> object.</p>
 <div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="chapter10.html#cb216-1"></a>p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(iris, <span class="kw">aes</span>(Sepal.Width, Petal.Length)) <span class="op">+</span><span class="st"> </span></span>
 <span id="cb216-2"><a href="chapter10.html#cb216-2"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">facet_grid</span>(.<span class="op">~</span>Species)</span>
 <span id="cb216-3"><a href="chapter10.html#cb216-3"></a><span class="kw">facet_widths</span>(p, <span class="kw">c</span>(<span class="dt">setosa =</span> <span class="fl">.5</span>))</span></code></pre></div>
-<p><img src="treedata_files/figure-html/unnamed-chunk-113-1.png" width="672" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-112-1.png" width="672" /></p>
 </div>
 <div id="facet_labeller" class="section level3">
 <h3><span class="header-section-number">10.1.2</span> facet_labeller</h3>
 <p>The <code>facet_labeller</code> function was designed to re-label selected panels, and it currently only works with <code>ggtree</code> object (<em>i.e.</em> <code>facet_plot</code> output).</p>
 <div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="chapter10.html#cb217-1"></a><span class="kw">facet_labeller</span>(p2, <span class="kw">c</span>(<span class="dt">Tree =</span> <span class="st">&quot;phylogeny&quot;</span>, <span class="dt">bar =</span> <span class="st">&quot;HELLO&quot;</span>))</span></code></pre></div>
-<p><img src="treedata_files/figure-html/unnamed-chunk-114-1.png" width="672" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-113-1.png" width="672" /></p>
 <p>If you want to combine <code>facet_widths</code> with <code>facet_labeller</code>, you need to call <code>facet_labeller</code> to re-label the panels before using <code>facet_widths</code> to set the relative widths of each panels. Otherwise it wont work since the output of <code>facet_widths</code> is re-drawn from <code>grid</code> object.</p>
 <div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="chapter10.html#cb218-1"></a><span class="kw">facet_labeller</span>(p2, <span class="kw">c</span>(<span class="dt">Tree =</span> <span class="st">&quot;phylogeny&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">facet_widths</span>(<span class="kw">c</span>(<span class="dt">Tree =</span> <span class="fl">.4</span>))</span></code></pre></div>
-<p><img src="treedata_files/figure-html/unnamed-chunk-115-1.png" width="672" /></p>
+<p><img src="treedata_files/figure-html/unnamed-chunk-114-1.png" width="672" /></p>
 </div>
 </div>
 <div id="layout-utilities" class="section level2">
@@ -510,7 +509,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": ["treedata.pdf"],
+"download": ["treedata.pdf", "treedata.epub"],
 "toc": {
 "collapse": "subsection"
 }

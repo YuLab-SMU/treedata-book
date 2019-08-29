@@ -197,7 +197,7 @@ plot_grid(p5, p6, ncol=2, labels=LETTERS[1:2])
 
 ### Highlight clades
 
-`ggtree` implements _`geom_hilight`_ layer, that accepts an internal node number and add a layer of rectangle to highlight the selected clade Figure (\@ref(fig:hilight)).
+`ggtree` implements _`geom_hilight`_ layer, that accepts an internal node number and add a layer of rectangle to highlight the selected clade Figure (\@ref(fig:hilight)) ^[If you want to plot the tree above the highlighting area, visit [FAQ](#faq-under-the-tree) for details.].
 
 ```{r eval=F, fig.width=5, fig.height=5, fig.align="center", warning=FALSE}
 nwk <- system.file("extdata", "sample.nwk", package="treeio")
@@ -222,7 +222,6 @@ pg + geom_hilight(node=55) + geom_hilight(node=35, fill='darkgreen')
 
 
 Another way to highlight selected clades is setting the clades with different colors and/or line types as demonstrated in Figure \@ref(fig:scaleClade).
-
 
 
 In addition to `geom_hilight`, `ggtree` also implements `geom_balance`
@@ -259,15 +258,21 @@ p4 = ggtree(tree) +
 plot_grid(p1, p2, p3, p4, ncol=2, labels=LETTERS[1:4])    
 ```
 
-Note: If you want to plot the tree above the highlighting area, visit [FAQ](#faq-under-the-tree) for details.
 
 ### Taxa connection
 
-Some evolutionary events (e.g. reassortment, horizontal gene transfer) can be modeled by a simple tree. `ggtree` provides `geom_taxalink` layer that allows drawing straight or curved lines between any of two nodes in the tree, allow it to represent evolutionary events by connecting taxa.
+Some evolutionary events (e.g. reassortment, horizontal gene transfer) cannot be modeled by a simple tree. `r Biocpkg("ggtree")` provides `geom_taxalink` layer that allows drawing straight or curved lines between any of two nodes in the tree, allow it to represent evolutionary events by connecting taxa.
 
-```{r fig.width=5, fig.height=5, fig.align="center", warning=FALSE}
+
+(ref:taxalinkscap) Linking related taxa.
+
+(ref:taxalinkcap) **Linking related taxa.** This can be used to indicate evolutionary events such as reassortment and horozontal gene transfer. 
+
+
+```{r taxalink, fig.cap="(ref:taxalinkcap)", fig.scap="(ref:taxalinkscap)", fig.width=5, fig.height=5, warning=FALSE}
 ggtree(tree) + geom_tiplab() + geom_taxalink('A', 'E') + 
-  geom_taxalink('F', 'K', color='red', arrow=grid::arrow(length=grid::unit(0.02, "npc")))
+  geom_taxalink('F', 'K', color='red', linetype = 'dashed',
+    arrow=grid::arrow(length=grid::unit(0.02, "npc")))
 ```
 
 ### Uncertainty of evolutionary inference
@@ -305,7 +310,7 @@ plot_grid(p1, p2, p3, ncol=3, labels = LETTERS[1:3])
 
 ### Tree annotation using data from evolutionary analysis software
 
-[Chapter 2](#chapter-treeio) has introduced using *treeio* packages to parse different tree formats and commonly used software outputs to obtain phylogeny-associated data. These imported data as `S4` objects can be visualized directly using *ggtree*. Figure \@ref(fig:ggtreeNHX) demonstrates a tree annotated using the information (species classification, duplication event and bootstrap value) stored in NHX\index{NHX} file. *PHYLODOG* and *RevBayes* output NHX files that can be parsed by *treeio* and visualized by *ggtree* with annotation using their inference data.
+[Chapter 1](#chapter) introduced using `r Biocpkg("treeio")` packages to parse different tree formats and commonly used software outputs to obtain phylogeny-associated data. These imported data as `S4` objects can be visualized directly using `r Biocpkg("ggtree")`. Figure \@ref(fig:ggtreeNHX) demonstrates a tree annotated using the information (species classification, duplication event and bootstrap value) stored in NHX\index{NHX} file. *PHYLDOG* and *RevBayes* output NHX files that can be parsed by `r Biocpkg("treeio")` and visualized by `r Biocpkg("ggtree")` with annotation using their inference data.
 
 
 Furthermore, the evolutionary data from the inference of *BEAST*, *MrBayes* and *RevBayes*, *d~N~/d~S~* values inferred by *CodeML*, ancestral sequences\index{ancestral sequences} inferred by *HyPhy*, *CodeML* or *BaseML* and short read placement by *EPA* and *pplacer* can be used to annotate the tree directly. 
@@ -372,11 +377,12 @@ ggtree(ml, aes(color=dN_vs_dS), branch.length='dN_vs_dS') +
 ```
 \setstretch{1.5}
 
-For more details and examples of annotating tree with evolutionary data inferred by different software packages can be referred to the online vignettes^[<https://bioconductor.org/packages/release/bioc/vignettes/ggtree/inst/doc/ggtree.html>].
+Not only all the tree data that parsed by `r Biocpkg("treeio")` can be used to visualize and annotate phylogenetic tree using `ggtree`, but also other tree and tree-like objects defined in R community are supported. The `r Biocpkg("ggtree")` plays an unique role in R ecosystem to facilitate phylogenetic analysis and it can be easily integrated into other packages and pipelines. For more details, please refer to [chapter 9](#chapter9).
 
-### Tree annotation based on tree classes defined in other R packages
-
-The *ggtree* plays a unique role in R ecosystem to facilitate phylogenetic analysis. It serves as a generic tools for tree visualization and annotation with different associated data from various sources. Most of the phylogenetic tree classes defined in R community are supported, including `obkData`, `phyloseq`, `phylo`, `multiPhylo`, `phylo4` and `phylo4d`. Such that *ggtree* can be easily integrated into their analysis/packages. For instance, *phyloseq* users will find *ggtree* useful for visualizing microbiome data and for further annotations, since *ggtree* supports high-level of annotation using grammar of graphics and some of its features are not available in *phyloseq*. Here, examples of using *ggtree* to annotate `obkData` and `phyloseq` tree objects are demonstrated. There example data can be found in vignettes of *OutbreakTools*\index{OutbreakTools} [@jombart_outbreaktools_2014] and *phyloseq* [@mcmurdie_phyloseq_2013] packages.
 
 ## Summary
+
+
+`r Biocpkg("ggtree")` implements grammar of graphics for annotating phylogenetic trees. Users can use ggplot2 syntax to combine different annotation layers to produce complex tree annotation. If you are familiar with `r CRANpkg("ggplot2")`, tree annotation with high level of customization can be intuitive and flexible using `r Biocpkg("ggtree")`.
+
 

@@ -206,7 +206,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="5.3" data-path="chapter5.html"><a href="chapter5.html#tree-annotation-with-output-from-evolution-software"><i class="fa fa-check"></i><b>5.3</b> Tree annotation with output from evolution software</a><ul>
 <li class="chapter" data-level="5.3.1" data-path="chapter5.html"><a href="chapter5.html#tree-annotation-using-data-from-evolutionary-analysis-software"><i class="fa fa-check"></i><b>5.3.1</b> Tree annotation using data from evolutionary analysis software</a></li>
-<li class="chapter" data-level="5.3.2" data-path="chapter5.html"><a href="chapter5.html#tree-annotation-based-on-tree-classes-defined-in-other-r-packages"><i class="fa fa-check"></i><b>5.3.2</b> Tree annotation based on tree classes defined in other R packages</a></li>
 </ul></li>
 <li class="chapter" data-level="5.4" data-path="chapter5.html"><a href="chapter5.html#summary-4"><i class="fa fa-check"></i><b>5.4</b> Summary</a></li>
 </ul></li>
@@ -578,7 +577,7 @@ Figure 5.3: <strong>Labeling associated taxa.</strong> <code>geom_cladelabel</co
 </div>
 <div id="highlight-clades" class="section level3">
 <h3><span class="header-section-number">5.2.2</span> Highlight clades</h3>
-<p><code>ggtree</code> implements <em><code>geom_hilight</code></em> layer, that accepts an internal node number and add a layer of rectangle to highlight the selected clade Figure (<a href="chapter5.html#fig:hilight">5.4</a>).</p>
+<p><code>ggtree</code> implements <em><code>geom_hilight</code></em> layer, that accepts an internal node number and add a layer of rectangle to highlight the selected clade Figure (<a href="chapter5.html#fig:hilight">5.4</a>).<a href="references.html#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a></p>
 <div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="chapter5.html#cb161-1"></a>nwk &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;sample.nwk&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
 <span id="cb161-2"><a href="chapter5.html#cb161-2"></a>tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(nwk)</span>
 <span id="cb161-3"><a href="chapter5.html#cb161-3"></a><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">geom_hilight</span>(<span class="dt">node=</span><span class="dv">21</span>, <span class="dt">fill=</span><span class="st">&quot;steelblue&quot;</span>, <span class="dt">alpha=</span>.<span class="dv">6</span>) <span class="op">+</span></span>
@@ -601,18 +600,25 @@ which is designed to highlight neighboring subclades of a given internal node (F
 Figure 5.4: <strong>Highlight selected clades.</strong> Rectangular layout (A), circular/fan (B) and unrooted layouts. Highlight neighboring subclades simultaneously (D).
 </p>
 </div>
-<p>Note: If you want to plot the tree above the highlighting area, visit <a href="faq.html#faq-under-the-tree">FAQ</a> for details.</p>
 </div>
 <div id="taxa-connection" class="section level3">
 <h3><span class="header-section-number">5.2.3</span> Taxa connection</h3>
-<p>Some evolutionary events (e.g. reassortment, horizontal gene transfer) can be modeled by a simple tree. <code>ggtree</code> provides <code>geom_taxalink</code> layer that allows drawing straight or curved lines between any of two nodes in the tree, allow it to represent evolutionary events by connecting taxa.</p>
+<p>Some evolutionary events (e.g. reassortment, horizontal gene transfer) cannot be modeled by a simple tree. <a href="http://bioconductor.org/packages/ggtree">ggtree</a> provides <code>geom_taxalink</code> layer that allows drawing straight or curved lines between any of two nodes in the tree, allow it to represent evolutionary events by connecting taxa.</p>
+
+
 <div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="chapter5.html#cb165-1"></a><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_taxalink</span>(<span class="st">&#39;A&#39;</span>, <span class="st">&#39;E&#39;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb165-2"><a href="chapter5.html#cb165-2"></a><span class="st">  </span><span class="kw">geom_taxalink</span>(<span class="st">&#39;F&#39;</span>, <span class="st">&#39;K&#39;</span>, <span class="dt">color=</span><span class="st">&#39;red&#39;</span>, <span class="dt">arrow=</span>grid<span class="op">::</span><span class="kw">arrow</span>(<span class="dt">length=</span>grid<span class="op">::</span><span class="kw">unit</span>(<span class="fl">0.02</span>, <span class="st">&quot;npc&quot;</span>)))</span></code></pre></div>
-<p><img src="treedata_files/figure-html/unnamed-chunk-85-1.png" width="480" style="display: block; margin: auto;" /></p>
+<span id="cb165-2"><a href="chapter5.html#cb165-2"></a><span class="st">  </span><span class="kw">geom_taxalink</span>(<span class="st">&#39;F&#39;</span>, <span class="st">&#39;K&#39;</span>, <span class="dt">color=</span><span class="st">&#39;red&#39;</span>, <span class="dt">linetype =</span> <span class="st">&#39;dashed&#39;</span>,</span>
+<span id="cb165-3"><a href="chapter5.html#cb165-3"></a>    <span class="dt">arrow=</span>grid<span class="op">::</span><span class="kw">arrow</span>(<span class="dt">length=</span>grid<span class="op">::</span><span class="kw">unit</span>(<span class="fl">0.02</span>, <span class="st">&quot;npc&quot;</span>)))</span></code></pre></div>
+<div class="figure"><span id="fig:taxalink"></span>
+<img src="treedata_files/figure-html/taxalink-1.png" alt="Linking related taxa. This can be used to indicate evolutionary events such as reassortment and horozontal gene transfer." width="480" />
+<p class="caption">
+Figure 5.5: <strong>Linking related taxa.</strong> This can be used to indicate evolutionary events such as reassortment and horozontal gene transfer.
+</p>
+</div>
 </div>
 <div id="uncertainty-of-evolutionary-inference" class="section level3">
 <h3><span class="header-section-number">5.2.4</span> Uncertainty of evolutionary inference</h3>
-<p>The <code>geom_range</code> layer supports displaying interval (highest posterior density, confidence interval, range) as horizontal bars on tree nodes. The center of the interval will anchor to corresponding node. The center by default is the mean value of the interval (Figure <a href="chapter5.html#fig:geomRange">5.5</a>A). We can set the <code>center</code> to estimated mean or median value (Figure <a href="chapter5.html#fig:geomRange">5.5</a>B), or observed value. As the tree branch and the interval may not be in the same scale, <a href="http://bioconductor.org/packages/ggtree">ggtree</a> provides <code>scale_x_range</code> to add second x axis for the range (Figure <a href="chapter5.html#fig:geomRange">5.5</a>C). Note that x axis is disable by default theme and we need to enable it if we want to dispaly it (<em>e.g.</em> <code>theme_tree2</code>).</p>
+<p>The <code>geom_range</code> layer supports displaying interval (highest posterior density, confidence interval, range) as horizontal bars on tree nodes. The center of the interval will anchor to corresponding node. The center by default is the mean value of the interval (Figure <a href="chapter5.html#fig:geomRange">5.6</a>A). We can set the <code>center</code> to estimated mean or median value (Figure <a href="chapter5.html#fig:geomRange">5.6</a>B), or observed value. As the tree branch and the interval may not be in the same scale, <a href="http://bioconductor.org/packages/ggtree">ggtree</a> provides <code>scale_x_range</code> to add second x axis for the range (Figure <a href="chapter5.html#fig:geomRange">5.6</a>C). Note that x axis is disable by default theme and we need to enable it if we want to dispaly it (<em>e.g.</em> <code>theme_tree2</code>).</p>
 
 
 <pre eval="FALSE"><code>file &lt;- system.file(&quot;extdata/MEGA7&quot;, &quot;mtCDNA_timetree.nex&quot;, package = &quot;treeio&quot;)
@@ -623,7 +629,7 @@ p3 &lt;- p2 + scale_x_range() + theme_tree2()</code></pre>
 <div class="figure"><span id="fig:geomRange"></span>
 <img src="treedata_files/figure-html/geomRange-1.png" alt="Displaying uncertainty of evolutoinary inference. The center (mean value of the range (A) or estimated value (B)) is anchor to the tree nodes. A second x axis was used for range scaling (C)." width="1152" />
 <p class="caption">
-Figure 5.5: <strong>Displaying uncertainty of evolutoinary inference.</strong> The center (mean value of the range (A) or estimated value (B)) is anchor to the tree nodes. A second x axis was used for range scaling (C).
+Figure 5.6: <strong>Displaying uncertainty of evolutoinary inference.</strong> The center (mean value of the range (A) or estimated value (B)) is anchor to the tree nodes. A second x axis was used for range scaling (C).
 </p>
 </div>
 </div>
@@ -632,7 +638,7 @@ Figure 5.5: <strong>Displaying uncertainty of evolutoinary inference.</strong> T
 <h2><span class="header-section-number">5.3</span> Tree annotation with output from evolution software</h2>
 <div id="tree-annotation-using-data-from-evolutionary-analysis-software" class="section level3">
 <h3><span class="header-section-number">5.3.1</span> Tree annotation using data from evolutionary analysis software</h3>
-<p><a href="#chapter-treeio">Chapter 2</a> has introduced using <em>treeio</em> packages to parse different tree formats and commonly used software outputs to obtain phylogeny-associated data. These imported data as <code>S4</code> objects can be visualized directly using <em>ggtree</em>. Figure <a href="chapter5.html#fig:ggtreeNHX">5.1</a> demonstrates a tree annotated using the information (species classification, duplication event and bootstrap value) stored in NHX file. <em>PHYLODOG</em> and <em>RevBayes</em> output NHX files that can be parsed by <em>treeio</em> and visualized by <em>ggtree</em> with annotation using their inference data.</p>
+<p><a href="#chapter">Chapter 1</a> introduced using <a href="http://bioconductor.org/packages/treeio">treeio</a> packages to parse different tree formats and commonly used software outputs to obtain phylogeny-associated data. These imported data as <code>S4</code> objects can be visualized directly using <a href="http://bioconductor.org/packages/ggtree">ggtree</a>. Figure <a href="chapter5.html#fig:ggtreeNHX">5.1</a> demonstrates a tree annotated using the information (species classification, duplication event and bootstrap value) stored in NHX file. <em>PHYLDOG</em> and <em>RevBayes</em> output NHX files that can be parsed by <a href="http://bioconductor.org/packages/treeio">treeio</a> and visualized by <a href="http://bioconductor.org/packages/ggtree">ggtree</a> with annotation using their inference data.</p>
 <p>Furthermore, the evolutionary data from the inference of <em>BEAST</em>, <em>MrBayes</em> and <em>RevBayes</em>, <em>d<sub>N</sub>/d<sub>S</sub></em> values inferred by <em>CodeML</em>, ancestral sequences inferred by <em>HyPhy</em>, <em>CodeML</em> or <em>BaseML</em> and short read placement by <em>EPA</em> and <em>pplacer</em> can be used to annotate the tree directly.</p>
 
 
@@ -647,12 +653,12 @@ Figure 5.5: <strong>Displaying uncertainty of evolutoinary inference.</strong> T
 <div class="figure"><span id="fig:beast"></span>
 <img src="treedata_files/figure-html/beast-1.png" alt="Annotating BEAST tree with length_95%_HPD and posterior. Branch length credible intervals (95% HPD) were displayed as red horizontal bars and clade posterior values were shown on the middle of branches." width="672"  />
 <p class="caption">
-Figure 5.6: <strong>Annotating <em>BEAST</em> tree with <em>length_95%_HPD</em> and posterior.</strong> Branch length credible intervals (95% HPD) were displayed as red horizontal bars and clade posterior values were shown on the middle of branches.
+Figure 5.7: <strong>Annotating <em>BEAST</em> tree with <em>length_95%_HPD</em> and posterior.</strong> Branch length credible intervals (95% HPD) were displayed as red horizontal bars and clade posterior values were shown on the middle of branches.
 </p>
 </div>
 
-<p>In Figure <a href="chapter5.html#fig:beast">5.6</a>, the tree was visualized and annotated with posterior &gt; 0.9 and demonstrated length uncertainty (95% Highest Posterior Density (HPD) interval).</p>
-<p>Ancestral sequences inferred by <em>HyPhy</em> can be parsed using <a href="chapter1.html#parsing-hyphy-output"><em>treeio</em></a>, whereas the substitutions along each tree branch was automatically computed and stored inside the phylogenetic tree object (<em>i.e.</em>, <code>S4</code> object). The <em>ggtree</em> can utilize this information in the object to annotate the tree, as demonstrated in Figure <a href="chapter5.html#fig:hyphy">5.7</a>.</p>
+<p>In Figure <a href="chapter5.html#fig:beast">5.7</a>, the tree was visualized and annotated with posterior &gt; 0.9 and demonstrated length uncertainty (95% Highest Posterior Density (HPD) interval).</p>
+<p>Ancestral sequences inferred by <em>HyPhy</em> can be parsed using <a href="chapter1.html#parsing-hyphy-output"><em>treeio</em></a>, whereas the substitutions along each tree branch was automatically computed and stored inside the phylogenetic tree object (<em>i.e.</em>, <code>S4</code> object). The <em>ggtree</em> can utilize this information in the object to annotate the tree, as demonstrated in Figure <a href="chapter5.html#fig:hyphy">5.8</a>.</p>
 
 
 
@@ -668,11 +674,11 @@ Figure 5.6: <strong>Annotating <em>BEAST</em> tree with <em>length_95%_HPD</em> 
 <div class="figure"><span id="fig:hyphy"></span>
 <img src="treedata_files/figure-html/hyphy-1.png" alt="Annotating tree with amino acid substitution determined by ancestral sequences inferred by HYPHY. Amino acid substitutions were displayed on the middle of branches." width="748.8"  />
 <p class="caption">
-Figure 5.7: <strong>Annotating tree with amino acid substitution determined by ancestral sequences inferred by HYPHY.</strong> Amino acid substitutions were displayed on the middle of branches.
+Figure 5.8: <strong>Annotating tree with amino acid substitution determined by ancestral sequences inferred by HYPHY.</strong> Amino acid substitutions were displayed on the middle of branches.
 </p>
 </div>
 
-<p><em>PAML</em>’s <em>BaseML</em> and <em>CodeML</em> can be also used to infer ancestral sequences, whereas <em>CodeML</em> can infer selection pressure. After parsing this information using <a href="chapter1.html#parsing-paml-output"><em>treeio</em></a>, <em>ggtree</em> can integrate this information into the same tree structure and used for annotation as illustrated in Figure <a href="chapter5.html#fig:codeml">5.8</a>.</p>
+<p><em>PAML</em>’s <em>BaseML</em> and <em>CodeML</em> can be also used to infer ancestral sequences, whereas <em>CodeML</em> can infer selection pressure. After parsing this information using <a href="chapter1.html#parsing-paml-output"><em>treeio</em></a>, <em>ggtree</em> can integrate this information into the same tree structure and used for annotation as illustrated in Figure <a href="chapter5.html#fig:codeml">5.9</a>.</p>
 
 
 
@@ -691,30 +697,21 @@ Figure 5.7: <strong>Annotating tree with amino acid substitution determined by a
 <div class="figure"><span id="fig:codeml"></span>
 <img src="treedata_files/figure-html/codeml-1.png" alt="Annotating tree with animo acid substitution and dN/dS inferred by CodeML. Branches were rescaled and colored by dN/dS values and amino acid substitutions were displayed on the middle of branches." width="672"  />
 <p class="caption">
-Figure 5.8: <strong>Annotating tree with animo acid substitution and <em>d<sub>N</sub>/d<sub>S</sub></em> inferred by <em>CodeML</em>.</strong> Branches were rescaled and colored by <em>d<sub>N</sub>/d<sub>S</sub></em> values and amino acid substitutions were displayed on the middle of branches.
+Figure 5.9: <strong>Annotating tree with animo acid substitution and <em>d<sub>N</sub>/d<sub>S</sub></em> inferred by <em>CodeML</em>.</strong> Branches were rescaled and colored by <em>d<sub>N</sub>/d<sub>S</sub></em> values and amino acid substitutions were displayed on the middle of branches.
 </p>
 </div>
 
-<p>For more details and examples of annotating tree with evolutionary data inferred by different software packages can be referred to the online vignettes<a href="references.html#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a>.</p>
-</div>
-<div id="tree-annotation-based-on-tree-classes-defined-in-other-r-packages" class="section level3">
-<h3><span class="header-section-number">5.3.2</span> Tree annotation based on tree classes defined in other R packages</h3>
-<p>The <em>ggtree</em> plays a unique role in R ecosystem to facilitate phylogenetic analysis. It serves as a generic tools for tree visualization and annotation with different associated data from various sources. Most of the phylogenetic tree classes defined in R community are supported, including <code>obkData</code>, <code>phyloseq</code>, <code>phylo</code>, <code>multiPhylo</code>, <code>phylo4</code> and <code>phylo4d</code>. Such that <em>ggtree</em> can be easily integrated into their analysis/packages. For instance, <em>phyloseq</em> users will find <em>ggtree</em> useful for visualizing microbiome data and for further annotations, since <em>ggtree</em> supports high-level of annotation using grammar of graphics and some of its features are not available in <em>phyloseq</em>. Here, examples of using <em>ggtree</em> to annotate <code>obkData</code> and <code>phyloseq</code> tree objects are demonstrated. There example data can be found in vignettes of <em>OutbreakTools</em> <span class="citation">(Jombart et al. <a href="#ref-jombart_outbreaktools_2014" role="doc-biblioref">2014</a>)</span> and <em>phyloseq</em> <span class="citation">(McMurdie and Holmes <a href="#ref-mcmurdie_phyloseq_2013" role="doc-biblioref">2013</a>)</span> packages.</p>
+<p>Not only all the tree data that parsed by <a href="http://bioconductor.org/packages/treeio">treeio</a> can be used to visualize and annotate phylogenetic tree using <code>ggtree</code>, but also other tree and tree-like objects defined in R community are supported. The <a href="http://bioconductor.org/packages/ggtree">ggtree</a> plays an unique role in R ecosystem to facilitate phylogenetic analysis and it can be easily integrated into other packages and pipelines. For more details, please refer to <a href="chapter9.html#chapter9">chapter 9</a>.</p>
 </div>
 </div>
 <div id="summary-4" class="section level2">
 <h2><span class="header-section-number">5.4</span> Summary</h2>
+<p><a href="http://bioconductor.org/packages/ggtree">ggtree</a> implements grammar of graphics for annotating phylogenetic trees. Users can use ggplot2 syntax to combine different annotation layers to produce complex tree annotation. If you are familiar with <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a>, tree annotation with high level of customization can be intuitive and flexible using <a href="http://bioconductor.org/packages/ggtree">ggtree</a>.</p>
 
 </div>
 </div>
 <h3>References</h3>
 <div id="refs" class="references">
-<div id="ref-jombart_outbreaktools_2014">
-<p>Jombart, Thibaut, David M. Aanensen, Marc Baguelin, Paul Birrell, Simon Cauchemez, Anton Camacho, Caroline Colijn, et al. 2014. “OutbreakTools: A New Platform for Disease Outbreak Analysis Using the R Software.” <em>Epidemics</em> 7 (June): 28–34. <a href="https://doi.org/10.1016/j.epidem.2014.04.003">https://doi.org/10.1016/j.epidem.2014.04.003</a>.</p>
-</div>
-<div id="ref-mcmurdie_phyloseq_2013">
-<p>McMurdie, Paul J., and Susan Holmes. 2013. “Phyloseq: An R Package for Reproducible Interactive Analysis and Graphics of Microbiome Census Data.” <em>PLoS ONE</em> 8 (4): e61217. <a href="https://doi.org/10.1371/journal.pone.0061217">https://doi.org/10.1371/journal.pone.0061217</a>.</p>
-</div>
 <div id="ref-yu_ggtree:_2017">
 <p>Yu, Guangchuang, David K. Smith, Huachen Zhu, Yi Guan, and Tommy Tsan-Yuk Lam. 2017. “Ggtree: An R Package for Visualization and Annotation of Phylogenetic Trees with Their Covariates and Other Associated Data.” <em>Methods in Ecology and Evolution</em> 8 (1): 28–36. <a href="https://doi.org/10.1111/2041-210X.12628">https://doi.org/10.1111/2041-210X.12628</a>.</p>
 </div>
@@ -762,7 +759,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": ["treedata.pdf"],
+"download": ["treedata.pdf", "treedata.epub"],
 "toc": {
 "collapse": "subsection"
 }
