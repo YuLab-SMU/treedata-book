@@ -321,7 +321,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="chapter6" class="section level1">
 <h1><span class="header-section-number">Chapter 6</span> Visual Exploration of Phylogenetic Tree</h1>
-<p>The <em>ggtree</em> supports many ways of manipulating the tree visually, including viewing selected clade to explore large tree (Figure <a href="chapter6.html#fig:viewClade">6.1</a>), taxa clustering (Figure <a href="chapter6.html#fig:groupOTU">6.5</a>), rotating clade or tree (Figure <a href="chapter6.html#fig:rfClade">6.6</a>B and <a href="chapter6.html#fig:rotateTree">6.8</a>), zoom out or collapsing clades (Figure <a href="chapter6.html#fig:collapseExpand">6.3</a>A and <a href="chapter6.html#fig:scaleClade">6.2</a>), <em>etc.</em>. Details tree manipulation functions are summarized in Table <a href="chapter6.html#tab:treeman">6.1</a>.</p>
+<p>The <a href="http://bioconductor.org/packages/ggtree">ggtree</a> supports many ways of manipulating the tree visually, including viewing selected clade to explore large tree (Figure <a href="chapter6.html#fig:viewClade">6.1</a>), taxa clustering (Figure <a href="chapter6.html#fig:groupOTU">6.5</a>), rotating clade or tree (Figure <a href="chapter6.html#fig:rfClade">6.6</a>B and <a href="chapter6.html#fig:rotateTree">6.8</a>), zoom out or collapsing clades (Figure <a href="chapter6.html#fig:collapseExpand">6.3</a>A and <a href="chapter6.html#fig:scaleClade">6.2</a>), <em>etc.</em>. Details tree manipulation functions are summarized in Table <a href="chapter6.html#tab:treeman">6.1</a>.</p>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
 <span id="tab:treeman">Table 6.1: </span>Tree manipulation functions.
@@ -446,7 +446,7 @@ Figure 6.1: <strong>Viewing a selected clade of a tree.</strong> An example tree
 
 
 <div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="chapter6.html#cb171-1"></a>tree2 &lt;-<span class="st"> </span><span class="kw">groupClade</span>(tree, <span class="kw">c</span>(<span class="dv">17</span>, <span class="dv">21</span>))</span>
-<span id="cb171-2"><a href="chapter6.html#cb171-2"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree2, <span class="kw">aes</span>(<span class="dt">color=</span>group)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb171-2"><a href="chapter6.html#cb171-2"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree2, <span class="kw">aes</span>(<span class="dt">color=</span>group)) <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&#39;none&#39;</span>) <span class="op">+</span></span>
 <span id="cb171-3"><a href="chapter6.html#cb171-3"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;firebrick&quot;</span>, <span class="st">&quot;steelblue&quot;</span>))</span>
 <span id="cb171-4"><a href="chapter6.html#cb171-4"></a><span class="kw">scaleClade</span>(p, <span class="dt">node=</span><span class="dv">17</span>, <span class="dt">scale=</span>.<span class="dv">1</span>) </span></code></pre></div>
 <div class="figure"><span id="fig:scaleClade"></span>
@@ -479,11 +479,11 @@ Figure 6.3: <strong>Collapsing selected clades and expanding collapsed clades.</
 </div>
 <p>Here two clades were collapsed and labelled by green circle and red square symbolic points. Collapsing is a common strategy to collapse clades that are too large for displaying in full or are not primary interest of the study. In <em>ggtree</em>, we can expand (<em>i.e.</em>, uncollapse) the collapsed branches back with <code>expand</code> function to show details of species relationships as demonstrated in Figure <a href="chapter6.html#fig:collapseExpand">6.3</a>B.</p>
 <p>Triangles are often used to represent the collapsed clade and <a href="http://bioconductor.org/packages/ggtree">ggtree</a> also supports it. The <code>collapse</code> function provides a “mode” parameter, which by default is “none” and the selected clade was collapsed as a “tip”. User can specify <code>mode</code> to “max” (Figure <a href="chapter6.html#fig:collapseMode">6.4</a>A), “min” (Figure <a href="chapter6.html#fig:collapseMode">6.4</a>B) and “mixed” (Figure <a href="chapter6.html#fig:collapseMode">6.4</a>C).</p>
-<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="chapter6.html#cb173-1"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>()</span>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="chapter6.html#cb173-1"></a>p2 &lt;-<span class="st"> </span>p <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>()</span>
 <span id="cb173-2"><a href="chapter6.html#cb173-2"></a>node &lt;-<span class="st"> </span><span class="dv">21</span></span>
-<span id="cb173-3"><a href="chapter6.html#cb173-3"></a><span class="kw">collapse</span>(p, node, <span class="st">&#39;max&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">expand</span>(node)</span>
-<span id="cb173-4"><a href="chapter6.html#cb173-4"></a><span class="kw">collapse</span>(p, node, <span class="st">&#39;min&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">expand</span>(node)</span>
-<span id="cb173-5"><a href="chapter6.html#cb173-5"></a><span class="kw">collapse</span>(p, node, <span class="st">&#39;mixed&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">expand</span>(node)</span></code></pre></div>
+<span id="cb173-3"><a href="chapter6.html#cb173-3"></a><span class="kw">collapse</span>(p2, node, <span class="st">&#39;max&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">expand</span>(node)</span>
+<span id="cb173-4"><a href="chapter6.html#cb173-4"></a><span class="kw">collapse</span>(p2, node, <span class="st">&#39;min&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">expand</span>(node)</span>
+<span id="cb173-5"><a href="chapter6.html#cb173-5"></a><span class="kw">collapse</span>(p2, node, <span class="st">&#39;mixed&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">expand</span>(node)</span></code></pre></div>
 <p>We can pass additional parameter to set the color and transparency of the triangles (Figure <a href="chapter6.html#fig:collapseMode">6.4</a>D).</p>
 <div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="chapter6.html#cb174-1"></a><span class="kw">collapse</span>(p, <span class="dv">21</span>, <span class="st">&#39;mixed&#39;</span>, <span class="dt">fill=</span><span class="st">&#39;steelblue&#39;</span>, <span class="dt">alpha=</span>.<span class="dv">4</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
 <span id="cb174-2"><a href="chapter6.html#cb174-2"></a><span class="st">  </span><span class="kw">collapse</span>(<span class="dv">23</span>, <span class="st">&#39;mixed&#39;</span>, <span class="dt">fill=</span><span class="st">&#39;firebrick&#39;</span>, <span class="dt">color=</span><span class="st">&#39;blue&#39;</span>)</span></code></pre></div>
@@ -547,35 +547,9 @@ Figure 6.6: <strong>Exploring tree structure.</strong> A clade (indicated by dar
 </p>
 </div>
 
-<!--
+<p>Most of the tree manipulation functions are working on clades, while <a href="http://bioconductor.org/packages/ggtree">ggtree</a> also provides functions to manipulate a tree, including <code>open_tree</code> to transform a tree in either rectangular or circular layout to fan layout, and <code>rotate_tree</code> function to rotate a tree for specific angle in both circular or fan layouts, as demonstrated in Figure <a href="chapter6.html#fig:openTree">6.7</a> and <a href="chapter6.html#fig:rotateTree">6.8</a>.</p>
 
-## Rotate Clade
-
-```r
-tree <- groupClade(tree, c(21, 17))
-p <- ggtree(tree, aes(color=group)) + scale_color_manual(values=c("black", "firebrick", "steelblue"))
-p2 <- rotate(p, 21) %>% rotate(17)
-plot_grid(p, p2, ncol=2)
-```
-
-<img src="treedata_files/figure-html/unnamed-chunk-88-1.png" width="768" />
-
-
-```r
-set.seed(2016-05-29)
-p <- ggtree(tree <- rtree(50)) + geom_tiplab()
-for (n in reorder(tree, 'postorder')$edge[,1] %>% unique) {
-    p <- rotate(p, n)
-    print(p + geom_point2(aes(subset=(node == n)), color='red'))
-}
-```
-
-![](img/rotate_clade.gif)
-
--->
-<p>Most of the tree manipulation functions are working on clades, while <em>ggtree</em> also provides functions to manipulate a tree, including <code>open_tree</code> to transform a tree in either rectangular or circular layout to fan layout, and <code>rotate_tree</code> function to rotate a tree for specific angle in both circular or fan layouts, as demonstrated in Figure <a href="chapter6.html#fig:openTree">6.7</a> and <a href="chapter6.html#fig:rotateTree">6.8</a>.</p>
-
-<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="chapter6.html#cb179-1"></a>p3 &lt;-<span class="st"> </span><span class="kw">open_tree</span>(p, <span class="dv">180</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab2</span>()</span>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="chapter6.html#cb179-1"></a>p3 &lt;-<span class="st"> </span><span class="kw">open_tree</span>(p, <span class="dv">180</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>()</span>
 <span id="cb179-2"><a href="chapter6.html#cb179-2"></a><span class="kw">print</span>(p3)</span></code></pre></div>
 
 
@@ -597,44 +571,55 @@ Figure 6.7: <strong>Transforming a tree to fan layout.</strong> A tree can be tr
 Figure 6.8: <strong>Rotating tree.</strong> A circular/fan layout tree can be rotated by any specific <em>angle</em>.
 </p>
 </div>
-<p>Interactive tree manipulation is also possible via <code>identify</code> methods[^&lt;https://guangchuangyu.github.io/2016/06/identify-method-for-ggtree&gt;].</p>
-<!--
-## Open tree
-
-`ggtree` supports `fan` layout and can also transform the `circular` layout tree to a `fan` tree by specifying an open `angle` to `open_tree` function.
-
-
-```r
-set.seed(123)
-tr <- rtree(50)
-
-p <- ggtree(tr, layout='circular') + geom_tiplab2()
-
-for (angle in seq(0, 270, 10)) {
-    print(open_tree(p, angle=angle) + ggtitle(paste("open angle:", angle)))
-}
-```
-
-![](img/fan_layout.gif)
+<p>The following example traverse all the internal nodes and rotate them one by one (Figure <a href="chapter6.html#fig:rotategif">6.9</a>).</p>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="chapter6.html#cb181-1"></a><span class="kw">set.seed</span>(<span class="dv">2016-05-29</span>)</span>
+<span id="cb181-2"><a href="chapter6.html#cb181-2"></a>x &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">50</span>)</span>
+<span id="cb181-3"><a href="chapter6.html#cb181-3"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(x) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>()</span>
+<span id="cb181-4"><a href="chapter6.html#cb181-4"></a><span class="cf">for</span> (n <span class="cf">in</span> <span class="kw">reorder</span>(x, <span class="st">&#39;postorder&#39;</span>)<span class="op">$</span>edge[,<span class="dv">1</span>] <span class="op">%&gt;%</span><span class="st"> </span>unique) {</span>
+<span id="cb181-5"><a href="chapter6.html#cb181-5"></a>    p &lt;-<span class="st"> </span><span class="kw">rotate</span>(p, n)</span>
+<span id="cb181-6"><a href="chapter6.html#cb181-6"></a>    <span class="kw">print</span>(p <span class="op">+</span><span class="st"> </span><span class="kw">geom_point2</span>(<span class="kw">aes</span>(<span class="dt">subset=</span>(node <span class="op">==</span><span class="st"> </span>n)), <span class="dt">color=</span><span class="st">&#39;red&#39;</span>))</span>
+<span id="cb181-7"><a href="chapter6.html#cb181-7"></a>}</span></code></pre></div>
 
 
-## Rotate tree
+<div class="figure"><span id="fig:rotategif"></span>
+<img src="img/rotate_clade.gif" alt="Traverse and rotate all clades."  />
+<p class="caption">
+Figure 6.9: <strong>Traverse and rotate all clades.</strong>
+</p>
+</div>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="chapter6.html#cb182-1"></a><span class="kw">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb182-2"><a href="chapter6.html#cb182-2"></a>tr &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">50</span>)</span>
+<span id="cb182-3"><a href="chapter6.html#cb182-3"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tr, <span class="dt">layout=</span><span class="st">&#39;circular&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab2</span>()</span>
+<span id="cb182-4"><a href="chapter6.html#cb182-4"></a></span>
+<span id="cb182-5"><a href="chapter6.html#cb182-5"></a><span class="cf">for</span> (angle <span class="cf">in</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">270</span>, <span class="dv">10</span>)) {</span>
+<span id="cb182-6"><a href="chapter6.html#cb182-6"></a>    <span class="kw">print</span>(<span class="kw">open_tree</span>(p, <span class="dt">angle=</span>angle) <span class="op">+</span><span class="st"> </span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(<span class="st">&quot;open angle:&quot;</span>, angle)))</span>
+<span id="cb182-7"><a href="chapter6.html#cb182-7"></a>}</span></code></pre></div>
+<p>Figure <a href="chapter6.html#fig:fangif">6.10</a> demonstrates the usage of <code>open_tree</code> with different open angles.</p>
 
-Rotating a `circular` tree is supported by `rotate_tree` function.
+
+<div class="figure"><span id="fig:fangif"></span>
+<img src="img/fan_layout.gif" alt="Open tree with different angles."  />
+<p class="caption">
+Figure 6.10: <strong>Open tree with different angles.</strong>
+</p>
+</div>
+<p>Figure <a href="chapter6.html#fig:rotatetreegif">6.11</a> illustrates rotating tree with different angles.</p>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="chapter6.html#cb183-1"></a><span class="cf">for</span> (angle <span class="cf">in</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">270</span>, <span class="dv">10</span>)) {</span>
+<span id="cb183-2"><a href="chapter6.html#cb183-2"></a>    <span class="kw">print</span>(<span class="kw">rotate_tree</span>(p, angle) <span class="op">+</span><span class="st"> </span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(<span class="st">&quot;rotate angle:&quot;</span>, angle)))</span>
+<span id="cb183-3"><a href="chapter6.html#cb183-3"></a>}</span></code></pre></div>
 
 
-```r
-for (angle in seq(0, 270, 10)) {
-    print(rotate_tree(p, angle) + ggtitle(paste("rotate angle:", angle)))
-}
-```
-
-![](img/rotate_tree.gif)
-
--->
+<div class="figure"><span id="fig:rotatetreegif"></span>
+<img src="img/rotate_tree.gif" alt="Rotate tree with different angles."  />
+<p class="caption">
+Figure 6.11: <strong>Rotate tree with different angles.</strong>
+</p>
+</div>
+<p>Interactive tree manipulation is also possible via <code>identify</code> methods<a href="references.html#fn14" class="footnote-ref" id="fnref14"><sup>14</sup></a>.</p>
 </div>
 <div id="summary-5" class="section level2">
 <h2><span class="header-section-number">6.6</span> Summary</h2>
+<p>The <a href="http://bioconductor.org/packages/ggtree">ggtree</a> provides a set of functions to allow visually manipulating phylogenetic tree and exploring tree structure with associated data.</p>
 
 </div>
 </div>

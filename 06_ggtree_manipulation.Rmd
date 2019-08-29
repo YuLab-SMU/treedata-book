@@ -9,11 +9,10 @@ library("ggtree")
 expand <- ggtree::expand
 rotate <- ggtree::rotate
 flip <- ggtree::flip
-#collapse <- ggtree:::collapse.ggtree
 ```
 
 
-The *ggtree* supports many ways of manipulating the tree visually, including viewing selected clade to explore large tree (Figure \@ref(fig:viewClade)), taxa clustering (Figure \@ref(fig:groupOTU)), rotating clade or tree (Figure \@ref(fig:rfClade)B and \@ref(fig:rotateTree)), zoom out or collapsing clades (Figure \@ref(fig:collapseExpand)A and \@ref(fig:scaleClade)), *etc.*. Details tree manipulation functions are summarized in Table \@ref(tab:treeman).
+The `r Biocpkg("ggtree")` supports many ways of manipulating the tree visually, including viewing selected clade to explore large tree (Figure \@ref(fig:viewClade)), taxa clustering (Figure \@ref(fig:groupOTU)), rotating clade or tree (Figure \@ref(fig:rfClade)B and \@ref(fig:rotateTree)), zoom out or collapsing clades (Figure \@ref(fig:collapseExpand)A and \@ref(fig:scaleClade)), *etc.*. Details tree manipulation functions are summarized in Table \@ref(tab:treeman).
 
 
 ```{r treeman, echo=FALSE, out.extra='', message=FALSE}
@@ -84,7 +83,7 @@ The *ggtree* provides another option to zoom out (or compress) these clades via 
 \setstretch{1.2}
 ```{r scaleClade, message=FALSE, fig.cap="(ref:scaleCladecap)", fig.scap="(ref:scaleCladescap)", out.extra=''}
 tree2 <- groupClade(tree, c(17, 21))
-p <- ggtree(tree2, aes(color=group)) + 
+p <- ggtree(tree2, aes(color=group)) + theme(legend.position='none') +
   scale_color_manual(values=c("black", "firebrick", "steelblue"))
 scaleClade(p, node=17, scale=.1) 
 ```
@@ -120,7 +119,7 @@ p2 <- p %>% collapse(node=21) +
   geom_point2(aes(subset=(node==21)), shape=21, size=5, fill='green')
 p2 <- collapse(p2, node=23) + 
   geom_point2(aes(subset=(node==23)), shape=23, size=5, fill='red')
-p3 <- expand(p2, node=23) %>% expand(node=21)
+p3 <- expand(p2, node=23) %>% expand(node=21) 
 plot_grid(p2, p3, ncol=2, labels=c("A", "B"))
 ```
 
@@ -130,11 +129,11 @@ Triangles are often used to represent the collapsed clade and `r Biocpkg("ggtree
 
 
 ```r
-p <- ggtree(tree) + geom_tiplab()
+p2 <- p + geom_tiplab()
 node <- 21
-collapse(p, node, 'max') %>% expand(node)
-collapse(p, node, 'min') %>% expand(node)
-collapse(p, node, 'mixed') %>% expand(node)
+collapse(p2, node, 'max') %>% expand(node)
+collapse(p2, node, 'min') %>% expand(node)
+collapse(p2, node, 'mixed') %>% expand(node)
 ```
 
 We can pass additional parameter to set the color and transparency of the triangles (Figure \@ref(fig:collapseMode)D).
@@ -157,11 +156,11 @@ scaleClade(p, 23, .2) %>% collapse(23, 'min', fill="darkgreen")
 
 
 ```{r collapseMode, echo=F, fig.width=8, fig.height=8, fig.cap="(ref:collapseModecap)", fig.scap="(ref:collapseModescap)"}
+p2 <- p + geom_tiplab()
 node <- 21
-p <- ggtree(tree) + geom_tiplab()
-g1 = expand(collapse(p, node, 'max'), node)
-g2 = expand(collapse(p, node, 'min'), node)
-g3 = expand(collapse(p, node, 'mixed'), node)
+g1 = expand(collapse(p2, node, 'max'), node)
+g2 = expand(collapse(p2, node, 'min'), node)
+g3 = expand(collapse(p2, node, 'mixed'), node)
 pp = plot_grid(g1,g2,g3, ncol=3, labels=LETTERS[1:3])
 
 pg1 <- collapse(p, 21, 'mixed', fill='steelblue', alpha=.4) %>% 
@@ -232,43 +231,22 @@ p2 <- rotate(p1, 17) %>% rotate(21)
 flip(p2, 17, 21)
 ```          
 ```{r rfClade, fig.cap="(ref:rotateCladecap)", fig.scap="(ref:rotateCladescap)", out.extra='', fig.width=7, fig.height=3, echo=F}
-p1 <- p + geom_point2(aes(subset=node==16), color='darkgreen', size=5)
+p1 <- p + geom_tiplab() + 
+        geom_point2(aes(subset=node==16), color='darkgreen', size=5)
 p2 <- rotate(p1, 17) %>% rotate(21)
 p3 <- flip(p2, 17, 21)
 plot_grid(p1, p2, p3, ncol=3, labels = LETTERS[1:3])
 ```
 \setstretch{1.5}
 
-<!--
-
-## Rotate Clade
-```{r fig.width=8, fig.height=4}
-tree <- groupClade(tree, c(21, 17))
-p <- ggtree(tree, aes(color=group)) + scale_color_manual(values=c("black", "firebrick", "steelblue"))
-p2 <- rotate(p, 21) %>% rotate(17)
-plot_grid(p, p2, ncol=2)
-```
-
-```{r eval=F}
-set.seed(2016-05-29)
-p <- ggtree(tree <- rtree(50)) + geom_tiplab()
-for (n in reorder(tree, 'postorder')$edge[,1] %>% unique) {
-    p <- rotate(p, n)
-    print(p + geom_point2(aes(subset=(node == n)), color='red'))
-}
-```
-
-![](img/rotate_clade.gif)
-
--->
 
 
-Most of the tree manipulation functions are working on clades, while *ggtree* also provides functions to manipulate a tree, including `open_tree` to transform a tree in either rectangular or circular layout to fan layout, and `rotate_tree` function to rotate a tree for specific angle in both circular or fan layouts, as demonstrated in Figure \@ref(fig:openTree) and \@ref(fig:rotateTree).
+Most of the tree manipulation functions are working on clades, while `r Biocpkg("ggtree")` also provides functions to manipulate a tree, including `open_tree` to transform a tree in either rectangular or circular layout to fan layout, and `rotate_tree` function to rotate a tree for specific angle in both circular or fan layouts, as demonstrated in Figure \@ref(fig:openTree) and \@ref(fig:rotateTree).
 
 
 \setstretch{1.2}
 ```{r eval=FALSE}
-p3 <- open_tree(p, 180) + geom_tiplab2()
+p3 <- open_tree(p, 180) + geom_tiplab()
 print(p3)
 ```
 \setstretch{1.5}
@@ -278,11 +256,13 @@ print(p3)
 (ref:openTreecap) **Transforming a tree to fan layout.** A tree can be transformed to fan layout by `open_tree` with specific *angle* parameter.
 
 ```{r openTree, fig.cap="(ref:openTreecap)", fig.scap="(ref:openTreescap)",echo=FALSE, fig.width=6, fig.height=3.5, out.extra=''}
-p3 <- open_tree(p, 180) + geom_tiplab2()
+p3 <- open_tree(p, 180) + geom_tiplab() 
 ggplot() + ylim(0.5, 1) + xlim(0, 1) + theme_tree() +
-  annotation_custom(ggplotGrob(p3), 
+  annotation_custom(ggplotGrob(p3),
                     xmin=-.2, xmax=1.15, ymin=-.25, ymax=1.3)
 ```
+
+
 
 \setstretch{1.2}
 ```{r eval=FALSE}
@@ -297,23 +277,37 @@ rotate_tree(p3, 180)
 
 ```{r rotateTree, echo=FALSE, fig.cap="(ref:rotateTreecap)", fig.scap="(ref:rotateTreescap)", fig.width=6, fig.height=3.2, out.extra=''}
 ggplot() + ylim(0.5, 1) + xlim(0, 1)  + theme_tree() +
-  annotation_custom(ggplotGrob(rotate_tree(p3, 180)), 
-                    xmin=-.15, xmax=1.15, ymin=.2, ymax=1.75)
+  annotation_custom(ggplotGrob(rotate_tree(p3, 180)),
+                    xmin=-.15, xmax=1.15, ymin=.2, ymax=1.75) 
 ```
 
 
 
-Interactive tree manipulation is also possible via `identify` methods[^<https://guangchuangyu.github.io/2016/06/identify-method-for-ggtree>].
+The following example traverse all the internal nodes and rotate them one by one (Figure \@ref(fig:rotategif)).
 
-<!--
-## Open tree
+```{r eval=F}
+set.seed(2016-05-29)
+x <- rtree(50)
+p <- ggtree(x) + geom_tiplab()
+for (n in reorder(x, 'postorder')$edge[,1] %>% unique) {
+    p <- rotate(p, n)
+    print(p + geom_point2(aes(subset=(node == n)), color='red'))
+}
+```
 
-`ggtree` supports `fan` layout and can also transform the `circular` layout tree to a `fan` tree by specifying an open `angle` to `open_tree` function.
+
+(ref:rotategifscap) Traverse and rotate all clades.
+
+(ref:rotategifcap) **Traverse and rotate all clades.** 
+
+```{r rotategif, fig.width=8, fig.height=9.6, echo=FALSE, fig.cap="(ref:rotategifcap)", fig.scap="(ref:rotategifscap)"}
+knitr::include_graphics("img/rotate_clade.gif")
+```
+
 
 ```{r eval=FALSE}
 set.seed(123)
 tr <- rtree(50)
-
 p <- ggtree(tr, layout='circular') + geom_tiplab2()
 
 for (angle in seq(0, 270, 10)) {
@@ -321,12 +315,19 @@ for (angle in seq(0, 270, 10)) {
 }
 ```
 
-![](img/fan_layout.gif)
 
+Figure \@ref(fig:fangif) demonstrates the usage of `open_tree` with different open angles.
 
-## Rotate tree
+(ref:fangifscap) Open tree with different angles.
 
-Rotating a `circular` tree is supported by `rotate_tree` function.
+(ref:fangifcap) **Open tree with different angles.** 
+
+```{r fangif, fig.width=8, fig.height=9.6, echo=FALSE, fig.cap="(ref:fangifcap)", fig.scap="(ref:fangifscap)"}
+knitr::include_graphics("img/fan_layout.gif")
+```
+
+Figure \@ref(fig:rotatetreegif) illustrates rotating tree with different angles.
+
 
 ```{r eval=FALSE}
 for (angle in seq(0, 270, 10)) {
@@ -334,9 +335,20 @@ for (angle in seq(0, 270, 10)) {
 }
 ```
 
-![](img/rotate_tree.gif)
 
--->
+(ref:rotatetreegifscap) Rotate tree with different angles.
+
+(ref:rotatetreegifcap) **Rotate tree with different angles.** 
+
+```{r rotatetreegif, fig.width=8, fig.height=9.6, echo=FALSE, fig.cap="(ref:rotatetreegifcap)", fig.scap="(ref:rotatetreegifscap)"}
+knitr::include_graphics("img/rotate_tree.gif")
+```
+
+
+
+
+Interactive tree manipulation is also possible via `identify` methods^[<https://guangchuangyu.github.io/2016/06/identify-method-for-ggtree>].
+
 
 
 
@@ -344,3 +356,4 @@ for (angle in seq(0, 270, 10)) {
 
 ## Summary
 
+The `r Biocpkg("ggtree")` provides a set of functions to allow visually manipulating phylogenetic tree and exploring tree structure with associated data. 
