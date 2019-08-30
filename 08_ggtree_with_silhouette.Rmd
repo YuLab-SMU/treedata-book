@@ -11,12 +11,17 @@ library(ggtree)
 
 ## Annotating Tree with Images {#ggimage}
 
-We usually use text to label taxa, *i.e.* displaying taxa names. If the text is image file name (either local or remote), `r Biocpkg("ggtree")` can read the image and display the actual image as label of the taxa. The `geom_tiplab` and `geom_nodelab` are capable to render silhouette image by internally called `r CRANpkg("ggimage")` package. 
+We usually use text to label taxa, *i.e.* displaying taxa names. If the text is image file name (either local or remote), `r Biocpkg("ggtree")` can read the image and display the actual image as label of the taxa (Figure \@ref(fig:frogimage)). The `geom_tiplab` and `geom_nodelab` are capable to render silhouette image by internally called `r CRANpkg("ggimage")` package. 
 
 Online tools such as `iTOL` [@letunic_interactive_2007] and `EvolView` [@he_evolview_2016] support displaying subplots on phylogenetic tree. However only bar and pie charts are supported by these tools. Users may want to visualize node-associated data with other visualization methods, such as violin plot [@grubaugh_genomic_2017], venn diagram [@lott_covenntree:_2015], sequence logo *etc*, and display them on the tree. In `r Biocpkg("ggtree")`, all kinds of subplots are supported as we can export all subplots to image files and use them to label corresponding nodes on the tree.
 
+(ref:frogimagescap) Labelling taxa with images.
 
-```{r fig.width=8.5, fig.height=7.5, message=F, warning=F, dev='png', dpi=200}
+(ref:frogimagecap) **Labelling taxa with images.** 
+
+
+
+```{r frogimage, fig.width=8.5, fig.height=7, message=F, warning=F, dev='png', dpi=200, fig.cap="(ref:frogimagecap)", fig.scap="(ref:frogimagescap)"}
 library(ggimage)
 library(ggtree)
 
@@ -35,8 +40,8 @@ ggtree(x) + xlim(NA, 7) + ylim(NA, 6.2) +
 [Phylopic](phylopic.org) contains more than 3200 silhouettes and covers almost all life forms. **ggtree** also supports using phylopic^[<https://twitter.com/guangchuangyu/status/593443854541434882>] to annotate the tree. Most importantly, we can color the image using numerical/categorical variable.
 
 
-```{r phylopic, dev='png'}
-## tree <- ape::read.nexus("https://raw.githubusercontent.com/rgriff23/Dissertation/master/Chapter_2/data/tree.nex")
+
+```{r}
 tree <- ape::read.nexus("data/tree.nex")
 phylopic_info <- data.frame(node = c(124, 113, 110, 96, 89, 70),
                             phylopic = c("c4ac9ea6-b465-4ed0-a5de-9fe4eebd3ef9",
@@ -48,13 +53,13 @@ phylopic_info <- data.frame(node = c(124, 113, 110, 96, 89, 70),
                             species = c("galagoids", "lemurs", "tarsiers",
                                         "cebids", "hominoids", "cercopithecoids"))
 pg <- ggtree(tree)
-pg %<+% phylopic_info + 
+pg <- pg %<+% phylopic_info + 
   geom_nodelab(aes(image=phylopic, color=species, subset=!is.na(species)), 
               geom="phylopic", alpha = .6) + 
-  theme(legend.position=c(.1, .8))
+  theme(legend.position=c(.2, .8))
 ```
 
-`ggimage` package supports querying phylopic uid from scientific name, which is very handy for annotating tree with phylopic.
+`r CRANpkg("ggimage")` package supports querying phylopic uid from scientific name, which is very handy for annotating tree with phylopic.
 
 ```{r ggimage_phylopic, dev='png'}
 require(ggtree)
@@ -67,15 +72,25 @@ ids <- sapply(idlist, function(x) x[1,1])
 
 d <- data.frame(label = tree$tip.label, uid = ids)
 
-p <- ggtree(tree)
-p %<+% d + geom_tiplab(aes(image=uid, color=label), geom="phylopic", offset=2.5) +
-  geom_tiplab(aes(label=label), offset = .2) + xlim(NA, 7)
+p <- ggtree(tree) %<+% d + 
+  geom_tiplab(aes(image=uid, color=label), geom="phylopic", offset=2.5) +
+  geom_tiplab(aes(label=label), offset = .2) + xlim(NA, 7) +
+  theme(legend.position='none')
+```
+
+
+(ref:phylopicscap) Labelling taxa with phylopic images. 
+
+(ref:phylopiccap) **Labelling taxa with phylopic images.** ggtree will automatically download phylopic figures by querying provided UID (A). The UID can be searched using scientific names of the taxa (B). The figures can be colored using on numerical or categorical values.
+
+```{r phylopic, fig.width=10, figh.height=5, dev='png', fig.cap="(ref:phylopiccap)", fig.scap="(ref:phylopicscap)", echo=FALSE}
+cowplot::plot_grid(pg, p, ncol=2, labels=LETTERS[1:2])
 ```
 
 ## Annotating Tree with Sub-plots {#subplots}
 
 
-`ggtree` provides a function, `inset`, for adding subplots to a phylogenetic tree. The input is a tree graphic object and a named list of ggplot graphic objects (can be any kind of charts), these objects should named by node numbers. To facilitate adding bar and pie charts (e.g. summarized stats of results from ancestral reconstruction) to phylogenetic tree, *ggtree* provides `nodepie` and `nodebar` functions to create a list of pie or bar charts.
+`ggtree` provides a layer, `geom_inset`, for adding subplots to a phylogenetic tree. The input is a named list of ggplot graphic objects (can be any kind of charts). These objects should named by node numbers. Users can also use `r CRANpkg("ggplotify")` to convert plots that generated by other functions (even implemented by base graphics) to ggplot objects, which can then be used in `geom_inset`. To facilitate adding bar and pie charts (e.g. summarized stats of results from ancestral reconstruction) to phylogenetic tree, `r Biocpkg("ggtree")` provides `nodepie` and `nodebar` functions to create a list of pie or bar charts.
 
 ### Annotate with bar charts
 
@@ -110,8 +125,7 @@ p + geom_inset(bars, width = .08, height = .05, x = "branch")
 ```
 
 
-
-Users can set the color via the parameter *color*. The *x* position can be one of 'node' or 'branch' and can be adjusted by the parameter *hjust* and *vjust* for horizontal and vertical adjustment respecitvely.
+The *x* position can be one of 'node' or 'branch' and can be adjusted by the parameter *hjust* and *vjust* for horizontal and vertical adjustment respecitvely.
 
 
 
@@ -190,45 +204,61 @@ Note that the output may depends on what emoji fonts installed in your system^[G
 
 With `r Biocpkg("ggtree")`, it is easy to generate phylomoji. The emoji is treated as **text**, like abc. We can use emojis to label taxa, clade, color and ratate emoji with any given color and angle. This functionality is internally supported by the `r CRANpkg("emojifont")` package.
 
-### emoji in cirular/fan layout tree
+### Emoji in cirular/fan layout tree
 
-```{r fig.width=6, fig.height=6, warning=F, dev='png'}
+```{r fig.width=6, fig.height=6, warning=F, dev='png', eval=FALSE}
 p <- ggtree(tree, layout = "circular", size=1) +  
   geom_tiplab2(parse="emoji", size=10, vjust=.25)
 print(p)
-```
 
-
-```{r fig.width=6, fig.height=3.5, warning=F, eval=F, dev='png'}
 ## fan layout  
 p2 <- open_tree(p, angle=200) 
 print(p2)
-```
 
-```{r fig.width=6, fig.height=3.5, warning=F, echo=F, dev='png'}
-p2 <- open_tree(p, angle=200)
- 
-ggplot() + ylim(0.5, 1) + xlim(0, 1) + theme_tree() +
-  annotation_custom(ggplotGrob(p2), 
-                    xmin=-.1, xmax=1.1, ymin=-.25, ymax=1.25)
-```
-
-```{r eval=F}
 p2 %>% rotate_tree(-90)
 ```
 
-```{r fig.width=3.5, fig.height=6, warning=F, echo=F, dev='png'}
+(ref:emojifanscap) Phylomoji in cirular and fan layouts.
+
+(ref:emojifancap) **Phylomoji in cirular and fan layouts.** 
+
+
+```{r emojifan, fig.width=9.2, fig.height=7.3, warning=F, echo=F, dev='png', fig.cap="(ref:emojifancap)", fig.scap="(ref:emojifanscap)"}
+p <- ggtree(tree, layout = "circular", size=1) +  
+  geom_tiplab2(parse="emoji", size=10, vjust=.25)
+
+p2 <- open_tree(p, angle=200)
+ 
+p2x <- ggplot() + ylim(0.5, 1) + xlim(0, 1) + theme_tree() +
+  annotation_custom(ggplotGrob(p2), 
+                    xmin=-.1, xmax=1.1, ymin=-.25, ymax=1.25)
+
 p3 <- p2 %>% rotate_tree(-90) 
  
-ggplot() + ylim(0, 1) + xlim(0.5, 1) + theme_tree() +
+p3x <- ggplot() + ylim(0, 1) + xlim(0.5, 1) + theme_tree() +
   annotation_custom(ggplotGrob(p3), 
                     ymin=-.1, ymax=1.1, xmin=-.25, xmax=1.25)
+
+a <- plot_grid(p, labels='A')
+b <- plot_grid(p2x, labels='B')
+c <- plot_grid(p3x, labels='C')
+g <- ggplot() + xlim(0,1) + ylim(0,1) 
+
+g + annotation_custom(ggplotGrob(c), xmin=.5, xmax=1, ymin=0, ymax=1) + 
+  annotation_custom(ggplotGrob(b), xmin=0.005, xmax=.5, ymin=0, ymax=.3) + 
+  annotation_custom(ggplotGrob(a), xmin=0, xmax=.5, ymin=.3, ymax=1) +
+  theme_void()
 ```
 
 
-### emoji to label clades
+### Emoji to label clades
 
-```{r fig.width=6, fig.height=5, dev='png'}
+(ref:emojicladescap) Emoji to label clades.
+
+(ref:emojicladecap) **Emoji to label clades.** 
+
+
+```{r emojiclade, fig.width=6, fig.height=5, dev='png', fig.cap="(ref:emojicladecap)", fig.scap="(ref:emojicladescap)"}
 set.seed(123)
 tr <- rtree(30)
 
@@ -263,7 +293,16 @@ p
 ps = grid.export("emoji.svg", addClass=T)
 ```
 
-![](img/apple_emoji2.png)
+
+(ref:applemojiscap) Use Apple Color Emoji in ggtree.
+
+(ref:applemojicap) **Use Apple Color Emoji in ggtree.** 
+
+
+
+```{r applemoji, out.width="80%", echo=F, fig.scap="(ref:applemojiscap)", fig.cap="(ref:applemojicap)"}
+knitr::include_graphics("img/apple_emoji2.png")
+```
 
 ### Phylomoji in ASCII art
 

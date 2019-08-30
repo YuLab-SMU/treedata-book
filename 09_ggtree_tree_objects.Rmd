@@ -167,7 +167,7 @@ den <- as.dendrogram(hc)
 den
 ```
 
-The `r Biocpkg("ggtree")` package supports both `hclust` and `dendrogram` objects. Users can use `ggtree(object)` to display its tree structure, and user other layers and utilities to customize the graph and of course add annotation to the tree.
+The `r Biocpkg("ggtree")` package supports most of the hierarchical clustering objects defined in the R community, including `hclust` and `dendrogram` as well as `agnes`, `diana` and `twins` that defined in the `r CRANpkg("cluster")` package. Users can use `ggtree(object)` to display its tree structure, and user other layers and utilities to customize the graph and of course add annotation to the tree.
 
 `r Biocpkg("ggtree")` provides `layout_dendrogram` to layout the tree top down, and `theme_dendrogram` to display tree height (similar to `theme_tree2` for phylogenetic tree) as demonstrated in Figure \@ref(fig:ggtreehclust).
 
@@ -176,19 +176,33 @@ The `r Biocpkg("ggtree")` package supports both `hclust` and `dendrogram` object
 
 (ref:ggtreehclustcap) **Visualizing dendrogram.** 
 
-
-```{r ggtreehclust, fig.width=8, fig.height=5, fig.cap="(ref:ggtreehclustcap)", fig.scap="(ref:ggtreehclustscap)"}
-clus <- cutree(hc, 4)
-
-d = data.frame(label = names(clus), 
-               member = factor(clus), 
-               cyl = mtcars[names(clus), "cyl"])
-
-ggtree(hc, linetype='dashed', color = "#487AA1") %<+% d + 
-  layout_dendrogram() + 
-  geom_tippoint(size=5, shape=21, aes(fill=factor(cyl), x=x+.5)) + 
-  geom_tiplab(aes(label=cyl), size=3, hjust=.5) +
-  geom_tiplab(aes(color = member), angle=90, hjust=1, offset=-5) + 
-  theme_dendrogram(plot.margin=margin(6,6,80,6))
+```{r echo=F}
+MRCA = ggtree:::MRCA.ggtree
 ```
 
+
+```{r ggtreehclust, fig.width=9, fig.height=5, fig.cap="(ref:ggtreehclustcap)", fig.scap="(ref:ggtreehclustscap)"}
+clus <- cutree(hc, 4)
+g <- split(names(clus), clus)
+
+p <- ggtree(hc, linetype='dashed')
+clades <- sapply(g, function(n) MRCA(p, n))
+
+p <- groupClade(p, clades, group_name='subtree') + aes(color=subtree)
+
+d <- data.frame(label = names(clus), 
+                  cyl = mtcars[names(clus), "cyl"])
+
+p %<+% d + 
+  layout_dendrogram() + 
+  geom_tippoint(size=5, shape=21, aes(fill=factor(cyl), x=x+.5), color='black') + 
+  geom_tiplab(aes(label=cyl), size=3, hjust=.5, color='black') +
+  geom_tiplab(angle=90, hjust=1, offset=-10, show.legend=F) + 
+  scale_color_brewer(palette='Set1', breaks=1:4) +
+  theme_dendrogram(plot.margin=margin(6,6,80,6)) +
+  theme(legend.position=c(.9, .6))
+```
+
+```{r echo=FALSE}
+MRCA = tidytree::MRCA
+```

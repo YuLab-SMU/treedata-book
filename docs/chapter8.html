@@ -236,8 +236,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.3.3" data-path="chapter8.html"><a href="chapter8.html#annotate-with-other-types-of-charts"><i class="fa fa-check"></i><b>8.3.3</b> Annotate with other types of charts</a></li>
 </ul></li>
 <li class="chapter" data-level="8.4" data-path="chapter8.html"><a href="chapter8.html#phylomoji"><i class="fa fa-check"></i><b>8.4</b> Have Fun with Phylomoji</a><ul>
-<li class="chapter" data-level="8.4.1" data-path="chapter8.html"><a href="chapter8.html#emoji-in-cirularfan-layout-tree"><i class="fa fa-check"></i><b>8.4.1</b> emoji in cirular/fan layout tree</a></li>
-<li class="chapter" data-level="8.4.2" data-path="chapter8.html"><a href="chapter8.html#emoji-to-label-clades"><i class="fa fa-check"></i><b>8.4.2</b> emoji to label clades</a></li>
+<li class="chapter" data-level="8.4.1" data-path="chapter8.html"><a href="chapter8.html#emoji-in-cirularfan-layout-tree"><i class="fa fa-check"></i><b>8.4.1</b> Emoji in cirular/fan layout tree</a></li>
+<li class="chapter" data-level="8.4.2" data-path="chapter8.html"><a href="chapter8.html#emoji-to-label-clades"><i class="fa fa-check"></i><b>8.4.2</b> Emoji to label clades</a></li>
 <li class="chapter" data-level="8.4.3" data-path="chapter8.html"><a href="chapter8.html#apple-color-emoji"><i class="fa fa-check"></i><b>8.4.3</b> Apple Color Emoji</a></li>
 <li class="chapter" data-level="8.4.4" data-path="chapter8.html"><a href="chapter8.html#phylomoji-in-ascii-art"><i class="fa fa-check"></i><b>8.4.4</b> Phylomoji in ASCII art</a></li>
 </ul></li>
@@ -323,8 +323,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Chapter 8</span> Annotating Tree with Silhouette Images and Sub-plots</h1>
 <div id="ggimage" class="section level2">
 <h2><span class="header-section-number">8.1</span> Annotating Tree with Images</h2>
-<p>We usually use text to label taxa, <em>i.e.</em> displaying taxa names. If the text is image file name (either local or remote), <a href="http://bioconductor.org/packages/ggtree">ggtree</a> can read the image and display the actual image as label of the taxa. The <code>geom_tiplab</code> and <code>geom_nodelab</code> are capable to render silhouette image by internally called <a href="https://CRAN.R-project.org/package=ggimage">ggimage</a> package.</p>
+<p>We usually use text to label taxa, <em>i.e.</em> displaying taxa names. If the text is image file name (either local or remote), <a href="http://bioconductor.org/packages/ggtree">ggtree</a> can read the image and display the actual image as label of the taxa (Figure <a href="chapter8.html#fig:frogimage">8.1</a>). The <code>geom_tiplab</code> and <code>geom_nodelab</code> are capable to render silhouette image by internally called <a href="https://CRAN.R-project.org/package=ggimage">ggimage</a> package.</p>
 <p>Online tools such as <code>iTOL</code> <span class="citation">(Letunic and Bork <a href="#ref-letunic_interactive_2007" role="doc-biblioref">2007</a>)</span> and <code>EvolView</code> <span class="citation">(He et al. <a href="#ref-he_evolview_2016" role="doc-biblioref">2016</a>)</span> support displaying subplots on phylogenetic tree. However only bar and pie charts are supported by these tools. Users may want to visualize node-associated data with other visualization methods, such as violin plot <span class="citation">(Grubaugh et al. <a href="#ref-grubaugh_genomic_2017" role="doc-biblioref">2017</a>)</span>, venn diagram <span class="citation">(Lott et al. <a href="#ref-lott_covenntree:_2015" role="doc-biblioref">2015</a>)</span>, sequence logo <em>etc</em>, and display them on the tree. In <a href="http://bioconductor.org/packages/ggtree">ggtree</a>, all kinds of subplots are supported as we can export all subplots to image files and use them to label corresponding nodes on the tree.</p>
+
+
 <div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="chapter8.html#cb191-1"></a><span class="kw">library</span>(ggimage)</span>
 <span id="cb191-2"><a href="chapter8.html#cb191-2"></a><span class="kw">library</span>(ggtree)</span>
 <span id="cb191-3"><a href="chapter8.html#cb191-3"></a></span>
@@ -336,29 +338,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb191-9"><a href="chapter8.html#cb191-9"></a>                <span class="dt">geom=</span><span class="st">&quot;image&quot;</span>, <span class="dt">offset=</span><span class="dv">2</span>, <span class="dt">align=</span><span class="dv">2</span>, <span class="dt">size=</span>.<span class="dv">2</span>)  <span class="op">+</span><span class="st"> </span></span>
 <span id="cb191-10"><a href="chapter8.html#cb191-10"></a><span class="st">    </span><span class="kw">geom_tiplab</span>(<span class="dt">geom=</span><span class="st">&#39;label&#39;</span>, <span class="dt">offset=</span><span class="dv">1</span>, <span class="dt">hjust=</span>.<span class="dv">5</span>) <span class="op">+</span><span class="st"> </span></span>
 <span id="cb191-11"><a href="chapter8.html#cb191-11"></a><span class="st">    </span><span class="kw">geom_image</span>(<span class="dt">x=</span>.<span class="dv">8</span>, <span class="dt">y=</span><span class="fl">5.5</span>, <span class="dt">image=</span><span class="st">&quot;img/frogs/frog.jpg&quot;</span>, <span class="dt">size=</span>.<span class="dv">2</span>)</span></code></pre></div>
-<p><img src="treedata_files/figure-html/unnamed-chunk-99-1.png" width="1700" /></p>
+<div class="figure"><span id="fig:frogimage"></span>
+<img src="treedata_files/figure-html/frogimage-1.png" alt="Labelling taxa with images." width="1700" />
+<p class="caption">
+Figure 8.1: <strong>Labelling taxa with images.</strong>
+</p>
+</div>
 </div>
 <div id="phylopic" class="section level2">
 <h2><span class="header-section-number">8.2</span> Annotating Tree with Phylopic</h2>
 <p><a href="phylopic.org">Phylopic</a> contains more than 3200 silhouettes and covers almost all life forms. <strong>ggtree</strong> also supports using phylopic<a href="references.html#fn16" class="footnote-ref" id="fnref16"><sup>16</sup></a> to annotate the tree. Most importantly, we can color the image using numerical/categorical variable.</p>
-<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="chapter8.html#cb192-1"></a><span class="co">## tree &lt;- ape::read.nexus(&quot;https://raw.githubusercontent.com/rgriff23/Dissertation/master/Chapter_2/data/tree.nex&quot;)</span></span>
-<span id="cb192-2"><a href="chapter8.html#cb192-2"></a>tree &lt;-<span class="st"> </span>ape<span class="op">::</span><span class="kw">read.nexus</span>(<span class="st">&quot;data/tree.nex&quot;</span>)</span>
-<span id="cb192-3"><a href="chapter8.html#cb192-3"></a>phylopic_info &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">node =</span> <span class="kw">c</span>(<span class="dv">124</span>, <span class="dv">113</span>, <span class="dv">110</span>, <span class="dv">96</span>, <span class="dv">89</span>, <span class="dv">70</span>),</span>
-<span id="cb192-4"><a href="chapter8.html#cb192-4"></a>                            <span class="dt">phylopic =</span> <span class="kw">c</span>(<span class="st">&quot;c4ac9ea6-b465-4ed0-a5de-9fe4eebd3ef9&quot;</span>,</span>
-<span id="cb192-5"><a href="chapter8.html#cb192-5"></a>                                        <span class="st">&quot;5388a472-994a-48e1-86de-d988c6019e72&quot;</span>,</span>
-<span id="cb192-6"><a href="chapter8.html#cb192-6"></a>                                        <span class="st">&quot;615c82cf-fabe-49f8-b571-e8117edfa212&quot;</span>,</span>
-<span id="cb192-7"><a href="chapter8.html#cb192-7"></a>                                        <span class="st">&quot;63ff1b70-6b6e-4412-b4d2-b2e2fb51aa95&quot;</span>,</span>
-<span id="cb192-8"><a href="chapter8.html#cb192-8"></a>                                        <span class="st">&quot;d65d5abd-df8b-4509-912c-e42f6c34861f&quot;</span>,</span>
-<span id="cb192-9"><a href="chapter8.html#cb192-9"></a>                                        <span class="st">&quot;6d54acc7-9e1e-4b79-be88-4904cf58fbb5&quot;</span>),</span>
-<span id="cb192-10"><a href="chapter8.html#cb192-10"></a>                            <span class="dt">species =</span> <span class="kw">c</span>(<span class="st">&quot;galagoids&quot;</span>, <span class="st">&quot;lemurs&quot;</span>, <span class="st">&quot;tarsiers&quot;</span>,</span>
-<span id="cb192-11"><a href="chapter8.html#cb192-11"></a>                                        <span class="st">&quot;cebids&quot;</span>, <span class="st">&quot;hominoids&quot;</span>, <span class="st">&quot;cercopithecoids&quot;</span>))</span>
-<span id="cb192-12"><a href="chapter8.html#cb192-12"></a>pg &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree)</span>
-<span id="cb192-13"><a href="chapter8.html#cb192-13"></a>pg <span class="op">%&lt;+%</span><span class="st"> </span>phylopic_info <span class="op">+</span><span class="st"> </span></span>
-<span id="cb192-14"><a href="chapter8.html#cb192-14"></a><span class="st">  </span><span class="kw">geom_nodelab</span>(<span class="kw">aes</span>(<span class="dt">image=</span>phylopic, <span class="dt">color=</span>species, <span class="dt">subset=</span><span class="op">!</span><span class="kw">is.na</span>(species)), </span>
-<span id="cb192-15"><a href="chapter8.html#cb192-15"></a>              <span class="dt">geom=</span><span class="st">&quot;phylopic&quot;</span>, <span class="dt">alpha =</span> <span class="fl">.6</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb192-16"><a href="chapter8.html#cb192-16"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="kw">c</span>(.<span class="dv">1</span>, <span class="fl">.8</span>))</span></code></pre></div>
-<p><img src="treedata_files/figure-html/phylopic-1.png" width="672" /></p>
-<p><code>ggimage</code> package supports querying phylopic uid from scientific name, which is very handy for annotating tree with phylopic.</p>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="chapter8.html#cb192-1"></a>tree &lt;-<span class="st"> </span>ape<span class="op">::</span><span class="kw">read.nexus</span>(<span class="st">&quot;data/tree.nex&quot;</span>)</span>
+<span id="cb192-2"><a href="chapter8.html#cb192-2"></a>phylopic_info &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">node =</span> <span class="kw">c</span>(<span class="dv">124</span>, <span class="dv">113</span>, <span class="dv">110</span>, <span class="dv">96</span>, <span class="dv">89</span>, <span class="dv">70</span>),</span>
+<span id="cb192-3"><a href="chapter8.html#cb192-3"></a>                            <span class="dt">phylopic =</span> <span class="kw">c</span>(<span class="st">&quot;c4ac9ea6-b465-4ed0-a5de-9fe4eebd3ef9&quot;</span>,</span>
+<span id="cb192-4"><a href="chapter8.html#cb192-4"></a>                                        <span class="st">&quot;5388a472-994a-48e1-86de-d988c6019e72&quot;</span>,</span>
+<span id="cb192-5"><a href="chapter8.html#cb192-5"></a>                                        <span class="st">&quot;615c82cf-fabe-49f8-b571-e8117edfa212&quot;</span>,</span>
+<span id="cb192-6"><a href="chapter8.html#cb192-6"></a>                                        <span class="st">&quot;63ff1b70-6b6e-4412-b4d2-b2e2fb51aa95&quot;</span>,</span>
+<span id="cb192-7"><a href="chapter8.html#cb192-7"></a>                                        <span class="st">&quot;d65d5abd-df8b-4509-912c-e42f6c34861f&quot;</span>,</span>
+<span id="cb192-8"><a href="chapter8.html#cb192-8"></a>                                        <span class="st">&quot;6d54acc7-9e1e-4b79-be88-4904cf58fbb5&quot;</span>),</span>
+<span id="cb192-9"><a href="chapter8.html#cb192-9"></a>                            <span class="dt">species =</span> <span class="kw">c</span>(<span class="st">&quot;galagoids&quot;</span>, <span class="st">&quot;lemurs&quot;</span>, <span class="st">&quot;tarsiers&quot;</span>,</span>
+<span id="cb192-10"><a href="chapter8.html#cb192-10"></a>                                        <span class="st">&quot;cebids&quot;</span>, <span class="st">&quot;hominoids&quot;</span>, <span class="st">&quot;cercopithecoids&quot;</span>))</span>
+<span id="cb192-11"><a href="chapter8.html#cb192-11"></a>pg &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree)</span>
+<span id="cb192-12"><a href="chapter8.html#cb192-12"></a>pg &lt;-<span class="st"> </span>pg <span class="op">%&lt;+%</span><span class="st"> </span>phylopic_info <span class="op">+</span><span class="st"> </span></span>
+<span id="cb192-13"><a href="chapter8.html#cb192-13"></a><span class="st">  </span><span class="kw">geom_nodelab</span>(<span class="kw">aes</span>(<span class="dt">image=</span>phylopic, <span class="dt">color=</span>species, <span class="dt">subset=</span><span class="op">!</span><span class="kw">is.na</span>(species)), </span>
+<span id="cb192-14"><a href="chapter8.html#cb192-14"></a>              <span class="dt">geom=</span><span class="st">&quot;phylopic&quot;</span>, <span class="dt">alpha =</span> <span class="fl">.6</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb192-15"><a href="chapter8.html#cb192-15"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="kw">c</span>(.<span class="dv">2</span>, <span class="fl">.8</span>))</span></code></pre></div>
+<p><a href="https://CRAN.R-project.org/package=ggimage">ggimage</a> package supports querying phylopic uid from scientific name, which is very handy for annotating tree with phylopic.</p>
 <div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="chapter8.html#cb193-1"></a><span class="kw">require</span>(ggtree)</span>
 <span id="cb193-2"><a href="chapter8.html#cb193-2"></a>newick =<span class="st"> &quot;((Pongo_abelii,(Gorilla_gorilla_gorilla,(Pan_paniscus,Pan_troglodytes)Pan,Homo_sapiens)Homininae)Hominidae,Nomascus_leucogenys)Hominoidea;&quot;</span></span>
 <span id="cb193-3"><a href="chapter8.html#cb193-3"></a></span>
@@ -369,14 +374,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb193-8"><a href="chapter8.html#cb193-8"></a></span>
 <span id="cb193-9"><a href="chapter8.html#cb193-9"></a>d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">label =</span> tree<span class="op">$</span>tip.label, <span class="dt">uid =</span> ids)</span>
 <span id="cb193-10"><a href="chapter8.html#cb193-10"></a></span>
-<span id="cb193-11"><a href="chapter8.html#cb193-11"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree)</span>
-<span id="cb193-12"><a href="chapter8.html#cb193-12"></a>p <span class="op">%&lt;+%</span><span class="st"> </span>d <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">image=</span>uid, <span class="dt">color=</span>label), <span class="dt">geom=</span><span class="st">&quot;phylopic&quot;</span>, <span class="dt">offset=</span><span class="fl">2.5</span>) <span class="op">+</span></span>
-<span id="cb193-13"><a href="chapter8.html#cb193-13"></a><span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">label=</span>label), <span class="dt">offset =</span> <span class="fl">.2</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="ot">NA</span>, <span class="dv">7</span>)</span></code></pre></div>
-<p><img src="treedata_files/figure-html/ggimage_phylopic-1.png" width="672" /></p>
+<span id="cb193-11"><a href="chapter8.html#cb193-11"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree) <span class="op">%&lt;+%</span><span class="st"> </span>d <span class="op">+</span><span class="st"> </span></span>
+<span id="cb193-12"><a href="chapter8.html#cb193-12"></a><span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">image=</span>uid, <span class="dt">color=</span>label), <span class="dt">geom=</span><span class="st">&quot;phylopic&quot;</span>, <span class="dt">offset=</span><span class="fl">2.5</span>) <span class="op">+</span></span>
+<span id="cb193-13"><a href="chapter8.html#cb193-13"></a><span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">label=</span>label), <span class="dt">offset =</span> <span class="fl">.2</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="ot">NA</span>, <span class="dv">7</span>) <span class="op">+</span></span>
+<span id="cb193-14"><a href="chapter8.html#cb193-14"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&#39;none&#39;</span>)</span></code></pre></div>
+
+
+<div class="figure"><span id="fig:phylopic"></span>
+<img src="treedata_files/figure-html/phylopic-1.png" alt="Labelling taxa with phylopic images. ggtree will automatically download phylopic figures by querying provided UID (A). The UID can be searched using scientific names of the taxa (B). The figures can be colored using on numerical or categorical values." width="960" />
+<p class="caption">
+Figure 8.2: <strong>Labelling taxa with phylopic images.</strong> ggtree will automatically download phylopic figures by querying provided UID (A). The UID can be searched using scientific names of the taxa (B). The figures can be colored using on numerical or categorical values.
+</p>
+</div>
 </div>
 <div id="subplots" class="section level2">
 <h2><span class="header-section-number">8.3</span> Annotating Tree with Sub-plots</h2>
-<p><code>ggtree</code> provides a function, <code>inset</code>, for adding subplots to a phylogenetic tree. The input is a tree graphic object and a named list of ggplot graphic objects (can be any kind of charts), these objects should named by node numbers. To facilitate adding bar and pie charts (e.g. summarized stats of results from ancestral reconstruction) to phylogenetic tree, <em>ggtree</em> provides <code>nodepie</code> and <code>nodebar</code> functions to create a list of pie or bar charts.</p>
+<p><code>ggtree</code> provides a layer, <code>geom_inset</code>, for adding subplots to a phylogenetic tree. The input is a named list of ggplot graphic objects (can be any kind of charts). These objects should named by node numbers. Users can also use <a href="https://CRAN.R-project.org/package=ggplotify">ggplotify</a> to convert plots that generated by other functions (even implemented by base graphics) to ggplot objects, which can then be used in <code>geom_inset</code>. To facilitate adding bar and pie charts (e.g. summarized stats of results from ancestral reconstruction) to phylogenetic tree, <a href="http://bioconductor.org/packages/ggtree">ggtree</a> provides <code>nodepie</code> and <code>nodebar</code> functions to create a list of pie or bar charts.</p>
 <div id="annotate-with-bar-charts" class="section level3">
 <h3><span class="header-section-number">8.3.1</span> Annotate with bar charts</h3>
 
@@ -405,10 +418,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="figure"><span id="fig:barInset"></span>
 <img src="treedata_files/figure-html/barInset-1.png" alt="Annotate internal nodes with barplots." width="960" />
 <p class="caption">
-Figure 8.1: <strong>Annotate internal nodes with barplots.</strong>
+Figure 8.3: <strong>Annotate internal nodes with barplots.</strong>
 </p>
 </div>
-<p>Users can set the color via the parameter <em>color</em>. The <em>x</em> position can be one of ‘node’ or ‘branch’ and can be adjusted by the parameter <em>hjust</em> and <em>vjust</em> for horizontal and vertical adjustment respecitvely.</p>
+<p>The <em>x</em> position can be one of ‘node’ or ‘branch’ and can be adjusted by the parameter <em>hjust</em> and <em>vjust</em> for horizontal and vertical adjustment respecitvely.</p>
 </div>
 <div id="annotate-with-pie-charts" class="section level3">
 <h3><span class="header-section-number">8.3.2</span> Annotate with pie charts</h3>
@@ -421,7 +434,7 @@ Figure 8.1: <strong>Annotate internal nodes with barplots.</strong>
 <div class="figure"><span id="fig:pieInset"></span>
 <img src="treedata_files/figure-html/pieInset-1.png" alt="Annotate internal nodes with pie plots." width="960" />
 <p class="caption">
-Figure 8.2: <strong>Annotate internal nodes with pie plots.</strong>
+Figure 8.4: <strong>Annotate internal nodes with pie plots.</strong>
 </p>
 </div>
 </div>
@@ -437,7 +450,7 @@ Figure 8.2: <strong>Annotate internal nodes with pie plots.</strong>
 <div class="figure"><span id="fig:barpieInset"></span>
 <img src="treedata_files/figure-html/barpieInset-1.png" alt="Annotate internal nodes with different types of subplots (bar and pie)." width="960" />
 <p class="caption">
-Figure 8.3: <strong>Annotate internal nodes with different types of subplots (bar and pie).</strong>
+Figure 8.5: <strong>Annotate internal nodes with different types of subplots (bar and pie).</strong>
 </p>
 </div>
 </div>
@@ -466,54 +479,75 @@ Figure 8.3: <strong>Annotate internal nodes with different types of subplots (ba
 <div class="figure"><span id="fig:phylomoji1"></span>
 <img src="treedata_files/figure-html/phylomoji1-1.png" alt="Parsing label as emoji. Text (e.g. node or tip labels) can be parsed as emoji." width="672" />
 <p class="caption">
-Figure 8.4: <strong>Parsing label as emoji.</strong> Text (<em>e.g.</em> node or tip labels) can be parsed as emoji.
+Figure 8.6: <strong>Parsing label as emoji.</strong> Text (<em>e.g.</em> node or tip labels) can be parsed as emoji.
 </p>
 </div>
 <p>Note that the output may depends on what emoji fonts installed in your system<a href="references.html#fn18" class="footnote-ref" id="fnref18"><sup>18</sup></a>.</p>
 <p>With <a href="http://bioconductor.org/packages/ggtree">ggtree</a>, it is easy to generate phylomoji. The emoji is treated as <strong>text</strong>, like abc. We can use emojis to label taxa, clade, color and ratate emoji with any given color and angle. This functionality is internally supported by the <a href="https://CRAN.R-project.org/package=emojifont">emojifont</a> package.</p>
 <div id="emoji-in-cirularfan-layout-tree" class="section level3">
-<h3><span class="header-section-number">8.4.1</span> emoji in cirular/fan layout tree</h3>
+<h3><span class="header-section-number">8.4.1</span> Emoji in cirular/fan layout tree</h3>
 <div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="chapter8.html#cb198-1"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree, <span class="dt">layout =</span> <span class="st">&quot;circular&quot;</span>, <span class="dt">size=</span><span class="dv">1</span>) <span class="op">+</span><span class="st">  </span></span>
 <span id="cb198-2"><a href="chapter8.html#cb198-2"></a><span class="st">  </span><span class="kw">geom_tiplab2</span>(<span class="dt">parse=</span><span class="st">&quot;emoji&quot;</span>, <span class="dt">size=</span><span class="dv">10</span>, <span class="dt">vjust=</span>.<span class="dv">25</span>)</span>
-<span id="cb198-3"><a href="chapter8.html#cb198-3"></a><span class="kw">print</span>(p)</span></code></pre></div>
-<p><img src="treedata_files/figure-html/unnamed-chunk-100-1.png" width="576" /></p>
-<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="chapter8.html#cb199-1"></a><span class="co">## fan layout  </span></span>
-<span id="cb199-2"><a href="chapter8.html#cb199-2"></a>p2 &lt;-<span class="st"> </span><span class="kw">open_tree</span>(p, <span class="dt">angle=</span><span class="dv">200</span>) </span>
-<span id="cb199-3"><a href="chapter8.html#cb199-3"></a><span class="kw">print</span>(p2)</span></code></pre></div>
-<p><img src="treedata_files/figure-html/unnamed-chunk-102-1.png" width="576" /></p>
-<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="chapter8.html#cb200-1"></a>p2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">rotate_tree</span>(<span class="op">-</span><span class="dv">90</span>)</span></code></pre></div>
-<p><img src="treedata_files/figure-html/unnamed-chunk-104-1.png" width="336" /></p>
+<span id="cb198-3"><a href="chapter8.html#cb198-3"></a><span class="kw">print</span>(p)</span>
+<span id="cb198-4"><a href="chapter8.html#cb198-4"></a></span>
+<span id="cb198-5"><a href="chapter8.html#cb198-5"></a><span class="co">## fan layout  </span></span>
+<span id="cb198-6"><a href="chapter8.html#cb198-6"></a>p2 &lt;-<span class="st"> </span><span class="kw">open_tree</span>(p, <span class="dt">angle=</span><span class="dv">200</span>) </span>
+<span id="cb198-7"><a href="chapter8.html#cb198-7"></a><span class="kw">print</span>(p2)</span>
+<span id="cb198-8"><a href="chapter8.html#cb198-8"></a></span>
+<span id="cb198-9"><a href="chapter8.html#cb198-9"></a>p2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">rotate_tree</span>(<span class="op">-</span><span class="dv">90</span>)</span></code></pre></div>
+
+
+<div class="figure"><span id="fig:emojifan"></span>
+<img src="treedata_files/figure-html/emojifan-1.png" alt="Phylomoji in cirular and fan layouts." width="883.2" />
+<p class="caption">
+Figure 8.7: <strong>Phylomoji in cirular and fan layouts.</strong>
+</p>
+</div>
 </div>
 <div id="emoji-to-label-clades" class="section level3">
-<h3><span class="header-section-number">8.4.2</span> emoji to label clades</h3>
-<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="chapter8.html#cb201-1"></a><span class="kw">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb201-2"><a href="chapter8.html#cb201-2"></a>tr &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)</span>
-<span id="cb201-3"><a href="chapter8.html#cb201-3"></a></span>
-<span id="cb201-4"><a href="chapter8.html#cb201-4"></a><span class="kw">ggtree</span>(tr) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="ot">NA</span>, <span class="fl">5.2</span>) <span class="op">+</span></span>
-<span id="cb201-5"><a href="chapter8.html#cb201-5"></a><span class="st">    </span><span class="kw">geom_cladelabel</span>(<span class="dt">node=</span><span class="dv">41</span>, <span class="dt">label=</span><span class="st">&quot;chicken&quot;</span>, <span class="dt">parse=</span><span class="st">&quot;emoji&quot;</span>,</span>
-<span id="cb201-6"><a href="chapter8.html#cb201-6"></a>                    <span class="dt">fontsize=</span><span class="dv">12</span>, <span class="dt">align=</span><span class="ot">TRUE</span>, <span class="dt">color=</span><span class="st">&quot;firebrick&quot;</span>) <span class="op">+</span></span>
-<span id="cb201-7"><a href="chapter8.html#cb201-7"></a><span class="st">    </span><span class="kw">geom_cladelabel</span>(<span class="dt">node=</span><span class="dv">53</span>, <span class="dt">label=</span><span class="st">&quot;duck&quot;</span>, <span class="dt">parse=</span><span class="st">&quot;emoji&quot;</span>,</span>
-<span id="cb201-8"><a href="chapter8.html#cb201-8"></a>                    <span class="dt">fontsize=</span><span class="dv">12</span>, <span class="dt">align=</span><span class="ot">TRUE</span>, <span class="dt">color=</span><span class="st">&quot;steelblue&quot;</span>) <span class="op">+</span></span>
-<span id="cb201-9"><a href="chapter8.html#cb201-9"></a><span class="st">    </span><span class="kw">geom_cladelabel</span>(<span class="dt">node=</span><span class="dv">48</span>, <span class="dt">label=</span><span class="st">&quot;family&quot;</span>, <span class="dt">parse=</span><span class="st">&quot;emoji&quot;</span>,</span>
-<span id="cb201-10"><a href="chapter8.html#cb201-10"></a>                    <span class="dt">fontsize=</span><span class="dv">12</span>, <span class="dt">align=</span><span class="ot">TRUE</span>, <span class="dt">color=</span><span class="st">&quot;darkkhaki&quot;</span>)</span></code></pre></div>
-<p><img src="treedata_files/figure-html/unnamed-chunk-105-1.png" width="576" /></p>
+<h3><span class="header-section-number">8.4.2</span> Emoji to label clades</h3>
+
+
+<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="chapter8.html#cb199-1"></a><span class="kw">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb199-2"><a href="chapter8.html#cb199-2"></a>tr &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)</span>
+<span id="cb199-3"><a href="chapter8.html#cb199-3"></a></span>
+<span id="cb199-4"><a href="chapter8.html#cb199-4"></a><span class="kw">ggtree</span>(tr) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="ot">NA</span>, <span class="fl">5.2</span>) <span class="op">+</span></span>
+<span id="cb199-5"><a href="chapter8.html#cb199-5"></a><span class="st">    </span><span class="kw">geom_cladelabel</span>(<span class="dt">node=</span><span class="dv">41</span>, <span class="dt">label=</span><span class="st">&quot;chicken&quot;</span>, <span class="dt">parse=</span><span class="st">&quot;emoji&quot;</span>,</span>
+<span id="cb199-6"><a href="chapter8.html#cb199-6"></a>                    <span class="dt">fontsize=</span><span class="dv">12</span>, <span class="dt">align=</span><span class="ot">TRUE</span>, <span class="dt">color=</span><span class="st">&quot;firebrick&quot;</span>) <span class="op">+</span></span>
+<span id="cb199-7"><a href="chapter8.html#cb199-7"></a><span class="st">    </span><span class="kw">geom_cladelabel</span>(<span class="dt">node=</span><span class="dv">53</span>, <span class="dt">label=</span><span class="st">&quot;duck&quot;</span>, <span class="dt">parse=</span><span class="st">&quot;emoji&quot;</span>,</span>
+<span id="cb199-8"><a href="chapter8.html#cb199-8"></a>                    <span class="dt">fontsize=</span><span class="dv">12</span>, <span class="dt">align=</span><span class="ot">TRUE</span>, <span class="dt">color=</span><span class="st">&quot;steelblue&quot;</span>) <span class="op">+</span></span>
+<span id="cb199-9"><a href="chapter8.html#cb199-9"></a><span class="st">    </span><span class="kw">geom_cladelabel</span>(<span class="dt">node=</span><span class="dv">48</span>, <span class="dt">label=</span><span class="st">&quot;family&quot;</span>, <span class="dt">parse=</span><span class="st">&quot;emoji&quot;</span>,</span>
+<span id="cb199-10"><a href="chapter8.html#cb199-10"></a>                    <span class="dt">fontsize=</span><span class="dv">12</span>, <span class="dt">align=</span><span class="ot">TRUE</span>, <span class="dt">color=</span><span class="st">&quot;darkkhaki&quot;</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:emojiclade"></span>
+<img src="treedata_files/figure-html/emojiclade-1.png" alt="Emoji to label clades." width="576" />
+<p class="caption">
+Figure 8.8: <strong>Emoji to label clades.</strong>
+</p>
+</div>
 </div>
 <div id="apple-color-emoji" class="section level3">
 <h3><span class="header-section-number">8.4.3</span> Apple Color Emoji</h3>
 <p>Although <code>R</code>’s graphical devices don’t support <code>AppleColorEmoji</code> font, it’s still possible to use it. We can export the <code>plot</code> to <code>svg</code> file and render it in <code>Safari</code>.</p>
-<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="chapter8.html#cb202-1"></a><span class="kw">library</span>(ggtree)</span>
-<span id="cb202-2"><a href="chapter8.html#cb202-2"></a>tree_text &lt;-<span class="st"> &quot;(((((cow, (whale, dolphin)), (pig2, boar)), camel), fish), seedling);&quot;</span></span>
-<span id="cb202-3"><a href="chapter8.html#cb202-3"></a>x &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="dt">text=</span>tree_text)</span>
-<span id="cb202-4"><a href="chapter8.html#cb202-4"></a><span class="kw">library</span>(ggimage)</span>
-<span id="cb202-5"><a href="chapter8.html#cb202-5"></a><span class="kw">library</span>(gridSVG)</span>
-<span id="cb202-6"><a href="chapter8.html#cb202-6"></a>p &lt;-<span class="st">  </span><span class="kw">ggtree</span>(x, <span class="dt">size=</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="dt">size=</span><span class="dv">20</span>, <span class="dt">parse=</span><span class="st">&#39;emoji&#39;</span>) <span class="op">+</span></span>
-<span id="cb202-7"><a href="chapter8.html#cb202-7"></a><span class="st">    </span><span class="kw">xlim</span>(<span class="ot">NA</span>, <span class="dv">7</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylim</span>(<span class="ot">NA</span>, <span class="fl">8.5</span>) <span class="op">+</span></span>
-<span id="cb202-8"><a href="chapter8.html#cb202-8"></a><span class="st">    </span><span class="kw">geom_phylopic</span>(<span class="dt">image=</span><span class="st">&quot;79ad5f09-cf21-4c89-8e7d-0c82a00ce728&quot;</span>,</span>
-<span id="cb202-9"><a href="chapter8.html#cb202-9"></a>                  <span class="dt">color=</span><span class="st">&quot;firebrick&quot;</span>, <span class="dt">alpha =</span> <span class="fl">.3</span>, <span class="dt">size=</span><span class="ot">Inf</span>)</span>
-<span id="cb202-10"><a href="chapter8.html#cb202-10"></a></span>
-<span id="cb202-11"><a href="chapter8.html#cb202-11"></a>p</span>
-<span id="cb202-12"><a href="chapter8.html#cb202-12"></a>ps =<span class="st"> </span><span class="kw">grid.export</span>(<span class="st">&quot;emoji.svg&quot;</span>, <span class="dt">addClass=</span>T)</span></code></pre></div>
-<p><img src="img/apple_emoji2.png" /></p>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="chapter8.html#cb200-1"></a><span class="kw">library</span>(ggtree)</span>
+<span id="cb200-2"><a href="chapter8.html#cb200-2"></a>tree_text &lt;-<span class="st"> &quot;(((((cow, (whale, dolphin)), (pig2, boar)), camel), fish), seedling);&quot;</span></span>
+<span id="cb200-3"><a href="chapter8.html#cb200-3"></a>x &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="dt">text=</span>tree_text)</span>
+<span id="cb200-4"><a href="chapter8.html#cb200-4"></a><span class="kw">library</span>(ggimage)</span>
+<span id="cb200-5"><a href="chapter8.html#cb200-5"></a><span class="kw">library</span>(gridSVG)</span>
+<span id="cb200-6"><a href="chapter8.html#cb200-6"></a>p &lt;-<span class="st">  </span><span class="kw">ggtree</span>(x, <span class="dt">size=</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="dt">size=</span><span class="dv">20</span>, <span class="dt">parse=</span><span class="st">&#39;emoji&#39;</span>) <span class="op">+</span></span>
+<span id="cb200-7"><a href="chapter8.html#cb200-7"></a><span class="st">    </span><span class="kw">xlim</span>(<span class="ot">NA</span>, <span class="dv">7</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylim</span>(<span class="ot">NA</span>, <span class="fl">8.5</span>) <span class="op">+</span></span>
+<span id="cb200-8"><a href="chapter8.html#cb200-8"></a><span class="st">    </span><span class="kw">geom_phylopic</span>(<span class="dt">image=</span><span class="st">&quot;79ad5f09-cf21-4c89-8e7d-0c82a00ce728&quot;</span>,</span>
+<span id="cb200-9"><a href="chapter8.html#cb200-9"></a>                  <span class="dt">color=</span><span class="st">&quot;firebrick&quot;</span>, <span class="dt">alpha =</span> <span class="fl">.3</span>, <span class="dt">size=</span><span class="ot">Inf</span>)</span>
+<span id="cb200-10"><a href="chapter8.html#cb200-10"></a></span>
+<span id="cb200-11"><a href="chapter8.html#cb200-11"></a>p</span>
+<span id="cb200-12"><a href="chapter8.html#cb200-12"></a>ps =<span class="st"> </span><span class="kw">grid.export</span>(<span class="st">&quot;emoji.svg&quot;</span>, <span class="dt">addClass=</span>T)</span></code></pre></div>
+
+
+<div class="figure"><span id="fig:applemoji"></span>
+<img src="img/apple_emoji2.png" alt="Use Apple Color Emoji in ggtree." width="80%" />
+<p class="caption">
+Figure 8.9: <strong>Use Apple Color Emoji in ggtree.</strong>
+</p>
+</div>
 </div>
 <div id="phylomoji-in-ascii-art" class="section level3">
 <h3><span class="header-section-number">8.4.4</span> Phylomoji in ASCII art</h3>

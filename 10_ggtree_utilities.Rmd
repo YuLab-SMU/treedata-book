@@ -6,7 +6,8 @@
 
 ### facet_widths
 
-```{r}
+
+```{r eval=F}
 library(ggplot2)
 library(ggstance)
 library(ggtree)
@@ -16,7 +17,7 @@ set.seed(123)
 tree <- rtree(30)
 
 p <- ggtree(tree, branch.length = "none") + 
-    geom_tiplab()
+    geom_tiplab() + theme(legend.position='none')
 
 a <- runif(30, 0,1)
 b <- 1 - a
@@ -25,42 +26,88 @@ df <- melt(df, id = "tree.tip.label")
 
 p2 <- facet_plot(p + xlim_tree(8), panel = 'bar', data = df, geom = geom_barh, 
                  mapping = aes(x = value, fill = as.factor(variable)), 
-                 width = 0.8, stat='identity')
+                 width = 0.8, stat='identity') + xlim_tree(9)
 
 facet_widths(p2, widths = c(1, 2))
 ```
 
-It also supports using name vector to set the widths of specific panels.
+It also supports using name vector to set the widths of specific panels. The following code will display identical figure to Figure \@ref(fig:facetWidth)A.
 
-```{r}
+```r
 facet_widths(p2, c(Tree = .5))
 ```
 
 
-The `facet_widths` function also work with other `ggplot` object.
+The `facet_widths` function also work with other `ggplot` object as demonstrated in Figure \@ref(fig:facetWidth)B.
 
-```{r include=FALSE}
-theme_set(theme_grey())
-```
 
-```{r}
+```{r eval=FALSE}
 p <- ggplot(iris, aes(Sepal.Width, Petal.Length)) + 
   geom_point() + facet_grid(.~Species)
 facet_widths(p, c(setosa = .5))
 ```
 
+(ref:facetWidthscap) Adjust relative widths of ggplot facets.
+
+(ref:facetWidthcap) **Adjust relative widths of ggplot facets.** The `facet_widths` function works with `ggtree` (A) as well as `ggplot` (B).
+
+```{r facetWidth, echo=F, fig.width=6, fig.height=7, fig.scap="(ref:facetWidthscap)", fig.cap="(ref:facetWidthcap)"}
+library(ggplot2)
+library(ggstance)
+library(ggtree)
+library(reshape2)
+
+set.seed(123)
+tree <- rtree(30)
+
+p <- ggtree(tree, branch.length = "none") + 
+    geom_tiplab() + theme(legend.position='none')
+
+a <- runif(30, 0,1)
+b <- 1 - a
+df <- data.frame(tree$tip.label, a, b)
+df <- melt(df, id = "tree.tip.label")
+
+p2 <- facet_plot(p + xlim_tree(8), panel = 'bar', data = df, geom = geom_barh, 
+                 mapping = aes(x = value, fill = as.factor(variable)), 
+                 width = 0.8, stat='identity') + xlim_tree(9)
+
+pp = facet_widths(p2, widths = c(1, 2))
+
+g <- ggplot(iris, aes(Sepal.Width, Petal.Length)) + 
+  geom_point() + facet_grid(.~Species)
+gg = facet_widths(g, c(setosa = .5))
+
+plot_grid(plot_grid(ggdraw(), pp, rel_widths=c(.04, 1)), 
+        gg, ncol=1, labels = LETTERS[1:2], rel_heights=c(1.5, 1))
+```
+
+
 ### facet_labeller
 
 The `facet_labeller` function was designed to re-label selected panels, and it currently only works with `ggtree` object (*i.e.* `facet_plot` output).
 
-```{r}
+```{r eval=F}
 facet_labeller(p2, c(Tree = "phylogeny", bar = "HELLO"))
 ```
 
 If you want to combine `facet_widths` with `facet_labeller`, you need to call `facet_labeller` to re-label the panels before using `facet_widths` to set the relative widths of each panels. Otherwise it wont work since the output of `facet_widths` is re-drawn from `grid` object.
 
-```{r}
+```{r eval=F}
 facet_labeller(p2, c(Tree = "phylogeny")) %>% facet_widths(c(Tree = .4))
+```
+
+(ref:facetLabscap) Rename facet labels.
+
+(ref:facetLabcap) **Rename facet labels.** Rename multiple labels simultaneously (A) or only for specific one (B) are all supported. `facet_labeller` can combine with `facet_widths` to rename facet label and then adjust relative widths (B).
+
+
+```{r facetLab, echo=FALSE,fig.width=6, fig.height=9, fig.scap="(ref:facetLabscap)", fig.cap="(ref:facetLabcap)"}
+pg1 <- facet_labeller(p2, c(Tree = "phylogeny", bar = "HELLO"))
+pg2 <- facet_labeller(p2, c(Tree = "phylogeny")) %>% facet_widths(c(Tree = .4))
+plot_grid(plot_grid(ggdraw(), pg1, rel_widths=c(.04, 1)), 
+        plot_grid(ggdraw(), pg2, rel_widths=c(.04, 1)), 
+        ncol=1, labels = c("A", "B"))
 ```
 
 ## layout utilities
@@ -158,10 +205,11 @@ d <- data.frame(label = x$tip.label,
                 value = rnorm(30))
 p2 <- facet_plot(p, panel = "Dot", data = d, 
             geom = geom_point, mapping = aes(x = value))
+p2 <- p2 + xlim_expand(c(0, 6), 'Tree') + xlim_expand(c(-10, 10), 'Dot')            
 g <- ggplot(iris, aes(Sepal.Length, Sepal.Width)) + 
     geom_point() + facet_grid(. ~ Species, scales = "free_x") 
 
-plot_grid(p2 + xlim_expand(c(0, 6), 'Tree') + xlim_expand(c(-10, 10), 'Dot'),
+plot_grid(plot_grid(ggdraw(), p2, rel_widths=c(.04, 1)),
     g + theme_grey() + xlim_expand(c(0, 15), 'virginica'),
     ncol=2, labels=c("A", "B"))
 ```

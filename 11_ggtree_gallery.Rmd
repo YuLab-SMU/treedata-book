@@ -112,7 +112,7 @@ tipseq_dist <- stringDist(tipseq_aln, method = "hamming")
 tipseq_d <- as.matrix(tipseq_dist) / width(tipseq_aln[1]) * 100
 
 ## convert the matrix to tidy data frame for facet_plot
-dd <- as_data_frame(tipseq_d)
+dd <- as_tibble(tipseq_d)
 dd$seq1 <- rownames(tipseq_d)
 td <- gather(dd,seq2, dist, -seq1)
 td$seq1 <- tl[td$seq1]
@@ -120,7 +120,7 @@ td$seq2 <- tl[td$seq2]
 
 g <- p$data$group
 names(g) <- p$data$label
-td$clade <- g[td$seq2]
+td$clade <- g[td$seq2] 
 
 ## visualize the sequence differences using dot plot and line plot
 ## and align the sequence difference plot to the tree using facet_plot
@@ -201,7 +201,7 @@ for (i in 1:n) {
     }
 }
 
-tree <- ape::bionj(d)
+tree <- ape::bionj(d) 
 
 p <- ggtree(tree, branch.length='none') + 
     geom_tiplab() + xlim_tree(5.5) + 
