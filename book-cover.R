@@ -25,7 +25,7 @@ heatmapData <- as.data.frame(sapply(heatmapData, as.character))
 rownames(heatmapData) <- rn
 
 cols <- c(HCMC='black', Hue='purple2', KH='skyblue2')
-p <- ggtree(tree, layout='circular', size=.1) %<+% info +
+p <- ggtree(tree, layout='circular', size=.1) %<+% info + theme(legend.position='none') +
 #  geom_tippoint(aes(color=location), size=.001) + scale_color_manual(values=cols) #+
   geom_tiplab2(aes(label=name), align=T, linetype=NA, linesize=.05, size=.5, offset=1, hjust=0.5) #+
 #  geom_tiplab2(aes(label=year), align=T, linetype=NA, size=.2, offset=3.5, hjust=0.5)
@@ -85,3 +85,4 @@ grid.text("Guangchuang Yu", y=.22, x=.9, just="right", gp=gpar(cex=2))
 grid.text("School of Basic Medical Sciences\nSouthern Medical University", y=.15, x=.9, just="right", 
     gp=gpar(cex=1.5, fontface="italic"))
 dev.off()
+
