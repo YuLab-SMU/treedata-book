@@ -601,18 +601,16 @@ btrees <- read.tree(system.file("extdata/RAxML", "RAxML_bootstrap.H3", package="
 ggtree(btrees) + facet_wrap(~.id, ncol=10)
 ```
 
-Another way to view the bootstrap trees is to merge them together to form a density tree. We can add a layer of the best tree on the top of the density tree.
+Another way to view the bootstrap trees is to merge them together to form a density tree using `ggdensitree` function.
+
 
 (ref:densiTreescap) DensiTree.
 
 (ref:densiTreecap) **DensiTree.** 
 
-```{r densiTree, fig.cap="(ref:densiTreecap)", fig.scap="(ref:densiTreescap)"}
-p <- ggtree(btrees, layout="rectangular", color="lightblue", alpha=.3)
-
-best_tree <- read.tree(system.file("extdata/RAxML", "RAxML_bipartitionsBranchLabels.H3", package="treeio"))
-df <- fortify(best_tree, branch.length='none')
-p+geom_tree(data=df, color='firebrick')
+```{r densiTree, fig.width=12, fig.height=7.5, fig.cap="(ref:densiTreecap)", fig.scap="(ref:densiTreescap)"}
+ggdensitree(btrees, alpha=.3, colour='steelblue') + 
+    geom_tiplab(size=3) + xlim(0, 45)
 ```
 
 ## Summary

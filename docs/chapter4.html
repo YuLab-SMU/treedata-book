@@ -703,16 +703,13 @@ Figure 4.15: <strong>Visuazlie multiPhylo object.</strong>
 Figure 4.16: <strong>Visualize one hundred bootstrap trees.</strong>
 </p>
 </div>
-<p>Another way to view the bootstrap trees is to merge them together to form a density tree. We can add a layer of the best tree on the top of the density tree.</p>
+<p>Another way to view the bootstrap trees is to merge them together to form a density tree using <code>ggdensitree</code> function.</p>
 
 
-<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="chapter4.html#cb153-1"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(btrees, <span class="dt">layout=</span><span class="st">&quot;rectangular&quot;</span>, <span class="dt">color=</span><span class="st">&quot;lightblue&quot;</span>, <span class="dt">alpha=</span>.<span class="dv">3</span>)</span>
-<span id="cb153-2"><a href="chapter4.html#cb153-2"></a></span>
-<span id="cb153-3"><a href="chapter4.html#cb153-3"></a>best_tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="kw">system.file</span>(<span class="st">&quot;extdata/RAxML&quot;</span>, <span class="st">&quot;RAxML_bipartitionsBranchLabels.H3&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>))</span>
-<span id="cb153-4"><a href="chapter4.html#cb153-4"></a>df &lt;-<span class="st"> </span><span class="kw">fortify</span>(best_tree, <span class="dt">branch.length=</span><span class="st">&#39;none&#39;</span>)</span>
-<span id="cb153-5"><a href="chapter4.html#cb153-5"></a>p<span class="op">+</span><span class="kw">geom_tree</span>(<span class="dt">data=</span>df, <span class="dt">color=</span><span class="st">&#39;firebrick&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="chapter4.html#cb153-1"></a><span class="kw">ggdensitree</span>(btrees, <span class="dt">alpha=</span>.<span class="dv">3</span>, <span class="dt">colour=</span><span class="st">&#39;steelblue&#39;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb153-2"><a href="chapter4.html#cb153-2"></a><span class="st">    </span><span class="kw">geom_tiplab</span>(<span class="dt">size=</span><span class="dv">3</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">45</span>)</span></code></pre></div>
 <div class="figure"><span id="fig:densiTree"></span>
-<img src="treedata_files/figure-html/densiTree-1.png" alt="DensiTree." width="672" />
+<img src="treedata_files/figure-html/densiTree-1.png" alt="DensiTree." width="1152" />
 <p class="caption">
 Figure 4.17: <strong>DensiTree.</strong>
 </p>
