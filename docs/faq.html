@@ -286,10 +286,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="A.4.4" data-path="faq.html"><a href="faq.html#faq-ggrepel"><i class="fa fa-check"></i><b>A.4.4</b> Avoid overlapping text labels</a></li>
 <li class="chapter" data-level="A.4.5" data-path="faq.html"><a href="faq.html#faq-bootstrap"><i class="fa fa-check"></i><b>A.4.5</b> Bootstrap values from newick format</a></li>
 </ul></li>
-<li class="chapter" data-level="A.5" data-path="faq.html"><a href="faq.html#faq-under-the-tree"><i class="fa fa-check"></i><b>A.5</b> Plot something behind the phylogeny</a></li>
-<li class="chapter" data-level="A.6" data-path="faq.html"><a href="faq.html#faq-enlarge-center-space"><i class="fa fa-check"></i><b>A.6</b> Enlarge center space in circular/fan layout tree</a></li>
-<li class="chapter" data-level="A.7" data-path="faq.html"><a href="faq.html#use-the-most-distant-tip-from-the-root-as-the-origin-of-the-time-scale"><i class="fa fa-check"></i><b>A.7</b> Use the most distant tip from the root as the origin of the time scale</a></li>
-<li class="chapter" data-level="A.8" data-path="faq.html"><a href="faq.html#export-edit"><i class="fa fa-check"></i><b>A.8</b> Edit tree graphic details</a></li>
+<li class="chapter" data-level="A.5" data-path="faq.html"><a href="faq.html#different-x-labels-for-different-facet-panels"><i class="fa fa-check"></i><b>A.5</b> Different x labels for different facet panels</a></li>
+<li class="chapter" data-level="A.6" data-path="faq.html"><a href="faq.html#faq-under-the-tree"><i class="fa fa-check"></i><b>A.6</b> Plot something behind the phylogeny</a></li>
+<li class="chapter" data-level="A.7" data-path="faq.html"><a href="faq.html#faq-enlarge-center-space"><i class="fa fa-check"></i><b>A.7</b> Enlarge center space in circular/fan layout tree</a></li>
+<li class="chapter" data-level="A.8" data-path="faq.html"><a href="faq.html#use-the-most-distant-tip-from-the-root-as-the-origin-of-the-time-scale"><i class="fa fa-check"></i><b>A.8</b> Use the most distant tip from the root as the origin of the time scale</a></li>
+<li class="chapter" data-level="A.9" data-path="faq.html"><a href="faq.html#export-edit"><i class="fa fa-check"></i><b>A.9</b> Edit tree graphic details</a></li>
 </ul></li>
 <li class="chapter" data-level="B" data-path="ggimage-tips.html"><a href="ggimage-tips.html"><i class="fa fa-check"></i><b>B</b> Tips for using <code>ggtree</code> with <code>ggimage</code></a><ul>
 <li class="chapter" data-level="B.1" data-path="ggimage-tips.html"><a href="ggimage-tips.html#ggimage-rm-image-bg"><i class="fa fa-check"></i><b>B.1</b> Example 1: Remove background of images</a></li>
@@ -520,62 +521,97 @@ Figure A.4: <strong>Repel labels.</strong> Repel labels to avoid overlapping.
 <span id="cb247-7"><a href="faq.html#cb247-7"></a>q <span class="op">+</span><span class="st"> </span><span class="kw">geom_text</span>(<span class="dt">data=</span>d, <span class="kw">aes</span>(<span class="dt">label=</span>label))</span></code></pre></div>
 </div>
 </div>
+<div id="different-x-labels-for-different-facet-panels" class="section level2">
+<h2><span class="header-section-number">A.5</span> Different x labels for different facet panels</h2>
+<p>This is not supported by <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> in general. However, we can just draw text labels for each panels and put the labels beyond the plot panels as demonstrated in Figure <a href="faq.html#fig:xlabFacets">A.5</a>.</p>
+
+
+<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="faq.html#cb248-1"></a><span class="kw">library</span>(ggtree)</span>
+<span id="cb248-2"><a href="faq.html#cb248-2"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb248-3"><a href="faq.html#cb248-3"></a><span class="kw">set.seed</span>(<span class="dv">2019-05-02</span>)</span>
+<span id="cb248-4"><a href="faq.html#cb248-4"></a>x &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)</span>
+<span id="cb248-5"><a href="faq.html#cb248-5"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(x) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>()</span>
+<span id="cb248-6"><a href="faq.html#cb248-6"></a>d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">label =</span> x<span class="op">$</span>tip.label, </span>
+<span id="cb248-7"><a href="faq.html#cb248-7"></a>                <span class="dt">value =</span> <span class="kw">rnorm</span>(<span class="dv">30</span>))</span>
+<span id="cb248-8"><a href="faq.html#cb248-8"></a>p2 &lt;-<span class="st"> </span><span class="kw">facet_plot</span>(p, <span class="dt">panel =</span> <span class="st">&quot;Dot&quot;</span>, <span class="dt">data =</span> d, </span>
+<span id="cb248-9"><a href="faq.html#cb248-9"></a>            <span class="dt">geom =</span> geom_point, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> value)) </span>
+<span id="cb248-10"><a href="faq.html#cb248-10"></a>            </span>
+<span id="cb248-11"><a href="faq.html#cb248-11"></a>p2 &lt;-<span class="st"> </span>p2 <span class="op">+</span><span class="st"> </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb248-12"><a href="faq.html#cb248-12"></a><span class="st">    </span><span class="kw">xlim_tree</span>(<span class="dv">6</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlim_expand</span>(<span class="kw">c</span>(<span class="op">-</span><span class="dv">10</span>, <span class="dv">10</span>), <span class="st">&#39;Dot&#39;</span>) </span>
+<span id="cb248-13"><a href="faq.html#cb248-13"></a></span>
+<span id="cb248-14"><a href="faq.html#cb248-14"></a>d =<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">.panel =</span> <span class="kw">c</span>(<span class="st">&#39;Tree&#39;</span>, <span class="st">&#39;Dot&#39;</span>), </span>
+<span id="cb248-15"><a href="faq.html#cb248-15"></a>                <span class="dt">lab =</span> <span class="kw">c</span>(<span class="st">&quot;Distance&quot;</span>, <span class="st">&quot;Dot Units&quot;</span>), </span>
+<span id="cb248-16"><a href="faq.html#cb248-16"></a>                <span class="dt">x=</span><span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">0</span>), <span class="dt">y=</span><span class="op">-</span><span class="dv">2</span>)</span>
+<span id="cb248-17"><a href="faq.html#cb248-17"></a></span>
+<span id="cb248-18"><a href="faq.html#cb248-18"></a>p2 <span class="op">+</span><span class="st"> </span><span class="kw">scale_y_continuous</span>(<span class="dt">limits=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">31</span>), </span>
+<span id="cb248-19"><a href="faq.html#cb248-19"></a>                        <span class="dt">expand=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>), </span>
+<span id="cb248-20"><a href="faq.html#cb248-20"></a>                        <span class="dt">oob=</span><span class="cf">function</span>(x, ...) x) <span class="op">+</span></span>
+<span id="cb248-21"><a href="faq.html#cb248-21"></a><span class="st">    </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label=</span>lab), <span class="dt">data=</span>d) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb248-22"><a href="faq.html#cb248-22"></a><span class="st">    </span><span class="kw">coord_cartesian</span>(<span class="dt">clip=</span><span class="st">&#39;off&#39;</span>)  <span class="op">+</span><span class="st"> </span></span>
+<span id="cb248-23"><a href="faq.html#cb248-23"></a><span class="st">    </span><span class="kw">theme</span>(<span class="dt">plot.margin=</span><span class="kw">margin</span>(<span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">40</span>, <span class="dv">6</span>))</span></code></pre></div>
+<div class="figure"><span id="fig:xlabFacets"></span>
+<img src="treedata_files/figure-html/xlabFacets-1.png" alt="X-axis titles for different facet panels." width="672" />
+<p class="caption">
+Figure A.5: <strong>X-axis titles for different facet panels.</strong>
+</p>
+</div>
+</div>
 <div id="faq-under-the-tree" class="section level2">
-<h2><span class="header-section-number">A.5</span> Plot something behind the phylogeny</h2>
+<h2><span class="header-section-number">A.6</span> Plot something behind the phylogeny</h2>
 <p>The <code>ggtree</code> function plot the tree structure and normally we add layers on top of the tree.</p>
-<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="faq.html#cb248-1"></a><span class="kw">set.seed</span>(<span class="dv">1982</span>)</span>
-<span id="cb248-2"><a href="faq.html#cb248-2"></a>x &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">5</span>)</span>
-<span id="cb248-3"><a href="faq.html#cb248-3"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(x) <span class="op">+</span><span class="st"> </span><span class="kw">geom_hilight</span>(<span class="dv">7</span>, <span class="dt">alpha=</span><span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="faq.html#cb249-1"></a><span class="kw">set.seed</span>(<span class="dv">1982</span>)</span>
+<span id="cb249-2"><a href="faq.html#cb249-2"></a>x &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">5</span>)</span>
+<span id="cb249-3"><a href="faq.html#cb249-3"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(x) <span class="op">+</span><span class="st"> </span><span class="kw">geom_hilight</span>(<span class="dv">7</span>, <span class="dt">alpha=</span><span class="dv">1</span>)</span></code></pre></div>
 <p>If we want the layers behind the tree layer, we can reverse the order of all the layers.</p>
-<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="faq.html#cb249-1"></a>p<span class="op">$</span>layers &lt;-<span class="st"> </span><span class="kw">rev</span>(p<span class="op">$</span>layers)</span></code></pre></div>
+<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="faq.html#cb250-1"></a>p<span class="op">$</span>layers &lt;-<span class="st"> </span><span class="kw">rev</span>(p<span class="op">$</span>layers)</span></code></pre></div>
 <p>Another solution is to use <code>ggplot()</code> instead of <code>ggtree()</code> and <code>+ geom_tree()</code> to add the layer of tree structure at the correct position of layer stack.</p>
-<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="faq.html#cb250-1"></a><span class="kw">ggplot</span>(x) <span class="op">+</span><span class="st"> </span><span class="kw">geom_hilight</span>(<span class="dv">7</span>, <span class="dt">alpha=</span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tree</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree</span>()     </span></code></pre></div>
+<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="faq.html#cb251-1"></a><span class="kw">ggplot</span>(x) <span class="op">+</span><span class="st"> </span><span class="kw">geom_hilight</span>(<span class="dv">7</span>, <span class="dt">alpha=</span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tree</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree</span>()     </span></code></pre></div>
 
 
 <div class="figure"><span id="fig:treeLayerOrder"></span>
 <img src="treedata_files/figure-html/treeLayerOrder-1.png" alt="Add layers behind tree structure. A layer on top of the tree structure (A). Reverse layer order of A (B). Add layer behind the tree layer (C)." width="576" />
 <p class="caption">
-Figure A.5: <strong>Add layers behind tree structure.</strong> A layer on top of the tree structure (A). Reverse layer order of A (B). Add layer behind the tree layer (C).
+Figure A.6: <strong>Add layers behind tree structure.</strong> A layer on top of the tree structure (A). Reverse layer order of A (B). Add layer behind the tree layer (C).
 </p>
 </div>
 </div>
 <div id="faq-enlarge-center-space" class="section level2">
-<h2><span class="header-section-number">A.6</span> Enlarge center space in circular/fan layout tree</h2>
+<h2><span class="header-section-number">A.7</span> Enlarge center space in circular/fan layout tree</h2>
 <p>This question was asked several times<a href="references.html#fn23" class="footnote-ref" id="fnref23"><sup>23</sup></a>, and a published example can be found in <a href="https://www.ncbi.nlm.nih.gov/pubmed/27605062" class="uri">https://www.ncbi.nlm.nih.gov/pubmed/27605062</a>. Increasing percentage of center white space in circular tree is useful to avoid overlapping tip labels and to increase readibility of the tree by moving all nodes and branches further out. This can be done simply by using <code>+xlim()</code> to allocate more space, just like in Figure <a href="chapter4.html#fig:layout2">4.3</a>G, or assign a long root branch that is similar to the “Root Length” parameter in FigTree.</p>
 
 
-<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="faq.html#cb251-1"></a><span class="kw">set.seed</span>(<span class="dv">1982</span>)</span>
-<span id="cb251-2"><a href="faq.html#cb251-2"></a>tree &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)</span>
-<span id="cb251-3"><a href="faq.html#cb251-3"></a><span class="kw">plot_grid</span>(</span>
-<span id="cb251-4"><a href="faq.html#cb251-4"></a>  <span class="kw">ggtree</span>(tree, <span class="dt">layout=</span><span class="st">&#39;circular&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="op">-</span><span class="dv">10</span>, <span class="ot">NA</span>),</span>
-<span id="cb251-5"><a href="faq.html#cb251-5"></a>  <span class="kw">ggtree</span>(tree, <span class="dt">layout=</span><span class="st">&#39;circular&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_rootedge</span>(<span class="dv">5</span>),</span>
-<span id="cb251-6"><a href="faq.html#cb251-6"></a>  <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="dt">ncol=</span><span class="dv">2</span>)</span>
-<span id="cb251-7"><a href="faq.html#cb251-7"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="faq.html#cb252-1"></a><span class="kw">set.seed</span>(<span class="dv">1982</span>)</span>
+<span id="cb252-2"><a href="faq.html#cb252-2"></a>tree &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)</span>
+<span id="cb252-3"><a href="faq.html#cb252-3"></a><span class="kw">plot_grid</span>(</span>
+<span id="cb252-4"><a href="faq.html#cb252-4"></a>  <span class="kw">ggtree</span>(tree, <span class="dt">layout=</span><span class="st">&#39;circular&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="op">-</span><span class="dv">10</span>, <span class="ot">NA</span>),</span>
+<span id="cb252-5"><a href="faq.html#cb252-5"></a>  <span class="kw">ggtree</span>(tree, <span class="dt">layout=</span><span class="st">&#39;circular&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_rootedge</span>(<span class="dv">5</span>),</span>
+<span id="cb252-6"><a href="faq.html#cb252-6"></a>  <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="dt">ncol=</span><span class="dv">2</span>)</span>
+<span id="cb252-7"><a href="faq.html#cb252-7"></a>)</span></code></pre></div>
 <div class="figure"><span id="fig:circular-space"></span>
 <img src="treedata_files/figure-html/circular-space-1.png" alt="Enlarge center space in circular tree. Allocate more space by xlim (A) or long root branch (B)." width="768" />
 <p class="caption">
-Figure A.6: <strong>Enlarge center space in circular tree.</strong> Allocate more space by <code>xlim</code> (A) or long root branch (B).
+Figure A.7: <strong>Enlarge center space in circular tree.</strong> Allocate more space by <code>xlim</code> (A) or long root branch (B).
 </p>
 </div>
 </div>
 <div id="use-the-most-distant-tip-from-the-root-as-the-origin-of-the-time-scale" class="section level2">
-<h2><span class="header-section-number">A.7</span> Use the most distant tip from the root as the origin of the time scale</h2>
+<h2><span class="header-section-number">A.8</span> Use the most distant tip from the root as the origin of the time scale</h2>
 <p>The <code>revts</code> will reverse the x-axis by setting the most recent tip to 0. We can use <code>scale_x_continuous(labels=abs)</code> to label x-axis using absolute values.</p>
 
 
-<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="faq.html#cb252-1"></a>tr &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">10</span>)</span>
-<span id="cb252-2"><a href="faq.html#cb252-2"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tr) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>()</span>
-<span id="cb252-3"><a href="faq.html#cb252-3"></a>p2 &lt;-<span class="st"> </span><span class="kw">revts</span>(p) <span class="op">+</span><span class="st"> </span><span class="kw">scale_x_continuous</span>(<span class="dt">labels=</span>abs)</span>
-<span id="cb252-4"><a href="faq.html#cb252-4"></a>cowplot<span class="op">::</span><span class="kw">plot_grid</span>(p, p2, <span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="faq.html#cb253-1"></a>tr &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">10</span>)</span>
+<span id="cb253-2"><a href="faq.html#cb253-2"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tr) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>()</span>
+<span id="cb253-3"><a href="faq.html#cb253-3"></a>p2 &lt;-<span class="st"> </span><span class="kw">revts</span>(p) <span class="op">+</span><span class="st"> </span><span class="kw">scale_x_continuous</span>(<span class="dt">labels=</span>abs)</span>
+<span id="cb253-4"><a href="faq.html#cb253-4"></a>cowplot<span class="op">::</span><span class="kw">plot_grid</span>(p, p2, <span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>))</span></code></pre></div>
 <div class="figure"><span id="fig:distantTip"></span>
 <img src="treedata_files/figure-html/distantTip-1.png" alt="Origin of the time scale. Forward: from the root to tips (A). Backward: from the most distant tip to the root (B)." width="576" />
 <p class="caption">
-Figure A.7: <strong>Origin of the time scale.</strong> Forward: from the root to tips (A). Backward: from the most distant tip to the root (B).
+Figure A.8: <strong>Origin of the time scale.</strong> Forward: from the root to tips (A). Backward: from the most distant tip to the root (B).
 </p>
 </div>
 </div>
 <div id="export-edit" class="section level2">
-<h2><span class="header-section-number">A.8</span> Edit tree graphic details</h2>
+<h2><span class="header-section-number">A.9</span> Edit tree graphic details</h2>
 <p>It can be hard to modify plot details for ordinary users using <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a>/<a href="http://bioconductor.org/packages/ggtree">ggtree</a>. We recommend using the <a href="https://CRAN.R-project.org/package=export">export</a> package to export <a href="http://bioconductor.org/packages/ggtree">ggtree</a> output to ‘Microsoft Office’ Document and edit the tree graphic in ‘PowerPoint’.</p>
 </div>
 </div>

@@ -263,6 +263,41 @@ d <- d[d$label > 80,]
 q + geom_text(data=d, aes(label=label))
 ```
 
+## Different x labels for different facet panels
+
+This is not supported by `r CRANpkg("ggplot2")` in general. However, we can just draw text labels for each panels and put the labels beyond the plot panels as demonstrated in Figure \@ref(fig:xlabFacets).
+
+(ref:xlabFacetsscap) X-axis titles for different facet panels.
+
+(ref:xlabFacetscap) **X-axis titles for different facet panels.** 
+
+
+
+```{r xlabFacets, fig.width=7, fig.height=8, fig.cap="(ref:xlabFacetscap)", fig.scap="(ref:xlabFacetsscap)"}
+library(ggtree)
+library(ggplot2)
+set.seed(2019-05-02)
+x <- rtree(30)
+p <- ggtree(x) + geom_tiplab()
+d <- data.frame(label = x$tip.label, 
+                value = rnorm(30))
+p2 <- facet_plot(p, panel = "Dot", data = d, 
+            geom = geom_point, mapping = aes(x = value)) 
+            
+p2 <- p2 + theme_bw() + 
+    xlim_tree(6) + xlim_expand(c(-10, 10), 'Dot') 
+
+d = data.frame(.panel = c('Tree', 'Dot'), 
+                lab = c("Distance", "Dot Units"), 
+                x=c(3,0), y=-2)
+
+p2 + scale_y_continuous(limits=c(0, 31), 
+                        expand=c(0,0), 
+                        oob=function(x, ...) x) +
+    geom_text(aes(label=lab), data=d) + 
+    coord_cartesian(clip='off')  + 
+    theme(plot.margin=margin(6, 6, 40, 6))
+```
 
 ## Plot something behind the phylogeny {#faq-under-the-tree}
 
