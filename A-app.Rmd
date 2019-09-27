@@ -370,9 +370,29 @@ The `revts` will reverse the x-axis by setting the most recent tip to 0. We can 
 tr <- rtree(10)
 p <- ggtree(tr) + theme_tree2()
 p2 <- revts(p) + scale_x_continuous(labels=abs)
-cowplot::plot_grid(p, p2, ncol=2, labels=c("A", "B"))
+plot_grid(p, p2, ncol=2, labels=c("A", "B"))
 ```
 
+## Changing branch length of outgroup
+
+When outgroups are on a very long branch length (Figure \@ref(fig:outgroupEdge)A), we would like to keep the out groups in the tree but ignore their branch lengths (Figure \@ref(fig:outgroupEdge)B)^[example from: <https://groups.google.com/d/msg/bioc-ggtree/T2ySvqv351g/mHsyljvBCwAJ>]. This can be easily done by modifying coordination of the out groups.
+
+
+(ref:outgroupEdgescap) Changing branch length of outgroup.
+
+(ref:outgroupEdgecap) **Changing branch length of outgroup.** Original tree (A) and reduced outgroup branch length version (B).
+
+
+```{r outgroupEdge, fig.cap="(ref:outgroupEdgecap)", fig.scap="(ref:outgroupEdgescap)", fig.width=6, fig.height=5}
+x <- read.tree("data/long-branch-example.newick")
+m <- MRCA(x, 75, 76)
+y <- groupClade(x, m)
+p <- p1 <- ggtree(y, aes(linetype = group)) + 
+  geom_tiplab(size = 2) +
+  theme(legend.position = 'none')
+p$data[p$data$node %in% c(75, 76), "x"] <- mean(p$data$x)
+plot_grid(p1, p, ncol=2)
+```
 
 ## Edit tree graphic details {#export-edit}
 

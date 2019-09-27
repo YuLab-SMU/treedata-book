@@ -290,7 +290,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="A.6" data-path="faq.html"><a href="faq.html#faq-under-the-tree"><i class="fa fa-check"></i><b>A.6</b> Plot something behind the phylogeny</a></li>
 <li class="chapter" data-level="A.7" data-path="faq.html"><a href="faq.html#faq-enlarge-center-space"><i class="fa fa-check"></i><b>A.7</b> Enlarge center space in circular/fan layout tree</a></li>
 <li class="chapter" data-level="A.8" data-path="faq.html"><a href="faq.html#use-the-most-distant-tip-from-the-root-as-the-origin-of-the-time-scale"><i class="fa fa-check"></i><b>A.8</b> Use the most distant tip from the root as the origin of the time scale</a></li>
-<li class="chapter" data-level="A.9" data-path="faq.html"><a href="faq.html#export-edit"><i class="fa fa-check"></i><b>A.9</b> Edit tree graphic details</a></li>
+<li class="chapter" data-level="A.9" data-path="faq.html"><a href="faq.html#changing-branch-length-of-outgroup"><i class="fa fa-check"></i><b>A.9</b> Changing branch length of outgroup</a></li>
+<li class="chapter" data-level="A.10" data-path="faq.html"><a href="faq.html#export-edit"><i class="fa fa-check"></i><b>A.10</b> Edit tree graphic details</a></li>
 </ul></li>
 <li class="chapter" data-level="B" data-path="ggimage-tips.html"><a href="ggimage-tips.html"><i class="fa fa-check"></i><b>B</b> Tips for using <code>ggtree</code> with <code>ggimage</code></a><ul>
 <li class="chapter" data-level="B.1" data-path="ggimage-tips.html"><a href="ggimage-tips.html#ggimage-rm-image-bg"><i class="fa fa-check"></i><b>B.1</b> Example 1: Remove background of images</a></li>
@@ -602,7 +603,7 @@ Figure A.7: <strong>Enlarge center space in circular tree.</strong> Allocate mor
 <div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="faq.html#cb253-1"></a>tr &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">10</span>)</span>
 <span id="cb253-2"><a href="faq.html#cb253-2"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tr) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>()</span>
 <span id="cb253-3"><a href="faq.html#cb253-3"></a>p2 &lt;-<span class="st"> </span><span class="kw">revts</span>(p) <span class="op">+</span><span class="st"> </span><span class="kw">scale_x_continuous</span>(<span class="dt">labels=</span>abs)</span>
-<span id="cb253-4"><a href="faq.html#cb253-4"></a>cowplot<span class="op">::</span><span class="kw">plot_grid</span>(p, p2, <span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>))</span></code></pre></div>
+<span id="cb253-4"><a href="faq.html#cb253-4"></a><span class="kw">plot_grid</span>(p, p2, <span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>))</span></code></pre></div>
 <div class="figure"><span id="fig:distantTip"></span>
 <img src="treedata_files/figure-html/distantTip-1.png" alt="Origin of the time scale. Forward: from the root to tips (A). Backward: from the most distant tip to the root (B)." width="576" />
 <p class="caption">
@@ -610,8 +611,28 @@ Figure A.8: <strong>Origin of the time scale.</strong> Forward: from the root to
 </p>
 </div>
 </div>
+<div id="changing-branch-length-of-outgroup" class="section level2">
+<h2><span class="header-section-number">A.9</span> Changing branch length of outgroup</h2>
+<p>When outgroups are on a very long branch length (Figure <a href="faq.html#fig:outgroupEdge">A.9</a>A), we would like to keep the out groups in the tree but ignore their branch lengths (Figure <a href="faq.html#fig:outgroupEdge">A.9</a>B)<a href="references.html#fn24" class="footnote-ref" id="fnref24"><sup>24</sup></a>. This can be easily done by modifying coordination of the out groups.</p>
+
+
+<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="faq.html#cb254-1"></a>x &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="st">&quot;data/long-branch-example.newick&quot;</span>)</span>
+<span id="cb254-2"><a href="faq.html#cb254-2"></a>m &lt;-<span class="st"> </span><span class="kw">MRCA</span>(x, <span class="dv">75</span>, <span class="dv">76</span>)</span>
+<span id="cb254-3"><a href="faq.html#cb254-3"></a>y &lt;-<span class="st"> </span><span class="kw">groupClade</span>(x, m)</span>
+<span id="cb254-4"><a href="faq.html#cb254-4"></a>p &lt;-<span class="st"> </span>p1 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(y, <span class="kw">aes</span>(<span class="dt">linetype =</span> group)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb254-5"><a href="faq.html#cb254-5"></a><span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></span>
+<span id="cb254-6"><a href="faq.html#cb254-6"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&#39;none&#39;</span>)</span>
+<span id="cb254-7"><a href="faq.html#cb254-7"></a>p<span class="op">$</span>data[p<span class="op">$</span>data<span class="op">$</span>node <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">75</span>, <span class="dv">76</span>), <span class="st">&quot;x&quot;</span>] &lt;-<span class="st"> </span><span class="kw">mean</span>(p<span class="op">$</span>data<span class="op">$</span>x)</span>
+<span id="cb254-8"><a href="faq.html#cb254-8"></a><span class="kw">plot_grid</span>(p1, p, <span class="dt">ncol=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:outgroupEdge"></span>
+<img src="treedata_files/figure-html/outgroupEdge-1.png" alt="Changing branch length of outgroup. Original tree (A) and reduced outgroup branch length version (B)." width="576" />
+<p class="caption">
+Figure A.9: <strong>Changing branch length of outgroup.</strong> Original tree (A) and reduced outgroup branch length version (B).
+</p>
+</div>
+</div>
 <div id="export-edit" class="section level2">
-<h2><span class="header-section-number">A.9</span> Edit tree graphic details</h2>
+<h2><span class="header-section-number">A.10</span> Edit tree graphic details</h2>
 <p>It can be hard to modify plot details for ordinary users using <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a>/<a href="http://bioconductor.org/packages/ggtree">ggtree</a>. We recommend using the <a href="https://CRAN.R-project.org/package=export">export</a> package to export <a href="http://bioconductor.org/packages/ggtree">ggtree</a> output to ‘Microsoft Office’ Document and edit the tree graphic in ‘PowerPoint’.</p>
 </div>
 </div>
