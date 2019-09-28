@@ -220,7 +220,8 @@ MRCA = tidytree::MRCA
 ```{r treeGraph, fig.width=10, fig.height=5, fig.cap="(ref:treeGraphcap)", fig.scap="(ref:treeGraphscap)"}
 library(igraph)
 g <- graph.tree(40, 3)
-ggtree(g, layout='slanted', arrow=arrow(length=unit(3, 'mm'))) + 
+arrow_size <- unit(rep(c(0, 3), times = c(27, 13)), "mm")
+ggtree(g, layout='slanted', arrow = arrow(length=arrow_size)) + 
   geom_point(size=5, color='steelblue', alpha=.6) + 
   geom_tiplab(hjust=.5,vjust=2) + layout_dendrogram()
 ```
