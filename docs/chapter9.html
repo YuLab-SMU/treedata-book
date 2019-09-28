@@ -250,6 +250,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.1.4" data-path="chapter9.html"><a href="chapter9.html#obkdata"><i class="fa fa-check"></i><b>9.1.4</b> The obkData object</a></li>
 </ul></li>
 <li class="chapter" data-level="9.2" data-path="chapter9.html"><a href="chapter9.html#dendrogram"><i class="fa fa-check"></i><b>9.2</b> ggtree for dendrograms</a></li>
+<li class="chapter" data-level="9.3" data-path="chapter9.html"><a href="chapter9.html#igraph"><i class="fa fa-check"></i><b>9.3</b> ggtree for tree graph</a></li>
 </ul></li>
 <li class="part"><span><b>Part III: Miscellaneous topics</b></span></li>
 <li class="chapter" data-level="10" data-path="chapter10.html"><a href="chapter10.html"><i class="fa fa-check"></i><b>10</b> ggtree utilities</a><ul>
@@ -541,6 +542,25 @@ Figure 9.5: <strong>Visualizing obkData tree object.</strong> <em>x</em>-axis wa
 <img src="treedata_files/figure-html/ggtreehclust-1.png" alt="Visualizing dendrogram." width="864" />
 <p class="caption">
 Figure 9.6: <strong>Visualizing dendrogram.</strong>
+</p>
+</div>
+</div>
+<div id="igraph" class="section level2">
+<h2><span class="header-section-number">9.3</span> ggtree for tree graph</h2>
+<p><a href="http://bioconductor.org/packages/treeio">treeio</a> supports converting tree graph (as an <code>igraph</code> object) to <code>phylo</code> object and <a href="http://bioconductor.org/packages/ggtree">ggtree</a> supports directly visualizing tree graph as demonstrated in Figure <a href="chapter9.html#fig:treeGraph">9.7</a>.</p>
+
+
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="chapter9.html#cb215-1"></a><span class="kw">library</span>(igraph)</span>
+<span id="cb215-2"><a href="chapter9.html#cb215-2"></a><span class="kw">library</span>(grid)</span>
+<span id="cb215-3"><a href="chapter9.html#cb215-3"></a></span>
+<span id="cb215-4"><a href="chapter9.html#cb215-4"></a>g &lt;-<span class="st"> </span><span class="kw">graph.tree</span>(<span class="dv">40</span>, <span class="dv">3</span>)</span>
+<span id="cb215-5"><a href="chapter9.html#cb215-5"></a><span class="kw">ggtree</span>(g, <span class="dt">layout=</span><span class="st">&#39;slanted&#39;</span>, <span class="dt">arrow=</span><span class="kw">arrow</span>(<span class="dt">length=</span><span class="kw">unit</span>(<span class="dv">3</span>, <span class="st">&#39;mm&#39;</span>)), <span class="dt">rootnode=</span>F) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb215-6"><a href="chapter9.html#cb215-6"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size=</span><span class="dv">5</span>, <span class="dt">color=</span><span class="st">&#39;steelblue&#39;</span>, <span class="dt">alpha=</span>.<span class="dv">6</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb215-7"><a href="chapter9.html#cb215-7"></a><span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="dt">hjust=</span>.<span class="dv">5</span>,<span class="dt">vjust=</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span><span class="kw">layout_dendrogram</span>()</span></code></pre></div>
+<div class="figure"><span id="fig:treeGraph"></span>
+<img src="treedata_files/figure-html/treeGraph-1.png" alt="Visualizing tree graph." width="960" />
+<p class="caption">
+Figure 9.7: <strong>Visualizing tree graph.</strong>
 </p>
 </div>
 
