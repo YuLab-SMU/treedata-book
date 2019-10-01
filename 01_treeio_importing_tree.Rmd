@@ -692,8 +692,35 @@ write.jtree(beast, file = jtree_file)
 read.jtree(file = jtree_file)
 ```
 
+### Converting other tree object to `treedata` object {#as-treedata}
 
-### Getting information from *treedata* object
+`r Biocpkg("treeio")` provides several `as.treedata` methods to convert other tree objects, such as `phylo4d` and `pml`, to `treedata` object, so that they can be easily manipulated and visualized using `r Biocpkg("treeio")` and `r Biocpkg("ggtree")`.
+
+
+The `pml` object defined in `r CRANpkg("phangorn")` package computes the likelihood of a phylogenetic tree given a sequence alignment and a model and the `optim.pml` optimizes different model parameters. It can be converted to a `treedata` object and amino acid substitution (ancestral sequence estimated by `pml`) can be visualized using `r Biocpkg("ggtree")` as demonstrated in Figure \@ref(fig:pmlTree).
+
+
+(ref:pmlTreescap) Converting `pml` object to `treedata` object. 
+
+(ref:pmlTreecap) **Converting `pml` object to `treedata` object.** 
+
+```{r pmlTree, fig.width=14, fig.height=14, fig.cap="(ref:pmlTreecap)", fig.scap="(ref:pmlTreescap)", message=FALSE}
+library(phangorn)
+treefile <- system.file("extdata", "pa.nwk", package="treeio")
+tre <- read.tree(treefile)
+tipseqfile <- system.file("extdata", "pa.fas", package="treeio")
+tipseq <- read.phyDat(tipseqfile,format="fasta")
+fit <- pml(tre, tipseq, k=4)
+fit <- optim.pml(fit, optNni=FALSE, optBf=T, optQ=T,
+                 optInv=T, optGamma=T, optEdge=TRUE,
+                 optRooted=FALSE, model = "GTR",
+				 control = pml.control(trace =0))
+
+pmltree <- as.treedata(fit)
+ggtree(pmltree) + geom_text(aes(x=branch, label=AA_subs, vjust=-.5))
+```
+
+### Getting information from `treedata` object {#get-treedata-data}
 
 After the tree was imported, users may want to extract information that stored
 in the `treedata` object. `r Biocpkg("treeio")` provides several accessor

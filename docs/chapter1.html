@@ -143,7 +143,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.3" data-path="chapter1.html"><a href="chapter1.html#getting-tree-data-with-treeio"><i class="fa fa-check"></i><b>1.3</b> Getting Tree Data with <em>treeio</em></a><ul>
 <li class="chapter" data-level="1.3.1" data-path="chapter1.html"><a href="chapter1.html#overview-of-treeio"><i class="fa fa-check"></i><b>1.3.1</b> Overview of <em>treeio</em></a></li>
 <li class="chapter" data-level="1.3.2" data-path="chapter1.html"><a href="chapter1.html#function-demonstration"><i class="fa fa-check"></i><b>1.3.2</b> Function Demonstration</a></li>
-<li class="chapter" data-level="1.3.3" data-path="chapter1.html"><a href="chapter1.html#getting-information-from-treedata-object"><i class="fa fa-check"></i><b>1.3.3</b> Getting information from <em>treedata</em> object</a></li>
+<li class="chapter" data-level="1.3.3" data-path="chapter1.html"><a href="chapter1.html#as-treedata"><i class="fa fa-check"></i><b>1.3.3</b> Converting other tree object to <code>treedata</code> object</a></li>
+<li class="chapter" data-level="1.3.4" data-path="chapter1.html"><a href="chapter1.html#get-treedata-data"><i class="fa fa-check"></i><b>1.3.4</b> Getting information from <code>treedata</code> object</a></li>
 </ul></li>
 <li class="chapter" data-level="1.4" data-path="chapter1.html"><a href="chapter1.html#summary"><i class="fa fa-check"></i><b>1.4</b> Summary</a></li>
 </ul></li>
@@ -258,10 +259,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.1.1" data-path="chapter10.html"><a href="chapter10.html#facet_widths"><i class="fa fa-check"></i><b>10.1.1</b> facet_widths</a></li>
 <li class="chapter" data-level="10.1.2" data-path="chapter10.html"><a href="chapter10.html#facet_labeller"><i class="fa fa-check"></i><b>10.1.2</b> facet_labeller</a></li>
 </ul></li>
-<li class="chapter" data-level="10.2" data-path="chapter10.html"><a href="chapter10.html#layout-utilities"><i class="fa fa-check"></i><b>10.2</b> layout utilities</a></li>
-<li class="chapter" data-level="10.3" data-path="chapter10.html"><a href="chapter10.html#legend-utilities"><i class="fa fa-check"></i><b>10.3</b> legend utilities</a></li>
-<li class="chapter" data-level="10.4" data-path="chapter10.html"><a href="chapter10.html#scale-utilities"><i class="fa fa-check"></i><b>10.4</b> scale utilities</a><ul>
-<li class="chapter" data-level="10.4.1" data-path="chapter10.html"><a href="chapter10.html#xlim_expand"><i class="fa fa-check"></i><b>10.4.1</b> xlim_expand</a></li>
+<li class="chapter" data-level="10.2" data-path="chapter10.html"><a href="chapter10.html#geom2"><i class="fa fa-check"></i><b>10.2</b> Geometric layers</a></li>
+<li class="chapter" data-level="10.3" data-path="chapter10.html"><a href="chapter10.html#layout-utilities"><i class="fa fa-check"></i><b>10.3</b> Layout utilities</a></li>
+<li class="chapter" data-level="10.4" data-path="chapter10.html"><a href="chapter10.html#legend-utilities"><i class="fa fa-check"></i><b>10.4</b> Legend utilities</a></li>
+<li class="chapter" data-level="10.5" data-path="chapter10.html"><a href="chapter10.html#scale-utilities"><i class="fa fa-check"></i><b>10.5</b> Scale utilities</a><ul>
+<li class="chapter" data-level="10.5.1" data-path="chapter10.html"><a href="chapter10.html#xlim_expand"><i class="fa fa-check"></i><b>10.5.1</b> xlim_expand</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="chapter11.html"><a href="chapter11.html"><i class="fa fa-check"></i><b>11</b> Gallery of reproducible examples</a><ul>
@@ -1210,8 +1212,34 @@ node/branch-specific data, while metadata value contains additional meta informa
 ##  &#39;height_median&#39;,    &#39;posterior&#39;.</code></pre>
 </div>
 </div>
-<div id="getting-information-from-treedata-object" class="section level3">
-<h3><span class="header-section-number">1.3.3</span> Getting information from <em>treedata</em> object</h3>
+<div id="as-treedata" class="section level3">
+<h3><span class="header-section-number">1.3.3</span> Converting other tree object to <code>treedata</code> object</h3>
+<p><a href="http://bioconductor.org/packages/treeio">treeio</a> provides several <code>as.treedata</code> methods to convert other tree objects, such as <code>phylo4d</code> and <code>pml</code>, to <code>treedata</code> object, so that they can be easily manipulated and visualized using <a href="http://bioconductor.org/packages/treeio">treeio</a> and <a href="http://bioconductor.org/packages/ggtree">ggtree</a>.</p>
+<p>The <code>pml</code> object defined in <a href="https://CRAN.R-project.org/package=phangorn">phangorn</a> package computes the likelihood of a phylogenetic tree given a sequence alignment and a model and the <code>optim.pml</code> optimizes different model parameters. It can be converted to a <code>treedata</code> object and amino acid substitution (ancestral sequence estimated by <code>pml</code>) can be visualized using <a href="http://bioconductor.org/packages/ggtree">ggtree</a> as demonstrated in Figure <a href="chapter1.html#fig:pmlTree">1.3</a>.</p>
+
+
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="chapter1.html#cb41-1"></a><span class="kw">library</span>(phangorn)</span>
+<span id="cb41-2"><a href="chapter1.html#cb41-2"></a>treefile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;pa.nwk&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
+<span id="cb41-3"><a href="chapter1.html#cb41-3"></a>tre &lt;-<span class="st"> </span><span class="kw">read.tree</span>(treefile)</span>
+<span id="cb41-4"><a href="chapter1.html#cb41-4"></a>tipseqfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;pa.fas&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
+<span id="cb41-5"><a href="chapter1.html#cb41-5"></a>tipseq &lt;-<span class="st"> </span><span class="kw">read.phyDat</span>(tipseqfile,<span class="dt">format=</span><span class="st">&quot;fasta&quot;</span>)</span>
+<span id="cb41-6"><a href="chapter1.html#cb41-6"></a>fit &lt;-<span class="st"> </span><span class="kw">pml</span>(tre, tipseq, <span class="dt">k=</span><span class="dv">4</span>)</span>
+<span id="cb41-7"><a href="chapter1.html#cb41-7"></a>fit &lt;-<span class="st"> </span><span class="kw">optim.pml</span>(fit, <span class="dt">optNni=</span><span class="ot">FALSE</span>, <span class="dt">optBf=</span>T, <span class="dt">optQ=</span>T,</span>
+<span id="cb41-8"><a href="chapter1.html#cb41-8"></a>                 <span class="dt">optInv=</span>T, <span class="dt">optGamma=</span>T, <span class="dt">optEdge=</span><span class="ot">TRUE</span>,</span>
+<span id="cb41-9"><a href="chapter1.html#cb41-9"></a>                 <span class="dt">optRooted=</span><span class="ot">FALSE</span>, <span class="dt">model =</span> <span class="st">&quot;GTR&quot;</span>,</span>
+<span id="cb41-10"><a href="chapter1.html#cb41-10"></a>                 <span class="dt">control =</span> <span class="kw">pml.control</span>(<span class="dt">trace =</span><span class="dv">0</span>))</span>
+<span id="cb41-11"><a href="chapter1.html#cb41-11"></a></span>
+<span id="cb41-12"><a href="chapter1.html#cb41-12"></a>pmltree &lt;-<span class="st"> </span><span class="kw">as.treedata</span>(fit)</span>
+<span id="cb41-13"><a href="chapter1.html#cb41-13"></a><span class="kw">ggtree</span>(pmltree) <span class="op">+</span><span class="st"> </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">x=</span>branch, <span class="dt">label=</span>AA_subs, <span class="dt">vjust=</span><span class="op">-</span>.<span class="dv">5</span>))</span></code></pre></div>
+<div class="figure"><span id="fig:pmlTree"></span>
+<img src="treedata_files/figure-html/pmlTree-1.png" alt="Converting pml object to treedata object." width="1344" />
+<p class="caption">
+Figure 1.3: <strong>Converting <code>pml</code> object to <code>treedata</code> object.</strong>
+</p>
+</div>
+</div>
+<div id="get-treedata-data" class="section level3">
+<h3><span class="header-section-number">1.3.4</span> Getting information from <code>treedata</code> object</h3>
 <p>After the tree was imported, users may want to extract information that stored
 in the <code>treedata</code> object. <a href="http://bioconductor.org/packages/treeio">treeio</a> provides several accessor
 methods to extract tree structure, features/attributes that stored in the object
@@ -1219,10 +1247,10 @@ and their corresponding values.</p>
 <p>The <code>get.tree</code> or <code>as.phylo</code> methods can convert the <code>treedata</code> object to
 <code>phylo</code> object which is the fundamental tree object in the R community and
 many packages work with <code>phylo</code> object.</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="chapter1.html#cb41-1"></a>beast_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;examples/MCC_FluA_H3.tree&quot;</span>, <span class="dt">package=</span><span class="st">&quot;ggtree&quot;</span>)</span>
-<span id="cb41-2"><a href="chapter1.html#cb41-2"></a>beast_tree &lt;-<span class="st"> </span><span class="kw">read.beast</span>(beast_file)</span>
-<span id="cb41-3"><a href="chapter1.html#cb41-3"></a><span class="co"># or get.tree</span></span>
-<span id="cb41-4"><a href="chapter1.html#cb41-4"></a><span class="kw">as.phylo</span>(beast_tree)</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="chapter1.html#cb42-1"></a>beast_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;examples/MCC_FluA_H3.tree&quot;</span>, <span class="dt">package=</span><span class="st">&quot;ggtree&quot;</span>)</span>
+<span id="cb42-2"><a href="chapter1.html#cb42-2"></a>beast_tree &lt;-<span class="st"> </span><span class="kw">read.beast</span>(beast_file)</span>
+<span id="cb42-3"><a href="chapter1.html#cb42-3"></a><span class="co"># or get.tree</span></span>
+<span id="cb42-4"><a href="chapter1.html#cb42-4"></a><span class="kw">as.phylo</span>(beast_tree)</span></code></pre></div>
 <pre><code>## 
 ## Phylogenetic tree with 76 tips and 75 internal nodes.
 ## 
@@ -1232,14 +1260,14 @@ many packages work with <code>phylo</code> object.</p>
 ## Rooted; includes branch lengths.</code></pre>
 <p>The <code>get.fields</code> method return a vector of features/attributes that stored in
 the object and associated with the phylogeny.</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="chapter1.html#cb43-1"></a><span class="kw">get.fields</span>(beast_tree)</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="chapter1.html#cb44-1"></a><span class="kw">get.fields</span>(beast_tree)</span></code></pre></div>
 <pre><code>##  [1] &quot;height&quot;          &quot;height_0.95_HPD&quot; &quot;height_median&quot;  
 ##  [4] &quot;height_range&quot;    &quot;length&quot;          &quot;length_0.95_HPD&quot;
 ##  [7] &quot;length_median&quot;   &quot;length_range&quot;    &quot;posterior&quot;      
 ## [10] &quot;rate&quot;            &quot;rate_0.95_HPD&quot;   &quot;rate_median&quot;    
 ## [13] &quot;rate_range&quot;</code></pre>
 <p>The <code>get.data</code> method return a tibble of all the associated data.</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="chapter1.html#cb45-1"></a><span class="kw">get.data</span>(beast_tree)</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="chapter1.html#cb46-1"></a><span class="kw">get.data</span>(beast_tree)</span></code></pre></div>
 <pre><code>## # A tibble: 151 x 14
 ##    height height_0.95_HPD height_median height_range length
 ##     &lt;dbl&gt; &lt;list&gt;                  &lt;dbl&gt; &lt;list&gt;        &lt;dbl&gt;
@@ -1261,7 +1289,7 @@ the object and associated with the phylogeny.</p>
 <p>If users are only interesting a subset of the features/attributes return by
 <code>get.fields</code>, they can extract the information from the output of <code>get.data</code> or
 directly subset the data by <code>[</code> or <code>[[</code>.</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="chapter1.html#cb47-1"></a>beast_tree[, <span class="kw">c</span>(<span class="st">&quot;node&quot;</span>, <span class="st">&quot;height&quot;</span>)]</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="chapter1.html#cb48-1"></a>beast_tree[, <span class="kw">c</span>(<span class="st">&quot;node&quot;</span>, <span class="st">&quot;height&quot;</span>)]</span></code></pre></div>
 <pre><code>## # A tibble: 151 x 2
 ##     node height
 ##    &lt;int&gt;  &lt;dbl&gt;
@@ -1276,7 +1304,7 @@ directly subset the data by <code>[</code> or <code>[[</code>.</p>
 ##  9    16    9  
 ## 10     2    9  
 ## # … with 141 more rows</code></pre>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="chapter1.html#cb49-1"></a><span class="kw">head</span>(beast_tree[[<span class="st">&quot;height_median&quot;</span>]])</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="chapter1.html#cb50-1"></a><span class="kw">head</span>(beast_tree[[<span class="st">&quot;height_median&quot;</span>]])</span></code></pre></div>
 <pre><code>## [1] 19 17 14 12  9 10</code></pre>
 </div>
 </div>

@@ -143,7 +143,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.3" data-path="chapter1.html"><a href="chapter1.html#getting-tree-data-with-treeio"><i class="fa fa-check"></i><b>1.3</b> Getting Tree Data with <em>treeio</em></a><ul>
 <li class="chapter" data-level="1.3.1" data-path="chapter1.html"><a href="chapter1.html#overview-of-treeio"><i class="fa fa-check"></i><b>1.3.1</b> Overview of <em>treeio</em></a></li>
 <li class="chapter" data-level="1.3.2" data-path="chapter1.html"><a href="chapter1.html#function-demonstration"><i class="fa fa-check"></i><b>1.3.2</b> Function Demonstration</a></li>
-<li class="chapter" data-level="1.3.3" data-path="chapter1.html"><a href="chapter1.html#getting-information-from-treedata-object"><i class="fa fa-check"></i><b>1.3.3</b> Getting information from <em>treedata</em> object</a></li>
+<li class="chapter" data-level="1.3.3" data-path="chapter1.html"><a href="chapter1.html#as-treedata"><i class="fa fa-check"></i><b>1.3.3</b> Converting other tree object to <code>treedata</code> object</a></li>
+<li class="chapter" data-level="1.3.4" data-path="chapter1.html"><a href="chapter1.html#get-treedata-data"><i class="fa fa-check"></i><b>1.3.4</b> Getting information from <code>treedata</code> object</a></li>
 </ul></li>
 <li class="chapter" data-level="1.4" data-path="chapter1.html"><a href="chapter1.html#summary"><i class="fa fa-check"></i><b>1.4</b> Summary</a></li>
 </ul></li>
@@ -258,10 +259,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.1.1" data-path="chapter10.html"><a href="chapter10.html#facet_widths"><i class="fa fa-check"></i><b>10.1.1</b> facet_widths</a></li>
 <li class="chapter" data-level="10.1.2" data-path="chapter10.html"><a href="chapter10.html#facet_labeller"><i class="fa fa-check"></i><b>10.1.2</b> facet_labeller</a></li>
 </ul></li>
-<li class="chapter" data-level="10.2" data-path="chapter10.html"><a href="chapter10.html#layout-utilities"><i class="fa fa-check"></i><b>10.2</b> layout utilities</a></li>
-<li class="chapter" data-level="10.3" data-path="chapter10.html"><a href="chapter10.html#legend-utilities"><i class="fa fa-check"></i><b>10.3</b> legend utilities</a></li>
-<li class="chapter" data-level="10.4" data-path="chapter10.html"><a href="chapter10.html#scale-utilities"><i class="fa fa-check"></i><b>10.4</b> scale utilities</a><ul>
-<li class="chapter" data-level="10.4.1" data-path="chapter10.html"><a href="chapter10.html#xlim_expand"><i class="fa fa-check"></i><b>10.4.1</b> xlim_expand</a></li>
+<li class="chapter" data-level="10.2" data-path="chapter10.html"><a href="chapter10.html#geom2"><i class="fa fa-check"></i><b>10.2</b> Geometric layers</a></li>
+<li class="chapter" data-level="10.3" data-path="chapter10.html"><a href="chapter10.html#layout-utilities"><i class="fa fa-check"></i><b>10.3</b> Layout utilities</a></li>
+<li class="chapter" data-level="10.4" data-path="chapter10.html"><a href="chapter10.html#legend-utilities"><i class="fa fa-check"></i><b>10.4</b> Legend utilities</a></li>
+<li class="chapter" data-level="10.5" data-path="chapter10.html"><a href="chapter10.html#scale-utilities"><i class="fa fa-check"></i><b>10.5</b> Scale utilities</a><ul>
+<li class="chapter" data-level="10.5.1" data-path="chapter10.html"><a href="chapter10.html#xlim_expand"><i class="fa fa-check"></i><b>10.5.1</b> xlim_expand</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="chapter11.html"><a href="chapter11.html"><i class="fa fa-check"></i><b>11</b> Gallery of reproducible examples</a><ul>
@@ -340,20 +342,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">4.2.1</span> Basic Tree Visualization</h3>
 <p>The <a href="http://bioconductor.org/packages/ggtree">ggtree</a> package extends <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> <span class="citation">(Wickham <a href="#ref-wickham_ggplot2_2009" role="doc-biblioref">2009</a>)</span> package to support viewing phylogenetic tree.
 It implements <code>geom_tree</code> layer for displaying phylogenetic tree, as shown below in Figure <a href="chapter4.html#fig:basicviz">4.1</a>A.</p>
-<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="chapter4.html#cb126-1"></a><span class="kw">library</span>(<span class="st">&quot;treeio&quot;</span>)</span>
-<span id="cb126-2"><a href="chapter4.html#cb126-2"></a><span class="kw">library</span>(<span class="st">&quot;ggtree&quot;</span>)</span>
-<span id="cb126-3"><a href="chapter4.html#cb126-3"></a></span>
-<span id="cb126-4"><a href="chapter4.html#cb126-4"></a>nwk &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;sample.nwk&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
-<span id="cb126-5"><a href="chapter4.html#cb126-5"></a>tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(nwk)</span>
-<span id="cb126-6"><a href="chapter4.html#cb126-6"></a></span>
-<span id="cb126-7"><a href="chapter4.html#cb126-7"></a><span class="kw">ggplot</span>(tree, <span class="kw">aes</span>(x, y)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tree</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="chapter4.html#cb127-1"></a><span class="kw">library</span>(<span class="st">&quot;treeio&quot;</span>)</span>
+<span id="cb127-2"><a href="chapter4.html#cb127-2"></a><span class="kw">library</span>(<span class="st">&quot;ggtree&quot;</span>)</span>
+<span id="cb127-3"><a href="chapter4.html#cb127-3"></a></span>
+<span id="cb127-4"><a href="chapter4.html#cb127-4"></a>nwk &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;sample.nwk&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
+<span id="cb127-5"><a href="chapter4.html#cb127-5"></a>tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(nwk)</span>
+<span id="cb127-6"><a href="chapter4.html#cb127-6"></a></span>
+<span id="cb127-7"><a href="chapter4.html#cb127-7"></a><span class="kw">ggplot</span>(tree, <span class="kw">aes</span>(x, y)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tree</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree</span>()</span></code></pre></div>
 <p>The function, <code>ggtree</code>, was implemented as a short cut to visualize a tree, and it works exactly the same as shown above.</p>
 <p><a href="http://bioconductor.org/packages/ggtree">ggtree</a> takes all the advantages of <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a>. For example, we can change the color, size and type of the lines as we do with <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> (Figure <a href="chapter4.html#fig:basicviz">4.1</a>B).</p>
-<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="chapter4.html#cb127-1"></a><span class="kw">ggtree</span>(tree, <span class="dt">color=</span><span class="st">&quot;firebrick&quot;</span>, <span class="dt">size=</span><span class="dv">1</span>, <span class="dt">linetype=</span><span class="st">&quot;dotted&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="chapter4.html#cb128-1"></a><span class="kw">ggtree</span>(tree, <span class="dt">color=</span><span class="st">&quot;firebrick&quot;</span>, <span class="dt">size=</span><span class="dv">1</span>, <span class="dt">linetype=</span><span class="st">&quot;dotted&quot;</span>)</span></code></pre></div>
 <p>By default, the tree is viewed in ladderize form, user can set the parameter <code>ladderize = FALSE</code> to disable it (Figure <a href="chapter4.html#fig:basicviz">4.1</a>C).</p>
-<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="chapter4.html#cb128-1"></a><span class="kw">ggtree</span>(tree, <span class="dt">ladderize=</span><span class="ot">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="chapter4.html#cb129-1"></a><span class="kw">ggtree</span>(tree, <span class="dt">ladderize=</span><span class="ot">FALSE</span>)</span></code></pre></div>
 <p>The <code>branch.length</code> is used to scale the edge, user can set the parameter <code>branch.length = "none"</code> to only view the tree topology (cladogram, Figure <a href="chapter4.html#fig:basicviz">4.1</a>D) or other numerical variable to scale the tree (<em>e.g.</em> <em>d<sub>N</sub>/d<sub>S</sub></em>, see also in <a href="chapter5.html#chapter5">Chapter 5</a>).</p>
-<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="chapter4.html#cb129-1"></a><span class="kw">ggtree</span>(tree, <span class="dt">branch.length=</span><span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="chapter4.html#cb130-1"></a><span class="kw">ggtree</span>(tree, <span class="dt">branch.length=</span><span class="st">&quot;none&quot;</span>)</span></code></pre></div>
 
 
 <div class="figure"><span id="fig:basicviz"></span>
@@ -367,18 +369,18 @@ Figure 4.1: <strong>Basic tree visualization.</strong>
 <h3><span class="header-section-number">4.2.2</span> Layouts of phylogenetic tree</h3>
 <p>Viewing phylogenetic with ggtree is quite simple, just pass the tree object to <em>ggtree</em> function. We have developed several types of layouts for tree presentation (Figure <a href="chapter4.html#fig:layout">4.2</a>), including rectangular (by default), slanted, circular, fan, unrooted (equal angle and daylight methods), time-scaled and 2-dimensional layouts.</p>
 <p>Here are examples of visualizing a tree with different layouts:</p>
-<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="chapter4.html#cb130-1"></a><span class="kw">library</span>(ggtree)</span>
-<span id="cb130-2"><a href="chapter4.html#cb130-2"></a><span class="kw">set.seed</span>(<span class="dv">2017-02-16</span>)</span>
-<span id="cb130-3"><a href="chapter4.html#cb130-3"></a>tree &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">50</span>)</span>
-<span id="cb130-4"><a href="chapter4.html#cb130-4"></a><span class="kw">ggtree</span>(tree)</span>
-<span id="cb130-5"><a href="chapter4.html#cb130-5"></a><span class="kw">ggtree</span>(tree, <span class="dt">layout=</span><span class="st">&quot;slanted&quot;</span>) </span>
-<span id="cb130-6"><a href="chapter4.html#cb130-6"></a><span class="kw">ggtree</span>(tree, <span class="dt">layout=</span><span class="st">&quot;circular&quot;</span>)</span>
-<span id="cb130-7"><a href="chapter4.html#cb130-7"></a><span class="kw">ggtree</span>(tree, <span class="dt">layout=</span><span class="st">&quot;fan&quot;</span>, <span class="dt">open.angle=</span><span class="dv">120</span>)</span>
-<span id="cb130-8"><a href="chapter4.html#cb130-8"></a><span class="kw">ggtree</span>(tree, <span class="dt">layout=</span><span class="st">&quot;equal_angle&quot;</span>)</span>
-<span id="cb130-9"><a href="chapter4.html#cb130-9"></a><span class="kw">ggtree</span>(tree, <span class="dt">layout=</span><span class="st">&quot;daylight&quot;</span>)</span>
-<span id="cb130-10"><a href="chapter4.html#cb130-10"></a><span class="kw">ggtree</span>(tree, <span class="dt">branch.length=</span><span class="st">&#39;none&#39;</span>)</span>
-<span id="cb130-11"><a href="chapter4.html#cb130-11"></a><span class="kw">ggtree</span>(tree, <span class="dt">branch.length=</span><span class="st">&#39;none&#39;</span>, <span class="dt">layout=</span><span class="st">&#39;circular&#39;</span>)</span>
-<span id="cb130-12"><a href="chapter4.html#cb130-12"></a><span class="kw">ggtree</span>(tree, <span class="dt">layout=</span><span class="st">&quot;daylight&quot;</span>, <span class="dt">branch.length =</span> <span class="st">&#39;none&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="chapter4.html#cb131-1"></a><span class="kw">library</span>(ggtree)</span>
+<span id="cb131-2"><a href="chapter4.html#cb131-2"></a><span class="kw">set.seed</span>(<span class="dv">2017-02-16</span>)</span>
+<span id="cb131-3"><a href="chapter4.html#cb131-3"></a>tree &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">50</span>)</span>
+<span id="cb131-4"><a href="chapter4.html#cb131-4"></a><span class="kw">ggtree</span>(tree)</span>
+<span id="cb131-5"><a href="chapter4.html#cb131-5"></a><span class="kw">ggtree</span>(tree, <span class="dt">layout=</span><span class="st">&quot;slanted&quot;</span>) </span>
+<span id="cb131-6"><a href="chapter4.html#cb131-6"></a><span class="kw">ggtree</span>(tree, <span class="dt">layout=</span><span class="st">&quot;circular&quot;</span>)</span>
+<span id="cb131-7"><a href="chapter4.html#cb131-7"></a><span class="kw">ggtree</span>(tree, <span class="dt">layout=</span><span class="st">&quot;fan&quot;</span>, <span class="dt">open.angle=</span><span class="dv">120</span>)</span>
+<span id="cb131-8"><a href="chapter4.html#cb131-8"></a><span class="kw">ggtree</span>(tree, <span class="dt">layout=</span><span class="st">&quot;equal_angle&quot;</span>)</span>
+<span id="cb131-9"><a href="chapter4.html#cb131-9"></a><span class="kw">ggtree</span>(tree, <span class="dt">layout=</span><span class="st">&quot;daylight&quot;</span>)</span>
+<span id="cb131-10"><a href="chapter4.html#cb131-10"></a><span class="kw">ggtree</span>(tree, <span class="dt">branch.length=</span><span class="st">&#39;none&#39;</span>)</span>
+<span id="cb131-11"><a href="chapter4.html#cb131-11"></a><span class="kw">ggtree</span>(tree, <span class="dt">branch.length=</span><span class="st">&#39;none&#39;</span>, <span class="dt">layout=</span><span class="st">&#39;circular&#39;</span>)</span>
+<span id="cb131-12"><a href="chapter4.html#cb131-12"></a><span class="kw">ggtree</span>(tree, <span class="dt">layout=</span><span class="st">&quot;daylight&quot;</span>, <span class="dt">branch.length =</span> <span class="st">&#39;none&#39;</span>)</span></code></pre></div>
 
 
 <div class="figure"><span id="fig:layout"></span>
@@ -393,15 +395,15 @@ scales/coordination (Figure <a href="chapter4.html#fig:layout2">4.3</a>).</p>
 scale](https://github.com/GuangchuangYu/ggtree/issues/87), [repropotion
 circular/fan tree](
 https://groups.google.com/d/msg/bioc-ggtree/UoGQekWHIvw/ZswUUZKSGwAJ), *etc.*. -->
-<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="chapter4.html#cb131-1"></a><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">scale_x_reverse</span>()</span>
-<span id="cb131-2"><a href="chapter4.html#cb131-2"></a><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">coord_flip</span>()</span>
-<span id="cb131-3"><a href="chapter4.html#cb131-3"></a><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">layout_dendrogram</span>()</span>
-<span id="cb131-4"><a href="chapter4.html#cb131-4"></a><span class="kw">print</span>(<span class="kw">ggtree</span>(tree), <span class="dt">newpage=</span><span class="ot">TRUE</span>, <span class="dt">vp=</span>grid<span class="op">::</span><span class="kw">viewport</span>(<span class="dt">angle=</span><span class="op">-</span><span class="dv">30</span>, <span class="dt">width=</span>.<span class="dv">9</span>, <span class="dt">height=</span>.<span class="dv">9</span>))</span>
-<span id="cb131-5"><a href="chapter4.html#cb131-5"></a><span class="kw">ggtree</span>(tree, <span class="dt">layout=</span><span class="st">&#39;slanted&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">coord_flip</span>()</span>
-<span id="cb131-6"><a href="chapter4.html#cb131-6"></a><span class="kw">ggtree</span>(tree, <span class="dt">layout=</span><span class="st">&#39;slanted&#39;</span>, <span class="dt">branch.length=</span><span class="st">&#39;none&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">layout_dendrogram</span>()</span>
-<span id="cb131-7"><a href="chapter4.html#cb131-7"></a><span class="kw">ggtree</span>(tree, <span class="dt">layout=</span><span class="st">&#39;circular&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="op">-</span><span class="dv">10</span>, <span class="ot">NA</span>)</span>
-<span id="cb131-8"><a href="chapter4.html#cb131-8"></a><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">scale_x_reverse</span>() <span class="op">+</span><span class="st"> </span><span class="kw">coord_polar</span>(<span class="dt">theta=</span><span class="st">&#39;y&#39;</span>)</span>
-<span id="cb131-9"><a href="chapter4.html#cb131-9"></a><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">scale_x_reverse</span>(<span class="dt">limits=</span><span class="kw">c</span>(<span class="dv">10</span>, <span class="dv">0</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">coord_polar</span>(<span class="dt">theta=</span><span class="st">&#39;y&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="chapter4.html#cb132-1"></a><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">scale_x_reverse</span>()</span>
+<span id="cb132-2"><a href="chapter4.html#cb132-2"></a><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">coord_flip</span>()</span>
+<span id="cb132-3"><a href="chapter4.html#cb132-3"></a><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">layout_dendrogram</span>()</span>
+<span id="cb132-4"><a href="chapter4.html#cb132-4"></a><span class="kw">print</span>(<span class="kw">ggtree</span>(tree), <span class="dt">newpage=</span><span class="ot">TRUE</span>, <span class="dt">vp=</span>grid<span class="op">::</span><span class="kw">viewport</span>(<span class="dt">angle=</span><span class="op">-</span><span class="dv">30</span>, <span class="dt">width=</span>.<span class="dv">9</span>, <span class="dt">height=</span>.<span class="dv">9</span>))</span>
+<span id="cb132-5"><a href="chapter4.html#cb132-5"></a><span class="kw">ggtree</span>(tree, <span class="dt">layout=</span><span class="st">&#39;slanted&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">coord_flip</span>()</span>
+<span id="cb132-6"><a href="chapter4.html#cb132-6"></a><span class="kw">ggtree</span>(tree, <span class="dt">layout=</span><span class="st">&#39;slanted&#39;</span>, <span class="dt">branch.length=</span><span class="st">&#39;none&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">layout_dendrogram</span>()</span>
+<span id="cb132-7"><a href="chapter4.html#cb132-7"></a><span class="kw">ggtree</span>(tree, <span class="dt">layout=</span><span class="st">&#39;circular&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="op">-</span><span class="dv">10</span>, <span class="ot">NA</span>)</span>
+<span id="cb132-8"><a href="chapter4.html#cb132-8"></a><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">scale_x_reverse</span>() <span class="op">+</span><span class="st"> </span><span class="kw">coord_polar</span>(<span class="dt">theta=</span><span class="st">&#39;y&#39;</span>)</span>
+<span id="cb132-9"><a href="chapter4.html#cb132-9"></a><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">scale_x_reverse</span>(<span class="dt">limits=</span><span class="kw">c</span>(<span class="dv">10</span>, <span class="dv">0</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">coord_polar</span>(<span class="dt">theta=</span><span class="st">&#39;y&#39;</span>)</span></code></pre></div>
 
 
 <div class="figure"><span id="fig:layout2"></span>
@@ -416,10 +418,10 @@ Figure 4.3: <strong>Derived Tree layouts.</strong> right-to-left rectangular lay
 <p><strong>Time-scaled layout.</strong> For time-scaled tree, the most recent sampling date must be specified via the <code>mrsd</code> parameter and <em>ggtree</em> will scaled the tree by sampling (tip) and divergence (internal node) time, and a time scale axis will be displayed under the tree by default.</p>
 
 
-<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="chapter4.html#cb132-1"></a>beast_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;examples/MCC_FluA_H3.tree&quot;</span>, </span>
-<span id="cb132-2"><a href="chapter4.html#cb132-2"></a>                          <span class="dt">package=</span><span class="st">&quot;ggtree&quot;</span>)</span>
-<span id="cb132-3"><a href="chapter4.html#cb132-3"></a>beast_tree &lt;-<span class="st"> </span><span class="kw">read.beast</span>(beast_file)</span>
-<span id="cb132-4"><a href="chapter4.html#cb132-4"></a><span class="kw">ggtree</span>(beast_tree, <span class="dt">mrsd=</span><span class="st">&quot;2013-01-01&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="chapter4.html#cb133-1"></a>beast_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;examples/MCC_FluA_H3.tree&quot;</span>, </span>
+<span id="cb133-2"><a href="chapter4.html#cb133-2"></a>                          <span class="dt">package=</span><span class="st">&quot;ggtree&quot;</span>)</span>
+<span id="cb133-3"><a href="chapter4.html#cb133-3"></a>beast_tree &lt;-<span class="st"> </span><span class="kw">read.beast</span>(beast_file)</span>
+<span id="cb133-4"><a href="chapter4.html#cb133-4"></a><span class="kw">ggtree</span>(beast_tree, <span class="dt">mrsd=</span><span class="st">&quot;2013-01-01&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>()</span></code></pre></div>
 <div class="figure"><span id="fig:timescaled"></span>
 <img src="treedata_files/figure-html/timescaled-1.png" alt="Time-scaled layout. The x-axis is the timescale (in units of year). The divergence time was inferred by BEAST using molecular clock model." width="672"  />
 <p class="caption">
@@ -430,38 +432,38 @@ Figure 4.4: <strong>Time-scaled layout.</strong> The <em>x-axis</em> is the time
 <p>In this example, we used the previous time-scaled tree of H3 human and swine influenza viruses (Figure <a href="chapter4.html#fig:timescaled">4.4</a>; data published in <span class="citation">(Liang et al. <a href="#ref-liang_expansion_2014" role="doc-biblioref">2014</a>)</span>) and scaled the <em>y</em>-axis based on the predicted <em>N</em>-linked glycosylation sites (NLG) for each of the taxon and ancestral sequences of hemagglutinin proteins. The NLG sites were predicted using <em>NetNGlyc</em> 1.0 Server<a href="references.html#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a>. To scaled the <em>y</em>-axis, the parameter <code>yscale</code> in the <code>ggtree()</code> function is set to a numerical or categorical variable. If <code>yscale</code> is a categorical variable as in this example, users should specify how the categories are to be mapped to numerical values via the <code>yscale_mapping</code> variables.</p>
 
 
-<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="chapter4.html#cb133-1"></a>NAG_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;examples/NAG_inHA1.txt&quot;</span>, <span class="dt">package=</span><span class="st">&quot;ggtree&quot;</span>)</span>
-<span id="cb133-2"><a href="chapter4.html#cb133-2"></a></span>
-<span id="cb133-3"><a href="chapter4.html#cb133-3"></a>NAG.df &lt;-<span class="st"> </span><span class="kw">read.table</span>(NAG_file, <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, <span class="dt">header=</span><span class="ot">FALSE</span>, </span>
-<span id="cb133-4"><a href="chapter4.html#cb133-4"></a>                     <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb133-5"><a href="chapter4.html#cb133-5"></a>NAG &lt;-<span class="st"> </span>NAG.df[,<span class="dv">2</span>]</span>
-<span id="cb133-6"><a href="chapter4.html#cb133-6"></a><span class="kw">names</span>(NAG) &lt;-<span class="st"> </span>NAG.df[,<span class="dv">1</span>]</span>
-<span id="cb133-7"><a href="chapter4.html#cb133-7"></a></span>
-<span id="cb133-8"><a href="chapter4.html#cb133-8"></a><span class="co">## separate the tree by host species</span></span>
-<span id="cb133-9"><a href="chapter4.html#cb133-9"></a>tip &lt;-<span class="st"> </span><span class="kw">get.tree</span>(beast_tree)<span class="op">$</span>tip.label</span>
-<span id="cb133-10"><a href="chapter4.html#cb133-10"></a>beast_tree &lt;-<span class="st"> </span><span class="kw">groupOTU</span>(beast_tree, tip[<span class="kw">grep</span>(<span class="st">&quot;Swine&quot;</span>, tip)], </span>
-<span id="cb133-11"><a href="chapter4.html#cb133-11"></a>                       <span class="dt">group_name =</span> <span class="st">&quot;host&quot;</span>)</span>
-<span id="cb133-12"><a href="chapter4.html#cb133-12"></a></span>
-<span id="cb133-13"><a href="chapter4.html#cb133-13"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(beast_tree, <span class="kw">aes</span>(<span class="dt">color=</span>host), <span class="dt">mrsd=</span><span class="st">&quot;2013-01-01&quot;</span>, </span>
-<span id="cb133-14"><a href="chapter4.html#cb133-14"></a>            <span class="dt">yscale =</span> <span class="st">&quot;label&quot;</span>, <span class="dt">yscale_mapping =</span> NAG) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb133-15"><a href="chapter4.html#cb133-15"></a><span class="st">  </span><span class="kw">theme_classic</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&#39;none&#39;</span>) <span class="op">+</span></span>
-<span id="cb133-16"><a href="chapter4.html#cb133-16"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>), </span>
-<span id="cb133-17"><a href="chapter4.html#cb133-17"></a>                     <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;human&quot;</span>, <span class="st">&quot;swine&quot;</span>)) <span class="op">+</span></span>
-<span id="cb133-18"><a href="chapter4.html#cb133-18"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Number of predicted N-linked glycoslyation sites&quot;</span>)</span>
-<span id="cb133-19"><a href="chapter4.html#cb133-19"></a></span>
-<span id="cb133-20"><a href="chapter4.html#cb133-20"></a><span class="co">## (optional) add more annotations to help interpretation</span></span>
-<span id="cb133-21"><a href="chapter4.html#cb133-21"></a>p <span class="op">+</span><span class="st"> </span><span class="kw">geom_nodepoint</span>(<span class="dt">color=</span><span class="st">&quot;grey&quot;</span>, <span class="dt">size=</span><span class="dv">3</span>, <span class="dt">alpha=</span>.<span class="dv">8</span>) <span class="op">+</span></span>
-<span id="cb133-22"><a href="chapter4.html#cb133-22"></a><span class="st">  </span><span class="kw">geom_rootpoint</span>(<span class="dt">color=</span><span class="st">&quot;black&quot;</span>, <span class="dt">size=</span><span class="dv">3</span>) <span class="op">+</span></span>
-<span id="cb133-23"><a href="chapter4.html#cb133-23"></a><span class="st">  </span><span class="kw">geom_tippoint</span>(<span class="dt">size=</span><span class="dv">3</span>, <span class="dt">alpha=</span>.<span class="dv">5</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb133-24"><a href="chapter4.html#cb133-24"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;point&quot;</span>, <span class="dv">1992</span>, <span class="fl">5.6</span>, <span class="dt">size=</span><span class="dv">3</span>, <span class="dt">color=</span><span class="st">&quot;black&quot;</span>) <span class="op">+</span></span>
-<span id="cb133-25"><a href="chapter4.html#cb133-25"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;point&quot;</span>, <span class="dv">1992</span>, <span class="fl">5.4</span>, <span class="dt">size=</span><span class="dv">3</span>, <span class="dt">color=</span><span class="st">&quot;grey&quot;</span>) <span class="op">+</span></span>
-<span id="cb133-26"><a href="chapter4.html#cb133-26"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;point&quot;</span>, <span class="fl">1991.6</span>, <span class="fl">5.2</span>, <span class="dt">size=</span><span class="dv">3</span>, <span class="dt">color=</span><span class="st">&quot;blue&quot;</span>) <span class="op">+</span></span>
-<span id="cb133-27"><a href="chapter4.html#cb133-27"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;point&quot;</span>, <span class="dv">1992</span>, <span class="fl">5.2</span>, <span class="dt">size=</span><span class="dv">3</span>, <span class="dt">color=</span><span class="st">&quot;red&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb133-28"><a href="chapter4.html#cb133-28"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="fl">1992.3</span>, <span class="fl">5.6</span>, <span class="dt">hjust=</span><span class="dv">0</span>, <span class="dt">size=</span><span class="dv">4</span>, <span class="dt">label=</span><span class="st">&quot;Root node&quot;</span>) <span class="op">+</span></span>
-<span id="cb133-29"><a href="chapter4.html#cb133-29"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="fl">1992.3</span>, <span class="fl">5.4</span>, <span class="dt">hjust=</span><span class="dv">0</span>, <span class="dt">size=</span><span class="dv">4</span>, </span>
-<span id="cb133-30"><a href="chapter4.html#cb133-30"></a>           <span class="dt">label=</span><span class="st">&quot;Internal nodes&quot;</span>) <span class="op">+</span></span>
-<span id="cb133-31"><a href="chapter4.html#cb133-31"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="fl">1992.3</span>, <span class="fl">5.2</span>, <span class="dt">hjust=</span><span class="dv">0</span>, <span class="dt">size=</span><span class="dv">4</span>,</span>
-<span id="cb133-32"><a href="chapter4.html#cb133-32"></a>           <span class="dt">label=</span><span class="st">&quot;Tip nodes (blue: human; red: swine)&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="chapter4.html#cb134-1"></a>NAG_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;examples/NAG_inHA1.txt&quot;</span>, <span class="dt">package=</span><span class="st">&quot;ggtree&quot;</span>)</span>
+<span id="cb134-2"><a href="chapter4.html#cb134-2"></a></span>
+<span id="cb134-3"><a href="chapter4.html#cb134-3"></a>NAG.df &lt;-<span class="st"> </span><span class="kw">read.table</span>(NAG_file, <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, <span class="dt">header=</span><span class="ot">FALSE</span>, </span>
+<span id="cb134-4"><a href="chapter4.html#cb134-4"></a>                     <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb134-5"><a href="chapter4.html#cb134-5"></a>NAG &lt;-<span class="st"> </span>NAG.df[,<span class="dv">2</span>]</span>
+<span id="cb134-6"><a href="chapter4.html#cb134-6"></a><span class="kw">names</span>(NAG) &lt;-<span class="st"> </span>NAG.df[,<span class="dv">1</span>]</span>
+<span id="cb134-7"><a href="chapter4.html#cb134-7"></a></span>
+<span id="cb134-8"><a href="chapter4.html#cb134-8"></a><span class="co">## separate the tree by host species</span></span>
+<span id="cb134-9"><a href="chapter4.html#cb134-9"></a>tip &lt;-<span class="st"> </span><span class="kw">get.tree</span>(beast_tree)<span class="op">$</span>tip.label</span>
+<span id="cb134-10"><a href="chapter4.html#cb134-10"></a>beast_tree &lt;-<span class="st"> </span><span class="kw">groupOTU</span>(beast_tree, tip[<span class="kw">grep</span>(<span class="st">&quot;Swine&quot;</span>, tip)], </span>
+<span id="cb134-11"><a href="chapter4.html#cb134-11"></a>                       <span class="dt">group_name =</span> <span class="st">&quot;host&quot;</span>)</span>
+<span id="cb134-12"><a href="chapter4.html#cb134-12"></a></span>
+<span id="cb134-13"><a href="chapter4.html#cb134-13"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(beast_tree, <span class="kw">aes</span>(<span class="dt">color=</span>host), <span class="dt">mrsd=</span><span class="st">&quot;2013-01-01&quot;</span>, </span>
+<span id="cb134-14"><a href="chapter4.html#cb134-14"></a>            <span class="dt">yscale =</span> <span class="st">&quot;label&quot;</span>, <span class="dt">yscale_mapping =</span> NAG) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb134-15"><a href="chapter4.html#cb134-15"></a><span class="st">  </span><span class="kw">theme_classic</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&#39;none&#39;</span>) <span class="op">+</span></span>
+<span id="cb134-16"><a href="chapter4.html#cb134-16"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>), </span>
+<span id="cb134-17"><a href="chapter4.html#cb134-17"></a>                     <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;human&quot;</span>, <span class="st">&quot;swine&quot;</span>)) <span class="op">+</span></span>
+<span id="cb134-18"><a href="chapter4.html#cb134-18"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Number of predicted N-linked glycoslyation sites&quot;</span>)</span>
+<span id="cb134-19"><a href="chapter4.html#cb134-19"></a></span>
+<span id="cb134-20"><a href="chapter4.html#cb134-20"></a><span class="co">## (optional) add more annotations to help interpretation</span></span>
+<span id="cb134-21"><a href="chapter4.html#cb134-21"></a>p <span class="op">+</span><span class="st"> </span><span class="kw">geom_nodepoint</span>(<span class="dt">color=</span><span class="st">&quot;grey&quot;</span>, <span class="dt">size=</span><span class="dv">3</span>, <span class="dt">alpha=</span>.<span class="dv">8</span>) <span class="op">+</span></span>
+<span id="cb134-22"><a href="chapter4.html#cb134-22"></a><span class="st">  </span><span class="kw">geom_rootpoint</span>(<span class="dt">color=</span><span class="st">&quot;black&quot;</span>, <span class="dt">size=</span><span class="dv">3</span>) <span class="op">+</span></span>
+<span id="cb134-23"><a href="chapter4.html#cb134-23"></a><span class="st">  </span><span class="kw">geom_tippoint</span>(<span class="dt">size=</span><span class="dv">3</span>, <span class="dt">alpha=</span>.<span class="dv">5</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb134-24"><a href="chapter4.html#cb134-24"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;point&quot;</span>, <span class="dv">1992</span>, <span class="fl">5.6</span>, <span class="dt">size=</span><span class="dv">3</span>, <span class="dt">color=</span><span class="st">&quot;black&quot;</span>) <span class="op">+</span></span>
+<span id="cb134-25"><a href="chapter4.html#cb134-25"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;point&quot;</span>, <span class="dv">1992</span>, <span class="fl">5.4</span>, <span class="dt">size=</span><span class="dv">3</span>, <span class="dt">color=</span><span class="st">&quot;grey&quot;</span>) <span class="op">+</span></span>
+<span id="cb134-26"><a href="chapter4.html#cb134-26"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;point&quot;</span>, <span class="fl">1991.6</span>, <span class="fl">5.2</span>, <span class="dt">size=</span><span class="dv">3</span>, <span class="dt">color=</span><span class="st">&quot;blue&quot;</span>) <span class="op">+</span></span>
+<span id="cb134-27"><a href="chapter4.html#cb134-27"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;point&quot;</span>, <span class="dv">1992</span>, <span class="fl">5.2</span>, <span class="dt">size=</span><span class="dv">3</span>, <span class="dt">color=</span><span class="st">&quot;red&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb134-28"><a href="chapter4.html#cb134-28"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="fl">1992.3</span>, <span class="fl">5.6</span>, <span class="dt">hjust=</span><span class="dv">0</span>, <span class="dt">size=</span><span class="dv">4</span>, <span class="dt">label=</span><span class="st">&quot;Root node&quot;</span>) <span class="op">+</span></span>
+<span id="cb134-29"><a href="chapter4.html#cb134-29"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="fl">1992.3</span>, <span class="fl">5.4</span>, <span class="dt">hjust=</span><span class="dv">0</span>, <span class="dt">size=</span><span class="dv">4</span>, </span>
+<span id="cb134-30"><a href="chapter4.html#cb134-30"></a>           <span class="dt">label=</span><span class="st">&quot;Internal nodes&quot;</span>) <span class="op">+</span></span>
+<span id="cb134-31"><a href="chapter4.html#cb134-31"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="fl">1992.3</span>, <span class="fl">5.2</span>, <span class="dt">hjust=</span><span class="dv">0</span>, <span class="dt">size=</span><span class="dv">4</span>,</span>
+<span id="cb134-32"><a href="chapter4.html#cb134-32"></a>           <span class="dt">label=</span><span class="st">&quot;Tip nodes (blue: human; red: swine)&quot;</span>)</span></code></pre></div>
 <div class="figure"><span id="fig:2d"></span>
 <img src="treedata_files/figure-html/2d-1.png" alt="Two-dimensional tree layout. The trunk and other branches highlighted in red (for swine) and blue (for human). The x-axis is scaled to the branch length (in units of year) of the time-scaled tree. The y-axis is scaled to the node attribute variable, in this case the number of predicted N-linked glycosylation site (NLG) on the hemagglutinin protein. Colored circles indicate the different types of tree nodes. Note that nodes assigned the same x- (temporal) and y- (NLG) coordinates are superimposed in this representation and appear as one node, which is shaded based on the colors of all the nodes at that point." width="816"  />
 <p class="caption">
@@ -476,7 +478,7 @@ Figure 4.5: <strong>Two-dimensional tree layout.</strong> The trunk and other br
 <div id="geom-trescale" class="section level3">
 <h3><span class="header-section-number">4.3.1</span> Displaying tree scale (evolution distance)</h3>
 <p>To show tree scale, user can use <code>geom_treescale()</code> layer (Figure <a href="chapter4.html#fig:treescale">4.6</a>A).</p>
-<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="chapter4.html#cb134-1"></a><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">geom_treescale</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="chapter4.html#cb135-1"></a><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">geom_treescale</span>()</span></code></pre></div>
 <p><code>geom_treescale()</code> supports the following parameters:</p>
 <ul>
 <li><em>x</em> and <em>y</em> for tree scale position</li>
@@ -486,10 +488,10 @@ Figure 4.5: <strong>Two-dimensional tree layout.</strong> The trunk and other br
 <li><em>offset</em> for relative position of the line and the text</li>
 <li><em>color</em> for color of the tree scale</li>
 </ul>
-<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="chapter4.html#cb135-1"></a><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">geom_treescale</span>(<span class="dt">x=</span><span class="dv">0</span>, <span class="dt">y=</span><span class="dv">45</span>, <span class="dt">width=</span><span class="dv">1</span>, <span class="dt">color=</span><span class="st">&#39;red&#39;</span>)</span>
-<span id="cb135-2"><a href="chapter4.html#cb135-2"></a><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">geom_treescale</span>(<span class="dt">fontsize=</span><span class="dv">6</span>, <span class="dt">linesize=</span><span class="dv">2</span>, <span class="dt">offset=</span><span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="chapter4.html#cb136-1"></a><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">geom_treescale</span>(<span class="dt">x=</span><span class="dv">0</span>, <span class="dt">y=</span><span class="dv">45</span>, <span class="dt">width=</span><span class="dv">1</span>, <span class="dt">color=</span><span class="st">&#39;red&#39;</span>)</span>
+<span id="cb136-2"><a href="chapter4.html#cb136-2"></a><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">geom_treescale</span>(<span class="dt">fontsize=</span><span class="dv">6</span>, <span class="dt">linesize=</span><span class="dv">2</span>, <span class="dt">offset=</span><span class="dv">1</span>)</span></code></pre></div>
 <p>We can also use <code>theme_tree2()</code> to display the tree scale by adding <em>x axis</em>.</p>
-<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="chapter4.html#cb136-1"></a><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="chapter4.html#cb137-1"></a><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>()</span></code></pre></div>
 
 
 <div class="figure"><span id="fig:treescale"></span>
@@ -503,9 +505,9 @@ Figure 4.6: <strong>Display tree scale.</strong> <code>geom_treescale</code> aut
 <div id="geom-nodepoint" class="section level3">
 <h3><span class="header-section-number">4.3.2</span> Displaying nodes/tips</h3>
 <p>Showing all the internal nodes and tips in the tree can be done by adding a layer of points using <code>geom_nodepoint</code>, <code>geom_tippoint</code> or <code>geom_point</code>.</p>
-<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="chapter4.html#cb137-1"></a><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">shape=</span>isTip, <span class="dt">color=</span>isTip), <span class="dt">size=</span><span class="dv">3</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="chapter4.html#cb138-1"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">geom_nodepoint</span>(<span class="dt">color=</span><span class="st">&quot;#b5e521&quot;</span>, <span class="dt">alpha=</span><span class="dv">1</span><span class="op">/</span><span class="dv">4</span>, <span class="dt">size=</span><span class="dv">10</span>)</span>
-<span id="cb138-2"><a href="chapter4.html#cb138-2"></a>p <span class="op">+</span><span class="st"> </span><span class="kw">geom_tippoint</span>(<span class="dt">color=</span><span class="st">&quot;#FDAC4F&quot;</span>, <span class="dt">shape=</span><span class="dv">8</span>, <span class="dt">size=</span><span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="chapter4.html#cb138-1"></a><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">shape=</span>isTip, <span class="dt">color=</span>isTip), <span class="dt">size=</span><span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="chapter4.html#cb139-1"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">geom_nodepoint</span>(<span class="dt">color=</span><span class="st">&quot;#b5e521&quot;</span>, <span class="dt">alpha=</span><span class="dv">1</span><span class="op">/</span><span class="dv">4</span>, <span class="dt">size=</span><span class="dv">10</span>)</span>
+<span id="cb139-2"><a href="chapter4.html#cb139-2"></a>p <span class="op">+</span><span class="st"> </span><span class="kw">geom_tippoint</span>(<span class="dt">color=</span><span class="st">&quot;#FDAC4F&quot;</span>, <span class="dt">shape=</span><span class="dv">8</span>, <span class="dt">size=</span><span class="dv">3</span>)</span></code></pre></div>
 
 
 <div class="figure"><span id="fig:nodeTip"></span>
@@ -518,12 +520,12 @@ Figure 4.7: <strong>Display external and internal nodes.</strong> <code>geom_poi
 <div id="displaying-labels" class="section level3">
 <h3><span class="header-section-number">4.3.3</span> Displaying labels</h3>
 <p>Users can use <code>geom_text</code> or <code>geom_label</code> to display the node (if available) and tip labels simultaneously or <code>geom_tiplab</code> to only display tip labels (Figure <a href="chapter4.html#fig:tiplab">4.8</a>A).</p>
-<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="chapter4.html#cb139-1"></a>p <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="dt">size=</span><span class="dv">3</span>, <span class="dt">color=</span><span class="st">&quot;purple&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="chapter4.html#cb140-1"></a>p <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="dt">size=</span><span class="dv">3</span>, <span class="dt">color=</span><span class="st">&quot;purple&quot;</span>)</span></code></pre></div>
 <p><code>geom_tiplab</code> not only supports using <em>text</em> or <em>label</em> geom to display labels,
 it also supports <em>image</em> geom to label tip with image files (see <a href="chapter7.html#chapter7">Chapter 7</a>). A corresponding
 geom, <code>geom_nodelab</code> is also provided for displaying node labels.</p>
 <p>For <em>circular</em> and <em>unrooted</em> layout, <a href="http://bioconductor.org/packages/ggtree">ggtree</a> supports rotating node labels according to the angles of the branches (Figure <a href="chapter4.html#fig:tiplab">4.8</a>B).</p>
-<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="chapter4.html#cb140-1"></a><span class="kw">ggtree</span>(tree, <span class="dt">layout=</span><span class="st">&quot;circular&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">angle=</span>angle), <span class="dt">color=</span><span class="st">&#39;blue&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="chapter4.html#cb141-1"></a><span class="kw">ggtree</span>(tree, <span class="dt">layout=</span><span class="st">&quot;circular&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">angle=</span>angle), <span class="dt">color=</span><span class="st">&#39;blue&#39;</span>)</span></code></pre></div>
 
 
 <div class="figure"><span id="fig:tiplab"></span>
@@ -537,21 +539,21 @@ Figure 4.8: <strong>Display external and internal nodes.</strong> <code>geom_poi
 <div id="displaying-root-edge" class="section level3">
 <h3><span class="header-section-number">4.3.4</span> Displaying root edge</h3>
 <p><a href="http://bioconductor.org/packages/ggtree">ggtree</a> doesn’t plot root edge by default. Users can use <code>geom_rootedge()</code> to automatically display root edge (Figure <a href="chapter4.html#fig:rootedge">4.9</a>A). If there is no root edge information, <code>geom_rootedge()</code> will display nothing by default (Figure <a href="chapter4.html#fig:rootedge">4.9</a>B). Users can set the root edge to the tree (Figure <a href="chapter4.html#fig:rootedge">4.9</a>C) or specify <code>rootedge</code> in <code>geom_rootedge()</code> (Figure <a href="chapter4.html#fig:rootedge">4.9</a>D).</p>
-<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="chapter4.html#cb141-1"></a><span class="co">## with root edge = 1</span></span>
-<span id="cb141-2"><a href="chapter4.html#cb141-2"></a>tree1 &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="dt">text=</span><span class="st">&#39;((A:1,B:2):3,C:2):1;&#39;</span>)</span>
-<span id="cb141-3"><a href="chapter4.html#cb141-3"></a><span class="kw">ggtree</span>(tree1) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_rootedge</span>()</span>
-<span id="cb141-4"><a href="chapter4.html#cb141-4"></a></span>
-<span id="cb141-5"><a href="chapter4.html#cb141-5"></a><span class="co">## without root edge</span></span>
-<span id="cb141-6"><a href="chapter4.html#cb141-6"></a>tree2 &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="dt">text=</span><span class="st">&#39;((A:1,B:2):3,C:2);&#39;</span>)</span>
-<span id="cb141-7"><a href="chapter4.html#cb141-7"></a><span class="kw">ggtree</span>(tree2) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_rootedge</span>()</span>
-<span id="cb141-8"><a href="chapter4.html#cb141-8"></a></span>
-<span id="cb141-9"><a href="chapter4.html#cb141-9"></a><span class="co">## setting root edge</span></span>
-<span id="cb141-10"><a href="chapter4.html#cb141-10"></a>tree2<span class="op">$</span>root.edge &lt;-<span class="st"> </span><span class="dv">2</span></span>
-<span id="cb141-11"><a href="chapter4.html#cb141-11"></a><span class="kw">ggtree</span>(tree2) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_rootedge</span>()</span>
-<span id="cb141-12"><a href="chapter4.html#cb141-12"></a></span>
-<span id="cb141-13"><a href="chapter4.html#cb141-13"></a><span class="co">## specify length of root edge for just plotting</span></span>
-<span id="cb141-14"><a href="chapter4.html#cb141-14"></a><span class="co">## this will ignore tree$root.edge</span></span>
-<span id="cb141-15"><a href="chapter4.html#cb141-15"></a><span class="kw">ggtree</span>(tree2) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_rootedge</span>(<span class="dt">rootedge =</span> <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="chapter4.html#cb142-1"></a><span class="co">## with root edge = 1</span></span>
+<span id="cb142-2"><a href="chapter4.html#cb142-2"></a>tree1 &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="dt">text=</span><span class="st">&#39;((A:1,B:2):3,C:2):1;&#39;</span>)</span>
+<span id="cb142-3"><a href="chapter4.html#cb142-3"></a><span class="kw">ggtree</span>(tree1) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_rootedge</span>()</span>
+<span id="cb142-4"><a href="chapter4.html#cb142-4"></a></span>
+<span id="cb142-5"><a href="chapter4.html#cb142-5"></a><span class="co">## without root edge</span></span>
+<span id="cb142-6"><a href="chapter4.html#cb142-6"></a>tree2 &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="dt">text=</span><span class="st">&#39;((A:1,B:2):3,C:2);&#39;</span>)</span>
+<span id="cb142-7"><a href="chapter4.html#cb142-7"></a><span class="kw">ggtree</span>(tree2) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_rootedge</span>()</span>
+<span id="cb142-8"><a href="chapter4.html#cb142-8"></a></span>
+<span id="cb142-9"><a href="chapter4.html#cb142-9"></a><span class="co">## setting root edge</span></span>
+<span id="cb142-10"><a href="chapter4.html#cb142-10"></a>tree2<span class="op">$</span>root.edge &lt;-<span class="st"> </span><span class="dv">2</span></span>
+<span id="cb142-11"><a href="chapter4.html#cb142-11"></a><span class="kw">ggtree</span>(tree2) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_rootedge</span>()</span>
+<span id="cb142-12"><a href="chapter4.html#cb142-12"></a></span>
+<span id="cb142-13"><a href="chapter4.html#cb142-13"></a><span class="co">## specify length of root edge for just plotting</span></span>
+<span id="cb142-14"><a href="chapter4.html#cb142-14"></a><span class="co">## this will ignore tree$root.edge</span></span>
+<span id="cb142-15"><a href="chapter4.html#cb142-15"></a><span class="kw">ggtree</span>(tree2) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_rootedge</span>(<span class="dt">rootedge =</span> <span class="dv">3</span>)</span></code></pre></div>
 
 
 <div class="figure"><span id="fig:rootedge"></span>
@@ -566,9 +568,9 @@ Figure 4.9: <strong>Display root edge.</strong> <code>geom_rootedge</code> suppo
 <p>In <code>ggtree</code>, coloring phylogenetic tree is easy, by using <code>aes(color=VAR)</code> to map the color of tree based on a specific variable (numeric and category are both supported).</p>
 
 
-<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="chapter4.html#cb142-1"></a><span class="kw">ggtree</span>(beast_tree, <span class="kw">aes</span>(<span class="dt">color=</span>rate)) <span class="op">+</span></span>
-<span id="cb142-2"><a href="chapter4.html#cb142-2"></a><span class="st">    </span><span class="kw">scale_color_continuous</span>(<span class="dt">low=</span><span class="st">&#39;darkgreen&#39;</span>, <span class="dt">high=</span><span class="st">&#39;red&#39;</span>) <span class="op">+</span></span>
-<span id="cb142-3"><a href="chapter4.html#cb142-3"></a><span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;right&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="chapter4.html#cb143-1"></a><span class="kw">ggtree</span>(beast_tree, <span class="kw">aes</span>(<span class="dt">color=</span>rate)) <span class="op">+</span></span>
+<span id="cb143-2"><a href="chapter4.html#cb143-2"></a><span class="st">    </span><span class="kw">scale_color_continuous</span>(<span class="dt">low=</span><span class="st">&#39;darkgreen&#39;</span>, <span class="dt">high=</span><span class="st">&#39;red&#39;</span>) <span class="op">+</span></span>
+<span id="cb143-3"><a href="chapter4.html#cb143-3"></a><span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;right&quot;</span>)</span></code></pre></div>
 <div class="figure"><span id="fig:colortree"></span>
 <img src="treedata_files/figure-html/colortree-1.png" alt="Color tree by continuous or discrete feature. Edges are colored by values that associated with child node." width="480" />
 <p class="caption">
@@ -578,24 +580,24 @@ Figure 4.10: <strong>Color tree by continuous or discrete feature.</strong> Edge
 <p>User can use any feature (if available), including clade posterior and <em>d<sub>N</sub>/d<sub>S</sub></em> <em>etc.</em>, to scale the color of the tree. If the feature is continuous numerical value, <a href="http://bioconductor.org/packages/ggtree">ggtree</a> provides a <code>continuous</code> parameter to support plotting continuous state transition in edges. Here, we use the example provided in <a href="http://www.phytools.org/eqg2015/asr.html" class="uri">http://www.phytools.org/eqg2015/asr.html</a> to demonstrate this functionality.</p>
 
 
-<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="chapter4.html#cb143-1"></a>anole.tree&lt;-<span class="kw">read.tree</span>(<span class="st">&quot;http://www.phytools.org/eqg2015/data/anole.tre&quot;</span>)</span>
-<span id="cb143-2"><a href="chapter4.html#cb143-2"></a>svl &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;http://www.phytools.org/eqg2015/data/svl.csv&quot;</span>,</span>
-<span id="cb143-3"><a href="chapter4.html#cb143-3"></a>    <span class="dt">row.names=</span><span class="dv">1</span>)</span>
-<span id="cb143-4"><a href="chapter4.html#cb143-4"></a>svl &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(svl)[,<span class="dv">1</span>]</span>
-<span id="cb143-5"><a href="chapter4.html#cb143-5"></a>fit &lt;-<span class="st"> </span>phytools<span class="op">::</span><span class="kw">fastAnc</span>(anole.tree,svl,<span class="dt">vars=</span><span class="ot">TRUE</span>,<span class="dt">CI=</span><span class="ot">TRUE</span>)</span>
-<span id="cb143-6"><a href="chapter4.html#cb143-6"></a></span>
-<span id="cb143-7"><a href="chapter4.html#cb143-7"></a>td &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">node =</span> <span class="kw">nodeid</span>(anole.tree, <span class="kw">names</span>(svl)),</span>
-<span id="cb143-8"><a href="chapter4.html#cb143-8"></a>               <span class="dt">trait =</span> svl)</span>
-<span id="cb143-9"><a href="chapter4.html#cb143-9"></a>nd &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">node =</span> <span class="kw">names</span>(fit<span class="op">$</span>ace), <span class="dt">trait =</span> fit<span class="op">$</span>ace)</span>
-<span id="cb143-10"><a href="chapter4.html#cb143-10"></a></span>
-<span id="cb143-11"><a href="chapter4.html#cb143-11"></a>d &lt;-<span class="st"> </span><span class="kw">rbind</span>(td, nd)</span>
-<span id="cb143-12"><a href="chapter4.html#cb143-12"></a>d<span class="op">$</span>node &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(d<span class="op">$</span>node)</span>
-<span id="cb143-13"><a href="chapter4.html#cb143-13"></a>tree &lt;-<span class="st"> </span><span class="kw">full_join</span>(anole.tree, d, <span class="dt">by =</span> <span class="st">&#39;node&#39;</span>)</span>
-<span id="cb143-14"><a href="chapter4.html#cb143-14"></a></span>
-<span id="cb143-15"><a href="chapter4.html#cb143-15"></a><span class="kw">ggtree</span>(tree, <span class="kw">aes</span>(<span class="dt">color=</span>trait), <span class="dt">layout =</span> <span class="st">&#39;circular&#39;</span>, </span>
-<span id="cb143-16"><a href="chapter4.html#cb143-16"></a>        <span class="dt">ladderize =</span> <span class="ot">FALSE</span>, <span class="dt">continuous =</span> <span class="ot">TRUE</span>, <span class="dt">size=</span><span class="dv">2</span>) <span class="op">+</span></span>
-<span id="cb143-17"><a href="chapter4.html#cb143-17"></a><span class="st">    </span><span class="kw">scale_color_gradientn</span>(<span class="dt">colours=</span><span class="kw">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&#39;orange&#39;</span>, <span class="st">&#39;green&#39;</span>, <span class="st">&#39;cyan&#39;</span>, <span class="st">&#39;blue&#39;</span>)) <span class="op">+</span></span>
-<span id="cb143-18"><a href="chapter4.html#cb143-18"></a><span class="st">    </span><span class="kw">geom_tiplab</span>(<span class="dt">hjust =</span> <span class="fl">-.1</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="fl">1.2</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(.<span class="dv">05</span>, <span class="fl">.85</span>)) </span></code></pre></div>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="chapter4.html#cb144-1"></a>anole.tree&lt;-<span class="kw">read.tree</span>(<span class="st">&quot;http://www.phytools.org/eqg2015/data/anole.tre&quot;</span>)</span>
+<span id="cb144-2"><a href="chapter4.html#cb144-2"></a>svl &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;http://www.phytools.org/eqg2015/data/svl.csv&quot;</span>,</span>
+<span id="cb144-3"><a href="chapter4.html#cb144-3"></a>    <span class="dt">row.names=</span><span class="dv">1</span>)</span>
+<span id="cb144-4"><a href="chapter4.html#cb144-4"></a>svl &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(svl)[,<span class="dv">1</span>]</span>
+<span id="cb144-5"><a href="chapter4.html#cb144-5"></a>fit &lt;-<span class="st"> </span>phytools<span class="op">::</span><span class="kw">fastAnc</span>(anole.tree,svl,<span class="dt">vars=</span><span class="ot">TRUE</span>,<span class="dt">CI=</span><span class="ot">TRUE</span>)</span>
+<span id="cb144-6"><a href="chapter4.html#cb144-6"></a></span>
+<span id="cb144-7"><a href="chapter4.html#cb144-7"></a>td &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">node =</span> <span class="kw">nodeid</span>(anole.tree, <span class="kw">names</span>(svl)),</span>
+<span id="cb144-8"><a href="chapter4.html#cb144-8"></a>               <span class="dt">trait =</span> svl)</span>
+<span id="cb144-9"><a href="chapter4.html#cb144-9"></a>nd &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">node =</span> <span class="kw">names</span>(fit<span class="op">$</span>ace), <span class="dt">trait =</span> fit<span class="op">$</span>ace)</span>
+<span id="cb144-10"><a href="chapter4.html#cb144-10"></a></span>
+<span id="cb144-11"><a href="chapter4.html#cb144-11"></a>d &lt;-<span class="st"> </span><span class="kw">rbind</span>(td, nd)</span>
+<span id="cb144-12"><a href="chapter4.html#cb144-12"></a>d<span class="op">$</span>node &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(d<span class="op">$</span>node)</span>
+<span id="cb144-13"><a href="chapter4.html#cb144-13"></a>tree &lt;-<span class="st"> </span><span class="kw">full_join</span>(anole.tree, d, <span class="dt">by =</span> <span class="st">&#39;node&#39;</span>)</span>
+<span id="cb144-14"><a href="chapter4.html#cb144-14"></a></span>
+<span id="cb144-15"><a href="chapter4.html#cb144-15"></a><span class="kw">ggtree</span>(tree, <span class="kw">aes</span>(<span class="dt">color=</span>trait), <span class="dt">layout =</span> <span class="st">&#39;circular&#39;</span>, </span>
+<span id="cb144-16"><a href="chapter4.html#cb144-16"></a>        <span class="dt">ladderize =</span> <span class="ot">FALSE</span>, <span class="dt">continuous =</span> <span class="ot">TRUE</span>, <span class="dt">size=</span><span class="dv">2</span>) <span class="op">+</span></span>
+<span id="cb144-17"><a href="chapter4.html#cb144-17"></a><span class="st">    </span><span class="kw">scale_color_gradientn</span>(<span class="dt">colours=</span><span class="kw">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&#39;orange&#39;</span>, <span class="st">&#39;green&#39;</span>, <span class="st">&#39;cyan&#39;</span>, <span class="st">&#39;blue&#39;</span>)) <span class="op">+</span></span>
+<span id="cb144-18"><a href="chapter4.html#cb144-18"></a><span class="st">    </span><span class="kw">geom_tiplab</span>(<span class="dt">hjust =</span> <span class="fl">-.1</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="fl">1.2</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(.<span class="dv">05</span>, <span class="fl">.85</span>)) </span></code></pre></div>
 <div class="figure"><span id="fig:continuousColor"></span>
 <img src="treedata_files/figure-html/continuousColor-1.png" alt="Continuous state transition in edges. Edges are colored by the values from ancestral trait to offspring." width="576" />
 <p class="caption">
@@ -605,8 +607,8 @@ Figure 4.11: <strong>Continuous state transition in edges.</strong> Edges are co
 <p>Besides, we can use two-dimensional tree (as demonstrated in Figure <a href="chapter4.html#fig:2d">4.5</a>) to visualize phenotype on the vertical dimension to create the phenogram. We can use <a href="https://CRAN.R-project.org/package=ggrepel">ggrepel</a> package to repel tip labels to avoid overlapping as demonstrated in Figure <a href="faq.html#fig:repelTip">A.4</a>.</p>
 
 
-<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="chapter4.html#cb144-1"></a><span class="kw">ggtree</span>(tree, <span class="kw">aes</span>(<span class="dt">color=</span>trait), <span class="dt">continuous =</span> <span class="ot">TRUE</span>, <span class="dt">yscale =</span> <span class="st">&quot;trait&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb144-2"><a href="chapter4.html#cb144-2"></a><span class="st">    </span><span class="kw">scale_color_viridis_c</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_minimal</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="chapter4.html#cb145-1"></a><span class="kw">ggtree</span>(tree, <span class="kw">aes</span>(<span class="dt">color=</span>trait), <span class="dt">continuous =</span> <span class="ot">TRUE</span>, <span class="dt">yscale =</span> <span class="st">&quot;trait&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb145-2"><a href="chapter4.html#cb145-2"></a><span class="st">    </span><span class="kw">scale_color_viridis_c</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_minimal</span>()</span></code></pre></div>
 <div class="figure"><span id="fig:phenogram"></span>
 <img src="treedata_files/figure-html/phenogram-1.png" alt="Phenogram. Projecting the tree into a space defined by time (or genetic distance) on the horizontal axis and phenotype on the vertical dimension." width="576" />
 <p class="caption">
@@ -618,10 +620,10 @@ Figure 4.12: <strong>Phenogram.</strong> Projecting the tree into a space define
 <h3><span class="header-section-number">4.3.6</span> Rescale tree</h3>
 <p>Most of the phylogenetic trees are scaled by evolutionary distance (substitution/site). In <code>ggtree</code>, users can re-scale a phylogenetic tree by any numerical variable inferred by evolutionary analysis (<em>e.g.</em> <em>d<sub>N</sub>/d<sub>S</sub></em>).</p>
 <p>This example displays a time tree (Figure <a href="chapter4.html#fig:rescaleTree">4.13</a>A) and the branches were rescaled by substitution rate inferred by BEAST (Figure <a href="chapter4.html#fig:rescaleTree">4.13</a>B).</p>
-<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="chapter4.html#cb145-1"></a><span class="kw">library</span>(<span class="st">&quot;treeio&quot;</span>)</span>
-<span id="cb145-2"><a href="chapter4.html#cb145-2"></a>beast_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;examples/MCC_FluA_H3.tree&quot;</span>, <span class="dt">package=</span><span class="st">&quot;ggtree&quot;</span>)</span>
-<span id="cb145-3"><a href="chapter4.html#cb145-3"></a>beast_tree &lt;-<span class="st"> </span><span class="kw">read.beast</span>(beast_file)</span>
-<span id="cb145-4"><a href="chapter4.html#cb145-4"></a>beast_tree</span></code></pre></div>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="chapter4.html#cb146-1"></a><span class="kw">library</span>(<span class="st">&quot;treeio&quot;</span>)</span>
+<span id="cb146-2"><a href="chapter4.html#cb146-2"></a>beast_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;examples/MCC_FluA_H3.tree&quot;</span>, <span class="dt">package=</span><span class="st">&quot;ggtree&quot;</span>)</span>
+<span id="cb146-3"><a href="chapter4.html#cb146-3"></a>beast_tree &lt;-<span class="st"> </span><span class="kw">read.beast</span>(beast_file)</span>
+<span id="cb146-4"><a href="chapter4.html#cb146-4"></a>beast_tree</span></code></pre></div>
 <pre><code>## &#39;treedata&#39; S4 object that stored information of
 ##  &#39;/home/ygc/R/library/ggtree/examples/MCC_FluA_H3.tree&#39;.
 ## 
@@ -638,17 +640,17 @@ Figure 4.12: <strong>Phenogram.</strong> Projecting the tree into a space define
 ##  &#39;height_range&#39;, &#39;length&#39;,   &#39;length_0.95_HPD&#39;,
 ##  &#39;length_median&#39;,    &#39;length_range&#39;, &#39;posterior&#39;,    &#39;rate&#39;,
 ##  &#39;rate_0.95_HPD&#39;,    &#39;rate_median&#39;,  &#39;rate_range&#39;.</code></pre>
-<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="chapter4.html#cb147-1"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(beast_tree, <span class="dt">mrsd=</span><span class="st">&#39;2013-01-01&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>() <span class="op">+</span></span>
-<span id="cb147-2"><a href="chapter4.html#cb147-2"></a><span class="st">    </span><span class="kw">labs</span>(<span class="dt">caption=</span><span class="st">&quot;Divergence time&quot;</span>)</span>
-<span id="cb147-3"><a href="chapter4.html#cb147-3"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(beast_tree, <span class="dt">branch.length=</span><span class="st">&#39;rate&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>() <span class="op">+</span></span>
-<span id="cb147-4"><a href="chapter4.html#cb147-4"></a><span class="st">    </span><span class="kw">labs</span>(<span class="dt">caption=</span><span class="st">&quot;Substitution rate&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="chapter4.html#cb148-1"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(beast_tree, <span class="dt">mrsd=</span><span class="st">&#39;2013-01-01&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>() <span class="op">+</span></span>
+<span id="cb148-2"><a href="chapter4.html#cb148-2"></a><span class="st">    </span><span class="kw">labs</span>(<span class="dt">caption=</span><span class="st">&quot;Divergence time&quot;</span>)</span>
+<span id="cb148-3"><a href="chapter4.html#cb148-3"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(beast_tree, <span class="dt">branch.length=</span><span class="st">&#39;rate&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>() <span class="op">+</span></span>
+<span id="cb148-4"><a href="chapter4.html#cb148-4"></a><span class="st">    </span><span class="kw">labs</span>(<span class="dt">caption=</span><span class="st">&quot;Substitution rate&quot;</span>)</span></code></pre></div>
 <p>The following example draw a tree inferred by CodeML (Figure <a href="chapter4.html#fig:rescaleTree">4.13</a>C), and the branches can be rescaled by using <em>d<sub>N</sub>/d<sub>S</sub></em> values (Figure <a href="chapter4.html#fig:rescaleTree">4.13</a>D).</p>
-<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="chapter4.html#cb148-1"></a>mlcfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/PAML_Codeml&quot;</span>, <span class="st">&quot;mlc&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
-<span id="cb148-2"><a href="chapter4.html#cb148-2"></a>mlc_tree &lt;-<span class="st"> </span><span class="kw">read.codeml_mlc</span>(mlcfile)</span>
-<span id="cb148-3"><a href="chapter4.html#cb148-3"></a>p3 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(mlc_tree) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>() <span class="op">+</span></span>
-<span id="cb148-4"><a href="chapter4.html#cb148-4"></a><span class="st">    </span><span class="kw">labs</span>(<span class="dt">caption=</span><span class="st">&quot;nucleotide substitutions per codon&quot;</span>)</span>
-<span id="cb148-5"><a href="chapter4.html#cb148-5"></a>p4 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(mlc_tree, <span class="dt">branch.length=</span><span class="st">&#39;dN_vs_dS&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>() <span class="op">+</span></span>
-<span id="cb148-6"><a href="chapter4.html#cb148-6"></a><span class="st">    </span><span class="kw">labs</span>(<span class="dt">caption=</span><span class="st">&quot;dN/dS tree&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="chapter4.html#cb149-1"></a>mlcfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/PAML_Codeml&quot;</span>, <span class="st">&quot;mlc&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
+<span id="cb149-2"><a href="chapter4.html#cb149-2"></a>mlc_tree &lt;-<span class="st"> </span><span class="kw">read.codeml_mlc</span>(mlcfile)</span>
+<span id="cb149-3"><a href="chapter4.html#cb149-3"></a>p3 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(mlc_tree) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>() <span class="op">+</span></span>
+<span id="cb149-4"><a href="chapter4.html#cb149-4"></a><span class="st">    </span><span class="kw">labs</span>(<span class="dt">caption=</span><span class="st">&quot;nucleotide substitutions per codon&quot;</span>)</span>
+<span id="cb149-5"><a href="chapter4.html#cb149-5"></a>p4 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(mlc_tree, <span class="dt">branch.length=</span><span class="st">&#39;dN_vs_dS&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>() <span class="op">+</span></span>
+<span id="cb149-6"><a href="chapter4.html#cb149-6"></a><span class="st">    </span><span class="kw">labs</span>(<span class="dt">caption=</span><span class="st">&quot;dN/dS tree&quot;</span>)</span></code></pre></div>
 
 
 <div class="figure"><span id="fig:rescaleTree"></span>
@@ -658,18 +660,18 @@ Figure 4.13: <strong>Rescale tree branches.</strong> A time scaled tree inferred
 </p>
 </div>
 <p>In addition to specify <code>branch.length</code> in tree visualization, users can change branch length stored in tree object by using <code>rescale_tree</code> function, and the following command will display a tree that is identical to (Figure <a href="chapter4.html#fig:rescaleTree">4.13</a>B).</p>
-<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="chapter4.html#cb149-1"></a>beast_tree2 &lt;-<span class="st"> </span><span class="kw">rescale_tree</span>(beast_tree, <span class="dt">branch.length=</span><span class="st">&#39;rate&#39;</span>)</span>
-<span id="cb149-2"><a href="chapter4.html#cb149-2"></a><span class="kw">ggtree</span>(beast_tree2) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="chapter4.html#cb150-1"></a>beast_tree2 &lt;-<span class="st"> </span><span class="kw">rescale_tree</span>(beast_tree, <span class="dt">branch.length=</span><span class="st">&#39;rate&#39;</span>)</span>
+<span id="cb150-2"><a href="chapter4.html#cb150-2"></a><span class="kw">ggtree</span>(beast_tree2) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>()</span></code></pre></div>
 </div>
 <div id="modify-compenents-of-a-theme" class="section level3">
 <h3><span class="header-section-number">4.3.7</span> Modify compenents of a theme</h3>
 <p><code>theme_tree()</code> defined a totally blank canvas, while <em><code>theme_tree2()</code></em> adds
 phylogenetic distance (via x-axis). These two themes all accept a parameter of
 <code>bgcolor</code> that defined the background color. Users can use any <a href="http://ggplot2.tidyverse.org/reference/theme.html">theme components</a> to the <code>theme_tree()</code> or <code>theme_tree2()</code> functions to modify them.</p>
-<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="chapter4.html#cb150-1"></a><span class="kw">set.seed</span>(<span class="dv">2019</span>)</span>
-<span id="cb150-2"><a href="chapter4.html#cb150-2"></a>x &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)</span>
-<span id="cb150-3"><a href="chapter4.html#cb150-3"></a><span class="kw">ggtree</span>(x, <span class="dt">color=</span><span class="st">&quot;red&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree</span>(<span class="st">&quot;steelblue&quot;</span>)</span>
-<span id="cb150-4"><a href="chapter4.html#cb150-4"></a><span class="kw">ggtree</span>(x, <span class="dt">color=</span><span class="st">&quot;white&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree</span>(<span class="st">&quot;black&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="chapter4.html#cb151-1"></a><span class="kw">set.seed</span>(<span class="dv">2019</span>)</span>
+<span id="cb151-2"><a href="chapter4.html#cb151-2"></a>x &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)</span>
+<span id="cb151-3"><a href="chapter4.html#cb151-3"></a><span class="kw">ggtree</span>(x, <span class="dt">color=</span><span class="st">&quot;red&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree</span>(<span class="st">&quot;steelblue&quot;</span>)</span>
+<span id="cb151-4"><a href="chapter4.html#cb151-4"></a><span class="kw">ggtree</span>(x, <span class="dt">color=</span><span class="st">&quot;white&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree</span>(<span class="st">&quot;black&quot;</span>)</span></code></pre></div>
 
 
 <div class="figure" style="text-align: center"><span id="fig:theme"></span>
@@ -686,9 +688,9 @@ Figure 4.14: <strong>ggtree theme.</strong>
 <p><code>ggtree</code> supports <code>multiPhylo</code> object and a list of trees can be viewed simultaneously.</p>
 
 
-<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="chapter4.html#cb151-1"></a>trees &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">40</span>), rtree)</span>
-<span id="cb151-2"><a href="chapter4.html#cb151-2"></a><span class="kw">class</span>(trees) &lt;-<span class="st"> &quot;multiPhylo&quot;</span></span>
-<span id="cb151-3"><a href="chapter4.html#cb151-3"></a><span class="kw">ggtree</span>(trees) <span class="op">+</span><span class="st"> </span><span class="kw">facet_wrap</span>(<span class="op">~</span>.id, <span class="dt">scale=</span><span class="st">&quot;free&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="chapter4.html#cb152-1"></a>trees &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">40</span>), rtree)</span>
+<span id="cb152-2"><a href="chapter4.html#cb152-2"></a><span class="kw">class</span>(trees) &lt;-<span class="st"> &quot;multiPhylo&quot;</span></span>
+<span id="cb152-3"><a href="chapter4.html#cb152-3"></a><span class="kw">ggtree</span>(trees) <span class="op">+</span><span class="st"> </span><span class="kw">facet_wrap</span>(<span class="op">~</span>.id, <span class="dt">scale=</span><span class="st">&quot;free&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>()</span></code></pre></div>
 <div class="figure"><span id="fig:mutiPhylo"></span>
 <img src="treedata_files/figure-html/mutiPhylo-1.png" alt="Visuazlie multiPhylo object." width="1152" />
 <p class="caption">
@@ -698,8 +700,8 @@ Figure 4.15: <strong>Visuazlie multiPhylo object.</strong>
 <p>One hundred bootstrap trees can also be view simultaneously.</p>
 
 
-<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="chapter4.html#cb152-1"></a>btrees &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="kw">system.file</span>(<span class="st">&quot;extdata/RAxML&quot;</span>, <span class="st">&quot;RAxML_bootstrap.H3&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>))</span>
-<span id="cb152-2"><a href="chapter4.html#cb152-2"></a><span class="kw">ggtree</span>(btrees) <span class="op">+</span><span class="st"> </span><span class="kw">facet_wrap</span>(<span class="op">~</span>.id, <span class="dt">ncol=</span><span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="chapter4.html#cb153-1"></a>btrees &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="kw">system.file</span>(<span class="st">&quot;extdata/RAxML&quot;</span>, <span class="st">&quot;RAxML_bootstrap.H3&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>))</span>
+<span id="cb153-2"><a href="chapter4.html#cb153-2"></a><span class="kw">ggtree</span>(btrees) <span class="op">+</span><span class="st"> </span><span class="kw">facet_wrap</span>(<span class="op">~</span>.id, <span class="dt">ncol=</span><span class="dv">10</span>)</span></code></pre></div>
 <div class="figure"><span id="fig:bp100"></span>
 <img src="treedata_files/figure-html/bp100-1.png" alt="Visualize one hundred bootstrap trees." width="1920" />
 <p class="caption">
@@ -709,8 +711,8 @@ Figure 4.16: <strong>Visualize one hundred bootstrap trees.</strong>
 <p>Another way to view the bootstrap trees is to merge them together to form a density tree using <code>ggdensitree</code> function.</p>
 
 
-<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="chapter4.html#cb153-1"></a><span class="kw">ggdensitree</span>(btrees, <span class="dt">alpha=</span>.<span class="dv">3</span>, <span class="dt">colour=</span><span class="st">&#39;steelblue&#39;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb153-2"><a href="chapter4.html#cb153-2"></a><span class="st">    </span><span class="kw">geom_tiplab</span>(<span class="dt">size=</span><span class="dv">3</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">45</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="chapter4.html#cb154-1"></a><span class="kw">ggdensitree</span>(btrees, <span class="dt">alpha=</span>.<span class="dv">3</span>, <span class="dt">colour=</span><span class="st">&#39;steelblue&#39;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb154-2"><a href="chapter4.html#cb154-2"></a><span class="st">    </span><span class="kw">geom_tiplab</span>(<span class="dt">size=</span><span class="dv">3</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">45</span>)</span></code></pre></div>
 <div class="figure"><span id="fig:densiTree"></span>
 <img src="treedata_files/figure-html/densiTree-1.png" alt="DensiTree." width="1152" />
 <p class="caption">

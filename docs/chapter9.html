@@ -143,7 +143,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.3" data-path="chapter1.html"><a href="chapter1.html#getting-tree-data-with-treeio"><i class="fa fa-check"></i><b>1.3</b> Getting Tree Data with <em>treeio</em></a><ul>
 <li class="chapter" data-level="1.3.1" data-path="chapter1.html"><a href="chapter1.html#overview-of-treeio"><i class="fa fa-check"></i><b>1.3.1</b> Overview of <em>treeio</em></a></li>
 <li class="chapter" data-level="1.3.2" data-path="chapter1.html"><a href="chapter1.html#function-demonstration"><i class="fa fa-check"></i><b>1.3.2</b> Function Demonstration</a></li>
-<li class="chapter" data-level="1.3.3" data-path="chapter1.html"><a href="chapter1.html#getting-information-from-treedata-object"><i class="fa fa-check"></i><b>1.3.3</b> Getting information from <em>treedata</em> object</a></li>
+<li class="chapter" data-level="1.3.3" data-path="chapter1.html"><a href="chapter1.html#as-treedata"><i class="fa fa-check"></i><b>1.3.3</b> Converting other tree object to <code>treedata</code> object</a></li>
+<li class="chapter" data-level="1.3.4" data-path="chapter1.html"><a href="chapter1.html#get-treedata-data"><i class="fa fa-check"></i><b>1.3.4</b> Getting information from <code>treedata</code> object</a></li>
 </ul></li>
 <li class="chapter" data-level="1.4" data-path="chapter1.html"><a href="chapter1.html#summary"><i class="fa fa-check"></i><b>1.4</b> Summary</a></li>
 </ul></li>
@@ -258,10 +259,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.1.1" data-path="chapter10.html"><a href="chapter10.html#facet_widths"><i class="fa fa-check"></i><b>10.1.1</b> facet_widths</a></li>
 <li class="chapter" data-level="10.1.2" data-path="chapter10.html"><a href="chapter10.html#facet_labeller"><i class="fa fa-check"></i><b>10.1.2</b> facet_labeller</a></li>
 </ul></li>
-<li class="chapter" data-level="10.2" data-path="chapter10.html"><a href="chapter10.html#layout-utilities"><i class="fa fa-check"></i><b>10.2</b> layout utilities</a></li>
-<li class="chapter" data-level="10.3" data-path="chapter10.html"><a href="chapter10.html#legend-utilities"><i class="fa fa-check"></i><b>10.3</b> legend utilities</a></li>
-<li class="chapter" data-level="10.4" data-path="chapter10.html"><a href="chapter10.html#scale-utilities"><i class="fa fa-check"></i><b>10.4</b> scale utilities</a><ul>
-<li class="chapter" data-level="10.4.1" data-path="chapter10.html"><a href="chapter10.html#xlim_expand"><i class="fa fa-check"></i><b>10.4.1</b> xlim_expand</a></li>
+<li class="chapter" data-level="10.2" data-path="chapter10.html"><a href="chapter10.html#geom2"><i class="fa fa-check"></i><b>10.2</b> Geometric layers</a></li>
+<li class="chapter" data-level="10.3" data-path="chapter10.html"><a href="chapter10.html#layout-utilities"><i class="fa fa-check"></i><b>10.3</b> Layout utilities</a></li>
+<li class="chapter" data-level="10.4" data-path="chapter10.html"><a href="chapter10.html#legend-utilities"><i class="fa fa-check"></i><b>10.4</b> Legend utilities</a></li>
+<li class="chapter" data-level="10.5" data-path="chapter10.html"><a href="chapter10.html#scale-utilities"><i class="fa fa-check"></i><b>10.5</b> Scale utilities</a><ul>
+<li class="chapter" data-level="10.5.1" data-path="chapter10.html"><a href="chapter10.html#xlim_expand"><i class="fa fa-check"></i><b>10.5.1</b> xlim_expand</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="chapter11.html"><a href="chapter11.html"><i class="fa fa-check"></i><b>11</b> Gallery of reproducible examples</a><ul>
@@ -333,23 +335,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The <a href="http://bioconductor.org/packages/ggtree">ggtree</a> package supports <code>phylo4d</code> object and all the associated data stored in the <code>phylo4d</code> object can be used directly to annotate the tree (Fig. ).</p>
 
 
-<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="chapter9.html#cb201-1"></a><span class="kw">library</span>(phylobase)</span>
-<span id="cb201-2"><a href="chapter9.html#cb201-2"></a><span class="kw">data</span>(geospiza_raw)</span>
-<span id="cb201-3"><a href="chapter9.html#cb201-3"></a>g1 &lt;-<span class="st"> </span><span class="kw">as</span>(geospiza_raw<span class="op">$</span>tree, <span class="st">&quot;phylo4&quot;</span>)</span>
-<span id="cb201-4"><a href="chapter9.html#cb201-4"></a>g2 &lt;-<span class="st"> </span><span class="kw">phylo4d</span>(g1, geospiza_raw<span class="op">$</span>data, <span class="dt">missing.data=</span><span class="st">&quot;warn&quot;</span>)</span>
-<span id="cb201-5"><a href="chapter9.html#cb201-5"></a></span>
-<span id="cb201-6"><a href="chapter9.html#cb201-6"></a>d1 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x =</span> <span class="kw">seq</span>(<span class="fl">0.93</span>, <span class="fl">1.15</span>, <span class="dt">length.out =</span> <span class="dv">5</span>),</span>
-<span id="cb201-7"><a href="chapter9.html#cb201-7"></a>                <span class="dt">lab =</span> <span class="kw">names</span>(geospiza_raw<span class="op">$</span>data))</span>
-<span id="cb201-8"><a href="chapter9.html#cb201-8"></a></span>
-<span id="cb201-9"><a href="chapter9.html#cb201-9"></a><span class="kw">ggtree</span>(g2) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tippoint</span>(<span class="kw">aes</span>(<span class="dt">size =</span> wingL), <span class="dt">x =</span> d1<span class="op">$</span>x[<span class="dv">1</span>], <span class="dt">shape =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb201-10"><a href="chapter9.html#cb201-10"></a><span class="st">    </span><span class="kw">geom_tippoint</span>(<span class="kw">aes</span>(<span class="dt">size =</span> tarsusL), <span class="dt">x =</span> d1<span class="op">$</span>x[<span class="dv">2</span>], <span class="dt">shape =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb201-11"><a href="chapter9.html#cb201-11"></a><span class="st">    </span><span class="kw">geom_tippoint</span>(<span class="kw">aes</span>(<span class="dt">size =</span> culmenL), <span class="dt">x =</span> d1<span class="op">$</span>x[<span class="dv">3</span>], <span class="dt">shape =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb201-12"><a href="chapter9.html#cb201-12"></a><span class="st">    </span><span class="kw">geom_tippoint</span>(<span class="kw">aes</span>(<span class="dt">size =</span> beakD),   <span class="dt">x =</span> d1<span class="op">$</span>x[<span class="dv">4</span>], <span class="dt">shape =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb201-13"><a href="chapter9.html#cb201-13"></a><span class="st">    </span><span class="kw">geom_tippoint</span>(<span class="kw">aes</span>(<span class="dt">size =</span> gonysW),  <span class="dt">x =</span> d1<span class="op">$</span>x[<span class="dv">5</span>], <span class="dt">shape =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb201-14"><a href="chapter9.html#cb201-14"></a><span class="st">    </span><span class="kw">scale_size_continuous</span>(<span class="dt">range =</span> <span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">12</span>), <span class="dt">name=</span><span class="st">&quot;&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb201-15"><a href="chapter9.html#cb201-15"></a><span class="st">    </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> <span class="dv">0</span>, <span class="dt">label =</span> lab), <span class="dt">data =</span> d1, <span class="dt">angle =</span> <span class="dv">90</span>) <span class="op">+</span></span>
-<span id="cb201-16"><a href="chapter9.html#cb201-16"></a><span class="st">    </span><span class="kw">geom_tiplab</span>(<span class="dt">offset =</span> <span class="fl">.3</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="fl">1.3</span>) <span class="op">+</span></span>
-<span id="cb201-17"><a href="chapter9.html#cb201-17"></a><span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(.<span class="dv">1</span>, <span class="fl">.75</span>))  </span></code></pre></div>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="chapter9.html#cb202-1"></a><span class="kw">library</span>(phylobase)</span>
+<span id="cb202-2"><a href="chapter9.html#cb202-2"></a><span class="kw">data</span>(geospiza_raw)</span>
+<span id="cb202-3"><a href="chapter9.html#cb202-3"></a>g1 &lt;-<span class="st"> </span><span class="kw">as</span>(geospiza_raw<span class="op">$</span>tree, <span class="st">&quot;phylo4&quot;</span>)</span>
+<span id="cb202-4"><a href="chapter9.html#cb202-4"></a>g2 &lt;-<span class="st"> </span><span class="kw">phylo4d</span>(g1, geospiza_raw<span class="op">$</span>data, <span class="dt">missing.data=</span><span class="st">&quot;warn&quot;</span>)</span>
+<span id="cb202-5"><a href="chapter9.html#cb202-5"></a></span>
+<span id="cb202-6"><a href="chapter9.html#cb202-6"></a>d1 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x =</span> <span class="kw">seq</span>(<span class="fl">0.93</span>, <span class="fl">1.15</span>, <span class="dt">length.out =</span> <span class="dv">5</span>),</span>
+<span id="cb202-7"><a href="chapter9.html#cb202-7"></a>                <span class="dt">lab =</span> <span class="kw">names</span>(geospiza_raw<span class="op">$</span>data))</span>
+<span id="cb202-8"><a href="chapter9.html#cb202-8"></a></span>
+<span id="cb202-9"><a href="chapter9.html#cb202-9"></a><span class="kw">ggtree</span>(g2) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tippoint</span>(<span class="kw">aes</span>(<span class="dt">size =</span> wingL), <span class="dt">x =</span> d1<span class="op">$</span>x[<span class="dv">1</span>], <span class="dt">shape =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb202-10"><a href="chapter9.html#cb202-10"></a><span class="st">    </span><span class="kw">geom_tippoint</span>(<span class="kw">aes</span>(<span class="dt">size =</span> tarsusL), <span class="dt">x =</span> d1<span class="op">$</span>x[<span class="dv">2</span>], <span class="dt">shape =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb202-11"><a href="chapter9.html#cb202-11"></a><span class="st">    </span><span class="kw">geom_tippoint</span>(<span class="kw">aes</span>(<span class="dt">size =</span> culmenL), <span class="dt">x =</span> d1<span class="op">$</span>x[<span class="dv">3</span>], <span class="dt">shape =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb202-12"><a href="chapter9.html#cb202-12"></a><span class="st">    </span><span class="kw">geom_tippoint</span>(<span class="kw">aes</span>(<span class="dt">size =</span> beakD),   <span class="dt">x =</span> d1<span class="op">$</span>x[<span class="dv">4</span>], <span class="dt">shape =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb202-13"><a href="chapter9.html#cb202-13"></a><span class="st">    </span><span class="kw">geom_tippoint</span>(<span class="kw">aes</span>(<span class="dt">size =</span> gonysW),  <span class="dt">x =</span> d1<span class="op">$</span>x[<span class="dv">5</span>], <span class="dt">shape =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb202-14"><a href="chapter9.html#cb202-14"></a><span class="st">    </span><span class="kw">scale_size_continuous</span>(<span class="dt">range =</span> <span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">12</span>), <span class="dt">name=</span><span class="st">&quot;&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb202-15"><a href="chapter9.html#cb202-15"></a><span class="st">    </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> <span class="dv">0</span>, <span class="dt">label =</span> lab), <span class="dt">data =</span> d1, <span class="dt">angle =</span> <span class="dv">90</span>) <span class="op">+</span></span>
+<span id="cb202-16"><a href="chapter9.html#cb202-16"></a><span class="st">    </span><span class="kw">geom_tiplab</span>(<span class="dt">offset =</span> <span class="fl">.3</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="fl">1.3</span>) <span class="op">+</span></span>
+<span id="cb202-17"><a href="chapter9.html#cb202-17"></a><span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(.<span class="dv">1</span>, <span class="fl">.75</span>))  </span></code></pre></div>
 <div class="figure"><span id="fig:fp4d"></span>
 <img src="treedata_files/figure-html/fp4d-1.png" alt="Visualizing phylo4d data using ggtree." width="90%" />
 <p class="caption">
@@ -362,10 +364,10 @@ Figure 9.1: <strong>Visualizing phylo4d data using ggtree.</strong>
 <p>The <code>phylog</code> is defined in <a href="https://CRAN.R-project.org/package=ade4">ade4</a> package. The package is designed for analyzing ecological data and provides <code>newick2phylog</code>, <code>hclust2phylog</code> and <code>taxo2phylog</code> functions to create phylogeny from Newick string, hierachical clustering result or a taxonomy. The <code>phylog</code> object is also supported by <code>ggtree</code> as demonstrated in Figure <a href="chapter9.html#fig:phylog">9.2</a>.</p>
 
 
-<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="chapter9.html#cb202-1"></a><span class="kw">library</span>(ade4)</span>
-<span id="cb202-2"><a href="chapter9.html#cb202-2"></a><span class="kw">data</span>(taxo.eg)</span>
-<span id="cb202-3"><a href="chapter9.html#cb202-3"></a>tax &lt;-<span class="st"> </span><span class="kw">as.taxo</span>(taxo.eg[[<span class="dv">1</span>]])</span>
-<span id="cb202-4"><a href="chapter9.html#cb202-4"></a><span class="kw">print</span>(tax)</span></code></pre></div>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="chapter9.html#cb203-1"></a><span class="kw">library</span>(ade4)</span>
+<span id="cb203-2"><a href="chapter9.html#cb203-2"></a><span class="kw">data</span>(taxo.eg)</span>
+<span id="cb203-3"><a href="chapter9.html#cb203-3"></a>tax &lt;-<span class="st"> </span><span class="kw">as.taxo</span>(taxo.eg[[<span class="dv">1</span>]])</span>
+<span id="cb203-4"><a href="chapter9.html#cb203-4"></a><span class="kw">print</span>(tax)</span></code></pre></div>
 <pre><code>##       genre famille ordre
 ## esp3     g1    fam1  ORD1
 ## esp1     g1    fam1  ORD1
@@ -382,8 +384,8 @@ Figure 9.1: <strong>Visualizing phylo4d data using ggtree.</strong>
 ## esp13    g7    fam4  ORD2
 ## esp14    g8    fam5  ORD2
 ## esp15    g8    fam5  ORD2</code></pre>
-<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="chapter9.html#cb204-1"></a>tax.phy &lt;-<span class="st"> </span><span class="kw">taxo2phylog</span>(<span class="kw">as.taxo</span>(taxo.eg[[<span class="dv">1</span>]]))</span>
-<span id="cb204-2"><a href="chapter9.html#cb204-2"></a><span class="kw">print</span>(tax.phy)</span></code></pre></div>
+<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="chapter9.html#cb205-1"></a>tax.phy &lt;-<span class="st"> </span><span class="kw">taxo2phylog</span>(<span class="kw">as.taxo</span>(taxo.eg[[<span class="dv">1</span>]]))</span>
+<span id="cb205-2"><a href="chapter9.html#cb205-2"></a><span class="kw">print</span>(tax.phy)</span></code></pre></div>
 <pre><code>## Phylogenetic tree with 15 leaves and 16 nodes
 ## $class: phylog
 ## $call: taxo2phylog(taxo = as.taxo(taxo.eg[[1]]))
@@ -401,7 +403,7 @@ Figure 9.1: <strong>Visualizing phylo4d data using ggtree.</strong>
 ## $parts  subsets of descendant nodes                 
 ## $paths  path from root to node or leave             
 ## $droot  distance to root</code></pre>
-<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="chapter9.html#cb206-1"></a><span class="kw">ggtree</span>(tax.phy) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_nodelab</span>(<span class="dt">geom=</span><span class="st">&#39;label&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="chapter9.html#cb207-1"></a><span class="kw">ggtree</span>(tax.phy) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_nodelab</span>(<span class="dt">geom=</span><span class="st">&#39;label&#39;</span>)</span></code></pre></div>
 <div class="figure"><span id="fig:phylog"></span>
 <img src="treedata_files/figure-html/phylog-1.png" alt="Visualizing phylog tree object." width="672" />
 <p class="caption">
@@ -414,18 +416,18 @@ Figure 9.2: <strong>Visualizing phylog tree object.</strong>
 <p>The <code>phyloseq</code> class that defined in the <a href="http://bioconductor.org/packages/phyloseq">phyloseq</a> package was designed for storing microbiome data, including phylogenetic tree, associated sample data and taxonomy assignment. It can import data from popular pipelines, such as <em>QIIME</em> <span class="citation">(Kuczynski et al. <a href="#ref-kuczynski_using_2011" role="doc-biblioref">2011</a>)</span>, <em>mothur</em> <span class="citation">(Schloss et al. <a href="#ref-schloss_introducing_2009" role="doc-biblioref">2009</a>)</span>, <em>DADA2</em> <span class="citation">(Callahan et al. <a href="#ref-callahan_dada2_2016" role="doc-biblioref">2016</a>)</span> and <em>PyroTagger</em> <span class="citation">(Kunin and Hugenholtz <a href="#ref-kunin_pyrotagger_2010" role="doc-biblioref">2010</a>)</span>, <em>etc.</em>. The <em>ggtree</em> supports visualizing the phylogenetic tree stored in <code>phyloseq</code> object and related data can be used to annotate the tree as demonstrated in Figure <a href="chapter9.html#fig:reproducephyloseq">9.3</a> and <a href="chapter9.html#fig:phyloseq">9.4</a>.</p>
 
 
-<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="chapter9.html#cb207-1"></a><span class="kw">library</span>(phyloseq)</span>
-<span id="cb207-2"><a href="chapter9.html#cb207-2"></a><span class="kw">library</span>(scales)</span>
-<span id="cb207-3"><a href="chapter9.html#cb207-3"></a></span>
-<span id="cb207-4"><a href="chapter9.html#cb207-4"></a><span class="kw">data</span>(GlobalPatterns)</span>
-<span id="cb207-5"><a href="chapter9.html#cb207-5"></a>GP &lt;-<span class="st"> </span><span class="kw">prune_taxa</span>(<span class="kw">taxa_sums</span>(GlobalPatterns) <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, GlobalPatterns)</span>
-<span id="cb207-6"><a href="chapter9.html#cb207-6"></a>GP.chl &lt;-<span class="st"> </span><span class="kw">subset_taxa</span>(GP, Phylum<span class="op">==</span><span class="st">&quot;Chlamydiae&quot;</span>)</span>
-<span id="cb207-7"><a href="chapter9.html#cb207-7"></a></span>
-<span id="cb207-8"><a href="chapter9.html#cb207-8"></a><span class="kw">ggtree</span>(GP.chl) <span class="op">+</span><span class="st"> </span><span class="kw">geom_text2</span>(<span class="kw">aes</span>(<span class="dt">subset=</span><span class="op">!</span>isTip, <span class="dt">label=</span>label), <span class="dt">hjust=</span><span class="op">-</span>.<span class="dv">2</span>, <span class="dt">size=</span><span class="dv">4</span>) <span class="op">+</span></span>
-<span id="cb207-9"><a href="chapter9.html#cb207-9"></a><span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">label=</span>Genus), <span class="dt">hjust=</span><span class="op">-</span>.<span class="dv">3</span>) <span class="op">+</span></span>
-<span id="cb207-10"><a href="chapter9.html#cb207-10"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span>x<span class="op">+</span>hjust, <span class="dt">color=</span>SampleType, <span class="dt">shape=</span>Family, <span class="dt">size=</span>Abundance),<span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">+</span></span>
-<span id="cb207-11"><a href="chapter9.html#cb207-11"></a><span class="st">  </span><span class="kw">scale_size_continuous</span>(<span class="dt">trans=</span><span class="kw">log_trans</span>(<span class="dv">5</span>)) <span class="op">+</span></span>
-<span id="cb207-12"><a href="chapter9.html#cb207-12"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;right&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="chapter9.html#cb208-1"></a><span class="kw">library</span>(phyloseq)</span>
+<span id="cb208-2"><a href="chapter9.html#cb208-2"></a><span class="kw">library</span>(scales)</span>
+<span id="cb208-3"><a href="chapter9.html#cb208-3"></a></span>
+<span id="cb208-4"><a href="chapter9.html#cb208-4"></a><span class="kw">data</span>(GlobalPatterns)</span>
+<span id="cb208-5"><a href="chapter9.html#cb208-5"></a>GP &lt;-<span class="st"> </span><span class="kw">prune_taxa</span>(<span class="kw">taxa_sums</span>(GlobalPatterns) <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, GlobalPatterns)</span>
+<span id="cb208-6"><a href="chapter9.html#cb208-6"></a>GP.chl &lt;-<span class="st"> </span><span class="kw">subset_taxa</span>(GP, Phylum<span class="op">==</span><span class="st">&quot;Chlamydiae&quot;</span>)</span>
+<span id="cb208-7"><a href="chapter9.html#cb208-7"></a></span>
+<span id="cb208-8"><a href="chapter9.html#cb208-8"></a><span class="kw">ggtree</span>(GP.chl) <span class="op">+</span><span class="st"> </span><span class="kw">geom_text2</span>(<span class="kw">aes</span>(<span class="dt">subset=</span><span class="op">!</span>isTip, <span class="dt">label=</span>label), <span class="dt">hjust=</span><span class="op">-</span>.<span class="dv">2</span>, <span class="dt">size=</span><span class="dv">4</span>) <span class="op">+</span></span>
+<span id="cb208-9"><a href="chapter9.html#cb208-9"></a><span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">label=</span>Genus), <span class="dt">hjust=</span><span class="op">-</span>.<span class="dv">3</span>) <span class="op">+</span></span>
+<span id="cb208-10"><a href="chapter9.html#cb208-10"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span>x<span class="op">+</span>hjust, <span class="dt">color=</span>SampleType, <span class="dt">shape=</span>Family, <span class="dt">size=</span>Abundance),<span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb208-11"><a href="chapter9.html#cb208-11"></a><span class="st">  </span><span class="kw">scale_size_continuous</span>(<span class="dt">trans=</span><span class="kw">log_trans</span>(<span class="dv">5</span>)) <span class="op">+</span></span>
+<span id="cb208-12"><a href="chapter9.html#cb208-12"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;right&quot;</span>)</span></code></pre></div>
 <div class="figure"><span id="fig:reproducephyloseq"></span>
 <img src="treedata_files/figure-html/reproducephyloseq-1.png" alt="Visualizing phyloseq tree object." width="768"  />
 <p class="caption">
@@ -436,30 +438,30 @@ Figure 9.3: <strong>Visualizing phyloseq tree object.</strong>
 
 
 
-<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="chapter9.html#cb208-1"></a><span class="kw">library</span>(ggridges)</span>
-<span id="cb208-2"><a href="chapter9.html#cb208-2"></a></span>
-<span id="cb208-3"><a href="chapter9.html#cb208-3"></a><span class="kw">data</span>(<span class="st">&quot;GlobalPatterns&quot;</span>)</span>
-<span id="cb208-4"><a href="chapter9.html#cb208-4"></a>GP &lt;-<span class="st"> </span>GlobalPatterns</span>
-<span id="cb208-5"><a href="chapter9.html#cb208-5"></a>GP &lt;-<span class="st"> </span><span class="kw">prune_taxa</span>(<span class="kw">taxa_sums</span>(GP) <span class="op">&gt;</span><span class="st"> </span><span class="dv">600</span>, GP)</span>
-<span id="cb208-6"><a href="chapter9.html#cb208-6"></a><span class="kw">sample_data</span>(GP)<span class="op">$</span>human &lt;-<span class="st"> </span><span class="kw">get_variable</span>(GP, <span class="st">&quot;SampleType&quot;</span>) <span class="op">%in%</span><span class="st"> </span></span>
-<span id="cb208-7"><a href="chapter9.html#cb208-7"></a><span class="st">  </span><span class="kw">c</span>(<span class="st">&quot;Feces&quot;</span>, <span class="st">&quot;Skin&quot;</span>) </span>
-<span id="cb208-8"><a href="chapter9.html#cb208-8"></a></span>
-<span id="cb208-9"><a href="chapter9.html#cb208-9"></a>mergedGP &lt;-<span class="st"> </span><span class="kw">merge_samples</span>(GP, <span class="st">&quot;SampleType&quot;</span>)</span>
-<span id="cb208-10"><a href="chapter9.html#cb208-10"></a>mergedGP &lt;-<span class="st"> </span><span class="kw">rarefy_even_depth</span>(mergedGP,<span class="dt">rngseed=</span><span class="dv">394582</span>)</span>
-<span id="cb208-11"><a href="chapter9.html#cb208-11"></a>mergedGP &lt;-<span class="st"> </span><span class="kw">tax_glom</span>(mergedGP,<span class="st">&quot;Order&quot;</span>) </span>
-<span id="cb208-12"><a href="chapter9.html#cb208-12"></a></span>
-<span id="cb208-13"><a href="chapter9.html#cb208-13"></a>melt_simple &lt;-<span class="st"> </span><span class="kw">psmelt</span>(mergedGP) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb208-14"><a href="chapter9.html#cb208-14"></a><span class="st">  </span><span class="kw">filter</span>(Abundance <span class="op">&lt;</span><span class="st"> </span><span class="dv">120</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb208-15"><a href="chapter9.html#cb208-15"></a><span class="st">  </span><span class="kw">select</span>(OTU, <span class="dt">val=</span>Abundance)</span>
-<span id="cb208-16"><a href="chapter9.html#cb208-16"></a></span>
-<span id="cb208-17"><a href="chapter9.html#cb208-17"></a><span class="kw">ggtree</span>(mergedGP) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb208-18"><a href="chapter9.html#cb208-18"></a><span class="st">  </span><span class="kw">geom_tippoint</span>(<span class="kw">aes</span>(<span class="dt">color=</span>Phylum), <span class="dt">size=</span><span class="fl">1.5</span>) <span class="op">+</span></span>
-<span id="cb208-19"><a href="chapter9.html#cb208-19"></a><span class="st">  </span><span class="kw">geom_facet</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>val,<span class="dt">group=</span>label, </span>
-<span id="cb208-20"><a href="chapter9.html#cb208-20"></a>                           <span class="dt">fill=</span>Phylum),</span>
-<span id="cb208-21"><a href="chapter9.html#cb208-21"></a>            <span class="dt">data =</span> melt_simple, </span>
-<span id="cb208-22"><a href="chapter9.html#cb208-22"></a>            <span class="dt">geom =</span> geom_density_ridges,</span>
-<span id="cb208-23"><a href="chapter9.html#cb208-23"></a>            <span class="dt">panel=</span><span class="st">&quot;Abundance&quot;</span>,  </span>
-<span id="cb208-24"><a href="chapter9.html#cb208-24"></a>            <span class="dt">color=</span><span class="st">&#39;grey80&#39;</span>, <span class="dt">lwd=</span>.<span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="chapter9.html#cb209-1"></a><span class="kw">library</span>(ggridges)</span>
+<span id="cb209-2"><a href="chapter9.html#cb209-2"></a></span>
+<span id="cb209-3"><a href="chapter9.html#cb209-3"></a><span class="kw">data</span>(<span class="st">&quot;GlobalPatterns&quot;</span>)</span>
+<span id="cb209-4"><a href="chapter9.html#cb209-4"></a>GP &lt;-<span class="st"> </span>GlobalPatterns</span>
+<span id="cb209-5"><a href="chapter9.html#cb209-5"></a>GP &lt;-<span class="st"> </span><span class="kw">prune_taxa</span>(<span class="kw">taxa_sums</span>(GP) <span class="op">&gt;</span><span class="st"> </span><span class="dv">600</span>, GP)</span>
+<span id="cb209-6"><a href="chapter9.html#cb209-6"></a><span class="kw">sample_data</span>(GP)<span class="op">$</span>human &lt;-<span class="st"> </span><span class="kw">get_variable</span>(GP, <span class="st">&quot;SampleType&quot;</span>) <span class="op">%in%</span><span class="st"> </span></span>
+<span id="cb209-7"><a href="chapter9.html#cb209-7"></a><span class="st">  </span><span class="kw">c</span>(<span class="st">&quot;Feces&quot;</span>, <span class="st">&quot;Skin&quot;</span>) </span>
+<span id="cb209-8"><a href="chapter9.html#cb209-8"></a></span>
+<span id="cb209-9"><a href="chapter9.html#cb209-9"></a>mergedGP &lt;-<span class="st"> </span><span class="kw">merge_samples</span>(GP, <span class="st">&quot;SampleType&quot;</span>)</span>
+<span id="cb209-10"><a href="chapter9.html#cb209-10"></a>mergedGP &lt;-<span class="st"> </span><span class="kw">rarefy_even_depth</span>(mergedGP,<span class="dt">rngseed=</span><span class="dv">394582</span>)</span>
+<span id="cb209-11"><a href="chapter9.html#cb209-11"></a>mergedGP &lt;-<span class="st"> </span><span class="kw">tax_glom</span>(mergedGP,<span class="st">&quot;Order&quot;</span>) </span>
+<span id="cb209-12"><a href="chapter9.html#cb209-12"></a></span>
+<span id="cb209-13"><a href="chapter9.html#cb209-13"></a>melt_simple &lt;-<span class="st"> </span><span class="kw">psmelt</span>(mergedGP) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb209-14"><a href="chapter9.html#cb209-14"></a><span class="st">  </span><span class="kw">filter</span>(Abundance <span class="op">&lt;</span><span class="st"> </span><span class="dv">120</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb209-15"><a href="chapter9.html#cb209-15"></a><span class="st">  </span><span class="kw">select</span>(OTU, <span class="dt">val=</span>Abundance)</span>
+<span id="cb209-16"><a href="chapter9.html#cb209-16"></a></span>
+<span id="cb209-17"><a href="chapter9.html#cb209-17"></a><span class="kw">ggtree</span>(mergedGP) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb209-18"><a href="chapter9.html#cb209-18"></a><span class="st">  </span><span class="kw">geom_tippoint</span>(<span class="kw">aes</span>(<span class="dt">color=</span>Phylum), <span class="dt">size=</span><span class="fl">1.5</span>) <span class="op">+</span></span>
+<span id="cb209-19"><a href="chapter9.html#cb209-19"></a><span class="st">  </span><span class="kw">geom_facet</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>val,<span class="dt">group=</span>label, </span>
+<span id="cb209-20"><a href="chapter9.html#cb209-20"></a>                           <span class="dt">fill=</span>Phylum),</span>
+<span id="cb209-21"><a href="chapter9.html#cb209-21"></a>            <span class="dt">data =</span> melt_simple, </span>
+<span id="cb209-22"><a href="chapter9.html#cb209-22"></a>            <span class="dt">geom =</span> geom_density_ridges,</span>
+<span id="cb209-23"><a href="chapter9.html#cb209-23"></a>            <span class="dt">panel=</span><span class="st">&quot;Abundance&quot;</span>,  </span>
+<span id="cb209-24"><a href="chapter9.html#cb209-24"></a>            <span class="dt">color=</span><span class="st">&#39;grey80&#39;</span>, <span class="dt">lwd=</span>.<span class="dv">3</span>)</span></code></pre></div>
 <div class="figure"><span id="fig:phyloseq"></span>
 <img src="treedata_files/figure-html/phyloseq-1.png" alt="Phylogenetic tree with OTU abundance densities. Tips were colored by Phylum and corresponding abundance across different samples were visualized as density ridgelines and sorted according to the tree structure." width="864"  />
 <p class="caption">
@@ -475,20 +477,20 @@ Figure 9.4: <strong>Phylogenetic tree with OTU abundance densities.</strong> Tip
 
 
 
-<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="chapter9.html#cb209-1"></a><span class="kw">library</span>(OutbreakTools)</span>
-<span id="cb209-2"><a href="chapter9.html#cb209-2"></a><span class="kw">data</span>(FluH1N1pdm2009)</span>
-<span id="cb209-3"><a href="chapter9.html#cb209-3"></a><span class="kw">attach</span>(FluH1N1pdm2009)</span>
-<span id="cb209-4"><a href="chapter9.html#cb209-4"></a></span>
-<span id="cb209-5"><a href="chapter9.html#cb209-5"></a>x &lt;-<span class="st"> </span><span class="kw">new</span>(<span class="st">&quot;obkData&quot;</span>, </span>
-<span id="cb209-6"><a href="chapter9.html#cb209-6"></a>         <span class="dt">individuals =</span> individuals, </span>
-<span id="cb209-7"><a href="chapter9.html#cb209-7"></a>         <span class="dt">dna =</span> dna,</span>
-<span id="cb209-8"><a href="chapter9.html#cb209-8"></a>         <span class="dt">dna.individualID =</span> samples<span class="op">$</span>individualID, </span>
-<span id="cb209-9"><a href="chapter9.html#cb209-9"></a>         <span class="dt">dna.date =</span> samples<span class="op">$</span>date,</span>
-<span id="cb209-10"><a href="chapter9.html#cb209-10"></a>         <span class="dt">trees =</span> FluH1N1pdm2009<span class="op">$</span>trees)</span>
-<span id="cb209-11"><a href="chapter9.html#cb209-11"></a><span class="kw">ggtree</span>(x, <span class="dt">mrsd=</span><span class="st">&quot;2009-09-30&quot;</span>, <span class="dt">as.Date=</span><span class="ot">TRUE</span>, <span class="dt">right=</span><span class="ot">TRUE</span>) <span class="op">+</span></span>
-<span id="cb209-12"><a href="chapter9.html#cb209-12"></a><span class="st">    </span><span class="kw">geom_tippoint</span>(<span class="kw">aes</span>(<span class="dt">color=</span>location), <span class="dt">size=</span><span class="dv">3</span>, <span class="dt">alpha=</span>.<span class="dv">75</span>) <span class="op">+</span></span>
-<span id="cb209-13"><a href="chapter9.html#cb209-13"></a><span class="st">    </span><span class="kw">scale_color_brewer</span>(<span class="st">&quot;location&quot;</span>, <span class="dt">palette=</span><span class="st">&quot;Spectral&quot;</span>) <span class="op">+</span></span>
-<span id="cb209-14"><a href="chapter9.html#cb209-14"></a><span class="st">    </span><span class="kw">theme_tree2</span>(<span class="dt">legend.position=</span><span class="st">&#39;right&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="chapter9.html#cb210-1"></a><span class="kw">library</span>(OutbreakTools)</span>
+<span id="cb210-2"><a href="chapter9.html#cb210-2"></a><span class="kw">data</span>(FluH1N1pdm2009)</span>
+<span id="cb210-3"><a href="chapter9.html#cb210-3"></a><span class="kw">attach</span>(FluH1N1pdm2009)</span>
+<span id="cb210-4"><a href="chapter9.html#cb210-4"></a></span>
+<span id="cb210-5"><a href="chapter9.html#cb210-5"></a>x &lt;-<span class="st"> </span><span class="kw">new</span>(<span class="st">&quot;obkData&quot;</span>, </span>
+<span id="cb210-6"><a href="chapter9.html#cb210-6"></a>         <span class="dt">individuals =</span> individuals, </span>
+<span id="cb210-7"><a href="chapter9.html#cb210-7"></a>         <span class="dt">dna =</span> dna,</span>
+<span id="cb210-8"><a href="chapter9.html#cb210-8"></a>         <span class="dt">dna.individualID =</span> samples<span class="op">$</span>individualID, </span>
+<span id="cb210-9"><a href="chapter9.html#cb210-9"></a>         <span class="dt">dna.date =</span> samples<span class="op">$</span>date,</span>
+<span id="cb210-10"><a href="chapter9.html#cb210-10"></a>         <span class="dt">trees =</span> FluH1N1pdm2009<span class="op">$</span>trees)</span>
+<span id="cb210-11"><a href="chapter9.html#cb210-11"></a><span class="kw">ggtree</span>(x, <span class="dt">mrsd=</span><span class="st">&quot;2009-09-30&quot;</span>, <span class="dt">as.Date=</span><span class="ot">TRUE</span>, <span class="dt">right=</span><span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb210-12"><a href="chapter9.html#cb210-12"></a><span class="st">    </span><span class="kw">geom_tippoint</span>(<span class="kw">aes</span>(<span class="dt">color=</span>location), <span class="dt">size=</span><span class="dv">3</span>, <span class="dt">alpha=</span>.<span class="dv">75</span>) <span class="op">+</span></span>
+<span id="cb210-13"><a href="chapter9.html#cb210-13"></a><span class="st">    </span><span class="kw">scale_color_brewer</span>(<span class="st">&quot;location&quot;</span>, <span class="dt">palette=</span><span class="st">&quot;Spectral&quot;</span>) <span class="op">+</span></span>
+<span id="cb210-14"><a href="chapter9.html#cb210-14"></a><span class="st">    </span><span class="kw">theme_tree2</span>(<span class="dt">legend.position=</span><span class="st">&#39;right&#39;</span>)</span></code></pre></div>
 <div class="figure"><span id="fig:outbreaktools"></span>
 <img src="treedata_files/figure-html/outbreaktools-1.png" alt="Visualizing obkData tree object. x-axis was scaled by timeline of the outbreak and tips were colored by location of different individuals." width="604.8"  />
 <p class="caption">
@@ -502,8 +504,8 @@ Figure 9.5: <strong>Visualizing obkData tree object.</strong> <em>x</em>-axis wa
 <h2><span class="header-section-number">9.2</span> ggtree for dendrograms</h2>
 <p>A dendrogram is a tree diagram to display hierachical clustering and classification/regression trees.</p>
 <p>We can calculate a hierachical clustering using the function <code>hclust</code></p>
-<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="chapter9.html#cb210-1"></a>hc &lt;-<span class="st"> </span><span class="kw">hclust</span>(<span class="kw">dist</span>(mtcars))</span>
-<span id="cb210-2"><a href="chapter9.html#cb210-2"></a>hc</span></code></pre></div>
+<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="chapter9.html#cb211-1"></a>hc &lt;-<span class="st"> </span><span class="kw">hclust</span>(<span class="kw">dist</span>(mtcars))</span>
+<span id="cb211-2"><a href="chapter9.html#cb211-2"></a>hc</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## hclust(d = dist(mtcars))
@@ -512,32 +514,32 @@ Figure 9.5: <strong>Visualizing obkData tree object.</strong> <em>x</em>-axis wa
 ## Distance         : euclidean 
 ## Number of objects: 32</code></pre>
 <p>The <code>hclust</code> object describes the tree produced by the clustering process. It can be converted to <code>dendrogram</code> object, which stores the tree as deeply-nested lists.</p>
-<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="chapter9.html#cb212-1"></a>den &lt;-<span class="st"> </span><span class="kw">as.dendrogram</span>(hc)</span>
-<span id="cb212-2"><a href="chapter9.html#cb212-2"></a>den</span></code></pre></div>
+<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="chapter9.html#cb213-1"></a>den &lt;-<span class="st"> </span><span class="kw">as.dendrogram</span>(hc)</span>
+<span id="cb213-2"><a href="chapter9.html#cb213-2"></a>den</span></code></pre></div>
 <pre><code>## &#39;dendrogram&#39; with 2 branches and 32 members total, at height 425.3447</code></pre>
 <p>The <a href="http://bioconductor.org/packages/ggtree">ggtree</a> package supports most of the hierarchical clustering objects defined in the R community, including <code>hclust</code> and <code>dendrogram</code> as well as <code>agnes</code>, <code>diana</code> and <code>twins</code> that defined in the <a href="https://CRAN.R-project.org/package=cluster">cluster</a> package. Users can use <code>ggtree(object)</code> to display its tree structure, and user other layers and utilities to customize the graph and of course add annotation to the tree.</p>
 <p><a href="http://bioconductor.org/packages/ggtree">ggtree</a> provides <code>layout_dendrogram</code> to layout the tree top down, and <code>theme_dendrogram</code> to display tree height (similar to <code>theme_tree2</code> for phylogenetic tree) as demonstrated in Figure <a href="chapter9.html#fig:ggtreehclust">9.6</a>.</p>
 
 
-<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="chapter9.html#cb214-1"></a>clus &lt;-<span class="st"> </span><span class="kw">cutree</span>(hc, <span class="dv">4</span>)</span>
-<span id="cb214-2"><a href="chapter9.html#cb214-2"></a>g &lt;-<span class="st"> </span><span class="kw">split</span>(<span class="kw">names</span>(clus), clus)</span>
-<span id="cb214-3"><a href="chapter9.html#cb214-3"></a></span>
-<span id="cb214-4"><a href="chapter9.html#cb214-4"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(hc, <span class="dt">linetype=</span><span class="st">&#39;dashed&#39;</span>)</span>
-<span id="cb214-5"><a href="chapter9.html#cb214-5"></a>clades &lt;-<span class="st"> </span><span class="kw">sapply</span>(g, <span class="cf">function</span>(n) <span class="kw">MRCA</span>(p, n))</span>
-<span id="cb214-6"><a href="chapter9.html#cb214-6"></a></span>
-<span id="cb214-7"><a href="chapter9.html#cb214-7"></a>p &lt;-<span class="st"> </span><span class="kw">groupClade</span>(p, clades, <span class="dt">group_name=</span><span class="st">&#39;subtree&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">color=</span>subtree)</span>
-<span id="cb214-8"><a href="chapter9.html#cb214-8"></a></span>
-<span id="cb214-9"><a href="chapter9.html#cb214-9"></a>d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">label =</span> <span class="kw">names</span>(clus), </span>
-<span id="cb214-10"><a href="chapter9.html#cb214-10"></a>                  <span class="dt">cyl =</span> mtcars[<span class="kw">names</span>(clus), <span class="st">&quot;cyl&quot;</span>])</span>
-<span id="cb214-11"><a href="chapter9.html#cb214-11"></a></span>
-<span id="cb214-12"><a href="chapter9.html#cb214-12"></a>p <span class="op">%&lt;+%</span><span class="st"> </span>d <span class="op">+</span><span class="st"> </span></span>
-<span id="cb214-13"><a href="chapter9.html#cb214-13"></a><span class="st">  </span><span class="kw">layout_dendrogram</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb214-14"><a href="chapter9.html#cb214-14"></a><span class="st">  </span><span class="kw">geom_tippoint</span>(<span class="dt">size=</span><span class="dv">5</span>, <span class="dt">shape=</span><span class="dv">21</span>, <span class="kw">aes</span>(<span class="dt">fill=</span><span class="kw">factor</span>(cyl), <span class="dt">x=</span>x<span class="fl">+.5</span>), <span class="dt">color=</span><span class="st">&#39;black&#39;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb214-15"><a href="chapter9.html#cb214-15"></a><span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">label=</span>cyl), <span class="dt">size=</span><span class="dv">3</span>, <span class="dt">hjust=</span>.<span class="dv">5</span>, <span class="dt">color=</span><span class="st">&#39;black&#39;</span>) <span class="op">+</span></span>
-<span id="cb214-16"><a href="chapter9.html#cb214-16"></a><span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="dt">angle=</span><span class="dv">90</span>, <span class="dt">hjust=</span><span class="dv">1</span>, <span class="dt">offset=</span><span class="op">-</span><span class="dv">10</span>, <span class="dt">show.legend=</span>F) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb214-17"><a href="chapter9.html#cb214-17"></a><span class="st">  </span><span class="kw">scale_color_brewer</span>(<span class="dt">palette=</span><span class="st">&#39;Set1&#39;</span>, <span class="dt">breaks=</span><span class="dv">1</span><span class="op">:</span><span class="dv">4</span>) <span class="op">+</span></span>
-<span id="cb214-18"><a href="chapter9.html#cb214-18"></a><span class="st">  </span><span class="kw">theme_dendrogram</span>(<span class="dt">plot.margin=</span><span class="kw">margin</span>(<span class="dv">6</span>,<span class="dv">6</span>,<span class="dv">80</span>,<span class="dv">6</span>)) <span class="op">+</span></span>
-<span id="cb214-19"><a href="chapter9.html#cb214-19"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="kw">c</span>(.<span class="dv">9</span>, <span class="fl">.6</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="chapter9.html#cb215-1"></a>clus &lt;-<span class="st"> </span><span class="kw">cutree</span>(hc, <span class="dv">4</span>)</span>
+<span id="cb215-2"><a href="chapter9.html#cb215-2"></a>g &lt;-<span class="st"> </span><span class="kw">split</span>(<span class="kw">names</span>(clus), clus)</span>
+<span id="cb215-3"><a href="chapter9.html#cb215-3"></a></span>
+<span id="cb215-4"><a href="chapter9.html#cb215-4"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(hc, <span class="dt">linetype=</span><span class="st">&#39;dashed&#39;</span>)</span>
+<span id="cb215-5"><a href="chapter9.html#cb215-5"></a>clades &lt;-<span class="st"> </span><span class="kw">sapply</span>(g, <span class="cf">function</span>(n) <span class="kw">MRCA</span>(p, n))</span>
+<span id="cb215-6"><a href="chapter9.html#cb215-6"></a></span>
+<span id="cb215-7"><a href="chapter9.html#cb215-7"></a>p &lt;-<span class="st"> </span><span class="kw">groupClade</span>(p, clades, <span class="dt">group_name=</span><span class="st">&#39;subtree&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">color=</span>subtree)</span>
+<span id="cb215-8"><a href="chapter9.html#cb215-8"></a></span>
+<span id="cb215-9"><a href="chapter9.html#cb215-9"></a>d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">label =</span> <span class="kw">names</span>(clus), </span>
+<span id="cb215-10"><a href="chapter9.html#cb215-10"></a>                  <span class="dt">cyl =</span> mtcars[<span class="kw">names</span>(clus), <span class="st">&quot;cyl&quot;</span>])</span>
+<span id="cb215-11"><a href="chapter9.html#cb215-11"></a></span>
+<span id="cb215-12"><a href="chapter9.html#cb215-12"></a>p <span class="op">%&lt;+%</span><span class="st"> </span>d <span class="op">+</span><span class="st"> </span></span>
+<span id="cb215-13"><a href="chapter9.html#cb215-13"></a><span class="st">  </span><span class="kw">layout_dendrogram</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb215-14"><a href="chapter9.html#cb215-14"></a><span class="st">  </span><span class="kw">geom_tippoint</span>(<span class="dt">size=</span><span class="dv">5</span>, <span class="dt">shape=</span><span class="dv">21</span>, <span class="kw">aes</span>(<span class="dt">fill=</span><span class="kw">factor</span>(cyl), <span class="dt">x=</span>x<span class="fl">+.5</span>), <span class="dt">color=</span><span class="st">&#39;black&#39;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb215-15"><a href="chapter9.html#cb215-15"></a><span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">label=</span>cyl), <span class="dt">size=</span><span class="dv">3</span>, <span class="dt">hjust=</span>.<span class="dv">5</span>, <span class="dt">color=</span><span class="st">&#39;black&#39;</span>) <span class="op">+</span></span>
+<span id="cb215-16"><a href="chapter9.html#cb215-16"></a><span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="dt">angle=</span><span class="dv">90</span>, <span class="dt">hjust=</span><span class="dv">1</span>, <span class="dt">offset=</span><span class="op">-</span><span class="dv">10</span>, <span class="dt">show.legend=</span>F) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb215-17"><a href="chapter9.html#cb215-17"></a><span class="st">  </span><span class="kw">scale_color_brewer</span>(<span class="dt">palette=</span><span class="st">&#39;Set1&#39;</span>, <span class="dt">breaks=</span><span class="dv">1</span><span class="op">:</span><span class="dv">4</span>) <span class="op">+</span></span>
+<span id="cb215-18"><a href="chapter9.html#cb215-18"></a><span class="st">  </span><span class="kw">theme_dendrogram</span>(<span class="dt">plot.margin=</span><span class="kw">margin</span>(<span class="dv">6</span>,<span class="dv">6</span>,<span class="dv">80</span>,<span class="dv">6</span>)) <span class="op">+</span></span>
+<span id="cb215-19"><a href="chapter9.html#cb215-19"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="kw">c</span>(.<span class="dv">9</span>, <span class="fl">.6</span>))</span></code></pre></div>
 <div class="figure"><span id="fig:ggtreehclust"></span>
 <img src="treedata_files/figure-html/ggtreehclust-1.png" alt="Visualizing dendrogram." width="864" />
 <p class="caption">
@@ -550,12 +552,12 @@ Figure 9.6: <strong>Visualizing dendrogram.</strong>
 <p><a href="http://bioconductor.org/packages/treeio">treeio</a> supports converting tree graph (as an <code>igraph</code> object) to <code>phylo</code> object and <a href="http://bioconductor.org/packages/ggtree">ggtree</a> supports directly visualizing tree graph as demonstrated in Figure <a href="chapter9.html#fig:treeGraph">9.7</a>.</p>
 
 
-<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="chapter9.html#cb215-1"></a><span class="kw">library</span>(igraph)</span>
-<span id="cb215-2"><a href="chapter9.html#cb215-2"></a>g &lt;-<span class="st"> </span><span class="kw">graph.tree</span>(<span class="dv">40</span>, <span class="dv">3</span>)</span>
-<span id="cb215-3"><a href="chapter9.html#cb215-3"></a>arrow_size &lt;-<span class="st"> </span><span class="kw">unit</span>(<span class="kw">rep</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">3</span>), <span class="dt">times =</span> <span class="kw">c</span>(<span class="dv">27</span>, <span class="dv">13</span>)), <span class="st">&quot;mm&quot;</span>)</span>
-<span id="cb215-4"><a href="chapter9.html#cb215-4"></a><span class="kw">ggtree</span>(g, <span class="dt">layout=</span><span class="st">&#39;slanted&#39;</span>, <span class="dt">arrow =</span> <span class="kw">arrow</span>(<span class="dt">length=</span>arrow_size)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb215-5"><a href="chapter9.html#cb215-5"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size=</span><span class="dv">5</span>, <span class="dt">color=</span><span class="st">&#39;steelblue&#39;</span>, <span class="dt">alpha=</span>.<span class="dv">6</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb215-6"><a href="chapter9.html#cb215-6"></a><span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="dt">hjust=</span>.<span class="dv">5</span>,<span class="dt">vjust=</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span><span class="kw">layout_dendrogram</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="chapter9.html#cb216-1"></a><span class="kw">library</span>(igraph)</span>
+<span id="cb216-2"><a href="chapter9.html#cb216-2"></a>g &lt;-<span class="st"> </span><span class="kw">graph.tree</span>(<span class="dv">40</span>, <span class="dv">3</span>)</span>
+<span id="cb216-3"><a href="chapter9.html#cb216-3"></a>arrow_size &lt;-<span class="st"> </span><span class="kw">unit</span>(<span class="kw">rep</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">3</span>), <span class="dt">times =</span> <span class="kw">c</span>(<span class="dv">27</span>, <span class="dv">13</span>)), <span class="st">&quot;mm&quot;</span>)</span>
+<span id="cb216-4"><a href="chapter9.html#cb216-4"></a><span class="kw">ggtree</span>(g, <span class="dt">layout=</span><span class="st">&#39;slanted&#39;</span>, <span class="dt">arrow =</span> <span class="kw">arrow</span>(<span class="dt">length=</span>arrow_size)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb216-5"><a href="chapter9.html#cb216-5"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size=</span><span class="dv">5</span>, <span class="dt">color=</span><span class="st">&#39;steelblue&#39;</span>, <span class="dt">alpha=</span>.<span class="dv">6</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb216-6"><a href="chapter9.html#cb216-6"></a><span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="dt">hjust=</span>.<span class="dv">5</span>,<span class="dt">vjust=</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span><span class="kw">layout_dendrogram</span>()</span></code></pre></div>
 <div class="figure"><span id="fig:treeGraph"></span>
 <img src="treedata_files/figure-html/treeGraph-1.png" alt="Visualizing tree graph." width="960" />
 <p class="caption">
