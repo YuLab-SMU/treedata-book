@@ -30,6 +30,10 @@ geometry: "left=35mm,right=35mm,top=25mm,bottom=25mm"
 ```{r include=FALSE}
 library(ape)
 library(Biostrings)
+library(OutbreakTools)
+library(igraph)
+library(phylobase)
+
 library(cowplot)
 library(ggplot2)
 library(dplyr)
@@ -37,6 +41,16 @@ library(kableExtra)
 library(tidytree)
 library(treeio)
 library(ggtree)
+
+## prevent calling igraph::parent
+parent <- tidytree::parent
+
+## prevent calling phylobase::ancestor
+ancestor <- tidytree::ancestor
+
+## prevent calling OutbreakTools::get.data
+get.data <- tidytree::get.data
+
 
 options(width=60)
 
