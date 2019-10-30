@@ -1,5 +1,6 @@
 gitbook:
-	Rscript -e 'library(bookdown); render_book("index.Rmd", "gitbook")'
+	Rscript -e 'library(bookdown); render_book("index.Rmd", "gitbook")';\
+	sed -i 's/Chalkduster/xkcd/g' docs/commicR.html 
 
 pdfbook:
 	Rscript -e 'library(bookdown); render_book("index.Rmd", "pdf_book")'
