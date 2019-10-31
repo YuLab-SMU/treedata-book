@@ -45,15 +45,11 @@ library(ggtree)
 
 conflict_prefer("expand", "ggtree")
 conflict_prefer("mask", "treeio")
+conflict_prefer("parent", "treeio")
+conflict_prefer("ancestor", "treeio")
+conflict_prefer("get.data", "treeio")
 
-## prevent calling igraph::parent
-parent <- tidytree::parent
-
-## prevent calling phylobase::ancestor
-ancestor <- tidytree::ancestor
-
-## prevent calling OutbreakTools::get.data
-get.data <- tidytree::get.data
+conflict_prefer("filter", "dplyr")
 
 
 options(width=60)
@@ -68,6 +64,12 @@ CRANpkg <- function (pkg) {
 
 Biocpkg <- function (pkg) {
     sprintf("[%s](http://bioconductor.org/packages/%s)", pkg, pkg)
+}
+
+Githubpkg <- function (user, pkg) {
+    gh <- "https://github.com"
+    fmt <- "[%s](%s/%s/%s)"
+    sprintf(fmt, pkg, gh, user, pkg)
 }
 
 library(knitr)

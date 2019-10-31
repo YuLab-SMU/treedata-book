@@ -107,6 +107,9 @@ p + geom_facet(panel = "SNP", data = snp_data, geom = geom_point,
     theme_tree2(legend.position=c(.05, .85))
 ```
 
+We can also use `r CRANpkg("cowplot")` or `r Githubpkg("thomasp85", "patchwork")` to create composite plots as described in [session 7.6](#composite_plot).
+
+
 ## Visualize tree with associated matrix {#gheatmap}
 
 
@@ -258,6 +261,84 @@ g2 = msaplot(p2, "data/sequence.fasta", window=c(120, 200))
 cowplot::plot_grid(g1, g2, ncol=2, labels=c("A", "B"))
 ```
 
+## Composite plots {#composite_plot}
+
+In addition to aligning graph to a tree using [geom_facet](#facet_plot) and special cases using [gheatmap](#gheatmap) and [msaplot](#msaplot), users can use `r CRANpkg("cowplot")` or `r Githubpkg("thomasp85", "patchwork")` to create composite plots.
+
+In the following example, we have a tree with two associated datasets.
+
+```{r}
+library(ggplot2)
+library(ggtree)
+
+set.seed(2019-10-31)
+tr <- rtree(10)
+
+d1 <- data.frame(
+    # only some labels match
+    label = c(tr$tip.label[sample(5, 5)], "A"),
+    value = sample(1:6, 6))
+
+d2 <- data.frame(
+    label = rep(tr$tip.label, 5),
+    category = rep(LETTERS[1:5], each=10),
+    value = rnorm(50, 0, 3)) 
+
+g <- ggtree(tr) + geom_tiplab(align=TRUE) 
+```
+
+We can extract coordinates from `ggtree` object using `r CRANpkg("dplyr")` verbs implemented in `r CRANpkg("tidytree")`, and merge the y-coordinates to our datasets.
+
+```{r}
+library(dplyr)
+library(tidytree) 
+
+d <- filter(g, isTip) %>% select(c(label, y))
+
+dd1 <- left_join(d1, d, by='label') 
+dd2 <- left_join(d2, d, by='label') 
+```
+
+Now we can visualize our datasets using the y-coordinates that match corresponding labels in the `ggtree` object. 
+
+
+```{r}
+p1 <- ggplot(dd1, aes(y, value)) + geom_col(aes(fill=label)) + 
+    coord_flip() + theme_tree2() + theme(legend.position='none')
+ 
+p2 <- ggplot(dd2, aes(x=category, y=y)) + 
+    geom_tile(aes(fill=value)) + scale_fill_viridis_c() + 
+    theme_tree2() + theme(legend.position='none') 
+```
+
+If we combine these two plots with `ggtree` using either `r CRANpkg("cowplot")` or `r Githubpkg("thomasp85", "patchwork")`, they do not align properly. 
+
+There are two reasons:
+
++ the plotted data have different y-limits
++ the different plots have different amounts of expansion space 
+
+To address these two issues, `r Biocpkg("ggtree")` provides a `ylim_ggtree` scale function to set y limits of a `ggplot` object based on the y limits of the input `ggtree` object. If the plot was flipped (such as `p1`), the `ylim_ggtree` will throw a message and apply the y limits to x-axis.
+
+```{r message=TRUE}
+p1 <- p1 + ylim_ggtree(g)  
+p2 <- p2 + ylim_ggtree(g) 
+```
+
+Now we can plot our tree and the data side by side, and perfectly aligned.
+
+(ref:compositescap) Example of aligning tree with data side by side by creating composite plot.
+
+(ref:compositecap) **Example of aligning tree with data side by side by creating composite plot**. 
+
+```{r composite, fig.width=12, fig.height=5, fig.cap="(ref:compositecap)", fig.scap="(ref:compositescap)"}
+## library(patchwork) 
+## g + p1 + p2+ plot_annotation(tag_levels="A")  
+
+library(cowplot) 
+plot_grid(g, p1, p2, ncol=3, align='h', 
+    labels=LETTERS[1:3], rel_widths = c(1, .5, .8))
+```
 
 ## The `ggtree` object {#ggtree_object}
 
@@ -268,7 +349,7 @@ cowplot::plot_grid(g1, g2, ncol=2, labels=c("A", "B"))
 In previous example, we have a _`p`_ object that stored the tree viewing of 13 tips and internal nodes highlighted with specific colored big dots. If users want to apply this pattern (we can imaging a more complex one) to a new tree, you don't need to build the tree step by step. `ggtree` provides an operator, _`%<%`_, for applying the visualization pattern to a new tree.
 
 For example, the pattern in the _`p`_ object will be applied to a new tree with 50 tips as shown below:
-```{r fig.width=3, fig.height=3, fig.align="center"}
+``` r fig.width=3, fig.height=3, fig.align="center"}
 p %<% rtree(50)
 ```
 -->

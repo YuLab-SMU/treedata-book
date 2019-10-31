@@ -228,8 +228,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.3.1" data-path="chapter7.html"><a href="chapter7.html#gheatmap-ggnewscale"><i class="fa fa-check"></i><b>7.3.1</b> Visualize tree with multiple associated matrix</a></li>
 </ul></li>
 <li class="chapter" data-level="7.4" data-path="chapter7.html"><a href="chapter7.html#msaplot"><i class="fa fa-check"></i><b>7.4</b> Visualize tree with multiple sequence alignment</a></li>
-<li class="chapter" data-level="7.5" data-path="chapter7.html"><a href="chapter7.html#ggtree_object"><i class="fa fa-check"></i><b>7.5</b> The <code>ggtree</code> object</a></li>
-<li class="chapter" data-level="7.6" data-path="chapter7.html"><a href="chapter7.html#summary-6"><i class="fa fa-check"></i><b>7.6</b> Summary</a></li>
+<li class="chapter" data-level="7.5" data-path="chapter7.html"><a href="chapter7.html#composite_plot"><i class="fa fa-check"></i><b>7.5</b> Composite plots</a></li>
+<li class="chapter" data-level="7.6" data-path="chapter7.html"><a href="chapter7.html#ggtree_object"><i class="fa fa-check"></i><b>7.6</b> The <code>ggtree</code> object</a></li>
+<li class="chapter" data-level="7.7" data-path="chapter7.html"><a href="chapter7.html#summary-6"><i class="fa fa-check"></i><b>7.7</b> Summary</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="chapter8.html"><a href="chapter8.html"><i class="fa fa-check"></i><b>8</b> Annotating Tree with Silhouette Images and Sub-plots</a><ul>
 <li class="chapter" data-level="8.1" data-path="chapter8.html"><a href="chapter8.html#ggimage"><i class="fa fa-check"></i><b>8.1</b> Annotating Tree with Images</a></li>
@@ -423,6 +424,7 @@ Figure 7.1: <strong>Example of attaching multiple datasets</strong>.
 Figure 7.2: <strong>Example of plotting SNP and trait data</strong>.
 </p>
 </div>
+<p>We can also use <a href="https://CRAN.R-project.org/package=cowplot">cowplot</a> or <a href="https://github.com/thomasp85/patchwork">patchwork</a> to create composite plots as described in <a href="chapter7.html#composite_plot">session 7.6</a>.</p>
 </div>
 <div id="gheatmap" class="section level2">
 <h2><span class="header-section-number">7.3</span> Visualize tree with associated matrix</h2>
@@ -515,8 +517,70 @@ Figure 7.5: <strong>Example of plotting multiple sequence alignment with a tree<
 </p>
 </div>
 </div>
+<div id="composite_plot" class="section level2">
+<h2><span class="header-section-number">7.5</span> Composite plots</h2>
+<p>In addition to aligning graph to a tree using <a href="chapter7.html#facet_plot">geom_facet</a> and special cases using <a href="chapter7.html#gheatmap">gheatmap</a> and <a href="chapter7.html#msaplot">msaplot</a>, users can use <a href="https://CRAN.R-project.org/package=cowplot">cowplot</a> or <a href="https://github.com/thomasp85/patchwork">patchwork</a> to create composite plots.</p>
+<p>In the following example, we have a tree with two associated datasets.</p>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="chapter7.html#cb192-1"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb192-2"><a href="chapter7.html#cb192-2"></a><span class="kw">library</span>(ggtree)</span>
+<span id="cb192-3"><a href="chapter7.html#cb192-3"></a></span>
+<span id="cb192-4"><a href="chapter7.html#cb192-4"></a><span class="kw">set.seed</span>(<span class="dv">2019-10-31</span>)</span>
+<span id="cb192-5"><a href="chapter7.html#cb192-5"></a>tr &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">10</span>)</span>
+<span id="cb192-6"><a href="chapter7.html#cb192-6"></a></span>
+<span id="cb192-7"><a href="chapter7.html#cb192-7"></a>d1 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb192-8"><a href="chapter7.html#cb192-8"></a>    <span class="co"># only some labels match</span></span>
+<span id="cb192-9"><a href="chapter7.html#cb192-9"></a>    <span class="dt">label =</span> <span class="kw">c</span>(tr<span class="op">$</span>tip.label[<span class="kw">sample</span>(<span class="dv">5</span>, <span class="dv">5</span>)], <span class="st">&quot;A&quot;</span>),</span>
+<span id="cb192-10"><a href="chapter7.html#cb192-10"></a>    <span class="dt">value =</span> <span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>, <span class="dv">6</span>))</span>
+<span id="cb192-11"><a href="chapter7.html#cb192-11"></a></span>
+<span id="cb192-12"><a href="chapter7.html#cb192-12"></a>d2 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb192-13"><a href="chapter7.html#cb192-13"></a>    <span class="dt">label =</span> <span class="kw">rep</span>(tr<span class="op">$</span>tip.label, <span class="dv">5</span>),</span>
+<span id="cb192-14"><a href="chapter7.html#cb192-14"></a>    <span class="dt">category =</span> <span class="kw">rep</span>(LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>], <span class="dt">each=</span><span class="dv">10</span>),</span>
+<span id="cb192-15"><a href="chapter7.html#cb192-15"></a>    <span class="dt">value =</span> <span class="kw">rnorm</span>(<span class="dv">50</span>, <span class="dv">0</span>, <span class="dv">3</span>)) </span>
+<span id="cb192-16"><a href="chapter7.html#cb192-16"></a></span>
+<span id="cb192-17"><a href="chapter7.html#cb192-17"></a>g &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tr) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="dt">align=</span><span class="ot">TRUE</span>) </span></code></pre></div>
+<p>We can extract coordinates from <code>ggtree</code> object using <a href="https://CRAN.R-project.org/package=dplyr">dplyr</a> verbs implemented in <a href="https://CRAN.R-project.org/package=tidytree">tidytree</a>, and merge the y-coordinates to our datasets.</p>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="chapter7.html#cb193-1"></a><span class="kw">library</span>(dplyr)</span>
+<span id="cb193-2"><a href="chapter7.html#cb193-2"></a><span class="kw">library</span>(tidytree) </span>
+<span id="cb193-3"><a href="chapter7.html#cb193-3"></a></span>
+<span id="cb193-4"><a href="chapter7.html#cb193-4"></a>d &lt;-<span class="st"> </span><span class="kw">filter</span>(g, isTip) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="kw">c</span>(label, y))</span>
+<span id="cb193-5"><a href="chapter7.html#cb193-5"></a></span>
+<span id="cb193-6"><a href="chapter7.html#cb193-6"></a>dd1 &lt;-<span class="st"> </span><span class="kw">left_join</span>(d1, d, <span class="dt">by=</span><span class="st">&#39;label&#39;</span>) </span>
+<span id="cb193-7"><a href="chapter7.html#cb193-7"></a>dd2 &lt;-<span class="st"> </span><span class="kw">left_join</span>(d2, d, <span class="dt">by=</span><span class="st">&#39;label&#39;</span>) </span></code></pre></div>
+<p>Now we can visualize our datasets using the y-coordinates that match corresponding labels in the <code>ggtree</code> object.</p>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="chapter7.html#cb194-1"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(dd1, <span class="kw">aes</span>(y, value)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_col</span>(<span class="kw">aes</span>(<span class="dt">fill=</span>label)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb194-2"><a href="chapter7.html#cb194-2"></a><span class="st">    </span><span class="kw">coord_flip</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&#39;none&#39;</span>)</span>
+<span id="cb194-3"><a href="chapter7.html#cb194-3"></a> </span>
+<span id="cb194-4"><a href="chapter7.html#cb194-4"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(dd2, <span class="kw">aes</span>(<span class="dt">x=</span>category, <span class="dt">y=</span>y)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb194-5"><a href="chapter7.html#cb194-5"></a><span class="st">    </span><span class="kw">geom_tile</span>(<span class="kw">aes</span>(<span class="dt">fill=</span>value)) <span class="op">+</span><span class="st"> </span><span class="kw">scale_fill_viridis_c</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb194-6"><a href="chapter7.html#cb194-6"></a><span class="st">    </span><span class="kw">theme_tree2</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&#39;none&#39;</span>) </span></code></pre></div>
+<p>If we combine these two plots with <code>ggtree</code> using either <a href="https://CRAN.R-project.org/package=cowplot">cowplot</a> or <a href="https://github.com/thomasp85/patchwork">patchwork</a>, they do not align properly.</p>
+<p>There are two reasons:</p>
+<ul>
+<li>the plotted data have different y-limits</li>
+<li>the different plots have different amounts of expansion space</li>
+</ul>
+<p>To address these two issues, <a href="http://bioconductor.org/packages/ggtree">ggtree</a> provides a <code>ylim_ggtree</code> scale function to set y limits of a <code>ggplot</code> object based on the y limits of the input <code>ggtree</code> object. If the plot was flipped (such as <code>p1</code>), the <code>ylim_ggtree</code> will throw a message and apply the y limits to x-axis.</p>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="chapter7.html#cb195-1"></a>p1 &lt;-<span class="st"> </span>p1 <span class="op">+</span><span class="st"> </span><span class="kw">ylim_ggtree</span>(g)  </span></code></pre></div>
+<pre><code>## the plot was flipped and the y limits of tree will be applied to x-axis</code></pre>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="chapter7.html#cb197-1"></a>p2 &lt;-<span class="st"> </span>p2 <span class="op">+</span><span class="st"> </span><span class="kw">ylim_ggtree</span>(g) </span></code></pre></div>
+<p>Now we can plot our tree and the data side by side, and perfectly aligned.</p>
+
+
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="chapter7.html#cb198-1"></a><span class="co">## library(patchwork) </span></span>
+<span id="cb198-2"><a href="chapter7.html#cb198-2"></a><span class="co">## g + p1 + p2+ plot_annotation(tag_levels=&quot;A&quot;)  </span></span>
+<span id="cb198-3"><a href="chapter7.html#cb198-3"></a></span>
+<span id="cb198-4"><a href="chapter7.html#cb198-4"></a><span class="kw">library</span>(cowplot) </span>
+<span id="cb198-5"><a href="chapter7.html#cb198-5"></a><span class="kw">plot_grid</span>(g, p1, p2, <span class="dt">ncol=</span><span class="dv">3</span>, <span class="dt">align=</span><span class="st">&#39;h&#39;</span>, </span>
+<span id="cb198-6"><a href="chapter7.html#cb198-6"></a>    <span class="dt">labels=</span>LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>], <span class="dt">rel_widths =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="fl">.5</span>, <span class="fl">.8</span>))</span></code></pre></div>
+<div class="figure"><span id="fig:composite"></span>
+<img src="treedata_files/figure-html/composite-1.png" alt="Example of aligning tree with data side by side by creating composite plot." width="1152" />
+<p class="caption">
+Figure 7.6: <strong>Example of aligning tree with data side by side by creating composite plot</strong>.
+</p>
+</div>
+</div>
 <div id="ggtree_object" class="section level2">
-<h2><span class="header-section-number">7.5</span> The <code>ggtree</code> object</h2>
+<h2><span class="header-section-number">7.6</span> The <code>ggtree</code> object</h2>
 <!--
 ## Update tree view with a new tree
 
@@ -528,11 +592,11 @@ For example, the pattern in the _`p`_ object will be applied to a new tree with 
 p %<% rtree(50)
 ```
 
-<img src="treedata_files/figure-html/unnamed-chunk-98-1.png" width="288" style="display: block; margin: auto;" />
+<img src="treedata_files/figure-html/unnamed-chunk-102-1.png" width="288" style="display: block; margin: auto;" />
 -->
 </div>
 <div id="summary-6" class="section level2">
-<h2><span class="header-section-number">7.6</span> Summary</h2>
+<h2><span class="header-section-number">7.7</span> Summary</h2>
 <p>Although there are many software packages support visualizing phylogenetic tree, plotting tree with data is often missing or with only limited supports. Some of the packages defines <code>S4</code> classes to store phylogenetic tree with domain specific data, such as <a href="https://CRAN.R-project.org/package=OutbreakTools">OutbreakTools</a> <span class="citation">(Jombart et al. <a href="#ref-jombart_outbreaktools_2014" role="doc-biblioref">2014</a>)</span> defined <code>obkData</code> for storing tree with epidemiology data and <a href="http://bioconductor.org/packages/phyloseq">phyloseq</a> <span class="citation">(McMurdie and Holmes <a href="#ref-mcmurdie_phyloseq_2013" role="doc-biblioref">2013</a>)</span> defines <code>phyloseq</code> for storing tree with microbiome data. These packages are capable to present some of the data stored in the object on the tree. However, not all the associated data are supported. For example, species abundance stored in <code>phyloseq</code> object is not supported to be visualized using <a href="http://bioconductor.org/packages/phyloseq">phyloseq</a> package. These packages did not provide any utilities to integrate external data for tree visualization. None of these packages support visualizting external data and align the plot to tree based on the tree structure.</p>
 <p><a href="http://bioconductor.org/packages/ggtree">ggtree</a> provides general solutions for integrating data. Method 1, the <code>%&lt;+%</code> operator, can integrate external and internal node data and map the data as visual characteristic to visualize the tree and other datasets used in <code>geom_facet</code>. Method 2, the <code>geom_facet</code> layer, has no restriction of input data as long as there is a <code>geom</code> function available to plot the data (<em>e.g.</em> species abundance displayed by <code>geom_density_ridges</code> as demonstrated in Figure <a href="chapter9.html#fig:phyloseq">9.4</a>). Users are free to combine different panels and combine different <code>geom</code> layers in the same panel (Figure <a href="chapter11.html#fig:jv2017">11.1</a>). <a href="http://bioconductor.org/packages/ggtree">ggtree</a> has many unique features that cannot be found in other implementations:</p>
 <ol style="list-style-type: decimal">
