@@ -5,4 +5,3 @@
 
 + [ggtree + plotly](https://twitter.com/drandersgs/status/965996335882059776)
 
-<https://thackl.github.io/ggtree-composite-plots>

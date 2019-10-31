@@ -284,7 +284,7 @@ d2 <- data.frame(
     category = rep(LETTERS[1:5], each=10),
     value = rnorm(50, 0, 3)) 
 
-g <- ggtree(tr) + geom_tiplab(align=TRUE) 
+g <- ggtree(tr) + geom_tiplab(align=TRUE)
 ```
 
 We can extract coordinates from `ggtree` object using `r CRANpkg("dplyr")` verbs implemented in `r CRANpkg("tidytree")`, and merge the y-coordinates to our datasets.
@@ -295,7 +295,7 @@ library(tidytree)
 
 d <- filter(g, isTip) %>% select(c(label, y))
 
-dd1 <- left_join(d1, d, by='label') 
+dd1 <- left_join(d1, d, by='label')
 dd2 <- left_join(d2, d, by='label') 
 ```
 
@@ -308,7 +308,7 @@ p1 <- ggplot(dd1, aes(y, value)) + geom_col(aes(fill=label)) +
  
 p2 <- ggplot(dd2, aes(x=category, y=y)) + 
     geom_tile(aes(fill=value)) + scale_fill_viridis_c() + 
-    theme_tree2() + theme(legend.position='none') 
+    theme_tree2() + theme(legend.position='none')
 ```
 
 If we combine these two plots with `ggtree` using either `r CRANpkg("cowplot")` or `r Githubpkg("thomasp85", "patchwork")`, they do not align properly. 
@@ -318,11 +318,11 @@ There are two reasons:
 + the plotted data have different y-limits
 + the different plots have different amounts of expansion space 
 
-To address these two issues, `r Biocpkg("ggtree")` provides a `ylim_ggtree` scale function to set y limits of a `ggplot` object based on the y limits of the input `ggtree` object. If the plot was flipped (such as `p1`), the `ylim_ggtree` will throw a message and apply the y limits to x-axis.
+To address these two issues, `r Biocpkg("ggtree")` provides a `align_y` scale function to set y limits of a `ggplot` object based on the y limits of the input `ggtree` object. If the plot was flipped (such as `p1`), the `align_y` will throw a message and apply the y limits to x-axis.
 
 ```{r message=TRUE}
-p1 <- p1 + ylim_ggtree(g)  
-p2 <- p2 + ylim_ggtree(g) 
+p1 <- p1 + align_y(g)  
+p2 <- p2 + align_y(g)
 ```
 
 Now we can plot our tree and the data side by side, and perfectly aligned.
@@ -333,7 +333,7 @@ Now we can plot our tree and the data side by side, and perfectly aligned.
 
 ```{r composite, fig.width=12, fig.height=5, fig.cap="(ref:compositecap)", fig.scap="(ref:compositescap)"}
 ## library(patchwork) 
-## g + p1 + p2+ plot_annotation(tag_levels="A")  
+## g + p1 + p2 + plot_annotation(tag_levels="A")
 
 library(cowplot) 
 plot_grid(g, p1, p2, ncol=3, align='h', 
