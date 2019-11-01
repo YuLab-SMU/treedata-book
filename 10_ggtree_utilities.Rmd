@@ -295,11 +295,11 @@ There are two reasons:
 + the plotted data have different limits
 + the different plots have different amounts of expansion spaces 
 
-To address these two issues, `r Biocpkg("ggtree")` provides `xlim_align()` and `ylim_align()` functions to set x or y limits. It use input `limits` to set axis limits that is similar to `xlim()` and `ylim()` (Figure \@ref(fig:axisAlign)B). If `limits = NULL` (by default), the `xlim_align()` and `ylim_align()` functions will calculate axis limits from input `ggplot` object. So that we can easily set limits of a `ggplot` object based on another `ggplot` object to uniformize their limits (Figure \@ref(fig:axisAlign)C). 
+To address these two issues, `r Biocpkg("ggtree")` provides `xlim2()` and `ylim2()` functions to set x or y limits. It use input `limits` to set axis limits that is similar to `xlim()` and `ylim()` (Figure \@ref(fig:axisAlign)B). If `limits = NULL` (by default), the `xlim2()` and `ylim2()` functions will calculate axis limits from input `ggplot` object. So that we can easily set limits of a `ggplot` object based on another `ggplot` object to uniformize their limits (Figure \@ref(fig:axisAlign)C). 
 
 ```r
-pp2 <- lapply(pp, function(p) p + xlim_align(limits=c(3, 11)))
-pp3 <- lapply(pp, function(p) p + xlim_align(p1))
+pp2 <- lapply(pp, function(p) p + xlim2(limits=c(3, 11)))
+pp3 <- lapply(pp, function(p) p + xlim2(p1))
 
 plot_grid(plotlist=pp2, ncol=1, align='v')
 plot_grid(plotlist=pp3, ncol=1, align='v')
@@ -313,8 +313,8 @@ If the plot was flipped, it will throw a message and apply the another axis. In 
 (ref:axisAligncap) **Setting axis limits for aligning plots.** Composite plot that does not align properly (A column), align based on user specific limits (B column), and align based on xlim of `p1` object (C column).
 
 ```{r axisAlign, echo=FALSE, fig.cap="(ref:axisAligncap)", fig.scap="(ref:axisAlignscap)", fig.width=12, fig.height = 9}
-pp2 <- lapply(pp, function(p) p + xlim_align(limits=c(3, 11)))
-pp3 <- lapply(pp, function(p) p + xlim_align(p1))
+pp2 <- lapply(pp, function(p) p + xlim2(limits=c(3, 11)))
+pp3 <- lapply(pp, function(p) p + xlim2(p1))
 
 g1 <- plot_grid(plotlist=pp, ncol=1, align='v')
 g2 <- plot_grid(plotlist=pp2, ncol=1, align='v')
@@ -323,6 +323,6 @@ g3 <- plot_grid(plotlist=pp3, ncol=1, align='v')
 plot_grid(g1, g2, g3, ncol=3, labels=LETTERS[1:3])
 ```
 
-The example of using `ylim_align()` to reconcile y axis is described in [session 7.5](#composite_plot). 
+The example of using `ylim2()` to reconcile y axis is described in [session 7.5](#composite_plot). 
 
 

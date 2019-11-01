@@ -552,9 +552,9 @@ Figure 10.5: <strong>Setting xlim for user specific panel.</strong> xlim for <co
 <li>the plotted data have different limits</li>
 <li>the different plots have different amounts of expansion spaces</li>
 </ul>
-<p>To address these two issues, <a href="http://bioconductor.org/packages/ggtree">ggtree</a> provides <code>xlim_align()</code> and <code>ylim_align()</code> functions to set x or y limits. It use input <code>limits</code> to set axis limits that is similar to <code>xlim()</code> and <code>ylim()</code> (Figure <a href="chapter10.html#fig:axisAlign">10.6</a>B). If <code>limits = NULL</code> (by default), the <code>xlim_align()</code> and <code>ylim_align()</code> functions will calculate axis limits from input <code>ggplot</code> object. So that we can easily set limits of a <code>ggplot</code> object based on another <code>ggplot</code> object to uniformize their limits (Figure <a href="chapter10.html#fig:axisAlign">10.6</a>C).</p>
-<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="chapter10.html#cb235-1"></a>pp2 &lt;-<span class="st"> </span><span class="kw">lapply</span>(pp, <span class="cf">function</span>(p) p <span class="op">+</span><span class="st"> </span><span class="kw">xlim_align</span>(<span class="dt">limits=</span><span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">11</span>)))</span>
-<span id="cb235-2"><a href="chapter10.html#cb235-2"></a>pp3 &lt;-<span class="st"> </span><span class="kw">lapply</span>(pp, <span class="cf">function</span>(p) p <span class="op">+</span><span class="st"> </span><span class="kw">xlim_align</span>(p1))</span>
+<p>To address these two issues, <a href="http://bioconductor.org/packages/ggtree">ggtree</a> provides <code>xlim2()</code> and <code>ylim2()</code> functions to set x or y limits. It use input <code>limits</code> to set axis limits that is similar to <code>xlim()</code> and <code>ylim()</code> (Figure <a href="chapter10.html#fig:axisAlign">10.6</a>B). If <code>limits = NULL</code> (by default), the <code>xlim2()</code> and <code>ylim2()</code> functions will calculate axis limits from input <code>ggplot</code> object. So that we can easily set limits of a <code>ggplot</code> object based on another <code>ggplot</code> object to uniformize their limits (Figure <a href="chapter10.html#fig:axisAlign">10.6</a>C).</p>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="chapter10.html#cb235-1"></a>pp2 &lt;-<span class="st"> </span><span class="kw">lapply</span>(pp, <span class="cf">function</span>(p) p <span class="op">+</span><span class="st"> </span><span class="kw">xlim2</span>(<span class="dt">limits=</span><span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">11</span>)))</span>
+<span id="cb235-2"><a href="chapter10.html#cb235-2"></a>pp3 &lt;-<span class="st"> </span><span class="kw">lapply</span>(pp, <span class="cf">function</span>(p) p <span class="op">+</span><span class="st"> </span><span class="kw">xlim2</span>(p1))</span>
 <span id="cb235-3"><a href="chapter10.html#cb235-3"></a></span>
 <span id="cb235-4"><a href="chapter10.html#cb235-4"></a><span class="kw">plot_grid</span>(<span class="dt">plotlist=</span>pp2, <span class="dt">ncol=</span><span class="dv">1</span>, <span class="dt">align=</span><span class="st">&#39;v&#39;</span>)</span>
 <span id="cb235-5"><a href="chapter10.html#cb235-5"></a><span class="kw">plot_grid</span>(<span class="dt">plotlist=</span>pp3, <span class="dt">ncol=</span><span class="dv">1</span>, <span class="dt">align=</span><span class="st">&#39;v&#39;</span>)</span></code></pre></div>
@@ -567,7 +567,7 @@ Figure 10.5: <strong>Setting xlim for user specific panel.</strong> xlim for <co
 Figure 10.6: <strong>Setting axis limits for aligning plots.</strong> Composite plot that does not align properly (A column), align based on user specific limits (B column), and align based on xlim of <code>p1</code> object (C column).
 </p>
 </div>
-<p>The example of using <code>ylim_align()</code> to reconcile y axis is described in <a href="chapter7.html#composite_plot">session 7.5</a>.</p>
+<p>The example of using <code>ylim2()</code> to reconcile y axis is described in <a href="chapter7.html#composite_plot">session 7.5</a>.</p>
 
 </div>
 </div>
