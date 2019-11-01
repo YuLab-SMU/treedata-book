@@ -268,6 +268,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.4" data-path="chapter10.html"><a href="chapter10.html#legend-utilities"><i class="fa fa-check"></i><b>10.4</b> Legend utilities</a></li>
 <li class="chapter" data-level="10.5" data-path="chapter10.html"><a href="chapter10.html#scale-utilities"><i class="fa fa-check"></i><b>10.5</b> Scale utilities</a><ul>
 <li class="chapter" data-level="10.5.1" data-path="chapter10.html"><a href="chapter10.html#xlim_expand"><i class="fa fa-check"></i><b>10.5.1</b> xlim_expand</a></li>
+<li class="chapter" data-level="10.5.2" data-path="chapter10.html"><a href="chapter10.html#axis_align"><i class="fa fa-check"></i><b>10.5.2</b> Reconcile axis limits</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="chapter11.html"><a href="chapter11.html"><i class="fa fa-check"></i><b>11</b> Gallery of reproducible examples</a><ul>
@@ -554,15 +555,10 @@ Figure 7.5: <strong>Example of plotting multiple sequence alignment with a tree<
 <span id="cb194-5"><a href="chapter7.html#cb194-5"></a><span class="st">    </span><span class="kw">geom_tile</span>(<span class="kw">aes</span>(<span class="dt">fill=</span>value)) <span class="op">+</span><span class="st"> </span><span class="kw">scale_fill_viridis_c</span>() <span class="op">+</span><span class="st"> </span></span>
 <span id="cb194-6"><a href="chapter7.html#cb194-6"></a><span class="st">    </span><span class="kw">theme_tree2</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&#39;none&#39;</span>)</span></code></pre></div>
 <p>If we combine these two plots with <code>ggtree</code> using either <a href="https://CRAN.R-project.org/package=cowplot">cowplot</a> or <a href="https://github.com/thomasp85/patchwork">patchwork</a>, they do not align properly.</p>
-<p>There are two reasons:</p>
-<ul>
-<li>the plotted data have different y-limits</li>
-<li>the different plots have different amounts of expansion space</li>
-</ul>
-<p>To address these two issues, <a href="http://bioconductor.org/packages/ggtree">ggtree</a> provides a <code>align_y</code> scale function to set y limits of a <code>ggplot</code> object based on the y limits of the input <code>ggtree</code> object. If the plot was flipped (such as <code>p1</code>), the <code>align_y</code> will throw a message and apply the y limits to x-axis.</p>
-<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="chapter7.html#cb195-1"></a>p1 &lt;-<span class="st"> </span>p1 <span class="op">+</span><span class="st"> </span><span class="kw">align_y</span>(g)  </span></code></pre></div>
+<p>To address this issue, <a href="http://bioconductor.org/packages/ggtree">ggtree</a> provides a <code>ylim_align()</code> function to reconcile y limits.</p>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="chapter7.html#cb195-1"></a>p1 &lt;-<span class="st"> </span>p1 <span class="op">+</span><span class="st"> </span><span class="kw">ylim_align</span>(g)  </span></code></pre></div>
 <pre><code>## the plot was flipped and the y limits will be applied to x-axis</code></pre>
-<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="chapter7.html#cb197-1"></a>p2 &lt;-<span class="st"> </span>p2 <span class="op">+</span><span class="st"> </span><span class="kw">align_y</span>(g)</span></code></pre></div>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="chapter7.html#cb197-1"></a>p2 &lt;-<span class="st"> </span>p2 <span class="op">+</span><span class="st"> </span><span class="kw">ylim_align</span>(g)</span></code></pre></div>
 <p>Now we can plot our tree and the data side by side, and perfectly aligned.</p>
 
 
@@ -578,6 +574,7 @@ Figure 7.5: <strong>Example of plotting multiple sequence alignment with a tree<
 Figure 7.6: <strong>Example of aligning tree with data side by side by creating composite plot</strong>.
 </p>
 </div>
+<p>The <code>ylim_align()</code> is not designed specific for <a href="http://bioconductor.org/packages/ggtree">ggtree</a>, it works fine with <code>ggplot</code> object. Another function <code>xlim_align()</code> that works for x limits is also provided. See <a href="chapter10.html#axis_align">session 10.5</a> for more details.</p>
 </div>
 <div id="ggtree_object" class="section level2">
 <h2><span class="header-section-number">7.6</span> The <code>ggtree</code> object</h2>

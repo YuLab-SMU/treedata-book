@@ -268,6 +268,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.4" data-path="chapter10.html"><a href="chapter10.html#legend-utilities"><i class="fa fa-check"></i><b>10.4</b> Legend utilities</a></li>
 <li class="chapter" data-level="10.5" data-path="chapter10.html"><a href="chapter10.html#scale-utilities"><i class="fa fa-check"></i><b>10.5</b> Scale utilities</a><ul>
 <li class="chapter" data-level="10.5.1" data-path="chapter10.html"><a href="chapter10.html#xlim_expand"><i class="fa fa-check"></i><b>10.5.1</b> xlim_expand</a></li>
+<li class="chapter" data-level="10.5.2" data-path="chapter10.html"><a href="chapter10.html#axis_align"><i class="fa fa-check"></i><b>10.5.2</b> Reconcile axis limits</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="chapter11.html"><a href="chapter11.html"><i class="fa fa-check"></i><b>11</b> Gallery of reproducible examples</a><ul>
@@ -516,6 +517,57 @@ Figure 10.4: <strong>Layout layers for transforming among different layouts</str
 Figure 10.5: <strong>Setting xlim for user specific panel.</strong> xlim for <code>ggtree::facet_plot</code> (A, Tree and Dot panels), and <code>ggplot2::facet_grid</code> (B, virginica panel).
 </p>
 </div>
+</div>
+<div id="axis_align" class="section level3">
+<h3><span class="header-section-number">10.5.2</span> Reconcile axis limits</h3>
+<p>Suppose we have the following plots and would like to combine them in a single page.</p>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="chapter10.html#cb233-1"></a><span class="kw">library</span>(dplyr)</span>
+<span id="cb233-2"><a href="chapter10.html#cb233-2"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb233-3"><a href="chapter10.html#cb233-3"></a><span class="kw">library</span>(ggstance)</span>
+<span id="cb233-4"><a href="chapter10.html#cb233-4"></a><span class="kw">library</span>(ggtree)</span>
+<span id="cb233-5"><a href="chapter10.html#cb233-5"></a><span class="kw">library</span>(cowplot)</span>
+<span id="cb233-6"><a href="chapter10.html#cb233-6"></a></span>
+<span id="cb233-7"><a href="chapter10.html#cb233-7"></a>no_legend=<span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&#39;none&#39;</span>)</span>
+<span id="cb233-8"><a href="chapter10.html#cb233-8"></a></span>
+<span id="cb233-9"><a href="chapter10.html#cb233-9"></a>d &lt;-<span class="st"> </span><span class="kw">group_by</span>(mtcars, cyl) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarize</span>(<span class="dt">mean=</span><span class="kw">mean</span>(disp), <span class="dt">sd=</span><span class="kw">sd</span>(disp)) </span>
+<span id="cb233-10"><a href="chapter10.html#cb233-10"></a>d2 &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">filter</span>(mtcars, cyl <span class="op">!=</span><span class="st"> </span><span class="dv">8</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">rename</span>(<span class="dt">var =</span> cyl)</span>
+<span id="cb233-11"><a href="chapter10.html#cb233-11"></a></span>
+<span id="cb233-12"><a href="chapter10.html#cb233-12"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(d, <span class="kw">aes</span>(<span class="dt">x=</span>cyl, <span class="dt">y=</span>mean)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb233-13"><a href="chapter10.html#cb233-13"></a><span class="st">    </span><span class="kw">geom_col</span>(<span class="kw">aes</span>(<span class="dt">fill=</span><span class="kw">factor</span>(cyl)), <span class="dt">width=</span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb233-14"><a href="chapter10.html#cb233-14"></a><span class="st">    </span>no_legend</span>
+<span id="cb233-15"><a href="chapter10.html#cb233-15"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(d2, <span class="kw">aes</span>(var, disp)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb233-16"><a href="chapter10.html#cb233-16"></a><span class="st">    </span><span class="kw">geom_jitter</span>(<span class="kw">aes</span>(<span class="dt">color=</span><span class="kw">factor</span>(var)), <span class="dt">width=</span>.<span class="dv">5</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb233-17"><a href="chapter10.html#cb233-17"></a><span class="st">    </span>no_legend</span>
+<span id="cb233-18"><a href="chapter10.html#cb233-18"></a></span>
+<span id="cb233-19"><a href="chapter10.html#cb233-19"></a>p3 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">filter</span>(d, cyl <span class="op">!=</span><span class="st"> </span><span class="dv">4</span>), <span class="kw">aes</span>(mean, cyl)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb233-20"><a href="chapter10.html#cb233-20"></a><span class="st">    </span><span class="kw">geom_colh</span>(<span class="kw">aes</span>(<span class="dt">fill=</span><span class="kw">factor</span>(cyl)), <span class="dt">width=</span>.<span class="dv">6</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb233-21"><a href="chapter10.html#cb233-21"></a><span class="st">    </span><span class="kw">coord_flip</span>() <span class="op">+</span><span class="st"> </span>no_legend</span>
+<span id="cb233-22"><a href="chapter10.html#cb233-22"></a></span>
+<span id="cb233-23"><a href="chapter10.html#cb233-23"></a>pp &lt;-<span class="st"> </span><span class="kw">list</span>(p1, p2, p3)</span></code></pre></div>
+<p>We can use <a href="https://CRAN.R-project.org/package=cowplot">cowplot</a> or <a href="https://github.com/thomasp85/patchwork">patchwork</a> to combine plots.</p>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="chapter10.html#cb234-1"></a><span class="kw">plot_grid</span>(<span class="dt">plotlist=</span>pp, <span class="dt">ncol=</span><span class="dv">1</span>, <span class="dt">align=</span><span class="st">&#39;v&#39;</span>)</span></code></pre></div>
+<p>However, these plots do not align properly (Figure <a href="chapter10.html#fig:axisAlign">10.6</a>A).</p>
+<p>There are two reasons:</p>
+<ul>
+<li>the plotted data have different limits</li>
+<li>the different plots have different amounts of expansion spaces</li>
+</ul>
+<p>To address these two issues, <a href="http://bioconductor.org/packages/ggtree">ggtree</a> provides <code>xlim_align()</code> and <code>ylim_align()</code> functions to set x or y limits. It use input <code>limits</code> to set axis limits that is similar to <code>xlim()</code> and <code>ylim()</code> (Figure <a href="chapter10.html#fig:axisAlign">10.6</a>B). If <code>limits = NULL</code> (by default), the <code>xlim_align()</code> and <code>ylim_align()</code> functions will calculate axis limits from input <code>ggplot</code> object. So that we can easily set limits of a <code>ggplot</code> object based on another <code>ggplot</code> object to uniformize their limits (Figure <a href="chapter10.html#fig:axisAlign">10.6</a>C).</p>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="chapter10.html#cb235-1"></a>pp2 &lt;-<span class="st"> </span><span class="kw">lapply</span>(pp, <span class="cf">function</span>(p) p <span class="op">+</span><span class="st"> </span><span class="kw">xlim_align</span>(<span class="dt">limits=</span><span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">11</span>)))</span>
+<span id="cb235-2"><a href="chapter10.html#cb235-2"></a>pp3 &lt;-<span class="st"> </span><span class="kw">lapply</span>(pp, <span class="cf">function</span>(p) p <span class="op">+</span><span class="st"> </span><span class="kw">xlim_align</span>(p1))</span>
+<span id="cb235-3"><a href="chapter10.html#cb235-3"></a></span>
+<span id="cb235-4"><a href="chapter10.html#cb235-4"></a><span class="kw">plot_grid</span>(<span class="dt">plotlist=</span>pp2, <span class="dt">ncol=</span><span class="dv">1</span>, <span class="dt">align=</span><span class="st">&#39;v&#39;</span>)</span>
+<span id="cb235-5"><a href="chapter10.html#cb235-5"></a><span class="kw">plot_grid</span>(<span class="dt">plotlist=</span>pp3, <span class="dt">ncol=</span><span class="dv">1</span>, <span class="dt">align=</span><span class="st">&#39;v&#39;</span>)</span></code></pre></div>
+<p>If the plot was flipped, it will throw a message and apply the another axis. In this example, the x limit of <code>p1</code> is applied to y limit of <code>p3</code> as <code>p3</code> was flipped.</p>
+
+
+<div class="figure"><span id="fig:axisAlign"></span>
+<img src="treedata_files/figure-html/axisAlign-1.png" alt="Setting axis limits for aligning plots. Composite plot that does not align properly (A column), align based on user specific limits (B column), and align based on xlim of p1 object (C column)." width="1152" />
+<p class="caption">
+Figure 10.6: <strong>Setting axis limits for aligning plots.</strong> Composite plot that does not align properly (A column), align based on user specific limits (B column), and align based on xlim of <code>p1</code> object (C column).
+</p>
+</div>
+<p>The example of using <code>ylim_align()</code> to reconcile y axis is described in <a href="chapter7.html#composite_plot">session 7.5</a>.</p>
 
 </div>
 </div>
