@@ -660,6 +660,23 @@ Figure 10.6: <strong>Setting axis limits for aligning plots.</strong> Composite 
 Figure 10.7: <strong>Create complex heatmap.</strong> With the helps of <code>xlim2()</code> and <code>ylim2()</code>, it is easy to align row or column annotations around a figure (e.g. a heatmap).
 </p>
 </div>
+<!--
+
+cowplot::axis_canvas has it's limitation as it only support continuous scale.
+However, we may get some ideas from this function to improve xlim2 and ylim2.
+
+https://github.com/wilkelab/cowplot/issues/40
+
+## gtable is the key to reduce space.
+
+(p + scale_x_discrete(position="bottom") + scale_y_discrete(position="right")) %>% 
+  insert_xaxis_grob(phc, unit(.3, "null"), position="top") %>% 
+  insert_yaxis_grob(g, unit(.3, 'null'), position='right') %>% 
+  insert_yaxis_grob(phr, unit(.2, 'null'), position='left') %>% 
+  insert_xaxis_grob(pc,unit(.2, 'null'), position='top') %>% 
+  insert_yaxis_grob(pp, unit(.3, 'null'), position='right') %>% ggdraw()
+
+-->
 
 </div>
 </div>
