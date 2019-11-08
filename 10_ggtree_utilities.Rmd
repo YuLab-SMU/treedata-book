@@ -335,46 +335,72 @@ The `xlim2()` and `ylim2()` functions create many possibilities to align figures
 (ref:ggComplexHeatmapcap) **Create complex heatmap.** With the helps of `xlim2()` and `ylim2()`, it is easy to align row or column annotations around a figure (e.g. a heatmap).
 
 
-```{r ggComplexHeatmap, fig.cap="(ref:ggComplexHeatmapcap)", fig.scap="(ref:ggComplexHeatmapscap)", fig.width=9.5, fig.height=7.5}
+```{r ggComplexHeatmap, fig.cap="(ref:ggComplexHeatmapcap)", fig.scap="(ref:ggComplexHeatmapscap)", fig.width=11, fig.height=8}
 library(cowplot)
 library(tidyr)
 library(ggplot2)
 library(ggtree)
 
 set.seed(2019-11-07)
-d = matrix(rnorm(25), ncol=5)
-d = data.frame(d)
-rownames(d) = paste0('g', 1:5)
-colnames(d) = paste0('t', 1:5)
-d$gene = rownames(d)
+d <- matrix(rnorm(25), ncol=5)
+rownames(d) <- paste0('g', 1:5)
+colnames(d) <- paste0('t', 1:5)
+hc <- hclust(dist(d))
+ph <- ggtree(hc)
+
+d <- data.frame(d)
+d$gene <- rownames(d)
+lv <- d$gene[hc$order]
 dd <- gather(d, 1:5, key="condition", value='expr')
+dd$gene <- factor(dd$gene, levels=lv)
 
+bs <- 14
 p <- ggplot(dd, aes(condition,gene, fill=expr)) + geom_tile() + 
-    scale_fill_viridis_c() +
-    theme_bw() + theme(legend.position='none') + 
-    xlab(NULL) + ylab(NULL) 
+  scale_fill_viridis_c() +
+  theme_minimal(base_size=bs) + 
+  theme(legend.position='none') + 
+  xlab(NULL) + ylab(NULL) 
 
-g <- ggplot(dplyr::filter(dd, gene != 'g1'), aes(gene, expr)) + 
-    geom_boxplot() + coord_flip() +
-    theme_bw() + theme(legend.position='none') + 
-    theme(axis.text.y = element_blank(), axis.ticks.y = element_blank()) +
-    xlab(NULL) + ylab(NULL) 
+g <- ggplot(dplyr::filter(dd, gene != 'g2'), aes(gene, expr, fill=gene)) + 
+  geom_boxplot() + coord_flip() +
+  theme_minimal(base_size=bs) + 
+  theme(legend.position='none',
+        axis.text.y = element_blank(), 
+        axis.ticks.y = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.grid.major.y = element_blank()) +
+  xlab(NULL) + ylab(NULL) 
 
 ca <- data.frame(n = paste0('t', 1:4), 
-        anno1 = rep(LETTERS[1:2], times=c(2, 2)),
-        anno2 = rep(letters[3:5], times=c(1, 2, 1))
-    )
+                 anno1 = rep(LETTERS[1:2], times=c(2, 2)),
+                 anno2 = rep(letters[3:5], times=c(1, 2, 1))
+)
 cad <- gather(ca, anno1, anno2, key='anno', value='type')
 
 pc <- ggplot(cad, aes(n, y=anno, fill=type)) + geom_tile() + 
-    theme_bw() + theme(legend.position='none') + 
-    theme(axis.text.x = element_blank(), axis.ticks.x = element_blank()) +
+  theme_minimal(base_size=bs) + 
+  theme(legend.position='none',
+        axis.text.x = element_blank(), 
+        axis.ticks.x = element_blank()) +
+  xlab(NULL) + ylab(NULL) 
+
+set.seed(123)
+dp <- data.frame(gene=factor(rep(paste0('g', 1:5), 2), levels=lv), 
+                 pathway = sample(paste0('pathway', 1:5), 10, replace = TRUE))
+
+pp <- ggplot(dp, aes(pathway, gene)) + 
+    geom_point(size=5, color='steelblue') +
+    theme_minimal(base_size=bs) +
+    theme(axis.text.x=element_text(angle=45, hjust=1),
+          axis.text.y = element_blank(), 
+          axis.ticks.y = element_blank()) +
     xlab(NULL) + ylab(NULL) 
 
 legend <- plot_grid(get_legend(pc + theme(legend.position="bottom")),
                     get_legend(p + theme(legend.position="bottom")), ncol=1)
 
-plot_grid(legend, pc+xlim2(p), g + ylim2(p), p, ncol=2, 
-    rel_widths=c(.4, 1), rel_heights=c(.2, 1), align='hv')
+plot_grid(NULL, pc+xlim2(p), legend, NULL, 
+          ph, p, g + ylim2(p), pp + ylim2(p), ncol=4, 
+          rel_widths=c(.3, 1, .4, .4), rel_heights=c(.3, 1), align='hv')
 ```
 
