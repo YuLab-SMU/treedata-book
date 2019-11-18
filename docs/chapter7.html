@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 7 Plotting tree with data | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
   <meta name="description" content="Chapter 7 Plotting tree with data | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
-  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.15 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 7 Plotting tree with data | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
   <meta property="og:type" content="book" />
@@ -298,8 +298,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="A.6" data-path="faq.html"><a href="faq.html#faq-under-the-tree"><i class="fa fa-check"></i><b>A.6</b> Plot something behind the phylogeny</a></li>
 <li class="chapter" data-level="A.7" data-path="faq.html"><a href="faq.html#faq-enlarge-center-space"><i class="fa fa-check"></i><b>A.7</b> Enlarge center space in circular/fan layout tree</a></li>
 <li class="chapter" data-level="A.8" data-path="faq.html"><a href="faq.html#use-the-most-distant-tip-from-the-root-as-the-origin-of-the-time-scale"><i class="fa fa-check"></i><b>A.8</b> Use the most distant tip from the root as the origin of the time scale</a></li>
-<li class="chapter" data-level="A.9" data-path="faq.html"><a href="faq.html#changing-branch-length-of-outgroup"><i class="fa fa-check"></i><b>A.9</b> Changing branch length of outgroup</a></li>
-<li class="chapter" data-level="A.10" data-path="faq.html"><a href="faq.html#export-edit"><i class="fa fa-check"></i><b>A.10</b> Edit tree graphic details</a></li>
+<li class="chapter" data-level="A.9" data-path="faq.html"><a href="faq.html#change-branch-length-of-outgroup"><i class="fa fa-check"></i><b>A.9</b> Change branch length of outgroup</a></li>
+<li class="chapter" data-level="A.10" data-path="faq.html"><a href="faq.html#bind-tip"><i class="fa fa-check"></i><b>A.10</b> Attach a new tip to a tree</a></li>
+<li class="chapter" data-level="A.11" data-path="faq.html"><a href="faq.html#export-edit"><i class="fa fa-check"></i><b>A.11</b> Edit tree graphic details</a></li>
 </ul></li>
 <li class="chapter" data-level="B" data-path="ggimage-tips.html"><a href="ggimage-tips.html"><i class="fa fa-check"></i><b>B</b> Tips for using <code>ggtree</code> with <code>ggimage</code></a><ul>
 <li class="chapter" data-level="B.1" data-path="ggimage-tips.html"><a href="ggimage-tips.html#ggimage-rm-image-bg"><i class="fa fa-check"></i><b>B.1</b> Example 1: Remove background of images</a></li>
@@ -463,7 +464,7 @@ Figure 7.3: <strong>Example of plotting matrix with <code>gheatmap</code></stron
 </div>
 <div id="gheatmap-ggnewscale" class="section level3">
 <h3><span class="header-section-number">7.3.1</span> Visualize tree with multiple associated matrix</h3>
-<p>Of course, we can use multiple <code>gheatmap</code> function call to align several associated matrix with the tree, however, <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> doesn’t allow us to use multiple <code>fill</code> scales<a href="references.html#fn15" class="footnote-ref" id="fnref15"><sup>15</sup></a>.</p>
+<p>Of course, we can use multiple <code>gheatmap</code> function call to align several associated matrix with the tree, however, <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> doesn’t allow us to use multiple <code>fill</code> scales<a href="#fn15" class="footnote-ref" id="fnref15"><sup>15</sup></a>.</p>
 <p>To solve this issue, we can use <a href="https://github.com/eliocamp/ggnewscale">ggnewscale</a> to create new <code>fill</code> scales. Here is an example of using <a href="https://github.com/eliocamp/ggnewscale">ggnewscale</a> with <code>gheatmap</code>.</p>
 
 
@@ -555,7 +556,7 @@ Figure 7.5: <strong>Example of plotting multiple sequence alignment with a tree<
 <span id="cb194-5"><a href="chapter7.html#cb194-5"></a><span class="st">    </span><span class="kw">geom_tile</span>(<span class="kw">aes</span>(<span class="dt">fill=</span>value)) <span class="op">+</span><span class="st"> </span><span class="kw">scale_fill_viridis_c</span>() <span class="op">+</span><span class="st"> </span></span>
 <span id="cb194-6"><a href="chapter7.html#cb194-6"></a><span class="st">    </span><span class="kw">theme_tree2</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&#39;none&#39;</span>)</span></code></pre></div>
 <p>If we combine these two plots with <code>ggtree</code> using either <a href="https://CRAN.R-project.org/package=cowplot">cowplot</a> or <a href="https://github.com/thomasp85/patchwork">patchwork</a>, they do not align properly.</p>
-<p>To address this issue, <a href="http://bioconductor.org/packages/ggtree">ggtree</a> provides a <code>ylim2()</code> function to reconcile y limits<a href="references.html#fn16" class="footnote-ref" id="fnref16"><sup>16</sup></a>.</p>
+<p>To address this issue, <a href="http://bioconductor.org/packages/ggtree">ggtree</a> provides a <code>ylim2()</code> function to reconcile y limits<a href="#fn16" class="footnote-ref" id="fnref16"><sup>16</sup></a>.</p>
 <div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="chapter7.html#cb195-1"></a>p1 &lt;-<span class="st"> </span>p1 <span class="op">+</span><span class="st"> </span><span class="kw">ylim2</span>(g)  </span></code></pre></div>
 <pre><code>## the plot was flipped and the y limits will be applied to x-axis</code></pre>
 <div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="chapter7.html#cb197-1"></a>p2 &lt;-<span class="st"> </span>p2 <span class="op">+</span><span class="st"> </span><span class="kw">ylim2</span>(g)</span></code></pre></div>
@@ -620,6 +621,13 @@ p %<% rtree(50)
 <p>Yu, Guangchuang, Tommy Tsan-Yuk Lam, Huachen Zhu, and Yi Guan. 2018. “Two Methods for Mapping and Visualizing Associated Data on Phylogeny Using Ggtree.” <em>Molecular Biology and Evolution</em> 35 (12): 3041–3. <a href="https://doi.org/10.1093/molbev/msy194">https://doi.org/10.1093/molbev/msy194</a>.</p>
 </div>
 </div>
+<div class="footnotes">
+<hr />
+<ol start="15">
+<li id="fn15"><p>see also discussion in <a href="https://github.com/GuangchuangYu/ggtree/issues/78" class="uri">https://github.com/GuangchuangYu/ggtree/issues/78</a> and <a href="https://groups.google.com/d/msg/bioc-ggtree/VQqbF79NAWU/IjIvpQOBGwAJ" class="uri">https://groups.google.com/d/msg/bioc-ggtree/VQqbF79NAWU/IjIvpQOBGwAJ</a><a href="chapter7.html#fnref15" class="footnote-back">↩︎</a></p></li>
+<li id="fn16"><p>the implementation was inspired by <a href="https://thackl.github.io/ggtree-composite-plots" class="uri">https://thackl.github.io/ggtree-composite-plots</a><a href="chapter7.html#fnref16" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
             </section>
 
           </div>
@@ -642,15 +650,13 @@ p %<% rtree(50)
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
-"github": false,
 "facebook": true,
 "twitter": true,
-"google": false,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",

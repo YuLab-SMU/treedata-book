@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>A Frequently asked questions | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
   <meta name="description" content="A Frequently asked questions | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
-  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.15 and GitBook 2.6.7" />
 
   <meta property="og:title" content="A Frequently asked questions | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
   <meta property="og:type" content="book" />
@@ -298,8 +298,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="A.6" data-path="faq.html"><a href="faq.html#faq-under-the-tree"><i class="fa fa-check"></i><b>A.6</b> Plot something behind the phylogeny</a></li>
 <li class="chapter" data-level="A.7" data-path="faq.html"><a href="faq.html#faq-enlarge-center-space"><i class="fa fa-check"></i><b>A.7</b> Enlarge center space in circular/fan layout tree</a></li>
 <li class="chapter" data-level="A.8" data-path="faq.html"><a href="faq.html#use-the-most-distant-tip-from-the-root-as-the-origin-of-the-time-scale"><i class="fa fa-check"></i><b>A.8</b> Use the most distant tip from the root as the origin of the time scale</a></li>
-<li class="chapter" data-level="A.9" data-path="faq.html"><a href="faq.html#changing-branch-length-of-outgroup"><i class="fa fa-check"></i><b>A.9</b> Changing branch length of outgroup</a></li>
-<li class="chapter" data-level="A.10" data-path="faq.html"><a href="faq.html#export-edit"><i class="fa fa-check"></i><b>A.10</b> Edit tree graphic details</a></li>
+<li class="chapter" data-level="A.9" data-path="faq.html"><a href="faq.html#change-branch-length-of-outgroup"><i class="fa fa-check"></i><b>A.9</b> Change branch length of outgroup</a></li>
+<li class="chapter" data-level="A.10" data-path="faq.html"><a href="faq.html#bind-tip"><i class="fa fa-check"></i><b>A.10</b> Attach a new tip to a tree</a></li>
+<li class="chapter" data-level="A.11" data-path="faq.html"><a href="faq.html#export-edit"><i class="fa fa-check"></i><b>A.11</b> Edit tree graphic details</a></li>
 </ul></li>
 <li class="chapter" data-level="B" data-path="ggimage-tips.html"><a href="ggimage-tips.html"><i class="fa fa-check"></i><b>B</b> Tips for using <code>ggtree</code> with <code>ggimage</code></a><ul>
 <li class="chapter" data-level="B.1" data-path="ggimage-tips.html"><a href="ggimage-tips.html#ggimage-rm-image-bg"><i class="fa fa-check"></i><b>B.1</b> Example 1: Remove background of images</a></li>
@@ -338,7 +339,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb244-2"><a href="faq.html#cb244-2"></a><span class="co">## install.packages(&quot;BiocManager&quot;)</span></span>
 <span id="cb244-3"><a href="faq.html#cb244-3"></a><span class="kw">library</span>(BiocManager)</span>
 <span id="cb244-4"><a href="faq.html#cb244-4"></a><span class="kw">install</span>(<span class="st">&quot;ggtree&quot;</span>)</span></code></pre></div>
-<p>Bioconductor release is adhere to specific R version. Please make sure you are using latest version of R if you want to install the latest release of Bioconductor packages, including <code>ggtree</code>. Beware that bugs will only be fixed in current release and develop branches. If you find a bug, please follow the guide<a href="references.html#fn21" class="footnote-ref" id="fnref21"><sup>21</sup></a> to report it.</p>
+<p>Bioconductor release is adhere to specific R version. Please make sure you are using latest version of R if you want to install the latest release of Bioconductor packages, including <code>ggtree</code>. Beware that bugs will only be fixed in current release and develop branches. If you find a bug, please follow the guide<a href="#fn21" class="footnote-ref" id="fnref21"><sup>21</sup></a> to report it.</p>
 </div>
 <div id="faq-r" class="section level2">
 <h2><span class="header-section-number">A.2</span> Basic R related</h2>
@@ -378,7 +379,7 @@ As these variable is not available in your <code>dataset</code>, you will get th
 </div>
 <div id="faq-dollar-aes" class="section level3">
 <h3><span class="header-section-number">A.3.2</span> Never use <code>$</code> in aes</h3>
-<p>NEVER DO THIS<a href="references.html#fn22" class="footnote-ref" id="fnref22"><sup>22</sup></a>.</p>
+<p>NEVER DO THIS<a href="#fn22" class="footnote-ref" id="fnref22"><sup>22</sup></a>.</p>
 <p>See the explaination in the <a href="https://github.com/hadley/ggplot2-book/blob/master/layers.rmd#aesthetic-mappings-secaes">ggplot2 book 2ed</a>:</p>
 <blockquote>
 <p>Never refer to a variable with <code>$</code> (e.g., <code>diamonds$carat</code>) in <code>aes()</code>. This breaks containment, so that the plot no longer contains everything it needs, and causes problems if ggplot2 changes the order of the rows, as it does when facetting.</p>
@@ -389,7 +390,7 @@ As these variable is not available in your <code>dataset</code>, you will get th
 <h2><span class="header-section-number">A.4</span> Text &amp; Label</h2>
 <div id="faq-label-truncated" class="section level3">
 <h3><span class="header-section-number">A.4.1</span> Tip label truncated</h3>
-<p><a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> can’t auto adjust <code>xlim</code> based on added text<a href="references.html#fn23" class="footnote-ref" id="fnref23"><sup>23</sup></a>.</p>
+<p><a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> can’t auto adjust <code>xlim</code> based on added text<a href="#fn23" class="footnote-ref" id="fnref23"><sup>23</sup></a>.</p>
 <div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="faq.html#cb248-1"></a><span class="kw">library</span>(ggtree)</span>
 <span id="cb248-2"><a href="faq.html#cb248-2"></a><span class="co">## example tree from https://support.bioconductor.org/p/72398/</span></span>
 <span id="cb248-3"><a href="faq.html#cb248-3"></a>tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="dt">text=</span> <span class="kw">paste</span>(<span class="st">&quot;(Organism1.006G249400.1:0.03977,(Organism2.022118m:0.01337,&quot;</span>, </span>
@@ -495,7 +496,7 @@ Figure A.3: <strong>Formatting labels.</strong> Formatting specific tip/node lab
 </div>
 <div id="faq-ggrepel" class="section level3">
 <h3><span class="header-section-number">A.4.4</span> Avoid overlapping text labels</h3>
-<p>User can use <a href="https://cran.r-project.org/web/packages/ggrepel/">ggrepel</a> package to repel overlapping text labels<a href="references.html#fn24" class="footnote-ref" id="fnref24"><sup>24</sup></a>.
+<p>User can use <a href="https://cran.r-project.org/web/packages/ggrepel/">ggrepel</a> package to repel overlapping text labels<a href="#fn24" class="footnote-ref" id="fnref24"><sup>24</sup></a>.
 .</p>
 <p>For example:</p>
 
@@ -586,7 +587,7 @@ Figure A.6: <strong>Add layers behind tree structure.</strong> A layer on top of
 </div>
 <div id="faq-enlarge-center-space" class="section level2">
 <h2><span class="header-section-number">A.7</span> Enlarge center space in circular/fan layout tree</h2>
-<p>This question was asked several times<a href="references.html#fn25" class="footnote-ref" id="fnref25"><sup>25</sup></a>, and a published example can be found in <a href="https://www.ncbi.nlm.nih.gov/pubmed/27605062" class="uri">https://www.ncbi.nlm.nih.gov/pubmed/27605062</a>. Increasing percentage of center white space in circular tree is useful to avoid overlapping tip labels and to increase readibility of the tree by moving all nodes and branches further out. This can be done simply by using <code>+xlim()</code> to allocate more space, just like in Figure <a href="chapter4.html#fig:layout2">4.3</a>G, or assign a long root branch that is similar to the “Root Length” parameter in FigTree.</p>
+<p>This question was asked several times<a href="#fn25" class="footnote-ref" id="fnref25"><sup>25</sup></a>, and a published example can be found in <a href="https://www.ncbi.nlm.nih.gov/pubmed/27605062" class="uri">https://www.ncbi.nlm.nih.gov/pubmed/27605062</a>. Increasing percentage of center white space in circular tree is useful to avoid overlapping tip labels and to increase readibility of the tree by moving all nodes and branches further out. This can be done simply by using <code>+xlim()</code> to allocate more space, just like in Figure <a href="chapter4.html#fig:layout2">4.3</a>G, or assign a long root branch that is similar to the “Root Length” parameter in FigTree.</p>
 
 
 <div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="faq.html#cb266-1"></a><span class="kw">set.seed</span>(<span class="dv">1982</span>)</span>
@@ -619,9 +620,9 @@ Figure A.8: <strong>Origin of the time scale.</strong> Forward: from the root to
 </p>
 </div>
 </div>
-<div id="changing-branch-length-of-outgroup" class="section level2">
-<h2><span class="header-section-number">A.9</span> Changing branch length of outgroup</h2>
-<p>When outgroups are on a very long branch length (Figure <a href="faq.html#fig:outgroupEdge">A.9</a>A), we would like to keep the out groups in the tree but ignore their branch lengths (Figure <a href="faq.html#fig:outgroupEdge">A.9</a>B)<a href="references.html#fn26" class="footnote-ref" id="fnref26"><sup>26</sup></a>. This can be easily done by modifying coordination of the out groups.</p>
+<div id="change-branch-length-of-outgroup" class="section level2">
+<h2><span class="header-section-number">A.9</span> Change branch length of outgroup</h2>
+<p>When outgroups are on a very long branch length (Figure <a href="faq.html#fig:outgroupEdge">A.9</a>A), we would like to keep the out groups in the tree but ignore their branch lengths (Figure <a href="faq.html#fig:outgroupEdge">A.9</a>B)<a href="#fn26" class="footnote-ref" id="fnref26"><sup>26</sup></a>. This can be easily done by modifying coordination of the out groups.</p>
 
 
 <div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="faq.html#cb268-1"></a>x &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="st">&quot;data/long-branch-example.newick&quot;</span>)</span>
@@ -639,10 +640,54 @@ Figure A.9: <strong>Changing branch length of outgroup.</strong> Original tree (
 </p>
 </div>
 </div>
+<div id="bind-tip" class="section level2">
+<h2><span class="header-section-number">A.10</span> Attach a new tip to a tree</h2>
+<p>Sometimes there are known branches that are not in the tree, and we would like to have them on the tree. Another scenario is that we have a newly sequence species and would like to update reference tree with this species by inferring its evolutionary position.</p>
+<p>Users can use <code>phytools::bind.tip()</code> <span class="citation">(Revell <a href="#ref-revell_phytools_2012" role="doc-biblioref">2012</a>)</span> to attach a new tip to a tree. With <a href="https://CRAN.R-project.org/package=tidytree">tidytree</a>, it is easy to add annotation to differentiate newly introduce and original branches as demonstrated in Figure <a href="faq.html#fig:bindTip">A.10</a>.</p>
+
+
+<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb269-1"><a href="faq.html#cb269-1"></a><span class="kw">library</span>(phytools)</span>
+<span id="cb269-2"><a href="faq.html#cb269-2"></a><span class="kw">library</span>(tidytree)</span>
+<span id="cb269-3"><a href="faq.html#cb269-3"></a><span class="kw">library</span>(ggtree)</span>
+<span id="cb269-4"><a href="faq.html#cb269-4"></a></span>
+<span id="cb269-5"><a href="faq.html#cb269-5"></a><span class="kw">set.seed</span>(<span class="dv">2019-11-18</span>)</span>
+<span id="cb269-6"><a href="faq.html#cb269-6"></a>tr &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">5</span>)</span>
+<span id="cb269-7"><a href="faq.html#cb269-7"></a>tr2 &lt;-<span class="st"> </span><span class="kw">bind.tip</span>(tr, <span class="st">&#39;U&#39;</span>, <span class="dt">edge.length =</span> <span class="fl">0.1</span>, <span class="dt">where =</span> <span class="dv">7</span>)</span>
+<span id="cb269-8"><a href="faq.html#cb269-8"></a>d &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(tr2)</span>
+<span id="cb269-9"><a href="faq.html#cb269-9"></a>d<span class="op">$</span>type &lt;-<span class="st"> &quot;original&quot;</span></span>
+<span id="cb269-10"><a href="faq.html#cb269-10"></a>d<span class="op">$</span>type[d<span class="op">$</span>label <span class="op">==</span><span class="st"> &#39;U&#39;</span>] &lt;-<span class="st"> &#39;newly introduce&#39;</span></span>
+<span id="cb269-11"><a href="faq.html#cb269-11"></a>tr3 &lt;-<span class="st"> </span><span class="kw">as.treedata</span>(d)</span>
+<span id="cb269-12"><a href="faq.html#cb269-12"></a><span class="kw">ggtree</span>(tr3, <span class="kw">aes</span>(<span class="dt">linetype=</span>type)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb269-13"><a href="faq.html#cb269-13"></a><span class="st">  </span><span class="kw">scale_linetype_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;newly introduce&quot;</span> =<span class="st"> &quot;dashed&quot;</span>, </span>
+<span id="cb269-14"><a href="faq.html#cb269-14"></a>                                    <span class="st">&quot;original&quot;</span> =<span class="st"> &quot;solid&quot;</span>)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb269-15"><a href="faq.html#cb269-15"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="kw">c</span>(.<span class="dv">8</span>, <span class="fl">.2</span>))</span></code></pre></div>
+<div class="figure"><span id="fig:bindTip"></span>
+<img src="treedata_files/figure-html/bindTip-1.png" alt="Attaching a new tip to a tree." width="576" />
+<p class="caption">
+Figure A.10: <strong>Attaching a new tip to a tree.</strong>
+</p>
+</div>
+</div>
 <div id="export-edit" class="section level2">
-<h2><span class="header-section-number">A.10</span> Edit tree graphic details</h2>
+<h2><span class="header-section-number">A.11</span> Edit tree graphic details</h2>
 <p>It can be hard to modify plot details for ordinary users using <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a>/<a href="http://bioconductor.org/packages/ggtree">ggtree</a>. We recommend using the <a href="https://CRAN.R-project.org/package=export">export</a> package to export <a href="http://bioconductor.org/packages/ggtree">ggtree</a> output to ‘Microsoft Office’ Document and edit the tree graphic in ‘PowerPoint’.</p>
 </div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-revell_phytools_2012">
+<p>Revell, Liam J. 2012. “Phytools: An R Package for Phylogenetic Comparative Biology (and Other Things).” <em>Methods in Ecology and Evolution</em> 3 (2): 217–23. <a href="https://doi.org/10.1111/j.2041-210X.2011.00169.x">https://doi.org/10.1111/j.2041-210X.2011.00169.x</a>.</p>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="21">
+<li id="fn21"><p><a href="https://guangchuangyu.github.io/2016/07/how-to-bug-author/" class="uri">https://guangchuangyu.github.io/2016/07/how-to-bug-author/</a><a href="faq.html#fnref21" class="footnote-back">↩︎</a></p></li>
+<li id="fn23"><p><a href="https://twitter.com/hadleywickham/status/600280284869697538" class="uri">https://twitter.com/hadleywickham/status/600280284869697538</a><a href="faq.html#fnref23" class="footnote-back">↩︎</a></p></li>
+<li id="fn24"><p><a href="https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html" class="uri">https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html</a><a href="faq.html#fnref24" class="footnote-back">↩︎</a></p></li>
+<li id="fn25"><p><a href="https://groups.google.com/d/msg/bioc-ggtree/gruC4FztU8I/mwavqWCXAQAJ" class="uri">https://groups.google.com/d/msg/bioc-ggtree/gruC4FztU8I/mwavqWCXAQAJ</a>, <a href="https://groups.google.com/d/msg/bioc-ggtree/UoGQekWHIvw/ZswUUZKSGwAJ" class="uri">https://groups.google.com/d/msg/bioc-ggtree/UoGQekWHIvw/ZswUUZKSGwAJ</a> and <a href="https://github.com/GuangchuangYu/ggtree/issues/95" class="uri">https://github.com/GuangchuangYu/ggtree/issues/95</a><a href="faq.html#fnref25" class="footnote-back">↩︎</a></p></li>
+<li id="fn26"><p>example from: <a href="https://groups.google.com/d/msg/bioc-ggtree/T2ySvqv351g/mHsyljvBCwAJ" class="uri">https://groups.google.com/d/msg/bioc-ggtree/T2ySvqv351g/mHsyljvBCwAJ</a><a href="faq.html#fnref26" class="footnote-back">↩︎</a></p></li>
+</ol>
 </div>
             </section>
 
@@ -666,15 +711,13 @@ Figure A.9: <strong>Changing branch length of outgroup.</strong> Original tree (
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
-"github": false,
 "facebook": true,
 "twitter": true,
-"google": false,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",

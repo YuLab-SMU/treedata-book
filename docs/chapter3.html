@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 3 Exporting tree with data | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
   <meta name="description" content="Chapter 3 Exporting tree with data | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
-  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.15 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 3 Exporting tree with data | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
   <meta property="og:type" content="book" />
@@ -298,8 +298,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="A.6" data-path="faq.html"><a href="faq.html#faq-under-the-tree"><i class="fa fa-check"></i><b>A.6</b> Plot something behind the phylogeny</a></li>
 <li class="chapter" data-level="A.7" data-path="faq.html"><a href="faq.html#faq-enlarge-center-space"><i class="fa fa-check"></i><b>A.7</b> Enlarge center space in circular/fan layout tree</a></li>
 <li class="chapter" data-level="A.8" data-path="faq.html"><a href="faq.html#use-the-most-distant-tip-from-the-root-as-the-origin-of-the-time-scale"><i class="fa fa-check"></i><b>A.8</b> Use the most distant tip from the root as the origin of the time scale</a></li>
-<li class="chapter" data-level="A.9" data-path="faq.html"><a href="faq.html#changing-branch-length-of-outgroup"><i class="fa fa-check"></i><b>A.9</b> Changing branch length of outgroup</a></li>
-<li class="chapter" data-level="A.10" data-path="faq.html"><a href="faq.html#export-edit"><i class="fa fa-check"></i><b>A.10</b> Edit tree graphic details</a></li>
+<li class="chapter" data-level="A.9" data-path="faq.html"><a href="faq.html#change-branch-length-of-outgroup"><i class="fa fa-check"></i><b>A.9</b> Change branch length of outgroup</a></li>
+<li class="chapter" data-level="A.10" data-path="faq.html"><a href="faq.html#bind-tip"><i class="fa fa-check"></i><b>A.10</b> Attach a new tip to a tree</a></li>
+<li class="chapter" data-level="A.11" data-path="faq.html"><a href="faq.html#export-edit"><i class="fa fa-check"></i><b>A.11</b> Edit tree graphic details</a></li>
 </ul></li>
 <li class="chapter" data-level="B" data-path="ggimage-tips.html"><a href="ggimage-tips.html"><i class="fa fa-check"></i><b>B</b> Tips for using <code>ggtree</code> with <code>ggimage</code></a><ul>
 <li class="chapter" data-level="B.1" data-path="ggimage-tips.html"><a href="ggimage-tips.html#ggimage-rm-image-bg"><i class="fa fa-check"></i><b>B.1</b> Example 1: Remove background of images</a></li>
@@ -359,7 +360,7 @@ tree with data. <a href="http://www.nexml.org/">NeXML</a> <span class="citation"
 flexible format, however it is currently not widely supported. Most of the
 analysis programs in this field rely extensively on Newick string and Nexus
 format. In my opinion, although BEAST Nexus
-format<a href="references.html#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a> may not be the best solution,
+format<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a> may not be the best solution,
 it is currently a good approach for storing heterogeneous associated data. The
 beauty of the format is that all the annotate elements are stored within square
 bracket, which is reserved for comments. So that the file can be parsed as
@@ -376,7 +377,7 @@ With <a href="https://bioconductor.org/packages/treeio/">treeio</a>, it is easy 
 software output to BEAST format if the output can be parsed
 by <a href="https://bioconductor.org/packages/treeio/">treeio</a> (see <a href="chapter1.html#chapter1">Chapter 1</a>). For example, we can
 convert NHX file to BEAST file and use NHX tags to color the tree using
-FigTree<a href="references.html#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a> (Figure <a href="chapter3.html#fig:beastFigtree">3.1</a>A) or convert CODEML output and use
+FigTree<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a> (Figure <a href="chapter3.html#fig:beastFigtree">3.1</a>A) or convert CODEML output and use
 <em>d<sub>N</sub>/d<sub>S</sub></em>, <em>d<sub>N</sub></em> or <em>d<sub>S</sub></em> to color the tree in FigTree (Figure <a href="chapter3.html#fig:beastFigtree">3.1</a>B).</p>
 <p>Here is an example of converting NHX file to BEAST format:</p>
 <div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="chapter3.html#cb103-1"></a>nhxfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/NHX&quot;</span>, <span class="st">&quot;phyldog.nhx&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
@@ -1016,6 +1017,13 @@ in <a href="https://bioconductor.org/packages/treeio/">treeio</a> package (see a
 <p>Yu, Guangchuang, David K. Smith, Huachen Zhu, Yi Guan, and Tommy Tsan-Yuk Lam. 2017. “Ggtree: An R Package for Visualization and Annotation of Phylogenetic Trees with Their Covariates and Other Associated Data.” <em>Methods in Ecology and Evolution</em> 8 (1): 28–36. <a href="https://doi.org/10.1111/2041-210X.12628">https://doi.org/10.1111/2041-210X.12628</a>.</p>
 </div>
 </div>
+<div class="footnotes">
+<hr />
+<ol start="9">
+<li id="fn9"><p><a href="http://beast.community/nexus_metacomments" class="uri">http://beast.community/nexus_metacomments</a><a href="chapter3.html#fnref9" class="footnote-back">↩︎</a></p></li>
+<li id="fn10"><p><a href="http://beast.community/figtree" class="uri">http://beast.community/figtree</a><a href="chapter3.html#fnref10" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
             </section>
 
           </div>
@@ -1038,15 +1046,13 @@ in <a href="https://bioconductor.org/packages/treeio/">treeio</a> package (see a
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
-"github": false,
 "facebook": true,
 "twitter": true,
-"google": false,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",

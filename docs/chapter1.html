@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 1 Importing Tree with Data | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
   <meta name="description" content="Chapter 1 Importing Tree with Data | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
-  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.15 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 1 Importing Tree with Data | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
   <meta property="og:type" content="book" />
@@ -298,8 +298,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="A.6" data-path="faq.html"><a href="faq.html#faq-under-the-tree"><i class="fa fa-check"></i><b>A.6</b> Plot something behind the phylogeny</a></li>
 <li class="chapter" data-level="A.7" data-path="faq.html"><a href="faq.html#faq-enlarge-center-space"><i class="fa fa-check"></i><b>A.7</b> Enlarge center space in circular/fan layout tree</a></li>
 <li class="chapter" data-level="A.8" data-path="faq.html"><a href="faq.html#use-the-most-distant-tip-from-the-root-as-the-origin-of-the-time-scale"><i class="fa fa-check"></i><b>A.8</b> Use the most distant tip from the root as the origin of the time scale</a></li>
-<li class="chapter" data-level="A.9" data-path="faq.html"><a href="faq.html#changing-branch-length-of-outgroup"><i class="fa fa-check"></i><b>A.9</b> Changing branch length of outgroup</a></li>
-<li class="chapter" data-level="A.10" data-path="faq.html"><a href="faq.html#export-edit"><i class="fa fa-check"></i><b>A.10</b> Edit tree graphic details</a></li>
+<li class="chapter" data-level="A.9" data-path="faq.html"><a href="faq.html#change-branch-length-of-outgroup"><i class="fa fa-check"></i><b>A.9</b> Change branch length of outgroup</a></li>
+<li class="chapter" data-level="A.10" data-path="faq.html"><a href="faq.html#bind-tip"><i class="fa fa-check"></i><b>A.10</b> Attach a new tip to a tree</a></li>
+<li class="chapter" data-level="A.11" data-path="faq.html"><a href="faq.html#export-edit"><i class="fa fa-check"></i><b>A.11</b> Edit tree graphic details</a></li>
 </ul></li>
 <li class="chapter" data-level="B" data-path="ggimage-tips.html"><a href="ggimage-tips.html"><i class="fa fa-check"></i><b>B</b> Tips for using <code>ggtree</code> with <code>ggimage</code></a><ul>
 <li class="chapter" data-level="B.1" data-path="ggimage-tips.html"><a href="ggimage-tips.html#ggimage-rm-image-bg"><i class="fa fa-check"></i><b>B.1</b> Example 1: Remove background of images</a></li>
@@ -350,7 +351,7 @@ Figure 1.1: <strong>Components of a phylogenetic tree.</strong> External nodes (
 </div>
 <div id="format" class="section level2">
 <h2><span class="header-section-number">1.2</span> Phylogenetic Tree Formats</h2>
-<p>There are several file formats designed to store phylogenetic trees and the data associated with the nodes and branches. The three commonly used formats are Newick<a href="references.html#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>, NEXUS <span class="citation">(Maddison et al. <a href="#ref-maddison_nexus:_1997" role="doc-biblioref">1997</a>)</span> and Phylip <span class="citation">(Felsenstein <a href="#ref-felsenstein_phylip_1989" role="doc-biblioref">1989</a>)</span>. Some formats (<em>e.g.</em>, NHX) are extended from Newick format. Newick and NEXUS formats are supported as input by most of the software in evolutionary biology, while some of the software tools output newer standard files (<em>e.g.</em>, <em>BEAST</em> and <em>MrBayes</em>) by introducing new rules/data blocks for storing evolutionary inferences. On the other cases (<em>e.g.</em>, <em>PAML</em> and <em>r8s</em>), output log files are only recognized by their own single software.</p>
+<p>There are several file formats designed to store phylogenetic trees and the data associated with the nodes and branches. The three commonly used formats are Newick<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>, NEXUS <span class="citation">(Maddison et al. <a href="#ref-maddison_nexus:_1997" role="doc-biblioref">1997</a>)</span> and Phylip <span class="citation">(Felsenstein <a href="#ref-felsenstein_phylip_1989" role="doc-biblioref">1989</a>)</span>. Some formats (<em>e.g.</em>, NHX) are extended from Newick format. Newick and NEXUS formats are supported as input by most of the software in evolutionary biology, while some of the software tools output newer standard files (<em>e.g.</em>, <em>BEAST</em> and <em>MrBayes</em>) by introducing new rules/data blocks for storing evolutionary inferences. On the other cases (<em>e.g.</em>, <em>PAML</em> and <em>r8s</em>), output log files are only recognized by their own single software.</p>
 <div id="newick-tree-format" class="section level3">
 <h3><span class="header-section-number">1.2.1</span> Newick tree format</h3>
 <p>The Newick tree format is the standard for representing trees in computer-readable form.</p>
@@ -418,7 +419,7 @@ It is very difficult to share tree annotation data among different programs unle
 <h3><span class="header-section-number">1.2.3</span> New Hampshire eXtended format</h3>
 <!-- Although NEXUS supports additional information in separated blocks, they are mostly not recognized by different software and can't share information among different programs. In order to store annotated tree,-->
 <p>Newick, NEXUS and phylip are mainly designed to store phylogenetic tree and basic singular data associated with internal nodes or branches. In addition to the singular data annotation at branches and nodes (mentioned above), New Hampshire eXtended format (NHX), which is based on Newick (also called New Hampshire), was developed to introduce tags to associate multiple data fields with the tree nodes (both internal nodes and tips). Tags are placed after branch length and must be wrapped between <code>[&amp;&amp;NHX</code> and <code>]</code> which makes it possible to compatible with NEXUS format as it defined characters between <code>[</code> and <code>]</code> as comments. NHX is also the output format of <em>PHYLDOG</em> <span class="citation">(Boussau et al. <a href="#ref-boussau_genome-scale_2013" role="doc-biblioref">2013</a>)</span> and <em>RevBayes</em> <span class="citation">(Höhna et al. <a href="#ref-hohna_revbayes:_2016" role="doc-biblioref">2016</a>)</span>. A Tree Viewer (<em>ATV</em>) <span class="citation">(Zmasek and Eddy <a href="#ref-zmasek_atv:_2001" role="doc-biblioref">2001</a>)</span> is a java tool that supports displaying annotation data stored in NHX format, but this package is no more maintained.</p>
-<p>Here is a sample tree from NHX definition document<a href="references.html#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>:</p>
+<p>Here is a sample tree from NHX definition document<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>:</p>
 
 <pre><code>(((ADH2:0.1[&amp;&amp;NHX:S=human],
 ADH1:0.11[&amp;&amp;NHX:S=human]):0.05[&amp;&amp;NHX:S=primates:D=Y:B=100],ADHY:0.1[&amp;&amp;NHX:S=nematode],ADHX:0.12[&amp;&amp;NHX:S=insect]):0.1[&amp;&amp;NHX:S=metazoa:D=N],
@@ -459,7 +460,7 @@ ADH2:0.12[&amp;&amp;NHX:S=yeast],ADH1:0.11[&amp;&amp;NHX:S=yeast]):0.1[&amp;&amp
     ]
 }</code></pre>
 
-<p>Jplace is the output format of <em>pplacer</em> <span class="citation">(Frederick A. Matsen, Kodner, and Armbrust <a href="#ref-matsen_pplacer:_2010" role="doc-biblioref">2010</a>)</span> and Evolutionary Placement Algorithm (<em>EPA</em>) <span class="citation">(Berger, Krompass, and Stamatakis <a href="#ref-berger_performance_2011" role="doc-biblioref">2011</a><a href="#ref-berger_performance_2011" role="doc-biblioref">a</a>)</span>. But these two programs do not contain tools to visualize placement results. <em>Pplacer</em> provides <code>placeviz</code> to convert jplace file to phyloXML or Newick formats which can be visualized by <em>Archaeopteryx</em><a href="references.html#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>.</p>
+<p>Jplace is the output format of <em>pplacer</em> <span class="citation">(Frederick A. Matsen, Kodner, and Armbrust <a href="#ref-matsen_pplacer:_2010" role="doc-biblioref">2010</a>)</span> and Evolutionary Placement Algorithm (<em>EPA</em>) <span class="citation">(Berger, Krompass, and Stamatakis <a href="#ref-berger_performance_2011" role="doc-biblioref">2011</a><a href="#ref-berger_performance_2011" role="doc-biblioref">a</a>)</span>. But these two programs do not contain tools to visualize placement results. <em>Pplacer</em> provides <code>placeviz</code> to convert jplace file to phyloXML or Newick formats which can be visualized by <em>Archaeopteryx</em><a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>.</p>
 </div>
 <div id="software-outputs" class="section level3">
 <h3><span class="header-section-number">1.2.5</span> Software outputs</h3>
@@ -558,7 +559,7 @@ END;</code></pre>
 
 <p>There are other applications that output rich information text that also contains phylogenetic trees with associated data. For example <em>r8s</em> <span class="citation">(Sanderson <a href="#ref-sanderson_r8s:_2003" role="doc-biblioref">2003</a>)</span> output three trees in its log file, namely <code>TREE</code>, <code>RATE</code> and <code>PHYLO</code> for branches scaled by time, substitution rate, and absolute substitutions respectively.</p>
 <p>Phylogenetic Analysis by Maximum Likelihood (<em>PAML</em>) <span class="citation">(Yang <a href="#ref-yang_paml_2007" role="doc-biblioref">2007</a>)</span> is a package of programs for phylogenetic analyses of DNA or protein sequences. Two main programs, <em>BaseML</em> and <em>CodeML</em>, implement a variety of models. <em>BaseML</em> estimates tree topology, branch lengths and substitution parameters using a number of nucleotide substitution models available, including JC69, K80, F81, F84, HKY85, T92, TN93 and GTR. <em>CodeML</em> estimates synonymous and non-synonymous substitution rates, likelihood ratio test of positive selection under codon substitution models <span class="citation">(Goldman and Yang <a href="#ref-goldman_codon-based_1994" role="doc-biblioref">1994</a>)</span>.</p>
-<p><em>BaseML</em> outputs <em>mlb</em> file that contains input sequence (taxa) alignment and phylogenetic tree with branch length as well as substitution model and other parameters estimated. The supplementary result file, <em>rst</em>, contains sequence alignment (with ancestral sequence if perform reconstruction of ancestral sequences) and Naive Empirical Bayes (NBE) probabilities that each site in the alignment evolved. <em>CodeML</em> outputs <em>mlc</em> file that contains tree structure and estimation of synonymous and non-synonymous substitution rates. <em>CodeML</em> also output supplementary result file, <em>rst</em>, that is similar to <em>BaseML</em> except that site is defined as codon instead of nucleotide. Parsing these files can be tedious and would oftentimes need a number of post-processing steps and require expertise in programming (e.g. with Python<a href="references.html#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a> or Perl<a href="references.html#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a>).</p>
+<p><em>BaseML</em> outputs <em>mlb</em> file that contains input sequence (taxa) alignment and phylogenetic tree with branch length as well as substitution model and other parameters estimated. The supplementary result file, <em>rst</em>, contains sequence alignment (with ancestral sequence if perform reconstruction of ancestral sequences) and Naive Empirical Bayes (NBE) probabilities that each site in the alignment evolved. <em>CodeML</em> outputs <em>mlc</em> file that contains tree structure and estimation of synonymous and non-synonymous substitution rates. <em>CodeML</em> also output supplementary result file, <em>rst</em>, that is similar to <em>BaseML</em> except that site is defined as codon instead of nucleotide. Parsing these files can be tedious and would oftentimes need a number of post-processing steps and require expertise in programming (e.g. with Python<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a> or Perl<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a>).</p>
 <p>Introducing square brackets is quite common for storing extra information, including <em>RAxML</em> to store bootstrap value, NHX format for annotation, jplace for edge label and <em>BEAST</em> for evolutionary estimation, <em>etc.</em>. But the positions to place square brackets are not consistent in different software and the contents employ different rules for storing associated data, these properties make it difficult to parse associated data. For most of the software, they will just ignore square brackets and only parse the tree structure if the file is compatible. Some of them contains invalid characters (e.g. curly braces in <code>tree</code> field of jplace format) and even the tree structure can’t be parsed by standard parsers.</p>
 <p>It is difficult to extract useful phylogeny/taxon-related information from the different analysis outputs produced by various evolutionary inference software, for displaying on the same phylogenetic tree and for further analysis. <em>FigTree</em> supports <em>BEAST</em> output, but not for most of other software outputs that contains evolutionary inferences or associated data. For those output rich text files (e.g. <em>r8s</em>, <em>PAML</em>, <em>etc.</em>), the tree structure cannot be parsed by any tree viewing software and users need expertise to manually extract the phylogenetic tree and other useful result data from the output file. However, such manual operation is slow and error-prone.</p>
 <!-- can't be supported and hard to display on the tree. A very common solution is to modified node labels by putting associated data to node labels and dispaly them as node lables. This is quite restricted and error prone.-->
@@ -589,7 +590,7 @@ widely used software packages in this field are not well
 supported. SIMMAP output can be parsed by <a href="https://CRAN.R-project.org/package=phyext2">phyext2</a> and <a href="https://CRAN.R-project.org/package=phytools">phytools</a>.
 Although <a href="http://www.christophheibl.de/Rpackages.html">PHYLOCH</a> can
 import <em>BEAST</em> and <em>MrBayes</em> output, only internal node attributes were parsed and
-tip attributes were ignore<a href="references.html#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a>. Many other software outputs are mainly required
+tip attributes were ignore<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a>. Many other software outputs are mainly required
 programming expertise to import the tree with associated data. Linking external
 data, including experimental and clinical data, to phylogeny is another obstacle
 for evolution biologists.</p>
@@ -615,7 +616,7 @@ jplace and Phylip as well as the data outputs from the following analysis progra
 <a href="http://matsen.fhcrc.org/pplacer/">pplacer</a>,
 <a href="http://ginger.ucdavis.edu/r8s">r8s</a>,
 <a href="http://evomics.org/learning/phylogenetics/raxml/">RAxML</a> and
-<a href="https://revbayes.github.io/intro.html">RevBayes</a> <em>etc</em>. This is made possible with the several parser functions developed in <em>treeio</em> (Table <a href="chapter1.html#tab:treeio-function">1.1</a>)<a href="references.html#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a>.</p>
+<a href="https://revbayes.github.io/intro.html">RevBayes</a> <em>etc</em>. This is made possible with the several parser functions developed in <em>treeio</em> (Table <a href="chapter1.html#tab:treeio-function">1.1</a>)<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a>.</p>
 <table>
 <caption>
 <span id="tab:treeio-function">Table 1.1: </span>Parser functions defined in treeio
@@ -1440,6 +1441,18 @@ directly subset the data by <code>[</code> or <code>[[</code>.</p>
 <p>Zmasek, Christian M., and Sean R. Eddy. 2001. “ATV: Display and Manipulation of Annotated Phylogenetic Trees.” <em>Bioinformatics</em> 17 (4): 383–84. <a href="https://doi.org/10.1093/bioinformatics/17.4.383">https://doi.org/10.1093/bioinformatics/17.4.383</a>.</p>
 </div>
 </div>
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p><a href="http://evolution.genetics.washington.edu/phylip/newick_doc.html" class="uri">http://evolution.genetics.washington.edu/phylip/newick_doc.html</a><a href="chapter1.html#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p><a href="http://www.genetics.wustl.edu/eddy/forester/NHX.html" class="uri">http://www.genetics.wustl.edu/eddy/forester/NHX.html</a><a href="chapter1.html#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p><a href="https://sites.google.com/site/cmzmasek/home/software/archaeopteryx" class="uri">https://sites.google.com/site/cmzmasek/home/software/archaeopteryx</a><a href="chapter1.html#fnref3" class="footnote-back">↩︎</a></p></li>
+<li id="fn4"><p><a href="http://biopython.org/wiki/PAML" class="uri">http://biopython.org/wiki/PAML</a><a href="chapter1.html#fnref4" class="footnote-back">↩︎</a></p></li>
+<li id="fn5"><p><a href="http://bioperl.org/howtos/PAML_HOWTO.html" class="uri">http://bioperl.org/howtos/PAML_HOWTO.html</a><a href="chapter1.html#fnref5" class="footnote-back">↩︎</a></p></li>
+<li id="fn6"><p><a href="https://github.com/ropensci/software-review/issues/179#issuecomment-369164110" class="uri">https://github.com/ropensci/software-review/issues/179#issuecomment-369164110</a><a href="chapter1.html#fnref6" class="footnote-back">↩︎</a></p></li>
+<li id="fn7"><p>users can also use <code>read.tree</code> and <code>read.nexus</code> from <a href="https://CRAN.R-project.org/package=ape">ape</a> to import phylogenetic tree from newick string and NEXUS file<a href="chapter1.html#fnref7" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
             </section>
 
           </div>
@@ -1462,15 +1475,13 @@ directly subset the data by <code>[</code> or <code>[[</code>.</p>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
-"github": false,
 "facebook": true,
 "twitter": true,
-"google": false,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",

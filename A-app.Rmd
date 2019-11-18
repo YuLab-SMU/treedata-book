@@ -373,7 +373,7 @@ p2 <- revts(p) + scale_x_continuous(labels=abs)
 plot_grid(p, p2, ncol=2, labels=c("A", "B"))
 ```
 
-## Changing branch length of outgroup
+## Change branch length of outgroup
 
 When outgroups are on a very long branch length (Figure \@ref(fig:outgroupEdge)A), we would like to keep the out groups in the tree but ignore their branch lengths (Figure \@ref(fig:outgroupEdge)B)^[example from: <https://groups.google.com/d/msg/bioc-ggtree/T2ySvqv351g/mHsyljvBCwAJ>]. This can be easily done by modifying coordination of the out groups.
 
@@ -393,6 +393,37 @@ p <- p1 <- ggtree(y, aes(linetype = group)) +
 p$data[p$data$node %in% c(75, 76), "x"] <- mean(p$data$x)
 plot_grid(p1, p, ncol=2)
 ```
+
+## Attach a new tip to a tree {#bind-tip}
+
+Sometimes there are known branches that are not in the tree, and we would like to have them on the tree. Another scenario is that we have a newly sequence species and would like to update reference tree with this species by inferring its evolutionary position.
+
+Users can use `phytools::bind.tip()` [@revell_phytools_2012] to attach a new tip to a tree. With `r CRANpkg("tidytree")`, it is easy to add annotation to differentiate newly introduce and original branches as demonstrated in Figure \@ref(fig:bindTip). 
+
+(ref:bindTipscap) Attaching a new tip to a tree.
+
+(ref:bindTipcap) **Attaching a new tip to a tree.** 
+
+
+```{r bindTip, fig.cap="(ref:bindTipcap)", fig.scap="(ref:bindTipscap)", fig.width=6, fig.height=4}
+library(phytools)
+library(tidytree)
+library(ggtree)
+
+set.seed(2019-11-18)
+tr <- rtree(5)
+tr2 <- bind.tip(tr, 'U', edge.length = 0.1, where = 7)
+d <- as_tibble(tr2)
+d$type <- "original"
+d$type[d$label == 'U'] <- 'newly introduce'
+tr3 <- as.treedata(d)
+ggtree(tr3, aes(linetype=type)) + 
+  scale_linetype_manual(values = c("newly introduce" = "dashed", 
+                                    "original" = "solid")) + 
+  theme(legend.position=c(.8, .2))
+``` 
+
+
 
 ## Edit tree graphic details {#export-edit}
 

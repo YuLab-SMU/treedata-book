@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 10 ggtree utilities | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
   <meta name="description" content="Chapter 10 ggtree utilities | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
-  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.15 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 10 ggtree utilities | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
   <meta property="og:type" content="book" />
@@ -298,8 +298,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="A.6" data-path="faq.html"><a href="faq.html#faq-under-the-tree"><i class="fa fa-check"></i><b>A.6</b> Plot something behind the phylogeny</a></li>
 <li class="chapter" data-level="A.7" data-path="faq.html"><a href="faq.html#faq-enlarge-center-space"><i class="fa fa-check"></i><b>A.7</b> Enlarge center space in circular/fan layout tree</a></li>
 <li class="chapter" data-level="A.8" data-path="faq.html"><a href="faq.html#use-the-most-distant-tip-from-the-root-as-the-origin-of-the-time-scale"><i class="fa fa-check"></i><b>A.8</b> Use the most distant tip from the root as the origin of the time scale</a></li>
-<li class="chapter" data-level="A.9" data-path="faq.html"><a href="faq.html#changing-branch-length-of-outgroup"><i class="fa fa-check"></i><b>A.9</b> Changing branch length of outgroup</a></li>
-<li class="chapter" data-level="A.10" data-path="faq.html"><a href="faq.html#export-edit"><i class="fa fa-check"></i><b>A.10</b> Edit tree graphic details</a></li>
+<li class="chapter" data-level="A.9" data-path="faq.html"><a href="faq.html#change-branch-length-of-outgroup"><i class="fa fa-check"></i><b>A.9</b> Change branch length of outgroup</a></li>
+<li class="chapter" data-level="A.10" data-path="faq.html"><a href="faq.html#bind-tip"><i class="fa fa-check"></i><b>A.10</b> Attach a new tip to a tree</a></li>
+<li class="chapter" data-level="A.11" data-path="faq.html"><a href="faq.html#export-edit"><i class="fa fa-check"></i><b>A.11</b> Edit tree graphic details</a></li>
 </ul></li>
 <li class="chapter" data-level="B" data-path="ggimage-tips.html"><a href="ggimage-tips.html"><i class="fa fa-check"></i><b>B</b> Tips for using <code>ggtree</code> with <code>ggimage</code></a><ul>
 <li class="chapter" data-level="B.1" data-path="ggimage-tips.html"><a href="ggimage-tips.html#ggimage-rm-image-bg"><i class="fa fa-check"></i><b>B.1</b> Example 1: Remove background of images</a></li>
@@ -552,7 +553,7 @@ Figure 10.5: <strong>Setting xlim for user specific panel.</strong> xlim for <co
 <li>the plotted data have different limits</li>
 <li>the different plots have different amounts of expansion spaces</li>
 </ul>
-<p>To address these two issues, <a href="http://bioconductor.org/packages/ggtree">ggtree</a> provides <code>xlim2()</code> and <code>ylim2()</code> functions to set x or y limits<a href="references.html#fn20" class="footnote-ref" id="fnref20"><sup>20</sup></a>. It use input <code>limits</code> to set axis limits that is similar to <code>xlim()</code> and <code>ylim()</code> (Figure <a href="chapter10.html#fig:axisAlign">10.6</a>B). If <code>limits = NULL</code> (by default), the <code>xlim2()</code> and <code>ylim2()</code> functions will calculate axis limits from input <code>ggplot</code> object. So that we can easily set limits of a <code>ggplot</code> object based on another <code>ggplot</code> object to uniformize their limits (Figure <a href="chapter10.html#fig:axisAlign">10.6</a>C).</p>
+<p>To address these two issues, <a href="http://bioconductor.org/packages/ggtree">ggtree</a> provides <code>xlim2()</code> and <code>ylim2()</code> functions to set x or y limits<a href="#fn20" class="footnote-ref" id="fnref20"><sup>20</sup></a>. It use input <code>limits</code> to set axis limits that is similar to <code>xlim()</code> and <code>ylim()</code> (Figure <a href="chapter10.html#fig:axisAlign">10.6</a>B). If <code>limits = NULL</code> (by default), the <code>xlim2()</code> and <code>ylim2()</code> functions will calculate axis limits from input <code>ggplot</code> object. So that we can easily set limits of a <code>ggplot</code> object based on another <code>ggplot</code> object to uniformize their limits (Figure <a href="chapter10.html#fig:axisAlign">10.6</a>C).</p>
 <div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="chapter10.html#cb235-1"></a>pp2 &lt;-<span class="st"> </span><span class="kw">lapply</span>(pp, <span class="cf">function</span>(p) p <span class="op">+</span><span class="st"> </span><span class="kw">xlim2</span>(<span class="dt">limits=</span><span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">11</span>)))</span>
 <span id="cb235-2"><a href="chapter10.html#cb235-2"></a>pp3 &lt;-<span class="st"> </span><span class="kw">lapply</span>(pp, <span class="cf">function</span>(p) p <span class="op">+</span><span class="st"> </span><span class="kw">xlim2</span>(p1))</span>
 <span id="cb235-3"><a href="chapter10.html#cb235-3"></a></span>
@@ -682,6 +683,12 @@ https://github.com/wilkelab/cowplot/issues/40
 </div>
 </div>
 </div>
+<div class="footnotes">
+<hr />
+<ol start="20">
+<li id="fn20"><p>the implementation was inspired by <a href="https://thackl.github.io/ggtree-composite-plots" class="uri">https://thackl.github.io/ggtree-composite-plots</a><a href="chapter10.html#fnref20" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
             </section>
 
           </div>
@@ -704,15 +711,13 @@ https://github.com/wilkelab/cowplot/issues/40
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
-"github": false,
 "facebook": true,
 "twitter": true,
-"google": false,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",
