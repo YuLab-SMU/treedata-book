@@ -643,24 +643,31 @@ Figure A.9: <strong>Changing branch length of outgroup.</strong> Original tree (
 <div id="bind-tip" class="section level2">
 <h2><span class="header-section-number">A.10</span> Attach a new tip to a tree</h2>
 <p>Sometimes there are known branches that are not in the tree, and we would like to have them on the tree. Another scenario is that we have a newly sequence species and would like to update reference tree with this species by inferring its evolutionary position.</p>
-<p>Users can use <code>phytools::bind.tip()</code> <span class="citation">(Revell <a href="#ref-revell_phytools_2012" role="doc-biblioref">2012</a>)</span> to attach a new tip to a tree. With <a href="https://CRAN.R-project.org/package=tidytree">tidytree</a>, it is easy to add annotation to differentiate newly introduce and original branches as demonstrated in Figure <a href="faq.html#fig:bindTip">A.10</a>.</p>
+<p>Users can use <code>phytools::bind.tip()</code> <span class="citation">(Revell <a href="#ref-revell_phytools_2012" role="doc-biblioref">2012</a>)</span> to attach a new tip to a tree. With <a href="https://CRAN.R-project.org/package=tidytree">tidytree</a>, it is easy to add annotation to differentiate newly introduce and original branches and to reflect uncertainty of the added branch splits off as demonstrated in Figure <a href="faq.html#fig:bindTip">A.10</a>.</p>
 
 
 <div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb269-1"><a href="faq.html#cb269-1"></a><span class="kw">library</span>(phytools)</span>
 <span id="cb269-2"><a href="faq.html#cb269-2"></a><span class="kw">library</span>(tidytree)</span>
-<span id="cb269-3"><a href="faq.html#cb269-3"></a><span class="kw">library</span>(ggtree)</span>
-<span id="cb269-4"><a href="faq.html#cb269-4"></a></span>
-<span id="cb269-5"><a href="faq.html#cb269-5"></a><span class="kw">set.seed</span>(<span class="dv">2019-11-18</span>)</span>
-<span id="cb269-6"><a href="faq.html#cb269-6"></a>tr &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">5</span>)</span>
-<span id="cb269-7"><a href="faq.html#cb269-7"></a>tr2 &lt;-<span class="st"> </span><span class="kw">bind.tip</span>(tr, <span class="st">&#39;U&#39;</span>, <span class="dt">edge.length =</span> <span class="fl">0.1</span>, <span class="dt">where =</span> <span class="dv">7</span>)</span>
-<span id="cb269-8"><a href="faq.html#cb269-8"></a>d &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(tr2)</span>
-<span id="cb269-9"><a href="faq.html#cb269-9"></a>d<span class="op">$</span>type &lt;-<span class="st"> &quot;original&quot;</span></span>
-<span id="cb269-10"><a href="faq.html#cb269-10"></a>d<span class="op">$</span>type[d<span class="op">$</span>label <span class="op">==</span><span class="st"> &#39;U&#39;</span>] &lt;-<span class="st"> &#39;newly introduce&#39;</span></span>
-<span id="cb269-11"><a href="faq.html#cb269-11"></a>tr3 &lt;-<span class="st"> </span><span class="kw">as.treedata</span>(d)</span>
-<span id="cb269-12"><a href="faq.html#cb269-12"></a><span class="kw">ggtree</span>(tr3, <span class="kw">aes</span>(<span class="dt">linetype=</span>type)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb269-13"><a href="faq.html#cb269-13"></a><span class="st">  </span><span class="kw">scale_linetype_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;newly introduce&quot;</span> =<span class="st"> &quot;dashed&quot;</span>, </span>
-<span id="cb269-14"><a href="faq.html#cb269-14"></a>                                    <span class="st">&quot;original&quot;</span> =<span class="st"> &quot;solid&quot;</span>)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb269-15"><a href="faq.html#cb269-15"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="kw">c</span>(.<span class="dv">8</span>, <span class="fl">.2</span>))</span></code></pre></div>
+<span id="cb269-3"><a href="faq.html#cb269-3"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb269-4"><a href="faq.html#cb269-4"></a><span class="kw">library</span>(ggtree)</span>
+<span id="cb269-5"><a href="faq.html#cb269-5"></a></span>
+<span id="cb269-6"><a href="faq.html#cb269-6"></a><span class="kw">set.seed</span>(<span class="dv">2019-11-18</span>)</span>
+<span id="cb269-7"><a href="faq.html#cb269-7"></a>tr &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">5</span>)</span>
+<span id="cb269-8"><a href="faq.html#cb269-8"></a></span>
+<span id="cb269-9"><a href="faq.html#cb269-9"></a>tr2 &lt;-<span class="st"> </span><span class="kw">bind.tip</span>(tr, <span class="st">&#39;U&#39;</span>, <span class="dt">edge.length =</span> <span class="fl">0.1</span>, <span class="dt">where =</span> <span class="dv">7</span>, <span class="dt">position=</span><span class="fl">0.15</span>)</span>
+<span id="cb269-10"><a href="faq.html#cb269-10"></a>d &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(tr2)</span>
+<span id="cb269-11"><a href="faq.html#cb269-11"></a>d<span class="op">$</span>type &lt;-<span class="st"> &quot;original&quot;</span></span>
+<span id="cb269-12"><a href="faq.html#cb269-12"></a>d<span class="op">$</span>type[d<span class="op">$</span>label <span class="op">==</span><span class="st"> &#39;U&#39;</span>] &lt;-<span class="st"> &#39;newly introduce&#39;</span></span>
+<span id="cb269-13"><a href="faq.html#cb269-13"></a>d<span class="op">$</span>sd &lt;-<span class="st"> </span><span class="ot">NA</span></span>
+<span id="cb269-14"><a href="faq.html#cb269-14"></a>d<span class="op">$</span>sd[<span class="kw">parent</span>(d, <span class="st">&#39;U&#39;</span>)<span class="op">$</span>node] &lt;-<span class="st"> </span><span class="fl">0.05</span></span>
+<span id="cb269-15"><a href="faq.html#cb269-15"></a></span>
+<span id="cb269-16"><a href="faq.html#cb269-16"></a>tr3 &lt;-<span class="st"> </span><span class="kw">as.treedata</span>(d)</span>
+<span id="cb269-17"><a href="faq.html#cb269-17"></a><span class="kw">ggtree</span>(tr3, <span class="kw">aes</span>(<span class="dt">linetype=</span>type)) <span class="op">+</span><span class="st">  </span><span class="kw">geom_tiplab</span>() <span class="op">+</span></span>
+<span id="cb269-18"><a href="faq.html#cb269-18"></a><span class="st">  </span><span class="kw">geom_errorbarh</span>(<span class="kw">aes</span>(<span class="dt">xmin=</span>x<span class="op">-</span>sd, <span class="dt">xmax=</span>x<span class="op">+</span>sd, <span class="dt">y =</span> y <span class="op">-</span><span class="st"> </span><span class="fl">0.3</span>), </span>
+<span id="cb269-19"><a href="faq.html#cb269-19"></a>                <span class="dt">linetype=</span><span class="st">&#39;dashed&#39;</span>, <span class="dt">height=</span><span class="fl">0.1</span>) <span class="op">+</span></span>
+<span id="cb269-20"><a href="faq.html#cb269-20"></a><span class="st">  </span><span class="kw">scale_linetype_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;newly introduce&quot;</span> =<span class="st"> &quot;dashed&quot;</span>, </span>
+<span id="cb269-21"><a href="faq.html#cb269-21"></a>                                   <span class="st">&quot;original&quot;</span> =<span class="st"> &quot;solid&quot;</span>)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb269-22"><a href="faq.html#cb269-22"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="kw">c</span>(.<span class="dv">8</span>, <span class="fl">.2</span>)) </span></code></pre></div>
 <div class="figure"><span id="fig:bindTip"></span>
 <img src="treedata_files/figure-html/bindTip-1.png" alt="Attaching a new tip to a tree." width="576" />
 <p class="caption">

@@ -398,29 +398,36 @@ plot_grid(p1, p, ncol=2)
 
 Sometimes there are known branches that are not in the tree, and we would like to have them on the tree. Another scenario is that we have a newly sequence species and would like to update reference tree with this species by inferring its evolutionary position.
 
-Users can use `phytools::bind.tip()` [@revell_phytools_2012] to attach a new tip to a tree. With `r CRANpkg("tidytree")`, it is easy to add annotation to differentiate newly introduce and original branches as demonstrated in Figure \@ref(fig:bindTip). 
+Users can use `phytools::bind.tip()` [@revell_phytools_2012] to attach a new tip to a tree. With `r CRANpkg("tidytree")`, it is easy to add annotation to differentiate newly introduce and original branches and to reflect uncertainty of the added branch splits off as demonstrated in Figure \@ref(fig:bindTip). 
 
 (ref:bindTipscap) Attaching a new tip to a tree.
 
 (ref:bindTipcap) **Attaching a new tip to a tree.** 
 
 
-```{r bindTip, fig.cap="(ref:bindTipcap)", fig.scap="(ref:bindTipscap)", fig.width=6, fig.height=4}
+```{r bindTip, fig.cap="(ref:bindTipcap)", fig.scap="(ref:bindTipscap)", fig.width=6, fig.height=5}
 library(phytools)
 library(tidytree)
+library(ggplot2)
 library(ggtree)
 
 set.seed(2019-11-18)
 tr <- rtree(5)
-tr2 <- bind.tip(tr, 'U', edge.length = 0.1, where = 7)
+
+tr2 <- bind.tip(tr, 'U', edge.length = 0.1, where = 7, position=0.15)
 d <- as_tibble(tr2)
 d$type <- "original"
 d$type[d$label == 'U'] <- 'newly introduce'
+d$sd <- NA
+d$sd[parent(d, 'U')$node] <- 0.05
+
 tr3 <- as.treedata(d)
-ggtree(tr3, aes(linetype=type)) + 
+ggtree(tr3, aes(linetype=type)) +  geom_tiplab() +
+  geom_errorbarh(aes(xmin=x-sd, xmax=x+sd, y = y - 0.3), 
+                linetype='dashed', height=0.1) +
   scale_linetype_manual(values = c("newly introduce" = "dashed", 
-                                    "original" = "solid")) + 
-  theme(legend.position=c(.8, .2))
+                                   "original" = "solid")) + 
+  theme(legend.position=c(.8, .2)) 
 ``` 
 
 
