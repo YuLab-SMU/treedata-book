@@ -67,11 +67,8 @@ newick <- "((Pongo_abelii,(Gorilla_gorilla_gorilla,(Pan_paniscus,Pan_troglodytes
 
 tree <- read.tree(text=newick)
 
-idlist <- ggimage::phylopic_uid(tree$tip.label)
-ids <- sapply(idlist, function(x) x[1,1])
-
-d <- data.frame(label = tree$tip.label, uid = ids, 
-                body_mass = c(52, 114, 47, 45, 58, 6))
+d <- ggimage::phylopic_uid(tree$tip.label)
+d$body_mass = c(52, 114, 47, 45, 58, 6)
 
 p <- ggtree(tree) %<+% d + 
   geom_tiplab(aes(image=uid, colour=body_mass), geom="phylopic", offset=2.5) +

@@ -380,16 +380,13 @@ Figure 8.1: <strong>Labelling taxa with images.</strong>
 <span id="cb201-3"><a href="chapter8.html#cb201-3"></a></span>
 <span id="cb201-4"><a href="chapter8.html#cb201-4"></a>tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="dt">text=</span>newick)</span>
 <span id="cb201-5"><a href="chapter8.html#cb201-5"></a></span>
-<span id="cb201-6"><a href="chapter8.html#cb201-6"></a>idlist &lt;-<span class="st"> </span>ggimage<span class="op">::</span><span class="kw">phylopic_uid</span>(tree<span class="op">$</span>tip.label)</span>
-<span id="cb201-7"><a href="chapter8.html#cb201-7"></a>ids &lt;-<span class="st"> </span><span class="kw">sapply</span>(idlist, <span class="cf">function</span>(x) x[<span class="dv">1</span>,<span class="dv">1</span>])</span>
+<span id="cb201-6"><a href="chapter8.html#cb201-6"></a>d &lt;-<span class="st"> </span>ggimage<span class="op">::</span><span class="kw">phylopic_uid</span>(tree<span class="op">$</span>tip.label)</span>
+<span id="cb201-7"><a href="chapter8.html#cb201-7"></a>d<span class="op">$</span>body_mass =<span class="st"> </span><span class="kw">c</span>(<span class="dv">52</span>, <span class="dv">114</span>, <span class="dv">47</span>, <span class="dv">45</span>, <span class="dv">58</span>, <span class="dv">6</span>)</span>
 <span id="cb201-8"><a href="chapter8.html#cb201-8"></a></span>
-<span id="cb201-9"><a href="chapter8.html#cb201-9"></a>d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">label =</span> tree<span class="op">$</span>tip.label, <span class="dt">uid =</span> ids, </span>
-<span id="cb201-10"><a href="chapter8.html#cb201-10"></a>                <span class="dt">body_mass =</span> <span class="kw">c</span>(<span class="dv">52</span>, <span class="dv">114</span>, <span class="dv">47</span>, <span class="dv">45</span>, <span class="dv">58</span>, <span class="dv">6</span>))</span>
-<span id="cb201-11"><a href="chapter8.html#cb201-11"></a></span>
-<span id="cb201-12"><a href="chapter8.html#cb201-12"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree) <span class="op">%&lt;+%</span><span class="st"> </span>d <span class="op">+</span><span class="st"> </span></span>
-<span id="cb201-13"><a href="chapter8.html#cb201-13"></a><span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">image=</span>uid, <span class="dt">colour=</span>body_mass), <span class="dt">geom=</span><span class="st">&quot;phylopic&quot;</span>, <span class="dt">offset=</span><span class="fl">2.5</span>) <span class="op">+</span></span>
-<span id="cb201-14"><a href="chapter8.html#cb201-14"></a><span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">label=</span>label), <span class="dt">offset =</span> <span class="fl">.2</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="ot">NA</span>, <span class="dv">7</span>) <span class="op">+</span></span>
-<span id="cb201-15"><a href="chapter8.html#cb201-15"></a><span class="st">  </span><span class="kw">scale_color_viridis_c</span>()</span></code></pre></div>
+<span id="cb201-9"><a href="chapter8.html#cb201-9"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree) <span class="op">%&lt;+%</span><span class="st"> </span>d <span class="op">+</span><span class="st"> </span></span>
+<span id="cb201-10"><a href="chapter8.html#cb201-10"></a><span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">image=</span>uid, <span class="dt">colour=</span>body_mass), <span class="dt">geom=</span><span class="st">&quot;phylopic&quot;</span>, <span class="dt">offset=</span><span class="fl">2.5</span>) <span class="op">+</span></span>
+<span id="cb201-11"><a href="chapter8.html#cb201-11"></a><span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">label=</span>label), <span class="dt">offset =</span> <span class="fl">.2</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="ot">NA</span>, <span class="dv">7</span>) <span class="op">+</span></span>
+<span id="cb201-12"><a href="chapter8.html#cb201-12"></a><span class="st">  </span><span class="kw">scale_color_viridis_c</span>()</span></code></pre></div>
 
 
 <div class="figure"><span id="fig:phylopic"></span>
