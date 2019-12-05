@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 9 ggtree for other tree-like objects | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
   <meta name="description" content="Chapter 9 ggtree for other tree-like objects | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
-  <meta name="generator" content="bookdown 0.15 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 9 ggtree for other tree-like objects | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2019-11-29" />
+<meta name="date" content="2019-12-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -256,6 +256,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="9.2" data-path="chapter9.html"><a href="chapter9.html#dendrogram"><i class="fa fa-check"></i><b>9.2</b> ggtree for dendrograms</a></li>
 <li class="chapter" data-level="9.3" data-path="chapter9.html"><a href="chapter9.html#igraph"><i class="fa fa-check"></i><b>9.3</b> ggtree for tree graph</a></li>
+<li class="chapter" data-level="9.4" data-path="chapter9.html"><a href="chapter9.html#ggtree-for-other-tree-like-structure"><i class="fa fa-check"></i><b>9.4</b> ggtree for other tree-like structure</a></li>
 </ul></li>
 <li class="part"><span><b>Part III: Miscellaneous topics</b></span></li>
 <li class="chapter" data-level="10" data-path="chapter10.html"><a href="chapter10.html"><i class="fa fa-check"></i><b>10</b> ggtree utilities</a><ul>
@@ -570,6 +571,37 @@ Figure 9.6: <strong>Visualizing dendrogram.</strong>
 Figure 9.7: <strong>Visualizing tree graph.</strong>
 </p>
 </div>
+</div>
+<div id="ggtree-for-other-tree-like-structure" class="section level2">
+<h2><span class="header-section-number">9.4</span> ggtree for other tree-like structure</h2>
+<p>The <a href="http://bioconductor.org/packages/ggtree">ggtree</a> package can be used to visualize any data in hierachical structure. Here, we use the GNI (Gross National Income) numbers in 2014 as an example. After preparing an edge list, that is a matrix or data frame that contains two columns indicating the relationship of parent and child nodes, we can use <code>as.phylo</code> provided by <a href="http://bioconductor.org/packages/treeio">treeio</a> to convert the edge list to a phylo object. Then it can be visualized using <a href="http://bioconductor.org/packages/ggtree">ggtree</a> with associated data. In this example, the population was used to scale the size of circle points for each country.</p>
+
+
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="chapter9.html#cb224-1"></a><span class="kw">library</span>(treeio)</span>
+<span id="cb224-2"><a href="chapter9.html#cb224-2"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb224-3"><a href="chapter9.html#cb224-3"></a><span class="kw">library</span>(ggtree)</span>
+<span id="cb224-4"><a href="chapter9.html#cb224-4"></a></span>
+<span id="cb224-5"><a href="chapter9.html#cb224-5"></a><span class="kw">data</span>(<span class="st">&quot;GNI2014&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treemap&quot;</span>)</span>
+<span id="cb224-6"><a href="chapter9.html#cb224-6"></a>n &lt;-<span class="st"> </span>GNI2014[, <span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">1</span>)]</span>
+<span id="cb224-7"><a href="chapter9.html#cb224-7"></a>n[,<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="kw">as.character</span>(n[,<span class="dv">1</span>])</span>
+<span id="cb224-8"><a href="chapter9.html#cb224-8"></a>n[,<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">&quot;</span><span class="ch">\\</span><span class="st">s</span><span class="ch">\\</span><span class="st">(.*</span><span class="ch">\\</span><span class="st">)&quot;</span>, <span class="st">&quot;&quot;</span>, n[,<span class="dv">1</span>])</span>
+<span id="cb224-9"><a href="chapter9.html#cb224-9"></a></span>
+<span id="cb224-10"><a href="chapter9.html#cb224-10"></a>w &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="st">&quot;World&quot;</span>, <span class="kw">as.character</span>(<span class="kw">unique</span>(n[,<span class="dv">1</span>])))</span>
+<span id="cb224-11"><a href="chapter9.html#cb224-11"></a></span>
+<span id="cb224-12"><a href="chapter9.html#cb224-12"></a><span class="kw">colnames</span>(w) &lt;-<span class="st"> </span><span class="kw">colnames</span>(n)</span>
+<span id="cb224-13"><a href="chapter9.html#cb224-13"></a>edgelist &lt;-<span class="st"> </span><span class="kw">rbind</span>(n, w)</span>
+<span id="cb224-14"><a href="chapter9.html#cb224-14"></a></span>
+<span id="cb224-15"><a href="chapter9.html#cb224-15"></a>y &lt;-<span class="st"> </span><span class="kw">as.phylo</span>(edgelist)</span>
+<span id="cb224-16"><a href="chapter9.html#cb224-16"></a><span class="kw">ggtree</span>(y, <span class="dt">layout=</span><span class="st">&#39;circular&#39;</span>) <span class="op">%&lt;+%</span><span class="st"> </span>GNI2014 <span class="op">+</span><span class="st"> </span></span>
+<span id="cb224-17"><a href="chapter9.html#cb224-17"></a><span class="st">    </span><span class="kw">aes</span>(<span class="dt">color=</span>continent) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">size=</span>population)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb224-18"><a href="chapter9.html#cb224-18"></a><span class="st">    </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">label=</span>country)) <span class="op">+</span></span>
+<span id="cb224-19"><a href="chapter9.html#cb224-19"></a><span class="st">    </span><span class="kw">theme</span>(<span class="dt">plot.margin=</span><span class="kw">margin</span>(<span class="dv">60</span>,<span class="dv">60</span>,<span class="dv">60</span>,<span class="dv">60</span>))</span></code></pre></div>
+<div class="figure"><span id="fig:gni2014"></span>
+<img src="treedata_files/figure-html/gni2014-1.png" alt="Visualizing data in hierachical structure." width="1152" />
+<p class="caption">
+Figure 9.8: <strong>Visualizing data in hierachical structure.</strong>
+</p>
+</div>
 
 </div>
 </div>
@@ -616,6 +648,7 @@ Figure 9.7: <strong>Visualizing tree graph.</strong>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
+"github": false,
 "facebook": true,
 "twitter": true,
 "linkedin": false,
@@ -634,6 +667,10 @@ gitbook.start({
 "text": null
 },
 "history": {
+"link": null,
+"text": null
+},
+"view": {
 "link": null,
 "text": null
 },
