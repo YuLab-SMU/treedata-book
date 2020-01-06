@@ -440,6 +440,26 @@ ggtree(tr3, aes(linetype=type)) +  geom_tiplab() +
 It can be hard to modify plot details for ordinary users using `r CRANpkg("ggplot2")`/`r Biocpkg("ggtree")`. We recommend using the `r CRANpkg("export")` package to export `r Biocpkg("ggtree")` output to 'Microsoft Office' Document and edit the tree graphic in 'PowerPoint'.
 
 
+# Related tools {#related-tools}
+
+## rtol: An R interface to Open Tree API
+
+`r CRANpkg("rtol")` [@michonneau_rotl:_2016] is an R package to interact with the Open Tree of Life data APIs. 
+
+(ref:rotlSubtreescap) Get an induced subtree from the big Open Tree.
+
+(ref:rotlSubtreecap) **Get an induced subtree from the big Open Tree.**
+
+
+
+```{r rotlSubtree, fig.width=8, fig.height=6, fig.cap="(ref:rotlSubtreecap)", fig.scap="(ref:rotlSubtreescap)"} 
+## example from: https://github.com/ropensci/rotl
+library(rotl)
+apes <- c("Pongo", "Pan", "Gorilla", "Hoolock", "Homo")
+(resolved_names <- tnrs_match_names(apes))
+tr <- tol_induced_subtree(ott_ids = ott_id(resolved_names))
+ggtree(tr) + geom_tiplab() + xlim(NA, 5)
+```
 
 
 # Tips for using `ggtree` with `ggimage` {#ggimage-tips}
