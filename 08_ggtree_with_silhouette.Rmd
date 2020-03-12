@@ -41,7 +41,8 @@ ggtree(x) + xlim(NA, 7) + ylim(NA, 6.2) +
 
 
 
-```{r}
+<!--
+#```
 tree <- ape::read.nexus("data/tree.nex")
 phylopic_info <- data.frame(node = c(124, 113, 110, 96, 89, 70),
                             phylopic = c("c4ac9ea6-b465-4ed0-a5de-9fe4eebd3ef9",
@@ -57,7 +58,8 @@ pg <- pg %<+% phylopic_info +
   geom_nodelab(aes(image=phylopic, color=species, subset=!is.na(species)), 
               geom="phylopic", alpha = .6) + 
   theme(legend.position=c(.2, .8))
-```
+#```
+-->
 
 `r CRANpkg("ggimage")` package supports querying phylopic uid from scientific name, which is very handy for annotating tree with phylopic.
 
@@ -79,10 +81,12 @@ p <- ggtree(tree) %<+% d +
 
 (ref:phylopicscap) Labelling taxa with phylopic images. 
 
-(ref:phylopiccap) **Labelling taxa with phylopic images.** ggtree will automatically download phylopic figures by querying provided UID (A). The UID can be searched using scientific names of the taxa (B). The figures can be colored using numerical or categorical values.
+(ref:phylopiccap) **Labelling taxa with phylopic images.** ggtree will automatically download phylopic figures by querying provided UID. The figures can be colored using numerical or categorical values.
+<!--  (A). The UID can be searched using scientific names of the taxa (B) -->
 
-```{r phylopic, fig.width=12, figh.height=5, dev='png', fig.cap="(ref:phylopiccap)", fig.scap="(ref:phylopicscap)", echo=FALSE}
-cowplot::plot_grid(pg, p, ncol=2, labels=LETTERS[1:2]) 
+```{r phylopic, fig.width=6, figh.height=5, dev='png', fig.cap="(ref:phylopiccap)", fig.scap="(ref:phylopicscap)", echo=FALSE}
+print(p)
+# cowplot::plot_grid(pg, p, ncol=2, labels=LETTERS[1:2]) 
 ```
 
 ## Annotating Tree with Sub-plots {#subplots}
