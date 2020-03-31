@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2020-03-19" />
+<meta name="date" content="2020-03-31" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -302,7 +302,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.5" data-path="chapter10.html"><a href="chapter10.html#scale-utilities"><i class="fa fa-check"></i><b>10.5</b> Scale utilities</a>
 <ul>
 <li class="chapter" data-level="10.5.1" data-path="chapter10.html"><a href="chapter10.html#xlim_expand"><i class="fa fa-check"></i><b>10.5.1</b> xlim_expand</a></li>
-<li class="chapter" data-level="10.5.2" data-path="chapter10.html"><a href="chapter10.html#axis_align"><i class="fa fa-check"></i><b>10.5.2</b> Reconcile axis limits</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="chapter11.html"><a href="chapter11.html"><i class="fa fa-check"></i><b>11</b> Gallery of reproducible examples</a>
@@ -565,7 +564,7 @@ Figure 7.5: <strong>Example of plotting multiple sequence alignment with a tree<
 </div>
 <div id="composite_plot" class="section level2" number="7.5">
 <h2><span class="header-section-number">7.5</span> Composite plots</h2>
-<p>In addition to aligning graph to a tree using <a href="chapter7.html#facet_plot">geom_facet</a> and special cases using <a href="chapter7.html#gheatmap">gheatmap</a> and <a href="chapter7.html#msaplot">msaplot</a>, users can use <a href="https://CRAN.R-project.org/package=cowplot">cowplot</a> or <a href="https://github.com/thomasp85/patchwork">patchwork</a> to create composite plots.</p>
+<p>In addition to aligning graph to a tree using <a href="chapter7.html#facet_plot">geom_facet</a> and special cases using <a href="chapter7.html#gheatmap">gheatmap</a> and <a href="chapter7.html#msaplot">msaplot</a>, users can use <a href="https://CRAN.R-project.org/package=aplot">aplot</a> to create composite plots.</p>
 <p>In the following example, we have a tree with two associated datasets.</p>
 <div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="chapter7.html#cb192-1"></a><span class="kw">library</span>(ggplot2)</span>
 <span id="cb192-2"><a href="chapter7.html#cb192-2"></a><span class="kw">library</span>(ggtree)</span>
@@ -584,42 +583,63 @@ Figure 7.5: <strong>Example of plotting multiple sequence alignment with a tree<
 <span id="cb192-15"><a href="chapter7.html#cb192-15"></a>    <span class="dt">value =</span> <span class="kw">rnorm</span>(<span class="dv">50</span>, <span class="dv">0</span>, <span class="dv">3</span>)) </span>
 <span id="cb192-16"><a href="chapter7.html#cb192-16"></a></span>
 <span id="cb192-17"><a href="chapter7.html#cb192-17"></a>g &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tr) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="dt">align=</span><span class="ot">TRUE</span>)</span></code></pre></div>
-<p>We can extract coordinates from <code>ggtree</code> object using <a href="https://CRAN.R-project.org/package=dplyr">dplyr</a> verbs implemented in <a href="https://CRAN.R-project.org/package=tidytree">tidytree</a>, and merge the y-coordinates to our datasets.</p>
-<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="chapter7.html#cb193-1"></a><span class="kw">library</span>(dplyr)</span>
-<span id="cb193-2"><a href="chapter7.html#cb193-2"></a><span class="kw">library</span>(tidytree) </span>
-<span id="cb193-3"><a href="chapter7.html#cb193-3"></a></span>
-<span id="cb193-4"><a href="chapter7.html#cb193-4"></a>d &lt;-<span class="st"> </span><span class="kw">filter</span>(g, isTip) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="kw">c</span>(label, y))</span>
-<span id="cb193-5"><a href="chapter7.html#cb193-5"></a></span>
-<span id="cb193-6"><a href="chapter7.html#cb193-6"></a>dd1 &lt;-<span class="st"> </span><span class="kw">left_join</span>(d1, d, <span class="dt">by=</span><span class="st">&#39;label&#39;</span>)</span>
-<span id="cb193-7"><a href="chapter7.html#cb193-7"></a>dd2 &lt;-<span class="st"> </span><span class="kw">left_join</span>(d2, d, <span class="dt">by=</span><span class="st">&#39;label&#39;</span>) </span></code></pre></div>
-<p>Now we can visualize our datasets using the y-coordinates that match corresponding labels in the <code>ggtree</code> object.</p>
-<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="chapter7.html#cb194-1"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(dd1, <span class="kw">aes</span>(y, value)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_col</span>(<span class="kw">aes</span>(<span class="dt">fill=</span>label)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb194-2"><a href="chapter7.html#cb194-2"></a><span class="st">    </span><span class="kw">coord_flip</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&#39;none&#39;</span>)</span>
-<span id="cb194-3"><a href="chapter7.html#cb194-3"></a> </span>
-<span id="cb194-4"><a href="chapter7.html#cb194-4"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(dd2, <span class="kw">aes</span>(<span class="dt">x=</span>category, <span class="dt">y=</span>y)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb194-5"><a href="chapter7.html#cb194-5"></a><span class="st">    </span><span class="kw">geom_tile</span>(<span class="kw">aes</span>(<span class="dt">fill=</span>value)) <span class="op">+</span><span class="st"> </span><span class="kw">scale_fill_viridis_c</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb194-6"><a href="chapter7.html#cb194-6"></a><span class="st">    </span><span class="kw">theme_tree2</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&#39;none&#39;</span>)</span></code></pre></div>
-<p>If we combine these two plots with <code>ggtree</code> using either <a href="https://CRAN.R-project.org/package=cowplot">cowplot</a> or <a href="https://github.com/thomasp85/patchwork">patchwork</a>, they do not align properly.</p>
-<p>To address this issue, <a href="http://bioconductor.org/packages/ggtree">ggtree</a> provides a <code>ylim2()</code> function to reconcile y limits<a href="#fn16" class="footnote-ref" id="fnref16"><sup>16</sup></a>.</p>
-<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="chapter7.html#cb195-1"></a>p1 &lt;-<span class="st"> </span>p1 <span class="op">+</span><span class="st"> </span><span class="kw">ylim2</span>(g)  </span></code></pre></div>
-<pre><code>## the plot was flipped and the y limits will be applied to x-axis</code></pre>
-<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="chapter7.html#cb197-1"></a>p2 &lt;-<span class="st"> </span>p2 <span class="op">+</span><span class="st"> </span><span class="kw">ylim2</span>(g)</span></code></pre></div>
-<p>Now we can plot our tree and the data side by side, and perfectly aligned.</p>
+<!-- 
+We can extract coordinates from `ggtree` object using [dplyr](https://CRAN.R-project.org/package=dplyr) verbs implemented in [tidytree](https://CRAN.R-project.org/package=tidytree), and merge the y-coordinates to our datasets.
+
+``` r
+library(dplyr)
+library(tidytree) 
+
+d <- filter(g, isTip) %>% select(c(label, y))
+
+dd1 <- left_join(d1, d, by='label')
+dd2 <- left_join(d2, d, by='label') 
+```
+
+Now we can visualize our datasets using the y-coordinates that match corresponding labels in the `ggtree` object. 
+
+-->
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="chapter7.html#cb193-1"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(d1, <span class="kw">aes</span>(label, value)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_col</span>(<span class="kw">aes</span>(<span class="dt">fill=</span>label)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb193-2"><a href="chapter7.html#cb193-2"></a><span class="st">    </span><span class="kw">coord_flip</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&#39;none&#39;</span>)</span>
+<span id="cb193-3"><a href="chapter7.html#cb193-3"></a> </span>
+<span id="cb193-4"><a href="chapter7.html#cb193-4"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(d2, <span class="kw">aes</span>(<span class="dt">x=</span>category, <span class="dt">y=</span>label)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb193-5"><a href="chapter7.html#cb193-5"></a><span class="st">    </span><span class="kw">geom_tile</span>(<span class="kw">aes</span>(<span class="dt">fill=</span>value)) <span class="op">+</span><span class="st"> </span><span class="kw">scale_fill_viridis_c</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb193-6"><a href="chapter7.html#cb193-6"></a><span class="st">    </span><span class="kw">theme_tree2</span>() </span></code></pre></div>
+<!-- 
+If we combine these two plots with `ggtree` using either [cowplot](https://CRAN.R-project.org/package=cowplot) or [patchwork](https://github.com/thomasp85/patchwork), they do not align properly. 
+
+To address this issue, [ggtree](http://bioconductor.org/packages/ggtree) provides a `ylim2()` function to reconcile y limits^[the implementation was inspired by <https://thackl.github.io/ggtree-composite-plots>]. 
+
+``` r message=TRUE
+p1 <- p1 + ylim2(g)  
+p2 <- p2 + ylim2(g)
+```
+
+Now we can plot our tree and the data side by side, and perfectly aligned.
 
 
-<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="chapter7.html#cb198-1"></a><span class="co">## library(patchwork) </span></span>
-<span id="cb198-2"><a href="chapter7.html#cb198-2"></a><span class="co">## g + p1 + p2 + plot_annotation(tag_levels=&quot;A&quot;)</span></span>
-<span id="cb198-3"><a href="chapter7.html#cb198-3"></a></span>
-<span id="cb198-4"><a href="chapter7.html#cb198-4"></a><span class="kw">library</span>(cowplot) </span>
-<span id="cb198-5"><a href="chapter7.html#cb198-5"></a><span class="kw">plot_grid</span>(g, p1, p2, <span class="dt">ncol=</span><span class="dv">3</span>, <span class="dt">align=</span><span class="st">&#39;h&#39;</span>, </span>
-<span id="cb198-6"><a href="chapter7.html#cb198-6"></a>    <span class="dt">labels=</span>LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>], <span class="dt">rel_widths =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="fl">.5</span>, <span class="fl">.8</span>))</span></code></pre></div>
+## library(patchwork) 
+## g + p1 + p2 + plot_annotation(tag_levels="A")
+
+library(cowplot) 
+plot_grid(g, p1, p2, ncol=3, align='h', 
+    labels=LETTERS[1:3], rel_widths = c(1, .5, .8))
+
+
+The `ylim2()` is not designed specific for [ggtree](http://bioconductor.org/packages/ggtree), it works fine with `ggplot` object. Another function `xlim2()` that works for x limits is also provided. See [session 10.5](#axis_align) for more details.
+
+-->
+<p>Now we can use <a href="https://CRAN.R-project.org/package=aplot">aplot</a> to align these associated subplots as demonstrated in Figure <a href="chapter7.html#fig:composite">7.6</a>.</p>
+
+
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="chapter7.html#cb194-1"></a><span class="kw">library</span>(aplot)</span>
+<span id="cb194-2"><a href="chapter7.html#cb194-2"></a>p2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">insert_left</span>(g) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">insert_right</span>(p1, <span class="dt">width=</span>.<span class="dv">5</span>)</span></code></pre></div>
 <div class="figure"><span id="fig:composite"></span>
 <img src="treedata_files/figure-html/composite-1.png" alt="Example of aligning tree with data side by side by creating composite plot." width="1152" />
 <p class="caption">
 Figure 7.6: <strong>Example of aligning tree with data side by side by creating composite plot</strong>.
 </p>
 </div>
-<p>The <code>ylim2()</code> is not designed specific for <a href="http://bioconductor.org/packages/ggtree">ggtree</a>, it works fine with <code>ggplot</code> object. Another function <code>xlim2()</code> that works for x limits is also provided. See <a href="chapter10.html#axis_align">session 10.5</a> for more details.</p>
 </div>
 <div id="ggtree_object" class="section level2" number="7.6">
 <h2><span class="header-section-number">7.6</span> The <code>ggtree</code> object</h2>
@@ -669,7 +689,6 @@ p %<% rtree(50)
 <hr />
 <ol start="15">
 <li id="fn15"><p>see also discussion in <a href="https://github.com/GuangchuangYu/ggtree/issues/78" class="uri">https://github.com/GuangchuangYu/ggtree/issues/78</a> and <a href="https://groups.google.com/d/msg/bioc-ggtree/VQqbF79NAWU/IjIvpQOBGwAJ" class="uri">https://groups.google.com/d/msg/bioc-ggtree/VQqbF79NAWU/IjIvpQOBGwAJ</a><a href="chapter7.html#fnref15" class="footnote-back">↩︎</a></p></li>
-<li id="fn16"><p>the implementation was inspired by <a href="https://thackl.github.io/ggtree-composite-plots" class="uri">https://thackl.github.io/ggtree-composite-plots</a><a href="chapter7.html#fnref16" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>
