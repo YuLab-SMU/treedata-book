@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2020-03-31" />
+<meta name="date" content="2020-04-08" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -562,7 +562,7 @@ Figure A.4: <strong>Repel labels.</strong> Repel labels to avoid overlapping.
 <h3><span class="header-section-number">A.4.5</span> Bootstrap values from newick format</h3>
 <p>It’s quite command to store <code>bootstrap</code> value as node label in <code>newick</code> format. Visualizing node label is easy using <code>geom_text2(aes(subset = !isTip, label=label))</code>.</p>
 <p>If you want to only display a subset of <code>bootstrap</code> (e.g. bootstrap &gt; 80), you can’t simply using <code>geom_text2(subset= (label &gt; 80), label=label)</code> since <code>label</code> is a character vector, which contains node label (bootstrap value) and tip label (taxa name). If we use <code>geom_text2(subset=(as.numeric(label) &gt; 80), label=label)</code>, it will also fail since <code>NAs</code> were introduced by coercion. We need to convert <code>NAs</code> to logical <code>FALSE</code>, this can be done by the following code:</p>
-<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="faq.html#cb252-1"></a>nwk &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/RAxML&quot;</span>,<span class="st">&quot;RAxML_bipartitions.H3&quot;</span>, <span class="dt">package=</span><span class="st">&#39;ggtree&#39;</span>)</span>
+<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="faq.html#cb252-1"></a>nwk &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/RAxML&quot;</span>,<span class="st">&quot;RAxML_bipartitions.H3&quot;</span>, <span class="dt">package=</span><span class="st">&#39;treeio&#39;</span>)</span>
 <span id="cb252-2"><a href="faq.html#cb252-2"></a>tr &lt;-<span class="st"> </span><span class="kw">read.tree</span>(nwk)</span>
 <span id="cb252-3"><a href="faq.html#cb252-3"></a><span class="kw">ggtree</span>(tr) <span class="op">+</span><span class="st"> </span><span class="kw">geom_text2</span>(<span class="kw">aes</span>(<span class="dt">label=</span>label, <span class="dt">subset =</span> <span class="op">!</span><span class="kw">is.na</span>(<span class="kw">as.numeric</span>(label)) <span class="op">&amp;</span><span class="st"> </span><span class="kw">as.numeric</span>(label) <span class="op">&gt;</span><span class="st"> </span><span class="dv">80</span>))</span></code></pre></div>
 <p>Another solution is converting the bootstrap value outside <code>ggtree</code>.</p>
