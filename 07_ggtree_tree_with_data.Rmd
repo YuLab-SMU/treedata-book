@@ -26,18 +26,22 @@ In `r Biocpkg("ggtree")`, we implemented an operator, `%<+%`, to attach annotati
 ```{r attacher, fig.width=9.5, fig.height=6.2, warning=FALSE, message=FALSE, fig.cap="(ref:attachercap)", fig.scap="(ref:attacherscap)"}
 library(ggimage)
 library(ggtree)
-url <- paste0("https://raw.githubusercontent.com/TreeViz/",
-            "metastyle/master/design/viz_targets_exercise/")
+## url <- paste0("https://raw.githubusercontent.com/TreeViz/",
+##             "metastyle/master/design/viz_targets_exercise/")
 
-x <- read.tree(paste0(url, "tree_boots.nwk"))
-info <- read.csv(paste0(url, "tip_data.csv"))
+## x <- read.tree(paste0(url, "tree_boots.nwk"))
+## info <- read.csv(paste0(url, "tip_data.csv"))
+
+x <- read.tree("data/tree_boots.nwk")
+info <- read.csv("data/tip_data.csv")
 
 p <- ggtree(x) %<+% info + xlim(-.1, 4)
 p2 <- p + geom_tiplab(offset = .6, hjust = .5) +
     geom_tippoint(aes(shape = trophic_habit, color = trophic_habit, size = mass_in_kg)) + 
     theme(legend.position = "right") + scale_size_continuous(range = c(3, 10))
 
-d2 <- read.csv(paste0(url, "inode_data.csv"))
+## d2 <- read.csv(paste0(url, "inode_data.csv"))
+d2 <- read.csv("data/inode_data.csv")
 p2 %<+% d2 + geom_label(aes(label = vernacularName.y, fill = posterior)) + 
     scale_fill_gradientn(colors = RColorBrewer::brewer.pal(3, "YlGnBu"))
 ```
@@ -61,8 +65,9 @@ The `geom_facet` is designed to work with most of the `geom` layers defined in `
 
 ```{r plottree, fig.width=12, fig.height=7, message=F, fig.cap="(ref:plottreecap)", fig.scap="(ref:plottreescap)"}
 library(ggtree)
-remote_folder <- paste0("https://raw.githubusercontent.com/katholt/",
-                        "plotTree/master/tree_example_april2015/")
+## remote_folder <- paste0("https://raw.githubusercontent.com/katholt/",
+##                         "plotTree/master/tree_example_april2015/")
+remote_folder <- "data/tree_example_april2015/" 
 
 ## read the phylogenetic tree
 tree <- read.tree(paste0(remote_folder, "tree.nwk"))

@@ -245,12 +245,18 @@ ggtree(raxml) + geom_label_repel(aes(label=bootstrap, fill=bootstrap)) +
 
 It's quite command to store `bootstrap` value as node label in `newick` format. Visualizing node label is easy using `geom_text2(aes(subset = !isTip, label=label))`.
 
-If you want to only display a subset of `bootstrap` (e.g. bootstrap > 80), you can't simply using `geom_text2(subset= (label > 80), label=label)` since `label` is a character vector, which contains node label (bootstrap value) and tip label (taxa name). If we use `geom_text2(subset=(as.numeric(label) > 80), label=label)`, it will also fail since `NAs` were introduced by coercion. We need to convert `NAs` to logical `FALSE`, this can be done by the following code:
+If you want to only display a subset of `bootstrap` (e.g. bootstrap > 80), you can't simply using `geom_text2(subset= (label > 80), label=label)` (or `geom_label2`) since `label` is a character vector, which contains node label (bootstrap value) and tip label (taxa name). If we use `geom_text2(subset=(as.numeric(label) > 80), label=label)`, it will also fail since `NAs` were introduced by coercion. We need to convert `NAs` to logical `FALSE`, this can be done by the following code:
 
-```r
+
+(ref:nwkbsscap) Bootstrap value stored in node label.
+
+(ref:nwkbscap) **Bootstrap value stored in node label.** 
+
+
+```{r nwkbs, fig.width=12, fig.height=8, fig.cap="(ref:nwkbscap)", fig.scap="(ref:nwkbsscap)"}
 nwk <- system.file("extdata/RAxML","RAxML_bipartitions.H3", package='treeio')
 tr <- read.tree(nwk)
-ggtree(tr) + geom_text2(aes(label=label, subset = !is.na(as.numeric(label)) & as.numeric(label) > 80))
+ggtree(tr) + geom_label2(aes(label=label, subset = !is.na(as.numeric(label)) & as.numeric(label) > 80))
 ```
 
 Another solution is converting the bootstrap value outside `ggtree`.
@@ -265,7 +271,95 @@ d <- d[d$label > 80,]
 q + geom_text(data=d, aes(label=label))
 ```
 
-## Different x labels for different facet panels
+## Branch manipulation
+
+
+### Change branch length of outgroup
+
+When outgroups are on a very long branch length (Figure \@ref(fig:outgroupEdge)A), we would like to keep the out groups in the tree but ignore their branch lengths (Figure \@ref(fig:outgroupEdge)B)^[example from: <https://groups.google.com/d/msg/bioc-ggtree/T2ySvqv351g/mHsyljvBCwAJ>]. This can be easily done by modifying coordination of the out groups.
+
+
+(ref:outgroupEdgescap) Changing branch length of outgroup.
+
+(ref:outgroupEdgecap) **Changing branch length of outgroup.** Original tree (A) and reduced outgroup branch length version (B).
+
+
+```{r outgroupEdge, fig.cap="(ref:outgroupEdgecap)", fig.scap="(ref:outgroupEdgescap)", fig.width=6, fig.height=5}
+x <- read.tree("data/long-branch-example.newick")
+m <- MRCA(x, 75, 76)
+y <- groupClade(x, m)
+p <- p1 <- ggtree(y, aes(linetype = group)) + 
+  geom_tiplab(size = 2) +
+  theme(legend.position = 'none')
+p$data[p$data$node %in% c(75, 76), "x"] <- mean(p$data$x)
+plot_grid(p1, p, ncol=2)
+```
+
+### Attach a new tip to a tree {#bind-tip}
+
+Sometimes there are known branches that are not in the tree, and we would like to have them on the tree. Another scenario is that we have a newly sequence species and would like to update reference tree with this species by inferring its evolutionary position.
+
+Users can use `phytools::bind.tip()` [@revell_phytools_2012] to attach a new tip to a tree. With `r CRANpkg("tidytree")`, it is easy to add annotation to differentiate newly introduce and original branches and to reflect uncertainty of the added branch splits off as demonstrated in Figure \@ref(fig:bindTip). 
+
+(ref:bindTipscap) Attaching a new tip to a tree.
+
+(ref:bindTipcap) **Attaching a new tip to a tree.** 
+
+
+```{r bindTip, fig.cap="(ref:bindTipcap)", fig.scap="(ref:bindTipscap)", fig.width=6, fig.height=5}
+library(phytools)
+library(tidytree)
+library(ggplot2)
+library(ggtree)
+
+set.seed(2019-11-18)
+tr <- rtree(5)
+
+tr2 <- bind.tip(tr, 'U', edge.length = 0.1, where = 7, position=0.15)
+d <- as_tibble(tr2)
+d$type <- "original"
+d$type[d$label == 'U'] <- 'newly introduce'
+d$sd <- NA
+d$sd[parent(d, 'U')$node] <- 0.05
+
+tr3 <- as.treedata(d)
+ggtree(tr3, aes(linetype=type)) +  geom_tiplab() +
+  geom_errorbarh(aes(xmin=x-sd, xmax=x+sd, y = y - 0.3), 
+                linetype='dashed', height=0.1) +
+  scale_linetype_manual(values = c("newly introduce" = "dashed", 
+                                   "original" = "solid")) + 
+  theme(legend.position=c(.8, .2)) 
+``` 
+
+
+### Change colours or line types of arbitrary selected branches
+
+If you want to colour or change line types of specific branches, you only need to prepare a data frame with variables of branch setting (e.g. selected and unselected). 
+
+(ref:btypescap) Change colours and line types of specific branches.
+
+(ref:btypecap) **Change colours and line types of specific branches.** 
+
+
+```{r btype, fig.cap="(ref:btypecap)", fig.scap="(ref:btypescap)", fig.width=7, fig.height=5}
+set.seed(123)
+x <- rtree(10)
+## binary choice of colours
+d <- data.frame(node=1:Nnode2(x), colour = 'black')
+d[c(2,3,14,15), 2] <- "red"
+
+## multiple choice of line types
+d2 <- data.frame(node=1:Nnode2(x), lty = 1)
+d2[c(2,5,13, 14), 2] <- c(2, 3, 2,4)
+
+p <- ggtree(x) + geom_label(aes(label=node))
+p %<+% d %<+% d2 + aes(colour=I(colour), linetype=I(lty))
+```
+
+Users can use the `r CRANpkg("gginnards")` package to manipulate plot elements for more complicated scenario.
+
+
+## Different x-axis labels for different facet panels
 
 This is not supported by `r CRANpkg("ggplot2")` in general. However, we can just draw text labels for each panels and put the labels beyond the plot panels as demonstrated in Figure \@ref(fig:xlabFacets).
 
@@ -375,67 +469,10 @@ p2 <- revts(p) + scale_x_continuous(labels=abs)
 plot_grid(p, p2, ncol=2, labels=c("A", "B"))
 ```
 
-## Change branch length of outgroup
-
-When outgroups are on a very long branch length (Figure \@ref(fig:outgroupEdge)A), we would like to keep the out groups in the tree but ignore their branch lengths (Figure \@ref(fig:outgroupEdge)B)^[example from: <https://groups.google.com/d/msg/bioc-ggtree/T2ySvqv351g/mHsyljvBCwAJ>]. This can be easily done by modifying coordination of the out groups.
-
-
-(ref:outgroupEdgescap) Changing branch length of outgroup.
-
-(ref:outgroupEdgecap) **Changing branch length of outgroup.** Original tree (A) and reduced outgroup branch length version (B).
-
-
-```{r outgroupEdge, fig.cap="(ref:outgroupEdgecap)", fig.scap="(ref:outgroupEdgescap)", fig.width=6, fig.height=5}
-x <- read.tree("data/long-branch-example.newick")
-m <- MRCA(x, 75, 76)
-y <- groupClade(x, m)
-p <- p1 <- ggtree(y, aes(linetype = group)) + 
-  geom_tiplab(size = 2) +
-  theme(legend.position = 'none')
-p$data[p$data$node %in% c(75, 76), "x"] <- mean(p$data$x)
-plot_grid(p1, p, ncol=2)
-```
-
-## Attach a new tip to a tree {#bind-tip}
-
-Sometimes there are known branches that are not in the tree, and we would like to have them on the tree. Another scenario is that we have a newly sequence species and would like to update reference tree with this species by inferring its evolutionary position.
-
-Users can use `phytools::bind.tip()` [@revell_phytools_2012] to attach a new tip to a tree. With `r CRANpkg("tidytree")`, it is easy to add annotation to differentiate newly introduce and original branches and to reflect uncertainty of the added branch splits off as demonstrated in Figure \@ref(fig:bindTip). 
-
-(ref:bindTipscap) Attaching a new tip to a tree.
-
-(ref:bindTipcap) **Attaching a new tip to a tree.** 
-
-
-```{r bindTip, fig.cap="(ref:bindTipcap)", fig.scap="(ref:bindTipscap)", fig.width=6, fig.height=5}
-library(phytools)
-library(tidytree)
-library(ggplot2)
-library(ggtree)
-
-set.seed(2019-11-18)
-tr <- rtree(5)
-
-tr2 <- bind.tip(tr, 'U', edge.length = 0.1, where = 7, position=0.15)
-d <- as_tibble(tr2)
-d$type <- "original"
-d$type[d$label == 'U'] <- 'newly introduce'
-d$sd <- NA
-d$sd[parent(d, 'U')$node] <- 0.05
-
-tr3 <- as.treedata(d)
-ggtree(tr3, aes(linetype=type)) +  geom_tiplab() +
-  geom_errorbarh(aes(xmin=x-sd, xmax=x+sd, y = y - 0.3), 
-                linetype='dashed', height=0.1) +
-  scale_linetype_manual(values = c("newly introduce" = "dashed", 
-                                   "original" = "solid")) + 
-  theme(legend.position=c(.8, .2)) 
-``` 
-
 
 
 ## Edit tree graphic details {#export-edit}
 
 
-It can be hard to modify plot details for ordinary users using `r CRANpkg("ggplot2")`/`r Biocpkg("ggtree")`. We recommend using the `r CRANpkg("export")` package to export `r Biocpkg("ggtree")` output to 'Microsoft Office' Document and edit the tree graphic in 'PowerPoint'.
+It can be hard to modify plot details for ordinary users using `r CRANpkg("ggplot2")`/`r Biocpkg("ggtree")`. We recommend using the `r CRANpkg("eoffice")` package to export `r Biocpkg("ggtree")` output to 'Microsoft Office' Document and edit the tree graphic in 'PowerPoint'.
 
