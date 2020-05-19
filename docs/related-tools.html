@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2020-05-14" />
+<meta name="date" content="2020-05-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -307,7 +307,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="11.1" data-path="chapter11.html"><a href="chapter11.html#hpv58"><i class="fa fa-check"></i><b>11.1</b> Visualizing pairwise nucleotide sequence distance with phylogenetic tree</a></li>
 <li class="chapter" data-level="11.2" data-path="chapter11.html"><a href="chapter11.html#symbolic-bootstrap"><i class="fa fa-check"></i><b>11.2</b> Displaying different symbolic points for bootstrap values.</a></li>
-<li class="chapter" data-level="11.3" data-path="chapter11.html"><a href="chapter11.html#genome-locus"><i class="fa fa-check"></i><b>11.3</b> Phylogenetic tree with genome locus structure</a></li>
+<li class="chapter" data-level="11.3" data-path="chapter11.html"><a href="chapter11.html#phylo-grouping"><i class="fa fa-check"></i><b>11.3</b> Highlighting different groups.</a></li>
+<li class="chapter" data-level="11.4" data-path="chapter11.html"><a href="chapter11.html#genome-locus"><i class="fa fa-check"></i><b>11.4</b> Phylogenetic tree with genome locus structure</a></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="chapter12.html"><a href="chapter12.html"><i class="fa fa-check"></i><b>12</b> ggtree extensions</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
@@ -383,10 +384,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><a href="https://CRAN.R-project.org/package=rtol">rtol</a> <span class="citation">(Michonneau, Brown, and Winter <a href="#ref-michonneau_rotl:_2016" role="doc-biblioref">2016</a>)</span> is an R package to interact with the Open Tree of Life data APIs.</p>
 
 
-<div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb262-1"><a href="related-tools.html#cb262-1"></a><span class="co">## example from: https://github.com/ropensci/rotl</span></span>
-<span id="cb262-2"><a href="related-tools.html#cb262-2"></a><span class="kw">library</span>(rotl)</span>
-<span id="cb262-3"><a href="related-tools.html#cb262-3"></a>apes &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Pongo&quot;</span>, <span class="st">&quot;Pan&quot;</span>, <span class="st">&quot;Gorilla&quot;</span>, <span class="st">&quot;Hoolock&quot;</span>, <span class="st">&quot;Homo&quot;</span>)</span>
-<span id="cb262-4"><a href="related-tools.html#cb262-4"></a>(resolved_names &lt;-<span class="st"> </span><span class="kw">tnrs_match_names</span>(apes))</span></code></pre></div>
+<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="related-tools.html#cb263-1"></a><span class="co">## example from: https://github.com/ropensci/rotl</span></span>
+<span id="cb263-2"><a href="related-tools.html#cb263-2"></a><span class="kw">library</span>(rotl)</span>
+<span id="cb263-3"><a href="related-tools.html#cb263-3"></a>apes &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Pongo&quot;</span>, <span class="st">&quot;Pan&quot;</span>, <span class="st">&quot;Gorilla&quot;</span>, <span class="st">&quot;Hoolock&quot;</span>, <span class="st">&quot;Homo&quot;</span>)</span>
+<span id="cb263-4"><a href="related-tools.html#cb263-4"></a>(resolved_names &lt;-<span class="st"> </span><span class="kw">tnrs_match_names</span>(apes))</span></code></pre></div>
 <pre><code>##   search_string unique_name approximate_match ott_id
 ## 1         pongo       Pongo             FALSE 417949
 ## 2           pan         Pan             FALSE 417957
@@ -399,8 +400,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 3      FALSE sibling_higher              1
 ## 4      FALSE                             1
 ## 5      FALSE sibling_higher              1</code></pre>
-<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="related-tools.html#cb264-1"></a>tr &lt;-<span class="st"> </span><span class="kw">tol_induced_subtree</span>(<span class="dt">ott_ids =</span> <span class="kw">ott_id</span>(resolved_names))</span>
-<span id="cb264-2"><a href="related-tools.html#cb264-2"></a><span class="kw">ggtree</span>(tr) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="ot">NA</span>, <span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb265-1"><a href="related-tools.html#cb265-1"></a>tr &lt;-<span class="st"> </span><span class="kw">tol_induced_subtree</span>(<span class="dt">ott_ids =</span> <span class="kw">ott_id</span>(resolved_names))</span>
+<span id="cb265-2"><a href="related-tools.html#cb265-2"></a><span class="kw">ggtree</span>(tr) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="ot">NA</span>, <span class="dv">5</span>)</span></code></pre></div>
 <div class="figure"><span id="fig:rotlSubtree"></span>
 <img src="treedata_files/figure-html/rotlSubtree-1.png" alt="Get an induced subtree from the big Open Tree." width="768" />
 <p class="caption">

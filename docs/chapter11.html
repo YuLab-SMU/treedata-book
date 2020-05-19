@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2020-05-14" />
+<meta name="date" content="2020-05-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -307,7 +307,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="11.1" data-path="chapter11.html"><a href="chapter11.html#hpv58"><i class="fa fa-check"></i><b>11.1</b> Visualizing pairwise nucleotide sequence distance with phylogenetic tree</a></li>
 <li class="chapter" data-level="11.2" data-path="chapter11.html"><a href="chapter11.html#symbolic-bootstrap"><i class="fa fa-check"></i><b>11.2</b> Displaying different symbolic points for bootstrap values.</a></li>
-<li class="chapter" data-level="11.3" data-path="chapter11.html"><a href="chapter11.html#genome-locus"><i class="fa fa-check"></i><b>11.3</b> Phylogenetic tree with genome locus structure</a></li>
+<li class="chapter" data-level="11.3" data-path="chapter11.html"><a href="chapter11.html#phylo-grouping"><i class="fa fa-check"></i><b>11.3</b> Highlighting different groups.</a></li>
+<li class="chapter" data-level="11.4" data-path="chapter11.html"><a href="chapter11.html#genome-locus"><i class="fa fa-check"></i><b>11.4</b> Phylogenetic tree with genome locus structure</a></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="chapter12.html"><a href="chapter12.html"><i class="fa fa-check"></i><b>12</b> ggtree extensions</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
@@ -515,51 +516,110 @@ Figure 11.2: <strong>Partitioning bootstrap values</strong>. Bootstrap values we
 </p>
 </div>
 </div>
-<div id="genome-locus" class="section level2" number="11.3">
-<h2><span class="header-section-number">11.3</span> Phylogenetic tree with genome locus structure</h2>
-<p>The <code>geom_motif</code> is defined in <code>ggtree</code> and it is a wrapper layer of <code>gggenes::geom_gene_arrow</code>. The <code>geom_motif</code> can automatically adjust genomic alignment by selective gene (via the <code>on</code> parameter) and can label genes via the <code>label</code> parameter. In the following example, we use <code>example_genes</code> dataset provided by <a href="https://CRAN.R-project.org/package=gggenes">gggenes</a>. As the dataset only provide genomic coordinations of a set of genes, a phylogeny for the genomes need to be firstly constructed. We calculate jaccard similarity based on the ratio of overlapping genes among genomes and correspondingly determine genome distance. BioNJ algorithm was applied to construct the tree (Figure <a href="chapter11.html#fig:gggenes">11.3</a>).</p>
+<div id="phylo-grouping" class="section level2" number="11.3">
+<h2><span class="header-section-number">11.3</span> Highlighting different groups.</h2>
+<p>This example reproduce Figure 1 of <span class="citation">(Larsen et al. <a href="#ref-larsen_identification_2019" role="doc-biblioref">2019</a>)</span>. It used <code>groupOTU</code> to add grouping information of chicken CTLDcps. The branch linetype and color are defined based on this grouping information. Two groups of CTLDcps are highlighted in different background colors (red for Group II and green for Group V). The avian-specific expansion of group V with subgroup of A and B- are labelled (Figure <a href="chapter11.html#fig:treeLarsen">11.3</a>).</p>
 
 
-<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="chapter11.html#cb232-1"></a><span class="kw">library</span>(dplyr)</span>
-<span id="cb232-2"><a href="chapter11.html#cb232-2"></a><span class="kw">library</span>(ggplot2)</span>
-<span id="cb232-3"><a href="chapter11.html#cb232-3"></a><span class="kw">library</span>(gggenes)</span>
-<span id="cb232-4"><a href="chapter11.html#cb232-4"></a><span class="kw">library</span>(ggtree)</span>
-<span id="cb232-5"><a href="chapter11.html#cb232-5"></a></span>
-<span id="cb232-6"><a href="chapter11.html#cb232-6"></a>get_genes &lt;-<span class="st"> </span><span class="cf">function</span>(data, genome) {</span>
-<span id="cb232-7"><a href="chapter11.html#cb232-7"></a>    <span class="kw">filter</span>(data, molecule <span class="op">==</span><span class="st"> </span>genome) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(gene)</span>
-<span id="cb232-8"><a href="chapter11.html#cb232-8"></a>}</span>
-<span id="cb232-9"><a href="chapter11.html#cb232-9"></a></span>
-<span id="cb232-10"><a href="chapter11.html#cb232-10"></a>g &lt;-<span class="st"> </span><span class="kw">unique</span>(example_genes[,<span class="dv">1</span>])</span>
-<span id="cb232-11"><a href="chapter11.html#cb232-11"></a>n &lt;-<span class="st"> </span><span class="kw">length</span>(g)</span>
-<span id="cb232-12"><a href="chapter11.html#cb232-12"></a>d &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dt">nrow =</span> n, <span class="dt">ncol =</span> n)</span>
-<span id="cb232-13"><a href="chapter11.html#cb232-13"></a><span class="kw">rownames</span>(d) &lt;-<span class="st"> </span><span class="kw">colnames</span>(d) &lt;-<span class="st"> </span>g</span>
-<span id="cb232-14"><a href="chapter11.html#cb232-14"></a>genes &lt;-<span class="st"> </span><span class="kw">lapply</span>(g, get_genes, <span class="dt">data =</span> example_genes)</span>
-<span id="cb232-15"><a href="chapter11.html#cb232-15"></a></span>
-<span id="cb232-16"><a href="chapter11.html#cb232-16"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>n) {</span>
-<span id="cb232-17"><a href="chapter11.html#cb232-17"></a>    <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>i) {</span>
-<span id="cb232-18"><a href="chapter11.html#cb232-18"></a>        jaccard_sim &lt;-<span class="st"> </span><span class="kw">length</span>(<span class="kw">intersect</span>(genes[[i]], genes[[j]])) <span class="op">/</span><span class="st"> </span></span>
-<span id="cb232-19"><a href="chapter11.html#cb232-19"></a><span class="st">                       </span><span class="kw">length</span>(<span class="kw">union</span>(genes[[i]], genes[[j]]))</span>
-<span id="cb232-20"><a href="chapter11.html#cb232-20"></a>        d[j, i] &lt;-<span class="st"> </span>d[i, j] &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span>jaccard_sim</span>
-<span id="cb232-21"><a href="chapter11.html#cb232-21"></a>    }</span>
-<span id="cb232-22"><a href="chapter11.html#cb232-22"></a>}</span>
-<span id="cb232-23"><a href="chapter11.html#cb232-23"></a></span>
-<span id="cb232-24"><a href="chapter11.html#cb232-24"></a>tree &lt;-<span class="st"> </span>ape<span class="op">::</span><span class="kw">bionj</span>(d) </span>
-<span id="cb232-25"><a href="chapter11.html#cb232-25"></a></span>
-<span id="cb232-26"><a href="chapter11.html#cb232-26"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree, <span class="dt">branch.length=</span><span class="st">&#39;none&#39;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb232-27"><a href="chapter11.html#cb232-27"></a><span class="st">    </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">xlim_tree</span>(<span class="fl">5.5</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb232-28"><a href="chapter11.html#cb232-28"></a><span class="st">    </span><span class="kw">geom_facet</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">xmin =</span> start, <span class="dt">xmax =</span> end, <span class="dt">fill =</span> gene),</span>
-<span id="cb232-29"><a href="chapter11.html#cb232-29"></a>               <span class="dt">data =</span> example_genes, <span class="dt">geom =</span> geom_motif, <span class="dt">panel =</span> <span class="st">&#39;Alignment&#39;</span>,</span>
-<span id="cb232-30"><a href="chapter11.html#cb232-30"></a>               <span class="dt">on =</span> <span class="st">&#39;genE&#39;</span>, <span class="dt">label =</span> <span class="st">&#39;gene&#39;</span>, <span class="dt">align =</span> <span class="st">&#39;left&#39;</span>) <span class="op">+</span></span>
-<span id="cb232-31"><a href="chapter11.html#cb232-31"></a><span class="st">    </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Set3&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb232-32"><a href="chapter11.html#cb232-32"></a><span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="dt">expand=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)) <span class="op">+</span></span>
-<span id="cb232-33"><a href="chapter11.html#cb232-33"></a><span class="st">    </span><span class="kw">theme</span>(<span class="dt">strip.text=</span><span class="kw">element_blank</span>(),</span>
-<span id="cb232-34"><a href="chapter11.html#cb232-34"></a>        <span class="dt">panel.spacing=</span><span class="kw">unit</span>(<span class="dv">0</span>, <span class="st">&#39;cm&#39;</span>))</span>
-<span id="cb232-35"><a href="chapter11.html#cb232-35"></a></span>
-<span id="cb232-36"><a href="chapter11.html#cb232-36"></a><span class="kw">facet_widths</span>(p, <span class="dt">widths=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="chapter11.html#cb232-1"></a>mytree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="st">&quot;data/Tree 30.4.19.nwk&quot;</span>)</span>
+<span id="cb232-2"><a href="chapter11.html#cb232-2"></a></span>
+<span id="cb232-3"><a href="chapter11.html#cb232-3"></a><span class="co"># Define nodes for coloring later on</span></span>
+<span id="cb232-4"><a href="chapter11.html#cb232-4"></a>tiplab &lt;-<span class="st"> </span>mytree<span class="op">$</span>tip.label</span>
+<span id="cb232-5"><a href="chapter11.html#cb232-5"></a>cls &lt;-<span class="st"> </span>tiplab[<span class="kw">grep</span>(<span class="st">&quot;^ch&quot;</span>, tiplab)] </span>
+<span id="cb232-6"><a href="chapter11.html#cb232-6"></a>labeltree &lt;-<span class="st"> </span><span class="kw">groupOTU</span>(mytree, cls)</span>
+<span id="cb232-7"><a href="chapter11.html#cb232-7"></a></span>
+<span id="cb232-8"><a href="chapter11.html#cb232-8"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(labeltree, <span class="kw">aes</span>(<span class="dt">color=</span>group, <span class="dt">linetype=</span>group), <span class="dt">layout=</span><span class="st">&quot;circular&quot;</span>) <span class="op">+</span></span>
+<span id="cb232-9"><a href="chapter11.html#cb232-9"></a><span class="st">    </span><span class="kw">scale_color_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;#efad29&quot;</span>, <span class="st">&quot;#63bbd4&quot;</span>)) <span class="op">+</span></span>
+<span id="cb232-10"><a href="chapter11.html#cb232-10"></a><span class="st">    </span><span class="kw">geom_nodepoint</span>(<span class="dt">color=</span><span class="st">&quot;black&quot;</span>, <span class="dt">size=</span><span class="fl">0.1</span>) <span class="op">+</span></span>
+<span id="cb232-11"><a href="chapter11.html#cb232-11"></a><span class="st">    </span><span class="kw">geom_tiplab</span>(<span class="dt">size=</span><span class="dv">2</span>, <span class="dt">color=</span><span class="st">&quot;black&quot;</span>)</span>
+<span id="cb232-12"><a href="chapter11.html#cb232-12"></a></span>
+<span id="cb232-13"><a href="chapter11.html#cb232-13"></a>p2 &lt;-<span class="st"> </span><span class="kw">flip</span>(p, <span class="dv">136</span>, <span class="dv">110</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb232-14"><a href="chapter11.html#cb232-14"></a><span class="st">    </span><span class="kw">flip</span>(<span class="dv">141</span>, <span class="dv">145</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb232-15"><a href="chapter11.html#cb232-15"></a><span class="st">    </span><span class="kw">rotate</span>(<span class="dv">141</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb232-16"><a href="chapter11.html#cb232-16"></a><span class="st">    </span><span class="kw">rotate</span>(<span class="dv">142</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb232-17"><a href="chapter11.html#cb232-17"></a><span class="st">    </span><span class="kw">rotate</span>(<span class="dv">160</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb232-18"><a href="chapter11.html#cb232-18"></a><span class="st">    </span><span class="kw">rotate</span>(<span class="dv">164</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb232-19"><a href="chapter11.html#cb232-19"></a><span class="st">    </span><span class="kw">rotate</span>(<span class="dv">131</span>)</span>
+<span id="cb232-20"><a href="chapter11.html#cb232-20"></a></span>
+<span id="cb232-21"><a href="chapter11.html#cb232-21"></a><span class="co">### Group V and II coloring </span></span>
+<span id="cb232-22"><a href="chapter11.html#cb232-22"></a>p3 &lt;-<span class="st"> </span>p2 <span class="op">+</span><span class="st"> </span><span class="kw">geom_hilight</span>(<span class="dt">node =</span> <span class="dv">110</span>, <span class="dt">fill =</span> <span class="st">&quot;#229f8a&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.2</span>, <span class="dt">extend =</span> <span class="fl">0.43</span>) <span class="op">+</span><span class="st">    </span></span>
+<span id="cb232-23"><a href="chapter11.html#cb232-23"></a><span class="st">    </span><span class="kw">geom_hilight</span>(<span class="dt">node =</span> <span class="dv">88</span>, <span class="dt">fill =</span> <span class="st">&quot;#229f8a&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.2</span>, <span class="dt">extend =</span> <span class="fl">0.445</span>) <span class="op">+</span></span>
+<span id="cb232-24"><a href="chapter11.html#cb232-24"></a><span class="st">    </span><span class="kw">geom_hilight</span>(<span class="dt">node =</span> <span class="dv">156</span>, <span class="dt">fill =</span> <span class="st">&quot;#229f8a&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.2</span>, <span class="dt">extend =</span> <span class="fl">0.35</span>) <span class="op">+</span></span>
+<span id="cb232-25"><a href="chapter11.html#cb232-25"></a><span class="st">    </span><span class="kw">geom_hilight</span>(<span class="dt">node =</span> <span class="dv">136</span>, <span class="dt">fill =</span> <span class="st">&quot;#f9311f&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.2</span>, <span class="dt">extend =</span> <span class="fl">0.512</span>)</span>
+<span id="cb232-26"><a href="chapter11.html#cb232-26"></a></span>
+<span id="cb232-27"><a href="chapter11.html#cb232-27"></a><span class="co">### Putting on a label on the avian specific expansion </span></span>
+<span id="cb232-28"><a href="chapter11.html#cb232-28"></a>p4 &lt;-<span class="st"> </span>p3 <span class="op">+</span><span class="st"> </span><span class="kw">geom_cladelabel</span>(<span class="dt">node =</span> <span class="dv">113</span>, <span class="dt">label =</span> <span class="st">&quot;Avian-specific expansion&quot;</span>, </span>
+<span id="cb232-29"><a href="chapter11.html#cb232-29"></a>                        <span class="dt">align =</span> <span class="ot">TRUE</span>, <span class="dt">angle =</span> <span class="dv">-35</span>, <span class="dt">offset.text =</span> <span class="fl">0.05</span>, </span>
+<span id="cb232-30"><a href="chapter11.html#cb232-30"></a>                        <span class="dt">hjust =</span> <span class="st">&quot;center&quot;</span>, <span class="dt">fontsize =</span> <span class="dv">2</span>,  <span class="dt">offset =</span> <span class="fl">0.2</span>, <span class="dt">barsize =</span> <span class="fl">0.2</span>)</span>
+<span id="cb232-31"><a href="chapter11.html#cb232-31"></a>    </span>
+<span id="cb232-32"><a href="chapter11.html#cb232-32"></a><span class="co">### Adding the bootstrap values with subset used to remove all bootstraps &lt; 50  </span></span>
+<span id="cb232-33"><a href="chapter11.html#cb232-33"></a>p5 &lt;-<span class="st"> </span>p4 <span class="op">+</span><span class="st"> </span><span class="kw">geom_text2</span>(<span class="kw">aes</span>(<span class="dt">label=</span>label, </span>
+<span id="cb232-34"><a href="chapter11.html#cb232-34"></a>                        <span class="dt">subset =</span> <span class="op">!</span><span class="kw">is.na</span>(<span class="kw">as.numeric</span>(label)) <span class="op">&amp;</span><span class="st"> </span><span class="kw">as.numeric</span>(label) <span class="op">&gt;</span><span class="st"> </span><span class="dv">50</span>), </span>
+<span id="cb232-35"><a href="chapter11.html#cb232-35"></a>                    <span class="dt">size =</span> <span class="dv">2</span>, <span class="dt">color =</span> <span class="st">&quot;black&quot;</span>,<span class="dt">nudge_y =</span> <span class="fl">0.7</span>, <span class="dt">nudge_x =</span> <span class="fl">-0.05</span>)</span>
+<span id="cb232-36"><a href="chapter11.html#cb232-36"></a> </span>
+<span id="cb232-37"><a href="chapter11.html#cb232-37"></a><span class="co">### Putting labels on the subgroups </span></span>
+<span id="cb232-38"><a href="chapter11.html#cb232-38"></a>p6 &lt;-<span class="st"> </span>p5 <span class="op">+</span><span class="st"> </span><span class="kw">geom_cladelabel</span>(<span class="dt">node =</span> <span class="dv">114</span>, <span class="dt">label =</span> <span class="st">&quot;Subgroup A&quot;</span>, <span class="dt">align =</span> <span class="ot">TRUE</span>, </span>
+<span id="cb232-39"><a href="chapter11.html#cb232-39"></a>                        <span class="dt">angle =</span> <span class="dv">-55</span>, <span class="dt">offset.text =</span> <span class="fl">.03</span>, <span class="dt">hjust =</span> <span class="st">&quot;center&quot;</span>, </span>
+<span id="cb232-40"><a href="chapter11.html#cb232-40"></a>                        <span class="dt">offset =</span> <span class="fl">0.05</span>, <span class="dt">barsize =</span> <span class="fl">0.2</span>, <span class="dt">fontsize =</span> <span class="dv">2</span>) <span class="op">+</span></span>
+<span id="cb232-41"><a href="chapter11.html#cb232-41"></a><span class="st">            </span><span class="kw">geom_cladelabel</span>(<span class="dt">node =</span> <span class="dv">121</span>, <span class="dt">label =</span> <span class="st">&quot;Subgroup B&quot;</span>, <span class="dt">align =</span> <span class="ot">TRUE</span>, </span>
+<span id="cb232-42"><a href="chapter11.html#cb232-42"></a>                        <span class="dt">angle =</span> <span class="dv">-15</span>, <span class="dt">offset.text =</span> <span class="fl">.03</span>, <span class="dt">hjust =</span> <span class="st">&quot;center&quot;</span>, </span>
+<span id="cb232-43"><a href="chapter11.html#cb232-43"></a>                        <span class="dt">offset =</span> <span class="fl">0.05</span>, <span class="dt">barsize =</span> <span class="fl">0.2</span>, <span class="dt">fontsize =</span> <span class="dv">2</span>) <span class="op">+</span></span>
+<span id="cb232-44"><a href="chapter11.html#cb232-44"></a><span class="st">            </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;none&quot;</span>, </span>
+<span id="cb232-45"><a href="chapter11.html#cb232-45"></a>                <span class="dt">plot.margin=</span>grid<span class="op">::</span><span class="kw">unit</span>(<span class="kw">c</span>(<span class="op">-</span><span class="dv">15</span>,<span class="op">-</span><span class="dv">15</span>,<span class="op">-</span><span class="dv">15</span>,<span class="op">-</span><span class="dv">15</span>), <span class="st">&quot;mm&quot;</span>))</span>
+<span id="cb232-46"><a href="chapter11.html#cb232-46"></a></span>
+<span id="cb232-47"><a href="chapter11.html#cb232-47"></a><span class="kw">print</span>(p6)</span></code></pre></div>
+<div class="figure"><span id="fig:treeLarsen"></span>
+<img src="treedata_files/figure-html/treeLarsen-1.png" alt="Phylogenetic tree of CTLDcps." width="720" />
+<p class="caption">
+Figure 11.3: <strong>Phylogenetic tree of CTLDcps</strong>.
+</p>
+</div>
+</div>
+<div id="genome-locus" class="section level2" number="11.4">
+<h2><span class="header-section-number">11.4</span> Phylogenetic tree with genome locus structure</h2>
+<p>The <code>geom_motif</code> is defined in <code>ggtree</code> and it is a wrapper layer of <code>gggenes::geom_gene_arrow</code>. The <code>geom_motif</code> can automatically adjust genomic alignment by selective gene (via the <code>on</code> parameter) and can label genes via the <code>label</code> parameter. In the following example, we use <code>example_genes</code> dataset provided by <a href="https://CRAN.R-project.org/package=gggenes">gggenes</a>. As the dataset only provide genomic coordinations of a set of genes, a phylogeny for the genomes need to be firstly constructed. We calculate jaccard similarity based on the ratio of overlapping genes among genomes and correspondingly determine genome distance. BioNJ algorithm was applied to construct the tree (Figure <a href="chapter11.html#fig:gggenes">11.4</a>).</p>
+
+
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="chapter11.html#cb233-1"></a><span class="kw">library</span>(dplyr)</span>
+<span id="cb233-2"><a href="chapter11.html#cb233-2"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb233-3"><a href="chapter11.html#cb233-3"></a><span class="kw">library</span>(gggenes)</span>
+<span id="cb233-4"><a href="chapter11.html#cb233-4"></a><span class="kw">library</span>(ggtree)</span>
+<span id="cb233-5"><a href="chapter11.html#cb233-5"></a></span>
+<span id="cb233-6"><a href="chapter11.html#cb233-6"></a>get_genes &lt;-<span class="st"> </span><span class="cf">function</span>(data, genome) {</span>
+<span id="cb233-7"><a href="chapter11.html#cb233-7"></a>    <span class="kw">filter</span>(data, molecule <span class="op">==</span><span class="st"> </span>genome) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(gene)</span>
+<span id="cb233-8"><a href="chapter11.html#cb233-8"></a>}</span>
+<span id="cb233-9"><a href="chapter11.html#cb233-9"></a></span>
+<span id="cb233-10"><a href="chapter11.html#cb233-10"></a>g &lt;-<span class="st"> </span><span class="kw">unique</span>(example_genes[,<span class="dv">1</span>])</span>
+<span id="cb233-11"><a href="chapter11.html#cb233-11"></a>n &lt;-<span class="st"> </span><span class="kw">length</span>(g)</span>
+<span id="cb233-12"><a href="chapter11.html#cb233-12"></a>d &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dt">nrow =</span> n, <span class="dt">ncol =</span> n)</span>
+<span id="cb233-13"><a href="chapter11.html#cb233-13"></a><span class="kw">rownames</span>(d) &lt;-<span class="st"> </span><span class="kw">colnames</span>(d) &lt;-<span class="st"> </span>g</span>
+<span id="cb233-14"><a href="chapter11.html#cb233-14"></a>genes &lt;-<span class="st"> </span><span class="kw">lapply</span>(g, get_genes, <span class="dt">data =</span> example_genes)</span>
+<span id="cb233-15"><a href="chapter11.html#cb233-15"></a></span>
+<span id="cb233-16"><a href="chapter11.html#cb233-16"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>n) {</span>
+<span id="cb233-17"><a href="chapter11.html#cb233-17"></a>    <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>i) {</span>
+<span id="cb233-18"><a href="chapter11.html#cb233-18"></a>        jaccard_sim &lt;-<span class="st"> </span><span class="kw">length</span>(<span class="kw">intersect</span>(genes[[i]], genes[[j]])) <span class="op">/</span><span class="st"> </span></span>
+<span id="cb233-19"><a href="chapter11.html#cb233-19"></a><span class="st">                       </span><span class="kw">length</span>(<span class="kw">union</span>(genes[[i]], genes[[j]]))</span>
+<span id="cb233-20"><a href="chapter11.html#cb233-20"></a>        d[j, i] &lt;-<span class="st"> </span>d[i, j] &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span>jaccard_sim</span>
+<span id="cb233-21"><a href="chapter11.html#cb233-21"></a>    }</span>
+<span id="cb233-22"><a href="chapter11.html#cb233-22"></a>}</span>
+<span id="cb233-23"><a href="chapter11.html#cb233-23"></a></span>
+<span id="cb233-24"><a href="chapter11.html#cb233-24"></a>tree &lt;-<span class="st"> </span>ape<span class="op">::</span><span class="kw">bionj</span>(d) </span>
+<span id="cb233-25"><a href="chapter11.html#cb233-25"></a></span>
+<span id="cb233-26"><a href="chapter11.html#cb233-26"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree, <span class="dt">branch.length=</span><span class="st">&#39;none&#39;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb233-27"><a href="chapter11.html#cb233-27"></a><span class="st">    </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">xlim_tree</span>(<span class="fl">5.5</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb233-28"><a href="chapter11.html#cb233-28"></a><span class="st">    </span><span class="kw">geom_facet</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">xmin =</span> start, <span class="dt">xmax =</span> end, <span class="dt">fill =</span> gene),</span>
+<span id="cb233-29"><a href="chapter11.html#cb233-29"></a>               <span class="dt">data =</span> example_genes, <span class="dt">geom =</span> geom_motif, <span class="dt">panel =</span> <span class="st">&#39;Alignment&#39;</span>,</span>
+<span id="cb233-30"><a href="chapter11.html#cb233-30"></a>               <span class="dt">on =</span> <span class="st">&#39;genE&#39;</span>, <span class="dt">label =</span> <span class="st">&#39;gene&#39;</span>, <span class="dt">align =</span> <span class="st">&#39;left&#39;</span>) <span class="op">+</span></span>
+<span id="cb233-31"><a href="chapter11.html#cb233-31"></a><span class="st">    </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Set3&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb233-32"><a href="chapter11.html#cb233-32"></a><span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="dt">expand=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)) <span class="op">+</span></span>
+<span id="cb233-33"><a href="chapter11.html#cb233-33"></a><span class="st">    </span><span class="kw">theme</span>(<span class="dt">strip.text=</span><span class="kw">element_blank</span>(),</span>
+<span id="cb233-34"><a href="chapter11.html#cb233-34"></a>        <span class="dt">panel.spacing=</span><span class="kw">unit</span>(<span class="dv">0</span>, <span class="st">&#39;cm&#39;</span>))</span>
+<span id="cb233-35"><a href="chapter11.html#cb233-35"></a></span>
+<span id="cb233-36"><a href="chapter11.html#cb233-36"></a><span class="kw">facet_widths</span>(p, <span class="dt">widths=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span></code></pre></div>
 <div class="figure"><span id="fig:gggenes"></span>
 <img src="treedata_files/figure-html/gggenes-1.png" alt="Genomic features with phylogenetic tree." width="864" />
 <p class="caption">
-Figure 11.3: <strong>Genomic features with phylogenetic tree.</strong>
+Figure 11.4: <strong>Genomic features with phylogenetic tree.</strong>
 </p>
 </div>
 
@@ -569,6 +629,9 @@ Figure 11.3: <strong>Genomic features with phylogenetic tree.</strong>
 <div id="refs" class="references">
 <div id="ref-chen_ancient_2017">
 <p>Chen, Zigui, Wendy C. S. Ho, Siaw Shi Boon, Priscilla T. Y. Law, Martin C. W. Chan, Rob DeSalle, Robert D. Burk, and Paul K. S. Chan. 2017. “Ancient Evolution and Dispersion of Human Papillomavirus 58 Variants.” <em>Journal of Virology</em> 91 (21): e01285–17. <a href="https://doi.org/10.1128/JVI.01285-17">https://doi.org/10.1128/JVI.01285-17</a>.</p>
+</div>
+<div id="ref-larsen_identification_2019">
+<p>Larsen, Frederik T., Bertrand Bed’Hom, Bernt Guldbrandtsen, and Tina S. Dalgaard. 2019. “Identification and Tissue-Expression Profiling of Novel Chicken c-Type Lectin-Like Domain Containing Proteins as Potential Targets for Carbohydrate-Based Vaccine Strategies.” <em>Molecular Immunology</em> 114 (October): 216–25. <a href="https://doi.org/10.1016/j.molimm.2019.07.022">https://doi.org/10.1016/j.molimm.2019.07.022</a>.</p>
 </div>
 <div id="ref-yu_two_2018">
 <p>Yu, Guangchuang, Tommy Tsan-Yuk Lam, Huachen Zhu, and Yi Guan. 2018. “Two Methods for Mapping and Visualizing Associated Data on Phylogeny Using Ggtree.” <em>Molecular Biology and Evolution</em> 35 (12): 3041–3. <a href="https://doi.org/10.1093/molbev/msy194">https://doi.org/10.1093/molbev/msy194</a>.</p>

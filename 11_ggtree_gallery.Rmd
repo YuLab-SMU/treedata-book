@@ -164,7 +164,70 @@ ggtree(tree, color="black", size=1.5, linetype=1,  right=TRUE) +
 ```
 
 
+## Highlighting different groups. {#phylo-grouping}
 
+
+This example reproduce Figure 1 of [@larsen_identification_2019]. It used `groupOTU` to add grouping information of chicken CTLDcps. The branch linetype and color are defined based on this grouping information. Two groups of CTLDcps are highlighted in different background colors (red for Group II and green for Group V). The avian-specific expansion of group V with subgroup of A and B- are labelled (Figure \@ref(fig:treeLarsen)).
+
+
+
+(ref:treeLarsenscap) Phylogenetic tree of CTLDcps.
+
+(ref:treeLarsencap) **Phylogenetic tree of CTLDcps**. 
+
+
+
+
+```{r treeLarsen, fig.cap="(ref:treeLarsencap)", fig.scap="(ref:treeLarsenscap)", fig.width=7.5, fig.height=6.3}
+mytree <- read.tree("data/Tree 30.4.19.nwk")
+
+# Define nodes for coloring later on
+tiplab <- mytree$tip.label
+cls <- tiplab[grep("^ch", tiplab)] 
+labeltree <- groupOTU(mytree, cls)
+
+p <- ggtree(labeltree, aes(color=group, linetype=group), layout="circular") +
+    scale_color_manual(values = c("#efad29", "#63bbd4")) +
+    geom_nodepoint(color="black", size=0.1) +
+    geom_tiplab(size=2, color="black")
+
+p2 <- flip(p, 136, 110) %>% 
+    flip(141, 145) %>% 
+    rotate(141) %>% 
+    rotate(142) %>% 
+    rotate(160) %>% 
+    rotate(164) %>% 
+    rotate(131)
+
+### Group V and II coloring 
+p3 <- p2 + geom_hilight(node = 110, fill = "#229f8a", alpha = 0.2, extend = 0.43) +    
+    geom_hilight(node = 88, fill = "#229f8a", alpha = 0.2, extend = 0.445) +
+    geom_hilight(node = 156, fill = "#229f8a", alpha = 0.2, extend = 0.35) +
+    geom_hilight(node = 136, fill = "#f9311f", alpha = 0.2, extend = 0.512)
+
+### Putting on a label on the avian specific expansion 
+p4 <- p3 + geom_cladelabel(node = 113, label = "Avian-specific expansion", 
+                        align = TRUE, angle = -35, offset.text = 0.05, 
+                        hjust = "center", fontsize = 2,  offset = 0.2, barsize = 0.2)
+    
+### Adding the bootstrap values with subset used to remove all bootstraps < 50  
+p5 <- p4 + geom_text2(aes(label=label, 
+                        subset = !is.na(as.numeric(label)) & as.numeric(label) > 50), 
+                    size = 2, color = "black",nudge_y = 0.7, nudge_x = -0.05)
+ 
+### Putting labels on the subgroups 
+p6 <- p5 + geom_cladelabel(node = 114, label = "Subgroup A", align = TRUE, 
+                        angle = -55, offset.text = .03, hjust = "center", 
+                        offset = 0.05, barsize = 0.2, fontsize = 2) +
+            geom_cladelabel(node = 121, label = "Subgroup B", align = TRUE, 
+                        angle = -15, offset.text = .03, hjust = "center", 
+                        offset = 0.05, barsize = 0.2, fontsize = 2) +
+            theme(legend.position="none", 
+                plot.margin=grid::unit(c(-15,-15,-15,-15), "mm"))
+
+print(p6)
+```
+  
 ## Phylogenetic tree with genome locus structure {#genome-locus}
 
 The `geom_motif` is defined in `ggtree` and it is a wrapper layer of `gggenes::geom_gene_arrow`. The `geom_motif` can automatically adjust genomic alignment by selective gene (via the `on` parameter) and can label genes via the `label` parameter. In the following example, we use `example_genes` dataset provided by `r CRANpkg("gggenes")`. As the dataset only provide genomic coordinations of a set of genes, a phylogeny for the genomes need to be firstly constructed. We calculate jaccard similarity based on the ratio of overlapping genes among genomes and correspondingly determine genome distance. BioNJ algorithm was applied to construct the tree (Figure \@ref(fig:gggenes)). 
