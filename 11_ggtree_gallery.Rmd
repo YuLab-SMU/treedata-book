@@ -274,5 +274,9 @@ p <- ggtree(tree, branch.length='none') +
     theme(strip.text=element_blank(),
         panel.spacing=unit(0, 'cm'))
 
+## in case the facet panels were not ordered properly
+p <- p + facet_grid(cols = vars(factor(.panel, levels = c("Tree", "Alignment"))),
+                    scales = 'free_x')
+
 facet_widths(p, widths=c(1,2))
 ```
