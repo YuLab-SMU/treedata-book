@@ -358,6 +358,32 @@ p %<+% d %<+% d2 + aes(colour=I(colour), linetype=I(lty))
 
 Users can use the `r CRANpkg("gginnards")` package to manipulate plot elements for more complicated scenarios.
 
+### Add an arbitrary point to a branch {#arbitrary-point}
+
+If you want to add an arbitrary point to a branch^[<https://twitter.com/melanoidin/status/1262703932993871874>], you can use `geom_nodepoint`, `geom_tippoint` or `geom_point2` (works for both external and internal nodes) to filter selected node (end point of the branch) via the `subset` aesthetic mapping and specify horizontal position by `x = x - offset` aesthetic mapping, where the offset can be an absolute value (Figure \@ref(fig:pointOnBranch)A) or proportion to branch length (Figure \@ref(fig:pointOnBranch)B).
+
+
+
+(ref:pointOnBranchscap) Add an arbitrary point on a branch.
+
+(ref:pointOnBranchcap) **Add an arbitrary point on a branch.** 
+
+
+```{r pointOnBranch, fig.cap="(ref:pointOnBranchcap)", fig.scap="(ref:pointOnBranchscap)", fig.width=8, fig.height=4.5}
+set.seed(2020-05-20)
+x <- rtree(10)
+p <- ggtree(x)
+
+p1 <- p + geom_nodepoint(aes(subset = node == 13, x = x - .1),
+                        size = 5, colour = 'firebrick', shape = 21)
+
+p2 <- p + geom_nodepoint(aes(subset = node == 13, x = x - branch.length * 0.2),
+                        size = 3, colour = 'firebrick') + 
+       geom_nodepoint(aes(subset = node == 13, x = x - branch.length * 0.8),
+                        size = 5, colour = 'steelblue')
+cowplot::plot_grid(p1, p2, labels=c("A", "B"))
+```
+
 
 ## Different x-axis labels for different facet panels
 
