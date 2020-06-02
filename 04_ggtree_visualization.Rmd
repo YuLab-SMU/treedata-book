@@ -448,7 +448,7 @@ ggtree(beast_tree, aes(color=rate)) +
     theme(legend.position="right")
 ```
 
-User can use any feature (if available), including clade posterior and _d~N~/d~S~_ _etc._, to scale the color of the tree. If the feature is continuous numerical value, `r Biocpkg("ggtree")` provides a `continuous` parameter to support plotting continuous state transition in edges. Here, we use the example provided in <http://www.phytools.org/eqg2015/asr.html> to demonstrate this functionality.
+User can use any feature (if available), including clade posterior and _d~N~/d~S~_ _etc._, to scale the color of the tree. If the feature is continuous numerical value, `r Biocpkg("ggtree")` provides a `continuous` parameter to support plotting continuous state transition in edges. Here, we use the example provided in <http://www.phytools.org/eqg2015/asr.html> to demonstrate this functionality. If you want to add a thin black border in tree branches, you can place a tree with black and slightly thicker branches below your tree to emulate edge outlines as demonstrated in Figure \@ref(fig:continuousColor)B.
 
 
 
@@ -457,7 +457,7 @@ User can use any feature (if available), including clade posterior and _d~N~/d~S
 (ref:continuousColorcap) **Continuous state transition in edges.** Edges are colored by the values from ancestral trait to offspring.
 
  
-```{r continuousColor, fig.width=6, fig.height=6, fig.cap="(ref:continuousColorcap)", fig.scap="(ref:continuousColorscap)"}
+```{r continuousColor, fig.width=12, fig.height=6, fig.cap="(ref:continuousColorcap)", fig.scap="(ref:continuousColorscap)"}
 anole.tree<-read.tree("http://www.phytools.org/eqg2015/data/anole.tre")
 svl <- read.csv("http://www.phytools.org/eqg2015/data/svl.csv",
     row.names=1)
@@ -472,10 +472,21 @@ d <- rbind(td, nd)
 d$node <- as.numeric(d$node)
 tree <- full_join(anole.tree, d, by = 'node')
 
-ggtree(tree, aes(color=trait), layout = 'circular', 
+p1 <- ggtree(tree, aes(color=trait), layout = 'circular', 
         ladderize = FALSE, continuous = TRUE, size=2) +
     scale_color_gradientn(colours=c("red", 'orange', 'green', 'cyan', 'blue')) +
-    geom_tiplab(hjust = -.1) + xlim(0, 1.2) + theme(legend.position = c(.05, .85)) 
+    geom_tiplab(hjust = -.1) + 
+    xlim(0, 1.2) + 
+    theme(legend.position = c(.05, .85)) 
+
+p2 <- ggtree(tree, layout='circular', ladderize = FALSE, size=2.8) + 
+    geom_tree(aes(color=trait), continuous=T, size=2) +  
+    scale_color_gradientn(colours=c("red", 'orange', 'green', 'cyan', 'blue')) +
+    geom_tiplab(aes(color=trait), hjust = -.1) + 
+    xlim(0, 1.2) + 
+    theme(legend.position = c(.05, .85)) 
+
+cowplot::plot_grid(p1, p2, ncol=2, labels=c("A", "B"))    
 ```
 
 Besides, we can use two-dimensional tree (as demonstrated in Figure \@ref(fig:2d)) to visualize phenotype on the vertical dimension to create the phenogram. We can use `r CRANpkg("ggrepel")` package to repel tip labels to avoid overlapping as demonstrated in Figure \@ref(fig:repelTip).
