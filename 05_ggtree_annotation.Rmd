@@ -262,41 +262,57 @@ plot_grid(p1, p2, p3, p4, ncol=2, labels=LETTERS[1:4])
 
 Some evolutionary events (e.g. reassortment, horizontal gene transfer) cannot be modeled by a simple tree. `r Biocpkg("ggtree")` provides `geom_taxalink` layer that allows drawing straight or curved lines between any of two nodes in the tree, allow it to represent evolutionary events by connecting taxa. It works with rectangular (Figure \@ref(fig:taxalink)A), circular (Figure \@ref(fig:taxalink)B) and inward circular (Figure \@ref(fig:taxalink)C) layouts.
 
+The `geom_taxalink` layout supports aesthetic mapping, which requires a `data.frame` that stored association information with/without meta data as input (Figure \@ref(fig:taxalink)D).
 
 (ref:taxalinkscap) Linking related taxa.
 
 (ref:taxalinkcap) **Linking related taxa.** This can be used to indicate evolutionary events such as reassortment and horizontal gene transfer. 
 
 
-```{r taxalink, fig.cap="(ref:taxalinkcap)", fig.scap="(ref:taxalinkscap)", fig.width=15, fig.height=5, warning=FALSE}
-p1 <- ggtree(tree) + geom_tiplab() + geom_taxalink('A', 'E') + 
-  geom_taxalink('F', 'K', color='red', linetype = 'dashed',
-    arrow=grid::arrow(length=grid::unit(0.02, "npc")))
+```{r taxalink, fig.cap="(ref:taxalinkcap)", fig.scap="(ref:taxalinkscap)", fig.width=12, fig.height=10, warning=FALSE}
+p1 <- ggtree(tree) + geom_tiplab() + geom_taxalink(taxa1='A', taxa2='E') + 
+  geom_taxalink(taxa1='F', taxa2='K', color='red', linetype = 'dashed',
+    arrow=arrow(length=unit(0.02, "npc")))
 
 p2 <- ggtree(tree, layout="circular") + 
-      geom_taxalink('A', 'E', color="grey", alpha=0.5, offset=0.05,
-                    arrow=grid::arrow(length=grid::unit(0.01, "npc"))) + 
-      geom_taxalink('F', 'K', color='red', linetype = 'dashed', alpha=0.5, offset=0.05,
-                    arrow=grid::arrow(length=grid::unit(0.01, "npc"))) +
-      geom_taxalink("L", "M", color="blue", alpha=0.5, offset=0.05,
-                    hratio=0.8, arrow=grid::arrow(length=grid::unit(0.01, "npc"))) + 
+      geom_taxalink(taxa1='A', taxa2='E', color="grey", alpha=0.5, offset=0.05,
+                    arrow=arrow(length=unit(0.01, "npc"))) + 
+      geom_taxalink(taxa1='F', taxa2='K', color='red', linetype = 'dashed', alpha=0.5, offset=0.05,
+                    arrow=arrow(length=unit(0.01, "npc"))) +
+      geom_taxalink(taxa1="L", taxa2="M", color="blue", alpha=0.5, offset=0.05,
+                    hratio=0.8, arrow=arrow(length=unit(0.01, "npc"))) + 
       geom_tiplab()
 
 # when the tree was created using reverse x, 
 # we can set outward to FALSE, which will generate the inward curve lines.
 p3 <- ggtree(tree, layout="inward_circular", xlim=150) +
-      geom_taxalink('A', 'E', color="grey", alpha=0.5, offset=-0.2, 
+      geom_taxalink(taxa1='A', taxa2='E', color="grey", alpha=0.5, offset=-0.2, 
                     outward=FALSE,
-                    arrow=grid::arrow(length=grid::unit(0.01, "npc"))) +
-      geom_taxalink('F', 'K', color='red', linetype = 'dashed', alpha=0.5, offset=-0.2,
+                    arrow=arrow(length=unit(0.01, "npc"))) +
+      geom_taxalink(taxa1='F', taxa2='K', color='red', linetype = 'dashed', alpha=0.5, offset=-0.2,
                     outward=FALSE,
-                    arrow=grid::arrow(length=grid::unit(0.01, "npc"))) +
-      geom_taxalink("L", "M", color="blue", alpha=0.5, offset=-0.2, 
+                    arrow=arrow(length=unit(0.01, "npc"))) +
+      geom_taxalink(taxa1="L", taxa2="M", color="blue", alpha=0.5, offset=-0.2, 
                     outward=FALSE,
-                    arrow=grid::arrow(length=grid::unit(0.01, "npc"))) +
+                    arrow=arrow(length=unit(0.01, "npc"))) +
       geom_tiplab(hjust=1) 
 
-cowplot::plot_grid(p1, p2, p3, ncol=3, labels=LETTERS[1:3])
+dat <- data.frame(from=c("A", "F", "L"), 
+                  to=c("E", "K", "M"), 
+                  h=c(1, 1, 0.1), 
+                  type=c("t1", "t2", "t3"), 
+                  s=c(2, 1, 2))
+p4 <- ggtree(tree, layout="inward_circular", xlim=c(150, 0)) +
+          geom_taxalink(data=dat, 
+                         mapping=aes(taxa1=from, 
+                                     taxa2=to, 
+                                     color=type, 
+                                     size=s), 
+                         ncp=10,
+                         offset=0.15) + 
+          geom_tiplab(hjust=1) +
+          scale_size_continuous(range=c(1,3))
+cowplot::plot_grid(p1, p2, p3, p4, ncol=2, labels=LETTERS[1:4])
 ```
 
 ### Uncertainty of evolutionary inference
