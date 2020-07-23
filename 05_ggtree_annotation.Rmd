@@ -212,11 +212,13 @@ ggtree(tree, layout="circular") + geom_hilight(node=21, fill="steelblue", alpha=
 ```
 
 
-The `geom_hilight` layer also support highlighting clades for unrooted layout trees (Figure \@ref(fig:hilight)C).
+The `geom_hilight` layer also support highlighting clades for unrooted layout trees with round ('encircle') or rectangular ('rect') shape (Figure \@ref(fig:hilight)C).
 
 
 ```{r eval=FALSE, fig.width=5, fig.height=5, fig.align='center', warning=FALSE, message=FALSE}
-pg + geom_hilight(node=55) + geom_hilight(node=35, fill='darkgreen')
+## type can be 'encircle' or 'rect'
+pg + geom_hilight(node=55) + 
+  geom_hilight(node=35, fill='darkgreen', type="rect")
 ```
 
 
@@ -226,6 +228,8 @@ Another way to highlight selected clades is setting the clades with different co
 In addition to `geom_hilight`, `ggtree` also implements `geom_balance`
 which is designed to highlight neighboring subclades of a given internal node (Figure \@ref(fig:hilight)D).
 
+
+
 ```{r fig.width=4, fig.height=5, fig.align='center', warning=FALSE, eval=F}
 ggtree(tree) +
   geom_balance(node=16, fill='steelblue', color='white', alpha=0.6, extend=1) +
@@ -233,12 +237,26 @@ ggtree(tree) +
 ```
 
 
+The `geom_hilight` layer supports using aesthetic mapping to automatically highlight clades as demonstrated in Figure \@ref(fig:hilight)E and \@ref(fig:hilight)F.
+
+```{r eval=FALSE, fig.width=5, fig.height=5, fig.align='center', warning=FALSE, message=FALSE}
+## using external data
+d <- data.frame(node=c(17, 21), type=c("A", "B"))
+ggtree(tree) + geom_hilight(data=d, aes(node=node, fill=type))
+
+## using data stored in tree object
+x <- read.nhx(system.file("extdata/NHX/ADH.nhx", package="treeio"))
+ggtree(x) + geom_hilight(mapping=aes(subset = node %in% c(10, 12), fill = S))
+```
+
+
+
 (ref:hilightscap) Highlight selected clades.
 
 (ref:hilightcap) **Highlight selected clades.** Rectangular layout (A), circular/fan (B) and unrooted layouts. Highlight neighboring subclades simultaneously (D).
 
 
-```{r hilight, echo = FALSE, fig.width=10, fig.height=10, warning=FALSE, fig.cap="(ref:hilightcap)", fig.scap="(ref:hilightscap)"}
+```{r hilight, echo = FALSE, fig.width=12, fig.height=8, warning=FALSE, fig.cap="(ref:hilightcap)", fig.scap="(ref:hilightscap)"}
 nwk <- system.file("extdata", "sample.nwk", package="treeio")
 tree <- read.tree(nwk)
 p1= ggtree(tree) + geom_hilight(node=21, fill="steelblue", alpha=.6) +
@@ -247,14 +265,20 @@ p1= ggtree(tree) + geom_hilight(node=21, fill="steelblue", alpha=.6) +
 p2= ggtree(tree, layout="circular") + geom_hilight(node=21, fill="steelblue", alpha=.6) +
     geom_hilight(node=23, fill="darkgreen", alpha=.6)
 
-p3 = pg + geom_hilight(node=55) + geom_hilight(node=35, fill='darkgreen')
+p3 = pg + geom_hilight(node=55) + geom_hilight(node=35, fill='darkgreen', type='rect')
 
 p4 = ggtree(tree) +
   geom_balance(node=16, fill='steelblue', color='white', alpha=0.6, extend=1) +
   geom_balance(node=19, fill='darkgreen', color='white', alpha=0.6, extend=1) 
 
+d <- data.frame(node=c(17, 21), type=c("A", "B"))
+p5 <- ggtree(tree) + geom_hilight(data=d, aes(node=node, fill=type))
 
-plot_grid(p1, p2, p3, p4, ncol=2, labels=LETTERS[1:4])    
+## using data stored in tree object
+x <- read.nhx(system.file("extdata/NHX/ADH.nhx", package="treeio"))
+p6 <- ggtree(x) + geom_hilight(mapping=aes(subset = node %in% c(10, 12), fill = S))
+
+plot_grid(p1, p2, p3, p4, p5, p6, ncol=3, labels=LETTERS[1:6])    
 ```
 
 
