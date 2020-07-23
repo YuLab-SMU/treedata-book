@@ -66,7 +66,7 @@ geoms <- matrix(c(
   "geom_balance", "highlights the two direct descendant clades of an internal node",
   "geom_cladelabel", "annotate a clade with bar and text label",
   "geom_facet", "plot associated data in specific panel (facet) and align the plot with the tree",
-  "geom_hilight", "highlight a clade with rectangle",
+  "geom_hilight", "highlight selected clade with rectanglar or round shape",
   "geom_inset", "add insets (subplots) to tree nodes",
   "geom_label2", "modified version of geom_label, with subsetting supported",
   "geom_nodepoint", "annotate internal nodes with symbolic points",
@@ -76,7 +76,7 @@ geoms <- matrix(c(
   "geom_rootedge", "add root edge to a tree", 
   "geom_segment2", "modified version of geom_segment, with subsetting supported",
   "geom_strip", "annotate associated taxa with bar and (optional) text label",
-  "geom_taxalink", "associate two related taxa by linking them with a curve",
+  "geom_taxalink", "Linking related taxa",
   "geom_text2", "modified version of geom_text, with subsetting supported",
   "geom_tiplab", "layer of tip labels",
   "geom_tippoint", "annotate external nodes with symbolic points",
@@ -246,14 +246,15 @@ ggtree(tree) + geom_hilight(data=d, aes(node=node, fill=type))
 
 ## using data stored in tree object
 x <- read.nhx(system.file("extdata/NHX/ADH.nhx", package="treeio"))
-ggtree(x) + geom_hilight(mapping=aes(subset = node %in% c(10, 12), fill = S))
+ggtree(x) + geom_hilight(mapping=aes(subset = node %in% c(10, 12), fill = S)) +
+  scale_fill_manual(values=c("steelblue", "darkgreen"))
 ```
 
 
 
 (ref:hilightscap) Highlight selected clades.
 
-(ref:hilightcap) **Highlight selected clades.** Rectangular layout (A), circular/fan (B) and unrooted layouts. Highlight neighboring subclades simultaneously (D).
+(ref:hilightcap) **Highlight selected clades.** Rectangular layout (A), circular/fan (B) and unrooted layouts. Highlight neighboring subclades simultaneously (D). Highlight selected clades using associated data (E and F).
 
 
 ```{r hilight, echo = FALSE, fig.width=12, fig.height=8, warning=FALSE, fig.cap="(ref:hilightcap)", fig.scap="(ref:hilightscap)"}
@@ -276,7 +277,8 @@ p5 <- ggtree(tree) + geom_hilight(data=d, aes(node=node, fill=type))
 
 ## using data stored in tree object
 x <- read.nhx(system.file("extdata/NHX/ADH.nhx", package="treeio"))
-p6 <- ggtree(x) + geom_hilight(mapping=aes(subset = node %in% c(10, 12), fill = S))
+p6 <- ggtree(x) + geom_hilight(mapping=aes(subset = node %in% c(10, 12), fill = S))+
+  scale_fill_manual(values=c("steelblue", "darkgreen"))
 
 plot_grid(p1, p2, p3, p4, p5, p6, ncol=3, labels=LETTERS[1:6])    
 ```
