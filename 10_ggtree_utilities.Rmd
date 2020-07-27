@@ -249,3 +249,24 @@ plot_grid(plot_grid(ggdraw(), p2, rel_widths=c(.04, 1)),
     g + theme_grey() + xlim_expand(c(0, 15), 'virginica'),
     ncol=2, labels=c("A", "B"))
 ```
+
+### hexpand {#hexpand}
+
+`ggplot2` cannot automatically adjust `xlim` and it is very common that long text can be truncated. Users need to adjust x limits manually via the `xlim` command (see also [FAQ: Tip label truncated](#faq-label-truncated)). 
+
+`xlim` is a good solution to this issue. However, we can put the thing more simple, by expanding the plot panel by a ratio of the axis range without knowing what the exact value is. 
+
+We provide `hexpand` function to expand x limit by specifying a fraction of the x range and it works for both direction (`direction=1` for right hand side and `direction=-1` for left hand side) (Figure \@ref(fig:hexpand)).
+
+(ref:hexpandscap) Expanding xlim by a fraction of x range.
+
+(ref:hexpandcap) **Expanding xlim by a fraction of x range.** hexpand for `ggtree` (A), and `ggplot2` (B).
+
+
+```{r hexpand,fig.cap="(ref:hexpandcap)", fig.scap="(ref:hexpandscap)", fig.width=12, fig.height = 5}
+x$tip.label <- paste0('to make the label longer_', x$tip.label)
+p1 <- ggtree(x) + geom_tiplab() + hexpand(.3)
+p2 <- ggplot(iris, aes(Sepal.Width, Petal.Width)) + 
+    geom_point() + hexpand(.2, direction = -1)
+plot_grid(p1, p2, labels=c("A", "B"), rel_widths=c(.6, .4))
+```

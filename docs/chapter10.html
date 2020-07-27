@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2020-07-23" />
+<meta name="date" content="2020-07-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -302,6 +302,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.5" data-path="chapter10.html"><a href="chapter10.html#scale-utilities"><i class="fa fa-check"></i><b>10.5</b> Scale utilities</a>
 <ul>
 <li class="chapter" data-level="10.5.1" data-path="chapter10.html"><a href="chapter10.html#xlim_expand"><i class="fa fa-check"></i><b>10.5.1</b> xlim_expand</a></li>
+<li class="chapter" data-level="10.5.2" data-path="chapter10.html"><a href="chapter10.html#hexpand"><i class="fa fa-check"></i><b>10.5.2</b> hexpand</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="chapter11.html"><a href="chapter11.html"><i class="fa fa-check"></i><b>11</b> Gallery of reproducible examples</a>
@@ -565,6 +566,25 @@ Figure 10.4: <strong>Layout layers for transforming among different layouts</str
 <img src="treedata_files/figure-html/xlimExpand-1.png" alt="Setting xlim for user specific panel. xlim for ggtree::facet_plot (A, Tree and Dot panels), and ggplot2::facet_grid (B, virginica panel)." width="1152" />
 <p class="caption">
 Figure 10.5: <strong>Setting xlim for user specific panel.</strong> xlim for <code>ggtree::facet_plot</code> (A, Tree and Dot panels), and <code>ggplot2::facet_grid</code> (B, virginica panel).
+</p>
+</div>
+</div>
+<div id="hexpand" class="section level3" number="10.5.2">
+<h3><span class="header-section-number">10.5.2</span> hexpand</h3>
+<p><code>ggplot2</code> cannot automatically adjust <code>xlim</code> and it is very common that long text can be truncated. Users need to adjust x limits manually via the <code>xlim</code> command (see also <a href="faq.html#faq-label-truncated">FAQ: Tip label truncated</a>).</p>
+<p><code>xlim</code> is a good solution to this issue. However, we can put the thing more simple, by expanding the plot panel by a ratio of the axis range without knowing what the exact value is.</p>
+<p>We provide <code>hexpand</code> function to expand x limit by specifying a fraction of the x range and it works for both direction (<code>direction=1</code> for right hand side and <code>direction=-1</code> for left hand side) (Figure <a href="chapter10.html#fig:hexpand">10.6</a>).</p>
+
+
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="chapter10.html#cb229-1" aria-hidden="true"></a>x<span class="op">$</span>tip.label &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&#39;to make the label longer_&#39;</span>, x<span class="op">$</span>tip.label)</span>
+<span id="cb229-2"><a href="chapter10.html#cb229-2" aria-hidden="true"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(x) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">hexpand</span>(.<span class="dv">3</span>)</span>
+<span id="cb229-3"><a href="chapter10.html#cb229-3" aria-hidden="true"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(iris, <span class="kw">aes</span>(Sepal.Width, Petal.Width)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb229-4"><a href="chapter10.html#cb229-4" aria-hidden="true"></a><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">hexpand</span>(.<span class="dv">2</span>, <span class="dt">direction =</span> <span class="dv">-1</span>)</span>
+<span id="cb229-5"><a href="chapter10.html#cb229-5" aria-hidden="true"></a><span class="kw">plot_grid</span>(p1, p2, <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>), <span class="dt">rel_widths=</span><span class="kw">c</span>(.<span class="dv">6</span>, <span class="fl">.4</span>))</span></code></pre></div>
+<div class="figure"><span id="fig:hexpand"></span>
+<img src="treedata_files/figure-html/hexpand-1.png" alt="Expanding xlim by a fraction of x range. hexpand for ggtree (A), and ggplot2 (B)." width="1152" />
+<p class="caption">
+Figure 10.6: <strong>Expanding xlim by a fraction of x range.</strong> hexpand for <code>ggtree</code> (A), and <code>ggplot2</code> (B).
 </p>
 </div>
 
