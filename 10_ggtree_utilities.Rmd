@@ -103,7 +103,7 @@ facet_labeller(p2, c(Tree = "phylogeny")) %>% facet_widths(c(Tree = .4))
 
 
 ```{r facetLab, echo=FALSE,fig.width=6, fig.height=9, fig.scap="(ref:facetLabscap)", fig.cap="(ref:facetLabcap)"}
-pg1 <- facet_labeller(p2, c(Tree = "phylogeny", bar = "HELLO"))
+pg1 <- facet_labeller(p2, c(Tree = "phylogeny", bar = "HELLO")) 
 pg2 <- facet_labeller(p2, c(Tree = "phylogeny")) %>% facet_widths(c(Tree = .4))
 plot_grid(plot_grid(ggdraw(), pg1, rel_widths=c(.04, 1)), 
         plot_grid(ggdraw(), pg2, rel_widths=c(.04, 1)), 
@@ -155,7 +155,10 @@ layout.df = tibble::tribble(~Layout, ~Description,
     "layout_circular",      "transform rectangular layout to circular layout",
     "layout_dendrogram",    "transform rectangular layout to dendrogram layout",
     "layout_fan",           "transform rectangular/circular layout to fan layout",
-    "layout_rectangular",   "transform circular/fan layout to rectangular layout")
+    "layout_rectangular",   "transform circular/fan layout to rectangular layout",
+    "layout_inward_circular",    "transform rectangular/circular layout to inward_circular layout"
+    )
+
 knitr::kable(layout.df, caption = "Layout layers.", booktabs = T)
 ```
 
@@ -168,15 +171,16 @@ p + layout_dendrogram()
 ggtree(x, layout = "circular") + layout_rectangular()
 p + layout_circular()
 p + layout_fan(angle=90)
+p + layout_inward_circular(xlim=4) + geom_tiplab(hjust=1)
 ```
 
 
 (ref:layoutLayerscap) Layout layers for transforming among different layouts.
 
-(ref:layoutLayercap) **Layout layers for transforming among different layouts**. Default rectangular layout (A); transform rectangular to dendrogram layout (B); transform circular to rectangular layout (C); transform rectangular to circular layout (D); transform rectangular to fan layout (E).
+(ref:layoutLayercap) **Layout layers for transforming among different layouts**. Default rectangular layout (A); transform rectangular to dendrogram layout (B); transform circular to rectangular layout (C); transform rectangular to circular layout (D); transform rectangular to fan layout (E); transform rectangular to inward circular layout (F).
 
 
-```{r layoutLayer, echo=FALSE, fig.width=7.2, fig.height=6, message=FALSE, fig.cap="(ref:layoutLayercap)", fig.scap="(ref:layoutLayerscap)"}
+```{r layoutLayer, echo=FALSE, fig.width=10.8, fig.height=7.5, message=FALSE, fig.cap="(ref:layoutLayercap)", fig.scap="(ref:layoutLayerscap)"}
 set.seed(2019)
 x <- rtree(20)
 p <- ggtree(x)
@@ -187,16 +191,18 @@ pp1 <- cowplot::plot_grid(
     p + layout_circular() + layout_rectangular(),
     ncol=3, labels = LETTERS[1:3])
 
+require(ggplotify)
+
 pp2 <- cowplot::plot_grid(
-    p + layout_circular(), 
-    p + layout_fan(angle=90),
-    ncol=2, labels = LETTERS[4:5])
+    as.ggplot(p + layout_circular(), scale=1.2, hjust=-.1), 
+    as.ggplot(p + layout_fan(angle=90), scale=1.2),
+    as.ggplot(p + layout_inward_circular(xlim=4) + geom_tiplab(hjust=1), scale=1.2, hjust=.1),
+    ncol=3, labels = LETTERS[4:6])
 
 cowplot::plot_grid(pp1, pp2, ncol=1, rel_heights=c(2, 3))
 ```
 
 
-## Legend utilities
 
 
 ## Scale utilities

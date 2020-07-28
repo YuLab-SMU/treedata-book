@@ -362,23 +362,35 @@ geom, `geom_nodelab` is also provided for displaying node labels.
 
 For *circular* and *unrooted* layout, `r Biocpkg('ggtree')` supports rotating node labels according to the angles of the branches (Figure \@ref(fig:tiplab)B).
 
-
 ```{r fig.width=6, fig.height=6, warning=FALSE, fig.align="center", eval=FALSE}
 ggtree(tree, layout="circular") + geom_tiplab(aes(angle=angle), color='blue')
 ```
 
 
 
+For long tip labels, the label maybe truncated. There are several ways to solve this issue (see [FAQ: Tip label truncated](#faq-label-truncated)).
+
+Another solution to solve this issue is to display tip labels as y-axis labels (Figure \@ref(fig:tiplab)C). However it only works for rectangular and dendrogram layouts and users need to use `theme()` to adjust tip labels in this case.
+
+
+```{r fig.width=6, fig.height=6, warning=FALSE, fig.align="center", eval=FALSE}
+ggtree(tree) + geom_tiplab(as_ylab=TRUE, color='firebrick')
+```
+
+
 (ref:tiplabscap) Display tip labels.
 
-(ref:tiplabcap) **Display tip labels.** `geom_tiplab` supports displaying tip labels (A). For circular, fan or unrooted tree layout, the labels can be rotated to fit the angle of the branches (B).
+(ref:tiplabcap) **Display tip labels.** `geom_tiplab` supports displaying tip labels (A). For circular, fan or unrooted tree layout, the labels can be rotated to fit the angle of the branches (B). For dendrogram/rectangular layout, tip labels can be displayed as y-axis label (C).
 
 
-```{r tiplab, fig.width=9, fig.height=6, echo=F, fig.cap="(ref:nodeTipcap)", fig.scap="(ref:nodeTipscap)"}
+```{r tiplab, fig.width=13.5, fig.height=5.5, echo=F, fig.cap="(ref:tiplabcap)", fig.scap="(ref:tiplabscap)"}
 p1 <- p + geom_tiplab(size=3, color="purple")
 p2 <- ggtree(tree, layout="circular") + geom_tiplab(aes(angle=angle), color='blue')
-plot_grid(p1, p2, ncol=2, labels = LETTERS[1:2], rel_widths=c(1,2))
+p2 = ggplotify::as.ggplot(p2 + ggimage::theme_transparent(), scale=1.3, hjust=-.1, vjust=.05)
+p3 <- ggtree(tree) + geom_tiplab(as_ylab=TRUE, color='firebrick')
+plot_grid(p1, p2, p3, ncol=3, labels = LETTERS[1:3], rel_widths=c(1.1, 2, 1))
 ```
+
 
 
 By default, the positions to display text are based on the node positions, we can change them to based on the middle of the branch/edge (by setting `aes(x = branch)`), which is very useful when annotating transition from parent node to child node.

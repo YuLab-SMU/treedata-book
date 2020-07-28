@@ -1,9 +1,7 @@
 ## to do
 
-geom_tiplab(as_ylab=TRUE) for rectangular and dendrogram layouts
 
-layout_inward_circular # chapter 10
-
+ggtree for pvclust
 
 + [交互式操作进化树](https://mp.weixin.qq.com/s/PIns29a9pwrUSK6kWpUBIw)
 
