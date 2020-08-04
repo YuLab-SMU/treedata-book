@@ -608,9 +608,12 @@ Users can also use image file as tree background, see example in [Appendix B](#g
 
 
 ```{r mutiPhylo, fig.width=12, fig.height=4,fig.cap="(ref:multiPhylocap)", fig.scap="(ref:multiPhyloscap)"}
-trees <- lapply(c(10, 20, 40), rtree)
-class(trees) <- "multiPhylo"
-ggtree(trees) + facet_wrap(~.id, scale="free") + geom_tiplab()
+## trees <- lapply(c(10, 20, 40), rtree)
+## class(trees) <- "multiPhylo"
+## ggtree(trees) + facet_wrap(~.id, scale="free") + geom_tiplab()
+
+r8s <- read.r8s(system.file("extdata/r8s", "H3_r8s_output.log", package="treeio"))
+ggtree(r8s) + facet_wrap( ~.id, scale="free") + theme_tree2()
 ```
 
 One hundred bootstrap trees can also be view simultaneously.

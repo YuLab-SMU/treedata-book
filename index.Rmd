@@ -39,6 +39,7 @@ library(Biostrings)
 library(igraph)
 library(phylobase)
 
+library(emojifont)
 library(cowplot)
 library(ggplot2)
 library(dplyr)
@@ -90,6 +91,12 @@ Githubpkg <- function (user, pkg) {
     sprintf(fmt, pkg, gh, user, pkg)
 }
 
+badge_version <- function(pkg, color="green") {
+    v <- packageVersion(pkg)
+    url <- paste0("https://github.com/YuLab-SMU/", pkg)
+    badger::badge_custom(pkg, v, color, url)
+}
+
 library(knitr)
 opts_chunk$set(message=FALSE, warning=FALSE, eval=TRUE, echo=TRUE, cache=TRUE)
 ```
@@ -97,7 +104,12 @@ opts_chunk$set(message=FALSE, warning=FALSE, eval=TRUE, echo=TRUE, cache=TRUE)
 
 
 
-# Introduction {-}
+# `r emoji("book")` Introduction {-}
+
+`r badge_version("tidytree")`
+`r badge_version("treeio")`
+`r badge_version("ggtree")`
+
 
 > You can't even begin to understand biology, you can't understand life, unless
 > you understand what it's all there for, how it arose - and that means
@@ -106,11 +118,11 @@ opts_chunk$set(message=FALSE, warning=FALSE, eval=TRUE, echo=TRUE, cache=TRUE)
 > --- Richard Dawkins
 
 
-## Motivation {-}
+## `r emoji("dart")` Motivation {-}
 
 The book is meant as a guide for data integration, manipulation and visualization of phylogenetic trees using a suite of R packages, `r CRANpkg("tidytree")`, `r Biocpkg("treeio")` and `r Biocpkg("ggtree")`. Hence, if you are starting to read this book, we assume you have a working knowledge of how to use R and `r CRANpkg("ggplot2")`.
 
-## Citation {-}
+## `r emoji("memo")` Citation {-}
 
 If you use the software suite in published research, please cite the most appropriate paper(s) from this list:
 
@@ -124,13 +136,13 @@ visualization and annotation of phylogenetic trees with their covariates and
 other associated data. __*Methods in Ecology and Evolution*__. 2017, 8(1):28-36.
 doi: [10.1111/2041-210X.12628](https://doi.org/10.1111/2041-210X.12628).
 
-## Book structure {-}
+## `r emoji("books")` Book structure {-}
 
 + Part 1 (Tree data input, output and manipulation) describes `r Biocpkg("treeio")` package for tree data input and output, and `r CRANpkg("tidytree")` package for tree data manipulation.
 + Part 2 (Tree data visualization and annotation) introduces tree visualization and annotation using grammar of graphic syntax implemented in the `r Biocpkg("ggtree")` package. It emphasizes on presenting tree associated data on the tree.
 + Part 3 (Miscellaneous topics) describes utilities provided by the `r Biocpkg("ggtree")` package suite, presents a set of reproducible examples and introduces some of the `r Biocpkg("ggtree")` extensions.
 
-## Want to help? {-}
+## `r emoji("sparkling_heart")` Want to help? {-}
 
 
 The book’s source code is hosted on GitHub, at <https://github.com/YuLab-SMU/treedata-book>. Any feedback on the book is very welcome. Feel free to [open an issue](https://github.com/YuLab-SMU/treedata-book/issues/new) on GitHub or send me a pull request if you notice typos or other issues (I'm not a native English speaker ;) ).
