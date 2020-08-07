@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>G Run ggtree in Jupyter notebook | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
-  <meta name="description" content="G Run ggtree in Jupyter notebook | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
+  <title>Chapter 11 Other ggtree extensions | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
+  <meta name="description" content="Chapter 11 Other ggtree extensions | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
   <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="G Run ggtree in Jupyter notebook | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
+  <meta property="og:title" content="Chapter 11 Other ggtree extensions | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="G Run ggtree in Jupyter notebook | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
+  <meta name="twitter:title" content="Chapter 11 Other ggtree extensions | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
   
   
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="facet-zoom.html"/>
-<link rel="next" href="figures-and-tables.html"/>
+<link rel="prev" href="chapter12.html"/>
+<link rel="next" href="chapter10.html"/>
 <script src="libs/header-attrs-2.3/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -381,29 +381,40 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="run-ggtree-in-jupyter-notebook" class="section level1" number="20">
-<h1><span class="header-section-number">G</span> Run ggtree in Jupyter notebook</h1>
-<p>If you have <a href="https://jupyter.org/">Jupyter notebook</a> installed on your system, you can install <a href="https://irkernel.github.io/">IRkernel</a> with the following command in R:</p>
-<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="run-ggtree-in-jupyter-notebook.html#cb281-1" aria-hidden="true"></a><span class="kw">install.packages</span>(<span class="st">&quot;IRkernel&quot;</span>)</span>
-<span id="cb281-2"><a href="run-ggtree-in-jupyter-notebook.html#cb281-2" aria-hidden="true"></a>IRkernel<span class="op">::</span><span class="kw">installspec</span>()</span></code></pre></div>
-<p>Then you can use ggtree and other R packages in Jupyter notebook. Here is a screenshot of recreating Figure <a href="chapter8.html#fig:phylomoji1">8.6</a> in Jupyter notebook.</p>
+<div id="other-ggtree-extensions" class="section level1" number="11">
+<h1><span class="header-section-number">Chapter 11</span> Other ggtree extensions</h1>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="other-ggtree-extensions.html#cb221-1" aria-hidden="true"></a>rp &lt;-<span class="st"> </span>BiocManager<span class="op">::</span><span class="kw">repositories</span>()</span>
+<span id="cb221-2"><a href="other-ggtree-extensions.html#cb221-2" aria-hidden="true"></a>db &lt;-<span class="st"> </span>utils<span class="op">::</span><span class="kw">available.packages</span>(<span class="dt">repo=</span>rp)</span>
+<span id="cb221-3"><a href="other-ggtree-extensions.html#cb221-3" aria-hidden="true"></a>x &lt;-<span class="st"> </span>tools<span class="op">::</span><span class="kw">package_dependencies</span>(<span class="st">&#39;ggtree&#39;</span>, <span class="dt">db=</span>db, </span>
+<span id="cb221-4"><a href="other-ggtree-extensions.html#cb221-4" aria-hidden="true"></a>                                <span class="dt">which =</span> <span class="kw">c</span>(<span class="st">&quot;Depends&quot;</span>, <span class="st">&quot;Imports&quot;</span>), </span>
+<span id="cb221-5"><a href="other-ggtree-extensions.html#cb221-5" aria-hidden="true"></a>                                <span class="dt">reverse=</span><span class="ot">TRUE</span>)</span>
+<span id="cb221-6"><a href="other-ggtree-extensions.html#cb221-6" aria-hidden="true"></a><span class="kw">print</span>(x)                                </span></code></pre></div>
+<pre><code>## $ggtree
+## [1] &quot;LINC&quot;              &quot;LymphoSeq&quot;        
+## [3] &quot;MicrobiotaProcess&quot; &quot;philr&quot;            
+## [5] &quot;singleCellTK&quot;      &quot;universalmotif&quot;   
+## [7] &quot;genBaRcode&quot;        &quot;harrietr&quot;         
+## [9] &quot;STraTUS&quot;</code></pre>
+<p>There are 9 packages in CRAN or Bioconductor that depend or import <a href="http://bioconductor.org/packages/ggtree">ggtree</a> and several packages on github that extends ggtree.</p>
+<ul>
+<li><a href="https://github.com/willgearty/deeptime">deeptime</a>: Plotting Tools for Anyone Working in Deep Time</li>
+<li><a href="https://github.com/KlausVigo/ggnetworx">ggnetworx</a>: phylogenetic networks using ggplot2 and ggtree</li>
+<li><a href="https://github.com/richelbilderbeek/ggdaisie">ggdaisie</a>: ggtree and DAISIE R package</li>
+<li><a href="https://github.com/YuLab-SMU/MicrobiotaProcess">MicrobiotaProcess</a>: an package for analysis, visualization and biomarker discovery of microbiome</li>
+<li><a href="https://github.com/lch14forever/microbiomeViz">microbiomeViz</a>: Visualize microbiome data with black magic ggtree</li>
+</ul>
 
-
-<div class="figure"><span id="fig:jupyter"></span>
-<img src="img/Screenshot_2019-06-24_ggtree-jupyter.png" alt="ggtree in Jupyter notebook. Running ggtree in Jupyter notebook via R kernel." width="460" />
-<p class="caption">
-Figure G.1: <strong>ggtree in Jupyter notebook.</strong> Running ggtree in Jupyter notebook via R kernel.
-</p>
 </div>
 
-</div>
+
+
             </section>
 
           </div>
         </div>
       </div>
-<a href="facet-zoom.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="figures-and-tables.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="chapter12.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="chapter10.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
