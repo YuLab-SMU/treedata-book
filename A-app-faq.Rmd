@@ -434,7 +434,7 @@ The `ggtree` function plot the tree structure and normally we add layers on top 
 ```{r tree_behind_box}
 set.seed(1982)
 x <- rtree(5)
-p <- ggtree(x) + geom_hilight(7, alpha=1)
+p <- ggtree(x) + geom_hilight(node=7, alpha=1)
 ```
 
 If we want the layers behind the tree layer, we can reverse the order of all the layers.
@@ -446,7 +446,7 @@ p$layers <- rev(p$layers)
 Another solution is to use `ggplot()` instead of `ggtree()` and `+ geom_tree()` to add the layer of tree structure at the correct position of layer stack.
 
 ```r
-ggplot(x) + geom_hilight(7, alpha=1) + geom_tree() + theme_tree()     
+ggplot(x) + geom_hilight(node=7, alpha=1) + geom_tree() + theme_tree()     
 ```
 
 (ref:treeLayerOrderscap) Add layers behind tree structure.
@@ -458,7 +458,7 @@ ggplot(x) + geom_hilight(7, alpha=1) + geom_tree() + theme_tree()
 g <- p
 p$layers <- rev(p$layers)
 cowplot::plot_grid(g, p, 
-  ggplot(x) + geom_hilight(7, alpha=1) + geom_tree() + theme_tree(),
+  ggplot(x) + geom_hilight(node=7, alpha=1) + geom_tree() + theme_tree(),
   ncol = 3, labels = LETTERS[1:3])     
 ```
 
