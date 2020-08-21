@@ -4,7 +4,7 @@
 
 ## Introduction
 
-Phylogenetic trees can be easily visualized with multiple layout using `r Biocpkg("ggtree")` [@yu_ggtree:_2017]. It also provides `geom_fruit` to align the graphs created with associated data to the tree. However, it does not support the trees created using `circular`, `fan` or `radial` layout, which are efficient layouts for visualizing phylogenetic tree and multi-dimensional data. It also provides `gheatmap` function to visualize heat map plot on the circular tree to interpret the data in phylogenetic context, but it is not universal and only support heat map plot. None R package, to our knowledge, are developed to align multiple layers to the circular trees or other layout trees created in polar coordinate system. To solve the problem, We developed `ggtreeExtra`, which can align associated graphs to `circular`, `fan` or `radial` and other `rectangular` layout tree. `ggtreeExtra` provides function, `geom_fruit` to align graphs to the tree. But the associated graphs will align in different position. So we also developed `geom_fruit_list` to add multiple layers in the same position. Furthermore, `geom_axis_text`, a function to add the axis of associated graphs was developed. These functions are based on `r CRANpkg("ggplot2")` using grammar of graphics [@wickham_ggplot2_2009].
+Phylogenetic trees can be easily visualized with multiple layout using `r Biocpkg("ggtree")` [@yu_ggtree:_2017]. It also provides `geom_facet` to align the graphs created with associated data to the tree. However, it does not support the trees created using `circular`, `fan` or `radial` layout, which are efficient layouts for visualizing phylogenetic tree and multi-dimensional data. It also provides `gheatmap` function to visualize heat map plot on the circular tree to interpret the data in phylogenetic context, but it is not universal and only support heat map plot. None R package, to our knowledge, are developed to align multiple layers to the circular trees or other layout trees created in polar coordinate system. To solve the problem, We developed `ggtreeExtra`, which can align associated graphs to `circular`, `fan` or `radial` and other `rectangular` layout tree. `ggtreeExtra` provides function, `geom_fruit` to align graphs to the tree. But the associated graphs will align in different position. So we also developed `geom_fruit_list` to add multiple layers in the same position. Furthermore, `geom_axis_text`, a function to add the axis of associated graphs was developed. These functions are based on `r CRANpkg("ggplot2")` using grammar of graphics [@wickham_ggplot2_2009].
 
 ## Aligning graphs to the tree based on tree structure
 
@@ -58,7 +58,8 @@ p <- p +
          outlier.shape=21,
          show.legend=FALSE,
      ) +
-     geom_axis_text(hjust=0, angle=-45, size=2) +
+     geom_ringline()+
+     geom_axis_text(hjust=0, vjust=0.5, angle=-45, size=2) +
      theme(
          legend.title=element_text(size=9),
          legend.text=element_text(size=6)
