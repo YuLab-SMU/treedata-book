@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2020-08-19" />
+<meta name="date" content="2020-08-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -390,7 +390,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Chapter 10</span> ggtreeExtra</h1>
 <div id="introduction" class="section level2" number="10.1">
 <h2><span class="header-section-number">10.1</span> Introduction</h2>
-<p>Phylogenetic trees can be easily visualized with multiple layout using <a href="http://bioconductor.org/packages/ggtree">ggtree</a> <span class="citation">(Yu et al. <a href="#ref-yu_ggtree:_2017" role="doc-biblioref">2017</a>)</span>. It also provides <code>geom_fruit</code> to align the graphs created with associated data to the tree. However, it does not support the trees created using <code>circular</code>, <code>fan</code> or <code>radial</code> layout, which are efficient layouts for visualizing phylogenetic tree and multi-dimensional data. It also provides <code>gheatmap</code> function to visualize heat map plot on the circular tree to interpret the data in phylogenetic context, but it is not universal and only support heat map plot. None R package, to our knowledge, are developed to align multiple layers to the circular trees or other layout trees created in polar coordinate system. To solve the problem, We developed <code>ggtreeExtra</code>, which can align associated graphs to <code>circular</code>, <code>fan</code> or <code>radial</code> and other <code>rectangular</code> layout tree. <code>ggtreeExtra</code> provides function, <code>geom_fruit</code> to align graphs to the tree. But the associated graphs will align in different position. So we also developed <code>geom_fruit_list</code> to add multiple layers in the same position. Furthermore, <code>geom_axis_text</code>, a function to add the axis of associated graphs was developed. These functions are based on <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> using grammar of graphics <span class="citation">(Wickham <a href="#ref-wickham_ggplot2_2009" role="doc-biblioref">2009</a>)</span>.</p>
+<p>Phylogenetic trees can be easily visualized with multiple layout using <a href="http://bioconductor.org/packages/ggtree">ggtree</a> <span class="citation">(Yu et al. <a href="#ref-yu_ggtree:_2017" role="doc-biblioref">2017</a>)</span>. It also provides <code>geom_facet</code> to align the graphs created with associated data to the tree. However, it does not support the trees created using <code>circular</code>, <code>fan</code> or <code>radial</code> layout, which are efficient layouts for visualizing phylogenetic tree and multi-dimensional data. It also provides <code>gheatmap</code> function to visualize heat map plot on the circular tree to interpret the data in phylogenetic context, but it is not universal and only support heat map plot. None R package, to our knowledge, are developed to align multiple layers to the circular trees or other layout trees created in polar coordinate system. To solve the problem, We developed <code>ggtreeExtra</code>, which can align associated graphs to <code>circular</code>, <code>fan</code> or <code>radial</code> and other <code>rectangular</code> layout tree. <code>ggtreeExtra</code> provides function, <code>geom_fruit</code> to align graphs to the tree. But the associated graphs will align in different position. So we also developed <code>geom_fruit_list</code> to add multiple layers in the same position. Furthermore, <code>geom_axis_text</code>, a function to add the axis of associated graphs was developed. These functions are based on <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> using grammar of graphics <span class="citation">(Wickham <a href="#ref-wickham_ggplot2_2009" role="doc-biblioref">2009</a>)</span>.</p>
 </div>
 <div id="aligning-graphs-to-the-tree-based-on-tree-structure" class="section level2" number="10.2">
 <h2><span class="header-section-number">10.2</span> Aligning graphs to the tree based on tree structure</h2>
@@ -439,12 +439,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb221-39"><a href="chapter12.html#cb221-39"></a>         <span class="dt">outlier.shape=</span><span class="dv">21</span>,</span>
 <span id="cb221-40"><a href="chapter12.html#cb221-40"></a>         <span class="dt">show.legend=</span><span class="ot">FALSE</span>,</span>
 <span id="cb221-41"><a href="chapter12.html#cb221-41"></a>     ) <span class="op">+</span></span>
-<span id="cb221-42"><a href="chapter12.html#cb221-42"></a><span class="st">     </span><span class="kw">geom_axis_text</span>(<span class="dt">hjust=</span><span class="dv">0</span>, <span class="dt">angle=</span><span class="op">-</span><span class="dv">45</span>, <span class="dt">size=</span><span class="dv">2</span>) <span class="op">+</span></span>
-<span id="cb221-43"><a href="chapter12.html#cb221-43"></a><span class="st">     </span><span class="kw">theme</span>(</span>
-<span id="cb221-44"><a href="chapter12.html#cb221-44"></a>         <span class="dt">legend.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">9</span>),</span>
-<span id="cb221-45"><a href="chapter12.html#cb221-45"></a>         <span class="dt">legend.text=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">6</span>)</span>
-<span id="cb221-46"><a href="chapter12.html#cb221-46"></a>     )</span>
-<span id="cb221-47"><a href="chapter12.html#cb221-47"></a>p</span></code></pre></div>
+<span id="cb221-42"><a href="chapter12.html#cb221-42"></a><span class="st">     </span><span class="kw">geom_ringline</span>()<span class="op">+</span></span>
+<span id="cb221-43"><a href="chapter12.html#cb221-43"></a><span class="st">     </span><span class="kw">geom_axis_text</span>(<span class="dt">hjust=</span><span class="dv">0</span>, <span class="dt">vjust=</span><span class="fl">0.5</span>, <span class="dt">angle=</span><span class="op">-</span><span class="dv">45</span>, <span class="dt">size=</span><span class="dv">2</span>) <span class="op">+</span></span>
+<span id="cb221-44"><a href="chapter12.html#cb221-44"></a><span class="st">     </span><span class="kw">theme</span>(</span>
+<span id="cb221-45"><a href="chapter12.html#cb221-45"></a>         <span class="dt">legend.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">9</span>),</span>
+<span id="cb221-46"><a href="chapter12.html#cb221-46"></a>         <span class="dt">legend.text=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">6</span>)</span>
+<span id="cb221-47"><a href="chapter12.html#cb221-47"></a>     )</span>
+<span id="cb221-48"><a href="chapter12.html#cb221-48"></a>p</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:psbox"></span>
 <img src="treedata_files/figure-html/psbox-1.png" alt="Phylogenetic tree with OTU abundance distribution." width="864"  />
 <p class="caption">
