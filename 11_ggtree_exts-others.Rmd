@@ -1,0 +1,28 @@
+
+# Other ggtree extensions {#chapter11}
+
+```{r include=F}
+library(knitr)
+opts_chunk$set(message=FALSE, warning=FALSE, eval=TRUE, echo=TRUE, cache=TRUE)
+```
+
+```{r revdep}
+rp <- BiocManager::repositories()
+db <- utils::available.packages(repo=rp)
+x <- tools::package_dependencies('ggtree', db=db, 
+                                which = c("Depends", "Imports"), 
+                                reverse=TRUE)
+print(x)                                
+```
+
+There are `r length(unlist(x))` packages in CRAN or Bioconductor that depend or import `r Biocpkg("ggtree")` and several packages on github that extends ggtree.
+
+
+
++ [deeptime](https://github.com/willgearty/deeptime): Plotting Tools for Anyone Working in Deep Time
++ [ggnetworx](https://github.com/KlausVigo/ggnetworx): phylogenetic networks using ggplot2 and ggtree
++ [ggdaisie](https://github.com/richelbilderbeek/ggdaisie): ggtree and DAISIE R package
++ [MicrobiotaProcess](https://github.com/YuLab-SMU/MicrobiotaProcess): an package for analysis, visualization and biomarker discovery of microbiome 
++ [microbiomeViz](https://github.com/lch14forever/microbiomeViz): Visualize microbiome data with black magic ggtree
+
+
