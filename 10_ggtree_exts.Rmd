@@ -4,13 +4,13 @@
 
 ## Introduction
 
-Phylogenetic trees can be easily visualized with multiple layout using `r Biocpkg("ggtree")` [@yu_ggtree:_2017]. It also provides `geom_facet` to align the graphs created with associated data to the tree. However, it does not support the trees created using `circular`, `fan` or `radial` layout, which are efficient layouts for visualizing phylogenetic tree and multi-dimensional data. It also provides `gheatmap` function to visualize heat map plot on the circular tree to interpret the data in phylogenetic context, but it is not universal and only support heat map plot. None R package, to our knowledge, are developed to align multiple layers to the circular trees or other layout trees created in polar coordinate system. To solve the problem, We developed `ggtreeExtra`, which can align associated graphs to `circular`, `fan` or `radial` and other `rectangular` layout tree. `ggtreeExtra` provides function, `geom_fruit` to align graphs to the tree. But the associated graphs will align in different position. So we also developed `geom_fruit_list` to add multiple layers in the same position. Furthermore, `geom_axis_text`, a function to add the axis of associated graphs was developed. These functions are based on `r CRANpkg("ggplot2")` using grammar of graphics [@wickham_ggplot2_2009].
+Phylogenetic trees can be easily visualized with multiple layout using `r Biocpkg("ggtree")` [@yu_ggtree:_2017]. It provides programmable visualization and annotation of phylogenetic trees. It not only supports visualization and annotation of phylogenetic trees but also other tree-like structures. So it can be generally applied in related biological researches. None R package, to our knowledge, are developed to align multiple layers to the circular trees or other layout trees. To solve the problem, We developed `r Biocpkg("ggtreeExtra")`, which can align associated graphs to `circular`, `fan` or `radial` and other `rectangular` layout tree. `r Biocpkg("ggtreeExtra")` provides function, `geom_fruit` to align graphs to the tree. But the associated graphs will align in different position. So we also developed `geom_fruit_list` to add multiple layers in the same position. Furthermore, The `axis` of external layers can be added using the `axis.params=list(add.axis=TRUE)` in `geom_fruit`. The `grid lines` of external layers can be added using the `grid.params=list(add.grid=TRUE)` in `geom_fruit`. These functions are based on `r CRANpkg("ggplot2")` using grammar of graphics [@wickham_ggplot2_2009].
 
 ## Aligning graphs to the tree based on tree structure
 
-The phylogenetic trees are often visualized with different graph created using associated datasets. Like the `geom_facet` of `r Biocpkg("ggtree")` [@yu_ggtree:_2017], `ggtreeExtra` also provides `geom_fruit` layer which accepts an input `data.frame` and a `geom` function to plot the input data. The data will be visualized in an additional position of the plot. `geom_fruit` also is a general function to link graphs to phylogenetic trees. It will re-orders the input data based on the tree structure and displayed the data with the associated `geom` at specific position. 
+The phylogenetic trees are often visualized with different graph created using associated datasets. Like the `geom_facet` of `r Biocpkg("ggtree")` [@yu_ggtree:_2017], `r Biocpkg("ggtreeExtra")` also provides `geom_fruit` layer which accepts an input `data.frame` and a `geom` function to plot the input data. The data will be visualized in an additional position of the plot. `geom_fruit` also is a general function to link graphs to phylogenetic trees. It will re-orders the input data based on the tree structure and displayed the data with the associated `geom` at specific position. 
 
-The `geom_fruit` is designed to work with most of `geom` layers defined in `r CRANpkg("ggplot2")`. It control the position of graphs by `position` parameter, which was provided the `Position` object of `ggtreeExtra`. The default position parameters is 'auto'. This means that the `geom_bar` will use `position_stackx()`, `geom_violin` and `geom_boxplot` will use `position_dodgex()`, `geom_point` and `geom_tile` will use `position_identityx()`. So if the `geom` defined in other `r CRANpkg("ggplot2")`-based packages has `position` parameter, which support the result of a call to a position adjustment function, it also can work with `geom_fruit`, such as `geom_star` in `r CRANpkg("ggstar")`, which provides the regular polygon layer for easily discernible shapes based on the grammar of `r CRANpkg("ggplot2")`. Since the `r CRANpkg("ggplot2")` community keeps expanding and more `geom` layers will be implemented in either `r CRANpkg("ggplot2")` or other extensions, `geom_fruit` also will gain more power to present data in future. 
+The `geom_fruit` is designed to work with most of `geom` layers defined in `r CRANpkg("ggplot2")`. It control the position of graphs by `position` parameter, which was provided the `Position` object of `r Biocpkg("ggtreeExtra")`. The default position parameters is 'auto'. This means that the `geom_bar` will use `position_stackx()`, `geom_violin` and `geom_boxplot` will use `position_dodgex()`, `geom_point` and `geom_tile` will use `position_identityx()`. So if the `geom` defined in other `r CRANpkg("ggplot2")`-based packages has `position` parameter, which support the result of a call to a position adjustment function, it also can work with `geom_fruit`, such as `geom_star` in `r CRANpkg("ggstar")`, which provides the regular polygon layer for easily discernible shapes based on the grammar of `r CRANpkg("ggplot2")`. Since the `r CRANpkg("ggplot2")` community keeps expanding and more `geom` layers will be implemented in either `r CRANpkg("ggplot2")` or other extensions, `geom_fruit` also will gain more power to present data in future. 
 
 (ref:psboxplotscap) Phylogenetic tree with OTU abundance distribution.
 
@@ -36,11 +36,9 @@ melt_simple <- psmelt(mergedGP) %>%
                select(OTU, val=Abundance)
 
 p <- ggtree(mergedGP, layout="fan", open.angle=30) + 
-     geom_tippoint(mapping=aes(color=Phylum), size=1.5) +
-     scale_color_manual(
-         values=scales::hue_pal()(24),
-         guide=guide_legend(keywidth=0.5, keyheight=0.5, ncol=1),
-     )
+     geom_tippoint(mapping=aes(color=Phylum), 
+                   size=1.5,
+                   show.legend=FALSE)
 
 p <- p +
      geom_fruit(
@@ -52,17 +50,29 @@ p <- p +
                      group=label,
                      fill=Phylum,
                    ),
-         lwd=.1,
+         lwd=.2,
          outlier.size=0.5,
          outlier.stroke=0.08,
          outlier.shape=21,
-         show.legend=FALSE,
+         axis.params=list(
+                         add.axis   =TRUE,
+                         text.angle =-45,
+                         text.size  = 4,
+                         hjust      = 0,
+                         vjust      = 0.5
+                     ),
+         grid.params=list(
+                         add.grid=TRUE
+                     )
      ) +
-     geom_ringline()+
-     geom_axis_text(hjust=0, vjust=0.5, angle=-45, size=2) +
+     scale_fill_manual(
+         name="Phyla",
+         values=scales::hue_pal()(24),
+         guide=guide_legend(keywidth=0.8, keyheight=0.8, ncol=1)
+     ) +
      theme(
-         legend.title=element_text(size=9),
-         legend.text=element_text(size=6)
+         legend.title=element_text(size=20),
+         legend.text=element_text(size=15)
      )
 p
 ```
@@ -115,7 +125,7 @@ poslist <- c(1.6, 1.4, 1.6, 0.8, 0.1, 0.25, 1.6, 1.6, 1.2, 0.4,
              1.2, 1.8, 0.3, 0.8, 0.4, 0.3, 0.4, 0.4, 0.4, 0.6,
              0.3, 0.4, 0.3)
 cladelabels <- mapply(function(x, y, z){geom_cladelabel(node=x, label=y, barsize=NA, extend=0,
-                                                    offset.text=z, fontsize=1.4, angle="auto",
+                                                    offset.text=z, fontsize=10, angle="auto",
                                                     hjust=0.5, horizontal=FALSE, fontface="italic")},
                                      nodeids, nodelab, poslist, SIMPLIFY=FALSE)
 
@@ -148,16 +158,20 @@ p <- p %<+% dat1 + geom_fruit(geom=geom_star,
          cladelabels +
          geom_fruit(data=dat3, geom=geom_bar,
                     mapping=aes(y=ID, x=HigherAbundance, fill=Sites),
-                    pwidth=0.38, orientation="y", stat="identity")+
+                    pwidth=0.38, 
+                    orientation="y", 
+                    stat="identity",
+         )+
          scale_fill_manual(values=c("#0000FF","#FFA500","#FF0000","#800000",
                                     "#006400","#800080","#696969"),
                            guide=guide_legend(keywidth = 0.3, keyheight = 0.3, order=4))+
-         geom_treescale(fontsize=1.2, linesize=0.3, x=4.9, y=0.1) +
+         geom_treescale(fontsize=8, linesize=0.3, x=4.9, y=0.1) +
          theme(legend.position=c(0.93, 0.5),
                legend.background=element_rect(fill=NA),
-               legend.title=element_text(size=5),
-               legend.text=element_text(size=4),
-               legend.spacing.y = unit(0.02, "cm"))
+               legend.title=element_text(size=40),
+               legend.text=element_text(size=30),
+               legend.spacing.y = unit(0.02, "cm"),
+             )
 p
 ```
 
