@@ -39,7 +39,6 @@ p <- ggtree(mergedGP, layout="fan", open.angle=30) +
      geom_tippoint(mapping=aes(color=Phylum), 
                    size=1.5,
                    show.legend=FALSE)
-
 p <- p +
      geom_fruit(
          data=melt_simple,
@@ -71,8 +70,8 @@ p <- p +
          guide=guide_legend(keywidth=0.8, keyheight=0.8, ncol=1)
      ) +
      theme(
-         legend.title=element_text(size=20),
-         legend.text=element_text(size=15)
+         legend.title=element_text(size=20), # The title of legend 
+         legend.text=element_text(size=15) # The label text of legend, the sizes should be adjust with dpi.
      )
 p
 ```
@@ -81,7 +80,7 @@ This example uses microbiome data that provided in `phyloseq` package and boxplo
 
 ## Aligning multiple graphs to the tree for multi-dimensional data
 
-Circular layout is efficient layout to show the phylogenetic tree and multi-dimensional data. The continuous dataset can be displayed using heat map, bar plot, box plot or dot plot etc. This example reproduce Fig.2 of [@morgan2013HMP]. The data is provided by GraPhlAn [@GraPhlAn], which contained the relative abundance of microbiome at different body sites. This example demonstrates the abilities of adding multiple layers (dot plot, heat map and bar plot) created with continuous data to a specific panel, and the attributes of tip point also can be extracted to map Figure \@ref(fig:HMPplot).
+Circular layout is efficient layout to show the phylogenetic tree and multi-dimensional data. The continuous dataset can be displayed using heat map, bar plot, box plot or dot plot etc. This example reproduce Fig.2 of [@morgan2013HMP]. The data is provided by GraPhlAn [@GraPhlAn], which contained the relative abundance of microbiome at different body sites. This example demonstrates the abilities of adding multiple layers (dot plot, heat map and bar plot) created with continuous data to a specific panel, and the attributes of tip point also can be extracted to map Figure \@ref(fig:HMPplot). And the tree in `geom_fruit` can be fully annotated with multiple layers (high light, clade labels *etc*).
 
 (ref:HMPscap) Phylogenetic tree about the abundance of microbes at different sites of human.
 
@@ -176,3 +175,272 @@ p
 ```
 
 The shape of tip labels indicated the commensal microbes or potential pathogens. The transparency of heat map indicates the abundance of microbes, and colors of heat map indicate the different sites of human. The bar plot indicates the relative abundance at body site of the most abundance. The node labels contain taxonomy information in this example, so it can be highlight using `geom_hilight`. The datasets disabled with heat map and bar plot are the format of specific `geom` of `ggplot2`. If you have short table format datasets, you can use `reshape2::melt()` or `tidyr::pivot_longer()` to convert them.
+
+## API to link *ggtree* and *ggplot2*.
+
+As we known, *ggplot2* is a general tool for visualization in many fields. *ggtree* is also a general tool for visualization of phylogenetic trees or other tree-like structures. So it can be applied in many research fields, such as infectious disease epidemiology, metagenome, population genetics, evolutionary biology and ecology. `r Biocpkg("ggtreeExtra")` provides `geom_fruit`, an application programming interface to link `r Biocpkg("ggtree")`[@yu_ggtree:_2017] and `r CRANpkg("ggplot2")` [@wickham_ggplot2_2009]. So it also can be applied in many fields. The some cases of metagenome research has been showed in Figure \@ref(fig:psbox) and Figure \@ref(fig:HMPplot). In this section, we reproduce the FIG 4 of [@Chowe:_2020] and Fig 1 of [@RN46:_2015] to show that it also can be applied in population genetics. Again, it show that the tree in `geom_fruit` can be fully annotated with multiple layers (clade group) in Figure \@ref(fig:Caurisplot).
+
+(ref:Cauriscap) Antifungal susceptibility and point mutations in drug targets in Candida auris.
+
+(ref:Cauricap) **Antifungal susceptibility and point mutations in drug targets in *Candida auris* **.
+
+(ref:Styphiscap) Population structure of the 1,832 S. Typhi isolates.
+
+(ref:Styphicap) **Population structure of the 1,832 *S. Typhi* isolates**.
+
+```{r, fig.width=7, fig.height=7, fig.align="center", warning=FALSE, message=FALSE, fig.cap="(ref:Cauricap)", fig.scap="(ref:Cauriscap)", dpi=300, out.extra='', warning=FALSE, Caurisplot}
+library(ggtree)
+library(ggtreeExtra)
+library(ggplot2)
+library(ggnewscale)
+library(dplyr)
+library(tidytree)
+library(ggstar)
+
+dat <- read.csv("data/microreact/Candida_auris/microreact-project-Candidaauris-data.csv")
+tr <- read.tree("data/microreact/Candida_auris/microreact-project-Candidaauris-tree.nwk")
+
+countries <- c("Canada", "United States",
+               "Colombia", "Panama",
+               "Venezuela", "France",
+               "Germany", "Spain",
+               "UK", "India",
+               "Israel", "Pakistan",
+               "Saudi Arabia", "United Arab Emirates",
+               "Kenya", "South Africa",
+               "Japan", "South Korea",
+               "Australia")
+# For the tip points
+dat1 <- dat %>% select(c("ID", "COUNTRY", "COUNTRY__colour"))
+dat1$COUNTRY <- factor(dat1$COUNTRY, levels=countries)
+COUNTRYcolors <- dat1[match(countries,dat$COUNTRY),"COUNTRY__colour"]
+
+# For the heatmap layer
+dat2 <- dat %>% select(c("ID", "FCZ", "AMB", "MCF"))
+dat2 <- reshape2::melt(dat2,id="ID", variable.name="Antifungal", value.name="type")
+dat2$type <- paste(dat2$Antifungal, dat2$type)
+dat2$type <- unlist(lapply(dat2$type,
+                           function(x)ifelse(grepl("Not_", x), "Susceptible", x)))
+dat2$Antifungal <- factor(dat2$Antifungal, levels=c("FCZ", "AMB", "MCF"))
+dat2$type <- factor(dat2$type,
+                    levels=c("FCZ Resistant",
+                            "AMB Resistant",
+                            "MCF Resistant",
+                            "Susceptible"))
+
+# For the points layer
+dat3 <- dat %>% select(c("ID", "ERG11", "FKS1")) %>%
+        reshape2::melt(id="ID", variable.name="point", value.name="mutation")
+dat3$mutation <- paste(dat3$point, dat3$mutation)
+dat3$mutation <- unlist(lapply(dat3$mutation, function(x)ifelse(grepl("WT",x), NA,x)))
+dat3$mutation <- factor(dat3$mutation, levels=c("ERG11 Y132F", "ERG11 K143R",
+                                                "ERG11 F126L", "FKS1 S639Y/P/F"))
+
+# For the clade group
+dat4 <- dat %>% select(c("ID", "CLADE"))
+dat4 <- aggregate(.~CLADE, dat4, FUN=paste, collapse=",")
+clades <- lapply(dat4$ID, function(x){unlist(strsplit(x,split=","))})
+names(clades) <- dat4$CLADE
+
+tr <- groupOTU(tr, clades, "Clade")
+Clade <- NULL
+p <- ggtree(tr=tr, layout="fan", open.angle=15, size=0.2, aes(colour=Clade)) +
+     scale_colour_manual(
+         values=c("black","#69B920","#9C2E88","#F74B00","#60C3DB"),
+         labels=c("","I", "II", "III", "IV"),
+         guide=guide_legend(keywidth=0.5,
+                            keyheight=0.5,
+                            order=1,
+                            override.aes=list(linetype=c("0"=NA,
+                                                         "Clade1"=1,
+                                                         "Clade2"=1,
+                                                         "Clade3"=1,
+                                                         "Clade4"=1
+                                                        )
+                                             )
+                           )
+     ) + 
+     new_scale_colour()
+
+p1 <- p %<+% dat1 +
+     geom_tippoint(aes(colour=COUNTRY),
+                   alpha=0) +
+     geom_tiplab(aes(colour=COUNTRY),
+                   align=TRUE,
+                   linetype=3,
+                   size=6,
+                   linesize=0.2,
+                   show.legend=FALSE
+                   ) +
+     scale_colour_manual(
+         name="Country labels",
+         values=COUNTRYcolors,
+         guide=guide_legend(keywidth=0.5,
+                            keyheight=0.5,
+                            order=2,
+                            override.aes=list(size=2,alpha=1))
+     )
+
+p2 <- p1 +
+      geom_fruit(
+          data=dat2,
+          geom=geom_tile,
+          mapping=aes(x=Antifungal, y=ID, fill=type),
+          width=0.1,
+          color="white",
+          pwidth=0.1,
+          offset=0.15
+      ) +
+      scale_fill_manual(
+           name="Antifungal susceptibility",
+           values=c("#595959", "#B30000", "#020099", "#E6E6E6"),
+           na.translate=FALSE,
+           guide=guide_legend(keywidth=0.5,
+                              keyheight=0.5,
+                              order=3
+                             )
+      ) +
+      new_scale_fill()
+
+p3 <- p2 +
+      geom_fruit(
+          data=dat3,
+          geom=geom_star,
+          mapping=aes(x=mutation, y=ID, fill=mutation, starshape=point),
+          size=1,
+          starstroke=0,
+          pwidth=0.1,
+          inherit.aes = FALSE,
+          grid.params=list(
+                          add.grid=TRUE,
+                          linetype=3,
+                          size=0.2
+                      )
+
+      ) +
+      scale_fill_manual(
+          name="Point mutations",
+          values=c("#329901", "#0600FF", "#FF0100", "#9900CC"),
+          guide=guide_legend(keywidth=0.5, keyheight=0.5, order=4,
+                             override.aes=list(starshape=c("ERG11 Y132F"=15,
+                                                           "ERG11 K143R"=15,
+                                                           "ERG11 F126L"=15,
+                                                           "FKS1 S639Y/P/F"=1),
+                                               size=2)
+                            ),
+          na.translate=FALSE,
+      ) +
+      scale_starshape_manual(
+          values=c(15, 1),
+          guide="none"
+      ) +
+      theme(
+          legend.background=element_rect(fill=NA),
+          legend.title=element_text(size=40), # The size should be adjusted with different devout.
+          legend.text=element_text(size=30),
+          legend.spacing.y = unit(0.02, "cm")
+      )
+p3
+```
+
+The advantage of using `r CRANpkg("ggplot2")` is we do not need to take care of the details. We can provide the data, and tell how to map variables to aesthetics using *aes*. The legend also can be setted using `scale`. In addition, the tree be fully annotated with multiple layers also can be supported by `geom_fruit`. In this example, the phylogenetic tree is annotated with different color to show different clade. The external heat maps show the susceptibility to fluconazole (FCZ), amphotericin B (AMB) and micafungin (MCF). The external points show the point mutations in lanosterol 14-alpha-demethylase ERG11 (Y132F, K143R, and F126L) and beta-1,3-D-glucan synthase FKS1 (S639Y/P/F) associated with resistance [@Chowe:_2020].
+
+```{r, fig.width=7, fig.height=7, fig.align="center", warning=FALSE, message=FALSE, fig.cap="(ref:Styphicap)", fig.scap="(ref:Styphiscap)", dpi=300, out.extra='', warning=FALSE, Styphiplot}
+library(ggtreeExtra)
+library(ggtree)
+library(ggplot2)
+library(ggnewscale)
+library(treeio)
+library(tidytree)
+library(dplyr)
+library(ggstar)
+
+tr <- read.tree("data/microreact/Salmonella_Typhi/microreact-project-NJIDqgsS-tree.nwk")
+
+metada <- read.csv("data/microreact/Salmonella_Typhi/microreact-project-NJIDqgsS-data.csv")
+
+metadata <- metada %>%
+            select(c("id", "country", "country__colour", "year", "year__colour", "haplotype"))
+metadata$haplotype <- unlist(lapply(metadata$haplotype, function(x)ifelse(nchar(x)>0,x,NA)))
+
+countrycolors <- metada %>%
+                 select(c("country", "country__colour")) %>%
+                 distinct()
+
+yearcolors <- metada %>%
+              select(c("year", "year__colour")) %>%
+              distinct()
+yearcolors <- yearcolors[order(yearcolors$year, decreasing=TRUE),]
+
+metadata$country <- factor(metadata$country, levels=countrycolors$country)
+metadata$year <- factor(metadata$year, levels=yearcolors$year)
+
+p <- ggtree(tr, layout="fan", open.angle=15, size=0.1)
+
+p <- p %<+% metadata
+
+p1 <-p +
+     geom_tippoint(
+         mapping=aes(colour=country),
+         size=1.5,
+         stroke=0,
+         alpha=0.4
+     ) +
+     scale_colour_manual(
+         name="Country",
+         values=countrycolors$country__colour,
+         guide=guide_legend(keywidth=0.3,
+                            keyheight=0.3,
+                            ncol=2,
+                            override.aes=list(size=2,alpha=1),
+                            order=1)
+     ) +
+     theme(
+         legend.title=element_text(size=5),
+         legend.text=element_text(size=4),
+         legend.spacing.y = unit(0.02, "cm")
+     )
+
+p2 <-p1 +
+     geom_fruit(
+         geom=geom_star,
+         mapping=aes(fill=haplotype),
+         starshape=26,
+         color=NA,
+         size=2,
+         starstroke=0,
+         offset=0,
+     ) +
+     scale_fill_manual(
+         name="Haplotype",
+         values=c("red"),
+         guide=guide_legend(
+                   keywidth=0.3,
+                   keyheight=0.3,
+                   order=3
+               ),
+         na.translate=FALSE
+     )
+
+p3 <-p2 +
+     new_scale_fill() +
+     geom_fruit(
+         geom=geom_tile,
+         mapping=aes(fill=year),
+         width=0.002,
+         offset=0.1
+     ) +
+     scale_fill_manual(
+         name="Year",
+         values=yearcolors$year__colour,
+         guide=guide_legend(keywidth=0.3, keyheight=0.3, ncol=2, order=2)
+     ) +
+     theme(
+           legend.title=element_text(size=40), # The size should be adjusted with the different devout.
+           legend.text=element_text(size=30),
+           legend.spacing.y = unit(0.02, "cm")
+           )
+p3
+```
+
+Except the point mutations, the associated data about region and time also can be annotated. This is an rooted maximum-likelihood tree of *S. Typhi* inferred from 22,145 SNPs [@RN46:_2015], the color of tip points represent the geographical origin of the isolates, and the red points of external layer indicate H58 lineage. The color of external heat map indicates the years of isolation [@RN46:_2015].
