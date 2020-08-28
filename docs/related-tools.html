@@ -294,6 +294,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.1" data-path="index.html"><a href="index.html#introduction"><i class="fa fa-check"></i><b>10.1</b> Introduction</a></li>
 <li class="chapter" data-level="10.2" data-path="chapter10.html"><a href="chapter10.html#aligning-graphs-to-the-tree-based-on-tree-structure"><i class="fa fa-check"></i><b>10.2</b> Aligning graphs to the tree based on tree structure</a></li>
 <li class="chapter" data-level="10.3" data-path="chapter10.html"><a href="chapter10.html#aligning-multiple-graphs-to-the-tree-for-multi-dimensional-data"><i class="fa fa-check"></i><b>10.3</b> Aligning multiple graphs to the tree for multi-dimensional data</a></li>
+<li class="chapter" data-level="10.4" data-path="chapter10.html"><a href="chapter10.html#api-to-link-ggtree-and-ggplot2."><i class="fa fa-check"></i><b>10.4</b> API to link <em>ggtree</em> and <em>ggplot2</em>.</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="chapter11.html"><a href="chapter11.html"><i class="fa fa-check"></i><b>11</b> Other ggtree extensions</a>
 <ul>
@@ -396,10 +397,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><a href="https://CRAN.R-project.org/package=rtol">rtol</a> <span class="citation">(Michonneau, Brown, and Winter <a href="#ref-michonneau_rotl:_2016" role="doc-biblioref">2016</a>)</span> is an R package to interact with the Open Tree of Life data APIs.</p>
 
 
-<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb269-1"><a href="related-tools.html#cb269-1" aria-hidden="true"></a><span class="co">## example from: https://github.com/ropensci/rotl</span></span>
-<span id="cb269-2"><a href="related-tools.html#cb269-2" aria-hidden="true"></a><span class="kw">library</span>(rotl)</span>
-<span id="cb269-3"><a href="related-tools.html#cb269-3" aria-hidden="true"></a>apes &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Pongo&quot;</span>, <span class="st">&quot;Pan&quot;</span>, <span class="st">&quot;Gorilla&quot;</span>, <span class="st">&quot;Hoolock&quot;</span>, <span class="st">&quot;Homo&quot;</span>)</span>
-<span id="cb269-4"><a href="related-tools.html#cb269-4" aria-hidden="true"></a>(resolved_names &lt;-<span class="st"> </span><span class="kw">tnrs_match_names</span>(apes))</span></code></pre></div>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="related-tools.html#cb272-1"></a><span class="co">## example from: https://github.com/ropensci/rotl</span></span>
+<span id="cb272-2"><a href="related-tools.html#cb272-2"></a><span class="kw">library</span>(rotl)</span>
+<span id="cb272-3"><a href="related-tools.html#cb272-3"></a>apes &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Pongo&quot;</span>, <span class="st">&quot;Pan&quot;</span>, <span class="st">&quot;Gorilla&quot;</span>, <span class="st">&quot;Hoolock&quot;</span>, <span class="st">&quot;Homo&quot;</span>)</span>
+<span id="cb272-4"><a href="related-tools.html#cb272-4"></a>(resolved_names &lt;-<span class="st"> </span><span class="kw">tnrs_match_names</span>(apes))</span></code></pre></div>
 <pre><code>##   search_string unique_name approximate_match ott_id
 ## 1         pongo       Pongo             FALSE 417949
 ## 2           pan         Pan             FALSE 417957
@@ -412,8 +413,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 3      FALSE sibling_higher              1
 ## 4      FALSE                             1
 ## 5      FALSE sibling_higher              1</code></pre>
-<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="related-tools.html#cb271-1" aria-hidden="true"></a>tr &lt;-<span class="st"> </span><span class="kw">tol_induced_subtree</span>(<span class="dt">ott_ids =</span> <span class="kw">ott_id</span>(resolved_names))</span>
-<span id="cb271-2"><a href="related-tools.html#cb271-2" aria-hidden="true"></a><span class="kw">ggtree</span>(tr) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="ot">NA</span>, <span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="related-tools.html#cb274-1"></a>tr &lt;-<span class="st"> </span><span class="kw">tol_induced_subtree</span>(<span class="dt">ott_ids =</span> <span class="kw">ott_id</span>(resolved_names))</span>
+<span id="cb274-2"><a href="related-tools.html#cb274-2"></a><span class="kw">ggtree</span>(tr) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="ot">NA</span>, <span class="dv">5</span>)</span></code></pre></div>
 <div class="figure"><span id="fig:rotlSubtree"></span>
 <img src="treedata_files/figure-html/rotlSubtree-1.png" alt="Get an induced subtree from the big Open Tree." width="768" />
 <p class="caption">

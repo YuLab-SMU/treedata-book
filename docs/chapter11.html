@@ -294,6 +294,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.1" data-path="index.html"><a href="index.html#introduction"><i class="fa fa-check"></i><b>10.1</b> Introduction</a></li>
 <li class="chapter" data-level="10.2" data-path="chapter10.html"><a href="chapter10.html#aligning-graphs-to-the-tree-based-on-tree-structure"><i class="fa fa-check"></i><b>10.2</b> Aligning graphs to the tree based on tree structure</a></li>
 <li class="chapter" data-level="10.3" data-path="chapter10.html"><a href="chapter10.html#aligning-multiple-graphs-to-the-tree-for-multi-dimensional-data"><i class="fa fa-check"></i><b>10.3</b> Aligning multiple graphs to the tree for multi-dimensional data</a></li>
+<li class="chapter" data-level="10.4" data-path="chapter10.html"><a href="chapter10.html#api-to-link-ggtree-and-ggplot2."><i class="fa fa-check"></i><b>10.4</b> API to link <em>ggtree</em> and <em>ggplot2</em>.</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="chapter11.html"><a href="chapter11.html"><i class="fa fa-check"></i><b>11</b> Other ggtree extensions</a>
 <ul>
@@ -391,12 +392,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="chapter11" class="section level1" number="11">
 <h1><span class="header-section-number">Chapter 11</span> Other ggtree extensions</h1>
-<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="chapter11.html#cb223-1" aria-hidden="true"></a>rp &lt;-<span class="st"> </span>BiocManager<span class="op">::</span><span class="kw">repositories</span>()</span>
-<span id="cb223-2"><a href="chapter11.html#cb223-2" aria-hidden="true"></a>db &lt;-<span class="st"> </span>utils<span class="op">::</span><span class="kw">available.packages</span>(<span class="dt">repo=</span>rp)</span>
-<span id="cb223-3"><a href="chapter11.html#cb223-3" aria-hidden="true"></a>x &lt;-<span class="st"> </span>tools<span class="op">::</span><span class="kw">package_dependencies</span>(<span class="st">&#39;ggtree&#39;</span>, <span class="dt">db=</span>db, </span>
-<span id="cb223-4"><a href="chapter11.html#cb223-4" aria-hidden="true"></a>                                <span class="dt">which =</span> <span class="kw">c</span>(<span class="st">&quot;Depends&quot;</span>, <span class="st">&quot;Imports&quot;</span>), </span>
-<span id="cb223-5"><a href="chapter11.html#cb223-5" aria-hidden="true"></a>                                <span class="dt">reverse=</span><span class="ot">TRUE</span>)</span>
-<span id="cb223-6"><a href="chapter11.html#cb223-6" aria-hidden="true"></a><span class="kw">print</span>(x)                                </span></code></pre></div>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="chapter11.html#cb225-1"></a>rp &lt;-<span class="st"> </span>BiocManager<span class="op">::</span><span class="kw">repositories</span>()</span>
+<span id="cb225-2"><a href="chapter11.html#cb225-2"></a>db &lt;-<span class="st"> </span>utils<span class="op">::</span><span class="kw">available.packages</span>(<span class="dt">repo=</span>rp)</span>
+<span id="cb225-3"><a href="chapter11.html#cb225-3"></a>x &lt;-<span class="st"> </span>tools<span class="op">::</span><span class="kw">package_dependencies</span>(<span class="st">&#39;ggtree&#39;</span>, <span class="dt">db=</span>db, </span>
+<span id="cb225-4"><a href="chapter11.html#cb225-4"></a>                                <span class="dt">which =</span> <span class="kw">c</span>(<span class="st">&quot;Depends&quot;</span>, <span class="st">&quot;Imports&quot;</span>), </span>
+<span id="cb225-5"><a href="chapter11.html#cb225-5"></a>                                <span class="dt">reverse=</span><span class="ot">TRUE</span>)</span>
+<span id="cb225-6"><a href="chapter11.html#cb225-6"></a><span class="kw">print</span>(x)                                </span></code></pre></div>
 <pre><code>## $ggtree
 ## [1] &quot;LINC&quot;              &quot;LymphoSeq&quot;        
 ## [3] &quot;MicrobiotaProcess&quot; &quot;philr&quot;            
@@ -413,12 +414,68 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <div id="MicrobiotaProcess" class="section level2" number="11.1">
 <h2><span class="header-section-number">11.1</span> Taxonomy annotation using MicrobiotaProcess</h2>
+<p>The <code>ggdiffcalde</code> in <a href="http://bioconductor.org/packages/MicrobiotaProcess">MicrobiotaProcess</a> is developed based on <a href="http://bioconductor.org/packages/ggtree">ggtree</a> <span class="citation">(Yu et al. <a href="#ref-yu_ggtree:_2017" role="doc-biblioref">2017</a>)</span>. It can be used to visualized the result of <code>diff_analysis</code> in <a href="http://bioconductor.org/packages/MicrobiotaProcess">MicrobiotaProcess</a>. In addition, If you have a data frame contained hierarchical relationship, like the taxonomy annotation or KEGG levels annotation, to plot the framework, and a data frame (first column should be the labels from data frame contained hierarchical relationship, a column of factor variable, another column contains <code>pvalue</code> also can be provided.). It provided <code>circular</code>, <code>radial</code>, <code>rectangular</code>, <code>inward_circular</code> and <code>slanted</code> layout. Here, we show an example to show how to use data frame to visualize the different taxonomy tree. The data frame of this example is from the results of <code>diff_analysis</code> with the public datasets <span class="citation">(Kostic et al. <a href="#ref-kostic2012genomic" role="doc-biblioref">2012</a>)</span>.</p>
+
+
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="chapter11.html#cb227-1"></a><span class="kw">library</span>(MicrobiotaProcess)</span>
+<span id="cb227-2"><a href="chapter11.html#cb227-2"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb227-3"><a href="chapter11.html#cb227-3"></a></span>
+<span id="cb227-4"><a href="chapter11.html#cb227-4"></a>taxa &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/alltax_info.csv&quot;</span>)</span>
+<span id="cb227-5"><a href="chapter11.html#cb227-5"></a>dt &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/difftax_tab.csv&quot;</span>)</span>
+<span id="cb227-6"><a href="chapter11.html#cb227-6"></a></span>
+<span id="cb227-7"><a href="chapter11.html#cb227-7"></a>p &lt;-<span class="st"> </span><span class="kw">ggdiffclade</span>(<span class="dt">obj=</span>taxa,</span>
+<span id="cb227-8"><a href="chapter11.html#cb227-8"></a>                 <span class="dt">nodedf=</span>dt,</span>
+<span id="cb227-9"><a href="chapter11.html#cb227-9"></a>                 <span class="dt">factorName=</span><span class="st">&quot;DIAGNOSIS&quot;</span>,</span>
+<span id="cb227-10"><a href="chapter11.html#cb227-10"></a>                 <span class="dt">layout=</span><span class="st">&quot;radial&quot;</span>,</span>
+<span id="cb227-11"><a href="chapter11.html#cb227-11"></a>                 <span class="dt">skpointsize=</span><span class="fl">0.6</span>,</span>
+<span id="cb227-12"><a href="chapter11.html#cb227-12"></a>                 <span class="dt">cladetext=</span><span class="dv">10</span>,</span>
+<span id="cb227-13"><a href="chapter11.html#cb227-13"></a>                 <span class="dt">linewd=</span><span class="fl">0.2</span>, <span class="co"># The size argument has been replace with linewd in devel version</span></span>
+<span id="cb227-14"><a href="chapter11.html#cb227-14"></a>                 <span class="dt">taxlevel=</span><span class="dv">3</span>,</span>
+<span id="cb227-15"><a href="chapter11.html#cb227-15"></a>                 <span class="dt">reduce=</span><span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span><span class="co"># This argument is to remove the branch of unknown taxonomy, it is provided in devel version.</span></span>
+<span id="cb227-16"><a href="chapter11.html#cb227-16"></a><span class="st">     </span><span class="kw">scale_fill_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;#00AED7&quot;</span>, <span class="st">&quot;#009E73&quot;</span>))<span class="op">+</span></span>
+<span id="cb227-17"><a href="chapter11.html#cb227-17"></a><span class="st">     </span><span class="kw">guides</span>(<span class="dt">color =</span> <span class="kw">guide_legend</span>(<span class="dt">keywidth =</span> <span class="fl">0.1</span>, <span class="dt">keyheight =</span> <span class="fl">0.6</span>,</span>
+<span id="cb227-18"><a href="chapter11.html#cb227-18"></a>                                 <span class="dt">order =</span> <span class="dv">3</span>,<span class="dt">ncol=</span><span class="dv">1</span>)) <span class="op">+</span></span>
+<span id="cb227-19"><a href="chapter11.html#cb227-19"></a><span class="st">     </span><span class="kw">theme</span>(<span class="dt">panel.background=</span><span class="kw">element_rect</span>(<span class="dt">fill=</span><span class="ot">NA</span>),</span>
+<span id="cb227-20"><a href="chapter11.html#cb227-20"></a>           <span class="dt">legend.position=</span><span class="st">&quot;right&quot;</span>,</span>
+<span id="cb227-21"><a href="chapter11.html#cb227-21"></a>           <span class="dt">plot.margin=</span><span class="kw">margin</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
+<span id="cb227-22"><a href="chapter11.html#cb227-22"></a>           <span class="dt">legend.spacing.y=</span><span class="kw">unit</span>(<span class="fl">0.02</span>, <span class="st">&quot;cm&quot;</span>), </span>
+<span id="cb227-23"><a href="chapter11.html#cb227-23"></a>           <span class="dt">legend.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">40</span>), <span class="co"># This should be adjusted with different devout.</span></span>
+<span id="cb227-24"><a href="chapter11.html#cb227-24"></a>           <span class="dt">legend.text=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">30</span>), </span>
+<span id="cb227-25"><a href="chapter11.html#cb227-25"></a>           <span class="dt">legend.box.spacing=</span><span class="kw">unit</span>(<span class="fl">0.02</span>,<span class="st">&quot;cm&quot;</span>)</span>
+<span id="cb227-26"><a href="chapter11.html#cb227-26"></a>           )</span>
+<span id="cb227-27"><a href="chapter11.html#cb227-27"></a></span>
+<span id="cb227-28"><a href="chapter11.html#cb227-28"></a>p</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:CRCdiffclade"></span>
+<img src="treedata_files/figure-html/CRCdiffclade-1.png" alt="Different taxonomy clade." width="2100"  />
+<p class="caption">
+Figure 11.1: <strong>Different taxonomy clade</strong>.
+</p>
+</div>
+<p>The <code>colors</code> represent the relevant features enriched in the relevant <code>classgroup</code>. The size of point colored represent the <code>-log10(pvalue)</code>, which means the larger point represents the higher significance. In the example, we found <em>Fusobacterium</em> sequences were enriched in carcinomas, and Firmicutes, Bacteroides, Clostridiales were depleted in tumors. These results were consistent with the original article <span class="citation">(Kostic et al. <a href="#ref-kostic2012genomic" role="doc-biblioref">2012</a>)</span>. In addition, we also found <em>Campylobacter</em> were enriched in tumors, but the relative abundance of it is lower than <em>Fusobacterium</em>. And the species of <em>Campylobacter</em> has been proven to associated with the colorectal cancer <span class="citation">(He et al. <a href="#ref-He289" role="doc-biblioref">2019</a>; Wu et al. <a href="#ref-wu2013dysbiosis" role="doc-biblioref">2013</a>; Amer et al. <a href="#ref-amer2017microbiome" role="doc-biblioref">2017</a>)</span>.</p>
 
 </div>
 </div>
 
 
 
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-amer2017microbiome">
+<p>Amer, Abdrazak, Sheila Galvin, Claire M Healy, and Gary P Moran. 2017. “The Microbiome of Potentially Malignant Oral Leukoplakia Exhibits Enrichment for Fusobacterium, Leptotrichia, Campylobacter, and Rothia Species.” <em>Frontiers in Microbiology</em> 8: 2391. <a href="https://doi.org/10.3389/fmicb.2017.02391">https://doi.org/10.3389/fmicb.2017.02391</a>.</p>
+</div>
+<div id="ref-He289">
+<p>He, Zhen, Raad Z Gharaibeh, Rachel C Newsome, Jllian L Pope, Michael W Dougherty, Sarah Tomkovich, Benoit Pons, et al. 2019. “Campylobacter Jejuni Promotes Colorectal Tumorigenesis Through the Action of Cytolethal Distending Toxin.” <em>Gut</em> 68 (2): 289–300. <a href="https://doi.org/10.1136/gutjnl-2018-317200">https://doi.org/10.1136/gutjnl-2018-317200</a>.</p>
+</div>
+<div id="ref-kostic2012genomic">
+<p>Kostic, Aleksandar D, Dirk Gevers, Chandra Sekhar Pedamallu, Monia Michaud, Fujiko Duke, Ashlee M Earl, Akinyemi I Ojesina, et al. 2012. “Genomic Analysis Identifies Association of Fusobacterium with Colorectal Carcinoma.” <em>Genome Research</em> 22 (2): 292–98. <a href="https://doi.org/10.1101/gr.126573.111">https://doi.org/10.1101/gr.126573.111</a>.</p>
+</div>
+<div id="ref-wu2013dysbiosis">
+<p>Wu, Na, Xi Yang, Ruifen Zhang, Jun Li, Xue Xiao, Yongfei Hu, Yanfei Chen, et al. 2013. “Dysbiosis Signature of Fecal Microbiota in Colorectal Cancer Patients.” <em>Microbial Ecology</em> 66 (2): 462–70. <a href="https://doi.org/10.1007/s00248-013-0245-9">https://doi.org/10.1007/s00248-013-0245-9</a>.</p>
+</div>
+<div id="ref-yu_ggtree:_2017">
+<p>Yu, Guangchuang, David K. Smith, Huachen Zhu, Yi Guan, and Tommy Tsan-Yuk Lam. 2017. “Ggtree: An R Package for Visualization and Annotation of Phylogenetic Trees with Their Covariates and Other Associated Data.” <em>Methods in Ecology and Evolution</em> 8 (1): 28–36. <a href="https://doi.org/10.1111/2041-210X.12628">https://doi.org/10.1111/2041-210X.12628</a>.</p>
+</div>
+</div>
             </section>
 
           </div>

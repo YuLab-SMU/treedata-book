@@ -33,3 +33,41 @@ There are `r length(unlist(x))` packages in CRAN or Bioconductor that depend or 
 
 ## Taxonomy annotation using MicrobiotaProcess {#MicrobiotaProcess}
 
+The `ggdiffcalde` in `r Biocpkg("MicrobiotaProcess")` is developed based on `r Biocpkg("ggtree")` [@yu_ggtree:_2017]. It can be used to visualized the result of `diff_analysis` in `r Biocpkg("MicrobiotaProcess")`. In addition, If you have a data frame contained hierarchical relationship, like the taxonomy annotation or KEGG levels annotation, to plot the framework, and a data frame (first column should be the labels from data frame contained hierarchical relationship, a column of factor variable, another column contains `pvalue` also can be provided.). It provided `circular`, `radial`, `rectangular`, `inward_circular` and `slanted` layout. Here, we show an example to show how to use data frame to visualize the different taxonomy tree. The data frame of this example is from the results of `diff_analysis` with the public datasets [@kostic2012genomic].
+
+(ref:CRCdiffscap) Different taxonomy clade.
+
+(ref:CRCdiffcap) **Different taxonomy clade**.
+
+```{r, fig.width=7, fig.height=7, fig.align="center", message=FALSE, fig.cap="(ref:CRCdiffcap)", fig.scap="(ref:CRCdiffscap)", dpi=300, out.extra='', warning=FALSE, CRCdiffclade}
+library(MicrobiotaProcess)
+library(ggplot2)
+
+taxa <- read.csv("data/alltax_info.csv")
+dt <- read.csv("data/difftax_tab.csv")
+
+p <- ggdiffclade(obj=taxa,
+                 nodedf=dt,
+                 factorName="DIAGNOSIS",
+                 layout="radial",
+                 skpointsize=0.6,
+                 cladetext=10,
+                 linewd=0.2, # The size argument has been replace with linewd in devel version
+                 taxlevel=3,
+                 reduce=TRUE) + # This argument is to remove the branch of unknown taxonomy, it is provided in devel version.
+     scale_fill_manual(values=c("#00AED7", "#009E73"))+
+     guides(color = guide_legend(keywidth = 0.1, keyheight = 0.6,
+                                 order = 3,ncol=1)) +
+     theme(panel.background=element_rect(fill=NA),
+           legend.position="right",
+           plot.margin=margin(0,0,0,0),
+           legend.spacing.y=unit(0.02, "cm"), 
+           legend.title=element_text(size=40), # This should be adjusted with different devout.
+           legend.text=element_text(size=30), 
+           legend.box.spacing=unit(0.02,"cm")
+           )
+
+p
+```
+
+The `colors` represent the relevant features enriched in the relevant `classgroup`. The size of point colored represent the `-log10(pvalue)`, which means the larger point represents the higher significance. In the example, we found *Fusobacterium* sequences were enriched in carcinomas, and Firmicutes, Bacteroides, Clostridiales were depleted in tumors. These results were consistent with the original article [@kostic2012genomic]. In addition, we also found *Campylobacter* were enriched in tumors, but the relative abundance of it is lower than *Fusobacterium*. And the species of *Campylobacter* has been proven to associated with the colorectal cancer [@He289; @wu2013dysbiosis; @amer2017microbiome]. 

@@ -294,6 +294,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.1" data-path="index.html"><a href="index.html#introduction"><i class="fa fa-check"></i><b>10.1</b> Introduction</a></li>
 <li class="chapter" data-level="10.2" data-path="chapter10.html"><a href="chapter10.html#aligning-graphs-to-the-tree-based-on-tree-structure"><i class="fa fa-check"></i><b>10.2</b> Aligning graphs to the tree based on tree structure</a></li>
 <li class="chapter" data-level="10.3" data-path="chapter10.html"><a href="chapter10.html#aligning-multiple-graphs-to-the-tree-for-multi-dimensional-data"><i class="fa fa-check"></i><b>10.3</b> Aligning multiple graphs to the tree for multi-dimensional data</a></li>
+<li class="chapter" data-level="10.4" data-path="chapter10.html"><a href="chapter10.html#api-to-link-ggtree-and-ggplot2."><i class="fa fa-check"></i><b>10.4</b> API to link <em>ggtree</em> and <em>ggplot2</em>.</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="chapter11.html"><a href="chapter11.html"><i class="fa fa-check"></i><b>11</b> Other ggtree extensions</a>
 <ul>
@@ -394,7 +395,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The book was written using R Markdown and was compiled by <a href="https://CRAN.R-project.org/package=bookdown">bookdown</a> package. Here is the session information on the system on which this thesis was compiled:</p>
 <pre><code>## R version 4.0.2 (2020-06-22) 
 ##  Platform: x86_64-pc-linux-gnu (64-bit) 
-##  Running under: Arch Linux 
+##  Running under: Ubuntu 18.04.4 LTS 
 ##   
 ##  locale: 
 ##   [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C               
@@ -409,80 +410,90 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  [6] utils     datasets  methods   base      
 ##   
 ##  other attached packages: 
-##   [1] ggstar_0.0.9        ggtreeExtra_0.99.12 
-##   [3] ggplotify_0.0.5     devout_0.2.7        
-##   [5] data.tree_1.0.0     comicR_0.2          
-##   [7] gridSVG_1.7-2       XML_3.99-0.5        
-##   [9] htmltools_0.5.0     rotl_3.0.10         
-##  [11] ggrepel_0.9.0       gggenes_0.4.0       
-##  [13] tibble_3.0.3        reshape2_1.4.4      
-##  [15] ggstance_0.3.4      ggridges_0.5.2      
-##  [17] scales_1.1.1        phyloseq_1.32.0     
-##  [19] ade4_1.7-15         aplot_0.0.5         
-##  [21] ggnewscale_0.4.2    ggimage_0.2.8       
-##  [23] jsonlite_1.7.0      phangorn_2.5.5      
-##  [25] stringr_1.4.0       phytools_0.7-47     
-##  [27] maps_3.3.0          tidyr_1.1.1         
-##  [29] knitr_1.29          ggtree_2.3.4        
-##  [31] treeio_1.13.1       tidytree_0.3.3.991  
-##  [33] kableExtra_1.1.0    dplyr_1.0.1         
-##  [35] ggplot2_3.3.2       cowplot_1.0.0       
-##  [37] emojifont_0.5.3     phylobase_0.8.10    
-##  [39] igraph_1.2.5        Biostrings_2.56.0   
-##  [41] XVector_0.28.0      IRanges_2.22.2      
-##  [43] S4Vectors_0.26.1    BiocGenerics_0.34.0 
-##  [45] ape_5.4-1           conflicted_1.0.4    
-##  [47] bookdown_0.20       
+##   [1] MicrobiotaProcess_1.1.10 ggstar_0.0.9             
+##   [3] devout_0.2.7             data.tree_1.0.0          
+##   [5] comicR_0.2               gridSVG_1.7-2            
+##   [7] XML_3.99-0.4             htmltools_0.5.0          
+##   [9] rotl_3.0.10              ggrepel_0.8.2            
+##  [11] gggenes_0.4.0            tibble_3.0.2             
+##  [13] ggplotify_0.0.5          reshape2_1.4.4           
+##  [15] ggstance_0.3.4           ggtreeExtra_0.99.12      
+##  [17] ggridges_0.5.2           scales_1.1.1             
+##  [19] phyloseq_1.32.0          ade4_1.7-15              
+##  [21] aplot_0.0.4              ggnewscale_0.4.1         
+##  [23] ggimage_0.2.8            jsonlite_1.7.0           
+##  [25] phangorn_2.5.5           stringr_1.4.0            
+##  [27] phytools_0.7-47          maps_3.3.0               
+##  [29] tidyr_1.1.0              knitr_1.29               
+##  [31] ggtree_2.3.4             treeio_1.12.0            
+##  [33] tidytree_0.3.3           kableExtra_1.1.0         
+##  [35] dplyr_1.0.0              ggplot2_3.3.2            
+##  [37] cowplot_1.0.0            emojifont_0.5.3          
+##  [39] phylobase_0.8.10         igraph_1.2.5             
+##  [41] Biostrings_2.56.0        XVector_0.28.0           
+##  [43] IRanges_2.22.2           S4Vectors_0.26.1         
+##  [45] BiocGenerics_0.34.0      ape_5.4                  
+##  [47] conflicted_1.0.4         bookdown_0.20            
 ##   
 ##  loaded via a namespace (and not attached): 
-##   [1] uuid_0.1-4              fastmatch_1.1-0         
-##   [3] plyr_1.8.6              lazyeval_0.2.2          
-##   [5] splines_4.0.2           rncl_0.8.4              
-##   [7] digest_0.6.25           foreach_1.5.0           
-##   [9] magick_2.4.0            magrittr_1.5            
-##  [11] memoise_1.1.0           cluster_2.1.0           
-##  [13] readr_1.3.1             ggfittext_0.9.0         
-##  [15] sysfonts_0.8.1          prettyunits_1.1.1       
-##  [17] colorspace_1.4-1        rvest_0.3.6             
-##  [19] xfun_0.16               crayon_1.3.4            
-##  [21] dlstats_0.1.3           survival_3.2-3          
-##  [23] iterators_1.0.12        glue_1.4.1              
-##  [25] gtable_0.3.0            zlibbioc_1.34.0         
-##  [27] webshot_0.5.2           Rhdf5lib_1.10.1         
-##  [29] rentrez_1.2.2           Rcpp_1.0.5              
-##  [31] showtextdb_3.0          plotrix_3.7-8           
-##  [33] viridisLite_0.3.0       progress_1.2.2          
-##  [35] tmvnsim_1.0-2           gridGraphics_0.5-0      
-##  [37] animation_2.6           htmlwidgets_1.5.1       
-##  [39] httr_1.4.2              badger_0.0.8            
-##  [41] RColorBrewer_1.1-2      ellipsis_0.3.1          
-##  [43] farver_2.0.3            pkgconfig_2.0.3         
-##  [45] labeling_0.3            tidyselect_1.1.0        
-##  [47] rlang_0.4.7             munsell_0.5.0           
-##  [49] tools_4.0.2             generics_0.0.2          
-##  [51] evaluate_0.14           biomformat_1.16.0       
-##  [53] yaml_2.2.1              purrr_0.3.4             
-##  [55] showtext_0.9            nlme_3.1-148            
-##  [57] xml2_1.3.2              compiler_4.0.2          
-##  [59] rstudioapi_0.11         clusterGeneration_1.3.4 
-##  [61] RNeXML_2.4.5            stringi_1.4.6           
-##  [63] highr_0.8               lattice_0.20-41         
-##  [65] Matrix_1.2-18           vegan_2.5-6             
-##  [67] permute_0.9-5           multtest_2.44.0         
-##  [69] vctrs_0.3.2             pillar_1.4.6            
-##  [71] lifecycle_0.2.0         BiocManager_1.30.10     
-##  [73] combinat_0.0-8          data.table_1.13.0       
-##  [75] patchwork_1.0.1         R6_2.4.1                
-##  [77] gridExtra_2.3           codetools_0.2-16        
-##  [79] MASS_7.3-51.6           gtools_3.8.2            
-##  [81] assertthat_0.2.1        rhdf5_2.32.2            
-##  [83] proto_1.0.0             withr_2.2.0             
-##  [85] mnormt_2.0.1            mgcv_1.8-31             
-##  [87] expm_0.999-5            hms_0.5.3               
-##  [89] quadprog_1.5-8          grid_4.0.2              
-##  [91] coda_0.19-3             rmarkdown_2.3           
-##  [93] rvcheck_0.1.8           numDeriv_2016.8-1.1     
-##  [95] scatterplot3d_0.3-41    Biobase_2.48.0</code></pre>
+##    [1] uuid_0.1-4              fastmatch_1.1-0         
+##    [3] plyr_1.8.6              lazyeval_0.2.2          
+##    [5] splines_4.0.2           TH.data_1.0-10          
+##    [7] rncl_0.8.4              digest_0.6.25           
+##    [9] foreach_1.5.0           magick_2.4.0            
+##   [11] magrittr_1.5            memoise_1.1.0           
+##   [13] cluster_2.1.0           DECIPHER_2.16.1         
+##   [15] readr_1.3.1             ggfittext_0.9.0         
+##   [17] matrixStats_0.56.0      sandwich_2.5-1          
+##   [19] sysfonts_0.8.1          prettyunits_1.1.1       
+##   [21] colorspace_1.4-1        blob_1.2.1              
+##   [23] rvest_0.3.6             xfun_0.16               
+##   [25] libcoin_1.0-5           crayon_1.3.4            
+##   [27] dlstats_0.1.3           zoo_1.8-8               
+##   [29] survival_3.2-3          iterators_1.0.12        
+##   [31] glue_1.4.1              gtable_0.3.0            
+##   [33] zlibbioc_1.34.0         webshot_0.5.2           
+##   [35] Rhdf5lib_1.10.0         rentrez_1.2.2           
+##   [37] mvtnorm_1.1-1           DBI_1.1.0               
+##   [39] Rcpp_1.0.5              showtextdb_3.0          
+##   [41] plotrix_3.7-8           viridisLite_0.3.0       
+##   [43] progress_1.2.2          tmvnsim_1.0-2           
+##   [45] gridGraphics_0.5-0      bit_1.1-15.2            
+##   [47] animation_2.6           htmlwidgets_1.5.1       
+##   [49] httr_1.4.1              badger_0.0.8            
+##   [51] RColorBrewer_1.1-2      modeltools_0.2-23       
+##   [53] ellipsis_0.3.1          farver_2.0.3            
+##   [55] reshape_0.8.8           pkgconfig_2.0.3         
+##   [57] labeling_0.3            tidyselect_1.1.0        
+##   [59] rlang_0.4.7             munsell_0.5.0           
+##   [61] tools_4.0.2             RSQLite_2.2.0           
+##   [63] generics_0.0.2          evaluate_0.14           
+##   [65] biomformat_1.16.0       yaml_2.2.1              
+##   [67] bit64_0.9-7             randomForest_4.6-14     
+##   [69] purrr_0.3.4             coin_1.3-1              
+##   [71] showtext_0.9            nlme_3.1-148            
+##   [73] xml2_1.3.2              compiler_4.0.2          
+##   [75] rstudioapi_0.11         ggsignif_0.6.0          
+##   [77] clusterGeneration_1.3.4 RNeXML_2.4.5            
+##   [79] stringi_1.4.6           highr_0.8               
+##   [81] lattice_0.20-41         Matrix_1.2-18           
+##   [83] vegan_2.5-6             permute_0.9-5           
+##   [85] multtest_2.44.0         vctrs_0.3.1             
+##   [87] pillar_1.4.4            lifecycle_0.2.0         
+##   [89] BiocManager_1.30.10     combinat_0.0-8          
+##   [91] data.table_1.12.8       patchwork_1.0.1         
+##   [93] Rmisc_1.5               R6_2.4.1                
+##   [95] gridExtra_2.3           codetools_0.2-16        
+##   [97] MASS_7.3-51.6           gtools_3.8.2            
+##   [99] assertthat_0.2.1        rhdf5_2.32.2            
+##  [101] proto_1.0.0             withr_2.2.0             
+##  [103] mnormt_2.0.1            multcomp_1.4-13         
+##  [105] mgcv_1.8-31             expm_0.999-5            
+##  [107] hms_0.5.3               quadprog_1.5-8          
+##  [109] grid_4.0.2              coda_0.19-3             
+##  [111] rmarkdown_2.3           rvcheck_0.1.8           
+##  [113] numDeriv_2016.8-1.1     scatterplot3d_0.3-41    
+##  [115] Biobase_2.48.0</code></pre>
 
 </div>
             </section>
