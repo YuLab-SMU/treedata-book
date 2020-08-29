@@ -16,7 +16,7 @@ The `geom_fruit` is designed to work with most of `geom` layers defined in `r CR
 
 (ref:psboxplotcap) **Phylogenetic tree with OTU abundance distribution**.
 
-```{r, fig.width=9, fig.height=7, fig.align="center", message=FALSE, fig.cap="(ref:psboxplotcap)", fig.scap="(ref:psboxplotscap)", out.extra='', warning=FALSE, psbox}
+```{r psbox, fig.width=9, fig.height=7, fig.align="center", message=FALSE, fig.cap="(ref:psboxplotcap)", fig.scap="(ref:psboxplotscap)", out.extra='', warning=FALSE}
 library(ggtreeExtra)
 library(ggtree)
 library(phyloseq)
@@ -35,10 +35,12 @@ melt_simple <- psmelt(mergedGP) %>%
                filter(Abundance < 120) %>%
                select(OTU, val=Abundance)
 
-p <- ggtree(mergedGP, layout="fan", open.angle=30) + 
+p <- ggtree(mergedGP, layout="fan", open.angle=10) + 
      geom_tippoint(mapping=aes(color=Phylum), 
                    size=1.5,
                    show.legend=FALSE)
+p <- rotate_tree(p, -90)
+
 p <- p +
      geom_fruit(
          data=melt_simple,
@@ -49,24 +51,24 @@ p <- p +
                      group=label,
                      fill=Phylum,
                    ),
-         lwd=.2,
+         size=.2,
          outlier.size=0.5,
          outlier.stroke=0.08,
          outlier.shape=21,
          axis.params=list(
                          add.axis   =TRUE,
-                         text.angle =-45,
-                         text.size  = 4,
-                         hjust      = 0,
+                         text.size  = 6,
+                         hjust      = 1,
                          vjust      = 0.5
                      ),
          grid.params=list(
                          add.grid=TRUE
                      )
-     ) +
-     scale_fill_manual(
+     ) 
+     
+p <- p +
+     scale_fill_discrete(
          name="Phyla",
-         values=scales::hue_pal()(24),
          guide=guide_legend(keywidth=0.8, keyheight=0.8, ncol=1)
      ) +
      theme(

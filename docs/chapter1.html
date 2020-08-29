@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2020-08-28" />
+<meta name="date" content="2020-08-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -176,15 +176,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.2.2" data-path="chapter2.html"><a href="chapter2.html#link-external-data"><i class="fa fa-check"></i><b>2.2.2</b> Linking external data to phylogeny</a></li>
 <li class="chapter" data-level="2.2.3" data-path="chapter2.html"><a href="chapter2.html#grouping-taxa"><i class="fa fa-check"></i><b>2.2.3</b> Grouping taxa</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="chapter2.html"><a href="chapter2.html#rescale-treeio"><i class="fa fa-check"></i><b>2.3</b> Rescaling Tree Branches</a></li>
-<li class="chapter" data-level="2.4" data-path="chapter2.html"><a href="chapter2.html#subsetting-tree-with-data"><i class="fa fa-check"></i><b>2.4</b> Subsetting Tree with Data</a>
+<li class="chapter" data-level="2.3" data-path="chapter2.html"><a href="chapter2.html#reroot-treeio"><i class="fa fa-check"></i><b>2.3</b> Rerooting tree</a></li>
+<li class="chapter" data-level="2.4" data-path="chapter2.html"><a href="chapter2.html#rescale-treeio"><i class="fa fa-check"></i><b>2.4</b> Rescaling Tree Branches</a></li>
+<li class="chapter" data-level="2.5" data-path="chapter2.html"><a href="chapter2.html#subsetting-tree-with-data"><i class="fa fa-check"></i><b>2.5</b> Subsetting Tree with Data</a>
 <ul>
-<li class="chapter" data-level="2.4.1" data-path="chapter2.html"><a href="chapter2.html#remove-tip"><i class="fa fa-check"></i><b>2.4.1</b> Removing tips in a phylogenetic tree</a></li>
-<li class="chapter" data-level="2.4.2" data-path="chapter2.html"><a href="chapter2.html#subset-tip"><i class="fa fa-check"></i><b>2.4.2</b> Subsetting tree by tip label</a></li>
-<li class="chapter" data-level="2.4.3" data-path="chapter2.html"><a href="chapter2.html#subset-node"><i class="fa fa-check"></i><b>2.4.3</b> Subsetting tree by internal node number</a></li>
+<li class="chapter" data-level="2.5.1" data-path="chapter2.html"><a href="chapter2.html#remove-tip"><i class="fa fa-check"></i><b>2.5.1</b> Removing tips in a phylogenetic tree</a></li>
+<li class="chapter" data-level="2.5.2" data-path="chapter2.html"><a href="chapter2.html#subset-tip"><i class="fa fa-check"></i><b>2.5.2</b> Subsetting tree by tip label</a></li>
+<li class="chapter" data-level="2.5.3" data-path="chapter2.html"><a href="chapter2.html#subset-node"><i class="fa fa-check"></i><b>2.5.3</b> Subsetting tree by internal node number</a></li>
 </ul></li>
-<li class="chapter" data-level="2.5" data-path="chapter2.html"><a href="chapter2.html#ggtree-fortify"><i class="fa fa-check"></i><b>2.5</b> Manipulating tree data for visualization</a></li>
-<li class="chapter" data-level="2.6" data-path="chapter2.html"><a href="chapter2.html#summary2"><i class="fa fa-check"></i><b>2.6</b> Summary</a></li>
+<li class="chapter" data-level="2.6" data-path="chapter2.html"><a href="chapter2.html#ggtree-fortify"><i class="fa fa-check"></i><b>2.6</b> Manipulating tree data for visualization</a></li>
+<li class="chapter" data-level="2.7" data-path="chapter2.html"><a href="chapter2.html#summary2"><i class="fa fa-check"></i><b>2.7</b> Summary</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="chapter3.html"><a href="chapter3.html"><i class="fa fa-check"></i><b>3</b> Exporting tree with data</a>
 <ul>
@@ -476,13 +477,11 @@ It is very difficult to share tree annotation data among different programs unle
 <!-- Although NEXUS supports additional information in separated blocks, they are mostly not recognized by different software and can't share information among different programs. In order to store annotated tree,-->
 <p>Newick, NEXUS and phylip are mainly designed to store phylogenetic tree and basic singular data associated with internal nodes or branches. In addition to the singular data annotation at branches and nodes (mentioned above), New Hampshire eXtended format (NHX), which is based on Newick (also called New Hampshire), was developed to introduce tags to associate multiple data fields with the tree nodes (both internal nodes and tips). Tags are placed after branch length and must be wrapped between <code>[&amp;&amp;NHX</code> and <code>]</code> which makes it possible to compatible with NEXUS format as it defined characters between <code>[</code> and <code>]</code> as comments. NHX is also the output format of <em>PHYLDOG</em> <span class="citation">(Boussau et al. <a href="#ref-boussau_genome-scale_2013" role="doc-biblioref">2013</a>)</span> and <em>RevBayes</em> <span class="citation">(Höhna et al. <a href="#ref-hohna_revbayes:_2016" role="doc-biblioref">2016</a>)</span>. A Tree Viewer (<em>ATV</em>) <span class="citation">(Zmasek and Eddy <a href="#ref-zmasek_atv:_2001" role="doc-biblioref">2001</a>)</span> is a java tool that supports displaying annotation data stored in NHX format, but this package is no more maintained.</p>
 <p>Here is a sample tree from NHX definition document<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>:</p>
-<pre><code>(((ADH2:0.1[&amp;&amp;NHX:S=human], ADH1:0.11[&amp;&amp;NHX:S=human]):
-0.05[&amp;&amp;NHX:S=primates:D=Y:B=100],ADHY:
-0.1[&amp;&amp;NHX:S=nematode],ADHX:
-0.12[&amp;&amp;NHX:S=insect]):0.1[&amp;&amp;NHX:S=metazoa:D=N],
+<pre><code>(((ADH2:0.1[&amp;&amp;NHX:S=human],
+ADH1:0.11[&amp;&amp;NHX:S=human]):0.05[&amp;&amp;NHX:S=primates:D=Y:B=100],ADHY:0.1[&amp;&amp;NHX:S=nematode],ADHX:0.12[&amp;&amp;NHX:S=insect]):0.1[&amp;&amp;NHX:S=metazoa:D=N],
 (ADH4:0.09[&amp;&amp;NHX:S=yeast],ADH3:0.13[&amp;&amp;NHX:S=yeast],
-ADH2:0.12[&amp;&amp;NHX:S=yeast],ADH1:0.11[&amp;&amp;NHX:S=yeast]):
-0.1[&amp;&amp;NHX:S=Fungi])[&amp;&amp;NHX:D=N];</code></pre>
+ADH2:0.12[&amp;&amp;NHX:S=yeast],ADH1:0.11[&amp;&amp;NHX:S=yeast]):0.1[&amp;&amp;NHX:S=Fungi])
+[&amp;&amp;NHX:D=N];</code></pre>
 </div>
 <div id="jplace-format" class="section level3" number="1.2.4">
 <h3><span class="header-section-number">1.2.4</span> Jplace format</h3>
@@ -521,47 +520,43 @@ ADH2:0.12[&amp;&amp;NHX:S=yeast],ADH1:0.11[&amp;&amp;NHX:S=yeast]):
 <p><em>RAxML</em> <span class="citation">(Stamatakis <a href="#ref-stamatakis_raxml_2014" role="doc-biblioref">2014</a>)</span> can output Newick format by storing the bootstrap values as internal node labels. Another way that <em>RAxML</em> supported is to place bootstrap value inside square brackets and after branch length. This could not be supported by most of the software that support Newick format where square brackets will be ignored.</p>
 <p><em>BEAST</em> <span class="citation">(Bouckaert et al. <a href="#ref-bouckaert_beast_2014" role="doc-biblioref">2014</a>)</span> output is based on NEXUS and it also introduce square brackets in the tree block to store evolutionary evidences inferred by <em>BEAST</em>. Inside brackets, curly braces may also incorporated if feature values have length more than 1 (<em>e.g.</em>, HPD or range of substitution rate). These brackets are placed between node and branch length (<em>i.e.</em>, after label if exists and before colon). Bracket is not defined in Newick format and is reserve character for NEXUS comment. So these information will be ignored for standard NEXUS parsers.</p>
 <p>Here is a sample <code>TREE</code> block of the <em>BEAST</em> output:</p>
-<pre><code>tree TREE1 = [&amp;R] (((11[&amp;length=9.4]:9.38,14[&amp;length=6.4]:
-6.385096430786298)[&amp;length=25.7]:25.43,4[&amp;length=9.1]:
-8.821663252749829)[&amp;length=3.0]:3.10,(12[&amp;length=0.6]:
-0.56,(10[&amp;length=1.6]:1.56,(7[&amp;length=5.2]:5.19,
+<pre><code>tree TREE1 = [&amp;R]
+(((11[&amp;length=9.4]:9.38,14[&amp;length=6.4]:6.385096430786298)
+[&amp;length=25.7]:25.43,4[&amp;length=9.1]:8.821663252749829)
+[&amp;length=3.0]:3.10,(12[&amp;length=0.6]:0.56,
+(10[&amp;length=1.6]:1.56,(7[&amp;length=5.2]:5.19,
 ((((2[&amp;length=3.3]:3.26,(1[&amp;length=1.3]:1.32,
 (6[&amp;length=0.8]:0.83,13[&amp;length=0.8]:0.8311577761397366)
-[&amp;length=2.4]:2.48917886025146)[&amp;length=0.9]:
-0.9416178372674331)[&amp;length=0.4]:0.49,9[&amp;length=1.7]:
-1.757288031101215)[&amp;length=2.4]:2.35,8[&amp;length=2.1]:
-2.1125745387283246)[&amp;length=0.2]:0.23,(3[&amp;length=3.3]:3.31,
+[&amp;length=2.4]:2.48917886025146)
+[&amp;length=0.9]:0.9416178372674331)
+[&amp;length=0.4]:0.49,9[&amp;length=1.7]:1.757288031101215)
+[&amp;length=2.4]:2.35,8[&amp;length=2.1]:2.1125745387283246)
+[&amp;length=0.2]:0.23,(3[&amp;length=3.3]:3.31,
 (15[&amp;length=5.2]:5.27,5[&amp;length=3.2]:3.2710481368304585)
-[&amp;length=1.0]:1.0409443024626412)[&amp;length=1.9]:
-2.0372962536780435)[&amp;length=2.8]:2.8446835614595685)
-[&amp;length=5.3]:5.367459711197171)[&amp;length=2.0]:
-2.0037467863383043)[&amp;length=4.3]:4.360909907798238)
-[&amp;length=0.0];</code></pre>
+[&amp;length=1.0]:1.0409443024626412)
+[&amp;length=1.9]:2.0372962536780435)
+[&amp;length=2.8]:2.8446835614595685)
+[&amp;length=5.3]:5.367459711197171)
+[&amp;length=2.0]:2.0037467863383043)
+[&amp;length=4.3]:4.360909907798238)[&amp;length=0.0];</code></pre>
 <p><em>BEAST</em> output can contain many different evolutionary inferences, depending of the analysis models defined in <em>BEAUTi</em> for running. For example in molecular clock analysis, it contains <code>rate</code>, <code>length</code>, <code>height</code>, <code>posterior</code> and corresponding HPD and range for uncertainty estimation. <code>Rate</code> is the estimated evolutionary rate of the branch. <code>Length</code> is the length of the branch in years. <code>Height</code> is the time from node to root while <code>posterior</code> is the Bayesian clade credibility value. The above example is the output tree of clock analysis and should contains these inferences. To save space, only the <code>length</code> estimation was shown above. Besides, MEGA <span class="citation">(Kumar, Stecher, and Tamura <a href="#ref-kumar_mega7_2016" role="doc-biblioref">2016</a>)</span> also supports exporting tree in BEAST compatible Nexus format (see <a href="chapter1.html#mega">session 1.3.2</a>).</p>
 <p><em>MrBayes</em> <span class="citation">(Huelsenbeck and Ronquist <a href="#ref-huelsenbeck_mrbayes_2001" role="doc-biblioref">2001</a>)</span> is a program that uses Markov Chain Monte Carlo method to sample from the posterior probability distributions. Its output file annotates nodes and branches separately by two sets of square brackets. For example below, posterior clade probabilities for the node and branch length estimates for the branch:</p>
-<pre><code>tree con_all_compat = [&amp;U] (8[&amp;prob=1.0]:
-2.94e-1[&amp;length_mean=2.9e-1],10[&amp;prob=1.0]:
-2.25e-1[&amp;length_mean=2.2e-1],((((1[&amp;prob=1.0]:
-1.43e-1[&amp;length_mean=1.4e-1],2[&amp;prob=1.0]:
-1.92e-1[&amp;length_mean=1.9e-1])[&amp;prob=1.0]:
-1.24e-1[&amp;length_mean=1.2e-1],9[&amp;prob=1.0]:
-2.27e-1[&amp;length_mean=2.2e-1])[&amp;prob=1.0]:
-1.72e-1[&amp;length_mean=1.7e-1],12[&amp;prob=1.0]:
-5.11e-1[&amp;length_mean=5.1e-1])[&amp;prob=1.0]:
-1.76e-1[&amp;length_mean=1.7e-1],(((3[&amp;prob=1.0]:
-5.46e-2[&amp;length_mean=5.4e-2],(6[&amp;prob=1.0]:
-1.03e-2[&amp;length_mean=1.0e-2],7[&amp;prob=1.0]:
-7.13e-3[&amp;length_mean=7.2e-3])[&amp;prob=1.0]:
-6.93e-2[&amp;length_mean=6.9e-2])[&amp;prob=1.0]:
-6.03e-2[&amp;length_mean=6.0e-2],(4[&amp;prob=1.0]:
-6.27e-2[&amp;length_mean=6.2e-2],5[&amp;prob=1.0]:
-6.31e-2[&amp;length_mean=6.3e-2])[&amp;prob=1.0]:
-6.07e-2[&amp;length_mean=6.0e-2])[&amp;prob=1.0]:
-1.80e-1[&amp;length_mean=1.8e-1],11[&amp;prob=1.0]:
-2.37e-1[&amp;length_mean=2.3e-1])[&amp;prob=1.0]:
-4.05e-1[&amp;length_mean=4.0e-1])[&amp;prob=1.0]:
-1.16e+000[&amp;length_mean=1.162699558201079e+000])[&amp;prob=1.0]
-[&amp;length_mean=0];</code></pre>
+<pre><code>tree con_all_compat = [&amp;U]
+(8[&amp;prob=1.0]:2.94e-1[&amp;length_mean=2.9e-1],10[&amp;prob=1.0]:2.25e-1[&amp;length_mean=2.2e-1],
+((((1[&amp;prob=1.0]:1.43e-1[&amp;length_mean=1.4e-1],2[&amp;prob=1.0]:1.92e-1[&amp;length_mean=1.9e-1])
+[&amp;prob=1.0]:1.24e-1[&amp;length_mean=1.2e-1],9[&amp;prob=1.0]:2.27e-1[&amp;length_mean=2.2e-1])
+[&amp;prob=1.0]:1.72e-1[&amp;length_mean=1.7e-1],12[&amp;prob=1.0]:5.11e-1[&amp;length_mean=5.1e-1])
+[&amp;prob=1.0]:1.76e-1[&amp;length_mean=1.7e-1],
+(((3[&amp;prob=1.0]:5.46e-2[&amp;length_mean=5.4e-2],
+(6[&amp;prob=1.0]:1.03e-2[&amp;length_mean=1.0e-2],7[&amp;prob=1.0]:7.13e-3[&amp;length_mean=7.2e-3])
+[&amp;prob=1.0]:6.93e-2[&amp;length_mean=6.9e-2])
+[&amp;prob=1.0]:6.03e-2[&amp;length_mean=6.0e-2],
+(4[&amp;prob=1.0]:6.27e-2[&amp;length_mean=6.2e-2],5[&amp;prob=1.0]:6.31e-2[&amp;length_mean=6.3e-2])
+[&amp;prob=1.0]:6.07e-2[&amp;length_mean=6.0e-2])
+[&amp;prob=1.0]:1.80e-1[&amp;length_mean=1.8e-1],11[&amp;prob=1.0]:2.37e-1[&amp;length_mean=2.3e-1])
+[&amp;prob=1.0]:4.05e-1[&amp;length_mean=4.0e-1])
+[&amp;prob=1.0]:1.16e+000[&amp;length_mean=1.162699558201079e+000])
+[&amp;prob=1.0][&amp;length_mean=0];</code></pre>
 <p>To save space, most of the inferences were removed and only contains <code>prob</code> for clade probability and <code>length_mean</code> for mean value of branch length. The full version of this file also contains <code>prob_stddev</code>, <code>prob_range</code>, <code>prob(percent)</code>, <code>prob+-sd</code> for probability inferences and <code>length_median</code>, <code>length_95%_HPD</code> for every branch.</p>
 <p>The <em>BEAST</em> and <em>MrBayes</em> outputs are expected to be parsed without inferences (dropped as comments) by software that support NEXUS. <em>FigTree</em> supports parsing <em>BEAST</em> and <em>MrBayes</em> outputs with inferences that can be used to display or annotate on the tree. But from there extracting these data for further analysis is still challenging.</p>
 <p><em>HyPhy</em> <span class="citation">(Pond, Frost, and Muse <a href="#ref-pond_hyphy:_2005" role="doc-biblioref">2005</a>)</span> could do a number of phylogenetic analysis, including ancestral sequence reconstruction. For ancestral sequence reconstruction, these sequences and the Newick tree text are stored in NEXUS format as the major analysis output. It did not completely follow the NEXUS definition and only put the ancestral node labels in <code>TAXA</code> instead of external node label. The <code>MATRIX</code> block contains sequence alignment of ancestral nodes which cannot be referred back to the tree stored in <code>TREES</code> block since it does not contains node labels. Here is the sample output (to save space, only the first 72bp of alignment are shown):</p>
@@ -926,11 +921,11 @@ Figure 1.3: <strong>Overview of the <em>treeio</em> package and its relations wi
 <h3><span class="header-section-number">1.3.2</span> Function Demonstration</h3>
 <div id="parsing-beast-output" class="section level4" number="1.3.2.1">
 <h4><span class="header-section-number">1.3.2.1</span> Parsing BEAST output</h4>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="chapter1.html#cb9-1"></a>file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/BEAST&quot;</span>, <span class="st">&quot;beast_mcc.tree&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
-<span id="cb9-2"><a href="chapter1.html#cb9-2"></a>beast &lt;-<span class="st"> </span><span class="kw">read.beast</span>(file)</span>
-<span id="cb9-3"><a href="chapter1.html#cb9-3"></a>beast</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="chapter1.html#cb9-1" aria-hidden="true"></a>file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/BEAST&quot;</span>, <span class="st">&quot;beast_mcc.tree&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
+<span id="cb9-2"><a href="chapter1.html#cb9-2" aria-hidden="true"></a>beast &lt;-<span class="st"> </span><span class="kw">read.beast</span>(file)</span>
+<span id="cb9-3"><a href="chapter1.html#cb9-3" aria-hidden="true"></a>beast</span></code></pre></div>
 <pre><code>## &#39;treedata&#39; S4 object that stored information of
-## 	&#39;/mnt/d/UbuntuApps/R/4.0.0/lib/R/library/treeio/extdata/BEAST/beast_mcc.tree&#39;.
+## 	&#39;/home/ygc/R/library/treeio/extdata/BEAST/beast_mcc.tree&#39;.
 ## 
 ## ...@ phylo: 
 ## Phylogenetic tree with 15 tips and 14 internal nodes.
@@ -951,10 +946,10 @@ Figure 1.3: <strong>Overview of the <em>treeio</em> package and its relations wi
 <div id="mega" class="section level4" number="1.3.2.2">
 <h4><span class="header-section-number">1.3.2.2</span> Parsing MEGA output</h4>
 <p><a href="https://www.megasoftware.net/">MEGA</a> <span class="citation">(Kumar, Stecher, and Tamura <a href="#ref-kumar_mega7_2016" role="doc-biblioref">2016</a>)</span> supports exporting trees in three distinct formats: Newick, tabular and Nexus. The Newick file can be parsed using the <code>read.tree</code> or <code>read.newick</code> functions. MEGA Nexus file is similar to BEAST Nexus and <a href="http://bioconductor.org/packages/treeio">treeio</a> <span class="citation">(Wang et al. <a href="#ref-wang_treeio_2020" role="doc-biblioref">2020</a>)</span> provides <code>read.mega</code> function to parse the tree.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="chapter1.html#cb11-1"></a>file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/MEGA7&quot;</span>, <span class="st">&quot;mtCDNA_timetree.nex&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;treeio&quot;</span>)</span>
-<span id="cb11-2"><a href="chapter1.html#cb11-2"></a><span class="kw">read.mega</span>(file)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="chapter1.html#cb11-1" aria-hidden="true"></a>file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/MEGA7&quot;</span>, <span class="st">&quot;mtCDNA_timetree.nex&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;treeio&quot;</span>)</span>
+<span id="cb11-2"><a href="chapter1.html#cb11-2" aria-hidden="true"></a><span class="kw">read.mega</span>(file)</span></code></pre></div>
 <pre><code>## &#39;treedata&#39; S4 object that stored information of
-## 	&#39;/mnt/d/UbuntuApps/R/4.0.0/lib/R/library/treeio/extdata/MEGA7/mtCDNA_timetree.nex&#39;.
+## 	&#39;/home/ygc/R/library/treeio/extdata/MEGA7/mtCDNA_timetree.nex&#39;.
 ## 
 ## ...@ phylo: 
 ## Phylogenetic tree with 7 tips and 6 internal nodes.
@@ -968,10 +963,10 @@ Figure 1.3: <strong>Overview of the <em>treeio</em> package and its relations wi
 ## 	&#39;branch_length&#39;,	&#39;data_coverage&#39;,	&#39;rate&#39;,	&#39;reltime&#39;,
 ## 	&#39;reltime_0.95_CI&#39;,	&#39;reltime_stderr&#39;.</code></pre>
 <p>The tabular output contains tree and associated information (divergence time in this example) in a tabular flat text file. The <code>read.mega_tabular</code> function can parse the tree with data simultaneously.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="chapter1.html#cb13-1"></a>file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/MEGA7&quot;</span>, <span class="st">&quot;mtCDNA_timetree_tabular.txt&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;treeio&quot;</span>)</span>
-<span id="cb13-2"><a href="chapter1.html#cb13-2"></a><span class="kw">read.mega_tabular</span>(file) </span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="chapter1.html#cb13-1" aria-hidden="true"></a>file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/MEGA7&quot;</span>, <span class="st">&quot;mtCDNA_timetree_tabular.txt&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;treeio&quot;</span>)</span>
+<span id="cb13-2"><a href="chapter1.html#cb13-2" aria-hidden="true"></a><span class="kw">read.mega_tabular</span>(file) </span></code></pre></div>
 <pre><code>## &#39;treedata&#39; S4 object that stored information of
-## 	&#39;/mnt/d/UbuntuApps/R/4.0.0/lib/R/library/treeio/extdata/MEGA7/mtCDNA_timetree_tabular.txt&#39;.
+## 	&#39;/home/ygc/R/library/treeio/extdata/MEGA7/mtCDNA_timetree_tabular.txt&#39;.
 ## 
 ## ...@ phylo: 
 ## Phylogenetic tree with 7 tips and 6 internal nodes.
@@ -990,10 +985,10 @@ Figure 1.3: <strong>Overview of the <em>treeio</em> package and its relations wi
 </div>
 <div id="parsing-mrbayes-output" class="section level4" number="1.3.2.3">
 <h4><span class="header-section-number">1.3.2.3</span> Parsing MrBayes output</h4>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="chapter1.html#cb15-1"></a>file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/MrBayes&quot;</span>, <span class="st">&quot;Gq_nxs.tre&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
-<span id="cb15-2"><a href="chapter1.html#cb15-2"></a><span class="kw">read.mrbayes</span>(file)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="chapter1.html#cb15-1" aria-hidden="true"></a>file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/MrBayes&quot;</span>, <span class="st">&quot;Gq_nxs.tre&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
+<span id="cb15-2"><a href="chapter1.html#cb15-2" aria-hidden="true"></a><span class="kw">read.mrbayes</span>(file)</span></code></pre></div>
 <pre><code>## &#39;treedata&#39; S4 object that stored information of
-## 	&#39;/mnt/d/UbuntuApps/R/4.0.0/lib/R/library/treeio/extdata/MrBayes/Gq_nxs.tre&#39;.
+## 	&#39;/home/ygc/R/library/treeio/extdata/MrBayes/Gq_nxs.tre&#39;.
 ## 
 ## ...@ phylo: 
 ## Phylogenetic tree with 12 tips and 10 internal nodes.
@@ -1017,11 +1012,11 @@ For <a href="http://abacus.gene.ucl.ac.uk/software/paml.html">BASEML</a>, each t
 are separated by one space, while
 for <a href="http://abacus.gene.ucl.ac.uk/software/paml.html">CODEML</a>, each three bases
 (triplet) are separated by one space.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="chapter1.html#cb17-1"></a>brstfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/PAML_Baseml&quot;</span>, <span class="st">&quot;rst&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
-<span id="cb17-2"><a href="chapter1.html#cb17-2"></a>brst &lt;-<span class="st"> </span><span class="kw">read.paml_rst</span>(brstfile)</span>
-<span id="cb17-3"><a href="chapter1.html#cb17-3"></a>brst</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="chapter1.html#cb17-1" aria-hidden="true"></a>brstfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/PAML_Baseml&quot;</span>, <span class="st">&quot;rst&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
+<span id="cb17-2"><a href="chapter1.html#cb17-2" aria-hidden="true"></a>brst &lt;-<span class="st"> </span><span class="kw">read.paml_rst</span>(brstfile)</span>
+<span id="cb17-3"><a href="chapter1.html#cb17-3" aria-hidden="true"></a>brst</span></code></pre></div>
 <pre><code>## &#39;treedata&#39; S4 object that stored information of
-## 	&#39;/mnt/d/UbuntuApps/R/4.0.0/lib/R/library/treeio/extdata/PAML_Baseml/rst&#39;.
+## 	&#39;/home/ygc/R/library/treeio/extdata/PAML_Baseml/rst&#39;.
 ## 
 ## ...@ phylo: 
 ## Phylogenetic tree with 15 tips and 13 internal nodes.
@@ -1036,12 +1031,12 @@ for <a href="http://abacus.gene.ucl.ac.uk/software/paml.html">CODEML</a>, each t
 ## with the following features available:
 ## 	&#39;subs&#39;,	&#39;AA_subs&#39;.</code></pre>
 <p>Similarly, we can parse the <em>rst</em> file from <a href="http://abacus.gene.ucl.ac.uk/software/paml.html">CODEML</a>.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="chapter1.html#cb19-1"></a>crstfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/PAML_Codeml&quot;</span>, <span class="st">&quot;rst&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
-<span id="cb19-2"><a href="chapter1.html#cb19-2"></a><span class="co">## type can be one of &quot;Marginal&quot; or &quot;Joint&quot;</span></span>
-<span id="cb19-3"><a href="chapter1.html#cb19-3"></a>crst &lt;-<span class="st"> </span><span class="kw">read.paml_rst</span>(crstfile, <span class="dt">type =</span> <span class="st">&quot;Joint&quot;</span>)</span>
-<span id="cb19-4"><a href="chapter1.html#cb19-4"></a>crst</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="chapter1.html#cb19-1" aria-hidden="true"></a>crstfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/PAML_Codeml&quot;</span>, <span class="st">&quot;rst&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
+<span id="cb19-2"><a href="chapter1.html#cb19-2" aria-hidden="true"></a><span class="co">## type can be one of &quot;Marginal&quot; or &quot;Joint&quot;</span></span>
+<span id="cb19-3"><a href="chapter1.html#cb19-3" aria-hidden="true"></a>crst &lt;-<span class="st"> </span><span class="kw">read.paml_rst</span>(crstfile, <span class="dt">type =</span> <span class="st">&quot;Joint&quot;</span>)</span>
+<span id="cb19-4"><a href="chapter1.html#cb19-4" aria-hidden="true"></a>crst</span></code></pre></div>
 <pre><code>## &#39;treedata&#39; S4 object that stored information of
-## 	&#39;/mnt/d/UbuntuApps/R/4.0.0/lib/R/library/treeio/extdata/PAML_Codeml/rst&#39;.
+## 	&#39;/home/ygc/R/library/treeio/extdata/PAML_Codeml/rst&#39;.
 ## 
 ## ...@ phylo: 
 ## Phylogenetic tree with 15 tips and 13 internal nodes.
@@ -1065,11 +1060,11 @@ computed substitutions will also be stored in the S4 object for efficient tree a
 <p><a href="http://abacus.gene.ucl.ac.uk/software/paml.html">CODEML</a> infers selection
 pressure and estimated <em>d<sub>N</sub>/d<sub>S</sub></em>, <em>d<sub>N</sub></em> and <em>d<sub>S</sub></em>. These information are
 stored in output file <em>mlc</em>, which can be parsed by <code>read.codeml_mlc</code> function.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="chapter1.html#cb21-1"></a>mlcfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/PAML_Codeml&quot;</span>, <span class="st">&quot;mlc&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
-<span id="cb21-2"><a href="chapter1.html#cb21-2"></a>mlc &lt;-<span class="st"> </span><span class="kw">read.codeml_mlc</span>(mlcfile)</span>
-<span id="cb21-3"><a href="chapter1.html#cb21-3"></a>mlc</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="chapter1.html#cb21-1" aria-hidden="true"></a>mlcfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/PAML_Codeml&quot;</span>, <span class="st">&quot;mlc&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
+<span id="cb21-2"><a href="chapter1.html#cb21-2" aria-hidden="true"></a>mlc &lt;-<span class="st"> </span><span class="kw">read.codeml_mlc</span>(mlcfile)</span>
+<span id="cb21-3"><a href="chapter1.html#cb21-3" aria-hidden="true"></a>mlc</span></code></pre></div>
 <pre><code>## &#39;treedata&#39; S4 object that stored information of
-## 	&#39;/mnt/d/UbuntuApps/R/4.0.0/lib/R/library/treeio/extdata/PAML_Codeml/mlc&#39;.
+## 	&#39;/home/ygc/R/library/treeio/extdata/PAML_Codeml/mlc&#39;.
 ## 
 ## ...@ phylo: 
 ## Phylogenetic tree with 15 tips and 13 internal nodes.
@@ -1085,13 +1080,13 @@ stored in output file <em>mlc</em>, which can be parsed by <code>read.codeml_mlc
 ## 	&#39;t&#39;,	&#39;N&#39;,	&#39;S&#39;,	&#39;dN_vs_dS&#39;,	&#39;dN&#39;,	&#39;dS&#39;,	&#39;N_x_dN&#39;,	&#39;S_x_dS&#39;.</code></pre>
 <p>In previous session, we separately parsed <em>rst</em> and <em>mlc</em> files. However, they
 can also be parsed together using <code>read.codeml</code> function.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="chapter1.html#cb23-1"></a><span class="co">## tree can be one of &quot;rst&quot; or &quot;mlc&quot; to specify</span></span>
-<span id="cb23-2"><a href="chapter1.html#cb23-2"></a><span class="co">## using tree from which file as base tree in the object</span></span>
-<span id="cb23-3"><a href="chapter1.html#cb23-3"></a>ml &lt;-<span class="st"> </span><span class="kw">read.codeml</span>(crstfile, mlcfile, <span class="dt">tree =</span> <span class="st">&quot;mlc&quot;</span>)</span>
-<span id="cb23-4"><a href="chapter1.html#cb23-4"></a>ml</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="chapter1.html#cb23-1" aria-hidden="true"></a><span class="co">## tree can be one of &quot;rst&quot; or &quot;mlc&quot; to specify</span></span>
+<span id="cb23-2"><a href="chapter1.html#cb23-2" aria-hidden="true"></a><span class="co">## using tree from which file as base tree in the object</span></span>
+<span id="cb23-3"><a href="chapter1.html#cb23-3" aria-hidden="true"></a>ml &lt;-<span class="st"> </span><span class="kw">read.codeml</span>(crstfile, mlcfile, <span class="dt">tree =</span> <span class="st">&quot;mlc&quot;</span>)</span>
+<span id="cb23-4"><a href="chapter1.html#cb23-4" aria-hidden="true"></a>ml</span></code></pre></div>
 <pre><code>## &#39;treedata&#39; S4 object that stored information of
-## 	&#39;/mnt/d/UbuntuApps/R/4.0.0/lib/R/library/treeio/extdata/PAML_Codeml/rst&#39;,
-## 	&#39;/mnt/d/UbuntuApps/R/4.0.0/lib/R/library/treeio/extdata/PAML_Codeml/mlc&#39;.
+## 	&#39;/home/ygc/R/library/treeio/extdata/PAML_Codeml/rst&#39;,
+## 	&#39;/home/ygc/R/library/treeio/extdata/PAML_Codeml/mlc&#39;.
 ## 
 ## ...@ phylo: 
 ## Phylogenetic tree with 15 tips and 13 internal nodes.
@@ -1116,8 +1111,8 @@ amino acid substitutions (derived from <em>rst</em> file) on the same phylogenet
 <p>Ancestral sequences inferred by <a href="https://veg.github.io/hyphy-site/">HyPhy</a> are
 stored in the Nexus output file, which contains the tree topology and ancestral
 sequences. To parse this data file, users can use the <code>read.hyphy.seq</code> function.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="chapter1.html#cb25-1"></a>ancseq &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/HYPHY&quot;</span>, <span class="st">&quot;ancseq.nex&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
-<span id="cb25-2"><a href="chapter1.html#cb25-2"></a><span class="kw">read.hyphy.seq</span>(ancseq)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="chapter1.html#cb25-1" aria-hidden="true"></a>ancseq &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/HYPHY&quot;</span>, <span class="st">&quot;ancseq.nex&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
+<span id="cb25-2"><a href="chapter1.html#cb25-2" aria-hidden="true"></a><span class="kw">read.hyphy.seq</span>(ancseq)</span></code></pre></div>
 <pre><code>## 13 DNA sequences in binary format stored in a list.
 ## 
 ## All sequences of same length: 2148 
@@ -1138,12 +1133,12 @@ sequences. To parse this data file, users can use the <code>read.hyphy.seq</code
 <p>To map the sequences on the tree, user should also provide an
 internal-node-labelled tree. If users want to determine substitution, they need
 also provide tip sequences.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="chapter1.html#cb27-1"></a>nwk &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/HYPHY&quot;</span>, <span class="st">&quot;labelledtree.tree&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
-<span id="cb27-2"><a href="chapter1.html#cb27-2"></a>tipfas &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;pa.fas&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
-<span id="cb27-3"><a href="chapter1.html#cb27-3"></a>hy &lt;-<span class="st"> </span><span class="kw">read.hyphy</span>(nwk, ancseq, tipfas)</span>
-<span id="cb27-4"><a href="chapter1.html#cb27-4"></a>hy</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="chapter1.html#cb27-1" aria-hidden="true"></a>nwk &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/HYPHY&quot;</span>, <span class="st">&quot;labelledtree.tree&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
+<span id="cb27-2"><a href="chapter1.html#cb27-2" aria-hidden="true"></a>tipfas &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;pa.fas&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
+<span id="cb27-3"><a href="chapter1.html#cb27-3" aria-hidden="true"></a>hy &lt;-<span class="st"> </span><span class="kw">read.hyphy</span>(nwk, ancseq, tipfas)</span>
+<span id="cb27-4"><a href="chapter1.html#cb27-4" aria-hidden="true"></a>hy</span></code></pre></div>
 <pre><code>## &#39;treedata&#39; S4 object that stored information of
-## 	&#39;/mnt/d/UbuntuApps/R/4.0.0/lib/R/library/treeio/extdata/HYPHY/labelledtree.tree&#39;.
+## 	&#39;/home/ygc/R/library/treeio/extdata/HYPHY/labelledtree.tree&#39;.
 ## 
 ## ...@ phylo: 
 ## Phylogenetic tree with 15 tips and 13 internal nodes.
@@ -1168,8 +1163,8 @@ and absolute substitution tree respectively.</p>
 <p>Time tree is scaled by divergence time, rate tree is scaled by substitution rate
 and absolute substitution tree is scaled by absolute number of substitution.
 After parsing the file, all these three trees are stored in a <em>multiPhylo</em> object (Figure <a href="chapter4.html#fig:mutiPhylo">4.15</a>).</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="chapter1.html#cb29-1"></a>r8s &lt;-<span class="st"> </span><span class="kw">read.r8s</span>(<span class="kw">system.file</span>(<span class="st">&quot;extdata/r8s&quot;</span>, <span class="st">&quot;H3_r8s_output.log&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>))</span>
-<span id="cb29-2"><a href="chapter1.html#cb29-2"></a>r8s</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="chapter1.html#cb29-1" aria-hidden="true"></a>r8s &lt;-<span class="st"> </span><span class="kw">read.r8s</span>(<span class="kw">system.file</span>(<span class="st">&quot;extdata/r8s&quot;</span>, <span class="st">&quot;H3_r8s_output.log&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>))</span>
+<span id="cb29-2"><a href="chapter1.html#cb29-2" aria-hidden="true"></a>r8s</span></code></pre></div>
 <pre><code>## 3 phylogenetic trees</code></pre>
 </div>
 <div id="parsing-output-of-raxml-bootstraping-analysis" class="section level4" number="1.3.2.7">
@@ -1181,11 +1176,11 @@ by traditional Newick parser, such as <code>ape::read.tree</code>. The function
 <code>read.raxml</code> can read such file and stored the bootstrap as an additional
 features, which can be used to display on the tree or used to color tree
 branches, <em>etc.</em>.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="chapter1.html#cb31-1"></a>raxml_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/RAxML&quot;</span>, <span class="st">&quot;RAxML_bipartitionsBranchLabels.H3&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
-<span id="cb31-2"><a href="chapter1.html#cb31-2"></a>raxml &lt;-<span class="st"> </span><span class="kw">read.raxml</span>(raxml_file)</span>
-<span id="cb31-3"><a href="chapter1.html#cb31-3"></a>raxml</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="chapter1.html#cb31-1" aria-hidden="true"></a>raxml_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/RAxML&quot;</span>, <span class="st">&quot;RAxML_bipartitionsBranchLabels.H3&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
+<span id="cb31-2"><a href="chapter1.html#cb31-2" aria-hidden="true"></a>raxml &lt;-<span class="st"> </span><span class="kw">read.raxml</span>(raxml_file)</span>
+<span id="cb31-3"><a href="chapter1.html#cb31-3" aria-hidden="true"></a>raxml</span></code></pre></div>
 <pre><code>## &#39;treedata&#39; S4 object that stored information of
-## 	&#39;/mnt/d/UbuntuApps/R/4.0.0/lib/R/library/treeio/extdata/RAxML/RAxML_bipartitionsBranchLabels.H3&#39;.
+## 	&#39;/home/ygc/R/library/treeio/extdata/RAxML/RAxML_bipartitionsBranchLabels.H3&#39;.
 ## 
 ## ...@ phylo: 
 ## Phylogenetic tree with 64 tips and 62 internal nodes.
@@ -1207,11 +1202,11 @@ including
 <a href="http://revbayes.github.io/intro.html">RevBayes</a> <span class="citation">(Höhna et al. <a href="#ref-hohna_probabilistic_2014" role="doc-biblioref">2014</a>)</span>,
 for storing statistical inferences. The following codes imported a NHX tree with
 associated data inferred by PHYLDOG (Figure <a href="chapter3.html#fig:beastFigtree">3.1</a>A).</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="chapter1.html#cb33-1"></a>nhxfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/NHX&quot;</span>, <span class="st">&quot;phyldog.nhx&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
-<span id="cb33-2"><a href="chapter1.html#cb33-2"></a>nhx &lt;-<span class="st"> </span><span class="kw">read.nhx</span>(nhxfile)</span>
-<span id="cb33-3"><a href="chapter1.html#cb33-3"></a>nhx</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="chapter1.html#cb33-1" aria-hidden="true"></a>nhxfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/NHX&quot;</span>, <span class="st">&quot;phyldog.nhx&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
+<span id="cb33-2"><a href="chapter1.html#cb33-2" aria-hidden="true"></a>nhx &lt;-<span class="st"> </span><span class="kw">read.nhx</span>(nhxfile)</span>
+<span id="cb33-3"><a href="chapter1.html#cb33-3" aria-hidden="true"></a>nhx</span></code></pre></div>
 <pre><code>## &#39;treedata&#39; S4 object that stored information of
-## 	&#39;/mnt/d/UbuntuApps/R/4.0.0/lib/R/library/treeio/extdata/NHX/phyldog.nhx&#39;.
+## 	&#39;/home/ygc/R/library/treeio/extdata/NHX/phyldog.nhx&#39;.
 ## 
 ## ...@ phylo: 
 ## Phylogenetic tree with 16 tips and 15 internal nodes.
@@ -1230,11 +1225,11 @@ associated data inferred by PHYLDOG (Figure <a href="chapter3.html#fig:beastFigt
 format with corresponding Newick tree text that was built from taxon sequences.
 Multiple sequence alignment can be sorted based on the tree structure and displayed at
 the right hand side of the tree using <a href="http://bioconductor.org/packages/ggtree">ggtree</a> (see also the <a href="chapter7.html#msaplot"><code>msaplot</code> function</a> and Basic Protocol 5 of <span class="citation">(Yu <a href="#ref-yu_cp_2020" role="doc-biblioref">2020</a>)</span>).</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="chapter1.html#cb35-1"></a>phyfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;sample.phy&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
-<span id="cb35-2"><a href="chapter1.html#cb35-2"></a>phylip &lt;-<span class="st"> </span><span class="kw">read.phylip</span>(phyfile)</span>
-<span id="cb35-3"><a href="chapter1.html#cb35-3"></a>phylip</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="chapter1.html#cb35-1" aria-hidden="true"></a>phyfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;sample.phy&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
+<span id="cb35-2"><a href="chapter1.html#cb35-2" aria-hidden="true"></a>phylip &lt;-<span class="st"> </span><span class="kw">read.phylip</span>(phyfile)</span>
+<span id="cb35-3"><a href="chapter1.html#cb35-3" aria-hidden="true"></a>phylip</span></code></pre></div>
 <pre><code>## &#39;treedata&#39; S4 object that stored information of
-## 	&#39;/mnt/d/UbuntuApps/R/4.0.0/lib/R/library/treeio/extdata/sample.phy&#39;.
+## 	&#39;/home/ygc/R/library/treeio/extdata/sample.phy&#39;.
 ## 
 ## ...@ phylo: 
 ## Phylogenetic tree with 15 tips and 13 internal nodes.
@@ -1250,11 +1245,11 @@ the right hand side of the tree using <a href="http://bioconductor.org/packages/
 <span class="citation">(Berger, Krompass, and Stamatakis <a href="#ref-berger_EPA_2011" role="doc-biblioref">2011</a><a href="#ref-berger_EPA_2011" role="doc-biblioref">b</a>)</span> and <a href="http://matsen.fhcrc.org/pplacer/">PPLACER</a>
 <span class="citation">(Frederick A Matsen, Kodner, and Armbrust <a href="#ref-matsen_pplacer_2010" role="doc-biblioref">2010</a>)</span> have common output file format, <code>jplace</code>, which can be
 parsed by <code>read.jplace()</code> function.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="chapter1.html#cb37-1"></a>jpf &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/EPA.jplace&quot;</span>,  <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
-<span id="cb37-2"><a href="chapter1.html#cb37-2"></a>jp &lt;-<span class="st"> </span><span class="kw">read.jplace</span>(jpf)</span>
-<span id="cb37-3"><a href="chapter1.html#cb37-3"></a><span class="kw">print</span>(jp)</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="chapter1.html#cb37-1" aria-hidden="true"></a>jpf &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/EPA.jplace&quot;</span>,  <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
+<span id="cb37-2"><a href="chapter1.html#cb37-2" aria-hidden="true"></a>jp &lt;-<span class="st"> </span><span class="kw">read.jplace</span>(jpf)</span>
+<span id="cb37-3"><a href="chapter1.html#cb37-3" aria-hidden="true"></a><span class="kw">print</span>(jp)</span></code></pre></div>
 <pre><code>## &#39;treedata&#39; S4 object that stored information of
-## 	&#39;/mnt/d/UbuntuApps/R/4.0.0/lib/R/library/treeio/extdata/EPA.jplace&#39;.
+## 	&#39;/home/ygc/R/library/treeio/extdata/EPA.jplace&#39;.
 ## 
 ## ...@ phylo: 
 ## Phylogenetic tree with 493 tips and 492 internal nodes.
@@ -1281,11 +1276,11 @@ JSON parser. The <em>jtree</em> format contains three keys: tree, data and metad
 The tree value contains tree text extended from Newick tree format by putting
 the edge number in curly braces after branch length. The data value contains
 node/branch-specific data, while metadata value contains additional meta information.</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="chapter1.html#cb39-1"></a>jtree_file &lt;-<span class="st"> </span><span class="kw">tempfile</span>(<span class="dt">fileext =</span> <span class="st">&#39;.jtree&#39;</span>)</span>
-<span id="cb39-2"><a href="chapter1.html#cb39-2"></a><span class="kw">write.jtree</span>(beast, <span class="dt">file =</span> jtree_file)</span>
-<span id="cb39-3"><a href="chapter1.html#cb39-3"></a><span class="kw">read.jtree</span>(<span class="dt">file =</span> jtree_file)</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="chapter1.html#cb39-1" aria-hidden="true"></a>jtree_file &lt;-<span class="st"> </span><span class="kw">tempfile</span>(<span class="dt">fileext =</span> <span class="st">&#39;.jtree&#39;</span>)</span>
+<span id="cb39-2"><a href="chapter1.html#cb39-2" aria-hidden="true"></a><span class="kw">write.jtree</span>(beast, <span class="dt">file =</span> jtree_file)</span>
+<span id="cb39-3"><a href="chapter1.html#cb39-3" aria-hidden="true"></a><span class="kw">read.jtree</span>(<span class="dt">file =</span> jtree_file)</span></code></pre></div>
 <pre><code>## &#39;treedata&#39; S4 object that stored information of
-## 	&#39;/tmp/RtmpJQpqlT/file2bc37a984f.jtree&#39;.
+## 	&#39;/tmp/RtmpvGnYhp/file55a5554175e02.jtree&#39;.
 ## 
 ## ...@ phylo: 
 ## Phylogenetic tree with 15 tips and 14 internal nodes.
@@ -1414,19 +1409,19 @@ convert pvclust object to treedata object
 <p>Here, we used <code>pml</code> object which was defined in the <a href="https://CRAN.R-project.org/package=phangorn">phangorn</a> package, as an example. The <code>pml()</code> function computes the likelihood of a phylogenetic tree given a sequence alignment and a model and the <code>optim.pml()</code> function optimizes different model parameters. The output is a <code>pml</code> object and it can be converted to a <code>treedata</code> object using <code>as.treedata</code> provided by <a href="http://bioconductor.org/packages/treeio">treeio</a> <span class="citation">(Wang et al. <a href="#ref-wang_treeio_2020" role="doc-biblioref">2020</a>)</span>. The amino acid substitution (ancestral sequence estimated by <code>pml</code>) that stored in the <code>treedata</code> object can be visualized using <a href="http://bioconductor.org/packages/ggtree">ggtree</a> as demonstrated in Figure <a href="chapter1.html#fig:pmlTree">1.4</a>.</p>
 
 
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="chapter1.html#cb41-1"></a><span class="kw">library</span>(phangorn)</span>
-<span id="cb41-2"><a href="chapter1.html#cb41-2"></a>treefile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;pa.nwk&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
-<span id="cb41-3"><a href="chapter1.html#cb41-3"></a>tre &lt;-<span class="st"> </span><span class="kw">read.tree</span>(treefile)</span>
-<span id="cb41-4"><a href="chapter1.html#cb41-4"></a>tipseqfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;pa.fas&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
-<span id="cb41-5"><a href="chapter1.html#cb41-5"></a>tipseq &lt;-<span class="st"> </span><span class="kw">read.phyDat</span>(tipseqfile,<span class="dt">format=</span><span class="st">&quot;fasta&quot;</span>)</span>
-<span id="cb41-6"><a href="chapter1.html#cb41-6"></a>fit &lt;-<span class="st"> </span><span class="kw">pml</span>(tre, tipseq, <span class="dt">k=</span><span class="dv">4</span>)</span>
-<span id="cb41-7"><a href="chapter1.html#cb41-7"></a>fit &lt;-<span class="st"> </span><span class="kw">optim.pml</span>(fit, <span class="dt">optNni=</span><span class="ot">FALSE</span>, <span class="dt">optBf=</span>T, <span class="dt">optQ=</span>T,</span>
-<span id="cb41-8"><a href="chapter1.html#cb41-8"></a>                 <span class="dt">optInv=</span>T, <span class="dt">optGamma=</span>T, <span class="dt">optEdge=</span><span class="ot">TRUE</span>,</span>
-<span id="cb41-9"><a href="chapter1.html#cb41-9"></a>                 <span class="dt">optRooted=</span><span class="ot">FALSE</span>, <span class="dt">model =</span> <span class="st">&quot;GTR&quot;</span>,</span>
-<span id="cb41-10"><a href="chapter1.html#cb41-10"></a>				 <span class="dt">control =</span> <span class="kw">pml.control</span>(<span class="dt">trace =</span><span class="dv">0</span>))</span>
-<span id="cb41-11"><a href="chapter1.html#cb41-11"></a></span>
-<span id="cb41-12"><a href="chapter1.html#cb41-12"></a>pmltree &lt;-<span class="st"> </span><span class="kw">as.treedata</span>(fit)</span>
-<span id="cb41-13"><a href="chapter1.html#cb41-13"></a><span class="kw">ggtree</span>(pmltree) <span class="op">+</span><span class="st"> </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">x=</span>branch, <span class="dt">label=</span>AA_subs, <span class="dt">vjust=</span><span class="op">-</span>.<span class="dv">5</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="chapter1.html#cb41-1" aria-hidden="true"></a><span class="kw">library</span>(phangorn)</span>
+<span id="cb41-2"><a href="chapter1.html#cb41-2" aria-hidden="true"></a>treefile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;pa.nwk&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
+<span id="cb41-3"><a href="chapter1.html#cb41-3" aria-hidden="true"></a>tre &lt;-<span class="st"> </span><span class="kw">read.tree</span>(treefile)</span>
+<span id="cb41-4"><a href="chapter1.html#cb41-4" aria-hidden="true"></a>tipseqfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;pa.fas&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
+<span id="cb41-5"><a href="chapter1.html#cb41-5" aria-hidden="true"></a>tipseq &lt;-<span class="st"> </span><span class="kw">read.phyDat</span>(tipseqfile,<span class="dt">format=</span><span class="st">&quot;fasta&quot;</span>)</span>
+<span id="cb41-6"><a href="chapter1.html#cb41-6" aria-hidden="true"></a>fit &lt;-<span class="st"> </span><span class="kw">pml</span>(tre, tipseq, <span class="dt">k=</span><span class="dv">4</span>)</span>
+<span id="cb41-7"><a href="chapter1.html#cb41-7" aria-hidden="true"></a>fit &lt;-<span class="st"> </span><span class="kw">optim.pml</span>(fit, <span class="dt">optNni=</span><span class="ot">FALSE</span>, <span class="dt">optBf=</span>T, <span class="dt">optQ=</span>T,</span>
+<span id="cb41-8"><a href="chapter1.html#cb41-8" aria-hidden="true"></a>                 <span class="dt">optInv=</span>T, <span class="dt">optGamma=</span>T, <span class="dt">optEdge=</span><span class="ot">TRUE</span>,</span>
+<span id="cb41-9"><a href="chapter1.html#cb41-9" aria-hidden="true"></a>                 <span class="dt">optRooted=</span><span class="ot">FALSE</span>, <span class="dt">model =</span> <span class="st">&quot;GTR&quot;</span>,</span>
+<span id="cb41-10"><a href="chapter1.html#cb41-10" aria-hidden="true"></a>				 <span class="dt">control =</span> <span class="kw">pml.control</span>(<span class="dt">trace =</span><span class="dv">0</span>))</span>
+<span id="cb41-11"><a href="chapter1.html#cb41-11" aria-hidden="true"></a></span>
+<span id="cb41-12"><a href="chapter1.html#cb41-12" aria-hidden="true"></a>pmltree &lt;-<span class="st"> </span><span class="kw">as.treedata</span>(fit)</span>
+<span id="cb41-13"><a href="chapter1.html#cb41-13" aria-hidden="true"></a><span class="kw">ggtree</span>(pmltree) <span class="op">+</span><span class="st"> </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">x=</span>branch, <span class="dt">label=</span>AA_subs, <span class="dt">vjust=</span><span class="op">-</span>.<span class="dv">5</span>))</span></code></pre></div>
 <div class="figure"><span id="fig:pmlTree"></span>
 <img src="treedata_files/figure-html/pmlTree-1.png" alt="Converting pml object to treedata object." width="1344" />
 <p class="caption">
@@ -1443,10 +1438,10 @@ and their corresponding values.</p>
 <p>The <code>get.tree</code> or <code>as.phylo</code> methods can convert the <code>treedata</code> object to
 <code>phylo</code> object which is the fundamental tree object in the R community and
 many packages work with <code>phylo</code> object.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="chapter1.html#cb42-1"></a>beast_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;examples/MCC_FluA_H3.tree&quot;</span>, <span class="dt">package=</span><span class="st">&quot;ggtree&quot;</span>)</span>
-<span id="cb42-2"><a href="chapter1.html#cb42-2"></a>beast_tree &lt;-<span class="st"> </span><span class="kw">read.beast</span>(beast_file)</span>
-<span id="cb42-3"><a href="chapter1.html#cb42-3"></a><span class="co"># or get.tree</span></span>
-<span id="cb42-4"><a href="chapter1.html#cb42-4"></a><span class="kw">as.phylo</span>(beast_tree)</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="chapter1.html#cb42-1" aria-hidden="true"></a>beast_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;examples/MCC_FluA_H3.tree&quot;</span>, <span class="dt">package=</span><span class="st">&quot;ggtree&quot;</span>)</span>
+<span id="cb42-2"><a href="chapter1.html#cb42-2" aria-hidden="true"></a>beast_tree &lt;-<span class="st"> </span><span class="kw">read.beast</span>(beast_file)</span>
+<span id="cb42-3"><a href="chapter1.html#cb42-3" aria-hidden="true"></a><span class="co"># or get.tree</span></span>
+<span id="cb42-4"><a href="chapter1.html#cb42-4" aria-hidden="true"></a><span class="kw">as.phylo</span>(beast_tree)</span></code></pre></div>
 <pre><code>## 
 ## Phylogenetic tree with 76 tips and 75 internal nodes.
 ## 
@@ -1456,14 +1451,14 @@ many packages work with <code>phylo</code> object.</p>
 ## Rooted; includes branch lengths.</code></pre>
 <p>The <code>get.fields</code> method return a vector of features/attributes that stored in
 the object and associated with the phylogeny.</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="chapter1.html#cb44-1"></a><span class="kw">get.fields</span>(beast_tree)</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="chapter1.html#cb44-1" aria-hidden="true"></a><span class="kw">get.fields</span>(beast_tree)</span></code></pre></div>
 <pre><code>##  [1] &quot;height&quot;          &quot;height_0.95_HPD&quot; &quot;height_median&quot;  
 ##  [4] &quot;height_range&quot;    &quot;length&quot;          &quot;length_0.95_HPD&quot;
 ##  [7] &quot;length_median&quot;   &quot;length_range&quot;    &quot;posterior&quot;      
 ## [10] &quot;rate&quot;            &quot;rate_0.95_HPD&quot;   &quot;rate_median&quot;    
 ## [13] &quot;rate_range&quot;</code></pre>
 <p>The <code>get.data</code> method return a tibble of all the associated data.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="chapter1.html#cb46-1"></a><span class="kw">get.data</span>(beast_tree)</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="chapter1.html#cb46-1" aria-hidden="true"></a><span class="kw">get.data</span>(beast_tree)</span></code></pre></div>
 <pre><code>## # A tibble: 151 x 14
 ##    height height_0.95_HPD height_median height_range length
 ##     &lt;dbl&gt; &lt;list&gt;                  &lt;dbl&gt; &lt;list&gt;        &lt;dbl&gt;
@@ -1485,7 +1480,7 @@ the object and associated with the phylogeny.</p>
 <p>If users are only interesting a subset of the features/attributes return by
 <code>get.fields</code>, they can extract the information from the output of <code>get.data</code> or
 directly subset the data by <code>[</code> or <code>[[</code>.</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="chapter1.html#cb48-1"></a>beast_tree[, <span class="kw">c</span>(<span class="st">&quot;node&quot;</span>, <span class="st">&quot;height&quot;</span>)]</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="chapter1.html#cb48-1" aria-hidden="true"></a>beast_tree[, <span class="kw">c</span>(<span class="st">&quot;node&quot;</span>, <span class="st">&quot;height&quot;</span>)]</span></code></pre></div>
 <pre><code>## # A tibble: 151 x 2
 ##     node height
 ##    &lt;int&gt;  &lt;dbl&gt;
@@ -1500,7 +1495,7 @@ directly subset the data by <code>[</code> or <code>[[</code>.</p>
 ##  9    16    9  
 ## 10     2    9  
 ## # … with 141 more rows</code></pre>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="chapter1.html#cb50-1"></a><span class="kw">head</span>(beast_tree[[<span class="st">&quot;height_median&quot;</span>]])</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="chapter1.html#cb50-1" aria-hidden="true"></a><span class="kw">head</span>(beast_tree[[<span class="st">&quot;height_median&quot;</span>]])</span></code></pre></div>
 <pre><code>## height_median1 height_median2 height_median3 height_median4 
 ##             19             17             14             12 
 ## height_median5 height_median6 
