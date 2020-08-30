@@ -16,6 +16,6 @@ doi: [10.1111/2041-210X.12628](https://doi.org/10.1111/2041-210X.12628).
 
 
 <center>
-<a href="https://yulab-smu.top/treedata-book/"><img src="book-cover.png" style="width:500px;border:2px solid black;"/></a>
+<a href="https://yulab-smu.top/treedata-book/"><img src="https://yulab-smu.top/treedata-book/book-cover.png" style="width:500px;border:2px solid black;"/></a>
 </center>
 
