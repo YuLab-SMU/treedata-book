@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2020-08-29" />
+<meta name="date" content="2020-08-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -304,7 +304,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="part"><span><b>Part IV: Miscellaneous topics</b></span></li>
 <li class="chapter" data-level="12" data-path="chapter12.html"><a href="chapter12.html"><i class="fa fa-check"></i><b>12</b> ggtree utilities</a>
 <ul>
-<li class="chapter" data-level="12.1" data-path="chapter12.html"><a href="chapter12.html#facet-utilities"><i class="fa fa-check"></i><b>12.1</b> facet utilities</a>
+<li class="chapter" data-level="12.1" data-path="chapter12.html"><a href="chapter12.html#facet-utilities"><i class="fa fa-check"></i><b>12.1</b> Facet utilities</a>
 <ul>
 <li class="chapter" data-level="12.1.1" data-path="chapter12.html"><a href="chapter12.html#facet_widths"><i class="fa fa-check"></i><b>12.1.1</b> facet_widths</a></li>
 <li class="chapter" data-level="12.1.2" data-path="chapter12.html"><a href="chapter12.html#facet_labeller"><i class="fa fa-check"></i><b>12.1.2</b> facet_labeller</a></li>
@@ -315,6 +315,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="12.4.1" data-path="chapter12.html"><a href="chapter12.html#xlim_expand"><i class="fa fa-check"></i><b>12.4.1</b> xlim_expand</a></li>
 <li class="chapter" data-level="12.4.2" data-path="chapter12.html"><a href="chapter12.html#hexpand"><i class="fa fa-check"></i><b>12.4.2</b> hexpand</a></li>
+</ul></li>
+<li class="chapter" data-level="12.5" data-path="chapter12.html"><a href="chapter12.html#tree-utilities"><i class="fa fa-check"></i><b>12.5</b> Tree utilities</a>
+<ul>
+<li class="chapter" data-level="12.5.1" data-path="chapter12.html"><a href="chapter12.html#tiporder"><i class="fa fa-check"></i><b>12.5.1</b> Extract tip order</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="13" data-path="chapter13.html"><a href="chapter13.html"><i class="fa fa-check"></i><b>13</b> Gallery of reproducible examples</a>
@@ -446,7 +450,7 @@ FigTree<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a> (Figure 
 <span id="cb103-3"><a href="chapter3.html#cb103-3" aria-hidden="true"></a><span class="co"># write.beast(nhx, file = &quot;phyldog.tree&quot;)</span></span>
 <span id="cb103-4"><a href="chapter3.html#cb103-4" aria-hidden="true"></a><span class="kw">write.beast</span>(nhx)</span></code></pre></div>
 <pre><code>#NEXUS
-[R-package treeio, Wed May 13 18:07:19 2020]
+[R-package treeio, Sun Aug 30 16:10:36 2020]
 
 BEGIN TAXA;
 	DIMENSIONS NTAX = 16;
@@ -496,7 +500,7 @@ END;</code></pre>
 <span id="cb105-3"><a href="chapter3.html#cb105-3" aria-hidden="true"></a><span class="co"># write.beast(ml, file = &quot;codeml.tree&quot;)</span></span>
 <span id="cb105-4"><a href="chapter3.html#cb105-4" aria-hidden="true"></a><span class="kw">write.beast</span>(ml)</span></code></pre></div>
 <pre><code>#NEXUS
-[R-package treeio, Wed May 13 18:07:19 2020]
+[R-package treeio, Sun Aug 30 16:10:36 2020]
 
 BEGIN TAXA;
 	DIMENSIONS NTAX = 15;
@@ -541,7 +545,7 @@ END;</code></pre>
 
 
 <div class="figure"><span id="fig:beastFigtree"></span>
-<img src="treedata_files/figure-html/beastFigtree-1.png" alt="Visualizing BEAST file in FigTree. Directly visualizing NHX file (A) and CodeML output (B) in FigTree is not supported. treeio can convert these files to BEAST compatible NEXUS format which can be directly opened in FigTree and visualized annotated data." width="768" />
+<img src="treedata_files/figure-html/beastFigtree-1.svg" alt="Visualizing BEAST file in FigTree. Directly visualizing NHX file (A) and CodeML output (B) in FigTree is not supported. treeio can convert these files to BEAST compatible NEXUS format which can be directly opened in FigTree and visualized annotated data." width="768" />
 <p class="caption">
 Figure 3.1: <strong>Visualizing BEAST file in FigTree.</strong> Directly visualizing <code>NHX</code> file (A) and <code>CodeML</code> output (B) in <code>FigTree</code> is not supported. <code>treeio</code> can convert these files to BEAST compatible NEXUS format which can be directly opened in <code>FigTree</code> and visualized annotated data.
 </p>
@@ -562,7 +566,7 @@ to export the tree with external data to a single tree file.</p>
 <span id="cb109-3"><a href="chapter3.html#cb109-3" aria-hidden="true"></a>fake_tree &lt;-<span class="st"> </span><span class="kw">full_join</span>(phylo, fake_data, <span class="dt">by =</span> <span class="st">&quot;node&quot;</span>)</span>
 <span id="cb109-4"><a href="chapter3.html#cb109-4" aria-hidden="true"></a><span class="kw">write.beast</span>(fake_tree)</span></code></pre></div>
 <pre><code>#NEXUS
-[R-package treeio, Wed May 13 18:07:21 2020]
+[R-package treeio, Sun Aug 30 16:10:38 2020]
 
 BEGIN TAXA;
 	DIMENSIONS NTAX = 16;
@@ -623,7 +627,7 @@ as different tree objects can be merged together (for details, see <a href="chap
 ## Phylogenetic tree with 16 tips and 15 internal nodes.
 ## 
 ## Tip labels:
-## 	Prayidae_D27SS7@2825365, Kephyes_ovata@2606431, Chuniphyes_multidentata@1277217, Apolemia_sp_@1353964, Bargmannia_amoena@263997, Bargmannia_elongata@946788, ...
+##   Prayidae_D27SS7@2825365, Kephyes_ovata@2606431, Chuniphyes_multidentata@1277217, Apolemia_sp_@1353964, Bargmannia_amoena@263997, Bargmannia_elongata@946788, ...
 ## 
 ## Rooted; includes branch lengths.
 ## 
@@ -639,7 +643,7 @@ as different tree objects can be merged together (for details, see <a href="chap
 ## Phylogenetic tree with 16 tips and 15 internal nodes.
 ## 
 ## Tip labels:
-## 	Prayidae_D27SS7@2825365, Kephyes_ovata@2606431, Chuniphyes_multidentata@1277217, Apolemia_sp_@1353964, Bargmannia_amoena@263997, Bargmannia_elongata@946788, ...
+##   Prayidae_D27SS7@2825365, Kephyes_ovata@2606431, Chuniphyes_multidentata@1277217, Apolemia_sp_@1353964, Bargmannia_amoena@263997, Bargmannia_elongata@946788, ...
 ## 
 ## Rooted; includes branch lengths.
 ## 
@@ -651,7 +655,7 @@ as different tree objects can be merged together (for details, see <a href="chap
 be exported into a single file.</p>
 <div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="chapter3.html#cb117-1" aria-hidden="true"></a><span class="kw">write.beast</span>(tree2)</span></code></pre></div>
 <pre><code>#NEXUS
-[R-package treeio, Wed May 13 18:07:22 2020]
+[R-package treeio, Sun Aug 30 16:10:38 2020]
 
 BEGIN TAXA;
 	DIMENSIONS NTAX = 16;
@@ -702,13 +706,13 @@ using <a href="https://bioconductor.org/packages/ggtree/">ggtree</a> <span class
 <span id="cb119-2"><a href="chapter3.html#cb119-2" aria-hidden="true"></a><span class="kw">write.beast</span>(tree2, <span class="dt">file =</span> outfile)</span>
 <span id="cb119-3"><a href="chapter3.html#cb119-3" aria-hidden="true"></a><span class="kw">read.beast</span>(outfile)</span></code></pre></div>
 <pre><code>## &#39;treedata&#39; S4 object that stored information of
-## 	&#39;/tmp/RtmpvGnYhp/file55a55620d472e.tree&#39;.
+## 	&#39;/tmp/RtmplMhbQj/file2cf5017268f1c.tree&#39;.
 ## 
 ## ...@ phylo: 
 ## Phylogenetic tree with 16 tips and 15 internal nodes.
 ## 
 ## Tip labels:
-## 	Prayidae_D27SS7@2825365, Kephyes_ovata@2606431, Chuniphyes_multidentata@1277217, Apolemia_sp_@1353964, Bargmannia_amoena@263997, Bargmannia_elongata@946788, ...
+##   Prayidae_D27SS7@2825365, Kephyes_ovata@2606431, Chuniphyes_multidentata@1277217, Apolemia_sp_@1353964, Bargmannia_amoena@263997, Bargmannia_elongata@946788, ...
 ## 
 ## Rooted; includes branch lengths.
 ## 
@@ -987,7 +991,7 @@ languages that supports JSON.</p>
     &quot;another_trait&quot;: 0.6413
   }
 ],
-	&quot;metadata&quot;: {&quot;info&quot;: &quot;R-package treeio&quot;, &quot;data&quot;: &quot;Wed May 13 18:07:22 2020&quot;}
+	&quot;metadata&quot;: {&quot;info&quot;: &quot;R-package treeio&quot;, &quot;data&quot;: &quot;Sun Aug 30 16:10:39 2020&quot;}
 }</code></pre>
 <p>The <em>jtree</em> format is based on JSON and can be parsed using JSON parser.</p>
 <div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="chapter3.html#cb123-1" aria-hidden="true"></a>jtree_file &lt;-<span class="st"> </span><span class="kw">tempfile</span>(<span class="dt">fileext =</span> <span class="st">&#39;.jtree&#39;</span>)</span>
@@ -1035,19 +1039,19 @@ $metadata$info
 [1] &quot;R-package treeio&quot;
 
 $metadata$data
-[1] &quot;Wed May 13 18:07:22 2020&quot;</code></pre>
+[1] &quot;Sun Aug 30 16:10:39 2020&quot;</code></pre>
 <p>The <em>jtree</em> file can be directly imported as a <code>treedata</code> object using
 <code>read.jtree</code> provided also
 in <a href="https://bioconductor.org/packages/treeio/">treeio</a> package (see also <a href="chapter1.html#jtree">session 1.3</a>).</p>
 <div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="chapter3.html#cb125-1" aria-hidden="true"></a><span class="kw">read.jtree</span>(jtree_file)</span></code></pre></div>
 <pre><code>## &#39;treedata&#39; S4 object that stored information of
-## 	&#39;/tmp/RtmpvGnYhp/file55a554496727b.jtree&#39;.
+## 	&#39;/tmp/RtmplMhbQj/file2cf50388f4006.jtree&#39;.
 ## 
 ## ...@ phylo: 
 ## Phylogenetic tree with 16 tips and 15 internal nodes.
 ## 
 ## Tip labels:
-## 	Prayidae_D27SS7@2825365, Kephyes_ovata@2606431, Chuniphyes_multidentata@1277217, Apolemia_sp_@1353964, Bargmannia_amoena@263997, Bargmannia_elongata@946788, ...
+##   Prayidae_D27SS7@2825365, Kephyes_ovata@2606431, Chuniphyes_multidentata@1277217, Apolemia_sp_@1353964, Bargmannia_amoena@263997, Bargmannia_elongata@946788, ...
 ## 
 ## Rooted; includes branch lengths.
 ## 

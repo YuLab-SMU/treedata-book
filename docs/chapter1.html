@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2020-08-29" />
+<meta name="date" content="2020-08-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -304,7 +304,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="part"><span><b>Part IV: Miscellaneous topics</b></span></li>
 <li class="chapter" data-level="12" data-path="chapter12.html"><a href="chapter12.html"><i class="fa fa-check"></i><b>12</b> ggtree utilities</a>
 <ul>
-<li class="chapter" data-level="12.1" data-path="chapter12.html"><a href="chapter12.html#facet-utilities"><i class="fa fa-check"></i><b>12.1</b> facet utilities</a>
+<li class="chapter" data-level="12.1" data-path="chapter12.html"><a href="chapter12.html#facet-utilities"><i class="fa fa-check"></i><b>12.1</b> Facet utilities</a>
 <ul>
 <li class="chapter" data-level="12.1.1" data-path="chapter12.html"><a href="chapter12.html#facet_widths"><i class="fa fa-check"></i><b>12.1.1</b> facet_widths</a></li>
 <li class="chapter" data-level="12.1.2" data-path="chapter12.html"><a href="chapter12.html#facet_labeller"><i class="fa fa-check"></i><b>12.1.2</b> facet_labeller</a></li>
@@ -315,6 +315,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="12.4.1" data-path="chapter12.html"><a href="chapter12.html#xlim_expand"><i class="fa fa-check"></i><b>12.4.1</b> xlim_expand</a></li>
 <li class="chapter" data-level="12.4.2" data-path="chapter12.html"><a href="chapter12.html#hexpand"><i class="fa fa-check"></i><b>12.4.2</b> hexpand</a></li>
+</ul></li>
+<li class="chapter" data-level="12.5" data-path="chapter12.html"><a href="chapter12.html#tree-utilities"><i class="fa fa-check"></i><b>12.5</b> Tree utilities</a>
+<ul>
+<li class="chapter" data-level="12.5.1" data-path="chapter12.html"><a href="chapter12.html#tiporder"><i class="fa fa-check"></i><b>12.5.1</b> Extract tip order</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="13" data-path="chapter13.html"><a href="chapter13.html"><i class="fa fa-check"></i><b>13</b> Gallery of reproducible examples</a>
@@ -399,7 +403,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 <div class="figure"><span id="fig:phylogeny"></span>
-<img src="treedata_files/figure-html/phylogeny-1.png" alt="Components of a phylogenetic tree. External nodes (green circles), also called ‘tips’, represent actual organisms sampled and sequenced (e.g., virus in infectious disease research). They are the ‘taxa’ in the terminology of evolutionary biology. The internal nodes (blue circles) represent hypothetical ancestors for the tips. The root (red circle) is the common ancestor of all species in the tree. The horizontal lines are branches and represent evolutionary changes (grey number) measured in unit of time or genetic divergence. The bar at the bottom provides the scale of these branch lengths." width="576"  />
+<img src="treedata_files/figure-html/phylogeny-1.svg" alt="Components of a phylogenetic tree. External nodes (green circles), also called ‘tips’, represent actual organisms sampled and sequenced (e.g., virus in infectious disease research). They are the ‘taxa’ in the terminology of evolutionary biology. The internal nodes (blue circles) represent hypothetical ancestors for the tips. The root (red circle) is the common ancestor of all species in the tree. The horizontal lines are branches and represent evolutionary changes (grey number) measured in unit of time or genetic divergence. The bar at the bottom provides the scale of these branch lengths." width="576"  />
 <p class="caption">
 Figure 1.1: <strong>Components of a phylogenetic tree.</strong> External nodes (green circles), also called ‘tips’, represent actual organisms sampled and sequenced (<em>e.g.</em>, virus in infectious disease research). They are the ‘taxa’ in the terminology of evolutionary biology. The internal nodes (blue circles) represent hypothetical ancestors for the tips. The root (red circle) is the common ancestor of all species in the tree. The horizontal lines are branches and represent evolutionary changes (grey number) measured in unit of time or genetic divergence. The bar at the bottom provides the scale of these branch lengths.
 </p>
@@ -419,7 +423,7 @@ Figure 1.1: <strong>Components of a phylogenetic tree.</strong> External nodes (
 
 
 <div class="figure"><span id="fig:randomTree"></span>
-<img src="treedata_files/figure-html/randomTree-1.png" alt="A sample tree for demonstrating Newick text to encode tree structure. Tips were aligned to right hand side and branch lengths were labelled on the middle of each branch." width="672"  />
+<img src="treedata_files/figure-html/randomTree-1.svg" alt="A sample tree for demonstrating Newick text to encode tree structure. Tips were aligned to right hand side and branch lengths were labelled on the middle of each branch." width="672"  />
 <p class="caption">
 Figure 1.2: <strong>A sample tree for demonstrating Newick text to encode tree structure.</strong> Tips were aligned to right hand side and branch lengths were labelled on the middle of each branch.
 </p>
@@ -931,7 +935,7 @@ Figure 1.3: <strong>Overview of the <em>treeio</em> package and its relations wi
 ## Phylogenetic tree with 15 tips and 14 internal nodes.
 ## 
 ## Tip labels:
-## 	A_1995, B_1996, C_1995, D_1987, E_1996, F_1997, ...
+##   A_1995, B_1996, C_1995, D_1987, E_1996, F_1997, ...
 ## 
 ## Rooted; includes branch lengths.
 ## 
@@ -955,7 +959,7 @@ Figure 1.3: <strong>Overview of the <em>treeio</em> package and its relations wi
 ## Phylogenetic tree with 7 tips and 6 internal nodes.
 ## 
 ## Tip labels:
-## 	homo_sapiens, chimpanzee, bonobo, gorilla, orangutan, sumatran, ...
+##   homo_sapiens, chimpanzee, bonobo, gorilla, orangutan, sumatran, ...
 ## 
 ## Rooted; includes branch lengths.
 ## 
@@ -972,10 +976,9 @@ Figure 1.3: <strong>Overview of the <em>treeio</em> package and its relations wi
 ## Phylogenetic tree with 7 tips and 6 internal nodes.
 ## 
 ## Tip labels:
-## 	chimpanzee, bonobo, homo sapiens, gorilla, orangutan, sumatran, ...
+##   chimpanzee, bonobo, homo sapiens, gorilla, orangutan, sumatran, ...
 ## Node labels:
-## [1] &quot;&quot;           &quot;&quot;           &quot;demoLabel2&quot; &quot;&quot;          
-## [5] &quot;&quot;           &quot;&quot;          
+##   , , demoLabel2, , , 
 ## 
 ## Rooted; no branch lengths.
 ## 
@@ -994,7 +997,7 @@ Figure 1.3: <strong>Overview of the <em>treeio</em> package and its relations wi
 ## Phylogenetic tree with 12 tips and 10 internal nodes.
 ## 
 ## Tip labels:
-## 	B_h, B_s, G_d, G_k, G_q, G_s, ...
+##   B_h, B_s, G_d, G_k, G_q, G_s, ...
 ## 
 ## Unrooted; includes branch lengths.
 ## 
@@ -1022,9 +1025,9 @@ for <a href="http://abacus.gene.ucl.ac.uk/software/paml.html">CODEML</a>, each t
 ## Phylogenetic tree with 15 tips and 13 internal nodes.
 ## 
 ## Tip labels:
-## 	A, B, C, D, E, F, ...
+##   A, B, C, D, E, F, ...
 ## Node labels:
-## 	16, 17, 18, 19, 20, 21, ...
+##   16, 17, 18, 19, 20, 21, ...
 ## 
 ## Unrooted; includes branch lengths.
 ## 
@@ -1042,9 +1045,9 @@ for <a href="http://abacus.gene.ucl.ac.uk/software/paml.html">CODEML</a>, each t
 ## Phylogenetic tree with 15 tips and 13 internal nodes.
 ## 
 ## Tip labels:
-## 	A, B, C, D, E, F, ...
+##   A, B, C, D, E, F, ...
 ## Node labels:
-## 	16, 17, 18, 19, 20, 21, ...
+##   16, 17, 18, 19, 20, 21, ...
 ## 
 ## Unrooted; includes branch lengths.
 ## 
@@ -1070,9 +1073,9 @@ stored in output file <em>mlc</em>, which can be parsed by <code>read.codeml_mlc
 ## Phylogenetic tree with 15 tips and 13 internal nodes.
 ## 
 ## Tip labels:
-## 	A, B, C, D, E, F, ...
+##   A, B, C, D, E, F, ...
 ## Node labels:
-## 	16, 17, 18, 19, 20, 21, ...
+##   16, 17, 18, 19, 20, 21, ...
 ## 
 ## Unrooted; includes branch lengths.
 ## 
@@ -1092,9 +1095,9 @@ can also be parsed together using <code>read.codeml</code> function.</p>
 ## Phylogenetic tree with 15 tips and 13 internal nodes.
 ## 
 ## Tip labels:
-## 	A, B, C, D, E, F, ...
+##   A, B, C, D, E, F, ...
 ## Node labels:
-## 	16, 17, 18, 19, 20, 21, ...
+##   16, 17, 18, 19, 20, 21, ...
 ## 
 ## Unrooted; includes branch lengths.
 ## 
@@ -1144,9 +1147,9 @@ also provide tip sequences.</p>
 ## Phylogenetic tree with 15 tips and 13 internal nodes.
 ## 
 ## Tip labels:
-## 	K, N, D, L, J, G, ...
+##   K, N, D, L, J, G, ...
 ## Node labels:
-## 	Node1, Node2, Node3, Node4, Node5, Node12, ...
+##   Node1, Node2, Node3, Node4, Node5, Node12, ...
 ## 
 ## Unrooted; includes branch lengths.
 ## 
@@ -1186,7 +1189,7 @@ branches, <em>etc.</em>.</p>
 ## Phylogenetic tree with 64 tips and 62 internal nodes.
 ## 
 ## Tip labels:
-## 	A_Hokkaido_M1_2014_H3N2_2014, A_Czech_Republic_1_2014_H3N2_2014, FJ532080_A_California_09_2008_H3N2_2008, EU199359_A_Pennsylvania_05_2007_H3N2_2007, EU857080_A_Hong_Kong_CUHK69904_2006_H3N2_2006, EU857082_A_Hong_Kong_CUHK7047_2005_H3N2_2005, ...
+##   A_Hokkaido_M1_2014_H3N2_2014, A_Czech_Republic_1_2014_H3N2_2014, FJ532080_A_California_09_2008_H3N2_2008, EU199359_A_Pennsylvania_05_2007_H3N2_2007, EU857080_A_Hong_Kong_CUHK69904_2006_H3N2_2006, EU857082_A_Hong_Kong_CUHK7047_2005_H3N2_2005, ...
 ## 
 ## Unrooted; includes branch lengths.
 ## 
@@ -1212,7 +1215,7 @@ associated data inferred by PHYLDOG (Figure <a href="chapter3.html#fig:beastFigt
 ## Phylogenetic tree with 16 tips and 15 internal nodes.
 ## 
 ## Tip labels:
-## 	Prayidae_D27SS7@2825365, Kephyes_ovata@2606431, Chuniphyes_multidentata@1277217, Apolemia_sp_@1353964, Bargmannia_amoena@263997, Bargmannia_elongata@946788, ...
+##   Prayidae_D27SS7@2825365, Kephyes_ovata@2606431, Chuniphyes_multidentata@1277217, Apolemia_sp_@1353964, Bargmannia_amoena@263997, Bargmannia_elongata@946788, ...
 ## 
 ## Rooted; includes branch lengths.
 ## 
@@ -1235,7 +1238,7 @@ the right hand side of the tree using <a href="http://bioconductor.org/packages/
 ## Phylogenetic tree with 15 tips and 13 internal nodes.
 ## 
 ## Tip labels:
-## 	K, N, D, L, J, G, ...
+##   K, N, D, L, J, G, ...
 ## 
 ## Unrooted; no branch lengths.</code></pre>
 </div>
@@ -1255,7 +1258,7 @@ parsed by <code>read.jplace()</code> function.</p>
 ## Phylogenetic tree with 493 tips and 492 internal nodes.
 ## 
 ## Tip labels:
-## 	CIR000447A, CIR000479, CIR000078, CIR000083, CIR000070, CIR000060, ...
+##   CIR000447A, CIR000479, CIR000078, CIR000083, CIR000070, CIR000060, ...
 ## 
 ## Rooted; includes branch lengths.
 ## 
@@ -1280,13 +1283,13 @@ node/branch-specific data, while metadata value contains additional meta informa
 <span id="cb39-2"><a href="chapter1.html#cb39-2" aria-hidden="true"></a><span class="kw">write.jtree</span>(beast, <span class="dt">file =</span> jtree_file)</span>
 <span id="cb39-3"><a href="chapter1.html#cb39-3" aria-hidden="true"></a><span class="kw">read.jtree</span>(<span class="dt">file =</span> jtree_file)</span></code></pre></div>
 <pre><code>## &#39;treedata&#39; S4 object that stored information of
-## 	&#39;/tmp/RtmpvGnYhp/file55a5554175e02.jtree&#39;.
+## 	&#39;/tmp/RtmplMhbQj/file2cf5033587e05.jtree&#39;.
 ## 
 ## ...@ phylo: 
 ## Phylogenetic tree with 15 tips and 14 internal nodes.
 ## 
 ## Tip labels:
-## 	K_2013, N_2010, D_1987, L_1980, J_1983, G_1992, ...
+##   K_2013, N_2010, D_1987, L_1980, J_1983, G_1992, ...
 ## 
 ## Rooted; includes branch lengths.
 ## 
@@ -1423,7 +1426,7 @@ convert pvclust object to treedata object
 <span id="cb41-12"><a href="chapter1.html#cb41-12" aria-hidden="true"></a>pmltree &lt;-<span class="st"> </span><span class="kw">as.treedata</span>(fit)</span>
 <span id="cb41-13"><a href="chapter1.html#cb41-13" aria-hidden="true"></a><span class="kw">ggtree</span>(pmltree) <span class="op">+</span><span class="st"> </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">x=</span>branch, <span class="dt">label=</span>AA_subs, <span class="dt">vjust=</span><span class="op">-</span>.<span class="dv">5</span>))</span></code></pre></div>
 <div class="figure"><span id="fig:pmlTree"></span>
-<img src="treedata_files/figure-html/pmlTree-1.png" alt="Converting pml object to treedata object." width="1344" />
+<img src="treedata_files/figure-html/pmlTree-1.svg" alt="Converting pml object to treedata object." width="1344" />
 <p class="caption">
 Figure 1.4: <strong>Converting <code>pml</code> object to <code>treedata</code> object.</strong>
 </p>
@@ -1446,7 +1449,7 @@ many packages work with <code>phylo</code> object.</p>
 ## Phylogenetic tree with 76 tips and 75 internal nodes.
 ## 
 ## Tip labels:
-## 	A/Hokkaido/30-1-a/2013, A/New_York/334/2004, A/New_York/463/2005, A/New_York/452/1999, A/New_York/238/2005, A/New_York/523/1998, ...
+##   A/Hokkaido/30-1-a/2013, A/New_York/334/2004, A/New_York/463/2005, A/New_York/452/1999, A/New_York/238/2005, A/New_York/523/1998, ...
 ## 
 ## Rooted; includes branch lengths.</code></pre>
 <p>The <code>get.fields</code> method return a vector of features/attributes that stored in

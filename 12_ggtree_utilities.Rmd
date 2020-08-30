@@ -2,7 +2,7 @@
 
 # ggtree utilities {#chapter12}
 
-## facet utilities
+## Facet utilities
 
 ### facet_widths
 
@@ -276,3 +276,37 @@ p2 <- ggplot(iris, aes(Sepal.Width, Petal.Width)) +
     geom_point() + hexpand(.2, direction = -1)
 plot_grid(p1, p2, labels=c("A", "B"), rel_widths=c(.6, .4))
 ```
+
+## Tree utilities
+
+### Extract tip order {#tiporder}
+
+To create [composite plots](#composite_plot), users need to re-order their data manually before they creating tree associated graph. The order of their data should be consistent with tip order presented in ggtree plot. For this purpose, we provide the `get_taxa_name()` function to extract an ordered vector of tips based on the tree structure plotted by ggtree. 
+
+(ref:tiporderscap) An example tree for demonstraing `get_taxa_name()` function.
+
+(ref:tipordercap) **An example tree for demonstraing `get_taxa_name()` function.**
+
+
+```{r tiporder,fig.cap="(ref:tipordercap)", fig.scap="(ref:tiporderscap)", fig.width=5, fig.height = 5}
+set.seed(123)
+tree <- rtree(10)
+p <- ggtree(tree) + geom_tiplab() + 
+    geom_hilight(node = 12, extendto = 2.5)
+print(p)
+```
+
+The `get_taxa_name()` function will return a vector of ordered tip labels according to the tree structure displayed on Figure \@ref(fig:tiporder).
+
+```{r}
+get_taxa_name(p)
+```
+
+If user specific a node, the `get_taxa_name()` will extract order tips of selected clade (i.e. highlighted region on the Figure \@ref(fig:tiporder)).
+
+
+```{r}
+get_taxa_name(p, node = 12)
+```
+
+

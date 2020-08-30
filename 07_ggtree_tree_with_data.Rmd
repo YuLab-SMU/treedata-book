@@ -268,7 +268,7 @@ cowplot::plot_grid(g1, g2, ncol=2, labels=c("A", "B"))
 
 ## Composite plots {#composite_plot}
 
-In addition to aligning graph to a tree using [geom_facet](#facet_plot) and special cases using [gheatmap](#gheatmap) and [msaplot](#msaplot), users can use `r CRANpkg("aplot")` to create composite plots.
+In addition to aligning graph to a tree using [geom_facet](#facet_plot) and special cases using [gheatmap](#gheatmap) and [msaplot](#msaplot), users can use `r CRANpkg("cowplot")`, `r CRANpkg("patchwork")`, `r CRANpkg("gtable")`[^<https://github.com/YuLab-SMU/ggtree/issues/313>] or other packages to create composite plots. However, extra efforts needs to be done to make sure all the plots are aligned properly. The [get_taxa_name()](#tiporder) function is quite useful for users to re-order their data based on the tree structure. To remove this obstacle, we created an R package `r CRANpkg("aplot")` that can re-order the internal data of 'ggplot' object and create composite plots that align properly with a tree.
 
 In the following example, we have a tree with two associated datasets.
 
@@ -311,6 +311,7 @@ Now we can visualize our datasets using the y-coordinates that match correspondi
 
 ```{r}
 p1 <- ggplot(d1, aes(label, value)) + geom_col(aes(fill=label)) + 
+    geom_text(aes(label=label, y= value+.1)) +
     coord_flip() + theme_tree2() + theme(legend.position='none')
  
 p2 <- ggplot(d2, aes(x=category, y=label)) + 
@@ -343,20 +344,38 @@ The `ylim2()` is not designed specific for `r Biocpkg("ggtree")`, it works fine 
 
 -->
 
-Now we can use `r CRANpkg("aplot")` to align these associated subplots as demonstrated in Figure \@ref(fig:composite).
 
-(ref:compositescap) Example of aligning tree with data side by side by creating composite plot.
+If we align them using `r CRANpkg("cowplot")`, the composite plots are not aligned properly as we anticipated (Figure \@ref(fig:composite)A).
 
-(ref:compositecap) **Example of aligning tree with data side by side by creating composite plot**. 
+```r
+cowplot::plot_grid(g, p2, p1, ncol=3) 
+```
 
-```{r composite, fig.width=12, fig.height=5, fig.cap="(ref:compositecap)", fig.scap="(ref:compositescap)"}
+Using `r CRANpkg("aplot")`, it will do all the dirty works for us and all the subplots are aligned properly as demonstrated in Figure \@ref(fig:composite)B.
+
+```r
 library(aplot)
-p2 %>% insert_left(g) %>% insert_right(p1, width=.5)
+p2 %>% insert_left(g) %>% insert_right(p1, width=.5) 
 ```
 
 
+(ref:compositescap) Example of aligning tree with data side by side to create composite plot.
+
+(ref:compositecap) **Example of aligning tree with data side by side to create composite plot**. `cowplot` aligns subplots (A), while `aplot` do extra works to make sure that tree associated subplots are properly ordered according to the tree structure (B). Note: The 'A' category in the bar plot that is not matched with the tree was removed.
+
+```{r composite, dev= "svg", echo = FALSE, fig.width=12, fig.height=10, fig.cap="(ref:compositecap)", fig.scap="(ref:compositescap)"}
+pg1 <- cowplot::plot_grid(g, p2, p1, ncol=3)
+library(aplot)
+pg2 <- p2 %>% insert_left(g) %>% insert_right(p1, width=.5)
+pg2 <- ggplotify::as.ggplot(pg2)
+cowplot::plot_grid(pg1, pg2, ncol=1, labels=c("A", "B")) 
+```
+
 
 ## The `ggtree` object {#ggtree_object}
+
+
+to be finished.
 
 
 <!--
