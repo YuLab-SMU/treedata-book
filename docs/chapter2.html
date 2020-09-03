@@ -978,28 +978,48 @@ Figure 2.5: <strong>Subsetting tree for specific clade.</strong> Extracting a cl
 <div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="chapter2.html#cb101-1" aria-hidden="true"></a><span class="kw">library</span>(dplyr)</span>
 <span id="cb101-2"><a href="chapter2.html#cb101-2" aria-hidden="true"></a><span class="kw">library</span>(ggtree)</span>
 <span id="cb101-3"><a href="chapter2.html#cb101-3" aria-hidden="true"></a></span>
-<span id="cb101-4"><a href="chapter2.html#cb101-4" aria-hidden="true"></a>x &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)</span>
-<span id="cb101-5"><a href="chapter2.html#cb101-5" aria-hidden="true"></a>y &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)</span>
-<span id="cb101-6"><a href="chapter2.html#cb101-6" aria-hidden="true"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(x)</span>
-<span id="cb101-7"><a href="chapter2.html#cb101-7" aria-hidden="true"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(y)</span>
-<span id="cb101-8"><a href="chapter2.html#cb101-8" aria-hidden="true"></a></span>
-<span id="cb101-9"><a href="chapter2.html#cb101-9" aria-hidden="true"></a>d1 &lt;-<span class="st"> </span>p1<span class="op">$</span>data</span>
-<span id="cb101-10"><a href="chapter2.html#cb101-10" aria-hidden="true"></a>d2 &lt;-<span class="st"> </span>p2<span class="op">$</span>data</span>
-<span id="cb101-11"><a href="chapter2.html#cb101-11" aria-hidden="true"></a></span>
-<span id="cb101-12"><a href="chapter2.html#cb101-12" aria-hidden="true"></a><span class="co">## reverse x-axis and </span></span>
-<span id="cb101-13"><a href="chapter2.html#cb101-13" aria-hidden="true"></a><span class="co">## set offset to make the tree in the right hand side of the first tree</span></span>
-<span id="cb101-14"><a href="chapter2.html#cb101-14" aria-hidden="true"></a>d2<span class="op">$</span>x &lt;-<span class="st"> </span><span class="kw">max</span>(d2<span class="op">$</span>x) <span class="op">-</span><span class="st"> </span>d2<span class="op">$</span>x <span class="op">+</span><span class="st"> </span><span class="kw">max</span>(d1<span class="op">$</span>x) <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb101-4"><a href="chapter2.html#cb101-4" aria-hidden="true"></a><span class="kw">set.seed</span>(<span class="dv">1024</span>)</span>
+<span id="cb101-5"><a href="chapter2.html#cb101-5" aria-hidden="true"></a>x &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)</span>
+<span id="cb101-6"><a href="chapter2.html#cb101-6" aria-hidden="true"></a>y &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)</span>
+<span id="cb101-7"><a href="chapter2.html#cb101-7" aria-hidden="true"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(x) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb101-8"><a href="chapter2.html#cb101-8" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_hilight</span>(</span>
+<span id="cb101-9"><a href="chapter2.html#cb101-9" aria-hidden="true"></a>         <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">subset =</span> node <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">38</span>, <span class="dv">48</span>, <span class="dv">58</span>, <span class="dv">36</span>),</span>
+<span id="cb101-10"><a href="chapter2.html#cb101-10" aria-hidden="true"></a>                     <span class="dt">node =</span> node,</span>
+<span id="cb101-11"><a href="chapter2.html#cb101-11" aria-hidden="true"></a>                     <span class="dt">fill =</span> <span class="kw">as.factor</span>(node)</span>
+<span id="cb101-12"><a href="chapter2.html#cb101-12" aria-hidden="true"></a>                     )</span>
+<span id="cb101-13"><a href="chapter2.html#cb101-13" aria-hidden="true"></a>     ) <span class="op">+</span></span>
+<span id="cb101-14"><a href="chapter2.html#cb101-14" aria-hidden="true"></a><span class="st">    </span><span class="kw">labs</span>(<span class="dt">fill =</span> <span class="st">&quot;clades for tree in left&quot;</span> )</span>
 <span id="cb101-15"><a href="chapter2.html#cb101-15" aria-hidden="true"></a></span>
-<span id="cb101-16"><a href="chapter2.html#cb101-16" aria-hidden="true"></a>pp &lt;-<span class="st"> </span>p1 <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_tree</span>(<span class="dt">data=</span>d2) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="dt">data =</span> d2, <span class="dt">hjust=</span><span class="dv">1</span>)</span>
+<span id="cb101-16"><a href="chapter2.html#cb101-16" aria-hidden="true"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(y)</span>
 <span id="cb101-17"><a href="chapter2.html#cb101-17" aria-hidden="true"></a></span>
-<span id="cb101-18"><a href="chapter2.html#cb101-18" aria-hidden="true"></a>dd &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(d1, d2) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb101-19"><a href="chapter2.html#cb101-19" aria-hidden="true"></a><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(label))</span>
+<span id="cb101-18"><a href="chapter2.html#cb101-18" aria-hidden="true"></a>d1 &lt;-<span class="st"> </span>p1<span class="op">$</span>data</span>
+<span id="cb101-19"><a href="chapter2.html#cb101-19" aria-hidden="true"></a>d2 &lt;-<span class="st"> </span>p2<span class="op">$</span>data</span>
 <span id="cb101-20"><a href="chapter2.html#cb101-20" aria-hidden="true"></a></span>
-<span id="cb101-21"><a href="chapter2.html#cb101-21" aria-hidden="true"></a>pp <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(x, y, <span class="dt">group=</span>label), <span class="dt">data=</span>dd, <span class="dt">color=</span><span class="st">&#39;grey&#39;</span>)</span></code></pre></div>
+<span id="cb101-21"><a href="chapter2.html#cb101-21" aria-hidden="true"></a><span class="co">## reverse x-axis and </span></span>
+<span id="cb101-22"><a href="chapter2.html#cb101-22" aria-hidden="true"></a><span class="co">## set offset to make the tree in the right hand side of the first tree</span></span>
+<span id="cb101-23"><a href="chapter2.html#cb101-23" aria-hidden="true"></a>d2<span class="op">$</span>x &lt;-<span class="st"> </span><span class="kw">max</span>(d2<span class="op">$</span>x) <span class="op">-</span><span class="st"> </span>d2<span class="op">$</span>x <span class="op">+</span><span class="st"> </span><span class="kw">max</span>(d1<span class="op">$</span>x) <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb101-24"><a href="chapter2.html#cb101-24" aria-hidden="true"></a></span>
+<span id="cb101-25"><a href="chapter2.html#cb101-25" aria-hidden="true"></a>pp &lt;-<span class="st"> </span>p1 <span class="op">+</span><span class="st"> </span><span class="kw">geom_tree</span>(<span class="dt">data=</span>d2) <span class="op">+</span><span class="st">      </span></span>
+<span id="cb101-26"><a href="chapter2.html#cb101-26" aria-hidden="true"></a><span class="st">  </span>ggnewscale<span class="op">::</span><span class="kw">new_scale_fill</span>() <span class="op">+</span></span>
+<span id="cb101-27"><a href="chapter2.html#cb101-27" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_hilight</span>(</span>
+<span id="cb101-28"><a href="chapter2.html#cb101-28" aria-hidden="true"></a>         <span class="dt">data =</span> d2, </span>
+<span id="cb101-29"><a href="chapter2.html#cb101-29" aria-hidden="true"></a>         <span class="dt">mapping =</span> <span class="kw">aes</span>( </span>
+<span id="cb101-30"><a href="chapter2.html#cb101-30" aria-hidden="true"></a>            <span class="dt">subset =</span> node <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">38</span>, <span class="dv">48</span>, <span class="dv">58</span>),</span>
+<span id="cb101-31"><a href="chapter2.html#cb101-31" aria-hidden="true"></a>            <span class="dt">node=</span>node,</span>
+<span id="cb101-32"><a href="chapter2.html#cb101-32" aria-hidden="true"></a>            <span class="dt">fill=</span><span class="kw">as.factor</span>(node))</span>
+<span id="cb101-33"><a href="chapter2.html#cb101-33" aria-hidden="true"></a>  ) <span class="op">+</span></span>
+<span id="cb101-34"><a href="chapter2.html#cb101-34" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">fill =</span> <span class="st">&quot;clades for tree in right&quot;</span> ) </span>
+<span id="cb101-35"><a href="chapter2.html#cb101-35" aria-hidden="true"></a></span>
+<span id="cb101-36"><a href="chapter2.html#cb101-36" aria-hidden="true"></a>dd &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(d1, d2) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb101-37"><a href="chapter2.html#cb101-37" aria-hidden="true"></a><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(label))</span>
+<span id="cb101-38"><a href="chapter2.html#cb101-38" aria-hidden="true"></a></span>
+<span id="cb101-39"><a href="chapter2.html#cb101-39" aria-hidden="true"></a>pp <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(x, y, <span class="dt">group=</span>label), <span class="dt">data=</span>dd, <span class="dt">color=</span><span class="st">&#39;grey&#39;</span>) <span class="op">+</span></span>
+<span id="cb101-40"><a href="chapter2.html#cb101-40" aria-hidden="true"></a><span class="st">    </span><span class="kw">geom_tiplab</span>(<span class="dt">geom =</span> <span class="st">&#39;shadowtext&#39;</span>, <span class="dt">bg.colour =</span> <span class="kw">alpha</span>(<span class="st">&#39;firebrick&#39;</span>, <span class="fl">.5</span>)) <span class="op">+</span></span>
+<span id="cb101-41"><a href="chapter2.html#cb101-41" aria-hidden="true"></a><span class="st">    </span><span class="kw">geom_tiplab</span>(<span class="dt">data =</span> d2, <span class="dt">hjust=</span><span class="dv">1</span>, <span class="dt">geom =</span> <span class="st">&#39;shadowtext&#39;</span>, <span class="dt">bg.colour =</span> <span class="kw">alpha</span>(<span class="st">&#39;firebrick&#39;</span>, <span class="fl">.5</span>))</span></code></pre></div>
 <div class="figure"><span id="fig:cophylo"></span>
-<img src="treedata_files/figure-html/cophylo-1.svg" alt="Plot two phylogenetic trees face to face. Plotting a tree using ggtree() (left hand side) and subsequently add another layer of tree by geom_tree() (right hand side). The relative positions of the plotted trees can be manual adjusted and adding layers to each of the tree (e.g. tip labels) is independent." width="768"  />
+<img src="treedata_files/figure-html/cophylo-1.svg" alt="Plot two phylogenetic trees face to face. Plotting a tree using ggtree() (left hand side) and subsequently add another layer of tree by geom_tree() (right hand side). The relative positions of the plotted trees can be manual adjusted and adding layers to each of the tree (e.g. tip labels and highlighting clades) is independent." width="768"  />
 <p class="caption">
-Figure 2.6: <strong>Plot two phylogenetic trees face to face.</strong> Plotting a tree using <code>ggtree()</code> (left hand side) and subsequently add another layer of tree by <code>geom_tree()</code> (right hand side). The relative positions of the plotted trees can be manual adjusted and adding layers to each of the tree (<em>e.g.</em> tip labels) is independent.
+Figure 2.6: <strong>Plot two phylogenetic trees face to face.</strong> Plotting a tree using <code>ggtree()</code> (left hand side) and subsequently add another layer of tree by <code>geom_tree()</code> (right hand side). The relative positions of the plotted trees can be manual adjusted and adding layers to each of the tree (<em>e.g.</em> tip labels and highlighting clades) is independent.
 </p>
 </div>
 <p>It is quite easy to plot multiple trees and connect taxa in one figure. For instance, plotting trees contructed from all internal gene segments of influenza virus and connecting equivalent strans across the trees <span class="citation">(Venkatesh et al. <a href="#ref-venkatesh_avian_2018" role="doc-biblioref">2018</a>)</span>.</p>

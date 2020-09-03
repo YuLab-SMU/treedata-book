@@ -490,15 +490,24 @@ Here is an example to plot two trees face to face that is similar to a `ape::cop
 
 (ref:cophyloscap) Plot two phylogenetic trees face to face.
 
-(ref:cophylocap) **Plot two phylogenetic trees face to face.** Plotting a tree using `ggtree()` (left hand side) and subsequently add another layer of tree by `geom_tree()` (right hand side). The relative positions of the plotted trees can be manual adjusted and adding layers to each of the tree (*e.g.* tip labels) is independent.
+(ref:cophylocap) **Plot two phylogenetic trees face to face.** Plotting a tree using `ggtree()` (left hand side) and subsequently add another layer of tree by `geom_tree()` (right hand side). The relative positions of the plotted trees can be manual adjusted and adding layers to each of the tree (*e.g.* tip labels and highlighting clades) is independent.
 
 ```{r cophylo, fig.width=8, fig.height=6, message=F, echo=T, fig.cap="(ref:cophylocap)", fig.scap="(ref:cophyloscap)", out.extra=''}
 library(dplyr)
 library(ggtree)
 
+set.seed(1024)
 x <- rtree(30)
 y <- rtree(30)
-p1 <- ggtree(x)
+p1 <- ggtree(x) + 
+  geom_hilight(
+         mapping=aes(subset = node %in% c(38, 48, 58, 36),
+                     node = node,
+                     fill = as.factor(node)
+                     )
+     ) +
+    labs(fill = "clades for tree in left" )
+
 p2 <- ggtree(y)
 
 d1 <- p1$data
@@ -508,12 +517,23 @@ d2 <- p2$data
 ## set offset to make the tree in the right hand side of the first tree
 d2$x <- max(d2$x) - d2$x + max(d1$x) + 1
 
-pp <- p1 + geom_tiplab() + geom_tree(data=d2) + geom_tiplab(data = d2, hjust=1)
+pp <- p1 + geom_tree(data=d2) +      
+  ggnewscale::new_scale_fill() +
+  geom_hilight(
+         data = d2, 
+         mapping = aes( 
+            subset = node %in% c(38, 48, 58),
+            node=node,
+            fill=as.factor(node))
+  ) +
+  labs(fill = "clades for tree in right" ) 
 
 dd <- bind_rows(d1, d2) %>% 
   filter(!is.na(label))
 
-pp + geom_line(aes(x, y, group=label), data=dd, color='grey')
+pp + geom_line(aes(x, y, group=label), data=dd, color='grey') +
+    geom_tiplab(geom = 'shadowtext', bg.colour = alpha('firebrick', .5)) +
+    geom_tiplab(data = d2, hjust=1, geom = 'shadowtext', bg.colour = alpha('firebrick', .5))
 ```
 
 It is quite easy to plot multiple trees and connect taxa in one figure. For instance, plotting trees contructed from all internal gene segments of influenza virus and connecting equivalent strans across the trees [@venkatesh_avian_2018]. 
