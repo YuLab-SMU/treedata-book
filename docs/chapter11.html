@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2020-09-03" />
+<meta name="date" content="2020-09-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -397,12 +397,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="chapter11" class="section level1" number="11">
 <h1><span class="header-section-number">Chapter 11</span> Other ggtree extensions</h1>
-<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="chapter11.html#cb226-1" aria-hidden="true"></a>rp &lt;-<span class="st"> </span>BiocManager<span class="op">::</span><span class="kw">repositories</span>()</span>
-<span id="cb226-2"><a href="chapter11.html#cb226-2" aria-hidden="true"></a>db &lt;-<span class="st"> </span>utils<span class="op">::</span><span class="kw">available.packages</span>(<span class="dt">repo=</span>rp)</span>
-<span id="cb226-3"><a href="chapter11.html#cb226-3" aria-hidden="true"></a>x &lt;-<span class="st"> </span>tools<span class="op">::</span><span class="kw">package_dependencies</span>(<span class="st">&#39;ggtree&#39;</span>, <span class="dt">db=</span>db, </span>
-<span id="cb226-4"><a href="chapter11.html#cb226-4" aria-hidden="true"></a>                                <span class="dt">which =</span> <span class="kw">c</span>(<span class="st">&quot;Depends&quot;</span>, <span class="st">&quot;Imports&quot;</span>), </span>
-<span id="cb226-5"><a href="chapter11.html#cb226-5" aria-hidden="true"></a>                                <span class="dt">reverse=</span><span class="ot">TRUE</span>)</span>
-<span id="cb226-6"><a href="chapter11.html#cb226-6" aria-hidden="true"></a><span class="kw">print</span>(x)                                </span></code></pre></div>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="chapter11.html#cb226-1"></a>rp &lt;-<span class="st"> </span>BiocManager<span class="op">::</span><span class="kw">repositories</span>()</span>
+<span id="cb226-2"><a href="chapter11.html#cb226-2"></a>db &lt;-<span class="st"> </span>utils<span class="op">::</span><span class="kw">available.packages</span>(<span class="dt">repo=</span>rp)</span>
+<span id="cb226-3"><a href="chapter11.html#cb226-3"></a>x &lt;-<span class="st"> </span>tools<span class="op">::</span><span class="kw">package_dependencies</span>(<span class="st">&#39;ggtree&#39;</span>, <span class="dt">db=</span>db, </span>
+<span id="cb226-4"><a href="chapter11.html#cb226-4"></a>                                <span class="dt">which =</span> <span class="kw">c</span>(<span class="st">&quot;Depends&quot;</span>, <span class="st">&quot;Imports&quot;</span>), </span>
+<span id="cb226-5"><a href="chapter11.html#cb226-5"></a>                                <span class="dt">reverse=</span><span class="ot">TRUE</span>)</span>
+<span id="cb226-6"><a href="chapter11.html#cb226-6"></a><span class="kw">print</span>(x)                                </span></code></pre></div>
 <pre><code>## $ggtree
 ## [1] &quot;LINC&quot;              &quot;LymphoSeq&quot;        
 ## [3] &quot;MicrobiotaProcess&quot; &quot;philr&quot;            
@@ -422,34 +422,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The <code>ggdiffcalde</code> in <a href="http://bioconductor.org/packages/MicrobiotaProcess">MicrobiotaProcess</a> is developed based on <a href="http://bioconductor.org/packages/ggtree">ggtree</a> <span class="citation">(Yu et al. <a href="#ref-yu_ggtree:_2017" role="doc-biblioref">2017</a>)</span>. It can be used to visualized the result of <code>diff_analysis</code> in <a href="http://bioconductor.org/packages/MicrobiotaProcess">MicrobiotaProcess</a>. In addition, If you have a data frame contained hierarchical relationship, like the taxonomy annotation or KEGG levels annotation, to plot the framework, and a data frame (first column should be the labels from data frame contained hierarchical relationship, a column of factor variable, another column contains <code>pvalue</code> also can be provided.). It provided <code>circular</code>, <code>radial</code>, <code>rectangular</code>, <code>inward_circular</code> and <code>slanted</code> layout. Here, we show an example to show how to use data frame to visualize the different taxonomy tree. The data frame of this example is from the results of <code>diff_analysis</code> with the public datasets <span class="citation">(Kostic et al. <a href="#ref-kostic2012genomic" role="doc-biblioref">2012</a>)</span>.</p>
 
 
-<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="chapter11.html#cb228-1" aria-hidden="true"></a><span class="kw">library</span>(MicrobiotaProcess)</span>
-<span id="cb228-2"><a href="chapter11.html#cb228-2" aria-hidden="true"></a><span class="kw">library</span>(ggplot2)</span>
-<span id="cb228-3"><a href="chapter11.html#cb228-3" aria-hidden="true"></a></span>
-<span id="cb228-4"><a href="chapter11.html#cb228-4" aria-hidden="true"></a>taxa &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/alltax_info.csv&quot;</span>)</span>
-<span id="cb228-5"><a href="chapter11.html#cb228-5" aria-hidden="true"></a>dt &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/difftax_tab.csv&quot;</span>)</span>
-<span id="cb228-6"><a href="chapter11.html#cb228-6" aria-hidden="true"></a></span>
-<span id="cb228-7"><a href="chapter11.html#cb228-7" aria-hidden="true"></a>p &lt;-<span class="st"> </span><span class="kw">ggdiffclade</span>(<span class="dt">obj=</span>taxa,</span>
-<span id="cb228-8"><a href="chapter11.html#cb228-8" aria-hidden="true"></a>                 <span class="dt">nodedf=</span>dt,</span>
-<span id="cb228-9"><a href="chapter11.html#cb228-9" aria-hidden="true"></a>                 <span class="dt">factorName=</span><span class="st">&quot;DIAGNOSIS&quot;</span>,</span>
-<span id="cb228-10"><a href="chapter11.html#cb228-10" aria-hidden="true"></a>                 <span class="dt">layout=</span><span class="st">&quot;radial&quot;</span>,</span>
-<span id="cb228-11"><a href="chapter11.html#cb228-11" aria-hidden="true"></a>                 <span class="dt">skpointsize=</span><span class="fl">0.6</span>,</span>
-<span id="cb228-12"><a href="chapter11.html#cb228-12" aria-hidden="true"></a>                 <span class="dt">cladetext=</span><span class="dv">2</span>,</span>
-<span id="cb228-13"><a href="chapter11.html#cb228-13" aria-hidden="true"></a>                 <span class="dt">linewd=</span><span class="fl">0.2</span>, <span class="co"># The size argument has been replace with linewd in devel version</span></span>
-<span id="cb228-14"><a href="chapter11.html#cb228-14" aria-hidden="true"></a>                 <span class="dt">taxlevel=</span><span class="dv">3</span>,</span>
-<span id="cb228-15"><a href="chapter11.html#cb228-15" aria-hidden="true"></a>                 <span class="dt">reduce=</span><span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span><span class="co"># This argument is to remove the branch of unknown taxonomy, it is provided in devel version.</span></span>
-<span id="cb228-16"><a href="chapter11.html#cb228-16" aria-hidden="true"></a><span class="st">     </span><span class="kw">scale_fill_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;#00AED7&quot;</span>, <span class="st">&quot;#009E73&quot;</span>))<span class="op">+</span></span>
-<span id="cb228-17"><a href="chapter11.html#cb228-17" aria-hidden="true"></a><span class="st">     </span><span class="kw">guides</span>(<span class="dt">color =</span> <span class="kw">guide_legend</span>(<span class="dt">keywidth =</span> <span class="fl">0.1</span>, <span class="dt">keyheight =</span> <span class="fl">0.6</span>,</span>
-<span id="cb228-18"><a href="chapter11.html#cb228-18" aria-hidden="true"></a>                                 <span class="dt">order =</span> <span class="dv">3</span>,<span class="dt">ncol=</span><span class="dv">1</span>)) <span class="op">+</span></span>
-<span id="cb228-19"><a href="chapter11.html#cb228-19" aria-hidden="true"></a><span class="st">     </span><span class="kw">theme</span>(<span class="dt">panel.background=</span><span class="kw">element_rect</span>(<span class="dt">fill=</span><span class="ot">NA</span>),</span>
-<span id="cb228-20"><a href="chapter11.html#cb228-20" aria-hidden="true"></a>           <span class="dt">legend.position=</span><span class="st">&quot;right&quot;</span>,</span>
-<span id="cb228-21"><a href="chapter11.html#cb228-21" aria-hidden="true"></a>           <span class="dt">plot.margin=</span><span class="kw">margin</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
-<span id="cb228-22"><a href="chapter11.html#cb228-22" aria-hidden="true"></a>           <span class="dt">legend.spacing.y=</span><span class="kw">unit</span>(<span class="fl">0.02</span>, <span class="st">&quot;cm&quot;</span>), </span>
-<span id="cb228-23"><a href="chapter11.html#cb228-23" aria-hidden="true"></a>           <span class="dt">legend.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="fl">7.5</span>), <span class="co"># This should be adjusted with different devout.</span></span>
-<span id="cb228-24"><a href="chapter11.html#cb228-24" aria-hidden="true"></a>           <span class="dt">legend.text=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="fl">5.5</span>), </span>
-<span id="cb228-25"><a href="chapter11.html#cb228-25" aria-hidden="true"></a>           <span class="dt">legend.box.spacing=</span><span class="kw">unit</span>(<span class="fl">0.02</span>,<span class="st">&quot;cm&quot;</span>)</span>
-<span id="cb228-26"><a href="chapter11.html#cb228-26" aria-hidden="true"></a>           )</span>
-<span id="cb228-27"><a href="chapter11.html#cb228-27" aria-hidden="true"></a></span>
-<span id="cb228-28"><a href="chapter11.html#cb228-28" aria-hidden="true"></a>p</span></code></pre></div>
+<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="chapter11.html#cb228-1"></a><span class="kw">library</span>(MicrobiotaProcess)</span>
+<span id="cb228-2"><a href="chapter11.html#cb228-2"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb228-3"><a href="chapter11.html#cb228-3"></a></span>
+<span id="cb228-4"><a href="chapter11.html#cb228-4"></a>taxa &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/alltax_info.csv&quot;</span>)</span>
+<span id="cb228-5"><a href="chapter11.html#cb228-5"></a>dt &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/difftax_tab.csv&quot;</span>)</span>
+<span id="cb228-6"><a href="chapter11.html#cb228-6"></a></span>
+<span id="cb228-7"><a href="chapter11.html#cb228-7"></a>p &lt;-<span class="st"> </span><span class="kw">ggdiffclade</span>(<span class="dt">obj=</span>taxa,</span>
+<span id="cb228-8"><a href="chapter11.html#cb228-8"></a>                 <span class="dt">nodedf=</span>dt,</span>
+<span id="cb228-9"><a href="chapter11.html#cb228-9"></a>                 <span class="dt">factorName=</span><span class="st">&quot;DIAGNOSIS&quot;</span>,</span>
+<span id="cb228-10"><a href="chapter11.html#cb228-10"></a>                 <span class="dt">layout=</span><span class="st">&quot;radial&quot;</span>,</span>
+<span id="cb228-11"><a href="chapter11.html#cb228-11"></a>                 <span class="dt">skpointsize=</span><span class="fl">0.6</span>,</span>
+<span id="cb228-12"><a href="chapter11.html#cb228-12"></a>                 <span class="dt">cladetext=</span><span class="dv">2</span>,</span>
+<span id="cb228-13"><a href="chapter11.html#cb228-13"></a>                 <span class="dt">linewd=</span><span class="fl">0.2</span>, <span class="co"># The size argument has been replace with linewd in devel version</span></span>
+<span id="cb228-14"><a href="chapter11.html#cb228-14"></a>                 <span class="dt">taxlevel=</span><span class="dv">3</span>,</span>
+<span id="cb228-15"><a href="chapter11.html#cb228-15"></a>                 <span class="dt">reduce=</span><span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span><span class="co"># This argument is to remove the branch of unknown taxonomy, it is provided in devel version.</span></span>
+<span id="cb228-16"><a href="chapter11.html#cb228-16"></a><span class="st">     </span><span class="kw">scale_fill_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;#00AED7&quot;</span>, <span class="st">&quot;#009E73&quot;</span>))<span class="op">+</span></span>
+<span id="cb228-17"><a href="chapter11.html#cb228-17"></a><span class="st">     </span><span class="kw">guides</span>(<span class="dt">color =</span> <span class="kw">guide_legend</span>(<span class="dt">keywidth =</span> <span class="fl">0.1</span>, <span class="dt">keyheight =</span> <span class="fl">0.6</span>,</span>
+<span id="cb228-18"><a href="chapter11.html#cb228-18"></a>                                 <span class="dt">order =</span> <span class="dv">3</span>,<span class="dt">ncol=</span><span class="dv">1</span>)) <span class="op">+</span></span>
+<span id="cb228-19"><a href="chapter11.html#cb228-19"></a><span class="st">     </span><span class="kw">theme</span>(<span class="dt">panel.background=</span><span class="kw">element_rect</span>(<span class="dt">fill=</span><span class="ot">NA</span>),</span>
+<span id="cb228-20"><a href="chapter11.html#cb228-20"></a>           <span class="dt">legend.position=</span><span class="st">&quot;right&quot;</span>,</span>
+<span id="cb228-21"><a href="chapter11.html#cb228-21"></a>           <span class="dt">plot.margin=</span><span class="kw">margin</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
+<span id="cb228-22"><a href="chapter11.html#cb228-22"></a>           <span class="dt">legend.spacing.y=</span><span class="kw">unit</span>(<span class="fl">0.02</span>, <span class="st">&quot;cm&quot;</span>), </span>
+<span id="cb228-23"><a href="chapter11.html#cb228-23"></a>           <span class="dt">legend.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="fl">7.5</span>), <span class="co"># This should be adjusted with different devout.</span></span>
+<span id="cb228-24"><a href="chapter11.html#cb228-24"></a>           <span class="dt">legend.text=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="fl">5.5</span>), </span>
+<span id="cb228-25"><a href="chapter11.html#cb228-25"></a>           <span class="dt">legend.box.spacing=</span><span class="kw">unit</span>(<span class="fl">0.02</span>,<span class="st">&quot;cm&quot;</span>)</span>
+<span id="cb228-26"><a href="chapter11.html#cb228-26"></a>           )</span>
+<span id="cb228-27"><a href="chapter11.html#cb228-27"></a></span>
+<span id="cb228-28"><a href="chapter11.html#cb228-28"></a>p</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:CRCdiffclade"></span>
 <img src="treedata_files/figure-html/CRCdiffclade-1.svg" alt="Different taxonomy clade." width="672"  />
 <p class="caption">
