@@ -1,5 +1,5 @@
 
-The book gives comprehensive overviews of phylogenetic tree data integration, manipulation and visualization using a suite of R packages, **tidytree**, **treeio** and **ggtree**. The book is available at <https://yulab-smu.top/treedata-book/>.
+The book gives comprehensive overviews of phylogenetic tree data integration, manipulation and visualization using a suite of R packages, **tidytree**, **treeio**, **ggtree** and **ggtreeExtra**. The book is available at <https://yulab-smu.top/treedata-book/>.
 
 If you use the software suite in published research, please cite the most appropriate paper(s) from this list:
 
