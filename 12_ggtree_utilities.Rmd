@@ -277,6 +277,72 @@ p2 <- ggplot(iris, aes(Sepal.Width, Petal.Width)) +
 plot_grid(p1, p2, labels=c("A", "B"), rel_widths=c(.6, .4))
 ```
 
+## Tree data utilities
+
+### Filter tree data {#td_filter}
+
+The `r Biocpkg("ggtree")` package defined [several several geom layers](#geom2) that supports subsetting tree data. However, many other geom layers that didn't provide this feature, are defined in `r CRANpkg("ggplot2")` and its extensions. To allow filtering tree data with these layers, `r Biocpkg("ggtree")` provides an accompany function, `td_filter()` that return a function that work similar to `dplyr::filter()` and can be passed to the `data` parameter in geom layers to filter ggtree plot data as demonstrated in Figure \@ref(fig:tdFilter).
+
+(ref:tdfilterscap) An example of filtering ggtree plot data in geom layers.
+
+(ref:tdfiltercap) **An example of filtering ggtree plot data in geom layers.**
+
+```{r tdFilter,fig.cap="(ref:tdfiltercap)", fig.scap="(ref:tdfilterscap)", fig.width=7, fig.height = 5}
+library(tidytree)
+
+set.seed(1997)
+tree <- rtree(50)
+p <- ggtree(tree) 
+selected_nodes <- offspring(p, 67)$node
+p + geom_text(aes(label=label), 
+                data=td_filter(isTip & 
+                            node %in% selected_nodes), 
+            hjust=0)
+```
+
+### Flatten list-column tree data {#td_unnest}
+
+The ggtree plot data is a tidy data frame that each row represents a unique node. If multiple values are associated with a node, the data should be stored as nested data (i.e. in a list-column).
+
+```{r}
+set.seed(1997)
+tr <- rtree(5)
+d <- data.frame(id=rep(tr$tip.label,2), 
+                value=abs(rnorm(10, 6, 2)), 
+                group=c(rep("A", 5),rep("B",5)))
+
+require(tidyr)
+d2  <- nest(d, value =value, group=group)
+## d2 is a nested data
+d2
+```
+
+Neste data is supported by the operator, `%<+%`, and can be mapped to the tree structure. If a geom layer can't directly supports visualizing nested data, we need to flatten the data before applying the geom layer to display it. The `r Biocpkg("ggtree")` package provides a function, `td_unnest()`, which return a function that works similar to `tidyr::unnest()` and can be used to flatten ggtree plot data as demonstrated in Figure \@ref(fig:tdUnnest)A.
+
+All tree data utilities provide a `.f` parameter to pass a function to pre-operate the data. This create the possibility to combine different tree data utilities as demonstrated in Figure \@ref(fig:tdUnnest)B. 
+
+(ref:tdunnestscap) Flatten ggtree plot data.
+
+(ref:tdunnestcap) **Flatten ggtree plot data.** (A) list-columns can be flattened by `td_unnest()`. (B) Different tree data utilites can be combined to work together (e.g. filter data by `td_filter()` and then flatten it by `td_unnest()`. 
+
+```{r tdUnnest,fig.cap="(ref:tdunnestcap)", fig.scap="(ref:tdunnestscap)", fig.width=8, fig.height = 5}
+p <- ggtree(tr) %<+% d2
+p2 <- p + 
+    geom_point(aes(x, y, size= value, colour=group), 
+        data = td_unnest(c(value, group)), alpha=.4) +
+    scale_size(range=c(3,10), limits=c(3, 10))
+
+p3 <- p + 
+    geom_point(aes(x, y, size= value, colour=group), 
+        data = td_unnest(c(value, group), 
+                    .f = td_filter(isTip & node==4)), 
+        alpha=.4) +
+    scale_size(range=c(3,10), limits=c(3, 10))
+
+cowplot::plot_grid(p2, p3, labels=LETTERS[1:2])            
+```
+
+
 ## Tree utilities
 
 ### Extract tip order {#tiporder}

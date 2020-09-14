@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2020-09-11" />
+<meta name="date" content="2020-09-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -316,9 +316,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="12.4.1" data-path="chapter12.html"><a href="chapter12.html#xlim_expand"><i class="fa fa-check"></i><b>12.4.1</b> xlim_expand</a></li>
 <li class="chapter" data-level="12.4.2" data-path="chapter12.html"><a href="chapter12.html#hexpand"><i class="fa fa-check"></i><b>12.4.2</b> hexpand</a></li>
 </ul></li>
-<li class="chapter" data-level="12.5" data-path="chapter12.html"><a href="chapter12.html#tree-utilities"><i class="fa fa-check"></i><b>12.5</b> Tree utilities</a>
+<li class="chapter" data-level="12.5" data-path="chapter12.html"><a href="chapter12.html#tree-data-utilities"><i class="fa fa-check"></i><b>12.5</b> Tree data utilities</a>
 <ul>
-<li class="chapter" data-level="12.5.1" data-path="chapter12.html"><a href="chapter12.html#tiporder"><i class="fa fa-check"></i><b>12.5.1</b> Extract tip order</a></li>
+<li class="chapter" data-level="12.5.1" data-path="chapter12.html"><a href="chapter12.html#td_filter"><i class="fa fa-check"></i><b>12.5.1</b> Filter tree data</a></li>
+<li class="chapter" data-level="12.5.2" data-path="chapter12.html"><a href="chapter12.html#td_unnest"><i class="fa fa-check"></i><b>12.5.2</b> Flatten list-column tree data</a></li>
+</ul></li>
+<li class="chapter" data-level="12.6" data-path="chapter12.html"><a href="chapter12.html#tree-utilities"><i class="fa fa-check"></i><b>12.6</b> Tree utilities</a>
+<ul>
+<li class="chapter" data-level="12.6.1" data-path="chapter12.html"><a href="chapter12.html#tiporder"><i class="fa fa-check"></i><b>12.6.1</b> Extract tip order</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="13" data-path="chapter13.html"><a href="chapter13.html"><i class="fa fa-check"></i><b>13</b> Gallery of reproducible examples</a>
@@ -610,30 +615,101 @@ Figure 12.6: <strong>Expanding xlim by a fraction of x range.</strong> hexpand f
 </div>
 </div>
 </div>
-<div id="tree-utilities" class="section level2" number="12.5">
-<h2><span class="header-section-number">12.5</span> Tree utilities</h2>
-<div id="tiporder" class="section level3" number="12.5.1">
-<h3><span class="header-section-number">12.5.1</span> Extract tip order</h3>
+<div id="tree-data-utilities" class="section level2" number="12.5">
+<h2><span class="header-section-number">12.5</span> Tree data utilities</h2>
+<div id="td_filter" class="section level3" number="12.5.1">
+<h3><span class="header-section-number">12.5.1</span> Filter tree data</h3>
+<p>The <a href="http://bioconductor.org/packages/ggtree">ggtree</a> package defined <a href="chapter12.html#geom2">several several geom layers</a> that supports subsetting tree data. However, many other geom layers that didn’t provide this feature, are defined in <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> and its extensions. To allow filtering tree data with these layers, <a href="http://bioconductor.org/packages/ggtree">ggtree</a> provides an accompany function, <code>td_filter()</code> that return a function that work similar to <code>dplyr::filter()</code> and can be passed to the <code>data</code> parameter in geom layers to filter ggtree plot data as demonstrated in Figure <a href="chapter12.html#fig:tdFilter">12.7</a>.</p>
+
+
+<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="chapter12.html#cb239-1" aria-hidden="true"></a><span class="kw">library</span>(tidytree)</span>
+<span id="cb239-2"><a href="chapter12.html#cb239-2" aria-hidden="true"></a></span>
+<span id="cb239-3"><a href="chapter12.html#cb239-3" aria-hidden="true"></a><span class="kw">set.seed</span>(<span class="dv">1997</span>)</span>
+<span id="cb239-4"><a href="chapter12.html#cb239-4" aria-hidden="true"></a>tree &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">50</span>)</span>
+<span id="cb239-5"><a href="chapter12.html#cb239-5" aria-hidden="true"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree) </span>
+<span id="cb239-6"><a href="chapter12.html#cb239-6" aria-hidden="true"></a>selected_nodes &lt;-<span class="st"> </span><span class="kw">offspring</span>(p, <span class="dv">67</span>)<span class="op">$</span>node</span>
+<span id="cb239-7"><a href="chapter12.html#cb239-7" aria-hidden="true"></a>p <span class="op">+</span><span class="st"> </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label=</span>label), </span>
+<span id="cb239-8"><a href="chapter12.html#cb239-8" aria-hidden="true"></a>                <span class="dt">data=</span><span class="kw">td_filter</span>(isTip <span class="op">&amp;</span><span class="st"> </span></span>
+<span id="cb239-9"><a href="chapter12.html#cb239-9" aria-hidden="true"></a><span class="st">                            </span>node <span class="op">%in%</span><span class="st"> </span>selected_nodes), </span>
+<span id="cb239-10"><a href="chapter12.html#cb239-10" aria-hidden="true"></a>            <span class="dt">hjust=</span><span class="dv">0</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:tdFilter"></span>
+<img src="treedata_files/figure-html/tdFilter-1.svg" alt="An example of filtering ggtree plot data in geom layers." width="672" />
+<p class="caption">
+Figure 12.7: <strong>An example of filtering ggtree plot data in geom layers.</strong>
+</p>
+</div>
+</div>
+<div id="td_unnest" class="section level3" number="12.5.2">
+<h3><span class="header-section-number">12.5.2</span> Flatten list-column tree data</h3>
+<p>The ggtree plot data is a tidy data frame that each row represents a unique node. If multiple values are associated with a node, the data should be stored as nested data (i.e. in a list-column).</p>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="chapter12.html#cb240-1" aria-hidden="true"></a><span class="kw">set.seed</span>(<span class="dv">1997</span>)</span>
+<span id="cb240-2"><a href="chapter12.html#cb240-2" aria-hidden="true"></a>tr &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">5</span>)</span>
+<span id="cb240-3"><a href="chapter12.html#cb240-3" aria-hidden="true"></a>d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">id=</span><span class="kw">rep</span>(tr<span class="op">$</span>tip.label,<span class="dv">2</span>), </span>
+<span id="cb240-4"><a href="chapter12.html#cb240-4" aria-hidden="true"></a>                <span class="dt">value=</span><span class="kw">abs</span>(<span class="kw">rnorm</span>(<span class="dv">10</span>, <span class="dv">6</span>, <span class="dv">2</span>)), </span>
+<span id="cb240-5"><a href="chapter12.html#cb240-5" aria-hidden="true"></a>                <span class="dt">group=</span><span class="kw">c</span>(<span class="kw">rep</span>(<span class="st">&quot;A&quot;</span>, <span class="dv">5</span>),<span class="kw">rep</span>(<span class="st">&quot;B&quot;</span>,<span class="dv">5</span>)))</span>
+<span id="cb240-6"><a href="chapter12.html#cb240-6" aria-hidden="true"></a></span>
+<span id="cb240-7"><a href="chapter12.html#cb240-7" aria-hidden="true"></a><span class="kw">require</span>(tidyr)</span>
+<span id="cb240-8"><a href="chapter12.html#cb240-8" aria-hidden="true"></a>d2  &lt;-<span class="st"> </span><span class="kw">nest</span>(d, <span class="dt">value =</span>value, <span class="dt">group=</span>group)</span>
+<span id="cb240-9"><a href="chapter12.html#cb240-9" aria-hidden="true"></a><span class="co">## d2 is a nested data</span></span>
+<span id="cb240-10"><a href="chapter12.html#cb240-10" aria-hidden="true"></a>d2</span></code></pre></div>
+<pre><code>## # A tibble: 5 x 3
+##   id    value            group           
+##   &lt;chr&gt; &lt;list&gt;           &lt;list&gt;          
+## 1 t2    &lt;tibble [2 × 1]&gt; &lt;tibble [2 × 1]&gt;
+## 2 t1    &lt;tibble [2 × 1]&gt; &lt;tibble [2 × 1]&gt;
+## 3 t5    &lt;tibble [2 × 1]&gt; &lt;tibble [2 × 1]&gt;
+## 4 t4    &lt;tibble [2 × 1]&gt; &lt;tibble [2 × 1]&gt;
+## 5 t3    &lt;tibble [2 × 1]&gt; &lt;tibble [2 × 1]&gt;</code></pre>
+<p>Neste data is supported by the operator, <code>%&lt;+%</code>, and can be mapped to the tree structure. If a geom layer can’t directly supports visualizing nested data, we need to flatten the data before applying the geom layer to display it. The <a href="http://bioconductor.org/packages/ggtree">ggtree</a> package provides a function, <code>td_unnest()</code>, which return a function that works similar to <code>tidyr::unnest()</code> and can be used to flatten ggtree plot data as demonstrated in Figure <a href="chapter12.html#fig:tdUnnest">12.8</a>A.</p>
+<p>All tree data utilities provide a <code>.f</code> parameter to pass a function to pre-operate the data. This create the possibility to combine different tree data utilities as demonstrated in Figure <a href="chapter12.html#fig:tdUnnest">12.8</a>B.</p>
+
+
+<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="chapter12.html#cb242-1" aria-hidden="true"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tr) <span class="op">%&lt;+%</span><span class="st"> </span>d2</span>
+<span id="cb242-2"><a href="chapter12.html#cb242-2" aria-hidden="true"></a>p2 &lt;-<span class="st"> </span>p <span class="op">+</span><span class="st"> </span></span>
+<span id="cb242-3"><a href="chapter12.html#cb242-3" aria-hidden="true"></a><span class="st">    </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(x, y, <span class="dt">size=</span> value, <span class="dt">colour=</span>group), </span>
+<span id="cb242-4"><a href="chapter12.html#cb242-4" aria-hidden="true"></a>        <span class="dt">data =</span> <span class="kw">td_unnest</span>(<span class="kw">c</span>(value, group)), <span class="dt">alpha=</span>.<span class="dv">4</span>) <span class="op">+</span></span>
+<span id="cb242-5"><a href="chapter12.html#cb242-5" aria-hidden="true"></a><span class="st">    </span><span class="kw">scale_size</span>(<span class="dt">range=</span><span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">10</span>), <span class="dt">limits=</span><span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">10</span>))</span>
+<span id="cb242-6"><a href="chapter12.html#cb242-6" aria-hidden="true"></a></span>
+<span id="cb242-7"><a href="chapter12.html#cb242-7" aria-hidden="true"></a>p3 &lt;-<span class="st"> </span>p <span class="op">+</span><span class="st"> </span></span>
+<span id="cb242-8"><a href="chapter12.html#cb242-8" aria-hidden="true"></a><span class="st">    </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(x, y, <span class="dt">size=</span> value, <span class="dt">colour=</span>group), </span>
+<span id="cb242-9"><a href="chapter12.html#cb242-9" aria-hidden="true"></a>        <span class="dt">data =</span> <span class="kw">td_unnest</span>(<span class="kw">c</span>(value, group), </span>
+<span id="cb242-10"><a href="chapter12.html#cb242-10" aria-hidden="true"></a>                    <span class="dt">.f =</span> <span class="kw">td_filter</span>(isTip <span class="op">&amp;</span><span class="st"> </span>node<span class="op">==</span><span class="dv">4</span>)), </span>
+<span id="cb242-11"><a href="chapter12.html#cb242-11" aria-hidden="true"></a>        <span class="dt">alpha=</span>.<span class="dv">4</span>) <span class="op">+</span></span>
+<span id="cb242-12"><a href="chapter12.html#cb242-12" aria-hidden="true"></a><span class="st">    </span><span class="kw">scale_size</span>(<span class="dt">range=</span><span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">10</span>), <span class="dt">limits=</span><span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">10</span>))</span>
+<span id="cb242-13"><a href="chapter12.html#cb242-13" aria-hidden="true"></a></span>
+<span id="cb242-14"><a href="chapter12.html#cb242-14" aria-hidden="true"></a>cowplot<span class="op">::</span><span class="kw">plot_grid</span>(p2, p3, <span class="dt">labels=</span>LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>])            </span></code></pre></div>
+<div class="figure"><span id="fig:tdUnnest"></span>
+<img src="treedata_files/figure-html/tdUnnest-1.svg" alt="Flatten ggtree plot data. (A) list-columns can be flattened by td_unnest(). (B) Different tree data utilites can be combined to work together (e.g. filter data by td_filter() and then flatten it by td_unnest()." width="768" />
+<p class="caption">
+Figure 12.8: <strong>Flatten ggtree plot data.</strong> (A) list-columns can be flattened by <code>td_unnest()</code>. (B) Different tree data utilites can be combined to work together (e.g. filter data by <code>td_filter()</code> and then flatten it by <code>td_unnest()</code>.
+</p>
+</div>
+</div>
+</div>
+<div id="tree-utilities" class="section level2" number="12.6">
+<h2><span class="header-section-number">12.6</span> Tree utilities</h2>
+<div id="tiporder" class="section level3" number="12.6.1">
+<h3><span class="header-section-number">12.6.1</span> Extract tip order</h3>
 <p>To create <a href="chapter7.html#composite_plot">composite plots</a>, users need to re-order their data manually before they creating tree associated graph. The order of their data should be consistent with tip order presented in ggtree plot. For this purpose, we provide the <code>get_taxa_name()</code> function to extract an ordered vector of tips based on the tree structure plotted by ggtree.</p>
 
 
-<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="chapter12.html#cb239-1" aria-hidden="true"></a><span class="kw">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb239-2"><a href="chapter12.html#cb239-2" aria-hidden="true"></a>tree &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">10</span>)</span>
-<span id="cb239-3"><a href="chapter12.html#cb239-3" aria-hidden="true"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb239-4"><a href="chapter12.html#cb239-4" aria-hidden="true"></a><span class="st">    </span><span class="kw">geom_hilight</span>(<span class="dt">node =</span> <span class="dv">12</span>, <span class="dt">extendto =</span> <span class="fl">2.5</span>)</span>
-<span id="cb239-5"><a href="chapter12.html#cb239-5" aria-hidden="true"></a><span class="kw">print</span>(p)</span></code></pre></div>
+<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="chapter12.html#cb243-1" aria-hidden="true"></a><span class="kw">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb243-2"><a href="chapter12.html#cb243-2" aria-hidden="true"></a>tree &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">10</span>)</span>
+<span id="cb243-3"><a href="chapter12.html#cb243-3" aria-hidden="true"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb243-4"><a href="chapter12.html#cb243-4" aria-hidden="true"></a><span class="st">    </span><span class="kw">geom_hilight</span>(<span class="dt">node =</span> <span class="dv">12</span>, <span class="dt">extendto =</span> <span class="fl">2.5</span>)</span>
+<span id="cb243-5"><a href="chapter12.html#cb243-5" aria-hidden="true"></a><span class="kw">print</span>(p)</span></code></pre></div>
 <div class="figure"><span id="fig:tiporder"></span>
 <img src="treedata_files/figure-html/tiporder-1.svg" alt="An example tree for demonstraing get_taxa_name() function." width="480" />
 <p class="caption">
-Figure 12.7: <strong>An example tree for demonstraing <code>get_taxa_name()</code> function.</strong>
+Figure 12.9: <strong>An example tree for demonstraing <code>get_taxa_name()</code> function.</strong>
 </p>
 </div>
-<p>The <code>get_taxa_name()</code> function will return a vector of ordered tip labels according to the tree structure displayed on Figure <a href="chapter12.html#fig:tiporder">12.7</a>.</p>
-<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="chapter12.html#cb240-1" aria-hidden="true"></a><span class="kw">get_taxa_name</span>(p)</span></code></pre></div>
+<p>The <code>get_taxa_name()</code> function will return a vector of ordered tip labels according to the tree structure displayed on Figure <a href="chapter12.html#fig:tiporder">12.9</a>.</p>
+<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="chapter12.html#cb244-1" aria-hidden="true"></a><span class="kw">get_taxa_name</span>(p)</span></code></pre></div>
 <pre><code>##  [1] &quot;t9&quot;  &quot;t8&quot;  &quot;t3&quot;  &quot;t2&quot;  &quot;t7&quot;  &quot;t10&quot; &quot;t1&quot;  &quot;t5&quot;  &quot;t6&quot; 
 ## [10] &quot;t4&quot;</code></pre>
-<p>If user specific a node, the <code>get_taxa_name()</code> will extract order tips of selected clade (i.e. highlighted region on the Figure <a href="chapter12.html#fig:tiporder">12.7</a>).</p>
-<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="chapter12.html#cb242-1" aria-hidden="true"></a><span class="kw">get_taxa_name</span>(p, <span class="dt">node =</span> <span class="dv">12</span>)</span></code></pre></div>
+<p>If user specific a node, the <code>get_taxa_name()</code> will extract order tips of selected clade (i.e. highlighted region on the Figure <a href="chapter12.html#fig:tiporder">12.9</a>).</p>
+<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="chapter12.html#cb246-1" aria-hidden="true"></a><span class="kw">get_taxa_name</span>(p, <span class="dt">node =</span> <span class="dv">12</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;t5&quot; &quot;t6&quot; &quot;t4&quot;</code></pre>
 
 </div>
