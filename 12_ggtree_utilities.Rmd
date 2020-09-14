@@ -295,8 +295,8 @@ tree <- rtree(50)
 p <- ggtree(tree) 
 selected_nodes <- offspring(p, 67)$node
 p + geom_text(aes(label=label), 
-                data=td_filter(isTip & 
-                            node %in% selected_nodes), 
+            data=td_filter(isTip & 
+                        node %in% selected_nodes), 
             hjust=0)
 ```
 
@@ -329,14 +329,14 @@ All tree data utilities provide a `.f` parameter to pass a function to pre-opera
 p <- ggtree(tr) %<+% d2
 p2 <- p + 
     geom_point(aes(x, y, size= value, colour=group), 
-        data = td_unnest(c(value, group)), alpha=.4) +
+            data = td_unnest(c(value, group)), alpha=.4) +
     scale_size(range=c(3,10), limits=c(3, 10))
 
 p3 <- p + 
     geom_point(aes(x, y, size= value, colour=group), 
-        data = td_unnest(c(value, group), 
-                    .f = td_filter(isTip & node==4)), 
-        alpha=.4) +
+            data = td_unnest(c(value, group), 
+                        .f = td_filter(isTip & node==4)), 
+            alpha=.4) +
     scale_size(range=c(3,10), limits=c(3, 10))
 
 cowplot::plot_grid(p2, p3, labels=LETTERS[1:2])            
