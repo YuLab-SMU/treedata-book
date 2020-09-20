@@ -627,6 +627,35 @@ btrees <- read.tree(system.file("extdata/RAxML", "RAxML_bootstrap.H3", package="
 ggtree(btrees) + facet_wrap(~.id, ncol=10)
 ```
 
+### Annotate one tree with values from different variables
+
+To annotate one tree (the same tree) with the values from different variable, one can plot them separately and use `r CRANpkg("cowplot")` or `r CRANpkg("patchwork")` to combine them side by side. 
+
+Another solution is to utilize the ability of plotting a list of tree by `r Biocpkg("ggtree")`, and then add annotation layers for selected variable at specific panel via the [subset](#geom2) aesthetic mapping supported by `r Biocpkg("ggtree")` or using [td_filter()](#td_filter) as demonstrated in Figure \@ref(fig:onetreefacet). 
+
+
+(ref:onetreefacetscap) Annotate one tree with values from different variables.
+
+(ref:onetreefacetcap) **Annotate one tree with values from different variables.** Using `subset` aesthetic mapping (as in TREE1 panel) or `td_filter()` (as in TREE2 panel) to filter variable to be displayed on specific panel.
+
+```{r onetreefacet, warning=FALSE, fig.width=8, fig.height=4,fig.cap="(ref:onetreefacetcap)", fig.scap="(ref:onetreefacetscap)"}
+set.seed(2020)
+x <- rtree(30)
+d <- data.frame(label=x$tip.label, var1=abs(rnorm(30)), var2=abs(rnorm(30)))
+tree <- full_join(x, d, by='label')
+trs <- list(TREE1 = tree, TREE2 = tree)
+class(trs) <- 'treedataList'
+ggtree(trs) + facet_wrap(~.id) + 
+  geom_tippoint(aes(subset=.id == 'TREE1', colour=var1)) + 
+  scale_colour_gradient(low='blue', high='red') +  
+  ggnewscale::new_scale_colour()  + 
+  geom_tippoint(aes(colour=var2), data=td_filter(.id == "TREE2")) + 
+  scale_colour_viridis_c()
+``` 
+
+
+### DensiTree {#densitree}
+
 Another way to view the bootstrap trees is to merge them together to form a density tree using `ggdensitree` function.
 
 
@@ -638,6 +667,8 @@ Another way to view the bootstrap trees is to merge them together to form a dens
 ggdensitree(btrees, alpha=.3, colour='steelblue') + 
     geom_tiplab(size=3) + xlim(0, 45)
 ```
+
+
 
 ## Summary {#summary4}
 

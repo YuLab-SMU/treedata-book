@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2020-09-14" />
+<meta name="date" content="2020-09-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -218,7 +218,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.3.6" data-path="chapter4.html"><a href="chapter4.html#rescale-tree"><i class="fa fa-check"></i><b>4.3.6</b> Rescale tree</a></li>
 <li class="chapter" data-level="4.3.7" data-path="chapter4.html"><a href="chapter4.html#modify-compenents-of-a-theme"><i class="fa fa-check"></i><b>4.3.7</b> Modify compenents of a theme</a></li>
 </ul></li>
-<li class="chapter" data-level="4.4" data-path="chapter4.html"><a href="chapter4.html#visualize-a-list-of-trees"><i class="fa fa-check"></i><b>4.4</b> Visualize a list of trees</a></li>
+<li class="chapter" data-level="4.4" data-path="chapter4.html"><a href="chapter4.html#visualize-a-list-of-trees"><i class="fa fa-check"></i><b>4.4</b> Visualize a list of trees</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="chapter4.html"><a href="chapter4.html#annotate-one-tree-with-values-from-different-variables"><i class="fa fa-check"></i><b>4.4.1</b> Annotate one tree with values from different variables</a></li>
+<li class="chapter" data-level="4.4.2" data-path="chapter4.html"><a href="chapter4.html#densitree"><i class="fa fa-check"></i><b>4.4.2</b> DensiTree</a></li>
+</ul></li>
 <li class="chapter" data-level="4.5" data-path="chapter4.html"><a href="chapter4.html#summary4"><i class="fa fa-check"></i><b>4.5</b> Summary</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="chapter5.html"><a href="chapter5.html"><i class="fa fa-check"></i><b>5</b> Phylogenetic Tree Annotation</a>
@@ -300,6 +304,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="11" data-path="chapter11.html"><a href="chapter11.html"><i class="fa fa-check"></i><b>11</b> Other ggtree extensions</a>
 <ul>
 <li class="chapter" data-level="11.1" data-path="chapter11.html"><a href="chapter11.html#MicrobiotaProcess"><i class="fa fa-check"></i><b>11.1</b> Taxonomy annotation using MicrobiotaProcess</a></li>
+<li class="chapter" data-level="11.2" data-path="chapter11.html"><a href="chapter11.html#visualizing-phylogenetic-network"><i class="fa fa-check"></i><b>11.2</b> Visualizing phylogenetic network</a></li>
 </ul></li>
 <li class="part"><span><b>Part IV: Miscellaneous topics</b></span></li>
 <li class="chapter" data-level="12" data-path="chapter12.html"><a href="chapter12.html"><i class="fa fa-check"></i><b>12</b> ggtree utilities</a>
@@ -313,8 +318,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="12.3" data-path="chapter12.html"><a href="chapter12.html#layout-utilities"><i class="fa fa-check"></i><b>12.3</b> Layout utilities</a></li>
 <li class="chapter" data-level="12.4" data-path="chapter12.html"><a href="chapter12.html#scale-utilities"><i class="fa fa-check"></i><b>12.4</b> Scale utilities</a>
 <ul>
-<li class="chapter" data-level="12.4.1" data-path="chapter12.html"><a href="chapter12.html#xlim_expand"><i class="fa fa-check"></i><b>12.4.1</b> xlim_expand</a></li>
-<li class="chapter" data-level="12.4.2" data-path="chapter12.html"><a href="chapter12.html#hexpand"><i class="fa fa-check"></i><b>12.4.2</b> hexpand</a></li>
+<li class="chapter" data-level="12.4.1" data-path="chapter12.html"><a href="chapter12.html#xlim_expand"><i class="fa fa-check"></i><b>12.4.1</b> Expand x limit for specific panel</a></li>
+<li class="chapter" data-level="12.4.2" data-path="chapter12.html"><a href="chapter12.html#ggexpand"><i class="fa fa-check"></i><b>12.4.2</b> Expand plot limit by ratio of plot range</a></li>
 </ul></li>
 <li class="chapter" data-level="12.5" data-path="chapter12.html"><a href="chapter12.html#tree-data-utilities"><i class="fa fa-check"></i><b>12.5</b> Tree data utilities</a>
 <ul>
@@ -402,27 +407,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="commicR" class="section level1" number="17">
 <h1><span class="header-section-number">D</span> Comic (xkcd-like) phylogenetic tree</h1>
-<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="commicR.html#cb287-1" aria-hidden="true"></a><span class="kw">library</span>(htmltools)    </span>
-<span id="cb287-2"><a href="commicR.html#cb287-2" aria-hidden="true"></a><span class="kw">library</span>(XML)    </span>
-<span id="cb287-3"><a href="commicR.html#cb287-3" aria-hidden="true"></a><span class="kw">library</span>(gridSVG)    </span>
-<span id="cb287-4"><a href="commicR.html#cb287-4" aria-hidden="true"></a><span class="kw">library</span>(ggplot2)    </span>
-<span id="cb287-5"><a href="commicR.html#cb287-5" aria-hidden="true"></a><span class="kw">library</span>(ggtree)</span>
-<span id="cb287-6"><a href="commicR.html#cb287-6" aria-hidden="true"></a><span class="kw">library</span>(comicR)    </span>
-<span id="cb287-7"><a href="commicR.html#cb287-7" aria-hidden="true"></a></span>
-<span id="cb287-8"><a href="commicR.html#cb287-8" aria-hidden="true"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(<span class="kw">rtree</span>(<span class="dv">30</span>), <span class="dt">layout=</span><span class="st">&quot;circular&quot;</span>)  <span class="op">+</span></span>
-<span id="cb287-9"><a href="commicR.html#cb287-9" aria-hidden="true"></a><span class="st">    </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">label=</span>label), <span class="dt">color=</span><span class="st">&quot;purple&quot;</span>)</span>
-<span id="cb287-10"><a href="commicR.html#cb287-10" aria-hidden="true"></a><span class="kw">print</span>(p)</span>
-<span id="cb287-11"><a href="commicR.html#cb287-11" aria-hidden="true"></a>svg &lt;-<span class="st"> </span><span class="kw">grid.export</span>(<span class="dt">name=</span><span class="st">&quot;&quot;</span>, <span class="dt">res=</span><span class="dv">100</span>)<span class="op">$</span>svg</span></code></pre></div>
+<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="commicR.html#cb289-1" aria-hidden="true"></a><span class="kw">library</span>(htmltools)    </span>
+<span id="cb289-2"><a href="commicR.html#cb289-2" aria-hidden="true"></a><span class="kw">library</span>(XML)    </span>
+<span id="cb289-3"><a href="commicR.html#cb289-3" aria-hidden="true"></a><span class="kw">library</span>(gridSVG)    </span>
+<span id="cb289-4"><a href="commicR.html#cb289-4" aria-hidden="true"></a><span class="kw">library</span>(ggplot2)    </span>
+<span id="cb289-5"><a href="commicR.html#cb289-5" aria-hidden="true"></a><span class="kw">library</span>(ggtree)</span>
+<span id="cb289-6"><a href="commicR.html#cb289-6" aria-hidden="true"></a><span class="kw">library</span>(comicR)    </span>
+<span id="cb289-7"><a href="commicR.html#cb289-7" aria-hidden="true"></a></span>
+<span id="cb289-8"><a href="commicR.html#cb289-8" aria-hidden="true"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(<span class="kw">rtree</span>(<span class="dv">30</span>), <span class="dt">layout=</span><span class="st">&quot;circular&quot;</span>)  <span class="op">+</span></span>
+<span id="cb289-9"><a href="commicR.html#cb289-9" aria-hidden="true"></a><span class="st">    </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">label=</span>label), <span class="dt">color=</span><span class="st">&quot;purple&quot;</span>)</span>
+<span id="cb289-10"><a href="commicR.html#cb289-10" aria-hidden="true"></a><span class="kw">print</span>(p)</span>
+<span id="cb289-11"><a href="commicR.html#cb289-11" aria-hidden="true"></a>svg &lt;-<span class="st"> </span><span class="kw">grid.export</span>(<span class="dt">name=</span><span class="st">&quot;&quot;</span>, <span class="dt">res=</span><span class="dv">100</span>)<span class="op">$</span>svg</span></code></pre></div>
 
 
-<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="commicR.html#cb288-1" aria-hidden="true"></a><span class="kw">tagList</span>(</span>
-<span id="cb288-2"><a href="commicR.html#cb288-2" aria-hidden="true"></a>    tags<span class="op">$</span><span class="kw">div</span>(</span>
-<span id="cb288-3"><a href="commicR.html#cb288-3" aria-hidden="true"></a>             <span class="dt">id =</span> <span class="st">&quot;ggtree_comic&quot;</span>,</span>
-<span id="cb288-4"><a href="commicR.html#cb288-4" aria-hidden="true"></a>             tags<span class="op">$</span><span class="kw">style</span>(<span class="st">&quot;#ggtree_comic text {font-family:Comic Sans MS;}&quot;</span>),</span>
-<span id="cb288-5"><a href="commicR.html#cb288-5" aria-hidden="true"></a>             <span class="kw">HTML</span>(<span class="kw">saveXML</span>(svg)),</span>
-<span id="cb288-6"><a href="commicR.html#cb288-6" aria-hidden="true"></a>             <span class="kw">comicR</span>(<span class="st">&quot;#ggtree_comic&quot;</span>, <span class="dt">ff=</span><span class="dv">5</span>)</span>
-<span id="cb288-7"><a href="commicR.html#cb288-7" aria-hidden="true"></a>         )</span>
-<span id="cb288-8"><a href="commicR.html#cb288-8" aria-hidden="true"></a>) <span class="co"># %&gt;% html_print</span></span></code></pre></div>
+<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="commicR.html#cb290-1" aria-hidden="true"></a><span class="kw">tagList</span>(</span>
+<span id="cb290-2"><a href="commicR.html#cb290-2" aria-hidden="true"></a>    tags<span class="op">$</span><span class="kw">div</span>(</span>
+<span id="cb290-3"><a href="commicR.html#cb290-3" aria-hidden="true"></a>             <span class="dt">id =</span> <span class="st">&quot;ggtree_comic&quot;</span>,</span>
+<span id="cb290-4"><a href="commicR.html#cb290-4" aria-hidden="true"></a>             tags<span class="op">$</span><span class="kw">style</span>(<span class="st">&quot;#ggtree_comic text {font-family:Comic Sans MS;}&quot;</span>),</span>
+<span id="cb290-5"><a href="commicR.html#cb290-5" aria-hidden="true"></a>             <span class="kw">HTML</span>(<span class="kw">saveXML</span>(svg)),</span>
+<span id="cb290-6"><a href="commicR.html#cb290-6" aria-hidden="true"></a>             <span class="kw">comicR</span>(<span class="st">&quot;#ggtree_comic&quot;</span>, <span class="dt">ff=</span><span class="dv">5</span>)</span>
+<span id="cb290-7"><a href="commicR.html#cb290-7" aria-hidden="true"></a>         )</span>
+<span id="cb290-8"><a href="commicR.html#cb290-8" aria-hidden="true"></a>) <span class="co"># %&gt;% html_print</span></span></code></pre></div>
 <div id="ggtree_comic">
 <style>#ggtree_comic text {font-family:Comic Sans MS;}</style>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="700px" height="500px" viewBox="0 0 700 500" version="1.1">

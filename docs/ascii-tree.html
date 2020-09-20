@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2020-09-14" />
+<meta name="date" content="2020-09-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -218,7 +218,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.3.6" data-path="chapter4.html"><a href="chapter4.html#rescale-tree"><i class="fa fa-check"></i><b>4.3.6</b> Rescale tree</a></li>
 <li class="chapter" data-level="4.3.7" data-path="chapter4.html"><a href="chapter4.html#modify-compenents-of-a-theme"><i class="fa fa-check"></i><b>4.3.7</b> Modify compenents of a theme</a></li>
 </ul></li>
-<li class="chapter" data-level="4.4" data-path="chapter4.html"><a href="chapter4.html#visualize-a-list-of-trees"><i class="fa fa-check"></i><b>4.4</b> Visualize a list of trees</a></li>
+<li class="chapter" data-level="4.4" data-path="chapter4.html"><a href="chapter4.html#visualize-a-list-of-trees"><i class="fa fa-check"></i><b>4.4</b> Visualize a list of trees</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="chapter4.html"><a href="chapter4.html#annotate-one-tree-with-values-from-different-variables"><i class="fa fa-check"></i><b>4.4.1</b> Annotate one tree with values from different variables</a></li>
+<li class="chapter" data-level="4.4.2" data-path="chapter4.html"><a href="chapter4.html#densitree"><i class="fa fa-check"></i><b>4.4.2</b> DensiTree</a></li>
+</ul></li>
 <li class="chapter" data-level="4.5" data-path="chapter4.html"><a href="chapter4.html#summary4"><i class="fa fa-check"></i><b>4.5</b> Summary</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="chapter5.html"><a href="chapter5.html"><i class="fa fa-check"></i><b>5</b> Phylogenetic Tree Annotation</a>
@@ -300,6 +304,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="11" data-path="chapter11.html"><a href="chapter11.html"><i class="fa fa-check"></i><b>11</b> Other ggtree extensions</a>
 <ul>
 <li class="chapter" data-level="11.1" data-path="chapter11.html"><a href="chapter11.html#MicrobiotaProcess"><i class="fa fa-check"></i><b>11.1</b> Taxonomy annotation using MicrobiotaProcess</a></li>
+<li class="chapter" data-level="11.2" data-path="chapter11.html"><a href="chapter11.html#visualizing-phylogenetic-network"><i class="fa fa-check"></i><b>11.2</b> Visualizing phylogenetic network</a></li>
 </ul></li>
 <li class="part"><span><b>Part IV: Miscellaneous topics</b></span></li>
 <li class="chapter" data-level="12" data-path="chapter12.html"><a href="chapter12.html"><i class="fa fa-check"></i><b>12</b> ggtree utilities</a>
@@ -313,8 +318,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="12.3" data-path="chapter12.html"><a href="chapter12.html#layout-utilities"><i class="fa fa-check"></i><b>12.3</b> Layout utilities</a></li>
 <li class="chapter" data-level="12.4" data-path="chapter12.html"><a href="chapter12.html#scale-utilities"><i class="fa fa-check"></i><b>12.4</b> Scale utilities</a>
 <ul>
-<li class="chapter" data-level="12.4.1" data-path="chapter12.html"><a href="chapter12.html#xlim_expand"><i class="fa fa-check"></i><b>12.4.1</b> xlim_expand</a></li>
-<li class="chapter" data-level="12.4.2" data-path="chapter12.html"><a href="chapter12.html#hexpand"><i class="fa fa-check"></i><b>12.4.2</b> hexpand</a></li>
+<li class="chapter" data-level="12.4.1" data-path="chapter12.html"><a href="chapter12.html#xlim_expand"><i class="fa fa-check"></i><b>12.4.1</b> Expand x limit for specific panel</a></li>
+<li class="chapter" data-level="12.4.2" data-path="chapter12.html"><a href="chapter12.html#ggexpand"><i class="fa fa-check"></i><b>12.4.2</b> Expand plot limit by ratio of plot range</a></li>
 </ul></li>
 <li class="chapter" data-level="12.5" data-path="chapter12.html"><a href="chapter12.html#tree-data-utilities"><i class="fa fa-check"></i><b>12.5</b> Tree data utilities</a>
 <ul>
@@ -402,11 +407,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="ascii-tree" class="section level1" number="18">
 <h1><span class="header-section-number">E</span> Print ASCII-art rooted tree</h1>
-<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="ascii-tree.html#cb289-1" aria-hidden="true"></a><span class="kw">library</span>(data.tree)</span>
-<span id="cb289-2"><a href="ascii-tree.html#cb289-2" aria-hidden="true"></a>tree &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">10</span>)</span>
-<span id="cb289-3"><a href="ascii-tree.html#cb289-3" aria-hidden="true"></a>d &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">as.Node</span>(tree))</span>
-<span id="cb289-4"><a href="ascii-tree.html#cb289-4" aria-hidden="true"></a><span class="kw">names</span>(d) &lt;-<span class="st"> </span><span class="ot">NULL</span></span>
-<span id="cb289-5"><a href="ascii-tree.html#cb289-5" aria-hidden="true"></a><span class="kw">print</span>(d, <span class="dt">row.names=</span><span class="ot">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="ascii-tree.html#cb291-1" aria-hidden="true"></a><span class="kw">library</span>(data.tree)</span>
+<span id="cb291-2"><a href="ascii-tree.html#cb291-2" aria-hidden="true"></a>tree &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">10</span>)</span>
+<span id="cb291-3"><a href="ascii-tree.html#cb291-3" aria-hidden="true"></a>d &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">as.Node</span>(tree))</span>
+<span id="cb291-4"><a href="ascii-tree.html#cb291-4" aria-hidden="true"></a><span class="kw">names</span>(d) &lt;-<span class="st"> </span><span class="ot">NULL</span></span>
+<span id="cb291-5"><a href="ascii-tree.html#cb291-5" aria-hidden="true"></a><span class="kw">print</span>(d, <span class="dt">row.names=</span><span class="ot">FALSE</span>)</span></code></pre></div>
 <pre><code>                       
  11                    
   ¦--12                
@@ -429,14 +434,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           °--t8        </code></pre>
 <p>It is neat to print ASCII-art of phylogeny. Sometimes we don’t want to plot the tree, but just take a glance at the tree structure without leaving the focus from R console. However, it is not a good idea to print the whole tree as ASCII text if the tree is large. Sometimes we just want to look at a specific portion of the tree and their immediate relatives. At this scenario, we can use <code>treeio::tree_subset()</code> function (see <a href="subsetting-tree-with-data">session 2.4</a>) to extract selected portion of a tree. Then we can print ASCII-art of the tree subset to explore evolutionary relationship of interested species in R console.</p>
 <p><a href="http://bioconductor.org/packages/ggtree">ggtree</a> supports parsing tip labels as emoji to create <a href="chapter8.html#phylomoji">phylomoji</a>. With the <a href="https://CRAN.R-project.org/package=data.tree">data.tree</a> and <a href="https://CRAN.R-project.org/package=emojifont">emojifont</a> packages, we can also print phylomoji as ASCII text.</p>
-<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="ascii-tree.html#cb291-1" aria-hidden="true"></a><span class="kw">library</span>(emojifont)</span>
-<span id="cb291-2"><a href="ascii-tree.html#cb291-2" aria-hidden="true"></a></span>
-<span id="cb291-3"><a href="ascii-tree.html#cb291-3" aria-hidden="true"></a>tt &lt;-<span class="st"> &#39;((snail,mushroom),(((sunflower,evergreen_tree),leaves),green_salad));&#39;</span></span>
-<span id="cb291-4"><a href="ascii-tree.html#cb291-4" aria-hidden="true"></a>tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="dt">text =</span> tt)</span>
-<span id="cb291-5"><a href="ascii-tree.html#cb291-5" aria-hidden="true"></a>tree<span class="op">$</span>tip.label &lt;-<span class="st"> </span><span class="kw">emoji</span>(tree<span class="op">$</span>tip.label)</span>
-<span id="cb291-6"><a href="ascii-tree.html#cb291-6" aria-hidden="true"></a>d &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">as.Node</span>(tree))</span>
-<span id="cb291-7"><a href="ascii-tree.html#cb291-7" aria-hidden="true"></a><span class="kw">names</span>(d) &lt;-<span class="st"> </span><span class="ot">NULL</span></span>
-<span id="cb291-8"><a href="ascii-tree.html#cb291-8" aria-hidden="true"></a><span class="kw">print</span>(d, <span class="dt">row.names=</span><span class="ot">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="ascii-tree.html#cb293-1" aria-hidden="true"></a><span class="kw">library</span>(emojifont)</span>
+<span id="cb293-2"><a href="ascii-tree.html#cb293-2" aria-hidden="true"></a></span>
+<span id="cb293-3"><a href="ascii-tree.html#cb293-3" aria-hidden="true"></a>tt &lt;-<span class="st"> &#39;((snail,mushroom),(((sunflower,evergreen_tree),leaves),green_salad));&#39;</span></span>
+<span id="cb293-4"><a href="ascii-tree.html#cb293-4" aria-hidden="true"></a>tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="dt">text =</span> tt)</span>
+<span id="cb293-5"><a href="ascii-tree.html#cb293-5" aria-hidden="true"></a>tree<span class="op">$</span>tip.label &lt;-<span class="st"> </span><span class="kw">emoji</span>(tree<span class="op">$</span>tip.label)</span>
+<span id="cb293-6"><a href="ascii-tree.html#cb293-6" aria-hidden="true"></a>d &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">as.Node</span>(tree))</span>
+<span id="cb293-7"><a href="ascii-tree.html#cb293-7" aria-hidden="true"></a><span class="kw">names</span>(d) &lt;-<span class="st"> </span><span class="ot">NULL</span></span>
+<span id="cb293-8"><a href="ascii-tree.html#cb293-8" aria-hidden="true"></a><span class="kw">print</span>(d, <span class="dt">row.names=</span><span class="ot">FALSE</span>)</span></code></pre></div>
 <pre><code>                  
  7                
   ¦--8            
@@ -450,10 +455,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       ¦   °--🍃    
       °--🥗        </code></pre>
 <p>Another way to print ASCII-art pf phylogeny is to use the <code>ascii()</code> device defined in <a href="https://github.com/coolbutuseless/devout">devout</a> package. Here is an example:</p>
-<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="ascii-tree.html#cb293-1" aria-hidden="true"></a><span class="kw">library</span>(devout)</span>
-<span id="cb293-2"><a href="ascii-tree.html#cb293-2" aria-hidden="true"></a><span class="kw">ascii</span>(<span class="dt">width=</span><span class="dv">80</span>)</span>
-<span id="cb293-3"><a href="ascii-tree.html#cb293-3" aria-hidden="true"></a><span class="kw">ggtree</span>(<span class="kw">rtree</span>(<span class="dv">5</span>))</span>
-<span id="cb293-4"><a href="ascii-tree.html#cb293-4" aria-hidden="true"></a><span class="kw">invisible</span>(<span class="kw">dev.off</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="ascii-tree.html#cb295-1" aria-hidden="true"></a><span class="kw">library</span>(devout)</span>
+<span id="cb295-2"><a href="ascii-tree.html#cb295-2" aria-hidden="true"></a><span class="kw">ascii</span>(<span class="dt">width=</span><span class="dv">80</span>)</span>
+<span id="cb295-3"><a href="ascii-tree.html#cb295-3" aria-hidden="true"></a><span class="kw">ggtree</span>(<span class="kw">rtree</span>(<span class="dv">5</span>))</span>
+<span id="cb295-4"><a href="ascii-tree.html#cb295-4" aria-hidden="true"></a><span class="kw">invisible</span>(<span class="kw">dev.off</span>())</span></code></pre></div>
 <pre><code>                                                                                
                                                    ########################     
                                                    #                            

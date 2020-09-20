@@ -23,7 +23,7 @@ There are `r length(unlist(x))` packages in CRAN or Bioconductor that depend or 
 
 
 + [deeptime](https://github.com/willgearty/deeptime): Plotting Tools for Anyone Working in Deep Time
-+ [ggnetworx](https://github.com/KlausVigo/ggnetworx): phylogenetic networks using ggplot2 and ggtree
+
 + [ggdaisie](https://github.com/richelbilderbeek/ggdaisie): ggtree and DAISIE R package
 + [microbiomeViz](https://github.com/lch14forever/microbiomeViz): Visualize microbiome data with black magic ggtree
 + [microbiomeMarker](https://github.com/yiluheihei/microbiomeMarker)
@@ -37,7 +37,7 @@ The `ggdiffcalde` in `r Biocpkg("MicrobiotaProcess")` is developed based on `r B
 
 (ref:CRCdiffcap) **Different taxonomy clade**.
 
-```{r CRCdiffclade, fig.width=7, fig.height=7, fig.align="center", message=FALSE, fig.cap="(ref:CRCdiffcap)", fig.scap="(ref:CRCdiffscap)", out.extra='', warning=FALSE}
+```{r CRCdiffclade, fig.width=7, fig.height=7, message=FALSE, fig.cap="(ref:CRCdiffcap)", fig.scap="(ref:CRCdiffscap)", out.extra='', warning=FALSE}
 library(MicrobiotaProcess)
 library(ggplot2)
 
@@ -69,3 +69,30 @@ p
 ```
 
 The `colors` represent the relevant features enriched in the relevant `classgroup`. The size of point colored represent the `-log10(pvalue)`, which means the larger point represents the higher significance. In the example, we found *Fusobacterium* sequences were enriched in carcinomas, and Firmicutes, Bacteroides, Clostridiales were depleted in tumors. These results were consistent with the original article [@kostic2012genomic]. In addition, we also found *Campylobacter* were enriched in tumors, but the relative abundance of it is lower than *Fusobacterium*. And the species of *Campylobacter* has been proven to associated with the colorectal cancer [@He289; @wu2013dysbiosis; @amer2017microbiome]. 
+
+
+## Visualizing phylogenetic network 
+
+[ggnetworx](https://github.com/KlausVigo/ggnetworx): phylogenetic networks using ggplot2 and ggtree
+
+
+(ref:phylonetworxscap) Phylogenetic network.
+
+(ref:phylonetworxcap) **Phylogenetic network**.
+
+```{r phylonetworx, fig.width=7, fig.height=7, message=FALSE, fig.cap="(ref:phylonetworxcap)", fig.scap="(ref:phylonetworxscap)", out.extra='', warning=FALSE}
+library(ggplot2)
+library(ggtree)
+library(ggnetworx)
+
+file <- system.file("extdata/trees/woodmouse.nxs", package = "phangorn")
+Nnet <- phangorn::read.nexus.networx(file)
+
+ggplot(Nnet, aes(x, y))  + geom_splitnet() + theme_tree()+   
+    geom_tiplab2(aes(color=label), hjust=-.1)+
+    scale_color_manual(values=rainbow(15)) +   
+    theme(legend.position="none") +
+    ggexpand(.1) + ggexpand(.1, direction=-1)
+```                 
+
+

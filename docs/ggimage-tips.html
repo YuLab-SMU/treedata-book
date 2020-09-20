@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2020-09-14" />
+<meta name="date" content="2020-09-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -218,7 +218,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.3.6" data-path="chapter4.html"><a href="chapter4.html#rescale-tree"><i class="fa fa-check"></i><b>4.3.6</b> Rescale tree</a></li>
 <li class="chapter" data-level="4.3.7" data-path="chapter4.html"><a href="chapter4.html#modify-compenents-of-a-theme"><i class="fa fa-check"></i><b>4.3.7</b> Modify compenents of a theme</a></li>
 </ul></li>
-<li class="chapter" data-level="4.4" data-path="chapter4.html"><a href="chapter4.html#visualize-a-list-of-trees"><i class="fa fa-check"></i><b>4.4</b> Visualize a list of trees</a></li>
+<li class="chapter" data-level="4.4" data-path="chapter4.html"><a href="chapter4.html#visualize-a-list-of-trees"><i class="fa fa-check"></i><b>4.4</b> Visualize a list of trees</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="chapter4.html"><a href="chapter4.html#annotate-one-tree-with-values-from-different-variables"><i class="fa fa-check"></i><b>4.4.1</b> Annotate one tree with values from different variables</a></li>
+<li class="chapter" data-level="4.4.2" data-path="chapter4.html"><a href="chapter4.html#densitree"><i class="fa fa-check"></i><b>4.4.2</b> DensiTree</a></li>
+</ul></li>
 <li class="chapter" data-level="4.5" data-path="chapter4.html"><a href="chapter4.html#summary4"><i class="fa fa-check"></i><b>4.5</b> Summary</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="chapter5.html"><a href="chapter5.html"><i class="fa fa-check"></i><b>5</b> Phylogenetic Tree Annotation</a>
@@ -300,6 +304,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="11" data-path="chapter11.html"><a href="chapter11.html"><i class="fa fa-check"></i><b>11</b> Other ggtree extensions</a>
 <ul>
 <li class="chapter" data-level="11.1" data-path="chapter11.html"><a href="chapter11.html#MicrobiotaProcess"><i class="fa fa-check"></i><b>11.1</b> Taxonomy annotation using MicrobiotaProcess</a></li>
+<li class="chapter" data-level="11.2" data-path="chapter11.html"><a href="chapter11.html#visualizing-phylogenetic-network"><i class="fa fa-check"></i><b>11.2</b> Visualizing phylogenetic network</a></li>
 </ul></li>
 <li class="part"><span><b>Part IV: Miscellaneous topics</b></span></li>
 <li class="chapter" data-level="12" data-path="chapter12.html"><a href="chapter12.html"><i class="fa fa-check"></i><b>12</b> ggtree utilities</a>
@@ -313,8 +318,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="12.3" data-path="chapter12.html"><a href="chapter12.html#layout-utilities"><i class="fa fa-check"></i><b>12.3</b> Layout utilities</a></li>
 <li class="chapter" data-level="12.4" data-path="chapter12.html"><a href="chapter12.html#scale-utilities"><i class="fa fa-check"></i><b>12.4</b> Scale utilities</a>
 <ul>
-<li class="chapter" data-level="12.4.1" data-path="chapter12.html"><a href="chapter12.html#xlim_expand"><i class="fa fa-check"></i><b>12.4.1</b> xlim_expand</a></li>
-<li class="chapter" data-level="12.4.2" data-path="chapter12.html"><a href="chapter12.html#hexpand"><i class="fa fa-check"></i><b>12.4.2</b> hexpand</a></li>
+<li class="chapter" data-level="12.4.1" data-path="chapter12.html"><a href="chapter12.html#xlim_expand"><i class="fa fa-check"></i><b>12.4.1</b> Expand x limit for specific panel</a></li>
+<li class="chapter" data-level="12.4.2" data-path="chapter12.html"><a href="chapter12.html#ggexpand"><i class="fa fa-check"></i><b>12.4.2</b> Expand plot limit by ratio of plot range</a></li>
 </ul></li>
 <li class="chapter" data-level="12.5" data-path="chapter12.html"><a href="chapter12.html#tree-data-utilities"><i class="fa fa-check"></i><b>12.5</b> Tree data utilities</a>
 <ul>
@@ -407,15 +412,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">C.1</span> Example 1: Remove background of images</h2>
 
 
-<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="ggimage-tips.html#cb285-1" aria-hidden="true"></a><span class="kw">set.seed</span>(<span class="dv">1982</span>)</span>
-<span id="cb285-2"><a href="ggimage-tips.html#cb285-2" aria-hidden="true"></a>x &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">5</span>)</span>
-<span id="cb285-3"><a href="ggimage-tips.html#cb285-3" aria-hidden="true"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(x) <span class="op">+</span><span class="st"> </span><span class="kw">theme_grey</span>()</span>
-<span id="cb285-4"><a href="ggimage-tips.html#cb285-4" aria-hidden="true"></a>p1 &lt;-<span class="st"> </span>p <span class="op">+</span><span class="st"> </span><span class="kw">geom_nodelab</span>(<span class="dt">image=</span><span class="st">&quot;img/frogs/frog.jpg&quot;</span>, <span class="dt">geom=</span><span class="st">&quot;image&quot;</span>, <span class="dt">size=</span>.<span class="dv">12</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb285-5"><a href="ggimage-tips.html#cb285-5" aria-hidden="true"></a><span class="st">          </span><span class="kw">ggtitle</span>(<span class="st">&quot;original image&quot;</span>)</span>
-<span id="cb285-6"><a href="ggimage-tips.html#cb285-6" aria-hidden="true"></a>p2 &lt;-<span class="st"> </span>p <span class="op">+</span><span class="st"> </span><span class="kw">geom_nodelab</span>(<span class="dt">image=</span><span class="st">&quot;img/frogs/frog.jpg&quot;</span>, <span class="dt">geom=</span><span class="st">&quot;image&quot;</span>, <span class="dt">size=</span>.<span class="dv">12</span>,</span>
-<span id="cb285-7"><a href="ggimage-tips.html#cb285-7" aria-hidden="true"></a>            <span class="dt">image_fun=</span> <span class="cf">function</span>(.) magick<span class="op">::</span><span class="kw">image_transparent</span>(., <span class="st">&quot;white&quot;</span>)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb285-8"><a href="ggimage-tips.html#cb285-8" aria-hidden="true"></a><span class="st">            </span><span class="kw">ggtitle</span>(<span class="st">&quot;image with background removed&quot;</span>)</span>
-<span id="cb285-9"><a href="ggimage-tips.html#cb285-9" aria-hidden="true"></a><span class="kw">plot_grid</span>(p1, p2, <span class="dt">ncol=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="ggimage-tips.html#cb287-1" aria-hidden="true"></a><span class="kw">set.seed</span>(<span class="dv">1982</span>)</span>
+<span id="cb287-2"><a href="ggimage-tips.html#cb287-2" aria-hidden="true"></a>x &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">5</span>)</span>
+<span id="cb287-3"><a href="ggimage-tips.html#cb287-3" aria-hidden="true"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(x) <span class="op">+</span><span class="st"> </span><span class="kw">theme_grey</span>()</span>
+<span id="cb287-4"><a href="ggimage-tips.html#cb287-4" aria-hidden="true"></a>p1 &lt;-<span class="st"> </span>p <span class="op">+</span><span class="st"> </span><span class="kw">geom_nodelab</span>(<span class="dt">image=</span><span class="st">&quot;img/frogs/frog.jpg&quot;</span>, <span class="dt">geom=</span><span class="st">&quot;image&quot;</span>, <span class="dt">size=</span>.<span class="dv">12</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb287-5"><a href="ggimage-tips.html#cb287-5" aria-hidden="true"></a><span class="st">          </span><span class="kw">ggtitle</span>(<span class="st">&quot;original image&quot;</span>)</span>
+<span id="cb287-6"><a href="ggimage-tips.html#cb287-6" aria-hidden="true"></a>p2 &lt;-<span class="st"> </span>p <span class="op">+</span><span class="st"> </span><span class="kw">geom_nodelab</span>(<span class="dt">image=</span><span class="st">&quot;img/frogs/frog.jpg&quot;</span>, <span class="dt">geom=</span><span class="st">&quot;image&quot;</span>, <span class="dt">size=</span>.<span class="dv">12</span>,</span>
+<span id="cb287-7"><a href="ggimage-tips.html#cb287-7" aria-hidden="true"></a>            <span class="dt">image_fun=</span> <span class="cf">function</span>(.) magick<span class="op">::</span><span class="kw">image_transparent</span>(., <span class="st">&quot;white&quot;</span>)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb287-8"><a href="ggimage-tips.html#cb287-8" aria-hidden="true"></a><span class="st">            </span><span class="kw">ggtitle</span>(<span class="st">&quot;image with background removed&quot;</span>)</span>
+<span id="cb287-9"><a href="ggimage-tips.html#cb287-9" aria-hidden="true"></a><span class="kw">plot_grid</span>(p1, p2, <span class="dt">ncol=</span><span class="dv">2</span>)</span></code></pre></div>
 <div class="figure"><span id="fig:ggimagebg"></span>
 <img src="treedata_files/figure-html/ggimagebg-1.svg" alt="Remove image background. Plotting silhouette images on phylogenetic tree without (A) and with (B) background remove." width="768" />
 <p class="caption">
@@ -428,9 +433,9 @@ Figure C.1: <strong>Remove image background.</strong> Plotting silhouette images
 <p>The <code>geom_bgimage</code> add a layer of the image and put the layer to the bottom of the layer stack. It is a normal layer and doesn’t change the structure of the output <code>ggtree</code> object. Users can add annotation layers as without the background image layer.</p>
 
 
-<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="ggimage-tips.html#cb286-1" aria-hidden="true"></a><span class="kw">ggtree</span>(<span class="kw">rtree</span>(<span class="dv">20</span>), <span class="dt">size=</span><span class="fl">1.5</span>, <span class="dt">color=</span><span class="st">&quot;white&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb286-2"><a href="ggimage-tips.html#cb286-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_bgimage</span>(<span class="st">&#39;img/blackboard.jpg&#39;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb286-3"><a href="ggimage-tips.html#cb286-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="dt">color=</span><span class="st">&quot;white&quot;</span>, <span class="dt">size=</span><span class="dv">5</span>, <span class="dt">family=</span><span class="st">&#39;xkcd&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="ggimage-tips.html#cb288-1" aria-hidden="true"></a><span class="kw">ggtree</span>(<span class="kw">rtree</span>(<span class="dv">20</span>), <span class="dt">size=</span><span class="fl">1.5</span>, <span class="dt">color=</span><span class="st">&quot;white&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb288-2"><a href="ggimage-tips.html#cb288-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_bgimage</span>(<span class="st">&#39;img/blackboard.jpg&#39;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb288-3"><a href="ggimage-tips.html#cb288-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="dt">color=</span><span class="st">&quot;white&quot;</span>, <span class="dt">size=</span><span class="dv">5</span>, <span class="dt">family=</span><span class="st">&#39;xkcd&#39;</span>)</span></code></pre></div>
 <div class="figure"><span id="fig:bgimage"></span>
 <img src="treedata_files/figure-html/bgimage-1.svg" alt="Use image file as tree background." width="576" />
 <p class="caption">
