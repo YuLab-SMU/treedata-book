@@ -20,6 +20,166 @@ tr <- tol_induced_subtree(ott_ids = ott_id(resolved_names))
 ggtree(tr) + geom_tiplab() + xlim(NA, 5)
 ```
 
+## Interactive phylogenetic tree {#ggtree-interactive}
+
+### plotly: convert ggtree to plotly object {#plotly}
+
+One way to make quick interactive phylogenetic tree is using `r Biocpkg("ggtree")` with the `r CRANpkg("plotly")` package.
+
+Here is an example^[<https://twitter.com/drandersgs/status/965996335882059776>]:
+
+```r
+# LOAD LIBS ---------------------------------------------------------------
+library(ape)
+library(ggtree)
+library(plotly)
+# CREATE A TREE -------------------------------------------------------------
+n_samples <- 20
+n_grp <- 4
+tree <- ape::rtree(n = n_samples)
+# CREATE SOME METADATA ----------------------------------------------------
+id <- tree$tip.label
+set.seed(42)
+grp <- sample(LETTERS[1:n_grp], size = n_samples, replace = T)
+dat <- tibble::tibble(id = id,
+                      grp = grp)
+# PLOT THE TREE -----------------------------------------------------------
+p1 <- ggtree(tree)
+metat <- p1$data %>%
+  dplyr::inner_join(dat, c('label' = 'id'))
+p2 <- p1 +
+  geom_point(data = metat,
+             aes(x = x,
+                 y = y,
+                 colour = grp,
+                 label = id))
+plotly::ggplotly(p2)
+```
+
+
+(ref:ggtreeplotlyscap) Interactive phylogenetic tree by combining ggtree with plotly.
+
+(ref:ggtreeplotlycap) **Interactive phylogenetic tree by combining ggtree with plotly.**
+
+
+
+```{r ggtreeplotly, fig.cap="(ref:ggtreeplotlycap)", fig.scap="(ref:ggtreeplotlyscap)", echo=FALSE} 
+knitr::include_graphics("img/ggtree-plotly.gif")
+```
+
+
+### identify: interactive ggtree annotation {#identify}
+
+The `r Biocpkg("ggtree")` package supports interactive tree annotation or manipulation by implementing an `identify()` method. Users can click on a node to highlight a clade, to label or rotate it *etc*.
+
+Here is an example of highlighting clades using `geom_hilight` with `identify`:
+
+
+![](https://youtu.be/KcF8Ec38mzI){width="90%"}
+
+
+
+Here is another example of using `emojifont` to label clades.
+
+
+![](https://youtu.be/SmcceRD_jxg){width="90%"}
+
+
+
+Interactive tree manipulation, e.g. rotating clades, is also possible.
+
+
+![](https://youtu.be/lKNn4QlPO0E){width="90%"}
+
+The videos are also available in youku (优酷), see <http://v.youku.com/v_show/id_XMTYyMzgyODYyOA>, <http://v.youku.com/v_show/id_XMTYyNDIzODA0NA> and <http://v.youku.com/v_show/id_XMTYyMzgyODg2OA>.
+
+
+## Comic (xkcd-like) phylogenetic tree {#commicR}
+
+
+```{r ggsvg, fig.show='hide'}
+library(htmltools)    
+library(XML)    
+library(gridSVG)    
+library(ggplot2)    
+library(ggtree)
+library(comicR)    
+
+p <- ggtree(rtree(30), layout="circular")  +
+    geom_tiplab(aes(label=label), color="purple")
+print(p)
+svg <- grid.export(name="", res=100)$svg
+```
+
+(ref:comicRscap) Remove image background.
+
+(ref:comicRcap) **Remove image background.** Plotting silhouette images on phylogenetic tree without (A) and with (B) background remove.
+
+
+```{r comicR} 
+tagList(
+    tags$div(
+             id = "ggtree_comic",
+             tags$style("#ggtree_comic text {font-family:Chalkduster;}"),
+             HTML(saveXML(svg)),
+             comicR("#ggtree_comic", ff=5)
+         )
+) # %>% html_print
+```
+
+
+
+## Print ASCII-art rooted tree {#ascii-tree}
+
+```{r asciiTree, comment=NA}
+library(data.tree)
+tree <- rtree(10)
+d <- as.data.frame(as.Node(tree))
+names(d) <- NULL
+print(d, row.names=FALSE)
+```
+
+It is neat to print ASCII-art of phylogeny. Sometimes we don't want to plot the tree, but just take a glance at the tree structure without leaving the focus from R console. However, it is not a good idea to print the whole tree as ASCII text if the tree is large. Sometimes we just want to look at a specific portion of the tree and their immediate relatives. At this scenario, we can use `treeio::tree_subset()` function (see [session 2.4](subsetting-tree-with-data)) to extract selected portion of a tree. Then we can print ASCII-art of the tree subset to explore evolutionary relationship of interested species in R console.
+
+`r Biocpkg("ggtree")` supports parsing tip labels as emoji to create [phylomoji](#phylomoji). With the `r CRANpkg("data.tree")` and `r CRANpkg("emojifont")` packages, we can also print phylomoji as ASCII text.
+
+```{r asciiTreeEmoji, comment=NA}
+library(emojifont)
+
+tt <- '((snail,mushroom),(((sunflower,evergreen_tree),leaves),green_salad));'
+tree <- read.tree(text = tt)
+tree$tip.label <- emoji(tree$tip.label)
+d <- as.data.frame(as.Node(tree))
+names(d) <- NULL
+print(d, row.names=FALSE)
+```
+
+
+Another way to print ASCII-art pf phylogeny is to use the `ascii()` device defined in [devout](https://github.com/coolbutuseless/devout) package. Here is an example:
+
+```{r devout-ascii, comment=NA}
+library(devout)
+ascii(width=80)
+ggtree(rtree(5))
+invisible(dev.off())
+```
+
+
+## Zoom in selected portion {#facet-zoom}
+
+
+(ref:facetZoomscap) Zoom in selected clade.
+
+(ref:facetZoomcap) **Zoom in selected clade.**
+
+
+```{r facetZoom, fig.width=6, fig.height=4, fig.cap="(ref:facetZoomcap)", fig.scap="(ref:facetZoomscap)"}
+set.seed(2019-08-05)
+x <- rtree(30)
+nn <- tidytree::offspring(x, 43, self_include=TRUE)
+ggtree(x) + ggforce::facet_zoom(xy = node %in% nn)
+```
+
 
 # Tips for using `ggtree` with `ggimage` {#ggimage-tips}
 
@@ -57,92 +217,6 @@ The `geom_bgimage` add a layer of the image and put the layer to the bottom of t
 ggtree(rtree(20), size=1.5, color="white") + 
   geom_bgimage('img/blackboard.jpg') + 
   geom_tiplab(color="white", size=5, family='xkcd')
-```
-
-# Comic (xkcd-like) phylogenetic tree {#commicR}
-
-
-```{r ggsvg, fig.show='hide'}
-library(htmltools)    
-library(XML)    
-library(gridSVG)    
-library(ggplot2)    
-library(ggtree)
-library(comicR)    
-
-p <- ggtree(rtree(30), layout="circular")  +
-    geom_tiplab(aes(label=label), color="purple")
-print(p)
-svg <- grid.export(name="", res=100)$svg
-```
-
-(ref:comicRscap) Remove image background.
-
-(ref:comicRcap) **Remove image background.** Plotting silhouette images on phylogenetic tree without (A) and with (B) background remove.
-
-
-```{r comicR} 
-tagList(
-    tags$div(
-             id = "ggtree_comic",
-             tags$style("#ggtree_comic text {font-family:Chalkduster;}"),
-             HTML(saveXML(svg)),
-             comicR("#ggtree_comic", ff=5)
-         )
-) # %>% html_print
-```
-
-
-
-# Print ASCII-art rooted tree {#ascii-tree}
-
-```{r asciiTree, comment=NA}
-library(data.tree)
-tree <- rtree(10)
-d <- as.data.frame(as.Node(tree))
-names(d) <- NULL
-print(d, row.names=FALSE)
-```
-
-It is neat to print ASCII-art of phylogeny. Sometimes we don't want to plot the tree, but just take a glance at the tree structure without leaving the focus from R console. However, it is not a good idea to print the whole tree as ASCII text if the tree is large. Sometimes we just want to look at a specific portion of the tree and their immediate relatives. At this scenario, we can use `treeio::tree_subset()` function (see [session 2.4](subsetting-tree-with-data)) to extract selected portion of a tree. Then we can print ASCII-art of the tree subset to explore evolutionary relationship of interested species in R console.
-
-`r Biocpkg("ggtree")` supports parsing tip labels as emoji to create [phylomoji](#phylomoji). With the `r CRANpkg("data.tree")` and `r CRANpkg("emojifont")` packages, we can also print phylomoji as ASCII text.
-
-```{r asciiTreeEmoji, comment=NA}
-library(emojifont)
-
-tt <- '((snail,mushroom),(((sunflower,evergreen_tree),leaves),green_salad));'
-tree <- read.tree(text = tt)
-tree$tip.label <- emoji(tree$tip.label)
-d <- as.data.frame(as.Node(tree))
-names(d) <- NULL
-print(d, row.names=FALSE)
-```
-
-
-Another way to print ASCII-art pf phylogeny is to use the `ascii()` device defined in [devout](https://github.com/coolbutuseless/devout) package. Here is an example:
-
-```{r devout-ascii, comment=NA}
-library(devout)
-ascii(width=80)
-ggtree(rtree(5))
-invisible(dev.off())
-```
-
-
-# Zoom in selected portion {#facet-zoom}
-
-
-(ref:facetZoomscap) Zoom in selected clade.
-
-(ref:facetZoomcap) **Zoom in selected clade.**
-
-
-```{r facetZoom, fig.width=6, fig.height=4, fig.cap="(ref:facetZoomcap)", fig.scap="(ref:facetZoomscap)"}
-set.seed(2019-08-05)
-x <- rtree(30)
-nn <- tidytree::offspring(x, 43, self_include=TRUE)
-ggtree(x) + ggforce::facet_zoom(xy = node %in% nn)
 ```
 
 

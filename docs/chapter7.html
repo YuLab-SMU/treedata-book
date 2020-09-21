@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2020-09-20" />
+<meta name="date" content="2020-09-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -375,18 +375,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="B" data-path="related-tools.html"><a href="related-tools.html"><i class="fa fa-check"></i><b>B</b> Related tools</a>
 <ul>
 <li class="chapter" data-level="B.1" data-path="related-tools.html"><a href="related-tools.html#rtol"><i class="fa fa-check"></i><b>B.1</b> rtol: An R interface to Open Tree API</a></li>
+<li class="chapter" data-level="B.2" data-path="related-tools.html"><a href="related-tools.html#ggtree-interactive"><i class="fa fa-check"></i><b>B.2</b> Interactive phylogenetic tree</a>
+<ul>
+<li class="chapter" data-level="B.2.1" data-path="related-tools.html"><a href="related-tools.html#plotly"><i class="fa fa-check"></i><b>B.2.1</b> plotly: convert ggtree to plotly object</a></li>
+<li class="chapter" data-level="B.2.2" data-path="related-tools.html"><a href="related-tools.html#identify"><i class="fa fa-check"></i><b>B.2.2</b> identify: interactive ggtree annotation</a></li>
+</ul></li>
+<li class="chapter" data-level="B.3" data-path="related-tools.html"><a href="related-tools.html#commicR"><i class="fa fa-check"></i><b>B.3</b> Comic (xkcd-like) phylogenetic tree</a></li>
+<li class="chapter" data-level="B.4" data-path="related-tools.html"><a href="related-tools.html#ascii-tree"><i class="fa fa-check"></i><b>B.4</b> Print ASCII-art rooted tree</a></li>
+<li class="chapter" data-level="B.5" data-path="related-tools.html"><a href="related-tools.html#facet-zoom"><i class="fa fa-check"></i><b>B.5</b> Zoom in selected portion</a></li>
 </ul></li>
 <li class="chapter" data-level="C" data-path="ggimage-tips.html"><a href="ggimage-tips.html"><i class="fa fa-check"></i><b>C</b> Tips for using <code>ggtree</code> with <code>ggimage</code></a>
 <ul>
 <li class="chapter" data-level="C.1" data-path="ggimage-tips.html"><a href="ggimage-tips.html#ggimage-rm-image-bg"><i class="fa fa-check"></i><b>C.1</b> Example 1: Remove background of images</a></li>
 <li class="chapter" data-level="C.2" data-path="ggimage-tips.html"><a href="ggimage-tips.html#ggimage-bgimage"><i class="fa fa-check"></i><b>C.2</b> Example 2: Plot tree on a background image</a></li>
 </ul></li>
-<li class="chapter" data-level="D" data-path="commicR.html"><a href="commicR.html"><i class="fa fa-check"></i><b>D</b> Comic (xkcd-like) phylogenetic tree</a></li>
-<li class="chapter" data-level="E" data-path="ascii-tree.html"><a href="ascii-tree.html"><i class="fa fa-check"></i><b>E</b> Print ASCII-art rooted tree</a></li>
-<li class="chapter" data-level="F" data-path="facet-zoom.html"><a href="facet-zoom.html"><i class="fa fa-check"></i><b>F</b> Zoom in selected portion</a></li>
-<li class="chapter" data-level="G" data-path="run-ggtree-in-jupyter-notebook.html"><a href="run-ggtree-in-jupyter-notebook.html"><i class="fa fa-check"></i><b>G</b> Run ggtree in Jupyter notebook</a></li>
-<li class="chapter" data-level="H" data-path="figures-and-tables.html"><a href="figures-and-tables.html"><i class="fa fa-check"></i><b>H</b> Figures and Tables</a></li>
-<li class="chapter" data-level="I" data-path="session-info.html"><a href="session-info.html"><i class="fa fa-check"></i><b>I</b> Session Info</a></li>
+<li class="chapter" data-level="D" data-path="run-ggtree-in-jupyter-notebook.html"><a href="run-ggtree-in-jupyter-notebook.html"><i class="fa fa-check"></i><b>D</b> Run ggtree in Jupyter notebook</a></li>
+<li class="chapter" data-level="E" data-path="figures-and-tables.html"><a href="figures-and-tables.html"><i class="fa fa-check"></i><b>E</b> Figures and Tables</a></li>
+<li class="chapter" data-level="F" data-path="session-info.html"><a href="session-info.html"><i class="fa fa-check"></i><b>F</b> Session Info</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
 
@@ -451,7 +456,7 @@ Figure 7.1: <strong>Example of attaching multiple datasets</strong>.
 <div id="facet_plot" class="section level2" number="7.2">
 <h2><span class="header-section-number">7.2</span> Aligning graph to the tree based on tree structure</h2>
 <p>For associating phylogenetic tree with different type of plot produced by user’s data, <code>ggtree</code> provides <code>geom_facet</code> layer and <code>facet_plot</code> function which accept an input <code>data.frame</code> and a <code>geom</code> layer to draw the input data. The data will be displayed in an additional panel of the plot. The <code>geom_facet</code> (or <code>facet_plot</code>) is a general solution for linking graphic layer to a tree. The function internally re-orders the input data based on the tree structure and visualizes the data at the specific panel by the geometric layer. Users are free to visualize several panels to plot different types of data as demonstrated in Figure <a href="chapter9.html#fig:phyloseq">9.4</a> and to use different geometric layers to plot the same dataset (Figure <a href="chapter13.html#fig:jv2017">13.1</a>) or different datasets on the same panel.</p>
-<p>The <code>geom_facet</code> is designed to work with most of the <code>geom</code> layers defined in <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> and other <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a>-based packages. A list of the geometric layers that work seamlessly with <code>geom_facet</code> and <code>facet_plot</code> can be found in Table <a href="figures-and-tables.html#tab:facet-geom">H.1</a>. As the <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> community keeps expanding and more <code>geom</code> layers will be implemented in either <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> or other extensions, <code>geom_facet</code> and <code>facet_plot</code> will gain more power to present data in future. Note that different <code>geom</code> layers can be combined to present data on the same panel and the combinations of different <code>geom</code> layers create the possibility to present more complex data with phylogeny (see also Figure <a href="chapter13.html#fig:jv2017">13.1</a> and <a href="chapter13.html#fig:gggenes">13.4</a>). Detailed descriptions can be found in <a href="https://github.com/GuangchuangYu/plotting_tree_with_data/">Supplemental File</a> of <span class="citation">(Yu et al. <a href="#ref-yu_two_2018" role="doc-biblioref">2018</a>)</span>.</p>
+<p>The <code>geom_facet</code> is designed to work with most of the <code>geom</code> layers defined in <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> and other <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a>-based packages. A list of the geometric layers that work seamlessly with <code>geom_facet</code> and <code>facet_plot</code> can be found in Table <a href="figures-and-tables.html#tab:facet-geom">E.1</a>. As the <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> community keeps expanding and more <code>geom</code> layers will be implemented in either <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> or other extensions, <code>geom_facet</code> and <code>facet_plot</code> will gain more power to present data in future. Note that different <code>geom</code> layers can be combined to present data on the same panel and the combinations of different <code>geom</code> layers create the possibility to present more complex data with phylogeny (see also Figure <a href="chapter13.html#fig:jv2017">13.1</a> and <a href="chapter13.html#fig:gggenes">13.4</a>). Detailed descriptions can be found in <a href="https://github.com/GuangchuangYu/plotting_tree_with_data/">Supplemental File</a> of <span class="citation">(Yu et al. <a href="#ref-yu_two_2018" role="doc-biblioref">2018</a>)</span>.</p>
 
 
 <div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="chapter7.html#cb189-1" aria-hidden="true"></a><span class="kw">library</span>(ggtree)</span>
@@ -703,7 +708,7 @@ p %<% rtree(50)
 <ol style="list-style-type: decimal">
 <li>Integrating node/edge data to the tree can be mapped to visual characteristics of the tree or other datasets (Figure ).</li>
 <li>Capable of parsing expression (math symbols or text formatting), emoji and image files (<a href="chapter8.html#chapter8">chapter 8</a>).</li>
-<li>No predefined of input data types or how the data should be plotted in <code>geom_facet</code> (Table <a href="figures-and-tables.html#tab:facet-geom">H.1</a>).</li>
+<li>No predefined of input data types or how the data should be plotted in <code>geom_facet</code> (Table <a href="figures-and-tables.html#tab:facet-geom">E.1</a>).</li>
 <li>Combining different <code>geom</code> functions to visualize associated data is supported (Figure <a href="chapter13.html#fig:jv2017">13.1</a>).</li>
 <li>Visualizing different datasets on the same panel is supported.</li>
 <li>Data integrated by <code>%&lt;+%</code> can be used in <code>geom_facet</code>.</li>
