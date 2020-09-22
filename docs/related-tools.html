@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2020-09-21" />
+<meta name="date" content="2020-09-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -331,6 +331,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="12.6.1" data-path="chapter12.html"><a href="chapter12.html#tiporder"><i class="fa fa-check"></i><b>12.6.1</b> Extract tip order</a></li>
 </ul></li>
+<li class="chapter" data-level="12.7" data-path="chapter12.html"><a href="chapter12.html#identify"><i class="fa fa-check"></i><b>12.7</b> Interactive ggtree annotation</a></li>
 </ul></li>
 <li class="chapter" data-level="13" data-path="chapter13.html"><a href="chapter13.html"><i class="fa fa-check"></i><b>13</b> Gallery of reproducible examples</a>
 <ul>
@@ -376,13 +377,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="B" data-path="related-tools.html"><a href="related-tools.html"><i class="fa fa-check"></i><b>B</b> Related tools</a>
 <ul>
 <li class="chapter" data-level="B.1" data-path="related-tools.html"><a href="related-tools.html#rtol"><i class="fa fa-check"></i><b>B.1</b> rtol: An R interface to Open Tree API</a></li>
-<li class="chapter" data-level="B.2" data-path="related-tools.html"><a href="related-tools.html#ggtree-interactive"><i class="fa fa-check"></i><b>B.2</b> Interactive phylogenetic tree</a>
-<ul>
-<li class="chapter" data-level="B.2.1" data-path="related-tools.html"><a href="related-tools.html#plotly"><i class="fa fa-check"></i><b>B.2.1</b> plotly: convert ggtree to plotly object</a></li>
-<li class="chapter" data-level="B.2.2" data-path="related-tools.html"><a href="related-tools.html#identify"><i class="fa fa-check"></i><b>B.2.2</b> identify: interactive ggtree annotation</a></li>
-</ul></li>
-<li class="chapter" data-level="B.3" data-path="related-tools.html"><a href="related-tools.html#commicR"><i class="fa fa-check"></i><b>B.3</b> Comic (xkcd-like) phylogenetic tree</a></li>
-<li class="chapter" data-level="B.4" data-path="related-tools.html"><a href="related-tools.html#ascii-tree"><i class="fa fa-check"></i><b>B.4</b> Print ASCII-art rooted tree</a></li>
+<li class="chapter" data-level="B.2" data-path="related-tools.html"><a href="related-tools.html#plotly"><i class="fa fa-check"></i><b>B.2</b> plotly: convert ggtree to plotly object</a></li>
+<li class="chapter" data-level="B.3" data-path="related-tools.html"><a href="related-tools.html#commicR"><i class="fa fa-check"></i><b>B.3</b> comicR: comic (xkcd-like) phylogenetic tree</a></li>
+<li class="chapter" data-level="B.4" data-path="related-tools.html"><a href="related-tools.html#ascii-tree"><i class="fa fa-check"></i><b>B.4</b> data.tree: print ASCII-art rooted tree</a></li>
 <li class="chapter" data-level="B.5" data-path="related-tools.html"><a href="related-tools.html#facet-zoom"><i class="fa fa-check"></i><b>B.5</b> Zoom in selected portion</a></li>
 </ul></li>
 <li class="chapter" data-level="C" data-path="ggimage-tips.html"><a href="ggimage-tips.html"><i class="fa fa-check"></i><b>C</b> Tips for using <code>ggtree</code> with <code>ggimage</code></a>
@@ -443,37 +440,36 @@ Figure B.1: <strong>Get an induced subtree from the big Open Tree.</strong>
 </p>
 </div>
 </div>
-<div id="ggtree-interactive" class="section level2" number="15.2">
-<h2><span class="header-section-number">B.2</span> Interactive phylogenetic tree</h2>
-<div id="plotly" class="section level3" number="15.2.1">
-<h3><span class="header-section-number">B.2.1</span> plotly: convert ggtree to plotly object</h3>
-<p>One way to make quick interactive phylogenetic tree is using <a href="http://bioconductor.org/packages/ggtree">ggtree</a> with the <a href="https://CRAN.R-project.org/package=plotly">plotly</a> package.</p>
-<p>Here is an example<a href="#fn24" class="footnote-ref" id="fnref24"><sup>24</sup></a>:</p>
-<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="related-tools.html#cb287-1" aria-hidden="true"></a><span class="co"># LOAD LIBS ---------------------------------------------------------------</span></span>
-<span id="cb287-2"><a href="related-tools.html#cb287-2" aria-hidden="true"></a><span class="kw">library</span>(ape)</span>
-<span id="cb287-3"><a href="related-tools.html#cb287-3" aria-hidden="true"></a><span class="kw">library</span>(ggtree)</span>
-<span id="cb287-4"><a href="related-tools.html#cb287-4" aria-hidden="true"></a><span class="kw">library</span>(plotly)</span>
-<span id="cb287-5"><a href="related-tools.html#cb287-5" aria-hidden="true"></a><span class="co"># CREATE A TREE -------------------------------------------------------------</span></span>
-<span id="cb287-6"><a href="related-tools.html#cb287-6" aria-hidden="true"></a>n_samples &lt;-<span class="st"> </span><span class="dv">20</span></span>
-<span id="cb287-7"><a href="related-tools.html#cb287-7" aria-hidden="true"></a>n_grp &lt;-<span class="st"> </span><span class="dv">4</span></span>
-<span id="cb287-8"><a href="related-tools.html#cb287-8" aria-hidden="true"></a>tree &lt;-<span class="st"> </span>ape<span class="op">::</span><span class="kw">rtree</span>(<span class="dt">n =</span> n_samples)</span>
-<span id="cb287-9"><a href="related-tools.html#cb287-9" aria-hidden="true"></a><span class="co"># CREATE SOME METADATA ----------------------------------------------------</span></span>
-<span id="cb287-10"><a href="related-tools.html#cb287-10" aria-hidden="true"></a>id &lt;-<span class="st"> </span>tree<span class="op">$</span>tip.label</span>
-<span id="cb287-11"><a href="related-tools.html#cb287-11" aria-hidden="true"></a><span class="kw">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb287-12"><a href="related-tools.html#cb287-12" aria-hidden="true"></a>grp &lt;-<span class="st"> </span><span class="kw">sample</span>(LETTERS[<span class="dv">1</span><span class="op">:</span>n_grp], <span class="dt">size =</span> n_samples, <span class="dt">replace =</span> T)</span>
-<span id="cb287-13"><a href="related-tools.html#cb287-13" aria-hidden="true"></a>dat &lt;-<span class="st"> </span>tibble<span class="op">::</span><span class="kw">tibble</span>(<span class="dt">id =</span> id,</span>
-<span id="cb287-14"><a href="related-tools.html#cb287-14" aria-hidden="true"></a>                      <span class="dt">grp =</span> grp)</span>
-<span id="cb287-15"><a href="related-tools.html#cb287-15" aria-hidden="true"></a><span class="co"># PLOT THE TREE -----------------------------------------------------------</span></span>
-<span id="cb287-16"><a href="related-tools.html#cb287-16" aria-hidden="true"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree)</span>
-<span id="cb287-17"><a href="related-tools.html#cb287-17" aria-hidden="true"></a>metat &lt;-<span class="st"> </span>p1<span class="op">$</span>data <span class="op">%&gt;%</span></span>
-<span id="cb287-18"><a href="related-tools.html#cb287-18" aria-hidden="true"></a><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">inner_join</span>(dat, <span class="kw">c</span>(<span class="st">&#39;label&#39;</span> =<span class="st"> &#39;id&#39;</span>))</span>
-<span id="cb287-19"><a href="related-tools.html#cb287-19" aria-hidden="true"></a>p2 &lt;-<span class="st"> </span>p1 <span class="op">+</span></span>
-<span id="cb287-20"><a href="related-tools.html#cb287-20" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data =</span> metat,</span>
-<span id="cb287-21"><a href="related-tools.html#cb287-21" aria-hidden="true"></a>             <span class="kw">aes</span>(<span class="dt">x =</span> x,</span>
-<span id="cb287-22"><a href="related-tools.html#cb287-22" aria-hidden="true"></a>                 <span class="dt">y =</span> y,</span>
-<span id="cb287-23"><a href="related-tools.html#cb287-23" aria-hidden="true"></a>                 <span class="dt">colour =</span> grp,</span>
-<span id="cb287-24"><a href="related-tools.html#cb287-24" aria-hidden="true"></a>                 <span class="dt">label =</span> id))</span>
-<span id="cb287-25"><a href="related-tools.html#cb287-25" aria-hidden="true"></a>plotly<span class="op">::</span><span class="kw">ggplotly</span>(p2)</span></code></pre></div>
+<div id="plotly" class="section level2" number="15.2">
+<h2><span class="header-section-number">B.2</span> plotly: convert ggtree to plotly object</h2>
+<p>One way to make quick interactive phylogenetic tree is using <a href="http://bioconductor.org/packages/ggtree">ggtree</a> with the <a href="https://CRAN.R-project.org/package=plotly">plotly</a> package. The <a href="http://bioconductor.org/packages/ggtree">ggtree</a> package also supports interactive manipulation of phylogenetic tree via the <a href="chapter12.html#identify">identify()</a> method.</p>
+<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="related-tools.html#cb287-1" aria-hidden="true"></a><span class="co"># example from https://twitter.com/drandersgs/status/965996335882059776</span></span>
+<span id="cb287-2"><a href="related-tools.html#cb287-2" aria-hidden="true"></a></span>
+<span id="cb287-3"><a href="related-tools.html#cb287-3" aria-hidden="true"></a><span class="co"># LOAD LIBS ---------------------------------------------------------------</span></span>
+<span id="cb287-4"><a href="related-tools.html#cb287-4" aria-hidden="true"></a><span class="kw">library</span>(ape)</span>
+<span id="cb287-5"><a href="related-tools.html#cb287-5" aria-hidden="true"></a><span class="kw">library</span>(ggtree)</span>
+<span id="cb287-6"><a href="related-tools.html#cb287-6" aria-hidden="true"></a><span class="kw">library</span>(plotly)</span>
+<span id="cb287-7"><a href="related-tools.html#cb287-7" aria-hidden="true"></a><span class="co"># CREATE A TREE -------------------------------------------------------------</span></span>
+<span id="cb287-8"><a href="related-tools.html#cb287-8" aria-hidden="true"></a>n_samples &lt;-<span class="st"> </span><span class="dv">20</span></span>
+<span id="cb287-9"><a href="related-tools.html#cb287-9" aria-hidden="true"></a>n_grp &lt;-<span class="st"> </span><span class="dv">4</span></span>
+<span id="cb287-10"><a href="related-tools.html#cb287-10" aria-hidden="true"></a>tree &lt;-<span class="st"> </span>ape<span class="op">::</span><span class="kw">rtree</span>(<span class="dt">n =</span> n_samples)</span>
+<span id="cb287-11"><a href="related-tools.html#cb287-11" aria-hidden="true"></a><span class="co"># CREATE SOME METADATA ----------------------------------------------------</span></span>
+<span id="cb287-12"><a href="related-tools.html#cb287-12" aria-hidden="true"></a>id &lt;-<span class="st"> </span>tree<span class="op">$</span>tip.label</span>
+<span id="cb287-13"><a href="related-tools.html#cb287-13" aria-hidden="true"></a><span class="kw">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb287-14"><a href="related-tools.html#cb287-14" aria-hidden="true"></a>grp &lt;-<span class="st"> </span><span class="kw">sample</span>(LETTERS[<span class="dv">1</span><span class="op">:</span>n_grp], <span class="dt">size =</span> n_samples, <span class="dt">replace =</span> T)</span>
+<span id="cb287-15"><a href="related-tools.html#cb287-15" aria-hidden="true"></a>dat &lt;-<span class="st"> </span>tibble<span class="op">::</span><span class="kw">tibble</span>(<span class="dt">id =</span> id,</span>
+<span id="cb287-16"><a href="related-tools.html#cb287-16" aria-hidden="true"></a>                      <span class="dt">grp =</span> grp)</span>
+<span id="cb287-17"><a href="related-tools.html#cb287-17" aria-hidden="true"></a><span class="co"># PLOT THE TREE -----------------------------------------------------------</span></span>
+<span id="cb287-18"><a href="related-tools.html#cb287-18" aria-hidden="true"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree)</span>
+<span id="cb287-19"><a href="related-tools.html#cb287-19" aria-hidden="true"></a>metat &lt;-<span class="st"> </span>p1<span class="op">$</span>data <span class="op">%&gt;%</span></span>
+<span id="cb287-20"><a href="related-tools.html#cb287-20" aria-hidden="true"></a><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">inner_join</span>(dat, <span class="kw">c</span>(<span class="st">&#39;label&#39;</span> =<span class="st"> &#39;id&#39;</span>))</span>
+<span id="cb287-21"><a href="related-tools.html#cb287-21" aria-hidden="true"></a>p2 &lt;-<span class="st"> </span>p1 <span class="op">+</span></span>
+<span id="cb287-22"><a href="related-tools.html#cb287-22" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data =</span> metat,</span>
+<span id="cb287-23"><a href="related-tools.html#cb287-23" aria-hidden="true"></a>             <span class="kw">aes</span>(<span class="dt">x =</span> x,</span>
+<span id="cb287-24"><a href="related-tools.html#cb287-24" aria-hidden="true"></a>                 <span class="dt">y =</span> y,</span>
+<span id="cb287-25"><a href="related-tools.html#cb287-25" aria-hidden="true"></a>                 <span class="dt">colour =</span> grp,</span>
+<span id="cb287-26"><a href="related-tools.html#cb287-26" aria-hidden="true"></a>                 <span class="dt">label =</span> id))</span>
+<span id="cb287-27"><a href="related-tools.html#cb287-27" aria-hidden="true"></a>plotly<span class="op">::</span><span class="kw">ggplotly</span>(p2)</span></code></pre></div>
 
 
 <div class="figure"><span id="fig:ggtreeplotly"></span>
@@ -483,14 +479,8 @@ Figure B.2: <strong>Interactive phylogenetic tree by combining ggtree with plotl
 </p>
 </div>
 </div>
-<div id="identify" class="section level3" number="15.2.2">
-<h3><span class="header-section-number">B.2.2</span> identify: interactive ggtree annotation</h3>
-<p>The <a href="http://bioconductor.org/packages/ggtree">ggtree</a> package supports interactive tree annotation or manipulation by implementing an <code>identify()</code> method. Users can click on a node to highlight a clade, to label or rotate it <em>etc</em>.</p>
-<p>An example of highlighting clades using <code>geom_hilight()</code> with <code>identify()</code> can be found on <a href="https://youtu.be/KcF8Ec38mzI">Youtube <i class="fab  fa-youtube " style="color:red;"></i></a> and <a href="http://v.youku.com/v_show/id_XMTYyMzgyODYyOA">Youku</a>. Another example of using <code>emojifont</code> to label clades on <a href="https://youtu.be/SmcceRD_jxg">Youtube <i class="fab  fa-youtube " style="color:red;"></i></a> and <a href="http://v.youku.com/v_show/id_XMTYyNDIzODA0NA">Youku</a>. Interactive tree manipulation, e.g. rotating clades, is also possible, see example on <a href="https://youtu.be/lKNn4QlPO0E">Youtube <i class="fab  fa-youtube " style="color:red;"></i></a> and <a href="http://v.youku.com/v_show/id_XMTYyMzgyODg2OA">Youku</a>.</p>
-</div>
-</div>
 <div id="commicR" class="section level2" number="15.3">
-<h2><span class="header-section-number">B.3</span> Comic (xkcd-like) phylogenetic tree</h2>
+<h2><span class="header-section-number">B.3</span> comicR: comic (xkcd-like) phylogenetic tree</h2>
 <div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="related-tools.html#cb288-1" aria-hidden="true"></a><span class="kw">library</span>(htmltools)    </span>
 <span id="cb288-2"><a href="related-tools.html#cb288-2" aria-hidden="true"></a><span class="kw">library</span>(XML)    </span>
 <span id="cb288-3"><a href="related-tools.html#cb288-3" aria-hidden="true"></a><span class="kw">library</span>(gridSVG)    </span>
@@ -940,7 +930,7 @@ Figure B.2: <strong>Interactive phylogenetic tree by combining ggtree with plotl
 </div>
 </div>
 <div id="ascii-tree" class="section level2" number="15.4">
-<h2><span class="header-section-number">B.4</span> Print ASCII-art rooted tree</h2>
+<h2><span class="header-section-number">B.4</span> data.tree: print ASCII-art rooted tree</h2>
 <div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="related-tools.html#cb290-1" aria-hidden="true"></a><span class="kw">library</span>(data.tree)</span>
 <span id="cb290-2"><a href="related-tools.html#cb290-2" aria-hidden="true"></a>tree &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">10</span>)</span>
 <span id="cb290-3"><a href="related-tools.html#cb290-3" aria-hidden="true"></a>d &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">as.Node</span>(tree))</span>
@@ -1035,12 +1025,6 @@ Figure B.3: <strong>Zoom in selected clade.</strong>
 <div id="ref-michonneau_rotl:_2016">
 <p>Michonneau, François, Joseph W. Brown, and David J. Winter. 2016. “Rotl: An R Package to Interact with the Open Tree of Life Data.” <em>Methods in Ecology and Evolution</em> 7 (12): 1476–81. <a href="https://doi.org/10.1111/2041-210X.12593">https://doi.org/10.1111/2041-210X.12593</a>.</p>
 </div>
-</div>
-<div class="footnotes">
-<hr />
-<ol start="24">
-<li id="fn24"><p><a href="https://twitter.com/drandersgs/status/965996335882059776" class="uri">https://twitter.com/drandersgs/status/965996335882059776</a><a href="related-tools.html#fnref24" class="footnote-back">↩︎</a></p></li>
-</ol>
 </div>
             </section>
 

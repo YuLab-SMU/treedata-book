@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2020-09-21" />
+<meta name="date" content="2020-09-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -331,6 +331,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="12.6.1" data-path="chapter12.html"><a href="chapter12.html#tiporder"><i class="fa fa-check"></i><b>12.6.1</b> Extract tip order</a></li>
 </ul></li>
+<li class="chapter" data-level="12.7" data-path="chapter12.html"><a href="chapter12.html#identify"><i class="fa fa-check"></i><b>12.7</b> Interactive ggtree annotation</a></li>
 </ul></li>
 <li class="chapter" data-level="13" data-path="chapter13.html"><a href="chapter13.html"><i class="fa fa-check"></i><b>13</b> Gallery of reproducible examples</a>
 <ul>
@@ -376,13 +377,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="B" data-path="related-tools.html"><a href="related-tools.html"><i class="fa fa-check"></i><b>B</b> Related tools</a>
 <ul>
 <li class="chapter" data-level="B.1" data-path="related-tools.html"><a href="related-tools.html#rtol"><i class="fa fa-check"></i><b>B.1</b> rtol: An R interface to Open Tree API</a></li>
-<li class="chapter" data-level="B.2" data-path="related-tools.html"><a href="related-tools.html#ggtree-interactive"><i class="fa fa-check"></i><b>B.2</b> Interactive phylogenetic tree</a>
-<ul>
-<li class="chapter" data-level="B.2.1" data-path="related-tools.html"><a href="related-tools.html#plotly"><i class="fa fa-check"></i><b>B.2.1</b> plotly: convert ggtree to plotly object</a></li>
-<li class="chapter" data-level="B.2.2" data-path="related-tools.html"><a href="related-tools.html#identify"><i class="fa fa-check"></i><b>B.2.2</b> identify: interactive ggtree annotation</a></li>
-</ul></li>
-<li class="chapter" data-level="B.3" data-path="related-tools.html"><a href="related-tools.html#commicR"><i class="fa fa-check"></i><b>B.3</b> Comic (xkcd-like) phylogenetic tree</a></li>
-<li class="chapter" data-level="B.4" data-path="related-tools.html"><a href="related-tools.html#ascii-tree"><i class="fa fa-check"></i><b>B.4</b> Print ASCII-art rooted tree</a></li>
+<li class="chapter" data-level="B.2" data-path="related-tools.html"><a href="related-tools.html#plotly"><i class="fa fa-check"></i><b>B.2</b> plotly: convert ggtree to plotly object</a></li>
+<li class="chapter" data-level="B.3" data-path="related-tools.html"><a href="related-tools.html#commicR"><i class="fa fa-check"></i><b>B.3</b> comicR: comic (xkcd-like) phylogenetic tree</a></li>
+<li class="chapter" data-level="B.4" data-path="related-tools.html"><a href="related-tools.html#ascii-tree"><i class="fa fa-check"></i><b>B.4</b> data.tree: print ASCII-art rooted tree</a></li>
 <li class="chapter" data-level="B.5" data-path="related-tools.html"><a href="related-tools.html#facet-zoom"><i class="fa fa-check"></i><b>B.5</b> Zoom in selected portion</a></li>
 </ul></li>
 <li class="chapter" data-level="C" data-path="ggimage-tips.html"><a href="ggimage-tips.html"><i class="fa fa-check"></i><b>C</b> Tips for using <code>ggtree</code> with <code>ggimage</code></a>
@@ -724,8 +721,26 @@ Figure 12.9: <strong>An example tree for demonstraing <code>get_taxa_name()</cod
 <p>If user specific a node, the <code>get_taxa_name()</code> will extract order tips of selected clade (i.e. highlighted region on the Figure <a href="chapter12.html#fig:tiporder">12.9</a>).</p>
 <div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="chapter12.html#cb248-1" aria-hidden="true"></a><span class="kw">get_taxa_name</span>(p, <span class="dt">node =</span> <span class="dv">12</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;t5&quot; &quot;t6&quot; &quot;t4&quot;</code></pre>
-
 </div>
+</div>
+<div id="identify" class="section level2" number="12.7">
+<h2><span class="header-section-number">12.7</span> Interactive ggtree annotation</h2>
+<p>The <a href="http://bioconductor.org/packages/ggtree">ggtree</a> package supports interactive tree annotation or manipulation by implementing an <code>identify()</code> method. Users can click on a node to highlight a clade, to label or rotate it <em>etc</em>. Users can also use the <a href="https://CRAN.R-project.org/package=plotly">plotly</a> package to convert <code>ggtree</code> to <code>plotly</code> object to quickly create <a href="related-tools.html#plotly">interactive phylogenetic tree</a>.</p>
+
+
+<div class="figure"><span id="fig:ggtreeidentify"></span>
+<img src="img/ggtree-identify.gif" alt="Interactive phylogenetic tree using identify() method. Highlighting, labelling and rotating clades are all supported." width="100%" />
+<p class="caption">
+Figure 12.10: <strong>Interactive phylogenetic tree using identify() method.</strong> Highlighting, labelling and rotating clades are all supported.
+</p>
+</div>
+<p>Video of using <code>identify()</code> to interactively manipulate phylogenetic tree can be found on Youtube <i class="fab  fa-youtube " style="color:red;"></i> and Youku:</p>
+<ul>
+<li>Highlighting clades: <a href="https://youtu.be/KcF8Ec38mzI">Youtube <i class="fab  fa-youtube " style="color:red;"></i></a> and <a href="http://v.youku.com/v_show/id_XMTYyMzgyODYyOA">Youku</a>.</li>
+<li>Labelling clades: <a href="https://youtu.be/SmcceRD_jxg">Youtube <i class="fab  fa-youtube " style="color:red;"></i></a> and <a href="http://v.youku.com/v_show/id_XMTYyNDIzODA0NA">Youku</a>.</li>
+<li>Rotating clades: <a href="https://youtu.be/lKNn4QlPO0E">Youtube <i class="fab  fa-youtube " style="color:red;"></i></a> and <a href="http://v.youku.com/v_show/id_XMTYyMzgyODg2OA">Youku</a>.</li>
+</ul>
+
 </div>
 </div>
             </section>
