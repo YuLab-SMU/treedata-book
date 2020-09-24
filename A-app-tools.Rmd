@@ -1,6 +1,27 @@
 
 # Related tools {#related-tools}
 
+## MicrobiotaProcess: Convert *taxonomy* or hierachical clustering result to *treedata* {#MicrobiotaProcess}
+
+In `microbiome` or `ecological data`, the *taxonomy* names are widely used to visualized their hierarchical relationship with associated dataset. However, the *taxonomy* names often are promiscuous and omissive. `convert_to_treedata` of `r Biocpkg("MicrobiotaProcess")` solves the problem well. It can automatically extract their upper level taxonomic information to complete it, when some *taxonomy* names are confused and missing. It also can convert the information to a *treedata* object, which can be visualized by `r Biocpkg("ggtree")`.
+
+(ref:TaxaToTreescap) Get a hierachical clustering tree with the taxonomy names.
+
+(ref:TaxaToTreecap) Get a hierachical clustering tree with the taxonomy names.
+
+```{r TaxaTree, fig.widht=8, fig.height=8, fig.cap="(ref:TaxaToTreecap)", fig.scap="ref:TaxaToTreescap"}
+library(MicrobiotaProcess)
+library(ggtree)
+data(kostic2012crc)
+taxa <- data.frame(kostic2012crc@tax_table, check.names=FALSE)
+
+tree <- convert_to_treedata(data=taxa)
+
+p <- ggtree(tree, layout="circular", size=0.2) +
+     geom_tiplab(size=1)
+p
+```
+
 ## rtol: An R interface to Open Tree API {#rtol}
 
 `r CRANpkg("rtol")` [@michonneau_rotl:_2016] is an R package to interact with the Open Tree of Life data APIs. 
