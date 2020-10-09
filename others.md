@@ -7,7 +7,7 @@ ggtree + deeptime can do something like this, <https://www.sciencedirect.com/sci
 
 https://github.com/YuLab-SMU/ggtree/pull/344
 
-
+https://github.com/YuLab-SMU/ggtree/pull/346
 
 geom_cladelab, <https://github.com/YuLab-SMU/ggtree/pull/342/>
 

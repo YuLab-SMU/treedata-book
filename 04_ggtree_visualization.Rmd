@@ -105,12 +105,15 @@ library(ggtree)
 set.seed(2017-02-16)
 tree <- rtree(50)
 ggtree(tree)
-ggtree(tree, layout="slanted") 
+ggtree(tree, layout="roundrect")
+ggtree(tree, layout="slanted")
+ggtree(tree, layout="ellipse")
 ggtree(tree, layout="circular")
 ggtree(tree, layout="fan", open.angle=120)
 ggtree(tree, layout="equal_angle")
 ggtree(tree, layout="daylight")
 ggtree(tree, branch.length='none')
+ggtree(tree, layout="ellipse", branch.length="none")
 ggtree(tree, branch.length='none', layout='circular')
 ggtree(tree, layout="daylight", branch.length = 'none')
 ```
@@ -119,26 +122,33 @@ ggtree(tree, layout="daylight", branch.length = 'none')
 
 (ref:layoutscap) Tree layouts.
 
-(ref:layoutcap) **Tree layouts.** Phylogram: rectangular layout (A), slanted layout (B), circular layout (C) and fan layout (D). Unrooted: equal-angle method (E) and daylight method (F). Cladogram: rectangular layout (G), circular layout (H) and unrooted layout (I). Slanted and fan layouts for cladogram are also supported.
+(ref:layoutcap) **Tree layouts.** Phylogram: rectangular layout (A), round rectangular layout (B), slanted layout (C), ellipse layout (D), circular layout (E) and fan layout (F). Unrooted: equal-angle method (G) and daylight method (H). Cladogram: rectangular layout (I), ellipse (J), circular layout (K) and unrooted layout (L). Slanted and fan layouts for cladogram are also supported.
 
-```{r layout, echo=F, fig.width=8, fig.height=8, fig.cap="(ref:layoutcap)", fig.scap="(ref:layoutscap)", out.extra='', message=FALSE}
+```{r layout, echo=F, fig.width=12, fig.height=9, fig.cap="(ref:layoutcap)", fig.scap="(ref:layoutscap)", out.extra='', message=FALSE}
 library(ggtree)
 library(cowplot)
 
 set.seed(2017-02-16)
 tree <- rtree(50)
+p1 <- ggtree(tree, layout="circular")
+p2 <- ggtree(tree, layout="fan", open.angle=120)
+#p1 <- ggplotify::as.ggplot(p1, scale=1.05)
+#p2 <- ggplotify::as.ggplot(p2, scale=1.05)
 
 playout <- plot_grid(
   ggtree(tree), # + ggtitle("rectangular layout")+theme(plot.title = element_text(hjust = 0.5)),
+  ggtree(tree, layout="roundrect"),
   ggtree(tree, layout="slanted"), # + ggtitle("slanted layout")+theme(plot.title = element_text(hjust = 0.5)),
-  ggtree(tree, layout="circular"), # + ggtitle("circular layout")+theme(plot.title = element_text(hjust = 0.5), plot.margin = unit(c(0,0,0,0), "lines")),
-  ggtree(tree, layout="fan", open.angle=120), # + ggtitle("fan layout")+theme(plot.title = element_text(hjust = 0.5), plot.margin = unit(c(0,0,0,0), "lines")),
+  ggtree(tree, layout="ellipse"),
+  p1, # + ggtitle("circular layout")+theme(plot.title = element_text(hjust = 0.5), plot.margin = unit(c(0,0,0,0), "lines")),
+  p2, # + ggtitle("fan layout")+theme(plot.title = element_text(hjust = 0.5), plot.margin = unit(c(0,0,0,0), "lines")),
   ggtree(tree, layout="equal_angle"),
   ggtree(tree, layout="daylight"),  
   ggtree(tree, branch.length='none'),
+  ggtree(tree, layout="ellipse", branch.length="none"),
   ggtree(tree, branch.length='none', layout='circular'),
   ggtree(tree, layout="daylight", branch.length = 'none'),
-  ncol=3, labels = LETTERS[1:9])
+  ncol=4, labels = LETTERS[1:12])
 # save(playout, file="data/playout.rda")
 playout
 ```
