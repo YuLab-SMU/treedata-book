@@ -56,10 +56,11 @@ p <- p +
          outlier.stroke=0.08,
          outlier.shape=21,
          axis.params=list(
-                         axis   = "x",
+                         axis       = "x",
                          text.size  = 1.8,
                          hjust      = 1,
-                         vjust      = 0.5
+                         vjust      = 0.5,
+                         nbreak     = 3,
                      ),
          grid.params=list()
      ) 
@@ -118,21 +119,28 @@ nodeids <- nodeid(tree, tree$node.label[nchar(tree$node.label)>4])
 nodedf <- data.frame(node=nodeids)
 nodelab <- gsub("[\\.0-9]", "", tree$node.label[nchar(tree$node.label)>4])
 # The layers of clade and hightlight
-hightlight <- lapply(nodeids, function(x)geom_hilight(node=x, extendto=6.8, alpha=0.3,
-                                                      fill="grey", color="grey50", size=0.05))
 poslist <- c(1.6, 1.4, 1.6, 0.8, 0.1, 0.25, 1.6, 1.6, 1.2, 0.4,
              1.2, 1.8, 0.3, 0.8, 0.4, 0.3, 0.4, 0.4, 0.4, 0.6,
              0.3, 0.4, 0.3)
-cladelabels <- mapply(function(x, y, z){geom_cladelabel(node=x, label=y, barsize=NA, extend=0,
-                                                    offset.text=z, fontsize=1.4, angle="auto",
-                                                    hjust=0.5, horizontal=FALSE, fontface="italic")},
-                                     nodeids, nodelab, poslist, SIMPLIFY=FALSE)
+labdf <- data.frame(node=nodeids, label=nodelab, pos=poslist)
 
 # The circular layout tree.
 p <- ggtree(tree, layout="fan", size=0.15, open.angle=5) +
      geom_hilight(data=nodedf, mapping=aes(node=node),
                   extendto=6.8, alpha=0.3, fill="grey", color="grey50",
-                  size=0.05)
+                  size=0.05) +
+     geom_cladelab(data=labdf, 
+                   mapping=aes(node=node, 
+                               label=label,
+                               offset.text=pos),
+                   hjust=0.5,
+                   angle="auto",
+                   barsize=NA,
+                   horizontal=FALSE, 
+                   fontsize=1.4,
+                   fontface="italic"
+                   )
+
 p <- p %<+% dat1 + geom_fruit(geom=geom_star,
                               mapping=aes(fill=Phylum, starshape=Type, size=Size),
                               position="identity",starstroke=0.1)+
@@ -154,7 +162,6 @@ p <- p %<+% dat1 + geom_fruit(geom=geom_star,
                     color = "grey50", offset = 0.04,size = 0.02)+
          scale_alpha_continuous(range=c(0, 1),
                              guide=guide_legend(keywidth = 0.3, keyheight = 0.3, order=5)) +
-         cladelabels +
          geom_fruit(data=dat3, geom=geom_bar,
                     mapping=aes(y=ID, x=HigherAbundance, fill=Sites),
                     pwidth=0.38, 
