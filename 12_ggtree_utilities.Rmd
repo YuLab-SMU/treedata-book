@@ -377,6 +377,40 @@ If user specific a node, the `get_taxa_name()` will extract order tips of select
 get_taxa_name(p, node = 12)
 ```
 
+### Padding taxa labels
+
+The `label_pad()` function adds padding characters (default is `·`) to taxa labels. 
+
+```{r}
+set.seed(2015-12-21)
+tree <- rtree(5)
+tree$tip.label[2] <- "long string for test"
+
+d <- data.frame(label = tree$tip.label, 
+                newlabel = label_pad(tree$tip.label),
+                newlabel2 = label_pad(tree$tip.label, pad = " "))
+print(d)
+```
+
+
+This feature is useful if we want to align tip labels to the end as demonstrated in Figure \@ref(fig:labelpad). Note that in this case, monospace font should be used to ensure the lengths of the labels displayed in the plot are the same.
+
+(ref:labelpadscap) Align tip label to the end.
+
+(ref:labelpadcap) **Align tip label to the end.** With dotted line (A) and without dotted line (B). 
+
+
+```{r labelpad, fig.width=14.6, fig.height=4.86, fig.cap="(ref:labelpadcap)", fig.scap="(ref:labelpadscap)"}
+p <- ggtree(tree) %<+% d + xlim(NA, 3)
+p1 <- p + geom_tiplab(aes(label=newlabel), 
+                    align=TRUE, family='mono',
+                    linetype = "dotted", linesize = .7) 
+p2 <- p + geom_tiplab(aes(label=newlabel2), 
+                    align=TRUE, family='mono',
+                    linetype = NULL) 
+cowplot::plot_grid(p1, p2, ncol=2, labels = c("A", "B"))                            
+```
+
 
 ## Interactive ggtree annotation {#identify}
 

@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2020-10-09" />
+<meta name="date" content="2020-10-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -329,6 +329,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="12.6" data-path="chapter12.html"><a href="chapter12.html#tree-utilities"><i class="fa fa-check"></i><b>12.6</b> Tree utilities</a>
 <ul>
 <li class="chapter" data-level="12.6.1" data-path="chapter12.html"><a href="chapter12.html#tiporder"><i class="fa fa-check"></i><b>12.6.1</b> Extract tip order</a></li>
+<li class="chapter" data-level="12.6.2" data-path="chapter12.html"><a href="chapter12.html#padding-taxa-labels"><i class="fa fa-check"></i><b>12.6.2</b> Padding taxa labels</a></li>
 </ul></li>
 <li class="chapter" data-level="12.7" data-path="chapter12.html"><a href="chapter12.html#identify"><i class="fa fa-check"></i><b>12.7</b> Interactive ggtree annotation</a></li>
 </ul></li>
@@ -722,6 +723,47 @@ Figure 12.9: <strong>An example tree for demonstraing <code>get_taxa_name()</cod
 <div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="chapter12.html#cb248-1" aria-hidden="true"></a><span class="kw">get_taxa_name</span>(p, <span class="dt">node =</span> <span class="dv">12</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;t5&quot; &quot;t6&quot; &quot;t4&quot;</code></pre>
 </div>
+<div id="padding-taxa-labels" class="section level3" number="12.6.2">
+<h3><span class="header-section-number">12.6.2</span> Padding taxa labels</h3>
+<p>The <code>label_pad()</code> function adds padding characters (default is <code>·</code>) to taxa labels.</p>
+<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="chapter12.html#cb250-1" aria-hidden="true"></a><span class="kw">set.seed</span>(<span class="dv">2015-12-21</span>)</span>
+<span id="cb250-2"><a href="chapter12.html#cb250-2" aria-hidden="true"></a>tree &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">5</span>)</span>
+<span id="cb250-3"><a href="chapter12.html#cb250-3" aria-hidden="true"></a>tree<span class="op">$</span>tip.label[<span class="dv">2</span>] &lt;-<span class="st"> &quot;long string for test&quot;</span></span>
+<span id="cb250-4"><a href="chapter12.html#cb250-4" aria-hidden="true"></a></span>
+<span id="cb250-5"><a href="chapter12.html#cb250-5" aria-hidden="true"></a>d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">label =</span> tree<span class="op">$</span>tip.label, </span>
+<span id="cb250-6"><a href="chapter12.html#cb250-6" aria-hidden="true"></a>                <span class="dt">newlabel =</span> <span class="kw">label_pad</span>(tree<span class="op">$</span>tip.label),</span>
+<span id="cb250-7"><a href="chapter12.html#cb250-7" aria-hidden="true"></a>                <span class="dt">newlabel2 =</span> <span class="kw">label_pad</span>(tree<span class="op">$</span>tip.label, <span class="dt">pad =</span> <span class="st">&quot; &quot;</span>))</span>
+<span id="cb250-8"><a href="chapter12.html#cb250-8" aria-hidden="true"></a><span class="kw">print</span>(d)</span></code></pre></div>
+<pre><code>##                  label             newlabel
+## 1                   t1 ··················t1
+## 2 long string for test long string for test
+## 3                   t2 ··················t2
+## 4                   t4 ··················t4
+## 5                   t3 ··················t3
+##              newlabel2
+## 1                   t1
+## 2 long string for test
+## 3                   t2
+## 4                   t4
+## 5                   t3</code></pre>
+<p>This feature is useful if we want to align tip labels to the end as demonstrated in Figure <a href="chapter12.html#fig:labelpad">12.10</a>. Note that in this case, monospace font should be used to ensure the lengths of the labels displayed in the plot are the same.</p>
+
+
+<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="chapter12.html#cb252-1" aria-hidden="true"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree) <span class="op">%&lt;+%</span><span class="st"> </span>d <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="ot">NA</span>, <span class="dv">3</span>)</span>
+<span id="cb252-2"><a href="chapter12.html#cb252-2" aria-hidden="true"></a>p1 &lt;-<span class="st"> </span>p <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">label=</span>newlabel), </span>
+<span id="cb252-3"><a href="chapter12.html#cb252-3" aria-hidden="true"></a>                    <span class="dt">align=</span><span class="ot">TRUE</span>, <span class="dt">family=</span><span class="st">&#39;mono&#39;</span>,</span>
+<span id="cb252-4"><a href="chapter12.html#cb252-4" aria-hidden="true"></a>                    <span class="dt">linetype =</span> <span class="st">&quot;dotted&quot;</span>, <span class="dt">linesize =</span> <span class="fl">.7</span>) </span>
+<span id="cb252-5"><a href="chapter12.html#cb252-5" aria-hidden="true"></a>p2 &lt;-<span class="st"> </span>p <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">label=</span>newlabel2), </span>
+<span id="cb252-6"><a href="chapter12.html#cb252-6" aria-hidden="true"></a>                    <span class="dt">align=</span><span class="ot">TRUE</span>, <span class="dt">family=</span><span class="st">&#39;mono&#39;</span>,</span>
+<span id="cb252-7"><a href="chapter12.html#cb252-7" aria-hidden="true"></a>                    <span class="dt">linetype =</span> <span class="ot">NULL</span>) </span>
+<span id="cb252-8"><a href="chapter12.html#cb252-8" aria-hidden="true"></a>cowplot<span class="op">::</span><span class="kw">plot_grid</span>(p1, p2, <span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>))                            </span></code></pre></div>
+<div class="figure"><span id="fig:labelpad"></span>
+<img src="treedata_files/figure-html/labelpad-1.svg" alt="Align tip label to the end. With dotted line (A) and without dotted line (B)." width="1401.6" />
+<p class="caption">
+Figure 12.10: <strong>Align tip label to the end.</strong> With dotted line (A) and without dotted line (B).
+</p>
+</div>
+</div>
 </div>
 <div id="identify" class="section level2" number="12.7">
 <h2><span class="header-section-number">12.7</span> Interactive ggtree annotation</h2>
@@ -731,7 +773,7 @@ Figure 12.9: <strong>An example tree for demonstraing <code>get_taxa_name()</cod
 <div class="figure"><span id="fig:ggtreeidentify"></span>
 <img src="img/ggtree-identify.gif" alt="Interactive phylogenetic tree using identify() method. Highlighting, labelling and rotating clades are all supported." width="100%" />
 <p class="caption">
-Figure 12.10: <strong>Interactive phylogenetic tree using identify() method.</strong> Highlighting, labelling and rotating clades are all supported.
+Figure 12.11: <strong>Interactive phylogenetic tree using identify() method.</strong> Highlighting, labelling and rotating clades are all supported.
 </p>
 </div>
 <p>Video of using <code>identify()</code> to interactively manipulate phylogenetic tree can be found on Youtube <i class="fab  fa-youtube " style="color:red;"></i> and Youku:</p>
