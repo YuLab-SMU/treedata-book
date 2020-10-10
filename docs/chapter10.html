@@ -50,6 +50,7 @@
 
 
 
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/font-awesome-5.3.1/css/fontawesome-all.min.css" rel="stylesheet" />
 <script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
@@ -421,63 +422,64 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The <code>geom_fruit</code> is designed to work with most of <code>geom</code> layers defined in <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a>. It control the position of graphs by <code>position</code> parameter, which was provided the <code>Position</code> object of <a href="http://bioconductor.org/packages/ggtreeExtra">ggtreeExtra</a>. The default position parameters is ‘auto’. This means that the <code>geom_bar</code> will use <code>position_stackx()</code>, <code>geom_violin</code> and <code>geom_boxplot</code> will use <code>position_dodgex()</code>, <code>geom_point</code> and <code>geom_tile</code> will use <code>position_identityx()</code>. So if the <code>geom</code> defined in other <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a>-based packages has <code>position</code> parameter, which support the result of a call to a position adjustment function, it also can work with <code>geom_fruit</code>, such as <code>geom_star</code> in <a href="https://CRAN.R-project.org/package=ggstar">ggstar</a>, which provides the regular polygon layer for easily discernible shapes based on the grammar of <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a>. Since the <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> community keeps expanding and more <code>geom</code> layers will be implemented in either <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> or other extensions, <code>geom_fruit</code> also will gain more power to present data in future.</p>
 
 
-<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="chapter10.html#cb223-1" aria-hidden="true"></a><span class="kw">library</span>(ggtreeExtra)</span>
-<span id="cb223-2"><a href="chapter10.html#cb223-2" aria-hidden="true"></a><span class="kw">library</span>(ggtree)</span>
-<span id="cb223-3"><a href="chapter10.html#cb223-3" aria-hidden="true"></a><span class="kw">library</span>(phyloseq)</span>
-<span id="cb223-4"><a href="chapter10.html#cb223-4" aria-hidden="true"></a><span class="kw">library</span>(dplyr)</span>
-<span id="cb223-5"><a href="chapter10.html#cb223-5" aria-hidden="true"></a></span>
-<span id="cb223-6"><a href="chapter10.html#cb223-6" aria-hidden="true"></a><span class="kw">data</span>(<span class="st">&quot;GlobalPatterns&quot;</span>)</span>
-<span id="cb223-7"><a href="chapter10.html#cb223-7" aria-hidden="true"></a>GP &lt;-<span class="st"> </span>GlobalPatterns</span>
-<span id="cb223-8"><a href="chapter10.html#cb223-8" aria-hidden="true"></a>GP &lt;-<span class="st"> </span><span class="kw">prune_taxa</span>(<span class="kw">taxa_sums</span>(GP) <span class="op">&gt;</span><span class="st"> </span><span class="dv">600</span>, GP)</span>
-<span id="cb223-9"><a href="chapter10.html#cb223-9" aria-hidden="true"></a><span class="kw">sample_data</span>(GP)<span class="op">$</span>human &lt;-<span class="st"> </span><span class="kw">get_variable</span>(GP, <span class="st">&quot;SampleType&quot;</span>) <span class="op">%in%</span></span>
-<span id="cb223-10"><a href="chapter10.html#cb223-10" aria-hidden="true"></a><span class="st">                              </span><span class="kw">c</span>(<span class="st">&quot;Feces&quot;</span>, <span class="st">&quot;Skin&quot;</span>)</span>
-<span id="cb223-11"><a href="chapter10.html#cb223-11" aria-hidden="true"></a>mergedGP &lt;-<span class="st"> </span><span class="kw">merge_samples</span>(GP, <span class="st">&quot;SampleType&quot;</span>)</span>
-<span id="cb223-12"><a href="chapter10.html#cb223-12" aria-hidden="true"></a>mergedGP &lt;-<span class="st"> </span><span class="kw">rarefy_even_depth</span>(mergedGP,<span class="dt">rngseed=</span><span class="dv">394582</span>)</span>
-<span id="cb223-13"><a href="chapter10.html#cb223-13" aria-hidden="true"></a>mergedGP &lt;-<span class="st"> </span><span class="kw">tax_glom</span>(mergedGP,<span class="st">&quot;Order&quot;</span>)</span>
-<span id="cb223-14"><a href="chapter10.html#cb223-14" aria-hidden="true"></a></span>
-<span id="cb223-15"><a href="chapter10.html#cb223-15" aria-hidden="true"></a>melt_simple &lt;-<span class="st"> </span><span class="kw">psmelt</span>(mergedGP) <span class="op">%&gt;%</span></span>
-<span id="cb223-16"><a href="chapter10.html#cb223-16" aria-hidden="true"></a><span class="st">               </span><span class="kw">filter</span>(Abundance <span class="op">&lt;</span><span class="st"> </span><span class="dv">120</span>) <span class="op">%&gt;%</span></span>
-<span id="cb223-17"><a href="chapter10.html#cb223-17" aria-hidden="true"></a><span class="st">               </span><span class="kw">select</span>(OTU, <span class="dt">val=</span>Abundance)</span>
-<span id="cb223-18"><a href="chapter10.html#cb223-18" aria-hidden="true"></a></span>
-<span id="cb223-19"><a href="chapter10.html#cb223-19" aria-hidden="true"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(mergedGP, <span class="dt">layout=</span><span class="st">&quot;fan&quot;</span>, <span class="dt">open.angle=</span><span class="dv">10</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb223-20"><a href="chapter10.html#cb223-20" aria-hidden="true"></a><span class="st">     </span><span class="kw">geom_tippoint</span>(<span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">color=</span>Phylum), </span>
-<span id="cb223-21"><a href="chapter10.html#cb223-21" aria-hidden="true"></a>                   <span class="dt">size=</span><span class="fl">1.5</span>,</span>
-<span id="cb223-22"><a href="chapter10.html#cb223-22" aria-hidden="true"></a>                   <span class="dt">show.legend=</span><span class="ot">FALSE</span>)</span>
-<span id="cb223-23"><a href="chapter10.html#cb223-23" aria-hidden="true"></a>p &lt;-<span class="st"> </span><span class="kw">rotate_tree</span>(p, <span class="dv">-90</span>)</span>
-<span id="cb223-24"><a href="chapter10.html#cb223-24" aria-hidden="true"></a></span>
-<span id="cb223-25"><a href="chapter10.html#cb223-25" aria-hidden="true"></a>p &lt;-<span class="st"> </span>p <span class="op">+</span></span>
-<span id="cb223-26"><a href="chapter10.html#cb223-26" aria-hidden="true"></a><span class="st">     </span><span class="kw">geom_fruit</span>(</span>
-<span id="cb223-27"><a href="chapter10.html#cb223-27" aria-hidden="true"></a>         <span class="dt">data=</span>melt_simple,</span>
-<span id="cb223-28"><a href="chapter10.html#cb223-28" aria-hidden="true"></a>         <span class="dt">geom=</span>geom_boxplot,</span>
-<span id="cb223-29"><a href="chapter10.html#cb223-29" aria-hidden="true"></a>         <span class="dt">mapping =</span> <span class="kw">aes</span>(</span>
-<span id="cb223-30"><a href="chapter10.html#cb223-30" aria-hidden="true"></a>                     <span class="dt">y=</span>OTU,</span>
-<span id="cb223-31"><a href="chapter10.html#cb223-31" aria-hidden="true"></a>                     <span class="dt">x=</span>val,</span>
-<span id="cb223-32"><a href="chapter10.html#cb223-32" aria-hidden="true"></a>                     <span class="dt">group=</span>label,</span>
-<span id="cb223-33"><a href="chapter10.html#cb223-33" aria-hidden="true"></a>                     <span class="dt">fill=</span>Phylum,</span>
-<span id="cb223-34"><a href="chapter10.html#cb223-34" aria-hidden="true"></a>                   ),</span>
-<span id="cb223-35"><a href="chapter10.html#cb223-35" aria-hidden="true"></a>         <span class="dt">size=</span>.<span class="dv">2</span>,</span>
-<span id="cb223-36"><a href="chapter10.html#cb223-36" aria-hidden="true"></a>         <span class="dt">outlier.size=</span><span class="fl">0.5</span>,</span>
-<span id="cb223-37"><a href="chapter10.html#cb223-37" aria-hidden="true"></a>         <span class="dt">outlier.stroke=</span><span class="fl">0.08</span>,</span>
-<span id="cb223-38"><a href="chapter10.html#cb223-38" aria-hidden="true"></a>         <span class="dt">outlier.shape=</span><span class="dv">21</span>,</span>
-<span id="cb223-39"><a href="chapter10.html#cb223-39" aria-hidden="true"></a>         <span class="dt">axis.params=</span><span class="kw">list</span>(</span>
-<span id="cb223-40"><a href="chapter10.html#cb223-40" aria-hidden="true"></a>                         <span class="dt">axis   =</span> <span class="st">&quot;x&quot;</span>,</span>
-<span id="cb223-41"><a href="chapter10.html#cb223-41" aria-hidden="true"></a>                         <span class="dt">text.size  =</span> <span class="fl">1.8</span>,</span>
-<span id="cb223-42"><a href="chapter10.html#cb223-42" aria-hidden="true"></a>                         <span class="dt">hjust      =</span> <span class="dv">1</span>,</span>
-<span id="cb223-43"><a href="chapter10.html#cb223-43" aria-hidden="true"></a>                         <span class="dt">vjust      =</span> <span class="fl">0.5</span></span>
-<span id="cb223-44"><a href="chapter10.html#cb223-44" aria-hidden="true"></a>                     ),</span>
-<span id="cb223-45"><a href="chapter10.html#cb223-45" aria-hidden="true"></a>         <span class="dt">grid.params=</span><span class="kw">list</span>()</span>
-<span id="cb223-46"><a href="chapter10.html#cb223-46" aria-hidden="true"></a>     ) </span>
-<span id="cb223-47"><a href="chapter10.html#cb223-47" aria-hidden="true"></a>     </span>
-<span id="cb223-48"><a href="chapter10.html#cb223-48" aria-hidden="true"></a>p &lt;-<span class="st"> </span>p <span class="op">+</span></span>
-<span id="cb223-49"><a href="chapter10.html#cb223-49" aria-hidden="true"></a><span class="st">     </span><span class="kw">scale_fill_discrete</span>(</span>
-<span id="cb223-50"><a href="chapter10.html#cb223-50" aria-hidden="true"></a>         <span class="dt">name=</span><span class="st">&quot;Phyla&quot;</span>,</span>
-<span id="cb223-51"><a href="chapter10.html#cb223-51" aria-hidden="true"></a>         <span class="dt">guide=</span><span class="kw">guide_legend</span>(<span class="dt">keywidth=</span><span class="fl">0.8</span>, <span class="dt">keyheight=</span><span class="fl">0.8</span>, <span class="dt">ncol=</span><span class="dv">1</span>)</span>
-<span id="cb223-52"><a href="chapter10.html#cb223-52" aria-hidden="true"></a>     ) <span class="op">+</span></span>
-<span id="cb223-53"><a href="chapter10.html#cb223-53" aria-hidden="true"></a><span class="st">     </span><span class="kw">theme</span>(</span>
-<span id="cb223-54"><a href="chapter10.html#cb223-54" aria-hidden="true"></a>         <span class="dt">legend.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">9</span>), <span class="co"># The title of legend </span></span>
-<span id="cb223-55"><a href="chapter10.html#cb223-55" aria-hidden="true"></a>         <span class="dt">legend.text=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">7</span>) <span class="co"># The label text of legend, the sizes should be adjust with dpi.</span></span>
-<span id="cb223-56"><a href="chapter10.html#cb223-56" aria-hidden="true"></a>     )</span>
-<span id="cb223-57"><a href="chapter10.html#cb223-57" aria-hidden="true"></a>p</span></code></pre></div>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="chapter10.html#cb223-1"></a><span class="kw">library</span>(ggtreeExtra)</span>
+<span id="cb223-2"><a href="chapter10.html#cb223-2"></a><span class="kw">library</span>(ggtree)</span>
+<span id="cb223-3"><a href="chapter10.html#cb223-3"></a><span class="kw">library</span>(phyloseq)</span>
+<span id="cb223-4"><a href="chapter10.html#cb223-4"></a><span class="kw">library</span>(dplyr)</span>
+<span id="cb223-5"><a href="chapter10.html#cb223-5"></a></span>
+<span id="cb223-6"><a href="chapter10.html#cb223-6"></a><span class="kw">data</span>(<span class="st">&quot;GlobalPatterns&quot;</span>)</span>
+<span id="cb223-7"><a href="chapter10.html#cb223-7"></a>GP &lt;-<span class="st"> </span>GlobalPatterns</span>
+<span id="cb223-8"><a href="chapter10.html#cb223-8"></a>GP &lt;-<span class="st"> </span><span class="kw">prune_taxa</span>(<span class="kw">taxa_sums</span>(GP) <span class="op">&gt;</span><span class="st"> </span><span class="dv">600</span>, GP)</span>
+<span id="cb223-9"><a href="chapter10.html#cb223-9"></a><span class="kw">sample_data</span>(GP)<span class="op">$</span>human &lt;-<span class="st"> </span><span class="kw">get_variable</span>(GP, <span class="st">&quot;SampleType&quot;</span>) <span class="op">%in%</span></span>
+<span id="cb223-10"><a href="chapter10.html#cb223-10"></a><span class="st">                              </span><span class="kw">c</span>(<span class="st">&quot;Feces&quot;</span>, <span class="st">&quot;Skin&quot;</span>)</span>
+<span id="cb223-11"><a href="chapter10.html#cb223-11"></a>mergedGP &lt;-<span class="st"> </span><span class="kw">merge_samples</span>(GP, <span class="st">&quot;SampleType&quot;</span>)</span>
+<span id="cb223-12"><a href="chapter10.html#cb223-12"></a>mergedGP &lt;-<span class="st"> </span><span class="kw">rarefy_even_depth</span>(mergedGP,<span class="dt">rngseed=</span><span class="dv">394582</span>)</span>
+<span id="cb223-13"><a href="chapter10.html#cb223-13"></a>mergedGP &lt;-<span class="st"> </span><span class="kw">tax_glom</span>(mergedGP,<span class="st">&quot;Order&quot;</span>)</span>
+<span id="cb223-14"><a href="chapter10.html#cb223-14"></a></span>
+<span id="cb223-15"><a href="chapter10.html#cb223-15"></a>melt_simple &lt;-<span class="st"> </span><span class="kw">psmelt</span>(mergedGP) <span class="op">%&gt;%</span></span>
+<span id="cb223-16"><a href="chapter10.html#cb223-16"></a><span class="st">               </span><span class="kw">filter</span>(Abundance <span class="op">&lt;</span><span class="st"> </span><span class="dv">120</span>) <span class="op">%&gt;%</span></span>
+<span id="cb223-17"><a href="chapter10.html#cb223-17"></a><span class="st">               </span><span class="kw">select</span>(OTU, <span class="dt">val=</span>Abundance)</span>
+<span id="cb223-18"><a href="chapter10.html#cb223-18"></a></span>
+<span id="cb223-19"><a href="chapter10.html#cb223-19"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(mergedGP, <span class="dt">layout=</span><span class="st">&quot;fan&quot;</span>, <span class="dt">open.angle=</span><span class="dv">10</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb223-20"><a href="chapter10.html#cb223-20"></a><span class="st">     </span><span class="kw">geom_tippoint</span>(<span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">color=</span>Phylum), </span>
+<span id="cb223-21"><a href="chapter10.html#cb223-21"></a>                   <span class="dt">size=</span><span class="fl">1.5</span>,</span>
+<span id="cb223-22"><a href="chapter10.html#cb223-22"></a>                   <span class="dt">show.legend=</span><span class="ot">FALSE</span>)</span>
+<span id="cb223-23"><a href="chapter10.html#cb223-23"></a>p &lt;-<span class="st"> </span><span class="kw">rotate_tree</span>(p, <span class="dv">-90</span>)</span>
+<span id="cb223-24"><a href="chapter10.html#cb223-24"></a></span>
+<span id="cb223-25"><a href="chapter10.html#cb223-25"></a>p &lt;-<span class="st"> </span>p <span class="op">+</span></span>
+<span id="cb223-26"><a href="chapter10.html#cb223-26"></a><span class="st">     </span><span class="kw">geom_fruit</span>(</span>
+<span id="cb223-27"><a href="chapter10.html#cb223-27"></a>         <span class="dt">data=</span>melt_simple,</span>
+<span id="cb223-28"><a href="chapter10.html#cb223-28"></a>         <span class="dt">geom=</span>geom_boxplot,</span>
+<span id="cb223-29"><a href="chapter10.html#cb223-29"></a>         <span class="dt">mapping =</span> <span class="kw">aes</span>(</span>
+<span id="cb223-30"><a href="chapter10.html#cb223-30"></a>                     <span class="dt">y=</span>OTU,</span>
+<span id="cb223-31"><a href="chapter10.html#cb223-31"></a>                     <span class="dt">x=</span>val,</span>
+<span id="cb223-32"><a href="chapter10.html#cb223-32"></a>                     <span class="dt">group=</span>label,</span>
+<span id="cb223-33"><a href="chapter10.html#cb223-33"></a>                     <span class="dt">fill=</span>Phylum,</span>
+<span id="cb223-34"><a href="chapter10.html#cb223-34"></a>                   ),</span>
+<span id="cb223-35"><a href="chapter10.html#cb223-35"></a>         <span class="dt">size=</span>.<span class="dv">2</span>,</span>
+<span id="cb223-36"><a href="chapter10.html#cb223-36"></a>         <span class="dt">outlier.size=</span><span class="fl">0.5</span>,</span>
+<span id="cb223-37"><a href="chapter10.html#cb223-37"></a>         <span class="dt">outlier.stroke=</span><span class="fl">0.08</span>,</span>
+<span id="cb223-38"><a href="chapter10.html#cb223-38"></a>         <span class="dt">outlier.shape=</span><span class="dv">21</span>,</span>
+<span id="cb223-39"><a href="chapter10.html#cb223-39"></a>         <span class="dt">axis.params=</span><span class="kw">list</span>(</span>
+<span id="cb223-40"><a href="chapter10.html#cb223-40"></a>                         <span class="dt">axis       =</span> <span class="st">&quot;x&quot;</span>,</span>
+<span id="cb223-41"><a href="chapter10.html#cb223-41"></a>                         <span class="dt">text.size  =</span> <span class="fl">1.8</span>,</span>
+<span id="cb223-42"><a href="chapter10.html#cb223-42"></a>                         <span class="dt">hjust      =</span> <span class="dv">1</span>,</span>
+<span id="cb223-43"><a href="chapter10.html#cb223-43"></a>                         <span class="dt">vjust      =</span> <span class="fl">0.5</span>,</span>
+<span id="cb223-44"><a href="chapter10.html#cb223-44"></a>                         <span class="dt">nbreak     =</span> <span class="dv">3</span>,</span>
+<span id="cb223-45"><a href="chapter10.html#cb223-45"></a>                     ),</span>
+<span id="cb223-46"><a href="chapter10.html#cb223-46"></a>         <span class="dt">grid.params=</span><span class="kw">list</span>()</span>
+<span id="cb223-47"><a href="chapter10.html#cb223-47"></a>     ) </span>
+<span id="cb223-48"><a href="chapter10.html#cb223-48"></a>     </span>
+<span id="cb223-49"><a href="chapter10.html#cb223-49"></a>p &lt;-<span class="st"> </span>p <span class="op">+</span></span>
+<span id="cb223-50"><a href="chapter10.html#cb223-50"></a><span class="st">     </span><span class="kw">scale_fill_discrete</span>(</span>
+<span id="cb223-51"><a href="chapter10.html#cb223-51"></a>         <span class="dt">name=</span><span class="st">&quot;Phyla&quot;</span>,</span>
+<span id="cb223-52"><a href="chapter10.html#cb223-52"></a>         <span class="dt">guide=</span><span class="kw">guide_legend</span>(<span class="dt">keywidth=</span><span class="fl">0.8</span>, <span class="dt">keyheight=</span><span class="fl">0.8</span>, <span class="dt">ncol=</span><span class="dv">1</span>)</span>
+<span id="cb223-53"><a href="chapter10.html#cb223-53"></a>     ) <span class="op">+</span></span>
+<span id="cb223-54"><a href="chapter10.html#cb223-54"></a><span class="st">     </span><span class="kw">theme</span>(</span>
+<span id="cb223-55"><a href="chapter10.html#cb223-55"></a>         <span class="dt">legend.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">9</span>), <span class="co"># The title of legend </span></span>
+<span id="cb223-56"><a href="chapter10.html#cb223-56"></a>         <span class="dt">legend.text=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">7</span>) <span class="co"># The label text of legend, the sizes should be adjust with dpi.</span></span>
+<span id="cb223-57"><a href="chapter10.html#cb223-57"></a>     )</span>
+<span id="cb223-58"><a href="chapter10.html#cb223-58"></a>p</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:psbox"></span>
 <img src="treedata_files/figure-html/psbox-1.svg" alt="Phylogenetic tree with OTU abundance distribution." width="864"  />
 <p class="caption">
@@ -491,91 +493,97 @@ Figure 10.1: <strong>Phylogenetic tree with OTU abundance distribution</strong>.
 <p>Circular layout is efficient layout to show the phylogenetic tree and multi-dimensional data. The continuous dataset can be displayed using heat map, bar plot, box plot or dot plot etc. This example reproduce Fig.2 of <span class="citation">(Morgan, Segata, and Huttenhower <a href="#ref-morgan2013HMP" role="doc-biblioref">2013</a>)</span>. The data is provided by GraPhlAn <span class="citation">(Asnicar et al. <a href="#ref-GraPhlAn" role="doc-biblioref">2015</a>)</span>, which contained the relative abundance of microbiome at different body sites. This example demonstrates the abilities of adding multiple layers (dot plot, heat map and bar plot) created with continuous data to a specific panel, and the attributes of tip point also can be extracted to map Figure <a href="chapter10.html#fig:HMPplot">10.2</a>. And the tree in <code>geom_fruit</code> can be fully annotated with multiple layers (high light, clade labels <em>etc</em>).</p>
 
 
-<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="chapter10.html#cb224-1" aria-hidden="true"></a><span class="kw">library</span>(ggtreeExtra)</span>
-<span id="cb224-2"><a href="chapter10.html#cb224-2" aria-hidden="true"></a><span class="kw">library</span>(ggtree)</span>
-<span id="cb224-3"><a href="chapter10.html#cb224-3" aria-hidden="true"></a><span class="kw">library</span>(treeio)</span>
-<span id="cb224-4"><a href="chapter10.html#cb224-4" aria-hidden="true"></a><span class="kw">library</span>(tidytree)</span>
-<span id="cb224-5"><a href="chapter10.html#cb224-5" aria-hidden="true"></a><span class="kw">library</span>(ggstar)</span>
-<span id="cb224-6"><a href="chapter10.html#cb224-6" aria-hidden="true"></a><span class="kw">library</span>(ggplot2)</span>
-<span id="cb224-7"><a href="chapter10.html#cb224-7" aria-hidden="true"></a><span class="kw">library</span>(ggnewscale)</span>
-<span id="cb224-8"><a href="chapter10.html#cb224-8" aria-hidden="true"></a></span>
-<span id="cb224-9"><a href="chapter10.html#cb224-9" aria-hidden="true"></a>tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="st">&quot;data/HMP_tree/hmptree.nwk&quot;</span>)</span>
-<span id="cb224-10"><a href="chapter10.html#cb224-10" aria-hidden="true"></a><span class="co"># the abundance and types of microbes</span></span>
-<span id="cb224-11"><a href="chapter10.html#cb224-11" aria-hidden="true"></a>dat1 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/HMP_tree/tippoint_attr.csv&quot;</span>)</span>
-<span id="cb224-12"><a href="chapter10.html#cb224-12" aria-hidden="true"></a><span class="co"># the abundance of microbes at different body sites.</span></span>
-<span id="cb224-13"><a href="chapter10.html#cb224-13" aria-hidden="true"></a>dat2 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/HMP_tree/ringheatmap_attr.csv&quot;</span>)</span>
-<span id="cb224-14"><a href="chapter10.html#cb224-14" aria-hidden="true"></a><span class="co"># the abundance of microbes at the body sites of greatest prevalence.</span></span>
-<span id="cb224-15"><a href="chapter10.html#cb224-15" aria-hidden="true"></a>dat3 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/HMP_tree/barplot_attr.csv&quot;</span>)</span>
-<span id="cb224-16"><a href="chapter10.html#cb224-16" aria-hidden="true"></a></span>
-<span id="cb224-17"><a href="chapter10.html#cb224-17" aria-hidden="true"></a><span class="co"># adjust the order</span></span>
-<span id="cb224-18"><a href="chapter10.html#cb224-18" aria-hidden="true"></a>dat2<span class="op">$</span>Sites &lt;-<span class="st"> </span><span class="kw">factor</span>(dat2<span class="op">$</span>Sites, <span class="dt">levels=</span><span class="kw">c</span>(<span class="st">&quot;Stool (prevalence)&quot;</span>, <span class="st">&quot;Cheek (prevalence)&quot;</span>,</span>
-<span id="cb224-19"><a href="chapter10.html#cb224-19" aria-hidden="true"></a>                                          <span class="st">&quot;Plaque (prevalence)&quot;</span>,<span class="st">&quot;Tongue (prevalence)&quot;</span>,</span>
-<span id="cb224-20"><a href="chapter10.html#cb224-20" aria-hidden="true"></a>                                          <span class="st">&quot;Nose (prevalence)&quot;</span>, <span class="st">&quot;Vagina (prevalence)&quot;</span>,</span>
-<span id="cb224-21"><a href="chapter10.html#cb224-21" aria-hidden="true"></a>                                          <span class="st">&quot;Skin (prevalence)&quot;</span>))</span>
-<span id="cb224-22"><a href="chapter10.html#cb224-22" aria-hidden="true"></a>dat3<span class="op">$</span>Sites &lt;-<span class="st"> </span><span class="kw">factor</span>(dat3<span class="op">$</span>Sites, <span class="dt">levels=</span><span class="kw">c</span>(<span class="st">&quot;Stool (prevalence)&quot;</span>, <span class="st">&quot;Cheek (prevalence)&quot;</span>,</span>
-<span id="cb224-23"><a href="chapter10.html#cb224-23" aria-hidden="true"></a>                                          <span class="st">&quot;Plaque (prevalence)&quot;</span>, <span class="st">&quot;Tongue (prevalence)&quot;</span>,</span>
-<span id="cb224-24"><a href="chapter10.html#cb224-24" aria-hidden="true"></a>                                          <span class="st">&quot;Nose (prevalence)&quot;</span>, <span class="st">&quot;Vagina (prevalence)&quot;</span>,</span>
-<span id="cb224-25"><a href="chapter10.html#cb224-25" aria-hidden="true"></a>                                          <span class="st">&quot;Skin (prevalence)&quot;</span>))</span>
-<span id="cb224-26"><a href="chapter10.html#cb224-26" aria-hidden="true"></a><span class="co"># extract the clade label information. Because some nodes of tree are annotated to genera,</span></span>
-<span id="cb224-27"><a href="chapter10.html#cb224-27" aria-hidden="true"></a><span class="co"># which can be displayed with high light using ggtree.</span></span>
-<span id="cb224-28"><a href="chapter10.html#cb224-28" aria-hidden="true"></a>nodeids &lt;-<span class="st"> </span><span class="kw">nodeid</span>(tree, tree<span class="op">$</span>node.label[<span class="kw">nchar</span>(tree<span class="op">$</span>node.label)<span class="op">&gt;</span><span class="dv">4</span>])</span>
-<span id="cb224-29"><a href="chapter10.html#cb224-29" aria-hidden="true"></a>nodedf &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">node=</span>nodeids)</span>
-<span id="cb224-30"><a href="chapter10.html#cb224-30" aria-hidden="true"></a>nodelab &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">&quot;[</span><span class="ch">\\</span><span class="st">.0-9]&quot;</span>, <span class="st">&quot;&quot;</span>, tree<span class="op">$</span>node.label[<span class="kw">nchar</span>(tree<span class="op">$</span>node.label)<span class="op">&gt;</span><span class="dv">4</span>])</span>
-<span id="cb224-31"><a href="chapter10.html#cb224-31" aria-hidden="true"></a><span class="co"># The layers of clade and hightlight</span></span>
-<span id="cb224-32"><a href="chapter10.html#cb224-32" aria-hidden="true"></a>hightlight &lt;-<span class="st"> </span><span class="kw">lapply</span>(nodeids, <span class="cf">function</span>(x)<span class="kw">geom_hilight</span>(<span class="dt">node=</span>x, <span class="dt">extendto=</span><span class="fl">6.8</span>, <span class="dt">alpha=</span><span class="fl">0.3</span>,</span>
-<span id="cb224-33"><a href="chapter10.html#cb224-33" aria-hidden="true"></a>                                                      <span class="dt">fill=</span><span class="st">&quot;grey&quot;</span>, <span class="dt">color=</span><span class="st">&quot;grey50&quot;</span>, <span class="dt">size=</span><span class="fl">0.05</span>))</span>
-<span id="cb224-34"><a href="chapter10.html#cb224-34" aria-hidden="true"></a>poslist &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">1.6</span>, <span class="fl">1.4</span>, <span class="fl">1.6</span>, <span class="fl">0.8</span>, <span class="fl">0.1</span>, <span class="fl">0.25</span>, <span class="fl">1.6</span>, <span class="fl">1.6</span>, <span class="fl">1.2</span>, <span class="fl">0.4</span>,</span>
-<span id="cb224-35"><a href="chapter10.html#cb224-35" aria-hidden="true"></a>             <span class="fl">1.2</span>, <span class="fl">1.8</span>, <span class="fl">0.3</span>, <span class="fl">0.8</span>, <span class="fl">0.4</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.4</span>, <span class="fl">0.4</span>, <span class="fl">0.6</span>,</span>
-<span id="cb224-36"><a href="chapter10.html#cb224-36" aria-hidden="true"></a>             <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.3</span>)</span>
-<span id="cb224-37"><a href="chapter10.html#cb224-37" aria-hidden="true"></a>cladelabels &lt;-<span class="st"> </span><span class="kw">mapply</span>(<span class="cf">function</span>(x, y, z){<span class="kw">geom_cladelabel</span>(<span class="dt">node=</span>x, <span class="dt">label=</span>y, <span class="dt">barsize=</span><span class="ot">NA</span>, <span class="dt">extend=</span><span class="dv">0</span>,</span>
-<span id="cb224-38"><a href="chapter10.html#cb224-38" aria-hidden="true"></a>                                                    <span class="dt">offset.text=</span>z, <span class="dt">fontsize=</span><span class="fl">1.4</span>, <span class="dt">angle=</span><span class="st">&quot;auto&quot;</span>,</span>
-<span id="cb224-39"><a href="chapter10.html#cb224-39" aria-hidden="true"></a>                                                    <span class="dt">hjust=</span><span class="fl">0.5</span>, <span class="dt">horizontal=</span><span class="ot">FALSE</span>, <span class="dt">fontface=</span><span class="st">&quot;italic&quot;</span>)},</span>
-<span id="cb224-40"><a href="chapter10.html#cb224-40" aria-hidden="true"></a>                                     nodeids, nodelab, poslist, <span class="dt">SIMPLIFY=</span><span class="ot">FALSE</span>)</span>
-<span id="cb224-41"><a href="chapter10.html#cb224-41" aria-hidden="true"></a></span>
-<span id="cb224-42"><a href="chapter10.html#cb224-42" aria-hidden="true"></a><span class="co"># The circular layout tree.</span></span>
-<span id="cb224-43"><a href="chapter10.html#cb224-43" aria-hidden="true"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree, <span class="dt">layout=</span><span class="st">&quot;fan&quot;</span>, <span class="dt">size=</span><span class="fl">0.15</span>, <span class="dt">open.angle=</span><span class="dv">5</span>) <span class="op">+</span></span>
-<span id="cb224-44"><a href="chapter10.html#cb224-44" aria-hidden="true"></a><span class="st">     </span><span class="kw">geom_hilight</span>(<span class="dt">data=</span>nodedf, <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">node=</span>node),</span>
-<span id="cb224-45"><a href="chapter10.html#cb224-45" aria-hidden="true"></a>                  <span class="dt">extendto=</span><span class="fl">6.8</span>, <span class="dt">alpha=</span><span class="fl">0.3</span>, <span class="dt">fill=</span><span class="st">&quot;grey&quot;</span>, <span class="dt">color=</span><span class="st">&quot;grey50&quot;</span>,</span>
-<span id="cb224-46"><a href="chapter10.html#cb224-46" aria-hidden="true"></a>                  <span class="dt">size=</span><span class="fl">0.05</span>)</span>
-<span id="cb224-47"><a href="chapter10.html#cb224-47" aria-hidden="true"></a>p &lt;-<span class="st"> </span>p <span class="op">%&lt;+%</span><span class="st"> </span>dat1 <span class="op">+</span><span class="st"> </span><span class="kw">geom_fruit</span>(<span class="dt">geom=</span>geom_star,</span>
-<span id="cb224-48"><a href="chapter10.html#cb224-48" aria-hidden="true"></a>                              <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">fill=</span>Phylum, <span class="dt">starshape=</span>Type, <span class="dt">size=</span>Size),</span>
-<span id="cb224-49"><a href="chapter10.html#cb224-49" aria-hidden="true"></a>                              <span class="dt">position=</span><span class="st">&quot;identity&quot;</span>,<span class="dt">starstroke=</span><span class="fl">0.1</span>)<span class="op">+</span></span>
-<span id="cb224-50"><a href="chapter10.html#cb224-50" aria-hidden="true"></a><span class="st">         </span><span class="kw">scale_fill_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;#FFC125&quot;</span>,<span class="st">&quot;#87CEFA&quot;</span>,<span class="st">&quot;#7B68EE&quot;</span>,<span class="st">&quot;#808080&quot;</span>,<span class="st">&quot;#800080&quot;</span>,</span>
-<span id="cb224-51"><a href="chapter10.html#cb224-51" aria-hidden="true"></a>                                    <span class="st">&quot;#9ACD32&quot;</span>,<span class="st">&quot;#D15FEE&quot;</span>,<span class="st">&quot;#FFC0CB&quot;</span>,<span class="st">&quot;#EE6A50&quot;</span>,<span class="st">&quot;#8DEEEE&quot;</span>,</span>
-<span id="cb224-52"><a href="chapter10.html#cb224-52" aria-hidden="true"></a>                                    <span class="st">&quot;#006400&quot;</span>,<span class="st">&quot;#800000&quot;</span>,<span class="st">&quot;#B0171F&quot;</span>,<span class="st">&quot;#191970&quot;</span>),</span>
-<span id="cb224-53"><a href="chapter10.html#cb224-53" aria-hidden="true"></a>                           <span class="dt">guide=</span><span class="kw">guide_legend</span>(<span class="dt">keywidth =</span> <span class="fl">0.5</span>, <span class="dt">keyheight =</span> <span class="fl">0.5</span>, <span class="dt">order=</span><span class="dv">1</span>,</span>
-<span id="cb224-54"><a href="chapter10.html#cb224-54" aria-hidden="true"></a>                                              <span class="dt">override.aes=</span><span class="kw">list</span>(<span class="dt">starshape=</span><span class="dv">15</span>)),</span>
-<span id="cb224-55"><a href="chapter10.html#cb224-55" aria-hidden="true"></a>                           <span class="dt">na.translate=</span><span class="ot">FALSE</span>)<span class="op">+</span></span>
-<span id="cb224-56"><a href="chapter10.html#cb224-56" aria-hidden="true"></a><span class="st">         </span><span class="kw">scale_starshape_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="dv">15</span>, <span class="dv">1</span>),</span>
-<span id="cb224-57"><a href="chapter10.html#cb224-57" aria-hidden="true"></a>                                <span class="dt">guide=</span><span class="kw">guide_legend</span>(<span class="dt">keywidth =</span> <span class="fl">0.5</span>, <span class="dt">keyheight =</span> <span class="fl">0.5</span>, <span class="dt">order=</span><span class="dv">2</span>),</span>
-<span id="cb224-58"><a href="chapter10.html#cb224-58" aria-hidden="true"></a>                                <span class="dt">na.translate=</span><span class="ot">FALSE</span>)<span class="op">+</span></span>
-<span id="cb224-59"><a href="chapter10.html#cb224-59" aria-hidden="true"></a><span class="st">         </span><span class="kw">scale_size_continuous</span>(<span class="dt">range =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="fl">2.5</span>),</span>
-<span id="cb224-60"><a href="chapter10.html#cb224-60" aria-hidden="true"></a>                               <span class="dt">guide =</span> <span class="kw">guide_legend</span>(<span class="dt">keywidth =</span> <span class="fl">0.5</span>, <span class="dt">keyheight =</span> <span class="fl">0.5</span>, <span class="dt">order=</span><span class="dv">3</span>,</span>
-<span id="cb224-61"><a href="chapter10.html#cb224-61" aria-hidden="true"></a>                                                    <span class="dt">override.aes=</span><span class="kw">list</span>(<span class="dt">starshape=</span><span class="dv">15</span>)))<span class="op">+</span></span>
-<span id="cb224-62"><a href="chapter10.html#cb224-62" aria-hidden="true"></a><span class="st">         </span><span class="kw">new_scale_fill</span>()<span class="op">+</span></span>
-<span id="cb224-63"><a href="chapter10.html#cb224-63" aria-hidden="true"></a><span class="st">         </span><span class="kw">geom_fruit</span>(<span class="dt">data=</span>dat2, <span class="dt">geom=</span>geom_tile,</span>
-<span id="cb224-64"><a href="chapter10.html#cb224-64" aria-hidden="true"></a>                    <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">y=</span>ID, <span class="dt">x=</span>Sites, <span class="dt">alpha=</span>Abundance, <span class="dt">fill=</span>Sites),</span>
-<span id="cb224-65"><a href="chapter10.html#cb224-65" aria-hidden="true"></a>                    <span class="dt">color =</span> <span class="st">&quot;grey50&quot;</span>, <span class="dt">offset =</span> <span class="fl">0.04</span>,<span class="dt">size =</span> <span class="fl">0.02</span>)<span class="op">+</span></span>
-<span id="cb224-66"><a href="chapter10.html#cb224-66" aria-hidden="true"></a><span class="st">         </span><span class="kw">scale_alpha_continuous</span>(<span class="dt">range=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
-<span id="cb224-67"><a href="chapter10.html#cb224-67" aria-hidden="true"></a>                             <span class="dt">guide=</span><span class="kw">guide_legend</span>(<span class="dt">keywidth =</span> <span class="fl">0.3</span>, <span class="dt">keyheight =</span> <span class="fl">0.3</span>, <span class="dt">order=</span><span class="dv">5</span>)) <span class="op">+</span></span>
-<span id="cb224-68"><a href="chapter10.html#cb224-68" aria-hidden="true"></a><span class="st">         </span>cladelabels <span class="op">+</span></span>
-<span id="cb224-69"><a href="chapter10.html#cb224-69" aria-hidden="true"></a><span class="st">         </span><span class="kw">geom_fruit</span>(<span class="dt">data=</span>dat3, <span class="dt">geom=</span>geom_bar,</span>
-<span id="cb224-70"><a href="chapter10.html#cb224-70" aria-hidden="true"></a>                    <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">y=</span>ID, <span class="dt">x=</span>HigherAbundance, <span class="dt">fill=</span>Sites),</span>
-<span id="cb224-71"><a href="chapter10.html#cb224-71" aria-hidden="true"></a>                    <span class="dt">pwidth=</span><span class="fl">0.38</span>, </span>
-<span id="cb224-72"><a href="chapter10.html#cb224-72" aria-hidden="true"></a>                    <span class="dt">orientation=</span><span class="st">&quot;y&quot;</span>, </span>
-<span id="cb224-73"><a href="chapter10.html#cb224-73" aria-hidden="true"></a>                    <span class="dt">stat=</span><span class="st">&quot;identity&quot;</span>,</span>
-<span id="cb224-74"><a href="chapter10.html#cb224-74" aria-hidden="true"></a>         )<span class="op">+</span></span>
-<span id="cb224-75"><a href="chapter10.html#cb224-75" aria-hidden="true"></a><span class="st">         </span><span class="kw">scale_fill_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;#0000FF&quot;</span>,<span class="st">&quot;#FFA500&quot;</span>,<span class="st">&quot;#FF0000&quot;</span>,<span class="st">&quot;#800000&quot;</span>,</span>
-<span id="cb224-76"><a href="chapter10.html#cb224-76" aria-hidden="true"></a>                                    <span class="st">&quot;#006400&quot;</span>,<span class="st">&quot;#800080&quot;</span>,<span class="st">&quot;#696969&quot;</span>),</span>
-<span id="cb224-77"><a href="chapter10.html#cb224-77" aria-hidden="true"></a>                           <span class="dt">guide=</span><span class="kw">guide_legend</span>(<span class="dt">keywidth =</span> <span class="fl">0.3</span>, <span class="dt">keyheight =</span> <span class="fl">0.3</span>, <span class="dt">order=</span><span class="dv">4</span>))<span class="op">+</span></span>
-<span id="cb224-78"><a href="chapter10.html#cb224-78" aria-hidden="true"></a><span class="st">         </span><span class="kw">geom_treescale</span>(<span class="dt">fontsize=</span><span class="dv">2</span>, <span class="dt">linesize=</span><span class="fl">0.3</span>, <span class="dt">x=</span><span class="fl">4.9</span>, <span class="dt">y=</span><span class="fl">0.1</span>) <span class="op">+</span></span>
-<span id="cb224-79"><a href="chapter10.html#cb224-79" aria-hidden="true"></a><span class="st">         </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="kw">c</span>(<span class="fl">0.93</span>, <span class="fl">0.5</span>),</span>
-<span id="cb224-80"><a href="chapter10.html#cb224-80" aria-hidden="true"></a>               <span class="dt">legend.background=</span><span class="kw">element_rect</span>(<span class="dt">fill=</span><span class="ot">NA</span>),</span>
-<span id="cb224-81"><a href="chapter10.html#cb224-81" aria-hidden="true"></a>               <span class="dt">legend.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="fl">6.5</span>),</span>
-<span id="cb224-82"><a href="chapter10.html#cb224-82" aria-hidden="true"></a>               <span class="dt">legend.text=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="fl">4.5</span>),</span>
-<span id="cb224-83"><a href="chapter10.html#cb224-83" aria-hidden="true"></a>               <span class="dt">legend.spacing.y =</span> <span class="kw">unit</span>(<span class="fl">0.02</span>, <span class="st">&quot;cm&quot;</span>),</span>
-<span id="cb224-84"><a href="chapter10.html#cb224-84" aria-hidden="true"></a>             )</span>
-<span id="cb224-85"><a href="chapter10.html#cb224-85" aria-hidden="true"></a>p</span></code></pre></div>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="chapter10.html#cb224-1"></a><span class="kw">library</span>(ggtreeExtra)</span>
+<span id="cb224-2"><a href="chapter10.html#cb224-2"></a><span class="kw">library</span>(ggtree)</span>
+<span id="cb224-3"><a href="chapter10.html#cb224-3"></a><span class="kw">library</span>(treeio)</span>
+<span id="cb224-4"><a href="chapter10.html#cb224-4"></a><span class="kw">library</span>(tidytree)</span>
+<span id="cb224-5"><a href="chapter10.html#cb224-5"></a><span class="kw">library</span>(ggstar)</span>
+<span id="cb224-6"><a href="chapter10.html#cb224-6"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb224-7"><a href="chapter10.html#cb224-7"></a><span class="kw">library</span>(ggnewscale)</span>
+<span id="cb224-8"><a href="chapter10.html#cb224-8"></a></span>
+<span id="cb224-9"><a href="chapter10.html#cb224-9"></a>tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="st">&quot;data/HMP_tree/hmptree.nwk&quot;</span>)</span>
+<span id="cb224-10"><a href="chapter10.html#cb224-10"></a><span class="co"># the abundance and types of microbes</span></span>
+<span id="cb224-11"><a href="chapter10.html#cb224-11"></a>dat1 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/HMP_tree/tippoint_attr.csv&quot;</span>)</span>
+<span id="cb224-12"><a href="chapter10.html#cb224-12"></a><span class="co"># the abundance of microbes at different body sites.</span></span>
+<span id="cb224-13"><a href="chapter10.html#cb224-13"></a>dat2 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/HMP_tree/ringheatmap_attr.csv&quot;</span>)</span>
+<span id="cb224-14"><a href="chapter10.html#cb224-14"></a><span class="co"># the abundance of microbes at the body sites of greatest prevalence.</span></span>
+<span id="cb224-15"><a href="chapter10.html#cb224-15"></a>dat3 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/HMP_tree/barplot_attr.csv&quot;</span>)</span>
+<span id="cb224-16"><a href="chapter10.html#cb224-16"></a></span>
+<span id="cb224-17"><a href="chapter10.html#cb224-17"></a><span class="co"># adjust the order</span></span>
+<span id="cb224-18"><a href="chapter10.html#cb224-18"></a>dat2<span class="op">$</span>Sites &lt;-<span class="st"> </span><span class="kw">factor</span>(dat2<span class="op">$</span>Sites, <span class="dt">levels=</span><span class="kw">c</span>(<span class="st">&quot;Stool (prevalence)&quot;</span>, <span class="st">&quot;Cheek (prevalence)&quot;</span>,</span>
+<span id="cb224-19"><a href="chapter10.html#cb224-19"></a>                                          <span class="st">&quot;Plaque (prevalence)&quot;</span>,<span class="st">&quot;Tongue (prevalence)&quot;</span>,</span>
+<span id="cb224-20"><a href="chapter10.html#cb224-20"></a>                                          <span class="st">&quot;Nose (prevalence)&quot;</span>, <span class="st">&quot;Vagina (prevalence)&quot;</span>,</span>
+<span id="cb224-21"><a href="chapter10.html#cb224-21"></a>                                          <span class="st">&quot;Skin (prevalence)&quot;</span>))</span>
+<span id="cb224-22"><a href="chapter10.html#cb224-22"></a>dat3<span class="op">$</span>Sites &lt;-<span class="st"> </span><span class="kw">factor</span>(dat3<span class="op">$</span>Sites, <span class="dt">levels=</span><span class="kw">c</span>(<span class="st">&quot;Stool (prevalence)&quot;</span>, <span class="st">&quot;Cheek (prevalence)&quot;</span>,</span>
+<span id="cb224-23"><a href="chapter10.html#cb224-23"></a>                                          <span class="st">&quot;Plaque (prevalence)&quot;</span>, <span class="st">&quot;Tongue (prevalence)&quot;</span>,</span>
+<span id="cb224-24"><a href="chapter10.html#cb224-24"></a>                                          <span class="st">&quot;Nose (prevalence)&quot;</span>, <span class="st">&quot;Vagina (prevalence)&quot;</span>,</span>
+<span id="cb224-25"><a href="chapter10.html#cb224-25"></a>                                          <span class="st">&quot;Skin (prevalence)&quot;</span>))</span>
+<span id="cb224-26"><a href="chapter10.html#cb224-26"></a><span class="co"># extract the clade label information. Because some nodes of tree are annotated to genera,</span></span>
+<span id="cb224-27"><a href="chapter10.html#cb224-27"></a><span class="co"># which can be displayed with high light using ggtree.</span></span>
+<span id="cb224-28"><a href="chapter10.html#cb224-28"></a>nodeids &lt;-<span class="st"> </span><span class="kw">nodeid</span>(tree, tree<span class="op">$</span>node.label[<span class="kw">nchar</span>(tree<span class="op">$</span>node.label)<span class="op">&gt;</span><span class="dv">4</span>])</span>
+<span id="cb224-29"><a href="chapter10.html#cb224-29"></a>nodedf &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">node=</span>nodeids)</span>
+<span id="cb224-30"><a href="chapter10.html#cb224-30"></a>nodelab &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">&quot;[</span><span class="ch">\\</span><span class="st">.0-9]&quot;</span>, <span class="st">&quot;&quot;</span>, tree<span class="op">$</span>node.label[<span class="kw">nchar</span>(tree<span class="op">$</span>node.label)<span class="op">&gt;</span><span class="dv">4</span>])</span>
+<span id="cb224-31"><a href="chapter10.html#cb224-31"></a><span class="co"># The layers of clade and hightlight</span></span>
+<span id="cb224-32"><a href="chapter10.html#cb224-32"></a>poslist &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">1.6</span>, <span class="fl">1.4</span>, <span class="fl">1.6</span>, <span class="fl">0.8</span>, <span class="fl">0.1</span>, <span class="fl">0.25</span>, <span class="fl">1.6</span>, <span class="fl">1.6</span>, <span class="fl">1.2</span>, <span class="fl">0.4</span>,</span>
+<span id="cb224-33"><a href="chapter10.html#cb224-33"></a>             <span class="fl">1.2</span>, <span class="fl">1.8</span>, <span class="fl">0.3</span>, <span class="fl">0.8</span>, <span class="fl">0.4</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.4</span>, <span class="fl">0.4</span>, <span class="fl">0.6</span>,</span>
+<span id="cb224-34"><a href="chapter10.html#cb224-34"></a>             <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.3</span>)</span>
+<span id="cb224-35"><a href="chapter10.html#cb224-35"></a>labdf &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">node=</span>nodeids, <span class="dt">label=</span>nodelab, <span class="dt">pos=</span>poslist)</span>
+<span id="cb224-36"><a href="chapter10.html#cb224-36"></a></span>
+<span id="cb224-37"><a href="chapter10.html#cb224-37"></a><span class="co"># The circular layout tree.</span></span>
+<span id="cb224-38"><a href="chapter10.html#cb224-38"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree, <span class="dt">layout=</span><span class="st">&quot;fan&quot;</span>, <span class="dt">size=</span><span class="fl">0.15</span>, <span class="dt">open.angle=</span><span class="dv">5</span>) <span class="op">+</span></span>
+<span id="cb224-39"><a href="chapter10.html#cb224-39"></a><span class="st">     </span><span class="kw">geom_hilight</span>(<span class="dt">data=</span>nodedf, <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">node=</span>node),</span>
+<span id="cb224-40"><a href="chapter10.html#cb224-40"></a>                  <span class="dt">extendto=</span><span class="fl">6.8</span>, <span class="dt">alpha=</span><span class="fl">0.3</span>, <span class="dt">fill=</span><span class="st">&quot;grey&quot;</span>, <span class="dt">color=</span><span class="st">&quot;grey50&quot;</span>,</span>
+<span id="cb224-41"><a href="chapter10.html#cb224-41"></a>                  <span class="dt">size=</span><span class="fl">0.05</span>) <span class="op">+</span></span>
+<span id="cb224-42"><a href="chapter10.html#cb224-42"></a><span class="st">     </span><span class="kw">geom_cladelab</span>(<span class="dt">data=</span>labdf, </span>
+<span id="cb224-43"><a href="chapter10.html#cb224-43"></a>                   <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">node=</span>node, </span>
+<span id="cb224-44"><a href="chapter10.html#cb224-44"></a>                               <span class="dt">label=</span>label,</span>
+<span id="cb224-45"><a href="chapter10.html#cb224-45"></a>                               <span class="dt">offset.text=</span>pos),</span>
+<span id="cb224-46"><a href="chapter10.html#cb224-46"></a>                   <span class="dt">hjust=</span><span class="fl">0.5</span>,</span>
+<span id="cb224-47"><a href="chapter10.html#cb224-47"></a>                   <span class="dt">angle=</span><span class="st">&quot;auto&quot;</span>,</span>
+<span id="cb224-48"><a href="chapter10.html#cb224-48"></a>                   <span class="dt">barsize=</span><span class="ot">NA</span>,</span>
+<span id="cb224-49"><a href="chapter10.html#cb224-49"></a>                   <span class="dt">horizontal=</span><span class="ot">FALSE</span>, </span>
+<span id="cb224-50"><a href="chapter10.html#cb224-50"></a>                   <span class="dt">fontsize=</span><span class="fl">1.4</span>,</span>
+<span id="cb224-51"><a href="chapter10.html#cb224-51"></a>                   <span class="dt">fontface=</span><span class="st">&quot;italic&quot;</span></span>
+<span id="cb224-52"><a href="chapter10.html#cb224-52"></a>                   )</span>
+<span id="cb224-53"><a href="chapter10.html#cb224-53"></a></span>
+<span id="cb224-54"><a href="chapter10.html#cb224-54"></a>p &lt;-<span class="st"> </span>p <span class="op">%&lt;+%</span><span class="st"> </span>dat1 <span class="op">+</span><span class="st"> </span><span class="kw">geom_fruit</span>(<span class="dt">geom=</span>geom_star,</span>
+<span id="cb224-55"><a href="chapter10.html#cb224-55"></a>                              <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">fill=</span>Phylum, <span class="dt">starshape=</span>Type, <span class="dt">size=</span>Size),</span>
+<span id="cb224-56"><a href="chapter10.html#cb224-56"></a>                              <span class="dt">position=</span><span class="st">&quot;identity&quot;</span>,<span class="dt">starstroke=</span><span class="fl">0.1</span>)<span class="op">+</span></span>
+<span id="cb224-57"><a href="chapter10.html#cb224-57"></a><span class="st">         </span><span class="kw">scale_fill_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;#FFC125&quot;</span>,<span class="st">&quot;#87CEFA&quot;</span>,<span class="st">&quot;#7B68EE&quot;</span>,<span class="st">&quot;#808080&quot;</span>,<span class="st">&quot;#800080&quot;</span>,</span>
+<span id="cb224-58"><a href="chapter10.html#cb224-58"></a>                                    <span class="st">&quot;#9ACD32&quot;</span>,<span class="st">&quot;#D15FEE&quot;</span>,<span class="st">&quot;#FFC0CB&quot;</span>,<span class="st">&quot;#EE6A50&quot;</span>,<span class="st">&quot;#8DEEEE&quot;</span>,</span>
+<span id="cb224-59"><a href="chapter10.html#cb224-59"></a>                                    <span class="st">&quot;#006400&quot;</span>,<span class="st">&quot;#800000&quot;</span>,<span class="st">&quot;#B0171F&quot;</span>,<span class="st">&quot;#191970&quot;</span>),</span>
+<span id="cb224-60"><a href="chapter10.html#cb224-60"></a>                           <span class="dt">guide=</span><span class="kw">guide_legend</span>(<span class="dt">keywidth =</span> <span class="fl">0.5</span>, <span class="dt">keyheight =</span> <span class="fl">0.5</span>, <span class="dt">order=</span><span class="dv">1</span>,</span>
+<span id="cb224-61"><a href="chapter10.html#cb224-61"></a>                                              <span class="dt">override.aes=</span><span class="kw">list</span>(<span class="dt">starshape=</span><span class="dv">15</span>)),</span>
+<span id="cb224-62"><a href="chapter10.html#cb224-62"></a>                           <span class="dt">na.translate=</span><span class="ot">FALSE</span>)<span class="op">+</span></span>
+<span id="cb224-63"><a href="chapter10.html#cb224-63"></a><span class="st">         </span><span class="kw">scale_starshape_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="dv">15</span>, <span class="dv">1</span>),</span>
+<span id="cb224-64"><a href="chapter10.html#cb224-64"></a>                                <span class="dt">guide=</span><span class="kw">guide_legend</span>(<span class="dt">keywidth =</span> <span class="fl">0.5</span>, <span class="dt">keyheight =</span> <span class="fl">0.5</span>, <span class="dt">order=</span><span class="dv">2</span>),</span>
+<span id="cb224-65"><a href="chapter10.html#cb224-65"></a>                                <span class="dt">na.translate=</span><span class="ot">FALSE</span>)<span class="op">+</span></span>
+<span id="cb224-66"><a href="chapter10.html#cb224-66"></a><span class="st">         </span><span class="kw">scale_size_continuous</span>(<span class="dt">range =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="fl">2.5</span>),</span>
+<span id="cb224-67"><a href="chapter10.html#cb224-67"></a>                               <span class="dt">guide =</span> <span class="kw">guide_legend</span>(<span class="dt">keywidth =</span> <span class="fl">0.5</span>, <span class="dt">keyheight =</span> <span class="fl">0.5</span>, <span class="dt">order=</span><span class="dv">3</span>,</span>
+<span id="cb224-68"><a href="chapter10.html#cb224-68"></a>                                                    <span class="dt">override.aes=</span><span class="kw">list</span>(<span class="dt">starshape=</span><span class="dv">15</span>)))<span class="op">+</span></span>
+<span id="cb224-69"><a href="chapter10.html#cb224-69"></a><span class="st">         </span><span class="kw">new_scale_fill</span>()<span class="op">+</span></span>
+<span id="cb224-70"><a href="chapter10.html#cb224-70"></a><span class="st">         </span><span class="kw">geom_fruit</span>(<span class="dt">data=</span>dat2, <span class="dt">geom=</span>geom_tile,</span>
+<span id="cb224-71"><a href="chapter10.html#cb224-71"></a>                    <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">y=</span>ID, <span class="dt">x=</span>Sites, <span class="dt">alpha=</span>Abundance, <span class="dt">fill=</span>Sites),</span>
+<span id="cb224-72"><a href="chapter10.html#cb224-72"></a>                    <span class="dt">color =</span> <span class="st">&quot;grey50&quot;</span>, <span class="dt">offset =</span> <span class="fl">0.04</span>,<span class="dt">size =</span> <span class="fl">0.02</span>)<span class="op">+</span></span>
+<span id="cb224-73"><a href="chapter10.html#cb224-73"></a><span class="st">         </span><span class="kw">scale_alpha_continuous</span>(<span class="dt">range=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb224-74"><a href="chapter10.html#cb224-74"></a>                             <span class="dt">guide=</span><span class="kw">guide_legend</span>(<span class="dt">keywidth =</span> <span class="fl">0.3</span>, <span class="dt">keyheight =</span> <span class="fl">0.3</span>, <span class="dt">order=</span><span class="dv">5</span>)) <span class="op">+</span></span>
+<span id="cb224-75"><a href="chapter10.html#cb224-75"></a><span class="st">         </span><span class="kw">geom_fruit</span>(<span class="dt">data=</span>dat3, <span class="dt">geom=</span>geom_bar,</span>
+<span id="cb224-76"><a href="chapter10.html#cb224-76"></a>                    <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">y=</span>ID, <span class="dt">x=</span>HigherAbundance, <span class="dt">fill=</span>Sites),</span>
+<span id="cb224-77"><a href="chapter10.html#cb224-77"></a>                    <span class="dt">pwidth=</span><span class="fl">0.38</span>, </span>
+<span id="cb224-78"><a href="chapter10.html#cb224-78"></a>                    <span class="dt">orientation=</span><span class="st">&quot;y&quot;</span>, </span>
+<span id="cb224-79"><a href="chapter10.html#cb224-79"></a>                    <span class="dt">stat=</span><span class="st">&quot;identity&quot;</span>,</span>
+<span id="cb224-80"><a href="chapter10.html#cb224-80"></a>         )<span class="op">+</span></span>
+<span id="cb224-81"><a href="chapter10.html#cb224-81"></a><span class="st">         </span><span class="kw">scale_fill_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;#0000FF&quot;</span>,<span class="st">&quot;#FFA500&quot;</span>,<span class="st">&quot;#FF0000&quot;</span>,<span class="st">&quot;#800000&quot;</span>,</span>
+<span id="cb224-82"><a href="chapter10.html#cb224-82"></a>                                    <span class="st">&quot;#006400&quot;</span>,<span class="st">&quot;#800080&quot;</span>,<span class="st">&quot;#696969&quot;</span>),</span>
+<span id="cb224-83"><a href="chapter10.html#cb224-83"></a>                           <span class="dt">guide=</span><span class="kw">guide_legend</span>(<span class="dt">keywidth =</span> <span class="fl">0.3</span>, <span class="dt">keyheight =</span> <span class="fl">0.3</span>, <span class="dt">order=</span><span class="dv">4</span>))<span class="op">+</span></span>
+<span id="cb224-84"><a href="chapter10.html#cb224-84"></a><span class="st">         </span><span class="kw">geom_treescale</span>(<span class="dt">fontsize=</span><span class="dv">2</span>, <span class="dt">linesize=</span><span class="fl">0.3</span>, <span class="dt">x=</span><span class="fl">4.9</span>, <span class="dt">y=</span><span class="fl">0.1</span>) <span class="op">+</span></span>
+<span id="cb224-85"><a href="chapter10.html#cb224-85"></a><span class="st">         </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="kw">c</span>(<span class="fl">0.93</span>, <span class="fl">0.5</span>),</span>
+<span id="cb224-86"><a href="chapter10.html#cb224-86"></a>               <span class="dt">legend.background=</span><span class="kw">element_rect</span>(<span class="dt">fill=</span><span class="ot">NA</span>),</span>
+<span id="cb224-87"><a href="chapter10.html#cb224-87"></a>               <span class="dt">legend.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="fl">6.5</span>),</span>
+<span id="cb224-88"><a href="chapter10.html#cb224-88"></a>               <span class="dt">legend.text=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="fl">4.5</span>),</span>
+<span id="cb224-89"><a href="chapter10.html#cb224-89"></a>               <span class="dt">legend.spacing.y =</span> <span class="kw">unit</span>(<span class="fl">0.02</span>, <span class="st">&quot;cm&quot;</span>),</span>
+<span id="cb224-90"><a href="chapter10.html#cb224-90"></a>             )</span>
+<span id="cb224-91"><a href="chapter10.html#cb224-91"></a>p</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:HMPplot"></span>
 <img src="treedata_files/figure-html/HMPplot-1.svg" alt="Phylogenetic tree about the abundance of microbes at different sites of human." width="672"  />
 <p class="caption">
@@ -591,157 +599,157 @@ Figure 10.2: <strong>Phylogenetic tree about the abundance of microbes at differ
 
 
 
-<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="chapter10.html#cb225-1" aria-hidden="true"></a><span class="kw">library</span>(ggtree)</span>
-<span id="cb225-2"><a href="chapter10.html#cb225-2" aria-hidden="true"></a><span class="kw">library</span>(ggtreeExtra)</span>
-<span id="cb225-3"><a href="chapter10.html#cb225-3" aria-hidden="true"></a><span class="kw">library</span>(ggplot2)</span>
-<span id="cb225-4"><a href="chapter10.html#cb225-4" aria-hidden="true"></a><span class="kw">library</span>(ggnewscale)</span>
-<span id="cb225-5"><a href="chapter10.html#cb225-5" aria-hidden="true"></a><span class="kw">library</span>(dplyr)</span>
-<span id="cb225-6"><a href="chapter10.html#cb225-6" aria-hidden="true"></a><span class="kw">library</span>(tidytree)</span>
-<span id="cb225-7"><a href="chapter10.html#cb225-7" aria-hidden="true"></a><span class="kw">library</span>(ggstar)</span>
-<span id="cb225-8"><a href="chapter10.html#cb225-8" aria-hidden="true"></a></span>
-<span id="cb225-9"><a href="chapter10.html#cb225-9" aria-hidden="true"></a>dat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/microreact/Candida_auris/microreact-project-Candidaauris-data.csv&quot;</span>)</span>
-<span id="cb225-10"><a href="chapter10.html#cb225-10" aria-hidden="true"></a>tr &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="st">&quot;data/microreact/Candida_auris/microreact-project-Candidaauris-tree.nwk&quot;</span>)</span>
-<span id="cb225-11"><a href="chapter10.html#cb225-11" aria-hidden="true"></a></span>
-<span id="cb225-12"><a href="chapter10.html#cb225-12" aria-hidden="true"></a>countries &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Canada&quot;</span>, <span class="st">&quot;United States&quot;</span>,</span>
-<span id="cb225-13"><a href="chapter10.html#cb225-13" aria-hidden="true"></a>               <span class="st">&quot;Colombia&quot;</span>, <span class="st">&quot;Panama&quot;</span>,</span>
-<span id="cb225-14"><a href="chapter10.html#cb225-14" aria-hidden="true"></a>               <span class="st">&quot;Venezuela&quot;</span>, <span class="st">&quot;France&quot;</span>,</span>
-<span id="cb225-15"><a href="chapter10.html#cb225-15" aria-hidden="true"></a>               <span class="st">&quot;Germany&quot;</span>, <span class="st">&quot;Spain&quot;</span>,</span>
-<span id="cb225-16"><a href="chapter10.html#cb225-16" aria-hidden="true"></a>               <span class="st">&quot;UK&quot;</span>, <span class="st">&quot;India&quot;</span>,</span>
-<span id="cb225-17"><a href="chapter10.html#cb225-17" aria-hidden="true"></a>               <span class="st">&quot;Israel&quot;</span>, <span class="st">&quot;Pakistan&quot;</span>,</span>
-<span id="cb225-18"><a href="chapter10.html#cb225-18" aria-hidden="true"></a>               <span class="st">&quot;Saudi Arabia&quot;</span>, <span class="st">&quot;United Arab Emirates&quot;</span>,</span>
-<span id="cb225-19"><a href="chapter10.html#cb225-19" aria-hidden="true"></a>               <span class="st">&quot;Kenya&quot;</span>, <span class="st">&quot;South Africa&quot;</span>,</span>
-<span id="cb225-20"><a href="chapter10.html#cb225-20" aria-hidden="true"></a>               <span class="st">&quot;Japan&quot;</span>, <span class="st">&quot;South Korea&quot;</span>,</span>
-<span id="cb225-21"><a href="chapter10.html#cb225-21" aria-hidden="true"></a>               <span class="st">&quot;Australia&quot;</span>)</span>
-<span id="cb225-22"><a href="chapter10.html#cb225-22" aria-hidden="true"></a><span class="co"># For the tip points</span></span>
-<span id="cb225-23"><a href="chapter10.html#cb225-23" aria-hidden="true"></a>dat1 &lt;-<span class="st"> </span>dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;COUNTRY&quot;</span>, <span class="st">&quot;COUNTRY__colour&quot;</span>))</span>
-<span id="cb225-24"><a href="chapter10.html#cb225-24" aria-hidden="true"></a>dat1<span class="op">$</span>COUNTRY &lt;-<span class="st"> </span><span class="kw">factor</span>(dat1<span class="op">$</span>COUNTRY, <span class="dt">levels=</span>countries)</span>
-<span id="cb225-25"><a href="chapter10.html#cb225-25" aria-hidden="true"></a>COUNTRYcolors &lt;-<span class="st"> </span>dat1[<span class="kw">match</span>(countries,dat<span class="op">$</span>COUNTRY),<span class="st">&quot;COUNTRY__colour&quot;</span>]</span>
-<span id="cb225-26"><a href="chapter10.html#cb225-26" aria-hidden="true"></a></span>
-<span id="cb225-27"><a href="chapter10.html#cb225-27" aria-hidden="true"></a><span class="co"># For the heatmap layer</span></span>
-<span id="cb225-28"><a href="chapter10.html#cb225-28" aria-hidden="true"></a>dat2 &lt;-<span class="st"> </span>dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;FCZ&quot;</span>, <span class="st">&quot;AMB&quot;</span>, <span class="st">&quot;MCF&quot;</span>))</span>
-<span id="cb225-29"><a href="chapter10.html#cb225-29" aria-hidden="true"></a>dat2 &lt;-<span class="st"> </span>reshape2<span class="op">::</span><span class="kw">melt</span>(dat2,<span class="dt">id=</span><span class="st">&quot;ID&quot;</span>, <span class="dt">variable.name=</span><span class="st">&quot;Antifungal&quot;</span>, <span class="dt">value.name=</span><span class="st">&quot;type&quot;</span>)</span>
-<span id="cb225-30"><a href="chapter10.html#cb225-30" aria-hidden="true"></a>dat2<span class="op">$</span>type &lt;-<span class="st"> </span><span class="kw">paste</span>(dat2<span class="op">$</span>Antifungal, dat2<span class="op">$</span>type)</span>
-<span id="cb225-31"><a href="chapter10.html#cb225-31" aria-hidden="true"></a>dat2<span class="op">$</span>type &lt;-<span class="st"> </span><span class="kw">unlist</span>(<span class="kw">lapply</span>(dat2<span class="op">$</span>type,</span>
-<span id="cb225-32"><a href="chapter10.html#cb225-32" aria-hidden="true"></a>                           <span class="cf">function</span>(x)<span class="kw">ifelse</span>(<span class="kw">grepl</span>(<span class="st">&quot;Not_&quot;</span>, x), <span class="st">&quot;Susceptible&quot;</span>, x)))</span>
-<span id="cb225-33"><a href="chapter10.html#cb225-33" aria-hidden="true"></a>dat2<span class="op">$</span>Antifungal &lt;-<span class="st"> </span><span class="kw">factor</span>(dat2<span class="op">$</span>Antifungal, <span class="dt">levels=</span><span class="kw">c</span>(<span class="st">&quot;FCZ&quot;</span>, <span class="st">&quot;AMB&quot;</span>, <span class="st">&quot;MCF&quot;</span>))</span>
-<span id="cb225-34"><a href="chapter10.html#cb225-34" aria-hidden="true"></a>dat2<span class="op">$</span>type &lt;-<span class="st"> </span><span class="kw">factor</span>(dat2<span class="op">$</span>type,</span>
-<span id="cb225-35"><a href="chapter10.html#cb225-35" aria-hidden="true"></a>                    <span class="dt">levels=</span><span class="kw">c</span>(<span class="st">&quot;FCZ Resistant&quot;</span>,</span>
-<span id="cb225-36"><a href="chapter10.html#cb225-36" aria-hidden="true"></a>                            <span class="st">&quot;AMB Resistant&quot;</span>,</span>
-<span id="cb225-37"><a href="chapter10.html#cb225-37" aria-hidden="true"></a>                            <span class="st">&quot;MCF Resistant&quot;</span>,</span>
-<span id="cb225-38"><a href="chapter10.html#cb225-38" aria-hidden="true"></a>                            <span class="st">&quot;Susceptible&quot;</span>))</span>
-<span id="cb225-39"><a href="chapter10.html#cb225-39" aria-hidden="true"></a></span>
-<span id="cb225-40"><a href="chapter10.html#cb225-40" aria-hidden="true"></a><span class="co"># For the points layer</span></span>
-<span id="cb225-41"><a href="chapter10.html#cb225-41" aria-hidden="true"></a>dat3 &lt;-<span class="st"> </span>dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;ERG11&quot;</span>, <span class="st">&quot;FKS1&quot;</span>)) <span class="op">%&gt;%</span></span>
-<span id="cb225-42"><a href="chapter10.html#cb225-42" aria-hidden="true"></a><span class="st">        </span>reshape2<span class="op">::</span><span class="kw">melt</span>(<span class="dt">id=</span><span class="st">&quot;ID&quot;</span>, <span class="dt">variable.name=</span><span class="st">&quot;point&quot;</span>, <span class="dt">value.name=</span><span class="st">&quot;mutation&quot;</span>)</span>
-<span id="cb225-43"><a href="chapter10.html#cb225-43" aria-hidden="true"></a>dat3<span class="op">$</span>mutation &lt;-<span class="st"> </span><span class="kw">paste</span>(dat3<span class="op">$</span>point, dat3<span class="op">$</span>mutation)</span>
-<span id="cb225-44"><a href="chapter10.html#cb225-44" aria-hidden="true"></a>dat3<span class="op">$</span>mutation &lt;-<span class="st"> </span><span class="kw">unlist</span>(<span class="kw">lapply</span>(dat3<span class="op">$</span>mutation, <span class="cf">function</span>(x)<span class="kw">ifelse</span>(<span class="kw">grepl</span>(<span class="st">&quot;WT&quot;</span>,x), <span class="ot">NA</span>,x)))</span>
-<span id="cb225-45"><a href="chapter10.html#cb225-45" aria-hidden="true"></a>dat3<span class="op">$</span>mutation &lt;-<span class="st"> </span><span class="kw">factor</span>(dat3<span class="op">$</span>mutation, <span class="dt">levels=</span><span class="kw">c</span>(<span class="st">&quot;ERG11 Y132F&quot;</span>, <span class="st">&quot;ERG11 K143R&quot;</span>,</span>
-<span id="cb225-46"><a href="chapter10.html#cb225-46" aria-hidden="true"></a>                                                <span class="st">&quot;ERG11 F126L&quot;</span>, <span class="st">&quot;FKS1 S639Y/P/F&quot;</span>))</span>
-<span id="cb225-47"><a href="chapter10.html#cb225-47" aria-hidden="true"></a></span>
-<span id="cb225-48"><a href="chapter10.html#cb225-48" aria-hidden="true"></a><span class="co"># For the clade group</span></span>
-<span id="cb225-49"><a href="chapter10.html#cb225-49" aria-hidden="true"></a>dat4 &lt;-<span class="st"> </span>dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;CLADE&quot;</span>))</span>
-<span id="cb225-50"><a href="chapter10.html#cb225-50" aria-hidden="true"></a>dat4 &lt;-<span class="st"> </span><span class="kw">aggregate</span>(.<span class="op">~</span>CLADE, dat4, <span class="dt">FUN=</span>paste, <span class="dt">collapse=</span><span class="st">&quot;,&quot;</span>)</span>
-<span id="cb225-51"><a href="chapter10.html#cb225-51" aria-hidden="true"></a>clades &lt;-<span class="st"> </span><span class="kw">lapply</span>(dat4<span class="op">$</span>ID, <span class="cf">function</span>(x){<span class="kw">unlist</span>(<span class="kw">strsplit</span>(x,<span class="dt">split=</span><span class="st">&quot;,&quot;</span>))})</span>
-<span id="cb225-52"><a href="chapter10.html#cb225-52" aria-hidden="true"></a><span class="kw">names</span>(clades) &lt;-<span class="st"> </span>dat4<span class="op">$</span>CLADE</span>
-<span id="cb225-53"><a href="chapter10.html#cb225-53" aria-hidden="true"></a></span>
-<span id="cb225-54"><a href="chapter10.html#cb225-54" aria-hidden="true"></a>tr &lt;-<span class="st"> </span><span class="kw">groupOTU</span>(tr, clades, <span class="st">&quot;Clade&quot;</span>)</span>
-<span id="cb225-55"><a href="chapter10.html#cb225-55" aria-hidden="true"></a>Clade &lt;-<span class="st"> </span><span class="ot">NULL</span></span>
-<span id="cb225-56"><a href="chapter10.html#cb225-56" aria-hidden="true"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(<span class="dt">tr=</span>tr, <span class="dt">layout=</span><span class="st">&quot;fan&quot;</span>, <span class="dt">open.angle=</span><span class="dv">15</span>, <span class="dt">size=</span><span class="fl">0.2</span>, <span class="kw">aes</span>(<span class="dt">colour=</span>Clade)) <span class="op">+</span></span>
-<span id="cb225-57"><a href="chapter10.html#cb225-57" aria-hidden="true"></a><span class="st">     </span><span class="kw">scale_colour_manual</span>(</span>
-<span id="cb225-58"><a href="chapter10.html#cb225-58" aria-hidden="true"></a>         <span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>,<span class="st">&quot;#69B920&quot;</span>,<span class="st">&quot;#9C2E88&quot;</span>,<span class="st">&quot;#F74B00&quot;</span>,<span class="st">&quot;#60C3DB&quot;</span>),</span>
-<span id="cb225-59"><a href="chapter10.html#cb225-59" aria-hidden="true"></a>         <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;&quot;</span>,<span class="st">&quot;I&quot;</span>, <span class="st">&quot;II&quot;</span>, <span class="st">&quot;III&quot;</span>, <span class="st">&quot;IV&quot;</span>),</span>
-<span id="cb225-60"><a href="chapter10.html#cb225-60" aria-hidden="true"></a>         <span class="dt">guide=</span><span class="kw">guide_legend</span>(<span class="dt">keywidth=</span><span class="fl">0.5</span>,</span>
-<span id="cb225-61"><a href="chapter10.html#cb225-61" aria-hidden="true"></a>                            <span class="dt">keyheight=</span><span class="fl">0.5</span>,</span>
-<span id="cb225-62"><a href="chapter10.html#cb225-62" aria-hidden="true"></a>                            <span class="dt">order=</span><span class="dv">1</span>,</span>
-<span id="cb225-63"><a href="chapter10.html#cb225-63" aria-hidden="true"></a>                            <span class="dt">override.aes=</span><span class="kw">list</span>(<span class="dt">linetype=</span><span class="kw">c</span>(<span class="st">&quot;0&quot;</span>=<span class="ot">NA</span>,</span>
-<span id="cb225-64"><a href="chapter10.html#cb225-64" aria-hidden="true"></a>                                                         <span class="st">&quot;Clade1&quot;</span>=<span class="dv">1</span>,</span>
-<span id="cb225-65"><a href="chapter10.html#cb225-65" aria-hidden="true"></a>                                                         <span class="st">&quot;Clade2&quot;</span>=<span class="dv">1</span>,</span>
-<span id="cb225-66"><a href="chapter10.html#cb225-66" aria-hidden="true"></a>                                                         <span class="st">&quot;Clade3&quot;</span>=<span class="dv">1</span>,</span>
-<span id="cb225-67"><a href="chapter10.html#cb225-67" aria-hidden="true"></a>                                                         <span class="st">&quot;Clade4&quot;</span>=<span class="dv">1</span></span>
-<span id="cb225-68"><a href="chapter10.html#cb225-68" aria-hidden="true"></a>                                                        )</span>
-<span id="cb225-69"><a href="chapter10.html#cb225-69" aria-hidden="true"></a>                                             )</span>
-<span id="cb225-70"><a href="chapter10.html#cb225-70" aria-hidden="true"></a>                           )</span>
-<span id="cb225-71"><a href="chapter10.html#cb225-71" aria-hidden="true"></a>     ) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb225-72"><a href="chapter10.html#cb225-72" aria-hidden="true"></a><span class="st">     </span><span class="kw">new_scale_colour</span>()</span>
-<span id="cb225-73"><a href="chapter10.html#cb225-73" aria-hidden="true"></a></span>
-<span id="cb225-74"><a href="chapter10.html#cb225-74" aria-hidden="true"></a>p1 &lt;-<span class="st"> </span>p <span class="op">%&lt;+%</span><span class="st"> </span>dat1 <span class="op">+</span></span>
-<span id="cb225-75"><a href="chapter10.html#cb225-75" aria-hidden="true"></a><span class="st">     </span><span class="kw">geom_tippoint</span>(<span class="kw">aes</span>(<span class="dt">colour=</span>COUNTRY),</span>
-<span id="cb225-76"><a href="chapter10.html#cb225-76" aria-hidden="true"></a>                   <span class="dt">alpha=</span><span class="dv">0</span>) <span class="op">+</span></span>
-<span id="cb225-77"><a href="chapter10.html#cb225-77" aria-hidden="true"></a><span class="st">     </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">colour=</span>COUNTRY),</span>
-<span id="cb225-78"><a href="chapter10.html#cb225-78" aria-hidden="true"></a>                   <span class="dt">align=</span><span class="ot">TRUE</span>,</span>
-<span id="cb225-79"><a href="chapter10.html#cb225-79" aria-hidden="true"></a>                   <span class="dt">linetype=</span><span class="dv">3</span>,</span>
-<span id="cb225-80"><a href="chapter10.html#cb225-80" aria-hidden="true"></a>                   <span class="dt">size=</span><span class="dv">1</span>,</span>
-<span id="cb225-81"><a href="chapter10.html#cb225-81" aria-hidden="true"></a>                   <span class="dt">linesize=</span><span class="fl">0.2</span>,</span>
-<span id="cb225-82"><a href="chapter10.html#cb225-82" aria-hidden="true"></a>                   <span class="dt">show.legend=</span><span class="ot">FALSE</span></span>
-<span id="cb225-83"><a href="chapter10.html#cb225-83" aria-hidden="true"></a>                   ) <span class="op">+</span></span>
-<span id="cb225-84"><a href="chapter10.html#cb225-84" aria-hidden="true"></a><span class="st">     </span><span class="kw">scale_colour_manual</span>(</span>
-<span id="cb225-85"><a href="chapter10.html#cb225-85" aria-hidden="true"></a>         <span class="dt">name=</span><span class="st">&quot;Country labels&quot;</span>,</span>
-<span id="cb225-86"><a href="chapter10.html#cb225-86" aria-hidden="true"></a>         <span class="dt">values=</span>COUNTRYcolors,</span>
-<span id="cb225-87"><a href="chapter10.html#cb225-87" aria-hidden="true"></a>         <span class="dt">guide=</span><span class="kw">guide_legend</span>(<span class="dt">keywidth=</span><span class="fl">0.5</span>,</span>
-<span id="cb225-88"><a href="chapter10.html#cb225-88" aria-hidden="true"></a>                            <span class="dt">keyheight=</span><span class="fl">0.5</span>,</span>
-<span id="cb225-89"><a href="chapter10.html#cb225-89" aria-hidden="true"></a>                            <span class="dt">order=</span><span class="dv">2</span>,</span>
-<span id="cb225-90"><a href="chapter10.html#cb225-90" aria-hidden="true"></a>                            <span class="dt">override.aes=</span><span class="kw">list</span>(<span class="dt">size=</span><span class="dv">2</span>,<span class="dt">alpha=</span><span class="dv">1</span>))</span>
-<span id="cb225-91"><a href="chapter10.html#cb225-91" aria-hidden="true"></a>     )</span>
-<span id="cb225-92"><a href="chapter10.html#cb225-92" aria-hidden="true"></a></span>
-<span id="cb225-93"><a href="chapter10.html#cb225-93" aria-hidden="true"></a>p2 &lt;-<span class="st"> </span>p1 <span class="op">+</span></span>
-<span id="cb225-94"><a href="chapter10.html#cb225-94" aria-hidden="true"></a><span class="st">      </span><span class="kw">geom_fruit</span>(</span>
-<span id="cb225-95"><a href="chapter10.html#cb225-95" aria-hidden="true"></a>          <span class="dt">data=</span>dat2,</span>
-<span id="cb225-96"><a href="chapter10.html#cb225-96" aria-hidden="true"></a>          <span class="dt">geom=</span>geom_tile,</span>
-<span id="cb225-97"><a href="chapter10.html#cb225-97" aria-hidden="true"></a>          <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>Antifungal, <span class="dt">y=</span>ID, <span class="dt">fill=</span>type),</span>
-<span id="cb225-98"><a href="chapter10.html#cb225-98" aria-hidden="true"></a>          <span class="dt">width=</span><span class="fl">0.1</span>,</span>
-<span id="cb225-99"><a href="chapter10.html#cb225-99" aria-hidden="true"></a>          <span class="dt">color=</span><span class="st">&quot;white&quot;</span>,</span>
-<span id="cb225-100"><a href="chapter10.html#cb225-100" aria-hidden="true"></a>          <span class="dt">pwidth=</span><span class="fl">0.1</span>,</span>
-<span id="cb225-101"><a href="chapter10.html#cb225-101" aria-hidden="true"></a>          <span class="dt">offset=</span><span class="fl">0.15</span></span>
-<span id="cb225-102"><a href="chapter10.html#cb225-102" aria-hidden="true"></a>      ) <span class="op">+</span></span>
-<span id="cb225-103"><a href="chapter10.html#cb225-103" aria-hidden="true"></a><span class="st">      </span><span class="kw">scale_fill_manual</span>(</span>
-<span id="cb225-104"><a href="chapter10.html#cb225-104" aria-hidden="true"></a>           <span class="dt">name=</span><span class="st">&quot;Antifungal susceptibility&quot;</span>,</span>
-<span id="cb225-105"><a href="chapter10.html#cb225-105" aria-hidden="true"></a>           <span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;#595959&quot;</span>, <span class="st">&quot;#B30000&quot;</span>, <span class="st">&quot;#020099&quot;</span>, <span class="st">&quot;#E6E6E6&quot;</span>),</span>
-<span id="cb225-106"><a href="chapter10.html#cb225-106" aria-hidden="true"></a>           <span class="dt">na.translate=</span><span class="ot">FALSE</span>,</span>
-<span id="cb225-107"><a href="chapter10.html#cb225-107" aria-hidden="true"></a>           <span class="dt">guide=</span><span class="kw">guide_legend</span>(<span class="dt">keywidth=</span><span class="fl">0.5</span>,</span>
-<span id="cb225-108"><a href="chapter10.html#cb225-108" aria-hidden="true"></a>                              <span class="dt">keyheight=</span><span class="fl">0.5</span>,</span>
-<span id="cb225-109"><a href="chapter10.html#cb225-109" aria-hidden="true"></a>                              <span class="dt">order=</span><span class="dv">3</span></span>
-<span id="cb225-110"><a href="chapter10.html#cb225-110" aria-hidden="true"></a>                             )</span>
-<span id="cb225-111"><a href="chapter10.html#cb225-111" aria-hidden="true"></a>      ) <span class="op">+</span></span>
-<span id="cb225-112"><a href="chapter10.html#cb225-112" aria-hidden="true"></a><span class="st">      </span><span class="kw">new_scale_fill</span>()</span>
-<span id="cb225-113"><a href="chapter10.html#cb225-113" aria-hidden="true"></a></span>
-<span id="cb225-114"><a href="chapter10.html#cb225-114" aria-hidden="true"></a>p3 &lt;-<span class="st"> </span>p2 <span class="op">+</span></span>
-<span id="cb225-115"><a href="chapter10.html#cb225-115" aria-hidden="true"></a><span class="st">      </span><span class="kw">geom_fruit</span>(</span>
-<span id="cb225-116"><a href="chapter10.html#cb225-116" aria-hidden="true"></a>          <span class="dt">data=</span>dat3,</span>
-<span id="cb225-117"><a href="chapter10.html#cb225-117" aria-hidden="true"></a>          <span class="dt">geom=</span>geom_star,</span>
-<span id="cb225-118"><a href="chapter10.html#cb225-118" aria-hidden="true"></a>          <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>mutation, <span class="dt">y=</span>ID, <span class="dt">fill=</span>mutation, <span class="dt">starshape=</span>point),</span>
-<span id="cb225-119"><a href="chapter10.html#cb225-119" aria-hidden="true"></a>          <span class="dt">size=</span><span class="dv">1</span>,</span>
-<span id="cb225-120"><a href="chapter10.html#cb225-120" aria-hidden="true"></a>          <span class="dt">starstroke=</span><span class="dv">0</span>,</span>
-<span id="cb225-121"><a href="chapter10.html#cb225-121" aria-hidden="true"></a>          <span class="dt">pwidth=</span><span class="fl">0.1</span>,</span>
-<span id="cb225-122"><a href="chapter10.html#cb225-122" aria-hidden="true"></a>          <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>,</span>
-<span id="cb225-123"><a href="chapter10.html#cb225-123" aria-hidden="true"></a>          <span class="dt">grid.params=</span><span class="kw">list</span>(</span>
-<span id="cb225-124"><a href="chapter10.html#cb225-124" aria-hidden="true"></a>                          <span class="dt">linetype=</span><span class="dv">3</span>,</span>
-<span id="cb225-125"><a href="chapter10.html#cb225-125" aria-hidden="true"></a>                          <span class="dt">size=</span><span class="fl">0.2</span></span>
-<span id="cb225-126"><a href="chapter10.html#cb225-126" aria-hidden="true"></a>                      )</span>
-<span id="cb225-127"><a href="chapter10.html#cb225-127" aria-hidden="true"></a></span>
-<span id="cb225-128"><a href="chapter10.html#cb225-128" aria-hidden="true"></a>      ) <span class="op">+</span></span>
-<span id="cb225-129"><a href="chapter10.html#cb225-129" aria-hidden="true"></a><span class="st">      </span><span class="kw">scale_fill_manual</span>(</span>
-<span id="cb225-130"><a href="chapter10.html#cb225-130" aria-hidden="true"></a>          <span class="dt">name=</span><span class="st">&quot;Point mutations&quot;</span>,</span>
-<span id="cb225-131"><a href="chapter10.html#cb225-131" aria-hidden="true"></a>          <span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;#329901&quot;</span>, <span class="st">&quot;#0600FF&quot;</span>, <span class="st">&quot;#FF0100&quot;</span>, <span class="st">&quot;#9900CC&quot;</span>),</span>
-<span id="cb225-132"><a href="chapter10.html#cb225-132" aria-hidden="true"></a>          <span class="dt">guide=</span><span class="kw">guide_legend</span>(<span class="dt">keywidth=</span><span class="fl">0.5</span>, <span class="dt">keyheight=</span><span class="fl">0.5</span>, <span class="dt">order=</span><span class="dv">4</span>,</span>
-<span id="cb225-133"><a href="chapter10.html#cb225-133" aria-hidden="true"></a>                             <span class="dt">override.aes=</span><span class="kw">list</span>(<span class="dt">starshape=</span><span class="kw">c</span>(<span class="st">&quot;ERG11 Y132F&quot;</span>=<span class="dv">15</span>,</span>
-<span id="cb225-134"><a href="chapter10.html#cb225-134" aria-hidden="true"></a>                                                           <span class="st">&quot;ERG11 K143R&quot;</span>=<span class="dv">15</span>,</span>
-<span id="cb225-135"><a href="chapter10.html#cb225-135" aria-hidden="true"></a>                                                           <span class="st">&quot;ERG11 F126L&quot;</span>=<span class="dv">15</span>,</span>
-<span id="cb225-136"><a href="chapter10.html#cb225-136" aria-hidden="true"></a>                                                           <span class="st">&quot;FKS1 S639Y/P/F&quot;</span>=<span class="dv">1</span>),</span>
-<span id="cb225-137"><a href="chapter10.html#cb225-137" aria-hidden="true"></a>                                               <span class="dt">size=</span><span class="dv">2</span>)</span>
-<span id="cb225-138"><a href="chapter10.html#cb225-138" aria-hidden="true"></a>                            ),</span>
-<span id="cb225-139"><a href="chapter10.html#cb225-139" aria-hidden="true"></a>          <span class="dt">na.translate=</span><span class="ot">FALSE</span>,</span>
-<span id="cb225-140"><a href="chapter10.html#cb225-140" aria-hidden="true"></a>      ) <span class="op">+</span></span>
-<span id="cb225-141"><a href="chapter10.html#cb225-141" aria-hidden="true"></a><span class="st">      </span><span class="kw">scale_starshape_manual</span>(</span>
-<span id="cb225-142"><a href="chapter10.html#cb225-142" aria-hidden="true"></a>          <span class="dt">values=</span><span class="kw">c</span>(<span class="dv">15</span>, <span class="dv">1</span>),</span>
-<span id="cb225-143"><a href="chapter10.html#cb225-143" aria-hidden="true"></a>          <span class="dt">guide=</span><span class="st">&quot;none&quot;</span></span>
-<span id="cb225-144"><a href="chapter10.html#cb225-144" aria-hidden="true"></a>      ) <span class="op">+</span></span>
-<span id="cb225-145"><a href="chapter10.html#cb225-145" aria-hidden="true"></a><span class="st">      </span><span class="kw">theme</span>(</span>
-<span id="cb225-146"><a href="chapter10.html#cb225-146" aria-hidden="true"></a>          <span class="dt">legend.background=</span><span class="kw">element_rect</span>(<span class="dt">fill=</span><span class="ot">NA</span>),</span>
-<span id="cb225-147"><a href="chapter10.html#cb225-147" aria-hidden="true"></a>          <span class="dt">legend.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">7</span>), <span class="co"># The size should be adjusted with different devout.</span></span>
-<span id="cb225-148"><a href="chapter10.html#cb225-148" aria-hidden="true"></a>          <span class="dt">legend.text=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="fl">5.5</span>),</span>
-<span id="cb225-149"><a href="chapter10.html#cb225-149" aria-hidden="true"></a>          <span class="dt">legend.spacing.y =</span> <span class="kw">unit</span>(<span class="fl">0.02</span>, <span class="st">&quot;cm&quot;</span>)</span>
-<span id="cb225-150"><a href="chapter10.html#cb225-150" aria-hidden="true"></a>      )</span>
-<span id="cb225-151"><a href="chapter10.html#cb225-151" aria-hidden="true"></a>p3</span></code></pre></div>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="chapter10.html#cb225-1"></a><span class="kw">library</span>(ggtree)</span>
+<span id="cb225-2"><a href="chapter10.html#cb225-2"></a><span class="kw">library</span>(ggtreeExtra)</span>
+<span id="cb225-3"><a href="chapter10.html#cb225-3"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb225-4"><a href="chapter10.html#cb225-4"></a><span class="kw">library</span>(ggnewscale)</span>
+<span id="cb225-5"><a href="chapter10.html#cb225-5"></a><span class="kw">library</span>(dplyr)</span>
+<span id="cb225-6"><a href="chapter10.html#cb225-6"></a><span class="kw">library</span>(tidytree)</span>
+<span id="cb225-7"><a href="chapter10.html#cb225-7"></a><span class="kw">library</span>(ggstar)</span>
+<span id="cb225-8"><a href="chapter10.html#cb225-8"></a></span>
+<span id="cb225-9"><a href="chapter10.html#cb225-9"></a>dat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/microreact/Candida_auris/microreact-project-Candidaauris-data.csv&quot;</span>)</span>
+<span id="cb225-10"><a href="chapter10.html#cb225-10"></a>tr &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="st">&quot;data/microreact/Candida_auris/microreact-project-Candidaauris-tree.nwk&quot;</span>)</span>
+<span id="cb225-11"><a href="chapter10.html#cb225-11"></a></span>
+<span id="cb225-12"><a href="chapter10.html#cb225-12"></a>countries &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Canada&quot;</span>, <span class="st">&quot;United States&quot;</span>,</span>
+<span id="cb225-13"><a href="chapter10.html#cb225-13"></a>               <span class="st">&quot;Colombia&quot;</span>, <span class="st">&quot;Panama&quot;</span>,</span>
+<span id="cb225-14"><a href="chapter10.html#cb225-14"></a>               <span class="st">&quot;Venezuela&quot;</span>, <span class="st">&quot;France&quot;</span>,</span>
+<span id="cb225-15"><a href="chapter10.html#cb225-15"></a>               <span class="st">&quot;Germany&quot;</span>, <span class="st">&quot;Spain&quot;</span>,</span>
+<span id="cb225-16"><a href="chapter10.html#cb225-16"></a>               <span class="st">&quot;UK&quot;</span>, <span class="st">&quot;India&quot;</span>,</span>
+<span id="cb225-17"><a href="chapter10.html#cb225-17"></a>               <span class="st">&quot;Israel&quot;</span>, <span class="st">&quot;Pakistan&quot;</span>,</span>
+<span id="cb225-18"><a href="chapter10.html#cb225-18"></a>               <span class="st">&quot;Saudi Arabia&quot;</span>, <span class="st">&quot;United Arab Emirates&quot;</span>,</span>
+<span id="cb225-19"><a href="chapter10.html#cb225-19"></a>               <span class="st">&quot;Kenya&quot;</span>, <span class="st">&quot;South Africa&quot;</span>,</span>
+<span id="cb225-20"><a href="chapter10.html#cb225-20"></a>               <span class="st">&quot;Japan&quot;</span>, <span class="st">&quot;South Korea&quot;</span>,</span>
+<span id="cb225-21"><a href="chapter10.html#cb225-21"></a>               <span class="st">&quot;Australia&quot;</span>)</span>
+<span id="cb225-22"><a href="chapter10.html#cb225-22"></a><span class="co"># For the tip points</span></span>
+<span id="cb225-23"><a href="chapter10.html#cb225-23"></a>dat1 &lt;-<span class="st"> </span>dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;COUNTRY&quot;</span>, <span class="st">&quot;COUNTRY__colour&quot;</span>))</span>
+<span id="cb225-24"><a href="chapter10.html#cb225-24"></a>dat1<span class="op">$</span>COUNTRY &lt;-<span class="st"> </span><span class="kw">factor</span>(dat1<span class="op">$</span>COUNTRY, <span class="dt">levels=</span>countries)</span>
+<span id="cb225-25"><a href="chapter10.html#cb225-25"></a>COUNTRYcolors &lt;-<span class="st"> </span>dat1[<span class="kw">match</span>(countries,dat<span class="op">$</span>COUNTRY),<span class="st">&quot;COUNTRY__colour&quot;</span>]</span>
+<span id="cb225-26"><a href="chapter10.html#cb225-26"></a></span>
+<span id="cb225-27"><a href="chapter10.html#cb225-27"></a><span class="co"># For the heatmap layer</span></span>
+<span id="cb225-28"><a href="chapter10.html#cb225-28"></a>dat2 &lt;-<span class="st"> </span>dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;FCZ&quot;</span>, <span class="st">&quot;AMB&quot;</span>, <span class="st">&quot;MCF&quot;</span>))</span>
+<span id="cb225-29"><a href="chapter10.html#cb225-29"></a>dat2 &lt;-<span class="st"> </span>reshape2<span class="op">::</span><span class="kw">melt</span>(dat2,<span class="dt">id=</span><span class="st">&quot;ID&quot;</span>, <span class="dt">variable.name=</span><span class="st">&quot;Antifungal&quot;</span>, <span class="dt">value.name=</span><span class="st">&quot;type&quot;</span>)</span>
+<span id="cb225-30"><a href="chapter10.html#cb225-30"></a>dat2<span class="op">$</span>type &lt;-<span class="st"> </span><span class="kw">paste</span>(dat2<span class="op">$</span>Antifungal, dat2<span class="op">$</span>type)</span>
+<span id="cb225-31"><a href="chapter10.html#cb225-31"></a>dat2<span class="op">$</span>type &lt;-<span class="st"> </span><span class="kw">unlist</span>(<span class="kw">lapply</span>(dat2<span class="op">$</span>type,</span>
+<span id="cb225-32"><a href="chapter10.html#cb225-32"></a>                           <span class="cf">function</span>(x)<span class="kw">ifelse</span>(<span class="kw">grepl</span>(<span class="st">&quot;Not_&quot;</span>, x), <span class="st">&quot;Susceptible&quot;</span>, x)))</span>
+<span id="cb225-33"><a href="chapter10.html#cb225-33"></a>dat2<span class="op">$</span>Antifungal &lt;-<span class="st"> </span><span class="kw">factor</span>(dat2<span class="op">$</span>Antifungal, <span class="dt">levels=</span><span class="kw">c</span>(<span class="st">&quot;FCZ&quot;</span>, <span class="st">&quot;AMB&quot;</span>, <span class="st">&quot;MCF&quot;</span>))</span>
+<span id="cb225-34"><a href="chapter10.html#cb225-34"></a>dat2<span class="op">$</span>type &lt;-<span class="st"> </span><span class="kw">factor</span>(dat2<span class="op">$</span>type,</span>
+<span id="cb225-35"><a href="chapter10.html#cb225-35"></a>                    <span class="dt">levels=</span><span class="kw">c</span>(<span class="st">&quot;FCZ Resistant&quot;</span>,</span>
+<span id="cb225-36"><a href="chapter10.html#cb225-36"></a>                            <span class="st">&quot;AMB Resistant&quot;</span>,</span>
+<span id="cb225-37"><a href="chapter10.html#cb225-37"></a>                            <span class="st">&quot;MCF Resistant&quot;</span>,</span>
+<span id="cb225-38"><a href="chapter10.html#cb225-38"></a>                            <span class="st">&quot;Susceptible&quot;</span>))</span>
+<span id="cb225-39"><a href="chapter10.html#cb225-39"></a></span>
+<span id="cb225-40"><a href="chapter10.html#cb225-40"></a><span class="co"># For the points layer</span></span>
+<span id="cb225-41"><a href="chapter10.html#cb225-41"></a>dat3 &lt;-<span class="st"> </span>dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;ERG11&quot;</span>, <span class="st">&quot;FKS1&quot;</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb225-42"><a href="chapter10.html#cb225-42"></a><span class="st">        </span>reshape2<span class="op">::</span><span class="kw">melt</span>(<span class="dt">id=</span><span class="st">&quot;ID&quot;</span>, <span class="dt">variable.name=</span><span class="st">&quot;point&quot;</span>, <span class="dt">value.name=</span><span class="st">&quot;mutation&quot;</span>)</span>
+<span id="cb225-43"><a href="chapter10.html#cb225-43"></a>dat3<span class="op">$</span>mutation &lt;-<span class="st"> </span><span class="kw">paste</span>(dat3<span class="op">$</span>point, dat3<span class="op">$</span>mutation)</span>
+<span id="cb225-44"><a href="chapter10.html#cb225-44"></a>dat3<span class="op">$</span>mutation &lt;-<span class="st"> </span><span class="kw">unlist</span>(<span class="kw">lapply</span>(dat3<span class="op">$</span>mutation, <span class="cf">function</span>(x)<span class="kw">ifelse</span>(<span class="kw">grepl</span>(<span class="st">&quot;WT&quot;</span>,x), <span class="ot">NA</span>,x)))</span>
+<span id="cb225-45"><a href="chapter10.html#cb225-45"></a>dat3<span class="op">$</span>mutation &lt;-<span class="st"> </span><span class="kw">factor</span>(dat3<span class="op">$</span>mutation, <span class="dt">levels=</span><span class="kw">c</span>(<span class="st">&quot;ERG11 Y132F&quot;</span>, <span class="st">&quot;ERG11 K143R&quot;</span>,</span>
+<span id="cb225-46"><a href="chapter10.html#cb225-46"></a>                                                <span class="st">&quot;ERG11 F126L&quot;</span>, <span class="st">&quot;FKS1 S639Y/P/F&quot;</span>))</span>
+<span id="cb225-47"><a href="chapter10.html#cb225-47"></a></span>
+<span id="cb225-48"><a href="chapter10.html#cb225-48"></a><span class="co"># For the clade group</span></span>
+<span id="cb225-49"><a href="chapter10.html#cb225-49"></a>dat4 &lt;-<span class="st"> </span>dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;CLADE&quot;</span>))</span>
+<span id="cb225-50"><a href="chapter10.html#cb225-50"></a>dat4 &lt;-<span class="st"> </span><span class="kw">aggregate</span>(.<span class="op">~</span>CLADE, dat4, <span class="dt">FUN=</span>paste, <span class="dt">collapse=</span><span class="st">&quot;,&quot;</span>)</span>
+<span id="cb225-51"><a href="chapter10.html#cb225-51"></a>clades &lt;-<span class="st"> </span><span class="kw">lapply</span>(dat4<span class="op">$</span>ID, <span class="cf">function</span>(x){<span class="kw">unlist</span>(<span class="kw">strsplit</span>(x,<span class="dt">split=</span><span class="st">&quot;,&quot;</span>))})</span>
+<span id="cb225-52"><a href="chapter10.html#cb225-52"></a><span class="kw">names</span>(clades) &lt;-<span class="st"> </span>dat4<span class="op">$</span>CLADE</span>
+<span id="cb225-53"><a href="chapter10.html#cb225-53"></a></span>
+<span id="cb225-54"><a href="chapter10.html#cb225-54"></a>tr &lt;-<span class="st"> </span><span class="kw">groupOTU</span>(tr, clades, <span class="st">&quot;Clade&quot;</span>)</span>
+<span id="cb225-55"><a href="chapter10.html#cb225-55"></a>Clade &lt;-<span class="st"> </span><span class="ot">NULL</span></span>
+<span id="cb225-56"><a href="chapter10.html#cb225-56"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(<span class="dt">tr=</span>tr, <span class="dt">layout=</span><span class="st">&quot;fan&quot;</span>, <span class="dt">open.angle=</span><span class="dv">15</span>, <span class="dt">size=</span><span class="fl">0.2</span>, <span class="kw">aes</span>(<span class="dt">colour=</span>Clade)) <span class="op">+</span></span>
+<span id="cb225-57"><a href="chapter10.html#cb225-57"></a><span class="st">     </span><span class="kw">scale_colour_manual</span>(</span>
+<span id="cb225-58"><a href="chapter10.html#cb225-58"></a>         <span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>,<span class="st">&quot;#69B920&quot;</span>,<span class="st">&quot;#9C2E88&quot;</span>,<span class="st">&quot;#F74B00&quot;</span>,<span class="st">&quot;#60C3DB&quot;</span>),</span>
+<span id="cb225-59"><a href="chapter10.html#cb225-59"></a>         <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;&quot;</span>,<span class="st">&quot;I&quot;</span>, <span class="st">&quot;II&quot;</span>, <span class="st">&quot;III&quot;</span>, <span class="st">&quot;IV&quot;</span>),</span>
+<span id="cb225-60"><a href="chapter10.html#cb225-60"></a>         <span class="dt">guide=</span><span class="kw">guide_legend</span>(<span class="dt">keywidth=</span><span class="fl">0.5</span>,</span>
+<span id="cb225-61"><a href="chapter10.html#cb225-61"></a>                            <span class="dt">keyheight=</span><span class="fl">0.5</span>,</span>
+<span id="cb225-62"><a href="chapter10.html#cb225-62"></a>                            <span class="dt">order=</span><span class="dv">1</span>,</span>
+<span id="cb225-63"><a href="chapter10.html#cb225-63"></a>                            <span class="dt">override.aes=</span><span class="kw">list</span>(<span class="dt">linetype=</span><span class="kw">c</span>(<span class="st">&quot;0&quot;</span>=<span class="ot">NA</span>,</span>
+<span id="cb225-64"><a href="chapter10.html#cb225-64"></a>                                                         <span class="st">&quot;Clade1&quot;</span>=<span class="dv">1</span>,</span>
+<span id="cb225-65"><a href="chapter10.html#cb225-65"></a>                                                         <span class="st">&quot;Clade2&quot;</span>=<span class="dv">1</span>,</span>
+<span id="cb225-66"><a href="chapter10.html#cb225-66"></a>                                                         <span class="st">&quot;Clade3&quot;</span>=<span class="dv">1</span>,</span>
+<span id="cb225-67"><a href="chapter10.html#cb225-67"></a>                                                         <span class="st">&quot;Clade4&quot;</span>=<span class="dv">1</span></span>
+<span id="cb225-68"><a href="chapter10.html#cb225-68"></a>                                                        )</span>
+<span id="cb225-69"><a href="chapter10.html#cb225-69"></a>                                             )</span>
+<span id="cb225-70"><a href="chapter10.html#cb225-70"></a>                           )</span>
+<span id="cb225-71"><a href="chapter10.html#cb225-71"></a>     ) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb225-72"><a href="chapter10.html#cb225-72"></a><span class="st">     </span><span class="kw">new_scale_colour</span>()</span>
+<span id="cb225-73"><a href="chapter10.html#cb225-73"></a></span>
+<span id="cb225-74"><a href="chapter10.html#cb225-74"></a>p1 &lt;-<span class="st"> </span>p <span class="op">%&lt;+%</span><span class="st"> </span>dat1 <span class="op">+</span></span>
+<span id="cb225-75"><a href="chapter10.html#cb225-75"></a><span class="st">     </span><span class="kw">geom_tippoint</span>(<span class="kw">aes</span>(<span class="dt">colour=</span>COUNTRY),</span>
+<span id="cb225-76"><a href="chapter10.html#cb225-76"></a>                   <span class="dt">alpha=</span><span class="dv">0</span>) <span class="op">+</span></span>
+<span id="cb225-77"><a href="chapter10.html#cb225-77"></a><span class="st">     </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">colour=</span>COUNTRY),</span>
+<span id="cb225-78"><a href="chapter10.html#cb225-78"></a>                   <span class="dt">align=</span><span class="ot">TRUE</span>,</span>
+<span id="cb225-79"><a href="chapter10.html#cb225-79"></a>                   <span class="dt">linetype=</span><span class="dv">3</span>,</span>
+<span id="cb225-80"><a href="chapter10.html#cb225-80"></a>                   <span class="dt">size=</span><span class="dv">1</span>,</span>
+<span id="cb225-81"><a href="chapter10.html#cb225-81"></a>                   <span class="dt">linesize=</span><span class="fl">0.2</span>,</span>
+<span id="cb225-82"><a href="chapter10.html#cb225-82"></a>                   <span class="dt">show.legend=</span><span class="ot">FALSE</span></span>
+<span id="cb225-83"><a href="chapter10.html#cb225-83"></a>                   ) <span class="op">+</span></span>
+<span id="cb225-84"><a href="chapter10.html#cb225-84"></a><span class="st">     </span><span class="kw">scale_colour_manual</span>(</span>
+<span id="cb225-85"><a href="chapter10.html#cb225-85"></a>         <span class="dt">name=</span><span class="st">&quot;Country labels&quot;</span>,</span>
+<span id="cb225-86"><a href="chapter10.html#cb225-86"></a>         <span class="dt">values=</span>COUNTRYcolors,</span>
+<span id="cb225-87"><a href="chapter10.html#cb225-87"></a>         <span class="dt">guide=</span><span class="kw">guide_legend</span>(<span class="dt">keywidth=</span><span class="fl">0.5</span>,</span>
+<span id="cb225-88"><a href="chapter10.html#cb225-88"></a>                            <span class="dt">keyheight=</span><span class="fl">0.5</span>,</span>
+<span id="cb225-89"><a href="chapter10.html#cb225-89"></a>                            <span class="dt">order=</span><span class="dv">2</span>,</span>
+<span id="cb225-90"><a href="chapter10.html#cb225-90"></a>                            <span class="dt">override.aes=</span><span class="kw">list</span>(<span class="dt">size=</span><span class="dv">2</span>,<span class="dt">alpha=</span><span class="dv">1</span>))</span>
+<span id="cb225-91"><a href="chapter10.html#cb225-91"></a>     )</span>
+<span id="cb225-92"><a href="chapter10.html#cb225-92"></a></span>
+<span id="cb225-93"><a href="chapter10.html#cb225-93"></a>p2 &lt;-<span class="st"> </span>p1 <span class="op">+</span></span>
+<span id="cb225-94"><a href="chapter10.html#cb225-94"></a><span class="st">      </span><span class="kw">geom_fruit</span>(</span>
+<span id="cb225-95"><a href="chapter10.html#cb225-95"></a>          <span class="dt">data=</span>dat2,</span>
+<span id="cb225-96"><a href="chapter10.html#cb225-96"></a>          <span class="dt">geom=</span>geom_tile,</span>
+<span id="cb225-97"><a href="chapter10.html#cb225-97"></a>          <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>Antifungal, <span class="dt">y=</span>ID, <span class="dt">fill=</span>type),</span>
+<span id="cb225-98"><a href="chapter10.html#cb225-98"></a>          <span class="dt">width=</span><span class="fl">0.1</span>,</span>
+<span id="cb225-99"><a href="chapter10.html#cb225-99"></a>          <span class="dt">color=</span><span class="st">&quot;white&quot;</span>,</span>
+<span id="cb225-100"><a href="chapter10.html#cb225-100"></a>          <span class="dt">pwidth=</span><span class="fl">0.1</span>,</span>
+<span id="cb225-101"><a href="chapter10.html#cb225-101"></a>          <span class="dt">offset=</span><span class="fl">0.15</span></span>
+<span id="cb225-102"><a href="chapter10.html#cb225-102"></a>      ) <span class="op">+</span></span>
+<span id="cb225-103"><a href="chapter10.html#cb225-103"></a><span class="st">      </span><span class="kw">scale_fill_manual</span>(</span>
+<span id="cb225-104"><a href="chapter10.html#cb225-104"></a>           <span class="dt">name=</span><span class="st">&quot;Antifungal susceptibility&quot;</span>,</span>
+<span id="cb225-105"><a href="chapter10.html#cb225-105"></a>           <span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;#595959&quot;</span>, <span class="st">&quot;#B30000&quot;</span>, <span class="st">&quot;#020099&quot;</span>, <span class="st">&quot;#E6E6E6&quot;</span>),</span>
+<span id="cb225-106"><a href="chapter10.html#cb225-106"></a>           <span class="dt">na.translate=</span><span class="ot">FALSE</span>,</span>
+<span id="cb225-107"><a href="chapter10.html#cb225-107"></a>           <span class="dt">guide=</span><span class="kw">guide_legend</span>(<span class="dt">keywidth=</span><span class="fl">0.5</span>,</span>
+<span id="cb225-108"><a href="chapter10.html#cb225-108"></a>                              <span class="dt">keyheight=</span><span class="fl">0.5</span>,</span>
+<span id="cb225-109"><a href="chapter10.html#cb225-109"></a>                              <span class="dt">order=</span><span class="dv">3</span></span>
+<span id="cb225-110"><a href="chapter10.html#cb225-110"></a>                             )</span>
+<span id="cb225-111"><a href="chapter10.html#cb225-111"></a>      ) <span class="op">+</span></span>
+<span id="cb225-112"><a href="chapter10.html#cb225-112"></a><span class="st">      </span><span class="kw">new_scale_fill</span>()</span>
+<span id="cb225-113"><a href="chapter10.html#cb225-113"></a></span>
+<span id="cb225-114"><a href="chapter10.html#cb225-114"></a>p3 &lt;-<span class="st"> </span>p2 <span class="op">+</span></span>
+<span id="cb225-115"><a href="chapter10.html#cb225-115"></a><span class="st">      </span><span class="kw">geom_fruit</span>(</span>
+<span id="cb225-116"><a href="chapter10.html#cb225-116"></a>          <span class="dt">data=</span>dat3,</span>
+<span id="cb225-117"><a href="chapter10.html#cb225-117"></a>          <span class="dt">geom=</span>geom_star,</span>
+<span id="cb225-118"><a href="chapter10.html#cb225-118"></a>          <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>mutation, <span class="dt">y=</span>ID, <span class="dt">fill=</span>mutation, <span class="dt">starshape=</span>point),</span>
+<span id="cb225-119"><a href="chapter10.html#cb225-119"></a>          <span class="dt">size=</span><span class="dv">1</span>,</span>
+<span id="cb225-120"><a href="chapter10.html#cb225-120"></a>          <span class="dt">starstroke=</span><span class="dv">0</span>,</span>
+<span id="cb225-121"><a href="chapter10.html#cb225-121"></a>          <span class="dt">pwidth=</span><span class="fl">0.1</span>,</span>
+<span id="cb225-122"><a href="chapter10.html#cb225-122"></a>          <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb225-123"><a href="chapter10.html#cb225-123"></a>          <span class="dt">grid.params=</span><span class="kw">list</span>(</span>
+<span id="cb225-124"><a href="chapter10.html#cb225-124"></a>                          <span class="dt">linetype=</span><span class="dv">3</span>,</span>
+<span id="cb225-125"><a href="chapter10.html#cb225-125"></a>                          <span class="dt">size=</span><span class="fl">0.2</span></span>
+<span id="cb225-126"><a href="chapter10.html#cb225-126"></a>                      )</span>
+<span id="cb225-127"><a href="chapter10.html#cb225-127"></a></span>
+<span id="cb225-128"><a href="chapter10.html#cb225-128"></a>      ) <span class="op">+</span></span>
+<span id="cb225-129"><a href="chapter10.html#cb225-129"></a><span class="st">      </span><span class="kw">scale_fill_manual</span>(</span>
+<span id="cb225-130"><a href="chapter10.html#cb225-130"></a>          <span class="dt">name=</span><span class="st">&quot;Point mutations&quot;</span>,</span>
+<span id="cb225-131"><a href="chapter10.html#cb225-131"></a>          <span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;#329901&quot;</span>, <span class="st">&quot;#0600FF&quot;</span>, <span class="st">&quot;#FF0100&quot;</span>, <span class="st">&quot;#9900CC&quot;</span>),</span>
+<span id="cb225-132"><a href="chapter10.html#cb225-132"></a>          <span class="dt">guide=</span><span class="kw">guide_legend</span>(<span class="dt">keywidth=</span><span class="fl">0.5</span>, <span class="dt">keyheight=</span><span class="fl">0.5</span>, <span class="dt">order=</span><span class="dv">4</span>,</span>
+<span id="cb225-133"><a href="chapter10.html#cb225-133"></a>                             <span class="dt">override.aes=</span><span class="kw">list</span>(<span class="dt">starshape=</span><span class="kw">c</span>(<span class="st">&quot;ERG11 Y132F&quot;</span>=<span class="dv">15</span>,</span>
+<span id="cb225-134"><a href="chapter10.html#cb225-134"></a>                                                           <span class="st">&quot;ERG11 K143R&quot;</span>=<span class="dv">15</span>,</span>
+<span id="cb225-135"><a href="chapter10.html#cb225-135"></a>                                                           <span class="st">&quot;ERG11 F126L&quot;</span>=<span class="dv">15</span>,</span>
+<span id="cb225-136"><a href="chapter10.html#cb225-136"></a>                                                           <span class="st">&quot;FKS1 S639Y/P/F&quot;</span>=<span class="dv">1</span>),</span>
+<span id="cb225-137"><a href="chapter10.html#cb225-137"></a>                                               <span class="dt">size=</span><span class="dv">2</span>)</span>
+<span id="cb225-138"><a href="chapter10.html#cb225-138"></a>                            ),</span>
+<span id="cb225-139"><a href="chapter10.html#cb225-139"></a>          <span class="dt">na.translate=</span><span class="ot">FALSE</span>,</span>
+<span id="cb225-140"><a href="chapter10.html#cb225-140"></a>      ) <span class="op">+</span></span>
+<span id="cb225-141"><a href="chapter10.html#cb225-141"></a><span class="st">      </span><span class="kw">scale_starshape_manual</span>(</span>
+<span id="cb225-142"><a href="chapter10.html#cb225-142"></a>          <span class="dt">values=</span><span class="kw">c</span>(<span class="dv">15</span>, <span class="dv">1</span>),</span>
+<span id="cb225-143"><a href="chapter10.html#cb225-143"></a>          <span class="dt">guide=</span><span class="st">&quot;none&quot;</span></span>
+<span id="cb225-144"><a href="chapter10.html#cb225-144"></a>      ) <span class="op">+</span></span>
+<span id="cb225-145"><a href="chapter10.html#cb225-145"></a><span class="st">      </span><span class="kw">theme</span>(</span>
+<span id="cb225-146"><a href="chapter10.html#cb225-146"></a>          <span class="dt">legend.background=</span><span class="kw">element_rect</span>(<span class="dt">fill=</span><span class="ot">NA</span>),</span>
+<span id="cb225-147"><a href="chapter10.html#cb225-147"></a>          <span class="dt">legend.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">7</span>), <span class="co"># The size should be adjusted with different devout.</span></span>
+<span id="cb225-148"><a href="chapter10.html#cb225-148"></a>          <span class="dt">legend.text=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="fl">5.5</span>),</span>
+<span id="cb225-149"><a href="chapter10.html#cb225-149"></a>          <span class="dt">legend.spacing.y =</span> <span class="kw">unit</span>(<span class="fl">0.02</span>, <span class="st">&quot;cm&quot;</span>)</span>
+<span id="cb225-150"><a href="chapter10.html#cb225-150"></a>      )</span>
+<span id="cb225-151"><a href="chapter10.html#cb225-151"></a>p3</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:Caurisplot"></span>
 <img src="treedata_files/figure-html/Caurisplot-1.svg" alt="Antifungal susceptibility and point mutations in drug targets in Candida auris ." width="672"  />
 <p class="caption">
@@ -749,101 +757,101 @@ Figure 10.3: <strong>Antifungal susceptibility and point mutations in drug targe
 </p>
 </div>
 <p>The advantage of using <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> is we do not need to take care of the details. We can provide the data, and tell how to map variables to aesthetics using <em>aes</em>. The legend also can be setted using <code>scale</code>. In addition, the tree be fully annotated with multiple layers also can be supported by <code>geom_fruit</code>. In this example, the phylogenetic tree is annotated with different color to show different clade. The external heat maps show the susceptibility to fluconazole (FCZ), amphotericin B (AMB) and micafungin (MCF). The external points show the point mutations in lanosterol 14-alpha-demethylase ERG11 (Y132F, K143R, and F126L) and beta-1,3-D-glucan synthase FKS1 (S639Y/P/F) associated with resistance <span class="citation">(Chow et al. <a href="#ref-Chowe:_2020" role="doc-biblioref">2020</a>)</span>.</p>
-<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="chapter10.html#cb226-1" aria-hidden="true"></a><span class="kw">library</span>(ggtreeExtra)</span>
-<span id="cb226-2"><a href="chapter10.html#cb226-2" aria-hidden="true"></a><span class="kw">library</span>(ggtree)</span>
-<span id="cb226-3"><a href="chapter10.html#cb226-3" aria-hidden="true"></a><span class="kw">library</span>(ggplot2)</span>
-<span id="cb226-4"><a href="chapter10.html#cb226-4" aria-hidden="true"></a><span class="kw">library</span>(ggnewscale)</span>
-<span id="cb226-5"><a href="chapter10.html#cb226-5" aria-hidden="true"></a><span class="kw">library</span>(treeio)</span>
-<span id="cb226-6"><a href="chapter10.html#cb226-6" aria-hidden="true"></a><span class="kw">library</span>(tidytree)</span>
-<span id="cb226-7"><a href="chapter10.html#cb226-7" aria-hidden="true"></a><span class="kw">library</span>(dplyr)</span>
-<span id="cb226-8"><a href="chapter10.html#cb226-8" aria-hidden="true"></a><span class="kw">library</span>(ggstar)</span>
-<span id="cb226-9"><a href="chapter10.html#cb226-9" aria-hidden="true"></a></span>
-<span id="cb226-10"><a href="chapter10.html#cb226-10" aria-hidden="true"></a>tr &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="st">&quot;data/microreact/Salmonella_Typhi/microreact-project-NJIDqgsS-tree.nwk&quot;</span>)</span>
-<span id="cb226-11"><a href="chapter10.html#cb226-11" aria-hidden="true"></a></span>
-<span id="cb226-12"><a href="chapter10.html#cb226-12" aria-hidden="true"></a>metada &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/microreact/Salmonella_Typhi/microreact-project-NJIDqgsS-data.csv&quot;</span>)</span>
-<span id="cb226-13"><a href="chapter10.html#cb226-13" aria-hidden="true"></a></span>
-<span id="cb226-14"><a href="chapter10.html#cb226-14" aria-hidden="true"></a>metadata &lt;-<span class="st"> </span>metada <span class="op">%&gt;%</span></span>
-<span id="cb226-15"><a href="chapter10.html#cb226-15" aria-hidden="true"></a><span class="st">            </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;country&quot;</span>, <span class="st">&quot;country__colour&quot;</span>, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;year__colour&quot;</span>, <span class="st">&quot;haplotype&quot;</span>))</span>
-<span id="cb226-16"><a href="chapter10.html#cb226-16" aria-hidden="true"></a>metadata<span class="op">$</span>haplotype &lt;-<span class="st"> </span><span class="kw">unlist</span>(<span class="kw">lapply</span>(metadata<span class="op">$</span>haplotype, <span class="cf">function</span>(x)<span class="kw">ifelse</span>(<span class="kw">nchar</span>(x)<span class="op">&gt;</span><span class="dv">0</span>,x,<span class="ot">NA</span>)))</span>
-<span id="cb226-17"><a href="chapter10.html#cb226-17" aria-hidden="true"></a></span>
-<span id="cb226-18"><a href="chapter10.html#cb226-18" aria-hidden="true"></a>countrycolors &lt;-<span class="st"> </span>metada <span class="op">%&gt;%</span></span>
-<span id="cb226-19"><a href="chapter10.html#cb226-19" aria-hidden="true"></a><span class="st">                 </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="st">&quot;country&quot;</span>, <span class="st">&quot;country__colour&quot;</span>)) <span class="op">%&gt;%</span></span>
-<span id="cb226-20"><a href="chapter10.html#cb226-20" aria-hidden="true"></a><span class="st">                 </span><span class="kw">distinct</span>()</span>
-<span id="cb226-21"><a href="chapter10.html#cb226-21" aria-hidden="true"></a></span>
-<span id="cb226-22"><a href="chapter10.html#cb226-22" aria-hidden="true"></a>yearcolors &lt;-<span class="st"> </span>metada <span class="op">%&gt;%</span></span>
-<span id="cb226-23"><a href="chapter10.html#cb226-23" aria-hidden="true"></a><span class="st">              </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="st">&quot;year&quot;</span>, <span class="st">&quot;year__colour&quot;</span>)) <span class="op">%&gt;%</span></span>
-<span id="cb226-24"><a href="chapter10.html#cb226-24" aria-hidden="true"></a><span class="st">              </span><span class="kw">distinct</span>()</span>
-<span id="cb226-25"><a href="chapter10.html#cb226-25" aria-hidden="true"></a>yearcolors &lt;-<span class="st"> </span>yearcolors[<span class="kw">order</span>(yearcolors<span class="op">$</span>year, <span class="dt">decreasing=</span><span class="ot">TRUE</span>),]</span>
-<span id="cb226-26"><a href="chapter10.html#cb226-26" aria-hidden="true"></a></span>
-<span id="cb226-27"><a href="chapter10.html#cb226-27" aria-hidden="true"></a>metadata<span class="op">$</span>country &lt;-<span class="st"> </span><span class="kw">factor</span>(metadata<span class="op">$</span>country, <span class="dt">levels=</span>countrycolors<span class="op">$</span>country)</span>
-<span id="cb226-28"><a href="chapter10.html#cb226-28" aria-hidden="true"></a>metadata<span class="op">$</span>year &lt;-<span class="st"> </span><span class="kw">factor</span>(metadata<span class="op">$</span>year, <span class="dt">levels=</span>yearcolors<span class="op">$</span>year)</span>
-<span id="cb226-29"><a href="chapter10.html#cb226-29" aria-hidden="true"></a></span>
-<span id="cb226-30"><a href="chapter10.html#cb226-30" aria-hidden="true"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tr, <span class="dt">layout=</span><span class="st">&quot;fan&quot;</span>, <span class="dt">open.angle=</span><span class="dv">15</span>, <span class="dt">size=</span><span class="fl">0.1</span>)</span>
-<span id="cb226-31"><a href="chapter10.html#cb226-31" aria-hidden="true"></a></span>
-<span id="cb226-32"><a href="chapter10.html#cb226-32" aria-hidden="true"></a>p &lt;-<span class="st"> </span>p <span class="op">%&lt;+%</span><span class="st"> </span>metadata</span>
-<span id="cb226-33"><a href="chapter10.html#cb226-33" aria-hidden="true"></a></span>
-<span id="cb226-34"><a href="chapter10.html#cb226-34" aria-hidden="true"></a>p1 &lt;-p <span class="op">+</span></span>
-<span id="cb226-35"><a href="chapter10.html#cb226-35" aria-hidden="true"></a><span class="st">     </span><span class="kw">geom_tippoint</span>(</span>
-<span id="cb226-36"><a href="chapter10.html#cb226-36" aria-hidden="true"></a>         <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">colour=</span>country),</span>
-<span id="cb226-37"><a href="chapter10.html#cb226-37" aria-hidden="true"></a>         <span class="dt">size=</span><span class="fl">1.5</span>,</span>
-<span id="cb226-38"><a href="chapter10.html#cb226-38" aria-hidden="true"></a>         <span class="dt">stroke=</span><span class="dv">0</span>,</span>
-<span id="cb226-39"><a href="chapter10.html#cb226-39" aria-hidden="true"></a>         <span class="dt">alpha=</span><span class="fl">0.4</span></span>
-<span id="cb226-40"><a href="chapter10.html#cb226-40" aria-hidden="true"></a>     ) <span class="op">+</span></span>
-<span id="cb226-41"><a href="chapter10.html#cb226-41" aria-hidden="true"></a><span class="st">     </span><span class="kw">scale_colour_manual</span>(</span>
-<span id="cb226-42"><a href="chapter10.html#cb226-42" aria-hidden="true"></a>         <span class="dt">name=</span><span class="st">&quot;Country&quot;</span>,</span>
-<span id="cb226-43"><a href="chapter10.html#cb226-43" aria-hidden="true"></a>         <span class="dt">values=</span>countrycolors<span class="op">$</span>country__colour,</span>
-<span id="cb226-44"><a href="chapter10.html#cb226-44" aria-hidden="true"></a>         <span class="dt">guide=</span><span class="kw">guide_legend</span>(<span class="dt">keywidth=</span><span class="fl">0.3</span>,</span>
-<span id="cb226-45"><a href="chapter10.html#cb226-45" aria-hidden="true"></a>                            <span class="dt">keyheight=</span><span class="fl">0.3</span>,</span>
-<span id="cb226-46"><a href="chapter10.html#cb226-46" aria-hidden="true"></a>                            <span class="dt">ncol=</span><span class="dv">2</span>,</span>
-<span id="cb226-47"><a href="chapter10.html#cb226-47" aria-hidden="true"></a>                            <span class="dt">override.aes=</span><span class="kw">list</span>(<span class="dt">size=</span><span class="dv">2</span>,<span class="dt">alpha=</span><span class="dv">1</span>),</span>
-<span id="cb226-48"><a href="chapter10.html#cb226-48" aria-hidden="true"></a>                            <span class="dt">order=</span><span class="dv">1</span>)</span>
-<span id="cb226-49"><a href="chapter10.html#cb226-49" aria-hidden="true"></a>     ) <span class="op">+</span></span>
-<span id="cb226-50"><a href="chapter10.html#cb226-50" aria-hidden="true"></a><span class="st">     </span><span class="kw">theme</span>(</span>
-<span id="cb226-51"><a href="chapter10.html#cb226-51" aria-hidden="true"></a>         <span class="dt">legend.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">5</span>),</span>
-<span id="cb226-52"><a href="chapter10.html#cb226-52" aria-hidden="true"></a>         <span class="dt">legend.text=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">4</span>),</span>
-<span id="cb226-53"><a href="chapter10.html#cb226-53" aria-hidden="true"></a>         <span class="dt">legend.spacing.y =</span> <span class="kw">unit</span>(<span class="fl">0.02</span>, <span class="st">&quot;cm&quot;</span>)</span>
-<span id="cb226-54"><a href="chapter10.html#cb226-54" aria-hidden="true"></a>     )</span>
-<span id="cb226-55"><a href="chapter10.html#cb226-55" aria-hidden="true"></a></span>
-<span id="cb226-56"><a href="chapter10.html#cb226-56" aria-hidden="true"></a>p2 &lt;-p1 <span class="op">+</span></span>
-<span id="cb226-57"><a href="chapter10.html#cb226-57" aria-hidden="true"></a><span class="st">     </span><span class="kw">geom_fruit</span>(</span>
-<span id="cb226-58"><a href="chapter10.html#cb226-58" aria-hidden="true"></a>         <span class="dt">geom=</span>geom_star,</span>
-<span id="cb226-59"><a href="chapter10.html#cb226-59" aria-hidden="true"></a>         <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">fill=</span>haplotype),</span>
-<span id="cb226-60"><a href="chapter10.html#cb226-60" aria-hidden="true"></a>         <span class="dt">starshape=</span><span class="dv">26</span>,</span>
-<span id="cb226-61"><a href="chapter10.html#cb226-61" aria-hidden="true"></a>         <span class="dt">color=</span><span class="ot">NA</span>,</span>
-<span id="cb226-62"><a href="chapter10.html#cb226-62" aria-hidden="true"></a>         <span class="dt">size=</span><span class="dv">2</span>,</span>
-<span id="cb226-63"><a href="chapter10.html#cb226-63" aria-hidden="true"></a>         <span class="dt">starstroke=</span><span class="dv">0</span>,</span>
-<span id="cb226-64"><a href="chapter10.html#cb226-64" aria-hidden="true"></a>         <span class="dt">offset=</span><span class="dv">0</span>,</span>
-<span id="cb226-65"><a href="chapter10.html#cb226-65" aria-hidden="true"></a>     ) <span class="op">+</span></span>
-<span id="cb226-66"><a href="chapter10.html#cb226-66" aria-hidden="true"></a><span class="st">     </span><span class="kw">scale_fill_manual</span>(</span>
-<span id="cb226-67"><a href="chapter10.html#cb226-67" aria-hidden="true"></a>         <span class="dt">name=</span><span class="st">&quot;Haplotype&quot;</span>,</span>
-<span id="cb226-68"><a href="chapter10.html#cb226-68" aria-hidden="true"></a>         <span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;red&quot;</span>),</span>
-<span id="cb226-69"><a href="chapter10.html#cb226-69" aria-hidden="true"></a>         <span class="dt">guide=</span><span class="kw">guide_legend</span>(</span>
-<span id="cb226-70"><a href="chapter10.html#cb226-70" aria-hidden="true"></a>                   <span class="dt">keywidth=</span><span class="fl">0.3</span>,</span>
-<span id="cb226-71"><a href="chapter10.html#cb226-71" aria-hidden="true"></a>                   <span class="dt">keyheight=</span><span class="fl">0.3</span>,</span>
-<span id="cb226-72"><a href="chapter10.html#cb226-72" aria-hidden="true"></a>                   <span class="dt">order=</span><span class="dv">3</span></span>
-<span id="cb226-73"><a href="chapter10.html#cb226-73" aria-hidden="true"></a>               ),</span>
-<span id="cb226-74"><a href="chapter10.html#cb226-74" aria-hidden="true"></a>         <span class="dt">na.translate=</span><span class="ot">FALSE</span></span>
-<span id="cb226-75"><a href="chapter10.html#cb226-75" aria-hidden="true"></a>     )</span>
-<span id="cb226-76"><a href="chapter10.html#cb226-76" aria-hidden="true"></a></span>
-<span id="cb226-77"><a href="chapter10.html#cb226-77" aria-hidden="true"></a>p3 &lt;-p2 <span class="op">+</span></span>
-<span id="cb226-78"><a href="chapter10.html#cb226-78" aria-hidden="true"></a><span class="st">     </span><span class="kw">new_scale_fill</span>() <span class="op">+</span></span>
-<span id="cb226-79"><a href="chapter10.html#cb226-79" aria-hidden="true"></a><span class="st">     </span><span class="kw">geom_fruit</span>(</span>
-<span id="cb226-80"><a href="chapter10.html#cb226-80" aria-hidden="true"></a>         <span class="dt">geom=</span>geom_tile,</span>
-<span id="cb226-81"><a href="chapter10.html#cb226-81" aria-hidden="true"></a>         <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">fill=</span>year),</span>
-<span id="cb226-82"><a href="chapter10.html#cb226-82" aria-hidden="true"></a>         <span class="dt">width=</span><span class="fl">0.002</span>,</span>
-<span id="cb226-83"><a href="chapter10.html#cb226-83" aria-hidden="true"></a>         <span class="dt">offset=</span><span class="fl">0.1</span></span>
-<span id="cb226-84"><a href="chapter10.html#cb226-84" aria-hidden="true"></a>     ) <span class="op">+</span></span>
-<span id="cb226-85"><a href="chapter10.html#cb226-85" aria-hidden="true"></a><span class="st">     </span><span class="kw">scale_fill_manual</span>(</span>
-<span id="cb226-86"><a href="chapter10.html#cb226-86" aria-hidden="true"></a>         <span class="dt">name=</span><span class="st">&quot;Year&quot;</span>,</span>
-<span id="cb226-87"><a href="chapter10.html#cb226-87" aria-hidden="true"></a>         <span class="dt">values=</span>yearcolors<span class="op">$</span>year__colour,</span>
-<span id="cb226-88"><a href="chapter10.html#cb226-88" aria-hidden="true"></a>         <span class="dt">guide=</span><span class="kw">guide_legend</span>(<span class="dt">keywidth=</span><span class="fl">0.3</span>, <span class="dt">keyheight=</span><span class="fl">0.3</span>, <span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">order=</span><span class="dv">2</span>)</span>
-<span id="cb226-89"><a href="chapter10.html#cb226-89" aria-hidden="true"></a>     ) <span class="op">+</span></span>
-<span id="cb226-90"><a href="chapter10.html#cb226-90" aria-hidden="true"></a><span class="st">     </span><span class="kw">theme</span>(</span>
-<span id="cb226-91"><a href="chapter10.html#cb226-91" aria-hidden="true"></a>           <span class="dt">legend.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">6</span>), <span class="co"># The size should be adjusted with the different devout.</span></span>
-<span id="cb226-92"><a href="chapter10.html#cb226-92" aria-hidden="true"></a>           <span class="dt">legend.text=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="fl">4.5</span>),</span>
-<span id="cb226-93"><a href="chapter10.html#cb226-93" aria-hidden="true"></a>           <span class="dt">legend.spacing.y =</span> <span class="kw">unit</span>(<span class="fl">0.02</span>, <span class="st">&quot;cm&quot;</span>)</span>
-<span id="cb226-94"><a href="chapter10.html#cb226-94" aria-hidden="true"></a>           )</span>
-<span id="cb226-95"><a href="chapter10.html#cb226-95" aria-hidden="true"></a>p3</span></code></pre></div>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="chapter10.html#cb226-1"></a><span class="kw">library</span>(ggtreeExtra)</span>
+<span id="cb226-2"><a href="chapter10.html#cb226-2"></a><span class="kw">library</span>(ggtree)</span>
+<span id="cb226-3"><a href="chapter10.html#cb226-3"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb226-4"><a href="chapter10.html#cb226-4"></a><span class="kw">library</span>(ggnewscale)</span>
+<span id="cb226-5"><a href="chapter10.html#cb226-5"></a><span class="kw">library</span>(treeio)</span>
+<span id="cb226-6"><a href="chapter10.html#cb226-6"></a><span class="kw">library</span>(tidytree)</span>
+<span id="cb226-7"><a href="chapter10.html#cb226-7"></a><span class="kw">library</span>(dplyr)</span>
+<span id="cb226-8"><a href="chapter10.html#cb226-8"></a><span class="kw">library</span>(ggstar)</span>
+<span id="cb226-9"><a href="chapter10.html#cb226-9"></a></span>
+<span id="cb226-10"><a href="chapter10.html#cb226-10"></a>tr &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="st">&quot;data/microreact/Salmonella_Typhi/microreact-project-NJIDqgsS-tree.nwk&quot;</span>)</span>
+<span id="cb226-11"><a href="chapter10.html#cb226-11"></a></span>
+<span id="cb226-12"><a href="chapter10.html#cb226-12"></a>metada &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/microreact/Salmonella_Typhi/microreact-project-NJIDqgsS-data.csv&quot;</span>)</span>
+<span id="cb226-13"><a href="chapter10.html#cb226-13"></a></span>
+<span id="cb226-14"><a href="chapter10.html#cb226-14"></a>metadata &lt;-<span class="st"> </span>metada <span class="op">%&gt;%</span></span>
+<span id="cb226-15"><a href="chapter10.html#cb226-15"></a><span class="st">            </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;country&quot;</span>, <span class="st">&quot;country__colour&quot;</span>, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;year__colour&quot;</span>, <span class="st">&quot;haplotype&quot;</span>))</span>
+<span id="cb226-16"><a href="chapter10.html#cb226-16"></a>metadata<span class="op">$</span>haplotype &lt;-<span class="st"> </span><span class="kw">unlist</span>(<span class="kw">lapply</span>(metadata<span class="op">$</span>haplotype, <span class="cf">function</span>(x)<span class="kw">ifelse</span>(<span class="kw">nchar</span>(x)<span class="op">&gt;</span><span class="dv">0</span>,x,<span class="ot">NA</span>)))</span>
+<span id="cb226-17"><a href="chapter10.html#cb226-17"></a></span>
+<span id="cb226-18"><a href="chapter10.html#cb226-18"></a>countrycolors &lt;-<span class="st"> </span>metada <span class="op">%&gt;%</span></span>
+<span id="cb226-19"><a href="chapter10.html#cb226-19"></a><span class="st">                 </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="st">&quot;country&quot;</span>, <span class="st">&quot;country__colour&quot;</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb226-20"><a href="chapter10.html#cb226-20"></a><span class="st">                 </span><span class="kw">distinct</span>()</span>
+<span id="cb226-21"><a href="chapter10.html#cb226-21"></a></span>
+<span id="cb226-22"><a href="chapter10.html#cb226-22"></a>yearcolors &lt;-<span class="st"> </span>metada <span class="op">%&gt;%</span></span>
+<span id="cb226-23"><a href="chapter10.html#cb226-23"></a><span class="st">              </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="st">&quot;year&quot;</span>, <span class="st">&quot;year__colour&quot;</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb226-24"><a href="chapter10.html#cb226-24"></a><span class="st">              </span><span class="kw">distinct</span>()</span>
+<span id="cb226-25"><a href="chapter10.html#cb226-25"></a>yearcolors &lt;-<span class="st"> </span>yearcolors[<span class="kw">order</span>(yearcolors<span class="op">$</span>year, <span class="dt">decreasing=</span><span class="ot">TRUE</span>),]</span>
+<span id="cb226-26"><a href="chapter10.html#cb226-26"></a></span>
+<span id="cb226-27"><a href="chapter10.html#cb226-27"></a>metadata<span class="op">$</span>country &lt;-<span class="st"> </span><span class="kw">factor</span>(metadata<span class="op">$</span>country, <span class="dt">levels=</span>countrycolors<span class="op">$</span>country)</span>
+<span id="cb226-28"><a href="chapter10.html#cb226-28"></a>metadata<span class="op">$</span>year &lt;-<span class="st"> </span><span class="kw">factor</span>(metadata<span class="op">$</span>year, <span class="dt">levels=</span>yearcolors<span class="op">$</span>year)</span>
+<span id="cb226-29"><a href="chapter10.html#cb226-29"></a></span>
+<span id="cb226-30"><a href="chapter10.html#cb226-30"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tr, <span class="dt">layout=</span><span class="st">&quot;fan&quot;</span>, <span class="dt">open.angle=</span><span class="dv">15</span>, <span class="dt">size=</span><span class="fl">0.1</span>)</span>
+<span id="cb226-31"><a href="chapter10.html#cb226-31"></a></span>
+<span id="cb226-32"><a href="chapter10.html#cb226-32"></a>p &lt;-<span class="st"> </span>p <span class="op">%&lt;+%</span><span class="st"> </span>metadata</span>
+<span id="cb226-33"><a href="chapter10.html#cb226-33"></a></span>
+<span id="cb226-34"><a href="chapter10.html#cb226-34"></a>p1 &lt;-p <span class="op">+</span></span>
+<span id="cb226-35"><a href="chapter10.html#cb226-35"></a><span class="st">     </span><span class="kw">geom_tippoint</span>(</span>
+<span id="cb226-36"><a href="chapter10.html#cb226-36"></a>         <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">colour=</span>country),</span>
+<span id="cb226-37"><a href="chapter10.html#cb226-37"></a>         <span class="dt">size=</span><span class="fl">1.5</span>,</span>
+<span id="cb226-38"><a href="chapter10.html#cb226-38"></a>         <span class="dt">stroke=</span><span class="dv">0</span>,</span>
+<span id="cb226-39"><a href="chapter10.html#cb226-39"></a>         <span class="dt">alpha=</span><span class="fl">0.4</span></span>
+<span id="cb226-40"><a href="chapter10.html#cb226-40"></a>     ) <span class="op">+</span></span>
+<span id="cb226-41"><a href="chapter10.html#cb226-41"></a><span class="st">     </span><span class="kw">scale_colour_manual</span>(</span>
+<span id="cb226-42"><a href="chapter10.html#cb226-42"></a>         <span class="dt">name=</span><span class="st">&quot;Country&quot;</span>,</span>
+<span id="cb226-43"><a href="chapter10.html#cb226-43"></a>         <span class="dt">values=</span>countrycolors<span class="op">$</span>country__colour,</span>
+<span id="cb226-44"><a href="chapter10.html#cb226-44"></a>         <span class="dt">guide=</span><span class="kw">guide_legend</span>(<span class="dt">keywidth=</span><span class="fl">0.3</span>,</span>
+<span id="cb226-45"><a href="chapter10.html#cb226-45"></a>                            <span class="dt">keyheight=</span><span class="fl">0.3</span>,</span>
+<span id="cb226-46"><a href="chapter10.html#cb226-46"></a>                            <span class="dt">ncol=</span><span class="dv">2</span>,</span>
+<span id="cb226-47"><a href="chapter10.html#cb226-47"></a>                            <span class="dt">override.aes=</span><span class="kw">list</span>(<span class="dt">size=</span><span class="dv">2</span>,<span class="dt">alpha=</span><span class="dv">1</span>),</span>
+<span id="cb226-48"><a href="chapter10.html#cb226-48"></a>                            <span class="dt">order=</span><span class="dv">1</span>)</span>
+<span id="cb226-49"><a href="chapter10.html#cb226-49"></a>     ) <span class="op">+</span></span>
+<span id="cb226-50"><a href="chapter10.html#cb226-50"></a><span class="st">     </span><span class="kw">theme</span>(</span>
+<span id="cb226-51"><a href="chapter10.html#cb226-51"></a>         <span class="dt">legend.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">5</span>),</span>
+<span id="cb226-52"><a href="chapter10.html#cb226-52"></a>         <span class="dt">legend.text=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">4</span>),</span>
+<span id="cb226-53"><a href="chapter10.html#cb226-53"></a>         <span class="dt">legend.spacing.y =</span> <span class="kw">unit</span>(<span class="fl">0.02</span>, <span class="st">&quot;cm&quot;</span>)</span>
+<span id="cb226-54"><a href="chapter10.html#cb226-54"></a>     )</span>
+<span id="cb226-55"><a href="chapter10.html#cb226-55"></a></span>
+<span id="cb226-56"><a href="chapter10.html#cb226-56"></a>p2 &lt;-p1 <span class="op">+</span></span>
+<span id="cb226-57"><a href="chapter10.html#cb226-57"></a><span class="st">     </span><span class="kw">geom_fruit</span>(</span>
+<span id="cb226-58"><a href="chapter10.html#cb226-58"></a>         <span class="dt">geom=</span>geom_star,</span>
+<span id="cb226-59"><a href="chapter10.html#cb226-59"></a>         <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">fill=</span>haplotype),</span>
+<span id="cb226-60"><a href="chapter10.html#cb226-60"></a>         <span class="dt">starshape=</span><span class="dv">26</span>,</span>
+<span id="cb226-61"><a href="chapter10.html#cb226-61"></a>         <span class="dt">color=</span><span class="ot">NA</span>,</span>
+<span id="cb226-62"><a href="chapter10.html#cb226-62"></a>         <span class="dt">size=</span><span class="dv">2</span>,</span>
+<span id="cb226-63"><a href="chapter10.html#cb226-63"></a>         <span class="dt">starstroke=</span><span class="dv">0</span>,</span>
+<span id="cb226-64"><a href="chapter10.html#cb226-64"></a>         <span class="dt">offset=</span><span class="dv">0</span>,</span>
+<span id="cb226-65"><a href="chapter10.html#cb226-65"></a>     ) <span class="op">+</span></span>
+<span id="cb226-66"><a href="chapter10.html#cb226-66"></a><span class="st">     </span><span class="kw">scale_fill_manual</span>(</span>
+<span id="cb226-67"><a href="chapter10.html#cb226-67"></a>         <span class="dt">name=</span><span class="st">&quot;Haplotype&quot;</span>,</span>
+<span id="cb226-68"><a href="chapter10.html#cb226-68"></a>         <span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;red&quot;</span>),</span>
+<span id="cb226-69"><a href="chapter10.html#cb226-69"></a>         <span class="dt">guide=</span><span class="kw">guide_legend</span>(</span>
+<span id="cb226-70"><a href="chapter10.html#cb226-70"></a>                   <span class="dt">keywidth=</span><span class="fl">0.3</span>,</span>
+<span id="cb226-71"><a href="chapter10.html#cb226-71"></a>                   <span class="dt">keyheight=</span><span class="fl">0.3</span>,</span>
+<span id="cb226-72"><a href="chapter10.html#cb226-72"></a>                   <span class="dt">order=</span><span class="dv">3</span></span>
+<span id="cb226-73"><a href="chapter10.html#cb226-73"></a>               ),</span>
+<span id="cb226-74"><a href="chapter10.html#cb226-74"></a>         <span class="dt">na.translate=</span><span class="ot">FALSE</span></span>
+<span id="cb226-75"><a href="chapter10.html#cb226-75"></a>     )</span>
+<span id="cb226-76"><a href="chapter10.html#cb226-76"></a></span>
+<span id="cb226-77"><a href="chapter10.html#cb226-77"></a>p3 &lt;-p2 <span class="op">+</span></span>
+<span id="cb226-78"><a href="chapter10.html#cb226-78"></a><span class="st">     </span><span class="kw">new_scale_fill</span>() <span class="op">+</span></span>
+<span id="cb226-79"><a href="chapter10.html#cb226-79"></a><span class="st">     </span><span class="kw">geom_fruit</span>(</span>
+<span id="cb226-80"><a href="chapter10.html#cb226-80"></a>         <span class="dt">geom=</span>geom_tile,</span>
+<span id="cb226-81"><a href="chapter10.html#cb226-81"></a>         <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">fill=</span>year),</span>
+<span id="cb226-82"><a href="chapter10.html#cb226-82"></a>         <span class="dt">width=</span><span class="fl">0.002</span>,</span>
+<span id="cb226-83"><a href="chapter10.html#cb226-83"></a>         <span class="dt">offset=</span><span class="fl">0.1</span></span>
+<span id="cb226-84"><a href="chapter10.html#cb226-84"></a>     ) <span class="op">+</span></span>
+<span id="cb226-85"><a href="chapter10.html#cb226-85"></a><span class="st">     </span><span class="kw">scale_fill_manual</span>(</span>
+<span id="cb226-86"><a href="chapter10.html#cb226-86"></a>         <span class="dt">name=</span><span class="st">&quot;Year&quot;</span>,</span>
+<span id="cb226-87"><a href="chapter10.html#cb226-87"></a>         <span class="dt">values=</span>yearcolors<span class="op">$</span>year__colour,</span>
+<span id="cb226-88"><a href="chapter10.html#cb226-88"></a>         <span class="dt">guide=</span><span class="kw">guide_legend</span>(<span class="dt">keywidth=</span><span class="fl">0.3</span>, <span class="dt">keyheight=</span><span class="fl">0.3</span>, <span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">order=</span><span class="dv">2</span>)</span>
+<span id="cb226-89"><a href="chapter10.html#cb226-89"></a>     ) <span class="op">+</span></span>
+<span id="cb226-90"><a href="chapter10.html#cb226-90"></a><span class="st">     </span><span class="kw">theme</span>(</span>
+<span id="cb226-91"><a href="chapter10.html#cb226-91"></a>           <span class="dt">legend.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">6</span>), <span class="co"># The size should be adjusted with the different devout.</span></span>
+<span id="cb226-92"><a href="chapter10.html#cb226-92"></a>           <span class="dt">legend.text=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="fl">4.5</span>),</span>
+<span id="cb226-93"><a href="chapter10.html#cb226-93"></a>           <span class="dt">legend.spacing.y =</span> <span class="kw">unit</span>(<span class="fl">0.02</span>, <span class="st">&quot;cm&quot;</span>)</span>
+<span id="cb226-94"><a href="chapter10.html#cb226-94"></a>           )</span>
+<span id="cb226-95"><a href="chapter10.html#cb226-95"></a>p3</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:Styphiplot"></span>
 <img src="treedata_files/figure-html/Styphiplot-1.svg" alt="Population structure of the 1,832 S. Typhi isolates." width="672"  />
 <p class="caption">
