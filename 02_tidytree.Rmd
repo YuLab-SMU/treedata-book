@@ -499,7 +499,7 @@ library(ggtree)
 set.seed(1024)
 x <- rtree(30)
 y <- rtree(30)
-p1 <- ggtree(x) + 
+p1 <- ggtree(x, layout='roundrect') + 
   geom_hilight(
          mapping=aes(subset = node %in% c(38, 48, 58, 36),
                      node = node,
@@ -517,7 +517,7 @@ d2 <- p2$data
 ## set offset to make the tree in the right hand side of the first tree
 d2$x <- max(d2$x) - d2$x + max(d1$x) + 1
 
-pp <- p1 + geom_tree(data=d2) +      
+pp <- p1 + geom_tree(data=d2, layout='ellipse') +      
   ggnewscale::new_scale_fill() +
   geom_hilight(
          data = d2, 
