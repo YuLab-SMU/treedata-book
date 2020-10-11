@@ -53,6 +53,40 @@ knitr::kable(y, caption=caption, booktabs = T) %>%
 ```
 
 
+
+```{r tree-objects, echo=FALSE,results='asis'}
+x <- tibble::tribble(
+    ~Package, ~Object, ~Description,
+    "ape", "phylo", "basic phylogenetic tree structure",
+    "ape", "multiPhylo", "list of phylo objects",
+    "ade4", "phylog", "tree structure for ecological data",
+    "phylobase", "phylo4", "S4 version of phylo object",
+    "phylobase", "phylo4d", "extend phylo4 with trait data",
+    "phyloseq", "phyloseq", "phylogenetic tree with microbiome data",
+    "tidytree", "tbl_tree", "phylogenetic tree as a tidy data frame",
+    "treeio", "treedata", "phylogenetic tree with heterogeneous associated data",
+    "treeio", "jplace", "treedata object with placement information",
+    "stats", "hclust", "hierarchical cluster result",
+    "stats", "dendrogram", "hierarchical clustering or classification/regression tree",
+    "cluster", "agnes", "agglomerative hierarchical clustering",
+    "cluster", "diana", "divisive hierarchical clustering",
+    "cluster", "twins", "agglomerative or divisive (polythetic) hierarchical clustering",
+    "pvclust", "pvclust", "hierarchical clustering with p-values calculated by multiscale bootstrap resampling",
+    "igraph", "igraph", "network (currently only tree graph supportted)"
+)
+
+
+y <- as.data.frame(x)
+
+require(kableExtra)
+caption = "Tree-like objects supported by ggtree"
+knitr::kable(y, caption=caption, booktabs = T) %>% 
+  collapse_rows(columns = 1, latex_hline = "major", valign ="top") %>%
+  kable_styling(latex_options = c("striped", "scale_down"),
+                bootstrap_options = c("striped", "hover")) #%>% landscape
+```
+
+
 <!--
 #``` r treeio, echo=F, message=FALSE}
 library(kableExtra)
