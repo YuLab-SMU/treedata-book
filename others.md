@@ -5,6 +5,8 @@ ggtree + deeptime can do something like this, <https://www.sciencedirect.com/sci
 
 
 
+https://github.com/YuLab-SMU/ggtree/pull/349
+
 
 geom_cladelab, <https://github.com/YuLab-SMU/ggtree/pull/342/>
 
