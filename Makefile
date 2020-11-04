@@ -1,6 +1,10 @@
+bs4:
+	Rscript -e 'library(bookdown); render_book("index.Rmd", "bs4_book")';\
+	sed -i 's/Chalkduster/Comic Sans MS/g' docs/related-tools.html 
+
 gitbook:
 	Rscript -e 'library(bookdown); render_book("index.Rmd", "gitbook")';\
-	sed -i 's/Chalkduster/Comic Sans MS/g' docs/commicR.html 
+	sed -i 's/Chalkduster/Comic Sans MS/g' docs/related-tools.html 
 
 pdfbook:
 	Rscript -e 'library(bookdown); render_book("index.Rmd", "pdf_book")'

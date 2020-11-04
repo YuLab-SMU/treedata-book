@@ -1,633 +1,309 @@
 <!DOCTYPE html>
-<html lang="" xml:lang="">
+<html lang="en">
 <head>
-
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 7 Plotting tree with data | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
-  <meta name="description" content="Chapter 7 Plotting tree with data | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
-
-  <meta property="og:title" content="Chapter 7 Plotting tree with data | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
-  <meta property="og:type" content="book" />
-  
-  
-  
-  
-
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 7 Plotting tree with data | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
-  
-  
-  
-
-
-
-<meta name="date" content="2020-11-03" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  
-  
-<link rel="prev" href="chapter6.html"/>
-<link rel="next" href="chapter8.html"/>
-<script src="libs/header-attrs-2.5/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
-<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
-
-
-
-
-
-
-
-
-<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
-<script src="libs/kePrint-0.0.1/kePrint.js"></script>
-<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
-<link href="libs/font-awesome-5.3.1/css/fontawesome-all.min.css" rel="stylesheet" />
-<script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
-<script src="libs/pathseg-1.0.2/pathseg.js"></script>
-<script src="libs/comic-0.961/comic.min.js"></script>
-<script src="libs/comicR-binding-0.2/comicR.js"></script>
-
-
-<style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-</style>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 7 Plotting tree with data | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
+<meta name="author" content="Guangchuang Yu">
+<!-- CSS --><!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.5/header-attrs.js"></script><script src="libs/jquery-3.5.1/jquery-3.5.1.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.5.2/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.5.2/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.1.9000/tabs.js"></script><script src="libs/bs3compat-0.2.1.9000/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<link href="libs/font-awesome-5.3.1/css/fontawesome-all.min.css" rel="stylesheet">
+<script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script><script src="libs/pathseg-1.0.2/pathseg.js"></script><script src="libs/comic-0.961/comic.min.js"></script><script src="libs/comicR-binding-0.2/comicR.js"></script><script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script>
 </head>
+<body data-spy="scroll" data-target="#toc">
 
-<body>
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
 
-
-
-  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
-
-    <div class="book-summary">
-      <nav role="navigation">
-
-<ul class="summary">
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>📖 Introduction</a>
-<ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#motivation"><i class="fa fa-check"></i>🎯 Motivation</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#citation"><i class="fa fa-check"></i>📝 Citation</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#book-structure"><i class="fa fa-check"></i>📚 Book structure</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#want-to-help"><i class="fa fa-check"></i>💖 Want to help?</a></li>
-</ul></li>
-<li class="part"><span><b>Part I: Tree data input, output and manipulation</b></span></li>
-<li class="chapter" data-level="1" data-path="chapter1.html"><a href="chapter1.html"><i class="fa fa-check"></i><b>1</b> Importing Tree with Data</a>
-<ul>
-<li class="chapter" data-level="1.1" data-path="chapter1.html"><a href="chapter1.html#pc"><i class="fa fa-check"></i><b>1.1</b> Overview of Phylogenetic Tree Construction</a></li>
-<li class="chapter" data-level="1.2" data-path="chapter1.html"><a href="chapter1.html#format"><i class="fa fa-check"></i><b>1.2</b> Phylogenetic Tree Formats</a>
-<ul>
-<li class="chapter" data-level="1.2.1" data-path="chapter1.html"><a href="chapter1.html#newick-tree-format"><i class="fa fa-check"></i><b>1.2.1</b> Newick tree format</a></li>
-<li class="chapter" data-level="1.2.2" data-path="chapter1.html"><a href="chapter1.html#nexus-tree-format"><i class="fa fa-check"></i><b>1.2.2</b> NEXUS tree format</a></li>
-<li class="chapter" data-level="1.2.3" data-path="chapter1.html"><a href="chapter1.html#nhxtext"><i class="fa fa-check"></i><b>1.2.3</b> New Hampshire eXtended format</a></li>
-<li class="chapter" data-level="1.2.4" data-path="chapter1.html"><a href="chapter1.html#jplace-format"><i class="fa fa-check"></i><b>1.2.4</b> Jplace format</a></li>
-<li class="chapter" data-level="1.2.5" data-path="chapter1.html"><a href="chapter1.html#software-outputs"><i class="fa fa-check"></i><b>1.2.5</b> Software outputs</a></li>
-</ul></li>
-<li class="chapter" data-level="1.3" data-path="chapter1.html"><a href="chapter1.html#getting-tree-data-with-treeio"><i class="fa fa-check"></i><b>1.3</b> Getting Tree Data with <em>treeio</em></a>
-<ul>
-<li class="chapter" data-level="1.3.1" data-path="chapter1.html"><a href="chapter1.html#overview-of-treeio"><i class="fa fa-check"></i><b>1.3.1</b> Overview of <em>treeio</em></a></li>
-<li class="chapter" data-level="1.3.2" data-path="chapter1.html"><a href="chapter1.html#function-demonstration"><i class="fa fa-check"></i><b>1.3.2</b> Function Demonstration</a></li>
-<li class="chapter" data-level="1.3.3" data-path="chapter1.html"><a href="chapter1.html#as-treedata"><i class="fa fa-check"></i><b>1.3.3</b> Converting other tree-like object to <code>phylo</code> or <code>treedata</code> object</a></li>
-<li class="chapter" data-level="1.3.4" data-path="chapter1.html"><a href="chapter1.html#get-treedata-data"><i class="fa fa-check"></i><b>1.3.4</b> Getting information from <code>treedata</code> object</a></li>
-</ul></li>
-<li class="chapter" data-level="1.4" data-path="chapter1.html"><a href="chapter1.html#summary1"><i class="fa fa-check"></i><b>1.4</b> Summary</a></li>
-</ul></li>
-<li class="chapter" data-level="2" data-path="chapter2.html"><a href="chapter2.html"><i class="fa fa-check"></i><b>2</b> Manipulating Tree with Data</a>
-<ul>
-<li class="chapter" data-level="2.1" data-path="chapter2.html"><a href="chapter2.html#tidytree"><i class="fa fa-check"></i><b>2.1</b> Manipulating tree data using tidy interface</a>
-<ul>
-<li class="chapter" data-level="2.1.1" data-path="chapter2.html"><a href="chapter2.html#the-phylo-object"><i class="fa fa-check"></i><b>2.1.1</b> The <code>phylo</code> object</a></li>
-<li class="chapter" data-level="2.1.2" data-path="chapter2.html"><a href="chapter2.html#the-treedata-object"><i class="fa fa-check"></i><b>2.1.2</b> The <code>treedata</code> object</a></li>
-<li class="chapter" data-level="2.1.3" data-path="chapter2.html"><a href="chapter2.html#accesor-tidytree"><i class="fa fa-check"></i><b>2.1.3</b> Access related nodes</a></li>
-</ul></li>
-<li class="chapter" data-level="2.2" data-path="chapter2.html"><a href="chapter2.html#data-integration"><i class="fa fa-check"></i><b>2.2</b> Data Integration</a>
-<ul>
-<li class="chapter" data-level="2.2.1" data-path="chapter2.html"><a href="chapter2.html#merge-tree"><i class="fa fa-check"></i><b>2.2.1</b> Combining tree data</a></li>
-<li class="chapter" data-level="2.2.2" data-path="chapter2.html"><a href="chapter2.html#link-external-data"><i class="fa fa-check"></i><b>2.2.2</b> Linking external data to phylogeny</a></li>
-<li class="chapter" data-level="2.2.3" data-path="chapter2.html"><a href="chapter2.html#grouping-taxa"><i class="fa fa-check"></i><b>2.2.3</b> Grouping taxa</a></li>
-</ul></li>
-<li class="chapter" data-level="2.3" data-path="chapter2.html"><a href="chapter2.html#reroot-treeio"><i class="fa fa-check"></i><b>2.3</b> Rerooting tree</a></li>
-<li class="chapter" data-level="2.4" data-path="chapter2.html"><a href="chapter2.html#rescale-treeio"><i class="fa fa-check"></i><b>2.4</b> Rescaling Tree Branches</a></li>
-<li class="chapter" data-level="2.5" data-path="chapter2.html"><a href="chapter2.html#subsetting-tree-with-data"><i class="fa fa-check"></i><b>2.5</b> Subsetting Tree with Data</a>
-<ul>
-<li class="chapter" data-level="2.5.1" data-path="chapter2.html"><a href="chapter2.html#remove-tip"><i class="fa fa-check"></i><b>2.5.1</b> Removing tips in a phylogenetic tree</a></li>
-<li class="chapter" data-level="2.5.2" data-path="chapter2.html"><a href="chapter2.html#subset-tip"><i class="fa fa-check"></i><b>2.5.2</b> Subsetting tree by tip label</a></li>
-<li class="chapter" data-level="2.5.3" data-path="chapter2.html"><a href="chapter2.html#subset-node"><i class="fa fa-check"></i><b>2.5.3</b> Subsetting tree by internal node number</a></li>
-</ul></li>
-<li class="chapter" data-level="2.6" data-path="chapter2.html"><a href="chapter2.html#ggtree-fortify"><i class="fa fa-check"></i><b>2.6</b> Manipulating tree data for visualization</a></li>
-<li class="chapter" data-level="2.7" data-path="chapter2.html"><a href="chapter2.html#summary2"><i class="fa fa-check"></i><b>2.7</b> Summary</a></li>
-</ul></li>
-<li class="chapter" data-level="3" data-path="chapter3.html"><a href="chapter3.html"><i class="fa fa-check"></i><b>3</b> Exporting tree with data</a>
-<ul>
-<li class="chapter" data-level="3.1" data-path="chapter3.html"><a href="chapter3.html#introduction-1"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
-<li class="chapter" data-level="3.2" data-path="chapter3.html"><a href="chapter3.html#exporting-tree-data-to-beast-nexus-format"><i class="fa fa-check"></i><b>3.2</b> Exporting Tree Data to <em>BEAST</em> Nexus Format</a>
-<ul>
-<li class="chapter" data-level="3.2.1" data-path="chapter3.html"><a href="chapter3.html#exportingconverting-software-output"><i class="fa fa-check"></i><b>3.2.1</b> Exporting/converting software output</a></li>
-<li class="chapter" data-level="3.2.2" data-path="chapter3.html"><a href="chapter3.html#combining-tree-with-external-data"><i class="fa fa-check"></i><b>3.2.2</b> Combining tree with external data</a></li>
-<li class="chapter" data-level="3.2.3" data-path="chapter3.html"><a href="chapter3.html#merging-tree-data-from-different-sources"><i class="fa fa-check"></i><b>3.2.3</b> Merging tree data from different sources</a></li>
-</ul></li>
-<li class="chapter" data-level="3.3" data-path="chapter3.html"><a href="chapter3.html#write-jtree"><i class="fa fa-check"></i><b>3.3</b> Exporting Tree Data to <em>jtree</em> Format</a></li>
-<li class="chapter" data-level="3.4" data-path="chapter3.html"><a href="chapter3.html#summary3"><i class="fa fa-check"></i><b>3.4</b> Summary</a></li>
-</ul></li>
-<li class="part"><span><b>Part II: Tree data visualization and annotation</b></span></li>
-<li class="chapter" data-level="4" data-path="chapter4.html"><a href="chapter4.html"><i class="fa fa-check"></i><b>4</b> Phylogenetic Tree Visualization</a>
-<ul>
-<li class="chapter" data-level="4.1" data-path="chapter4.html"><a href="chapter4.html#introduction-2"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
-<li class="chapter" data-level="4.2" data-path="chapter4.html"><a href="chapter4.html#visualizing-phylogenetic-tree-with-ggtree"><i class="fa fa-check"></i><b>4.2</b> Visualizing Phylogenetic Tree with <em>ggtree</em></a>
-<ul>
-<li class="chapter" data-level="4.2.1" data-path="chapter4.html"><a href="chapter4.html#basic-tree-visualization"><i class="fa fa-check"></i><b>4.2.1</b> Basic Tree Visualization</a></li>
-<li class="chapter" data-level="4.2.2" data-path="chapter4.html"><a href="chapter4.html#tree-layouts"><i class="fa fa-check"></i><b>4.2.2</b> Layouts of phylogenetic tree</a></li>
-</ul></li>
-<li class="chapter" data-level="4.3" data-path="chapter4.html"><a href="chapter4.html#displaying-tree-components"><i class="fa fa-check"></i><b>4.3</b> Displaying Tree Components</a>
-<ul>
-<li class="chapter" data-level="4.3.1" data-path="chapter4.html"><a href="chapter4.html#geom-trescale"><i class="fa fa-check"></i><b>4.3.1</b> Displaying tree scale (evolution distance)</a></li>
-<li class="chapter" data-level="4.3.2" data-path="chapter4.html"><a href="chapter4.html#geom-nodepoint"><i class="fa fa-check"></i><b>4.3.2</b> Displaying nodes/tips</a></li>
-<li class="chapter" data-level="4.3.3" data-path="chapter4.html"><a href="chapter4.html#displaying-labels"><i class="fa fa-check"></i><b>4.3.3</b> Displaying labels</a></li>
-<li class="chapter" data-level="4.3.4" data-path="chapter4.html"><a href="chapter4.html#displaying-root-edge"><i class="fa fa-check"></i><b>4.3.4</b> Displaying root edge</a></li>
-<li class="chapter" data-level="4.3.5" data-path="chapter4.html"><a href="chapter4.html#color-tree"><i class="fa fa-check"></i><b>4.3.5</b> Color tree</a></li>
-<li class="chapter" data-level="4.3.6" data-path="chapter4.html"><a href="chapter4.html#rescale-tree"><i class="fa fa-check"></i><b>4.3.6</b> Rescale tree</a></li>
-<li class="chapter" data-level="4.3.7" data-path="chapter4.html"><a href="chapter4.html#modify-compenents-of-a-theme"><i class="fa fa-check"></i><b>4.3.7</b> Modify compenents of a theme</a></li>
-</ul></li>
-<li class="chapter" data-level="4.4" data-path="chapter4.html"><a href="chapter4.html#visualize-a-list-of-trees"><i class="fa fa-check"></i><b>4.4</b> Visualize a list of trees</a>
-<ul>
-<li class="chapter" data-level="4.4.1" data-path="chapter4.html"><a href="chapter4.html#annotate-one-tree-with-values-from-different-variables"><i class="fa fa-check"></i><b>4.4.1</b> Annotate one tree with values from different variables</a></li>
-<li class="chapter" data-level="4.4.2" data-path="chapter4.html"><a href="chapter4.html#densitree"><i class="fa fa-check"></i><b>4.4.2</b> DensiTree</a></li>
-</ul></li>
-<li class="chapter" data-level="4.5" data-path="chapter4.html"><a href="chapter4.html#summary4"><i class="fa fa-check"></i><b>4.5</b> Summary</a></li>
-</ul></li>
-<li class="chapter" data-level="5" data-path="chapter5.html"><a href="chapter5.html"><i class="fa fa-check"></i><b>5</b> Phylogenetic Tree Annotation</a>
-<ul>
-<li class="chapter" data-level="5.1" data-path="chapter5.html"><a href="chapter5.html#visualizing-and-annotating-tree-using-grammar-of-graphics"><i class="fa fa-check"></i><b>5.1</b> Visualizing and Annotating Tree using Grammar of Graphics</a></li>
-<li class="chapter" data-level="5.2" data-path="chapter5.html"><a href="chapter5.html#layers-for-tree-annotation"><i class="fa fa-check"></i><b>5.2</b> Layers for Tree Annotation</a>
-<ul>
-<li class="chapter" data-level="5.2.1" data-path="chapter5.html"><a href="chapter5.html#colored-strips"><i class="fa fa-check"></i><b>5.2.1</b> Colored strips</a></li>
-<li class="chapter" data-level="5.2.2" data-path="chapter5.html"><a href="chapter5.html#highlight-clades"><i class="fa fa-check"></i><b>5.2.2</b> Highlight clades</a></li>
-<li class="chapter" data-level="5.2.3" data-path="chapter5.html"><a href="chapter5.html#taxa-connection"><i class="fa fa-check"></i><b>5.2.3</b> Taxa connection</a></li>
-<li class="chapter" data-level="5.2.4" data-path="chapter5.html"><a href="chapter5.html#uncertainty-of-evolutionary-inference"><i class="fa fa-check"></i><b>5.2.4</b> Uncertainty of evolutionary inference</a></li>
-</ul></li>
-<li class="chapter" data-level="5.3" data-path="chapter5.html"><a href="chapter5.html#tree-annotation-with-output-from-evolution-software"><i class="fa fa-check"></i><b>5.3</b> Tree annotation with output from evolution software</a>
-<ul>
-<li class="chapter" data-level="5.3.1" data-path="chapter5.html"><a href="chapter5.html#tree-annotation-using-data-from-evolutionary-analysis-software"><i class="fa fa-check"></i><b>5.3.1</b> Tree annotation using data from evolutionary analysis software</a></li>
-</ul></li>
-<li class="chapter" data-level="5.4" data-path="chapter5.html"><a href="chapter5.html#summary5"><i class="fa fa-check"></i><b>5.4</b> Summary</a></li>
-</ul></li>
-<li class="chapter" data-level="6" data-path="chapter6.html"><a href="chapter6.html"><i class="fa fa-check"></i><b>6</b> Visual Exploration of Phylogenetic Tree</a>
-<ul>
-<li class="chapter" data-level="6.1" data-path="chapter6.html"><a href="chapter6.html#viewing-selected-clade"><i class="fa fa-check"></i><b>6.1</b> Viewing Selected Clade</a></li>
-<li class="chapter" data-level="6.2" data-path="chapter6.html"><a href="chapter6.html#scale-clade"><i class="fa fa-check"></i><b>6.2</b> Scaling Selected Clade</a></li>
-<li class="chapter" data-level="6.3" data-path="chapter6.html"><a href="chapter6.html#collapsing-and-expanding-clade"><i class="fa fa-check"></i><b>6.3</b> Collapsing and Expanding Clade</a></li>
-<li class="chapter" data-level="6.4" data-path="chapter6.html"><a href="chapter6.html#group-taxa-vis"><i class="fa fa-check"></i><b>6.4</b> Grouping Taxa</a></li>
-<li class="chapter" data-level="6.5" data-path="chapter6.html"><a href="chapter6.html#exploring-tree-structure"><i class="fa fa-check"></i><b>6.5</b> Exploring tree structure</a></li>
-<li class="chapter" data-level="6.6" data-path="chapter6.html"><a href="chapter6.html#summary6"><i class="fa fa-check"></i><b>6.6</b> Summary</a></li>
-</ul></li>
-<li class="chapter" data-level="7" data-path="chapter7.html"><a href="chapter7.html"><i class="fa fa-check"></i><b>7</b> Plotting tree with data</a>
-<ul>
-<li class="chapter" data-level="7.1" data-path="chapter7.html"><a href="chapter7.html#attach-operator"><i class="fa fa-check"></i><b>7.1</b> Mapping data to the tree structure</a></li>
-<li class="chapter" data-level="7.2" data-path="chapter7.html"><a href="chapter7.html#facet_plot"><i class="fa fa-check"></i><b>7.2</b> Aligning graph to the tree based on tree structure</a></li>
-<li class="chapter" data-level="7.3" data-path="chapter7.html"><a href="chapter7.html#gheatmap"><i class="fa fa-check"></i><b>7.3</b> Visualize tree with associated matrix</a>
-<ul>
-<li class="chapter" data-level="7.3.1" data-path="chapter7.html"><a href="chapter7.html#gheatmap-ggnewscale"><i class="fa fa-check"></i><b>7.3.1</b> Visualize tree with multiple associated matrix</a></li>
-</ul></li>
-<li class="chapter" data-level="7.4" data-path="chapter7.html"><a href="chapter7.html#msaplot"><i class="fa fa-check"></i><b>7.4</b> Visualize tree with multiple sequence alignment</a></li>
-<li class="chapter" data-level="7.5" data-path="chapter7.html"><a href="chapter7.html#composite_plot"><i class="fa fa-check"></i><b>7.5</b> Composite plots</a></li>
-<li class="chapter" data-level="7.6" data-path="chapter7.html"><a href="chapter7.html#ggtree_object"><i class="fa fa-check"></i><b>7.6</b> The <code>ggtree</code> object</a></li>
-<li class="chapter" data-level="7.7" data-path="chapter7.html"><a href="chapter7.html#summary7"><i class="fa fa-check"></i><b>7.7</b> Summary</a></li>
-</ul></li>
-<li class="chapter" data-level="8" data-path="chapter8.html"><a href="chapter8.html"><i class="fa fa-check"></i><b>8</b> Annotating Tree with Silhouette Images and Sub-plots</a>
-<ul>
-<li class="chapter" data-level="8.1" data-path="chapter8.html"><a href="chapter8.html#ggimage"><i class="fa fa-check"></i><b>8.1</b> Annotating Tree with Images</a></li>
-<li class="chapter" data-level="8.2" data-path="chapter8.html"><a href="chapter8.html#phylopic"><i class="fa fa-check"></i><b>8.2</b> Annotating Tree with Phylopic</a></li>
-<li class="chapter" data-level="8.3" data-path="chapter8.html"><a href="chapter8.html#subplots"><i class="fa fa-check"></i><b>8.3</b> Annotating Tree with Sub-plots</a>
-<ul>
-<li class="chapter" data-level="8.3.1" data-path="chapter8.html"><a href="chapter8.html#annotate-with-bar-charts"><i class="fa fa-check"></i><b>8.3.1</b> Annotate with bar charts</a></li>
-<li class="chapter" data-level="8.3.2" data-path="chapter8.html"><a href="chapter8.html#annotate-with-pie-charts"><i class="fa fa-check"></i><b>8.3.2</b> Annotate with pie charts</a></li>
-<li class="chapter" data-level="8.3.3" data-path="chapter8.html"><a href="chapter8.html#annotate-with-other-types-of-charts"><i class="fa fa-check"></i><b>8.3.3</b> Annotate with other types of charts</a></li>
-</ul></li>
-<li class="chapter" data-level="8.4" data-path="chapter8.html"><a href="chapter8.html#phylomoji"><i class="fa fa-check"></i><b>8.4</b> Have Fun with Phylomoji</a>
-<ul>
-<li class="chapter" data-level="8.4.1" data-path="chapter8.html"><a href="chapter8.html#emoji-in-circularfan-layout-tree"><i class="fa fa-check"></i><b>8.4.1</b> Emoji in circular/fan layout tree</a></li>
-<li class="chapter" data-level="8.4.2" data-path="chapter8.html"><a href="chapter8.html#emoji-to-label-clades"><i class="fa fa-check"></i><b>8.4.2</b> Emoji to label clades</a></li>
-<li class="chapter" data-level="8.4.3" data-path="chapter8.html"><a href="chapter8.html#apple-color-emoji"><i class="fa fa-check"></i><b>8.4.3</b> Apple Color Emoji</a></li>
-<li class="chapter" data-level="8.4.4" data-path="chapter8.html"><a href="chapter8.html#phylomoji-in-ascii-art"><i class="fa fa-check"></i><b>8.4.4</b> Phylomoji in ASCII art</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="9" data-path="chapter9.html"><a href="chapter9.html"><i class="fa fa-check"></i><b>9</b> ggtree for other tree-like objects</a>
-<ul>
-<li class="chapter" data-level="9.1" data-path="chapter9.html"><a href="chapter9.html#ggtree-for-phylogenetic-tree-objects"><i class="fa fa-check"></i><b>9.1</b> ggtree for phylogenetic tree objects</a>
-<ul>
-<li class="chapter" data-level="9.1.1" data-path="chapter9.html"><a href="chapter9.html#phylobase"><i class="fa fa-check"></i><b>9.1.1</b> The phylo4 and phylo4d objects</a></li>
-<li class="chapter" data-level="9.1.2" data-path="chapter9.html"><a href="chapter9.html#phylog"><i class="fa fa-check"></i><b>9.1.2</b> The phylog object</a></li>
-<li class="chapter" data-level="9.1.3" data-path="chapter9.html"><a href="chapter9.html#phyloseq"><i class="fa fa-check"></i><b>9.1.3</b> The phyloseq object</a></li>
-</ul></li>
-<li class="chapter" data-level="9.2" data-path="chapter9.html"><a href="chapter9.html#dendrogram"><i class="fa fa-check"></i><b>9.2</b> ggtree for dendrograms</a></li>
-<li class="chapter" data-level="9.3" data-path="chapter9.html"><a href="chapter9.html#igraph"><i class="fa fa-check"></i><b>9.3</b> ggtree for tree graph</a></li>
-<li class="chapter" data-level="9.4" data-path="chapter9.html"><a href="chapter9.html#ggtree-for-other-tree-like-structure"><i class="fa fa-check"></i><b>9.4</b> ggtree for other tree-like structure</a></li>
-</ul></li>
-<li class="part"><span><b>Part III: ggtree extensions</b></span></li>
-<li class="chapter" data-level="10" data-path="chapter10.html"><a href="chapter10.html"><i class="fa fa-check"></i><b>10</b> ggtreeExtra</a>
-<ul>
-<li class="chapter" data-level="10.1" data-path="chapter10.html"><a href="chapter10.html#introduction-3"><i class="fa fa-check"></i><b>10.1</b> Introduction</a></li>
-<li class="chapter" data-level="10.2" data-path="chapter10.html"><a href="chapter10.html#aligning-graphs-to-the-tree-based-on-tree-structure"><i class="fa fa-check"></i><b>10.2</b> Aligning graphs to the tree based on tree structure</a></li>
-<li class="chapter" data-level="10.3" data-path="chapter10.html"><a href="chapter10.html#aligning-multiple-graphs-to-the-tree-for-multi-dimensional-data"><i class="fa fa-check"></i><b>10.3</b> Aligning multiple graphs to the tree for multi-dimensional data</a></li>
-<li class="chapter" data-level="10.4" data-path="chapter10.html"><a href="chapter10.html#api-to-link-ggtree-and-ggplot2."><i class="fa fa-check"></i><b>10.4</b> API to link <em>ggtree</em> and <em>ggplot2</em>.</a></li>
-</ul></li>
-<li class="chapter" data-level="11" data-path="chapter11.html"><a href="chapter11.html"><i class="fa fa-check"></i><b>11</b> Other ggtree extensions</a>
-<ul>
-<li class="chapter" data-level="11.1" data-path="chapter11.html"><a href="chapter11.html#MicrobiotaProcess"><i class="fa fa-check"></i><b>11.1</b> Taxonomy annotation using MicrobiotaProcess</a></li>
-<li class="chapter" data-level="11.2" data-path="chapter11.html"><a href="chapter11.html#visualizing-phylogenetic-network"><i class="fa fa-check"></i><b>11.2</b> Visualizing phylogenetic network</a></li>
-</ul></li>
-<li class="part"><span><b>Part IV: Miscellaneous topics</b></span></li>
-<li class="chapter" data-level="12" data-path="chapter12.html"><a href="chapter12.html"><i class="fa fa-check"></i><b>12</b> ggtree utilities</a>
-<ul>
-<li class="chapter" data-level="12.1" data-path="chapter12.html"><a href="chapter12.html#facet-utils"><i class="fa fa-check"></i><b>12.1</b> Facet utilities</a>
-<ul>
-<li class="chapter" data-level="12.1.1" data-path="chapter12.html"><a href="chapter12.html#facet_widths"><i class="fa fa-check"></i><b>12.1.1</b> facet_widths</a></li>
-<li class="chapter" data-level="12.1.2" data-path="chapter12.html"><a href="chapter12.html#facet_labeller"><i class="fa fa-check"></i><b>12.1.2</b> facet_labeller</a></li>
-</ul></li>
-<li class="chapter" data-level="12.2" data-path="chapter12.html"><a href="chapter12.html#geom2"><i class="fa fa-check"></i><b>12.2</b> Geometric layers</a></li>
-<li class="chapter" data-level="12.3" data-path="chapter12.html"><a href="chapter12.html#layout-utilities"><i class="fa fa-check"></i><b>12.3</b> Layout utilities</a></li>
-<li class="chapter" data-level="12.4" data-path="chapter12.html"><a href="chapter12.html#scale-utilities"><i class="fa fa-check"></i><b>12.4</b> Scale utilities</a>
-<ul>
-<li class="chapter" data-level="12.4.1" data-path="chapter12.html"><a href="chapter12.html#xlim_expand"><i class="fa fa-check"></i><b>12.4.1</b> Expand x limit for specific panel</a></li>
-<li class="chapter" data-level="12.4.2" data-path="chapter12.html"><a href="chapter12.html#ggexpand"><i class="fa fa-check"></i><b>12.4.2</b> Expand plot limit by ratio of plot range</a></li>
-</ul></li>
-<li class="chapter" data-level="12.5" data-path="chapter12.html"><a href="chapter12.html#tree-data-utilities"><i class="fa fa-check"></i><b>12.5</b> Tree data utilities</a>
-<ul>
-<li class="chapter" data-level="12.5.1" data-path="chapter12.html"><a href="chapter12.html#td_filter"><i class="fa fa-check"></i><b>12.5.1</b> Filter tree data</a></li>
-<li class="chapter" data-level="12.5.2" data-path="chapter12.html"><a href="chapter12.html#td_unnest"><i class="fa fa-check"></i><b>12.5.2</b> Flatten list-column tree data</a></li>
-</ul></li>
-<li class="chapter" data-level="12.6" data-path="chapter12.html"><a href="chapter12.html#tree-utilities"><i class="fa fa-check"></i><b>12.6</b> Tree utilities</a>
-<ul>
-<li class="chapter" data-level="12.6.1" data-path="chapter12.html"><a href="chapter12.html#tiporder"><i class="fa fa-check"></i><b>12.6.1</b> Extract tip order</a></li>
-<li class="chapter" data-level="12.6.2" data-path="chapter12.html"><a href="chapter12.html#padding-taxa-labels"><i class="fa fa-check"></i><b>12.6.2</b> Padding taxa labels</a></li>
-</ul></li>
-<li class="chapter" data-level="12.7" data-path="chapter12.html"><a href="chapter12.html#identify"><i class="fa fa-check"></i><b>12.7</b> Interactive ggtree annotation</a></li>
-</ul></li>
-<li class="chapter" data-level="13" data-path="chapter13.html"><a href="chapter13.html"><i class="fa fa-check"></i><b>13</b> Gallery of reproducible examples</a>
-<ul>
-<li class="chapter" data-level="13.1" data-path="chapter13.html"><a href="chapter13.html#hpv58"><i class="fa fa-check"></i><b>13.1</b> Visualizing pairwise nucleotide sequence distance with phylogenetic tree</a></li>
-<li class="chapter" data-level="13.2" data-path="chapter13.html"><a href="chapter13.html#symbolic-bootstrap"><i class="fa fa-check"></i><b>13.2</b> Displaying different symbolic points for bootstrap values.</a></li>
-<li class="chapter" data-level="13.3" data-path="chapter13.html"><a href="chapter13.html#phylo-grouping"><i class="fa fa-check"></i><b>13.3</b> Highlighting different groups.</a></li>
-<li class="chapter" data-level="13.4" data-path="chapter13.html"><a href="chapter13.html#genome-locus"><i class="fa fa-check"></i><b>13.4</b> Phylogenetic tree with genome locus structure</a></li>
-</ul></li>
-<li class="appendix"><span><b>Appendix</b></span></li>
-<li class="chapter" data-level="A" data-path="faq.html"><a href="faq.html"><i class="fa fa-check"></i><b>A</b> Frequently asked questions</a>
-<ul>
-<li class="chapter" data-level="A.1" data-path="faq.html"><a href="faq.html#installation"><i class="fa fa-check"></i><b>A.1</b> Installation</a></li>
-<li class="chapter" data-level="A.2" data-path="faq.html"><a href="faq.html#faq-r"><i class="fa fa-check"></i><b>A.2</b> Basic R related</a>
-<ul>
-<li class="chapter" data-level="A.2.1" data-path="faq.html"><a href="faq.html#faq-local-file"><i class="fa fa-check"></i><b>A.2.1</b> Use your local file</a></li>
-</ul></li>
-<li class="chapter" data-level="A.3" data-path="faq.html"><a href="faq.html#faq-aes-mapping"><i class="fa fa-check"></i><b>A.3</b> Aesthetic mapping</a>
-<ul>
-<li class="chapter" data-level="A.3.1" data-path="faq.html"><a href="faq.html#faq-inherit-aes"><i class="fa fa-check"></i><b>A.3.1</b> Inherit <em>aes</em></a></li>
-<li class="chapter" data-level="A.3.2" data-path="faq.html"><a href="faq.html#faq-dollar-aes"><i class="fa fa-check"></i><b>A.3.2</b> Never use <code>$</code> in aes</a></li>
-</ul></li>
-<li class="chapter" data-level="A.4" data-path="faq.html"><a href="faq.html#faq-text"><i class="fa fa-check"></i><b>A.4</b> Text &amp; Label</a>
-<ul>
-<li class="chapter" data-level="A.4.1" data-path="faq.html"><a href="faq.html#faq-label-truncated"><i class="fa fa-check"></i><b>A.4.1</b> Tip label truncated</a></li>
-<li class="chapter" data-level="A.4.2" data-path="faq.html"><a href="faq.html#faq-modify-label"><i class="fa fa-check"></i><b>A.4.2</b> Modify (tip) labels</a></li>
-<li class="chapter" data-level="A.4.3" data-path="faq.html"><a href="faq.html#faq-formatting-label"><i class="fa fa-check"></i><b>A.4.3</b> Formatting (tip) labels</a></li>
-<li class="chapter" data-level="A.4.4" data-path="faq.html"><a href="faq.html#faq-ggrepel"><i class="fa fa-check"></i><b>A.4.4</b> Avoid overlapping text labels</a></li>
-<li class="chapter" data-level="A.4.5" data-path="faq.html"><a href="faq.html#faq-bootstrap"><i class="fa fa-check"></i><b>A.4.5</b> Bootstrap values from newick format</a></li>
-</ul></li>
-<li class="chapter" data-level="A.5" data-path="faq.html"><a href="faq.html#branch-setting"><i class="fa fa-check"></i><b>A.5</b> Branch setting</a>
-<ul>
-<li class="chapter" data-level="A.5.1" data-path="faq.html"><a href="faq.html#change-branch-length-of-outgroup"><i class="fa fa-check"></i><b>A.5.1</b> Change branch length of outgroup</a></li>
-<li class="chapter" data-level="A.5.2" data-path="faq.html"><a href="faq.html#bind-tip"><i class="fa fa-check"></i><b>A.5.2</b> Attach a new tip to a tree</a></li>
-<li class="chapter" data-level="A.5.3" data-path="faq.html"><a href="faq.html#change-colours-or-line-types-of-arbitrary-selected-branches"><i class="fa fa-check"></i><b>A.5.3</b> Change colours or line types of arbitrary selected branches</a></li>
-<li class="chapter" data-level="A.5.4" data-path="faq.html"><a href="faq.html#arbitrary-point"><i class="fa fa-check"></i><b>A.5.4</b> Add an arbitrary point to a branch</a></li>
-</ul></li>
-<li class="chapter" data-level="A.6" data-path="faq.html"><a href="faq.html#different-x-axis-labels-for-different-facet-panels"><i class="fa fa-check"></i><b>A.6</b> Different x-axis labels for different facet panels</a></li>
-<li class="chapter" data-level="A.7" data-path="faq.html"><a href="faq.html#faq-under-the-tree"><i class="fa fa-check"></i><b>A.7</b> Plot something behind the phylogeny</a></li>
-<li class="chapter" data-level="A.8" data-path="faq.html"><a href="faq.html#faq-enlarge-center-space"><i class="fa fa-check"></i><b>A.8</b> Enlarge center space in circular/fan layout tree</a></li>
-<li class="chapter" data-level="A.9" data-path="faq.html"><a href="faq.html#use-the-most-distant-tip-from-the-root-as-the-origin-of-the-time-scale"><i class="fa fa-check"></i><b>A.9</b> Use the most distant tip from the root as the origin of the time scale</a></li>
-<li class="chapter" data-level="A.10" data-path="faq.html"><a href="faq.html#export-edit"><i class="fa fa-check"></i><b>A.10</b> Edit tree graphic details</a></li>
-</ul></li>
-<li class="chapter" data-level="B" data-path="related-tools.html"><a href="related-tools.html"><i class="fa fa-check"></i><b>B</b> Related tools</a>
-<ul>
-<li class="chapter" data-level="B.1" data-path="chapter11.html"><a href="chapter11.html#MicrobiotaProcess"><i class="fa fa-check"></i><b>B.1</b> MicrobiotaProcess: Convert <em>taxonomy</em> or hierachical clustering result to <em>treedata</em></a></li>
-<li class="chapter" data-level="B.2" data-path="related-tools.html"><a href="related-tools.html#rtol"><i class="fa fa-check"></i><b>B.2</b> rtol: An R interface to Open Tree API</a></li>
-<li class="chapter" data-level="B.3" data-path="related-tools.html"><a href="related-tools.html#plotly"><i class="fa fa-check"></i><b>B.3</b> Convert ggtree to plotly object</a></li>
-<li class="chapter" data-level="B.4" data-path="related-tools.html"><a href="related-tools.html#commicR"><i class="fa fa-check"></i><b>B.4</b> Comic (xkcd-like) phylogenetic tree</a></li>
-<li class="chapter" data-level="B.5" data-path="related-tools.html"><a href="related-tools.html#ascii-tree"><i class="fa fa-check"></i><b>B.5</b> Print ASCII-art rooted tree</a></li>
-<li class="chapter" data-level="B.6" data-path="related-tools.html"><a href="related-tools.html#facet-zoom"><i class="fa fa-check"></i><b>B.6</b> Zoom in selected portion</a></li>
-</ul></li>
-<li class="chapter" data-level="C" data-path="ggimage-tips.html"><a href="ggimage-tips.html"><i class="fa fa-check"></i><b>C</b> Tips for using <code>ggtree</code> with <code>ggimage</code></a>
-<ul>
-<li class="chapter" data-level="C.1" data-path="ggimage-tips.html"><a href="ggimage-tips.html#ggimage-rm-image-bg"><i class="fa fa-check"></i><b>C.1</b> Example 1: Remove background of images</a></li>
-<li class="chapter" data-level="C.2" data-path="ggimage-tips.html"><a href="ggimage-tips.html#ggimage-bgimage"><i class="fa fa-check"></i><b>C.2</b> Example 2: Plot tree on a background image</a></li>
-</ul></li>
-<li class="chapter" data-level="D" data-path="run-ggtree-in-jupyter-notebook.html"><a href="run-ggtree-in-jupyter-notebook.html"><i class="fa fa-check"></i><b>D</b> Run ggtree in Jupyter notebook</a></li>
-<li class="chapter" data-level="E" data-path="figures-and-tables.html"><a href="figures-and-tables.html"><i class="fa fa-check"></i><b>E</b> Figures and Tables</a></li>
-<li class="chapter" data-level="F" data-path="session-info.html"><a href="session-info.html"><i class="fa fa-check"></i><b>F</b> Session Info</a></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
-</ul>
-
-      </nav>
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Data Integration, Manipulation and Visualization of Phylogenetic Trees</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
     </div>
 
-    <div class="book-body">
-      <div class="body-inner">
-        <div class="book-header" role="navigation">
-          <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Integration, Manipulation and Visualization of Phylogenetic Trees</a>
-          </h1>
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">📖 Introduction</a></li>
+<li class="book-part">Part I: Tree data input, output and manipulation</li>
+<li><a class="" href="chapter1.html"><span class="header-section-number">1</span> Importing Tree with Data</a></li>
+<li><a class="" href="chapter2.html"><span class="header-section-number">2</span> Manipulating Tree with Data</a></li>
+<li><a class="" href="chapter3.html"><span class="header-section-number">3</span> Exporting tree with data</a></li>
+<li class="book-part">Part II: Tree data visualization and annotation</li>
+<li><a class="" href="chapter4.html"><span class="header-section-number">4</span> Phylogenetic Tree Visualization</a></li>
+<li><a class="" href="chapter5.html"><span class="header-section-number">5</span> Phylogenetic Tree Annotation</a></li>
+<li><a class="" href="chapter6.html"><span class="header-section-number">6</span> Visual Exploration of Phylogenetic Tree</a></li>
+<li><a class="active" href="chapter7.html"><span class="header-section-number">7</span> Plotting tree with data</a></li>
+<li><a class="" href="chapter8.html"><span class="header-section-number">8</span> Annotating Tree with Silhouette Images and Sub-plots</a></li>
+<li><a class="" href="chapter9.html"><span class="header-section-number">9</span> ggtree for other tree-like objects</a></li>
+<li class="book-part">Part III: ggtree extensions</li>
+<li><a class="" href="chapter10.html"><span class="header-section-number">10</span> ggtreeExtra</a></li>
+<li><a class="" href="chapter11.html"><span class="header-section-number">11</span> Other ggtree extensions</a></li>
+<li class="book-part">Part IV: Miscellaneous topics</li>
+<li><a class="" href="chapter12.html"><span class="header-section-number">12</span> ggtree utilities</a></li>
+<li><a class="" href="chapter13.html"><span class="header-section-number">13</span> Gallery of reproducible examples</a></li>
+<li class="book-part">Appendix</li>
+<li><a class="" href="faq.html"><span class="header-section-number">A</span> Frequently asked questions</a></li>
+<li><a class="" href="related-tools.html"><span class="header-section-number">B</span> Related tools</a></li>
+<li><a class="" href="ggimage-tips.html"><span class="header-section-number">C</span> Tips for using ggtree with ggimage</a></li>
+<li><a class="" href="run-ggtree-in-jupyter-notebook.html"><span class="header-section-number">D</span> Run ggtree in Jupyter notebook</a></li>
+<li><a class="" href="figures-and-tables.html"><span class="header-section-number">E</span> Figures and Tables</a></li>
+<li><a class="" href="session-info.html"><span class="header-section-number">F</span> Session Info</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          
         </div>
-
-        <div class="page-wrapper" tabindex="-1" role="main">
-          <div class="page-inner">
-
-            <section class="normal" id="section-">
-<div id="chapter7" class="section level1" number="7">
-<h1><span class="header-section-number">Chapter 7</span> Plotting tree with data</h1>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="chapter7" class="section level1" number="7">
+<h1>
+<span class="header-section-number">7</span> Plotting tree with data<a class="anchor" aria-label="anchor" href="#chapter7"><i class="fas fa-link"></i></a>
+</h1>
 <p>Integrating user data to annotate phylogenetic tree can be done at different
 levels. The <a href="http://bioconductor.org/packages/treeio">treeio</a> package implements <code>full_join</code> methods to
 <a href="https://bioconductor.org/packages/devel/bioc/vignettes/treeio/inst/doc/Importer.html">combine tree data to phylogenetic tree object</a>.
 The <a href="https://CRAN.R-project.org/package=tidytree">tidytree</a> package supports <a href="https://cran.r-project.org/web/packages/tidytree/vignette/tiytree.html">linking tree data to phylogeny
 using tidyverse verbs</a>.
 <a href="http://bioconductor.org/packages/ggtree">ggtree</a> supports mapping external data to phylogeny for
-visualization and annotation on the fly. Although the feature of linking external data is overlapping among these packages, they have different application scopes. For example, in addition to the <code>treedata</code> object, <a href="http://bioconductor.org/packages/ggtree">ggtree</a> also supports several other tree objects (see <a href="chapter9.html#chapter9">chapter 9</a>), including <code>phylo4d</code>, <code>phyloseq</code> and <code>obkData</code> that were designed to contain domain specific data. The design of these objects did not consider to support linking external data to the object (it can not be done at tree object level). We can visualize trees from these objects using <a href="http://bioconductor.org/packages/ggtree">ggtree</a> and link external data at visualization level <span class="citation">(Yu et al. <a href="#ref-yu_two_2018" role="doc-biblioref">2018</a>)</span>.</p>
+visualization and annotation on the fly. Although the feature of linking external data is overlapping among these packages, they have different application scopes. For example, in addition to the <code>treedata</code> object, <a href="http://bioconductor.org/packages/ggtree">ggtree</a> also supports several other tree objects (see <a href="chapter9.html#chapter9">chapter 9</a>), including <code>phylo4d</code>, <code>phyloseq</code> and <code>obkData</code> that were designed to contain domain specific data. The design of these objects did not consider to support linking external data to the object (it can not be done at tree object level). We can visualize trees from these objects using <a href="http://bioconductor.org/packages/ggtree">ggtree</a> and link external data at visualization level <span class="citation">(Yu et al. <a href="references.html#ref-yu_two_2018" role="doc-biblioref">2018</a>)</span>.</p>
 <p><a href="http://bioconductor.org/packages/ggtree">ggtree</a> provides two general methods for mapping and visualizing associated external data on phylogenies. <a href="chapter7.html#attach-operator">Method 1</a> allows external data to be mapped on the tree structure and used as visual characteristic in tree and data visualization. <a href="chapter7.html#facet_plot">Method 2</a> plots the data with the tree side by side using different geometric functions after reordering the data based on the tree structure. These two methods integrate data with phylogeny for further exploration and comparison in the evolutionary biology context.</p>
 <div id="attach-operator" class="section level2" number="7.1">
-<h2><span class="header-section-number">7.1</span> Mapping data to the tree structure</h2>
-<p>In <a href="http://bioconductor.org/packages/ggtree">ggtree</a>, we implemented an operator, <code>%&lt;+%</code>, to attach annotation data to a <code>ggtree</code> graphic object. Any data that contains a column of “node” or first column of taxa labels can be integrated using the <code>%&lt;+%</code> operator. Multiple datasets can be attached progressively. When the data are attached, all the information stored in the data serve as numerical/categorical node attributes and can be directly used to visualize the tree by scaling the attributes as different colors or line sizes, label the tree using the original values of the attributes or parsing them as <a href="faq.html#faq-formatting-label">math expression</a>, <a href="chapter8.html#phylomoji">emoji</a> or <a href="chapter8.html#ggimage">silhouette image</a>. The following example uses the <code>%&lt;+%</code> operator to integrat taxon (tip_data.csv) and internal node (inode_data.csv) information and map the data to different colors or shapes of symbolic points and labels (Figure <a href="chapter7.html#fig:attacher">7.1</a>). The tip data contains <code>imageURL</code> that links to online figures of the species, which can be parsed and used as tip labels in <a href="http://bioconductor.org/packages/ggtree">ggtree</a> (see <a href="chapter8.html#chapter8">chapter 8</a>).</p>
+<h2>
+<span class="header-section-number">7.1</span> Mapping data to the tree structure<a class="anchor" aria-label="anchor" href="#attach-operator"><i class="fas fa-link"></i></a>
+</h2>
+<p>In <a href="http://bioconductor.org/packages/ggtree">ggtree</a>, we implemented an operator, <code><a href="https://rdrr.io/pkg/ggtree/man/attacher.html">%&lt;+%</a></code>, to attach annotation data to a <code>ggtree</code> graphic object. Any data that contains a column of “node” or first column of taxa labels can be integrated using the <code><a href="https://rdrr.io/pkg/ggtree/man/attacher.html">%&lt;+%</a></code> operator. Multiple datasets can be attached progressively. When the data are attached, all the information stored in the data serve as numerical/categorical node attributes and can be directly used to visualize the tree by scaling the attributes as different colors or line sizes, label the tree using the original values of the attributes or parsing them as <a href="faq.html#faq-formatting-label">math expression</a>, <a href="chapter8.html#phylomoji">emoji</a> or <a href="chapter8.html#ggimage">silhouette image</a>. The following example uses the <code><a href="https://rdrr.io/pkg/ggtree/man/attacher.html">%&lt;+%</a></code> operator to integrat taxon (tip_data.csv) and internal node (inode_data.csv) information and map the data to different colors or shapes of symbolic points and labels (Figure <a href="chapter7.html#fig:attacher">7.1</a>). The tip data contains <code>imageURL</code> that links to online figures of the species, which can be parsed and used as tip labels in <a href="http://bioconductor.org/packages/ggtree">ggtree</a> (see <a href="chapter8.html#chapter8">chapter 8</a>).</p>
 
 
-<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="chapter7.html#cb188-1" aria-hidden="true"></a><span class="kw">library</span>(ggimage)</span>
-<span id="cb188-2"><a href="chapter7.html#cb188-2" aria-hidden="true"></a><span class="kw">library</span>(ggtree)</span>
-<span id="cb188-3"><a href="chapter7.html#cb188-3" aria-hidden="true"></a><span class="co">## url &lt;- paste0(&quot;https://raw.githubusercontent.com/TreeViz/&quot;,</span></span>
-<span id="cb188-4"><a href="chapter7.html#cb188-4" aria-hidden="true"></a><span class="co">##             &quot;metastyle/master/design/viz_targets_exercise/&quot;)</span></span>
-<span id="cb188-5"><a href="chapter7.html#cb188-5" aria-hidden="true"></a></span>
-<span id="cb188-6"><a href="chapter7.html#cb188-6" aria-hidden="true"></a><span class="co">## x &lt;- read.tree(paste0(url, &quot;tree_boots.nwk&quot;))</span></span>
-<span id="cb188-7"><a href="chapter7.html#cb188-7" aria-hidden="true"></a><span class="co">## info &lt;- read.csv(paste0(url, &quot;tip_data.csv&quot;))</span></span>
-<span id="cb188-8"><a href="chapter7.html#cb188-8" aria-hidden="true"></a></span>
-<span id="cb188-9"><a href="chapter7.html#cb188-9" aria-hidden="true"></a>x &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="st">&quot;data/tree_boots.nwk&quot;</span>)</span>
-<span id="cb188-10"><a href="chapter7.html#cb188-10" aria-hidden="true"></a>info &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/tip_data.csv&quot;</span>)</span>
-<span id="cb188-11"><a href="chapter7.html#cb188-11" aria-hidden="true"></a></span>
-<span id="cb188-12"><a href="chapter7.html#cb188-12" aria-hidden="true"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(x) <span class="op">%&lt;+%</span><span class="st"> </span>info <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="op">-</span>.<span class="dv">1</span>, <span class="dv">4</span>)</span>
-<span id="cb188-13"><a href="chapter7.html#cb188-13" aria-hidden="true"></a>p2 &lt;-<span class="st"> </span>p <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="dt">offset =</span> <span class="fl">.6</span>, <span class="dt">hjust =</span> <span class="fl">.5</span>) <span class="op">+</span></span>
-<span id="cb188-14"><a href="chapter7.html#cb188-14" aria-hidden="true"></a><span class="st">    </span><span class="kw">geom_tippoint</span>(<span class="kw">aes</span>(<span class="dt">shape =</span> trophic_habit, <span class="dt">color =</span> trophic_habit, <span class="dt">size =</span> mass_in_kg)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb188-15"><a href="chapter7.html#cb188-15" aria-hidden="true"></a><span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;right&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">scale_size_continuous</span>(<span class="dt">range =</span> <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">10</span>))</span>
-<span id="cb188-16"><a href="chapter7.html#cb188-16" aria-hidden="true"></a></span>
-<span id="cb188-17"><a href="chapter7.html#cb188-17" aria-hidden="true"></a><span class="co">## d2 &lt;- read.csv(paste0(url, &quot;inode_data.csv&quot;))</span></span>
-<span id="cb188-18"><a href="chapter7.html#cb188-18" aria-hidden="true"></a>d2 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/inode_data.csv&quot;</span>)</span>
-<span id="cb188-19"><a href="chapter7.html#cb188-19" aria-hidden="true"></a>p2 <span class="op">%&lt;+%</span><span class="st"> </span>d2 <span class="op">+</span><span class="st"> </span><span class="kw">geom_label</span>(<span class="kw">aes</span>(<span class="dt">label =</span> vernacularName.y, <span class="dt">fill =</span> posterior)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb188-20"><a href="chapter7.html#cb188-20" aria-hidden="true"></a><span class="st">    </span><span class="kw">scale_fill_gradientn</span>(<span class="dt">colors =</span> RColorBrewer<span class="op">::</span><span class="kw">brewer.pal</span>(<span class="dv">3</span>, <span class="st">&quot;YlGnBu&quot;</span>))</span></code></pre></div>
-<div class="figure"><span id="fig:attacher"></span>
-<img src="treedata_files/figure-html/attacher-1.svg" alt="Example of attaching multiple datasets." width="912" />
-<p class="caption">
+<div class="sourceCode" id="cb188"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/GuangchuangYu/ggimage">ggimage</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yulab-smu.top/treedata-book/">ggtree</a></span><span class="op">)</span>
+<span class="co">## url &lt;- paste0("https://raw.githubusercontent.com/TreeViz/",</span>
+<span class="co">##             "metastyle/master/design/viz_targets_exercise/")</span>
+
+<span class="co">## x &lt;- read.tree(paste0(url, "tree_boots.nwk"))</span>
+<span class="co">## info &lt;- read.csv(paste0(url, "tip_data.csv"))</span>
+
+<span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/read.tree.html">read.tree</a></span><span class="op">(</span><span class="st">"data/tree_boots.nwk"</span><span class="op">)</span>
+<span class="va">info</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"data/tip_data.csv"</span><span class="op">)</span>
+
+<span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">%&lt;+%</span> <span class="va">info</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/lims.html">xlim</a></span><span class="op">(</span><span class="op">-</span><span class="fl">.1</span>, <span class="fl">4</span><span class="op">)</span>
+<span class="va">p2</span> <span class="op">&lt;-</span> <span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span>offset <span class="op">=</span> <span class="fl">.6</span>, hjust <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tippoint.html">geom_tippoint</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>shape <span class="op">=</span> <span class="va">trophic_habit</span>, color <span class="op">=</span> <span class="va">trophic_habit</span>, size <span class="op">=</span> <span class="va">mass_in_kg</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span> <span class="op">+</span> <span class="fu">scale_size_continuous</span><span class="op">(</span>range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span>
+
+<span class="co">## d2 &lt;- read.csv(paste0(url, "inode_data.csv"))</span>
+<span class="va">d2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"data/inode_data.csv"</span><span class="op">)</span>
+<span class="va">p2</span> <span class="op">%&lt;+%</span> <span class="va">d2</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_text.html">geom_label</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">vernacularName.y</span>, fill <span class="op">=</span> <span class="va">posterior</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu">scale_fill_gradientn</span><span class="op">(</span>colors <span class="op">=</span> <span class="fu">RColorBrewer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html">brewer.pal</a></span><span class="op">(</span><span class="fl">3</span>, <span class="st">"YlGnBu"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="figure">
+<span id="fig:attacher"></span>
+<img src="treedata_files/figure-html/attacher-1.svg" alt="Example of attaching multiple datasets." width="912"><p class="caption">
 Figure 7.1: <strong>Example of attaching multiple datasets</strong>.
 </p>
 </div>
-<p>Although the data integrated by the <code>%&lt;+%</code> operator in <a href="http://bioconductor.org/packages/ggtree">ggtree</a> is for tree visualization, the data attached to the <code>ggtree</code> graphic object can be converted to <code>treedata</code> object that contains the tree and the attached data (see <a href="chapter7.html#ggtree_object">session 7.5</a>).</p>
+<p>Although the data integrated by the <code><a href="https://rdrr.io/pkg/ggtree/man/attacher.html">%&lt;+%</a></code> operator in <a href="http://bioconductor.org/packages/ggtree">ggtree</a> is for tree visualization, the data attached to the <code>ggtree</code> graphic object can be converted to <code>treedata</code> object that contains the tree and the attached data (see <a href="chapter7.html#ggtree_object">session 7.5</a>).</p>
 </div>
 <div id="facet_plot" class="section level2" number="7.2">
-<h2><span class="header-section-number">7.2</span> Aligning graph to the tree based on tree structure</h2>
+<h2>
+<span class="header-section-number">7.2</span> Aligning graph to the tree based on tree structure<a class="anchor" aria-label="anchor" href="#facet_plot"><i class="fas fa-link"></i></a>
+</h2>
 <p>For associating phylogenetic tree with different type of plot produced by user’s data, <code>ggtree</code> provides <code>geom_facet</code> layer and <code>facet_plot</code> function which accept an input <code>data.frame</code> and a <code>geom</code> layer to draw the input data. The data will be displayed in an additional panel of the plot. The <code>geom_facet</code> (or <code>facet_plot</code>) is a general solution for linking graphic layer to a tree. The function internally re-orders the input data based on the tree structure and visualizes the data at the specific panel by the geometric layer. Users are free to visualize several panels to plot different types of data as demonstrated in Figure <a href="chapter9.html#fig:phyloseq">9.4</a> and to use different geometric layers to plot the same dataset (Figure <a href="chapter13.html#fig:jv2017">13.1</a>) or different datasets on the same panel.</p>
-<p>The <code>geom_facet</code> is designed to work with most of the <code>geom</code> layers defined in <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> and other <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a>-based packages. A list of the geometric layers that work seamlessly with <code>geom_facet</code> and <code>facet_plot</code> can be found in Table <a href="figures-and-tables.html#tab:facet-geom">E.1</a>. As the <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> community keeps expanding and more <code>geom</code> layers will be implemented in either <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> or other extensions, <code>geom_facet</code> and <code>facet_plot</code> will gain more power to present data in future. Note that different <code>geom</code> layers can be combined to present data on the same panel and the combinations of different <code>geom</code> layers create the possibility to present more complex data with phylogeny (see also Figure <a href="chapter13.html#fig:jv2017">13.1</a> and <a href="chapter13.html#fig:gggenes">13.4</a>). Detailed descriptions can be found in <a href="https://github.com/GuangchuangYu/plotting_tree_with_data/">Supplemental File</a> of <span class="citation">(Yu et al. <a href="#ref-yu_two_2018" role="doc-biblioref">2018</a>)</span>.</p>
+<p>The <code>geom_facet</code> is designed to work with most of the <code>geom</code> layers defined in <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> and other <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a>-based packages. A list of the geometric layers that work seamlessly with <code>geom_facet</code> and <code>facet_plot</code> can be found in Table <a href="figures-and-tables.html#tab:facet-geom">E.1</a>. As the <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> community keeps expanding and more <code>geom</code> layers will be implemented in either <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> or other extensions, <code>geom_facet</code> and <code>facet_plot</code> will gain more power to present data in future. Note that different <code>geom</code> layers can be combined to present data on the same panel and the combinations of different <code>geom</code> layers create the possibility to present more complex data with phylogeny (see also Figure <a href="chapter13.html#fig:jv2017">13.1</a> and <a href="chapter13.html#fig:gggenes">13.4</a>). Detailed descriptions can be found in <a href="https://github.com/GuangchuangYu/plotting_tree_with_data/">Supplemental File</a> of <span class="citation">(Yu et al. <a href="references.html#ref-yu_two_2018" role="doc-biblioref">2018</a>)</span>.</p>
 
 
-<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="chapter7.html#cb189-1" aria-hidden="true"></a><span class="kw">library</span>(ggtree)</span>
-<span id="cb189-2"><a href="chapter7.html#cb189-2" aria-hidden="true"></a><span class="co">## remote_folder &lt;- paste0(&quot;https://raw.githubusercontent.com/katholt/&quot;,</span></span>
-<span id="cb189-3"><a href="chapter7.html#cb189-3" aria-hidden="true"></a><span class="co">##                         &quot;plotTree/master/tree_example_april2015/&quot;)</span></span>
-<span id="cb189-4"><a href="chapter7.html#cb189-4" aria-hidden="true"></a>remote_folder &lt;-<span class="st"> &quot;data/tree_example_april2015/&quot;</span> </span>
-<span id="cb189-5"><a href="chapter7.html#cb189-5" aria-hidden="true"></a></span>
-<span id="cb189-6"><a href="chapter7.html#cb189-6" aria-hidden="true"></a><span class="co">## read the phylogenetic tree</span></span>
-<span id="cb189-7"><a href="chapter7.html#cb189-7" aria-hidden="true"></a>tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="kw">paste0</span>(remote_folder, <span class="st">&quot;tree.nwk&quot;</span>))</span>
-<span id="cb189-8"><a href="chapter7.html#cb189-8" aria-hidden="true"></a></span>
-<span id="cb189-9"><a href="chapter7.html#cb189-9" aria-hidden="true"></a><span class="co">## read the sampling information data set</span></span>
-<span id="cb189-10"><a href="chapter7.html#cb189-10" aria-hidden="true"></a>info &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="kw">paste0</span>(remote_folder,<span class="st">&quot;info.csv&quot;</span>))</span>
-<span id="cb189-11"><a href="chapter7.html#cb189-11" aria-hidden="true"></a></span>
-<span id="cb189-12"><a href="chapter7.html#cb189-12" aria-hidden="true"></a><span class="co">## read and process the allele table</span></span>
-<span id="cb189-13"><a href="chapter7.html#cb189-13" aria-hidden="true"></a>snps&lt;-<span class="kw">read.csv</span>(<span class="kw">paste0</span>(remote_folder, <span class="st">&quot;alleles.csv&quot;</span>), <span class="dt">header =</span> F,</span>
-<span id="cb189-14"><a href="chapter7.html#cb189-14" aria-hidden="true"></a>                <span class="dt">row.names =</span> <span class="dv">1</span>, <span class="dt">stringsAsFactor =</span> F)</span>
-<span id="cb189-15"><a href="chapter7.html#cb189-15" aria-hidden="true"></a>snps_strainCols &lt;-<span class="st"> </span>snps[<span class="dv">1</span>,] </span>
-<span id="cb189-16"><a href="chapter7.html#cb189-16" aria-hidden="true"></a>snps&lt;-snps[<span class="op">-</span><span class="dv">1</span>,] <span class="co"># drop strain names</span></span>
-<span id="cb189-17"><a href="chapter7.html#cb189-17" aria-hidden="true"></a><span class="kw">colnames</span>(snps) &lt;-<span class="st"> </span>snps_strainCols</span>
-<span id="cb189-18"><a href="chapter7.html#cb189-18" aria-hidden="true"></a></span>
-<span id="cb189-19"><a href="chapter7.html#cb189-19" aria-hidden="true"></a>gapChar &lt;-<span class="st"> &quot;?&quot;</span></span>
-<span id="cb189-20"><a href="chapter7.html#cb189-20" aria-hidden="true"></a>snp &lt;-<span class="st"> </span><span class="kw">t</span>(snps)</span>
-<span id="cb189-21"><a href="chapter7.html#cb189-21" aria-hidden="true"></a>lsnp &lt;-<span class="st"> </span><span class="kw">apply</span>(snp, <span class="dv">1</span>, <span class="cf">function</span>(x) {</span>
-<span id="cb189-22"><a href="chapter7.html#cb189-22" aria-hidden="true"></a>        x <span class="op">!=</span><span class="st"> </span>snp[<span class="dv">1</span>,] <span class="op">&amp;</span><span class="st"> </span>x <span class="op">!=</span><span class="st"> </span>gapChar <span class="op">&amp;</span><span class="st"> </span>snp[<span class="dv">1</span>,] <span class="op">!=</span><span class="st"> </span>gapChar</span>
-<span id="cb189-23"><a href="chapter7.html#cb189-23" aria-hidden="true"></a>    })</span>
-<span id="cb189-24"><a href="chapter7.html#cb189-24" aria-hidden="true"></a>lsnp &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(lsnp)</span>
-<span id="cb189-25"><a href="chapter7.html#cb189-25" aria-hidden="true"></a>lsnp<span class="op">$</span>pos &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">rownames</span>(lsnp))</span>
-<span id="cb189-26"><a href="chapter7.html#cb189-26" aria-hidden="true"></a>lsnp &lt;-<span class="st"> </span>tidyr<span class="op">::</span><span class="kw">gather</span>(lsnp, name, value, <span class="op">-</span>pos)</span>
-<span id="cb189-27"><a href="chapter7.html#cb189-27" aria-hidden="true"></a>snp_data &lt;-<span class="st"> </span>lsnp[lsnp<span class="op">$</span>value, <span class="kw">c</span>(<span class="st">&quot;name&quot;</span>, <span class="st">&quot;pos&quot;</span>)]</span>
-<span id="cb189-28"><a href="chapter7.html#cb189-28" aria-hidden="true"></a></span>
-<span id="cb189-29"><a href="chapter7.html#cb189-29" aria-hidden="true"></a><span class="co">## read the trait data</span></span>
-<span id="cb189-30"><a href="chapter7.html#cb189-30" aria-hidden="true"></a>bar_data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="kw">paste0</span>(remote_folder, <span class="st">&quot;bar.csv&quot;</span>))</span>
-<span id="cb189-31"><a href="chapter7.html#cb189-31" aria-hidden="true"></a></span>
-<span id="cb189-32"><a href="chapter7.html#cb189-32" aria-hidden="true"></a><span class="co">## visualize the tree </span></span>
-<span id="cb189-33"><a href="chapter7.html#cb189-33" aria-hidden="true"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree) </span>
-<span id="cb189-34"><a href="chapter7.html#cb189-34" aria-hidden="true"></a></span>
-<span id="cb189-35"><a href="chapter7.html#cb189-35" aria-hidden="true"></a><span class="co">## attach the sampling information data set </span></span>
-<span id="cb189-36"><a href="chapter7.html#cb189-36" aria-hidden="true"></a><span class="co">## and add symbols colored by location</span></span>
-<span id="cb189-37"><a href="chapter7.html#cb189-37" aria-hidden="true"></a>p &lt;-<span class="st"> </span>p <span class="op">%&lt;+%</span><span class="st"> </span>info <span class="op">+</span><span class="st"> </span><span class="kw">geom_tippoint</span>(<span class="kw">aes</span>(<span class="dt">color=</span>location))</span>
-<span id="cb189-38"><a href="chapter7.html#cb189-38" aria-hidden="true"></a></span>
-<span id="cb189-39"><a href="chapter7.html#cb189-39" aria-hidden="true"></a><span class="co">## visualize SNP and Trait data using dot and bar charts,</span></span>
-<span id="cb189-40"><a href="chapter7.html#cb189-40" aria-hidden="true"></a><span class="co">## and align them based on tree structure</span></span>
-<span id="cb189-41"><a href="chapter7.html#cb189-41" aria-hidden="true"></a>p <span class="op">+</span><span class="st"> </span><span class="kw">geom_facet</span>(<span class="dt">panel =</span> <span class="st">&quot;SNP&quot;</span>, <span class="dt">data =</span> snp_data, <span class="dt">geom =</span> geom_point, </span>
-<span id="cb189-42"><a href="chapter7.html#cb189-42" aria-hidden="true"></a>               <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x =</span> pos, <span class="dt">color =</span> location), <span class="dt">shape =</span> <span class="st">&#39;|&#39;</span>) <span class="op">+</span></span>
-<span id="cb189-43"><a href="chapter7.html#cb189-43" aria-hidden="true"></a><span class="st">    </span><span class="kw">geom_facet</span>(<span class="dt">panel =</span> <span class="st">&quot;Trait&quot;</span>, <span class="dt">data =</span> bar_data, <span class="dt">geom =</span> ggstance<span class="op">::</span>geom_barh, </span>
-<span id="cb189-44"><a href="chapter7.html#cb189-44" aria-hidden="true"></a>                <span class="kw">aes</span>(<span class="dt">x =</span> dummy_bar_value, <span class="dt">color =</span> location, <span class="dt">fill =</span> location), </span>
-<span id="cb189-45"><a href="chapter7.html#cb189-45" aria-hidden="true"></a>                <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">width =</span> <span class="fl">.6</span>) <span class="op">+</span></span>
-<span id="cb189-46"><a href="chapter7.html#cb189-46" aria-hidden="true"></a><span class="st">    </span><span class="kw">theme_tree2</span>(<span class="dt">legend.position=</span><span class="kw">c</span>(.<span class="dv">05</span>, <span class="fl">.85</span>))</span></code></pre></div>
-<div class="figure"><span id="fig:plottree"></span>
-<img src="treedata_files/figure-html/plottree-1.svg" alt="Example of plotting SNP and trait data." width="1152" />
-<p class="caption">
+<div class="sourceCode" id="cb189"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yulab-smu.top/treedata-book/">ggtree</a></span><span class="op">)</span>
+<span class="co">## remote_folder &lt;- paste0("https://raw.githubusercontent.com/katholt/",</span>
+<span class="co">##                         "plotTree/master/tree_example_april2015/")</span>
+<span class="va">remote_folder</span> <span class="op">&lt;-</span> <span class="st">"data/tree_example_april2015/"</span> 
+
+<span class="co">## read the phylogenetic tree</span>
+<span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/read.tree.html">read.tree</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">remote_folder</span>, <span class="st">"tree.nwk"</span><span class="op">)</span><span class="op">)</span>
+
+<span class="co">## read the sampling information data set</span>
+<span class="va">info</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">remote_folder</span>,<span class="st">"info.csv"</span><span class="op">)</span><span class="op">)</span>
+
+<span class="co">## read and process the allele table</span>
+<span class="va">snps</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">remote_folder</span>, <span class="st">"alleles.csv"</span><span class="op">)</span>, header <span class="op">=</span> <span class="cn">F</span>,
+                row.names <span class="op">=</span> <span class="fl">1</span>, stringsAsFactor <span class="op">=</span> <span class="cn">F</span><span class="op">)</span>
+<span class="va">snps_strainCols</span> <span class="op">&lt;-</span> <span class="va">snps</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span> 
+<span class="va">snps</span><span class="op">&lt;-</span><span class="va">snps</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span>,<span class="op">]</span> <span class="co"># drop strain names</span>
+<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">snps</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">snps_strainCols</span>
+
+<span class="va">gapChar</span> <span class="op">&lt;-</span> <span class="st">"?"</span>
+<span class="va">snp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">snps</span><span class="op">)</span>
+<span class="va">lsnp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">snp</span>, <span class="fl">1</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span>
+        <span class="va">x</span> <span class="op">!=</span> <span class="va">snp</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span> <span class="op">&amp;</span> <span class="va">x</span> <span class="op">!=</span> <span class="va">gapChar</span> <span class="op">&amp;</span> <span class="va">snp</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span> <span class="op">!=</span> <span class="va">gapChar</span>
+    <span class="op">}</span><span class="op">)</span>
+<span class="va">lsnp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">lsnp</span><span class="op">)</span>
+<span class="va">lsnp</span><span class="op">$</span><span class="va">pos</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">lsnp</span><span class="op">)</span><span class="op">)</span>
+<span class="va">lsnp</span> <span class="op">&lt;-</span> <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/tidyr/man/gather.html">gather</a></span><span class="op">(</span><span class="va">lsnp</span>, <span class="va">name</span>, <span class="va">value</span>, <span class="op">-</span><span class="va">pos</span><span class="op">)</span>
+<span class="va">snp_data</span> <span class="op">&lt;-</span> <span class="va">lsnp</span><span class="op">[</span><span class="va">lsnp</span><span class="op">$</span><span class="va">value</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"pos"</span><span class="op">)</span><span class="op">]</span>
+
+<span class="co">## read the trait data</span>
+<span class="va">bar_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">remote_folder</span>, <span class="st">"bar.csv"</span><span class="op">)</span><span class="op">)</span>
+
+<span class="co">## visualize the tree </span>
+<span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span> 
+
+<span class="co">## attach the sampling information data set </span>
+<span class="co">## and add symbols colored by location</span>
+<span class="va">p</span> <span class="op">&lt;-</span> <span class="va">p</span> <span class="op">%&lt;+%</span> <span class="va">info</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tippoint.html">geom_tippoint</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>color<span class="op">=</span><span class="va">location</span><span class="op">)</span><span class="op">)</span>
+
+<span class="co">## visualize SNP and Trait data using dot and bar charts,</span>
+<span class="co">## and align them based on tree structure</span>
+<span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/facet-plot.html">geom_facet</a></span><span class="op">(</span>panel <span class="op">=</span> <span class="st">"SNP"</span>, data <span class="op">=</span> <span class="va">snp_data</span>, geom <span class="op">=</span> <span class="va">geom_point</span>, 
+               mapping<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">pos</span>, color <span class="op">=</span> <span class="va">location</span><span class="op">)</span>, shape <span class="op">=</span> <span class="st">'|'</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/facet-plot.html">geom_facet</a></span><span class="op">(</span>panel <span class="op">=</span> <span class="st">"Trait"</span>, data <span class="op">=</span> <span class="va">bar_data</span>, geom <span class="op">=</span> <span class="fu">ggstance</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/ggstance/man/geom_barh.html">geom_barh</a></span>, 
+                <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">dummy_bar_value</span>, color <span class="op">=</span> <span class="va">location</span>, fill <span class="op">=</span> <span class="va">location</span><span class="op">)</span>, 
+                stat <span class="op">=</span> <span class="st">"identity"</span>, width <span class="op">=</span> <span class="fl">.6</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/theme_tree2.html">theme_tree2</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.05</span>, <span class="fl">.85</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="figure">
+<span id="fig:plottree"></span>
+<img src="treedata_files/figure-html/plottree-1.svg" alt="Example of plotting SNP and trait data." width="1152"><p class="caption">
 Figure 7.2: <strong>Example of plotting SNP and trait data</strong>.
 </p>
 </div>
 <p>Companion functions to adjust <a href="chapter12.html#facet_widths">panel widths</a> and <a href="chapter12.html#facet_labeller">rename panel name</a> are described in <a href="chapter12.html#facet-utils">session 12.1</a>. Removing panel name is also possible and example was presented in Figure <a href="chapter13.html#fig:gggenes">13.4</a>. We can also use <a href="https://CRAN.R-project.org/package=cowplot">cowplot</a> or <a href="https://github.com/thomasp85/patchwork">patchwork</a> to create composite plots as described in <a href="chapter7.html#composite_plot">session 7.6</a>.</p>
-<p>The <code>geom_facet()</code> (or <code>facet_plot()</code>) internally used <code>ggplot2::facet_grid()</code> and only works with cartesian coordinate system. To align graph to the tree for polar system (e.g. for circular or fan layouts), we developed another Bioconductor package, <a href="http://bioconductor.org/packages/ggtreeExtra">ggtreeExtra</a>. The <a href="http://bioconductor.org/packages/ggtreeExtra">ggtreeExtra</a> package provides the <code>geom_fruit()</code> layer that works similar to <code>geom_facet()</code> (details described in <a href="chapter10.html#chapter10">Chapter 10</a>).</p>
+<p>The <code><a href="https://rdrr.io/pkg/ggtree/man/facet-plot.html">geom_facet()</a></code> (or <code><a href="https://rdrr.io/pkg/ggtree/man/facet-plot.html">facet_plot()</a></code>) internally used <code><a href="https://rdrr.io/pkg/ggplot2/man/facet_grid.html">ggplot2::facet_grid()</a></code> and only works with cartesian coordinate system. To align graph to the tree for polar system (e.g. for circular or fan layouts), we developed another Bioconductor package, <a href="http://bioconductor.org/packages/ggtreeExtra">ggtreeExtra</a>. The <a href="http://bioconductor.org/packages/ggtreeExtra">ggtreeExtra</a> package provides the <code>geom_fruit()</code> layer that works similar to <code><a href="https://rdrr.io/pkg/ggtree/man/facet-plot.html">geom_facet()</a></code> (details described in <a href="chapter10.html#chapter10">Chapter 10</a>).</p>
 </div>
 <div id="gheatmap" class="section level2" number="7.3">
-<h2><span class="header-section-number">7.3</span> Visualize tree with associated matrix</h2>
+<h2>
+<span class="header-section-number">7.3</span> Visualize tree with associated matrix<a class="anchor" aria-label="anchor" href="#gheatmap"><i class="fas fa-link"></i></a>
+</h2>
 <p>The <code>gheatmap</code> function is designed to visualize phylogenetic tree with heatmap of associated matrix (either numerical or categorical). <code>geom_facet</code> is a general solution for plotting data with the tree, including heatmap. <code>gheatmap</code> is specifically designed for plotting heatmap with tree and provides shortcut for handling column labels and color palette. Another difference is that <code>geom_facet</code> only supports rectangular and slanted tree layouts while <code>gheatmap</code> supports rectangular, slanted and circular (Figure <a href="chapter7.html#fig:mgheatmap">7.4</a>) layouts.</p>
 <p>In the following example, we visualized a tree of H3 influenza viruses with their associated genotype (Figure <a href="chapter7.html#fig:gheatmap">7.3</a>A).</p>
-<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="chapter7.html#cb190-1" aria-hidden="true"></a>beast_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;examples/MCC_FluA_H3.tree&quot;</span>, <span class="dt">package=</span><span class="st">&quot;ggtree&quot;</span>)</span>
-<span id="cb190-2"><a href="chapter7.html#cb190-2" aria-hidden="true"></a>beast_tree &lt;-<span class="st"> </span><span class="kw">read.beast</span>(beast_file)</span>
-<span id="cb190-3"><a href="chapter7.html#cb190-3" aria-hidden="true"></a></span>
-<span id="cb190-4"><a href="chapter7.html#cb190-4" aria-hidden="true"></a>genotype_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;examples/Genotype.txt&quot;</span>, <span class="dt">package=</span><span class="st">&quot;ggtree&quot;</span>)</span>
-<span id="cb190-5"><a href="chapter7.html#cb190-5" aria-hidden="true"></a>genotype &lt;-<span class="st"> </span><span class="kw">read.table</span>(genotype_file, <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, <span class="dt">stringsAsFactor=</span>F)</span>
-<span id="cb190-6"><a href="chapter7.html#cb190-6" aria-hidden="true"></a><span class="kw">colnames</span>(genotype) &lt;-<span class="st"> </span><span class="kw">sub</span>(<span class="st">&quot;</span><span class="ch">\\</span><span class="st">.$&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="kw">colnames</span>(genotype))</span>
-<span id="cb190-7"><a href="chapter7.html#cb190-7" aria-hidden="true"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(beast_tree, <span class="dt">mrsd=</span><span class="st">&quot;2013-01-01&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb190-8"><a href="chapter7.html#cb190-8" aria-hidden="true"></a><span class="st">    </span><span class="kw">geom_treescale</span>(<span class="dt">x=</span><span class="dv">2008</span>, <span class="dt">y=</span><span class="dv">1</span>, <span class="dt">offset=</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb190-9"><a href="chapter7.html#cb190-9" aria-hidden="true"></a><span class="st">    </span><span class="kw">geom_tiplab</span>(<span class="dt">size=</span><span class="dv">2</span>)</span>
-<span id="cb190-10"><a href="chapter7.html#cb190-10" aria-hidden="true"></a><span class="kw">gheatmap</span>(p, genotype, <span class="dt">offset=</span><span class="dv">5</span>, <span class="dt">width=</span><span class="fl">0.5</span>, <span class="dt">font.size=</span><span class="dv">3</span>, </span>
-<span id="cb190-11"><a href="chapter7.html#cb190-11" aria-hidden="true"></a>        <span class="dt">colnames_angle=</span><span class="op">-</span><span class="dv">45</span>, <span class="dt">hjust=</span><span class="dv">0</span>) <span class="op">+</span></span>
-<span id="cb190-12"><a href="chapter7.html#cb190-12" aria-hidden="true"></a><span class="st">    </span><span class="kw">scale_fill_manual</span>(<span class="dt">breaks=</span><span class="kw">c</span>(<span class="st">&quot;HuH3N2&quot;</span>, <span class="st">&quot;pdm&quot;</span>, <span class="st">&quot;trig&quot;</span>), </span>
-<span id="cb190-13"><a href="chapter7.html#cb190-13" aria-hidden="true"></a>        <span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;steelblue&quot;</span>, <span class="st">&quot;firebrick&quot;</span>, <span class="st">&quot;darkgreen&quot;</span>), <span class="dt">name=</span><span class="st">&quot;genotype&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb190"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">beast_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"examples/MCC_FluA_H3.tree"</span>, package<span class="op">=</span><span class="st">"ggtree"</span><span class="op">)</span>
+<span class="va">beast_tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/treeio/reference/beast-parser.html">read.beast</a></span><span class="op">(</span><span class="va">beast_file</span><span class="op">)</span>
+
+<span class="va">genotype_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"examples/Genotype.txt"</span>, package<span class="op">=</span><span class="st">"ggtree"</span><span class="op">)</span>
+<span class="va">genotype</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.table</a></span><span class="op">(</span><span class="va">genotype_file</span>, sep<span class="op">=</span><span class="st">"\t"</span>, stringsAsFactor<span class="op">=</span><span class="cn">F</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">genotype</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">sub</a></span><span class="op">(</span><span class="st">"\\.$"</span>, <span class="st">""</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">genotype</span><span class="op">)</span><span class="op">)</span>
+<span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">beast_tree</span>, mrsd<span class="op">=</span><span class="st">"2013-01-01"</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_treescale.html">geom_treescale</a></span><span class="op">(</span>x<span class="op">=</span><span class="fl">2008</span>, y<span class="op">=</span><span class="fl">1</span>, offset<span class="op">=</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">2</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/gheatmap.html">gheatmap</a></span><span class="op">(</span><span class="va">p</span>, <span class="va">genotype</span>, offset<span class="op">=</span><span class="fl">5</span>, width<span class="op">=</span><span class="fl">0.5</span>, font.size<span class="op">=</span><span class="fl">3</span>, 
+        colnames_angle<span class="op">=</span><span class="op">-</span><span class="fl">45</span>, hjust<span class="op">=</span><span class="fl">0</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>breaks<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"HuH3N2"</span>, <span class="st">"pdm"</span>, <span class="st">"trig"</span><span class="op">)</span>, 
+        values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"steelblue"</span>, <span class="st">"firebrick"</span>, <span class="st">"darkgreen"</span><span class="op">)</span>, name<span class="op">=</span><span class="st">"genotype"</span><span class="op">)</span></code></pre></div>
 <p>The <em>width</em> parameter is to control the width of the heatmap. It supports another parameter <em>offset</em> for controlling the distance between the tree and the heatmap, for instance to allocate space for tip labels.</p>
 <p>For time-scaled tree, as in this example, it’s more often to use <code>x</code> axis by using <code>theme_tree2</code>. But with this solution, the heatmap is just another layer and will change the <code>x</code> axis. To overcome this issue, we implemented <code>scale_x_ggtree</code> to set the x axis more reasonable (Figure <a href="chapter7.html#fig:gheatmap">7.3</a>A).</p>
-<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="chapter7.html#cb191-1" aria-hidden="true"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(beast_tree, <span class="dt">mrsd=</span><span class="st">&quot;2013-01-01&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb191-2"><a href="chapter7.html#cb191-2" aria-hidden="true"></a><span class="st">    </span><span class="kw">geom_tiplab</span>(<span class="dt">size=</span><span class="dv">2</span>, <span class="dt">align=</span><span class="ot">TRUE</span>, <span class="dt">linesize=</span>.<span class="dv">5</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb191-3"><a href="chapter7.html#cb191-3" aria-hidden="true"></a><span class="st">    </span><span class="kw">theme_tree2</span>()</span>
-<span id="cb191-4"><a href="chapter7.html#cb191-4" aria-hidden="true"></a><span class="kw">gheatmap</span>(p, genotype, <span class="dt">offset=</span><span class="dv">8</span>, <span class="dt">width=</span><span class="fl">0.6</span>, </span>
-<span id="cb191-5"><a href="chapter7.html#cb191-5" aria-hidden="true"></a>        <span class="dt">colnames=</span><span class="ot">FALSE</span>, <span class="dt">legend_title=</span><span class="st">&quot;genotype&quot;</span>) <span class="op">+</span></span>
-<span id="cb191-6"><a href="chapter7.html#cb191-6" aria-hidden="true"></a><span class="st">    </span><span class="kw">scale_x_ggtree</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb191-7"><a href="chapter7.html#cb191-7" aria-hidden="true"></a><span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="dt">expand=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.3</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb191"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">beast_tree</span>, mrsd<span class="op">=</span><span class="st">"2013-01-01"</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">2</span>, align<span class="op">=</span><span class="cn">TRUE</span>, linesize<span class="op">=</span><span class="fl">.5</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/theme_tree2.html">theme_tree2</a></span><span class="op">(</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/gheatmap.html">gheatmap</a></span><span class="op">(</span><span class="va">p</span>, <span class="va">genotype</span>, offset<span class="op">=</span><span class="fl">8</span>, width<span class="op">=</span><span class="fl">0.6</span>, 
+        colnames<span class="op">=</span><span class="cn">FALSE</span>, legend_title<span class="op">=</span><span class="st">"genotype"</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/scale_x_ggtree.html">scale_x_ggtree</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu">scale_y_continuous</span><span class="op">(</span>expand<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.3</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 
 
-<div class="figure"><span id="fig:gheatmap"></span>
-<img src="treedata_files/figure-html/gheatmap-1.svg" alt="Example of plotting matrix with gheatmap." width="768" />
-<p class="caption">
+<div class="figure">
+<span id="fig:gheatmap"></span>
+<img src="treedata_files/figure-html/gheatmap-1.svg" alt="Example of plotting matrix with gheatmap." width="768"><p class="caption">
 Figure 7.3: <strong>Example of plotting matrix with <code>gheatmap</code></strong>.
 </p>
 </div>
 <div id="gheatmap-ggnewscale" class="section level3" number="7.3.1">
-<h3><span class="header-section-number">7.3.1</span> Visualize tree with multiple associated matrix</h3>
-<p>Of course, we can use multiple <code>gheatmap</code> function call to align several associated matrix with the tree, however, <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> doesn’t allow us to use multiple <code>fill</code> scales<a href="#fn11" class="footnote-ref" id="fnref11"><sup>11</sup></a>.</p>
+<h3>
+<span class="header-section-number">7.3.1</span> Visualize tree with multiple associated matrix<a class="anchor" aria-label="anchor" href="#gheatmap-ggnewscale"><i class="fas fa-link"></i></a>
+</h3>
+<p>Of course, we can use multiple <code>gheatmap</code> function call to align several associated matrix with the tree, however, <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> doesn’t allow us to use multiple <code>fill</code> scales<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;see also discussion in &lt;a href="https://github.com/GuangchuangYu/ggtree/issues/78" class="uri"&gt;https://github.com/GuangchuangYu/ggtree/issues/78&lt;/a&gt; and &lt;a href="https://groups.google.com/d/msg/bioc-ggtree/VQqbF79NAWU/IjIvpQOBGwAJ" class="uri"&gt;https://groups.google.com/d/msg/bioc-ggtree/VQqbF79NAWU/IjIvpQOBGwAJ&lt;/a&gt;&lt;/p&gt;'><sup>11</sup></a>.</p>
 <p>To solve this issue, we can use <a href="https://github.com/eliocamp/ggnewscale">ggnewscale</a> to create new <code>fill</code> scales. Here is an example of using <a href="https://github.com/eliocamp/ggnewscale">ggnewscale</a> with <code>gheatmap</code>.</p>
 
 
-<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="chapter7.html#cb192-1" aria-hidden="true"></a>nwk &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;sample.nwk&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
-<span id="cb192-2"><a href="chapter7.html#cb192-2" aria-hidden="true"></a></span>
-<span id="cb192-3"><a href="chapter7.html#cb192-3" aria-hidden="true"></a>tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(nwk)</span>
-<span id="cb192-4"><a href="chapter7.html#cb192-4" aria-hidden="true"></a>circ &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree, <span class="dt">layout =</span> <span class="st">&quot;circular&quot;</span>)</span>
-<span id="cb192-5"><a href="chapter7.html#cb192-5" aria-hidden="true"></a></span>
-<span id="cb192-6"><a href="chapter7.html#cb192-6" aria-hidden="true"></a>df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">first=</span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;c&quot;</span>, <span class="st">&quot;d&quot;</span>, <span class="st">&quot;d&quot;</span>, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;e&quot;</span>, <span class="st">&quot;e&quot;</span>, <span class="st">&quot;f&quot;</span>, <span class="st">&quot;c&quot;</span>, <span class="st">&quot;f&quot;</span>),</span>
-<span id="cb192-7"><a href="chapter7.html#cb192-7" aria-hidden="true"></a>                 <span class="dt">second=</span> <span class="kw">c</span>(<span class="st">&quot;z&quot;</span>, <span class="st">&quot;z&quot;</span>, <span class="st">&quot;z&quot;</span>, <span class="st">&quot;z&quot;</span>, <span class="st">&quot;y&quot;</span>, <span class="st">&quot;y&quot;</span>, <span class="st">&quot;y&quot;</span>, <span class="st">&quot;y&quot;</span>, <span class="st">&quot;x&quot;</span>, <span class="st">&quot;x&quot;</span>, <span class="st">&quot;x&quot;</span>, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;a&quot;</span>))</span>
-<span id="cb192-8"><a href="chapter7.html#cb192-8" aria-hidden="true"></a><span class="kw">rownames</span>(df) &lt;-<span class="st"> </span>tree<span class="op">$</span>tip.label</span>
-<span id="cb192-9"><a href="chapter7.html#cb192-9" aria-hidden="true"></a></span>
-<span id="cb192-10"><a href="chapter7.html#cb192-10" aria-hidden="true"></a>df2 &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">matrix</span>(<span class="kw">rnorm</span>(<span class="dv">39</span>), <span class="dt">ncol=</span><span class="dv">3</span>))</span>
-<span id="cb192-11"><a href="chapter7.html#cb192-11" aria-hidden="true"></a><span class="kw">rownames</span>(df2) &lt;-<span class="st"> </span>tree<span class="op">$</span>tip.label</span>
-<span id="cb192-12"><a href="chapter7.html#cb192-12" aria-hidden="true"></a><span class="kw">colnames</span>(df2) &lt;-<span class="st"> </span>LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]</span>
-<span id="cb192-13"><a href="chapter7.html#cb192-13" aria-hidden="true"></a></span>
-<span id="cb192-14"><a href="chapter7.html#cb192-14" aria-hidden="true"></a></span>
-<span id="cb192-15"><a href="chapter7.html#cb192-15" aria-hidden="true"></a>p1 &lt;-<span class="st"> </span><span class="kw">gheatmap</span>(circ, df, <span class="dt">offset=</span>.<span class="dv">8</span>, <span class="dt">width=</span>.<span class="dv">2</span>,</span>
-<span id="cb192-16"><a href="chapter7.html#cb192-16" aria-hidden="true"></a>               <span class="dt">colnames_angle=</span><span class="dv">95</span>, <span class="dt">colnames_offset_y =</span> <span class="fl">.25</span>) <span class="op">+</span></span>
-<span id="cb192-17"><a href="chapter7.html#cb192-17" aria-hidden="true"></a><span class="st">    </span><span class="kw">scale_fill_viridis_d</span>(<span class="dt">option=</span><span class="st">&quot;D&quot;</span>, <span class="dt">name=</span><span class="st">&quot;discrete</span><span class="ch">\n</span><span class="st">value&quot;</span>)</span>
-<span id="cb192-18"><a href="chapter7.html#cb192-18" aria-hidden="true"></a></span>
-<span id="cb192-19"><a href="chapter7.html#cb192-19" aria-hidden="true"></a></span>
-<span id="cb192-20"><a href="chapter7.html#cb192-20" aria-hidden="true"></a><span class="kw">library</span>(ggnewscale)</span>
-<span id="cb192-21"><a href="chapter7.html#cb192-21" aria-hidden="true"></a>p2 &lt;-<span class="st"> </span>p1 <span class="op">+</span><span class="st"> </span><span class="kw">new_scale_fill</span>()</span>
-<span id="cb192-22"><a href="chapter7.html#cb192-22" aria-hidden="true"></a><span class="kw">gheatmap</span>(p2, df2, <span class="dt">offset=</span><span class="dv">15</span>, <span class="dt">width=</span>.<span class="dv">3</span>,</span>
-<span id="cb192-23"><a href="chapter7.html#cb192-23" aria-hidden="true"></a>         <span class="dt">colnames_angle=</span><span class="dv">90</span>, <span class="dt">colnames_offset_y =</span> <span class="fl">.25</span>) <span class="op">+</span></span>
-<span id="cb192-24"><a href="chapter7.html#cb192-24" aria-hidden="true"></a><span class="st">    </span><span class="kw">scale_fill_viridis_c</span>(<span class="dt">option=</span><span class="st">&quot;A&quot;</span>, <span class="dt">name=</span><span class="st">&quot;continuous</span><span class="ch">\n</span><span class="st">value&quot;</span>)</span></code></pre></div>
-<div class="figure"><span id="fig:mgheatmap"></span>
-<img src="treedata_files/figure-html/mgheatmap-1.svg" alt="Example of plotting matrix with gheatmap." width="960" />
-<p class="caption">
+<div class="sourceCode" id="cb192"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">nwk</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"sample.nwk"</span>, package<span class="op">=</span><span class="st">"treeio"</span><span class="op">)</span>
+
+<span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/read.tree.html">read.tree</a></span><span class="op">(</span><span class="va">nwk</span><span class="op">)</span>
+<span class="va">circ</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span>, layout <span class="op">=</span> <span class="st">"circular"</span><span class="op">)</span>
+
+<span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>first<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>, <span class="st">"c"</span>, <span class="st">"d"</span>, <span class="st">"d"</span>, <span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"e"</span>, <span class="st">"e"</span>, <span class="st">"f"</span>, <span class="st">"c"</span>, <span class="st">"f"</span><span class="op">)</span>,
+                 second<span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"z"</span>, <span class="st">"z"</span>, <span class="st">"z"</span>, <span class="st">"z"</span>, <span class="st">"y"</span>, <span class="st">"y"</span>, <span class="st">"y"</span>, <span class="st">"y"</span>, <span class="st">"x"</span>, <span class="st">"x"</span>, <span class="st">"x"</span>, <span class="st">"a"</span>, <span class="st">"a"</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">tree</span><span class="op">$</span><span class="va">tip.label</span>
+
+<span class="va">df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">39</span><span class="op">)</span>, ncol<span class="op">=</span><span class="fl">3</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">df2</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">tree</span><span class="op">$</span><span class="va">tip.label</span>
+<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">df2</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>
+
+
+<span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/gheatmap.html">gheatmap</a></span><span class="op">(</span><span class="va">circ</span>, <span class="va">df</span>, offset<span class="op">=</span><span class="fl">.8</span>, width<span class="op">=</span><span class="fl">.2</span>,
+               colnames_angle<span class="op">=</span><span class="fl">95</span>, colnames_offset_y <span class="op">=</span> <span class="fl">.25</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">scale_fill_viridis_d</span><span class="op">(</span>option<span class="op">=</span><span class="st">"D"</span>, name<span class="op">=</span><span class="st">"discrete\nvalue"</span><span class="op">)</span>
+
+
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">ggnewscale</span><span class="op">)</span>
+<span class="va">p2</span> <span class="op">&lt;-</span> <span class="va">p1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggnewscale/man/new_scale.html">new_scale_fill</a></span><span class="op">(</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/gheatmap.html">gheatmap</a></span><span class="op">(</span><span class="va">p2</span>, <span class="va">df2</span>, offset<span class="op">=</span><span class="fl">15</span>, width<span class="op">=</span><span class="fl">.3</span>,
+         colnames_angle<span class="op">=</span><span class="fl">90</span>, colnames_offset_y <span class="op">=</span> <span class="fl">.25</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">scale_fill_viridis_c</span><span class="op">(</span>option<span class="op">=</span><span class="st">"A"</span>, name<span class="op">=</span><span class="st">"continuous\nvalue"</span><span class="op">)</span></code></pre></div>
+<div class="figure">
+<span id="fig:mgheatmap"></span>
+<img src="treedata_files/figure-html/mgheatmap-1.svg" alt="Example of plotting matrix with gheatmap." width="960"><p class="caption">
 Figure 7.4: <strong>Example of plotting matrix with <code>gheatmap</code></strong>.
 </p>
 </div>
 </div>
 </div>
 <div id="msaplot" class="section level2" number="7.4">
-<h2><span class="header-section-number">7.4</span> Visualize tree with multiple sequence alignment</h2>
+<h2>
+<span class="header-section-number">7.4</span> Visualize tree with multiple sequence alignment<a class="anchor" aria-label="anchor" href="#msaplot"><i class="fas fa-link"></i></a>
+</h2>
 <p>The <code>msaplot</code> accepts a tree (output of <code>ggtree</code>) and a fasta file, then it can visualize the tree with sequence alignment. We can specify the <code>width</code> (relative to the tree) of the alignment and adjust relative position by <code>offset</code>, that are similar to <code>gheatmap</code> function.</p>
-<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="chapter7.html#cb193-1" aria-hidden="true"></a>tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="st">&quot;data/tree.nwk&quot;</span>)</span>
-<span id="cb193-2"><a href="chapter7.html#cb193-2" aria-hidden="true"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="dt">size=</span><span class="dv">3</span>)</span>
-<span id="cb193-3"><a href="chapter7.html#cb193-3" aria-hidden="true"></a><span class="kw">msaplot</span>(p, <span class="st">&quot;data/sequence.fasta&quot;</span>, <span class="dt">offset=</span><span class="dv">3</span>, <span class="dt">width=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb193"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/read.tree.html">read.tree</a></span><span class="op">(</span><span class="st">"data/tree.nwk"</span><span class="op">)</span>
+<span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">3</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/msaplot.html">msaplot</a></span><span class="op">(</span><span class="va">p</span>, <span class="st">"data/sequence.fasta"</span>, offset<span class="op">=</span><span class="fl">3</span>, width<span class="op">=</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
 <p>A specific slice of the alignment can also be displayed by specifying <code>window</code> parameter.</p>
-<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="chapter7.html#cb194-1" aria-hidden="true"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree, <span class="dt">layout=</span><span class="st">&#39;circular&#39;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb194-2"><a href="chapter7.html#cb194-2" aria-hidden="true"></a><span class="st">    </span><span class="kw">geom_tiplab</span>(<span class="dt">offset=</span><span class="dv">4</span>, <span class="dt">align=</span><span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="ot">NA</span>, <span class="dv">12</span>)</span>
-<span id="cb194-3"><a href="chapter7.html#cb194-3" aria-hidden="true"></a><span class="kw">msaplot</span>(p, <span class="st">&quot;data/sequence.fasta&quot;</span>, <span class="dt">window=</span><span class="kw">c</span>(<span class="dv">120</span>, <span class="dv">200</span>))  </span></code></pre></div>
+<div class="sourceCode" id="cb194"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span>, layout<span class="op">=</span><span class="st">'circular'</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span>offset<span class="op">=</span><span class="fl">4</span>, align<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/lims.html">xlim</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">12</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/msaplot.html">msaplot</a></span><span class="op">(</span><span class="va">p</span>, <span class="st">"data/sequence.fasta"</span>, window<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">120</span>, <span class="fl">200</span><span class="op">)</span><span class="op">)</span>  </code></pre></div>
 
 
-<div class="figure"><span id="fig:msaplot"></span>
-<img src="treedata_files/figure-html/msaplot-1.svg" alt="Example of plotting multiple sequence alignment with a tree." width="1344" />
-<p class="caption">
+<div class="figure">
+<span id="fig:msaplot"></span>
+<img src="treedata_files/figure-html/msaplot-1.svg" alt="Example of plotting multiple sequence alignment with a tree." width="1344"><p class="caption">
 Figure 7.5: <strong>Example of plotting multiple sequence alignment with a tree</strong>.
 </p>
 </div>
 </div>
 <div id="composite_plot" class="section level2" number="7.5">
-<h2><span class="header-section-number">7.5</span> Composite plots</h2>
-<p>In addition to aligning graph to a tree using <a href="chapter7.html#facet_plot">geom_facet</a> and special cases using <a href="chapter7.html#gheatmap">gheatmap</a> and <a href="chapter7.html#msaplot">msaplot</a>, users can use <a href="https://CRAN.R-project.org/package=cowplot">cowplot</a>, <a href="https://CRAN.R-project.org/package=patchwork">patchwork</a>, <a href="https://CRAN.R-project.org/package=gtable">gtable</a><a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a> or other packages to create composite plots. However, extra efforts needs to be done to make sure all the plots are aligned properly. The <a href="chapter12.html#tiporder">get_taxa_name()</a> function is quite useful for users to re-order their data based on the tree structure. To remove this obstacle, we created an R package <a href="https://CRAN.R-project.org/package=aplot">aplot</a> that can re-order the internal data of ‘ggplot’ object and create composite plots that align properly with a tree.</p>
+<h2>
+<span class="header-section-number">7.5</span> Composite plots<a class="anchor" aria-label="anchor" href="#composite_plot"><i class="fas fa-link"></i></a>
+</h2>
+<p>In addition to aligning graph to a tree using <a href="chapter7.html#facet_plot">geom_facet</a> and special cases using <a href="chapter7.html#gheatmap">gheatmap</a> and <a href="chapter7.html#msaplot">msaplot</a>, users can use <a href="https://CRAN.R-project.org/package=cowplot">cowplot</a>, <a href="https://CRAN.R-project.org/package=patchwork">patchwork</a>, <a href="https://CRAN.R-project.org/package=gtable">gtable</a><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://github.com/YuLab-SMU/ggtree/issues/313" class="uri"&gt;https://github.com/YuLab-SMU/ggtree/issues/313&lt;/a&gt;&lt;/p&gt;'><sup>12</sup></a> or other packages to create composite plots. However, extra efforts needs to be done to make sure all the plots are aligned properly. The <a href="chapter12.html#tiporder">get_taxa_name()</a> function is quite useful for users to re-order their data based on the tree structure. To remove this obstacle, we created an R package <a href="https://CRAN.R-project.org/package=aplot">aplot</a> that can re-order the internal data of ‘ggplot’ object and create composite plots that align properly with a tree.</p>
 <p>In the following example, we have a tree with two associated datasets.</p>
-<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="chapter7.html#cb195-1" aria-hidden="true"></a><span class="kw">library</span>(ggplot2)</span>
-<span id="cb195-2"><a href="chapter7.html#cb195-2" aria-hidden="true"></a><span class="kw">library</span>(ggtree)</span>
-<span id="cb195-3"><a href="chapter7.html#cb195-3" aria-hidden="true"></a></span>
-<span id="cb195-4"><a href="chapter7.html#cb195-4" aria-hidden="true"></a><span class="kw">set.seed</span>(<span class="dv">2019-10-31</span>)</span>
-<span id="cb195-5"><a href="chapter7.html#cb195-5" aria-hidden="true"></a>tr &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">10</span>)</span>
-<span id="cb195-6"><a href="chapter7.html#cb195-6" aria-hidden="true"></a></span>
-<span id="cb195-7"><a href="chapter7.html#cb195-7" aria-hidden="true"></a>d1 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
-<span id="cb195-8"><a href="chapter7.html#cb195-8" aria-hidden="true"></a>    <span class="co"># only some labels match</span></span>
-<span id="cb195-9"><a href="chapter7.html#cb195-9" aria-hidden="true"></a>    <span class="dt">label =</span> <span class="kw">c</span>(tr<span class="op">$</span>tip.label[<span class="kw">sample</span>(<span class="dv">5</span>, <span class="dv">5</span>)], <span class="st">&quot;A&quot;</span>),</span>
-<span id="cb195-10"><a href="chapter7.html#cb195-10" aria-hidden="true"></a>    <span class="dt">value =</span> <span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>, <span class="dv">6</span>))</span>
-<span id="cb195-11"><a href="chapter7.html#cb195-11" aria-hidden="true"></a></span>
-<span id="cb195-12"><a href="chapter7.html#cb195-12" aria-hidden="true"></a>d2 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
-<span id="cb195-13"><a href="chapter7.html#cb195-13" aria-hidden="true"></a>    <span class="dt">label =</span> <span class="kw">rep</span>(tr<span class="op">$</span>tip.label, <span class="dv">5</span>),</span>
-<span id="cb195-14"><a href="chapter7.html#cb195-14" aria-hidden="true"></a>    <span class="dt">category =</span> <span class="kw">rep</span>(LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>], <span class="dt">each=</span><span class="dv">10</span>),</span>
-<span id="cb195-15"><a href="chapter7.html#cb195-15" aria-hidden="true"></a>    <span class="dt">value =</span> <span class="kw">rnorm</span>(<span class="dv">50</span>, <span class="dv">0</span>, <span class="dv">3</span>)) </span>
-<span id="cb195-16"><a href="chapter7.html#cb195-16" aria-hidden="true"></a></span>
-<span id="cb195-17"><a href="chapter7.html#cb195-17" aria-hidden="true"></a>g &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tr) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="dt">align=</span><span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb195"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yulab-smu.top/treedata-book/">ggtree</a></span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">2019</span><span class="op">-</span><span class="fl">10</span><span class="op">-</span><span class="fl">31</span><span class="op">)</span>
+<span class="va">tr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/rtree.html">rtree</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>
+
+<span class="va">d1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
+    <span class="co"># only some labels match</span>
+    label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">tr</span><span class="op">$</span><span class="va">tip.label</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">5</span><span class="op">)</span><span class="op">]</span>, <span class="st">"A"</span><span class="op">)</span>,
+    value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span>
+
+<span class="va">d2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
+    label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="va">tr</span><span class="op">$</span><span class="va">tip.label</span>, <span class="fl">5</span><span class="op">)</span>,
+    category <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, each<span class="op">=</span><span class="fl">10</span><span class="op">)</span>,
+    value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">0</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span> 
+
+<span class="va">g</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tr</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span>align<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <!-- 
 We can extract coordinates from `ggtree` object using [dplyr](https://CRAN.R-project.org/package=dplyr) verbs implemented in [tidytree](https://CRAN.R-project.org/package=tidytree), and merge the y-coordinates to our datasets.
 
@@ -644,13 +320,14 @@ dd2 <- left_join(d2, d, by='label')
 Now we can visualize our datasets using the y-coordinates that match corresponding labels in the `ggtree` object. 
 
 -->
-<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="chapter7.html#cb196-1" aria-hidden="true"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(d1, <span class="kw">aes</span>(label, value)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_col</span>(<span class="kw">aes</span>(<span class="dt">fill=</span>label)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb196-2"><a href="chapter7.html#cb196-2" aria-hidden="true"></a><span class="st">    </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label=</span>label, <span class="dt">y=</span> value<span class="fl">+.1</span>)) <span class="op">+</span></span>
-<span id="cb196-3"><a href="chapter7.html#cb196-3" aria-hidden="true"></a><span class="st">    </span><span class="kw">coord_flip</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&#39;none&#39;</span>)</span>
-<span id="cb196-4"><a href="chapter7.html#cb196-4" aria-hidden="true"></a> </span>
-<span id="cb196-5"><a href="chapter7.html#cb196-5" aria-hidden="true"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(d2, <span class="kw">aes</span>(<span class="dt">x=</span>category, <span class="dt">y=</span>label)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb196-6"><a href="chapter7.html#cb196-6" aria-hidden="true"></a><span class="st">    </span><span class="kw">geom_tile</span>(<span class="kw">aes</span>(<span class="dt">fill=</span>value)) <span class="op">+</span><span class="st"> </span><span class="kw">scale_fill_viridis_c</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb196-7"><a href="chapter7.html#cb196-7" aria-hidden="true"></a><span class="st">    </span><span class="kw">theme_tree2</span>() </span></code></pre></div>
+<div class="sourceCode" id="cb196"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">d1</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span><span class="va">label</span>, <span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_bar.html">geom_col</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>fill<span class="op">=</span><span class="va">label</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_text.html">geom_text</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>label<span class="op">=</span><span class="va">label</span>, y<span class="op">=</span> <span class="va">value</span><span class="op">+</span><span class="fl">.1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/coord_flip.html">coord_flip</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/theme_tree2.html">theme_tree2</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/theme.html">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">'none'</span><span class="op">)</span>
+ 
+<span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">d2</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">category</span>, y<span class="op">=</span><span class="va">label</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_tile.html">geom_tile</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>fill<span class="op">=</span><span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/scale_viridis.html">scale_fill_viridis_c</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/theme_tree2.html">theme_tree2</a></span><span class="op">(</span><span class="op">)</span> </code></pre></div>
 <!-- 
 If we combine these two plots with `ggtree` using either [cowplot](https://CRAN.R-project.org/package=cowplot) or [patchwork](https://github.com/thomasp85/patchwork), they do not align properly. 
 
@@ -676,21 +353,25 @@ The `ylim2()` is not designed specific for [ggtree](http://bioconductor.org/pack
 
 -->
 <p>If we align them using <a href="https://CRAN.R-project.org/package=cowplot">cowplot</a>, the composite plots are not aligned properly as we anticipated (Figure <a href="chapter7.html#fig:composite">7.6</a>A).</p>
-<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="chapter7.html#cb197-1" aria-hidden="true"></a>cowplot<span class="op">::</span><span class="kw">plot_grid</span>(g, p2, p1, <span class="dt">ncol=</span><span class="dv">3</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb197"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html">plot_grid</a></span><span class="op">(</span><span class="va">g</span>, <span class="va">p2</span>, <span class="va">p1</span>, ncol<span class="op">=</span><span class="fl">3</span><span class="op">)</span> </code></pre></div>
 <p>Using <a href="https://CRAN.R-project.org/package=aplot">aplot</a>, it will do all the dirty works for us and all the subplots are aligned properly as demonstrated in Figure <a href="chapter7.html#fig:composite">7.6</a>B.</p>
-<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="chapter7.html#cb198-1" aria-hidden="true"></a><span class="kw">library</span>(aplot)</span>
-<span id="cb198-2"><a href="chapter7.html#cb198-2" aria-hidden="true"></a>p2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">insert_left</span>(g) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">insert_right</span>(p1, <span class="dt">width=</span>.<span class="dv">5</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb198"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/YuLab-SMU/aplot">aplot</a></span><span class="op">)</span>
+<span class="va">p2</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/aplot/man/plot-insertion.html">insert_left</a></span><span class="op">(</span><span class="va">g</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/aplot/man/plot-insertion.html">insert_right</a></span><span class="op">(</span><span class="va">p1</span>, width<span class="op">=</span><span class="fl">.5</span><span class="op">)</span> </code></pre></div>
 
 
-<div class="figure"><span id="fig:composite"></span>
-<img src="treedata_files/figure-html/composite-1.svg" alt="Example of aligning tree with data side by side to create composite plot. cowplot aligns subplots (A), while aplot do extra works to make sure that tree associated subplots are properly ordered according to the tree structure (B). Note: The ‘A’ category in the bar plot that is not matched with the tree was removed." width="1152" />
-<p class="caption">
+<div class="figure">
+<span id="fig:composite"></span>
+<img src="treedata_files/figure-html/composite-1.svg" alt="Example of aligning tree with data side by side to create composite plot. cowplot aligns subplots (A), while aplot do extra works to make sure that tree associated subplots are properly ordered according to the tree structure (B). Note: The ‘A’ category in the bar plot that is not matched with the tree was removed." width="1152"><p class="caption">
 Figure 7.6: <strong>Example of aligning tree with data side by side to create composite plot</strong>. <code>cowplot</code> aligns subplots (A), while <code>aplot</code> do extra works to make sure that tree associated subplots are properly ordered according to the tree structure (B). Note: The ‘A’ category in the bar plot that is not matched with the tree was removed.
 </p>
 </div>
 </div>
 <div id="ggtree_object" class="section level2" number="7.6">
-<h2><span class="header-section-number">7.6</span> The <code>ggtree</code> object</h2>
+<h2>
+<span class="header-section-number">7.6</span> The <code>ggtree</code> object<a class="anchor" aria-label="anchor" href="#ggtree_object"><i class="fas fa-link"></i></a>
+</h2>
 <p>to be finished.</p>
 <!--
 ## Update tree view with a new tree
@@ -704,101 +385,68 @@ p %<% rtree(50)
 -->
 </div>
 <div id="summary7" class="section level2" number="7.7">
-<h2><span class="header-section-number">7.7</span> Summary</h2>
-<p>Although there are many software packages support visualizing phylogenetic tree, plotting tree with data is often missing or with only limited supports. Some of the packages defines <code>S4</code> classes to store phylogenetic tree with domain specific data, such as <a href="https://CRAN.R-project.org/package=OutbreakTools">OutbreakTools</a> <span class="citation">(Jombart et al. <a href="#ref-jombart_outbreaktools_2014" role="doc-biblioref">2014</a>)</span> defined <code>obkData</code> for storing tree with epidemiology data and <a href="http://bioconductor.org/packages/phyloseq">phyloseq</a> <span class="citation">(McMurdie and Holmes <a href="#ref-mcmurdie_phyloseq_2013" role="doc-biblioref">2013</a>)</span> defines <code>phyloseq</code> for storing tree with microbiome data. These packages are capable to present some of the data stored in the object on the tree. However, not all the associated data are supported. For example, species abundance stored in <code>phyloseq</code> object is not supported to be visualized using <a href="http://bioconductor.org/packages/phyloseq">phyloseq</a> package. These packages did not provide any utilities to integrate external data for tree visualization. None of these packages support visualizing external data and align the plot to tree based on the tree structure.</p>
-<p><a href="http://bioconductor.org/packages/ggtree">ggtree</a> provides general solutions for integrating data. Method 1, the <code>%&lt;+%</code> operator, can integrate external and internal node data and map the data as visual characteristic to visualize the tree and other datasets used in <code>geom_facet</code>. Method 2, the <code>geom_facet</code> layer, has no restriction of input data as long as there is a <code>geom</code> function available to plot the data (<em>e.g.</em> species abundance displayed by <code>geom_density_ridges</code> as demonstrated in Figure <a href="chapter9.html#fig:phyloseq">9.4</a>). Users are free to combine different panels and combine different <code>geom</code> layers in the same panel (Figure <a href="chapter13.html#fig:jv2017">13.1</a>). <a href="http://bioconductor.org/packages/ggtree">ggtree</a> has many unique features that cannot be found in other implementations:</p>
+<h2>
+<span class="header-section-number">7.7</span> Summary<a class="anchor" aria-label="anchor" href="#summary7"><i class="fas fa-link"></i></a>
+</h2>
+<p>Although there are many software packages support visualizing phylogenetic tree, plotting tree with data is often missing or with only limited supports. Some of the packages defines <code>S4</code> classes to store phylogenetic tree with domain specific data, such as <a href="https://CRAN.R-project.org/package=OutbreakTools">OutbreakTools</a> <span class="citation">(Jombart et al. <a href="references.html#ref-jombart_outbreaktools_2014" role="doc-biblioref">2014</a>)</span> defined <code>obkData</code> for storing tree with epidemiology data and <a href="http://bioconductor.org/packages/phyloseq">phyloseq</a> <span class="citation">(McMurdie and Holmes <a href="references.html#ref-mcmurdie_phyloseq_2013" role="doc-biblioref">2013</a>)</span> defines <code>phyloseq</code> for storing tree with microbiome data. These packages are capable to present some of the data stored in the object on the tree. However, not all the associated data are supported. For example, species abundance stored in <code>phyloseq</code> object is not supported to be visualized using <a href="http://bioconductor.org/packages/phyloseq">phyloseq</a> package. These packages did not provide any utilities to integrate external data for tree visualization. None of these packages support visualizing external data and align the plot to tree based on the tree structure.</p>
+<p><a href="http://bioconductor.org/packages/ggtree">ggtree</a> provides general solutions for integrating data. Method 1, the <code><a href="https://rdrr.io/pkg/ggtree/man/attacher.html">%&lt;+%</a></code> operator, can integrate external and internal node data and map the data as visual characteristic to visualize the tree and other datasets used in <code>geom_facet</code>. Method 2, the <code>geom_facet</code> layer, has no restriction of input data as long as there is a <code>geom</code> function available to plot the data (<em>e.g.</em> species abundance displayed by <code>geom_density_ridges</code> as demonstrated in Figure <a href="chapter9.html#fig:phyloseq">9.4</a>). Users are free to combine different panels and combine different <code>geom</code> layers in the same panel (Figure <a href="chapter13.html#fig:jv2017">13.1</a>). <a href="http://bioconductor.org/packages/ggtree">ggtree</a> has many unique features that cannot be found in other implementations:</p>
 <ol style="list-style-type: decimal">
 <li>Integrating node/edge data to the tree can be mapped to visual characteristics of the tree or other datasets (Figure ).</li>
 <li>Capable of parsing expression (math symbols or text formatting), emoji and image files (<a href="chapter8.html#chapter8">chapter 8</a>).</li>
 <li>No predefined of input data types or how the data should be plotted in <code>geom_facet</code> (Table <a href="figures-and-tables.html#tab:facet-geom">E.1</a>).</li>
 <li>Combining different <code>geom</code> functions to visualize associated data is supported (Figure <a href="chapter13.html#fig:jv2017">13.1</a>).</li>
 <li>Visualizing different datasets on the same panel is supported.</li>
-<li>Data integrated by <code>%&lt;+%</code> can be used in <code>geom_facet</code>.</li>
+<li>Data integrated by <code><a href="https://rdrr.io/pkg/ggtree/man/attacher.html">%&lt;+%</a></code> can be used in <code>geom_facet</code>.</li>
 <li>Able to add further annotation to specific layers.</li>
 <li>Modular design by separating tree visualization, data integration (method 1) and graph alignment (method 2).</li>
 </ol>
-<p>Modular design is a unique feature for <a href="http://bioconductor.org/packages/ggtree">ggtree</a> to stand out from other packages. The tree can be visualized with data stored in tree object or external data linked by <code>%&lt;+%</code> operator, and fully annotated with multiple layers of annotations (Figure <a href="chapter7.html#fig:attacher">7.1</a> and <a href="chapter13.html#fig:jv2017">13.1</a>), before passing it to <code>geom_facet</code>. <code>geom_facet</code> can be called progressively to add multiple panels or multiple layers on the same panels (Figure <a href="chapter13.html#fig:jv2017">13.1</a>). This creates the possiblity of plotting full annotated tree with complex data panels that contains multiple graphic layers.</p>
-<p><a href="http://bioconductor.org/packages/ggtree">ggtree</a> fits the <code>R</code> ecosystem and extends the abilities of integrating and presenting data with trees to existing phylogenetic packages. As demonstrated in Figure <a href="chapter9.html#fig:phyloseq">9.4</a>, we are able to plot species abundance distributions with <code>phyloseq</code> object. This cannot be easily done without <a href="http://bioconductor.org/packages/ggtree">ggtree</a>. With <a href="http://bioconductor.org/packages/ggtree">ggtree</a>, we are able to attach additional data to tree objects using <code>%&lt;+%</code> and align graph to tree using <code>geom_facet</code>. Integrating <a href="http://bioconductor.org/packages/ggtree">ggtree</a> to existing workflows will definitely extends the abilities and broadens the applications to present phylogeny-associated data, especially for comparative studies.</p>
+<p>Modular design is a unique feature for <a href="http://bioconductor.org/packages/ggtree">ggtree</a> to stand out from other packages. The tree can be visualized with data stored in tree object or external data linked by <code><a href="https://rdrr.io/pkg/ggtree/man/attacher.html">%&lt;+%</a></code> operator, and fully annotated with multiple layers of annotations (Figure <a href="chapter7.html#fig:attacher">7.1</a> and <a href="chapter13.html#fig:jv2017">13.1</a>), before passing it to <code>geom_facet</code>. <code>geom_facet</code> can be called progressively to add multiple panels or multiple layers on the same panels (Figure <a href="chapter13.html#fig:jv2017">13.1</a>). This creates the possiblity of plotting full annotated tree with complex data panels that contains multiple graphic layers.</p>
+<p><a href="http://bioconductor.org/packages/ggtree">ggtree</a> fits the <code>R</code> ecosystem and extends the abilities of integrating and presenting data with trees to existing phylogenetic packages. As demonstrated in Figure <a href="chapter9.html#fig:phyloseq">9.4</a>, we are able to plot species abundance distributions with <code>phyloseq</code> object. This cannot be easily done without <a href="http://bioconductor.org/packages/ggtree">ggtree</a>. With <a href="http://bioconductor.org/packages/ggtree">ggtree</a>, we are able to attach additional data to tree objects using <code><a href="https://rdrr.io/pkg/ggtree/man/attacher.html">%&lt;+%</a></code> and align graph to tree using <code>geom_facet</code>. Integrating <a href="http://bioconductor.org/packages/ggtree">ggtree</a> to existing workflows will definitely extends the abilities and broadens the applications to present phylogeny-associated data, especially for comparative studies.</p>
 
 </div>
 </div>
-<h3>References</h3>
-<div id="refs" class="references">
-<div id="ref-jombart_outbreaktools_2014">
-<p>Jombart, Thibaut, David M. Aanensen, Marc Baguelin, Paul Birrell, Simon Cauchemez, Anton Camacho, Caroline Colijn, et al. 2014. “OutbreakTools: A New Platform for Disease Outbreak Analysis Using the R Software.” <em>Epidemics</em> 7 (June): 28–34. <a href="https://doi.org/10.1016/j.epidem.2014.04.003">https://doi.org/10.1016/j.epidem.2014.04.003</a>.</p>
-</div>
-<div id="ref-mcmurdie_phyloseq_2013">
-<p>McMurdie, Paul J., and Susan Holmes. 2013. “Phyloseq: An R Package for Reproducible Interactive Analysis and Graphics of Microbiome Census Data.” <em>PLoS ONE</em> 8 (4): e61217. <a href="https://doi.org/10.1371/journal.pone.0061217">https://doi.org/10.1371/journal.pone.0061217</a>.</p>
-</div>
-<div id="ref-yu_two_2018">
-<p>Yu, Guangchuang, Tommy Tsan-Yuk Lam, Huachen Zhu, and Yi Guan. 2018. “Two Methods for Mapping and Visualizing Associated Data on Phylogeny Using Ggtree.” <em>Molecular Biology and Evolution</em> 35 (12): 3041–3. <a href="https://doi.org/10.1093/molbev/msy194">https://doi.org/10.1093/molbev/msy194</a>.</p>
-</div>
-</div>
-<div class="footnotes">
-<hr />
-<ol start="11">
-<li id="fn11"><p>see also discussion in <a href="https://github.com/GuangchuangYu/ggtree/issues/78" class="uri">https://github.com/GuangchuangYu/ggtree/issues/78</a> and <a href="https://groups.google.com/d/msg/bioc-ggtree/VQqbF79NAWU/IjIvpQOBGwAJ" class="uri">https://groups.google.com/d/msg/bioc-ggtree/VQqbF79NAWU/IjIvpQOBGwAJ</a><a href="chapter7.html#fnref11" class="footnote-back">↩︎</a></p></li>
-<li id="fn12"><p><a href="https://github.com/YuLab-SMU/ggtree/issues/313" class="uri">https://github.com/YuLab-SMU/ggtree/issues/313</a><a href="chapter7.html#fnref12" class="footnote-back">↩︎</a></p></li>
-</ol>
-</div>
-            </section>
 
-          </div>
-        </div>
-      </div>
-<a href="chapter6.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="chapter8.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
-    </div>
+  <div class="chapter-nav">
+<div class="prev"><a href="chapter6.html"><span class="header-section-number">6</span> Visual Exploration of Phylogenetic Tree</a></div>
+<div class="next"><a href="chapter8.html"><span class="header-section-number">8</span> Annotating Tree with Silhouette Images and Sub-plots</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#chapter7"><span class="header-section-number">7</span> Plotting tree with data</a></li>
+<li><a class="nav-link" href="#attach-operator"><span class="header-section-number">7.1</span> Mapping data to the tree structure</a></li>
+<li><a class="nav-link" href="#facet_plot"><span class="header-section-number">7.2</span> Aligning graph to the tree based on tree structure</a></li>
+<li>
+<a class="nav-link" href="#gheatmap"><span class="header-section-number">7.3</span> Visualize tree with associated matrix</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#gheatmap-ggnewscale"><span class="header-section-number">7.3.1</span> Visualize tree with multiple associated matrix</a></li></ul>
+</li>
+<li><a class="nav-link" href="#msaplot"><span class="header-section-number">7.4</span> Visualize tree with multiple sequence alignment</a></li>
+<li><a class="nav-link" href="#composite_plot"><span class="header-section-number">7.5</span> Composite plots</a></li>
+<li><a class="nav-link" href="#ggtree_object"><span class="header-section-number">7.6</span> The ggtree object</a></li>
+<li><a class="nav-link" href="#summary7"><span class="header-section-number">7.7</span> Summary</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2020-11-04.</p>
   </div>
-<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
-<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
-<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
-<script>
-gitbook.require(["gitbook"], function(gitbook) {
-gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": null,
-"text": null
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": ["treedata.pdf", "treedata.epub"],
-"toc": {
-"collapse": "subsection"
-}
-});
-});
-</script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -812,5 +460,4 @@ gitbook.start({
   })();
 </script>
 </body>
-
 </html>

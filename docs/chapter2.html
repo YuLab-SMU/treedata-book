@@ -1,421 +1,79 @@
 <!DOCTYPE html>
-<html lang="" xml:lang="">
+<html lang="en">
 <head>
-
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 2 Manipulating Tree with Data | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
-  <meta name="description" content="Chapter 2 Manipulating Tree with Data | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
-
-  <meta property="og:title" content="Chapter 2 Manipulating Tree with Data | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
-  <meta property="og:type" content="book" />
-  
-  
-  
-  
-
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 2 Manipulating Tree with Data | Data Integration, Manipulation and Visualization of Phylogenetic Trees" />
-  
-  
-  
-
-
-
-<meta name="date" content="2020-11-03" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  
-  
-<link rel="prev" href="chapter1.html"/>
-<link rel="next" href="chapter3.html"/>
-<script src="libs/header-attrs-2.5/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
-<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
-
-
-
-
-
-
-
-
-<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
-<script src="libs/kePrint-0.0.1/kePrint.js"></script>
-<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
-<link href="libs/font-awesome-5.3.1/css/fontawesome-all.min.css" rel="stylesheet" />
-<script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
-<script src="libs/pathseg-1.0.2/pathseg.js"></script>
-<script src="libs/comic-0.961/comic.min.js"></script>
-<script src="libs/comicR-binding-0.2/comicR.js"></script>
-
-
-<style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-</style>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 2 Manipulating Tree with Data | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
+<meta name="author" content="Guangchuang Yu">
+<!-- CSS --><!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.5/header-attrs.js"></script><script src="libs/jquery-3.5.1/jquery-3.5.1.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.5.2/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.5.2/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.1.9000/tabs.js"></script><script src="libs/bs3compat-0.2.1.9000/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<link href="libs/font-awesome-5.3.1/css/fontawesome-all.min.css" rel="stylesheet">
+<script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script><script src="libs/pathseg-1.0.2/pathseg.js"></script><script src="libs/comic-0.961/comic.min.js"></script><script src="libs/comicR-binding-0.2/comicR.js"></script><script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script>
 </head>
+<body data-spy="scroll" data-target="#toc">
 
-<body>
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
 
-
-
-  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
-
-    <div class="book-summary">
-      <nav role="navigation">
-
-<ul class="summary">
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>📖 Introduction</a>
-<ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#motivation"><i class="fa fa-check"></i>🎯 Motivation</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#citation"><i class="fa fa-check"></i>📝 Citation</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#book-structure"><i class="fa fa-check"></i>📚 Book structure</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#want-to-help"><i class="fa fa-check"></i>💖 Want to help?</a></li>
-</ul></li>
-<li class="part"><span><b>Part I: Tree data input, output and manipulation</b></span></li>
-<li class="chapter" data-level="1" data-path="chapter1.html"><a href="chapter1.html"><i class="fa fa-check"></i><b>1</b> Importing Tree with Data</a>
-<ul>
-<li class="chapter" data-level="1.1" data-path="chapter1.html"><a href="chapter1.html#pc"><i class="fa fa-check"></i><b>1.1</b> Overview of Phylogenetic Tree Construction</a></li>
-<li class="chapter" data-level="1.2" data-path="chapter1.html"><a href="chapter1.html#format"><i class="fa fa-check"></i><b>1.2</b> Phylogenetic Tree Formats</a>
-<ul>
-<li class="chapter" data-level="1.2.1" data-path="chapter1.html"><a href="chapter1.html#newick-tree-format"><i class="fa fa-check"></i><b>1.2.1</b> Newick tree format</a></li>
-<li class="chapter" data-level="1.2.2" data-path="chapter1.html"><a href="chapter1.html#nexus-tree-format"><i class="fa fa-check"></i><b>1.2.2</b> NEXUS tree format</a></li>
-<li class="chapter" data-level="1.2.3" data-path="chapter1.html"><a href="chapter1.html#nhxtext"><i class="fa fa-check"></i><b>1.2.3</b> New Hampshire eXtended format</a></li>
-<li class="chapter" data-level="1.2.4" data-path="chapter1.html"><a href="chapter1.html#jplace-format"><i class="fa fa-check"></i><b>1.2.4</b> Jplace format</a></li>
-<li class="chapter" data-level="1.2.5" data-path="chapter1.html"><a href="chapter1.html#software-outputs"><i class="fa fa-check"></i><b>1.2.5</b> Software outputs</a></li>
-</ul></li>
-<li class="chapter" data-level="1.3" data-path="chapter1.html"><a href="chapter1.html#getting-tree-data-with-treeio"><i class="fa fa-check"></i><b>1.3</b> Getting Tree Data with <em>treeio</em></a>
-<ul>
-<li class="chapter" data-level="1.3.1" data-path="chapter1.html"><a href="chapter1.html#overview-of-treeio"><i class="fa fa-check"></i><b>1.3.1</b> Overview of <em>treeio</em></a></li>
-<li class="chapter" data-level="1.3.2" data-path="chapter1.html"><a href="chapter1.html#function-demonstration"><i class="fa fa-check"></i><b>1.3.2</b> Function Demonstration</a></li>
-<li class="chapter" data-level="1.3.3" data-path="chapter1.html"><a href="chapter1.html#as-treedata"><i class="fa fa-check"></i><b>1.3.3</b> Converting other tree-like object to <code>phylo</code> or <code>treedata</code> object</a></li>
-<li class="chapter" data-level="1.3.4" data-path="chapter1.html"><a href="chapter1.html#get-treedata-data"><i class="fa fa-check"></i><b>1.3.4</b> Getting information from <code>treedata</code> object</a></li>
-</ul></li>
-<li class="chapter" data-level="1.4" data-path="chapter1.html"><a href="chapter1.html#summary1"><i class="fa fa-check"></i><b>1.4</b> Summary</a></li>
-</ul></li>
-<li class="chapter" data-level="2" data-path="chapter2.html"><a href="chapter2.html"><i class="fa fa-check"></i><b>2</b> Manipulating Tree with Data</a>
-<ul>
-<li class="chapter" data-level="2.1" data-path="chapter2.html"><a href="chapter2.html#tidytree"><i class="fa fa-check"></i><b>2.1</b> Manipulating tree data using tidy interface</a>
-<ul>
-<li class="chapter" data-level="2.1.1" data-path="chapter2.html"><a href="chapter2.html#the-phylo-object"><i class="fa fa-check"></i><b>2.1.1</b> The <code>phylo</code> object</a></li>
-<li class="chapter" data-level="2.1.2" data-path="chapter2.html"><a href="chapter2.html#the-treedata-object"><i class="fa fa-check"></i><b>2.1.2</b> The <code>treedata</code> object</a></li>
-<li class="chapter" data-level="2.1.3" data-path="chapter2.html"><a href="chapter2.html#accesor-tidytree"><i class="fa fa-check"></i><b>2.1.3</b> Access related nodes</a></li>
-</ul></li>
-<li class="chapter" data-level="2.2" data-path="chapter2.html"><a href="chapter2.html#data-integration"><i class="fa fa-check"></i><b>2.2</b> Data Integration</a>
-<ul>
-<li class="chapter" data-level="2.2.1" data-path="chapter2.html"><a href="chapter2.html#merge-tree"><i class="fa fa-check"></i><b>2.2.1</b> Combining tree data</a></li>
-<li class="chapter" data-level="2.2.2" data-path="chapter2.html"><a href="chapter2.html#link-external-data"><i class="fa fa-check"></i><b>2.2.2</b> Linking external data to phylogeny</a></li>
-<li class="chapter" data-level="2.2.3" data-path="chapter2.html"><a href="chapter2.html#grouping-taxa"><i class="fa fa-check"></i><b>2.2.3</b> Grouping taxa</a></li>
-</ul></li>
-<li class="chapter" data-level="2.3" data-path="chapter2.html"><a href="chapter2.html#reroot-treeio"><i class="fa fa-check"></i><b>2.3</b> Rerooting tree</a></li>
-<li class="chapter" data-level="2.4" data-path="chapter2.html"><a href="chapter2.html#rescale-treeio"><i class="fa fa-check"></i><b>2.4</b> Rescaling Tree Branches</a></li>
-<li class="chapter" data-level="2.5" data-path="chapter2.html"><a href="chapter2.html#subsetting-tree-with-data"><i class="fa fa-check"></i><b>2.5</b> Subsetting Tree with Data</a>
-<ul>
-<li class="chapter" data-level="2.5.1" data-path="chapter2.html"><a href="chapter2.html#remove-tip"><i class="fa fa-check"></i><b>2.5.1</b> Removing tips in a phylogenetic tree</a></li>
-<li class="chapter" data-level="2.5.2" data-path="chapter2.html"><a href="chapter2.html#subset-tip"><i class="fa fa-check"></i><b>2.5.2</b> Subsetting tree by tip label</a></li>
-<li class="chapter" data-level="2.5.3" data-path="chapter2.html"><a href="chapter2.html#subset-node"><i class="fa fa-check"></i><b>2.5.3</b> Subsetting tree by internal node number</a></li>
-</ul></li>
-<li class="chapter" data-level="2.6" data-path="chapter2.html"><a href="chapter2.html#ggtree-fortify"><i class="fa fa-check"></i><b>2.6</b> Manipulating tree data for visualization</a></li>
-<li class="chapter" data-level="2.7" data-path="chapter2.html"><a href="chapter2.html#summary2"><i class="fa fa-check"></i><b>2.7</b> Summary</a></li>
-</ul></li>
-<li class="chapter" data-level="3" data-path="chapter3.html"><a href="chapter3.html"><i class="fa fa-check"></i><b>3</b> Exporting tree with data</a>
-<ul>
-<li class="chapter" data-level="3.1" data-path="chapter3.html"><a href="chapter3.html#introduction-1"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
-<li class="chapter" data-level="3.2" data-path="chapter3.html"><a href="chapter3.html#exporting-tree-data-to-beast-nexus-format"><i class="fa fa-check"></i><b>3.2</b> Exporting Tree Data to <em>BEAST</em> Nexus Format</a>
-<ul>
-<li class="chapter" data-level="3.2.1" data-path="chapter3.html"><a href="chapter3.html#exportingconverting-software-output"><i class="fa fa-check"></i><b>3.2.1</b> Exporting/converting software output</a></li>
-<li class="chapter" data-level="3.2.2" data-path="chapter3.html"><a href="chapter3.html#combining-tree-with-external-data"><i class="fa fa-check"></i><b>3.2.2</b> Combining tree with external data</a></li>
-<li class="chapter" data-level="3.2.3" data-path="chapter3.html"><a href="chapter3.html#merging-tree-data-from-different-sources"><i class="fa fa-check"></i><b>3.2.3</b> Merging tree data from different sources</a></li>
-</ul></li>
-<li class="chapter" data-level="3.3" data-path="chapter3.html"><a href="chapter3.html#write-jtree"><i class="fa fa-check"></i><b>3.3</b> Exporting Tree Data to <em>jtree</em> Format</a></li>
-<li class="chapter" data-level="3.4" data-path="chapter3.html"><a href="chapter3.html#summary3"><i class="fa fa-check"></i><b>3.4</b> Summary</a></li>
-</ul></li>
-<li class="part"><span><b>Part II: Tree data visualization and annotation</b></span></li>
-<li class="chapter" data-level="4" data-path="chapter4.html"><a href="chapter4.html"><i class="fa fa-check"></i><b>4</b> Phylogenetic Tree Visualization</a>
-<ul>
-<li class="chapter" data-level="4.1" data-path="chapter4.html"><a href="chapter4.html#introduction-2"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
-<li class="chapter" data-level="4.2" data-path="chapter4.html"><a href="chapter4.html#visualizing-phylogenetic-tree-with-ggtree"><i class="fa fa-check"></i><b>4.2</b> Visualizing Phylogenetic Tree with <em>ggtree</em></a>
-<ul>
-<li class="chapter" data-level="4.2.1" data-path="chapter4.html"><a href="chapter4.html#basic-tree-visualization"><i class="fa fa-check"></i><b>4.2.1</b> Basic Tree Visualization</a></li>
-<li class="chapter" data-level="4.2.2" data-path="chapter4.html"><a href="chapter4.html#tree-layouts"><i class="fa fa-check"></i><b>4.2.2</b> Layouts of phylogenetic tree</a></li>
-</ul></li>
-<li class="chapter" data-level="4.3" data-path="chapter4.html"><a href="chapter4.html#displaying-tree-components"><i class="fa fa-check"></i><b>4.3</b> Displaying Tree Components</a>
-<ul>
-<li class="chapter" data-level="4.3.1" data-path="chapter4.html"><a href="chapter4.html#geom-trescale"><i class="fa fa-check"></i><b>4.3.1</b> Displaying tree scale (evolution distance)</a></li>
-<li class="chapter" data-level="4.3.2" data-path="chapter4.html"><a href="chapter4.html#geom-nodepoint"><i class="fa fa-check"></i><b>4.3.2</b> Displaying nodes/tips</a></li>
-<li class="chapter" data-level="4.3.3" data-path="chapter4.html"><a href="chapter4.html#displaying-labels"><i class="fa fa-check"></i><b>4.3.3</b> Displaying labels</a></li>
-<li class="chapter" data-level="4.3.4" data-path="chapter4.html"><a href="chapter4.html#displaying-root-edge"><i class="fa fa-check"></i><b>4.3.4</b> Displaying root edge</a></li>
-<li class="chapter" data-level="4.3.5" data-path="chapter4.html"><a href="chapter4.html#color-tree"><i class="fa fa-check"></i><b>4.3.5</b> Color tree</a></li>
-<li class="chapter" data-level="4.3.6" data-path="chapter4.html"><a href="chapter4.html#rescale-tree"><i class="fa fa-check"></i><b>4.3.6</b> Rescale tree</a></li>
-<li class="chapter" data-level="4.3.7" data-path="chapter4.html"><a href="chapter4.html#modify-compenents-of-a-theme"><i class="fa fa-check"></i><b>4.3.7</b> Modify compenents of a theme</a></li>
-</ul></li>
-<li class="chapter" data-level="4.4" data-path="chapter4.html"><a href="chapter4.html#visualize-a-list-of-trees"><i class="fa fa-check"></i><b>4.4</b> Visualize a list of trees</a>
-<ul>
-<li class="chapter" data-level="4.4.1" data-path="chapter4.html"><a href="chapter4.html#annotate-one-tree-with-values-from-different-variables"><i class="fa fa-check"></i><b>4.4.1</b> Annotate one tree with values from different variables</a></li>
-<li class="chapter" data-level="4.4.2" data-path="chapter4.html"><a href="chapter4.html#densitree"><i class="fa fa-check"></i><b>4.4.2</b> DensiTree</a></li>
-</ul></li>
-<li class="chapter" data-level="4.5" data-path="chapter4.html"><a href="chapter4.html#summary4"><i class="fa fa-check"></i><b>4.5</b> Summary</a></li>
-</ul></li>
-<li class="chapter" data-level="5" data-path="chapter5.html"><a href="chapter5.html"><i class="fa fa-check"></i><b>5</b> Phylogenetic Tree Annotation</a>
-<ul>
-<li class="chapter" data-level="5.1" data-path="chapter5.html"><a href="chapter5.html#visualizing-and-annotating-tree-using-grammar-of-graphics"><i class="fa fa-check"></i><b>5.1</b> Visualizing and Annotating Tree using Grammar of Graphics</a></li>
-<li class="chapter" data-level="5.2" data-path="chapter5.html"><a href="chapter5.html#layers-for-tree-annotation"><i class="fa fa-check"></i><b>5.2</b> Layers for Tree Annotation</a>
-<ul>
-<li class="chapter" data-level="5.2.1" data-path="chapter5.html"><a href="chapter5.html#colored-strips"><i class="fa fa-check"></i><b>5.2.1</b> Colored strips</a></li>
-<li class="chapter" data-level="5.2.2" data-path="chapter5.html"><a href="chapter5.html#highlight-clades"><i class="fa fa-check"></i><b>5.2.2</b> Highlight clades</a></li>
-<li class="chapter" data-level="5.2.3" data-path="chapter5.html"><a href="chapter5.html#taxa-connection"><i class="fa fa-check"></i><b>5.2.3</b> Taxa connection</a></li>
-<li class="chapter" data-level="5.2.4" data-path="chapter5.html"><a href="chapter5.html#uncertainty-of-evolutionary-inference"><i class="fa fa-check"></i><b>5.2.4</b> Uncertainty of evolutionary inference</a></li>
-</ul></li>
-<li class="chapter" data-level="5.3" data-path="chapter5.html"><a href="chapter5.html#tree-annotation-with-output-from-evolution-software"><i class="fa fa-check"></i><b>5.3</b> Tree annotation with output from evolution software</a>
-<ul>
-<li class="chapter" data-level="5.3.1" data-path="chapter5.html"><a href="chapter5.html#tree-annotation-using-data-from-evolutionary-analysis-software"><i class="fa fa-check"></i><b>5.3.1</b> Tree annotation using data from evolutionary analysis software</a></li>
-</ul></li>
-<li class="chapter" data-level="5.4" data-path="chapter5.html"><a href="chapter5.html#summary5"><i class="fa fa-check"></i><b>5.4</b> Summary</a></li>
-</ul></li>
-<li class="chapter" data-level="6" data-path="chapter6.html"><a href="chapter6.html"><i class="fa fa-check"></i><b>6</b> Visual Exploration of Phylogenetic Tree</a>
-<ul>
-<li class="chapter" data-level="6.1" data-path="chapter6.html"><a href="chapter6.html#viewing-selected-clade"><i class="fa fa-check"></i><b>6.1</b> Viewing Selected Clade</a></li>
-<li class="chapter" data-level="6.2" data-path="chapter6.html"><a href="chapter6.html#scale-clade"><i class="fa fa-check"></i><b>6.2</b> Scaling Selected Clade</a></li>
-<li class="chapter" data-level="6.3" data-path="chapter6.html"><a href="chapter6.html#collapsing-and-expanding-clade"><i class="fa fa-check"></i><b>6.3</b> Collapsing and Expanding Clade</a></li>
-<li class="chapter" data-level="6.4" data-path="chapter6.html"><a href="chapter6.html#group-taxa-vis"><i class="fa fa-check"></i><b>6.4</b> Grouping Taxa</a></li>
-<li class="chapter" data-level="6.5" data-path="chapter6.html"><a href="chapter6.html#exploring-tree-structure"><i class="fa fa-check"></i><b>6.5</b> Exploring tree structure</a></li>
-<li class="chapter" data-level="6.6" data-path="chapter6.html"><a href="chapter6.html#summary6"><i class="fa fa-check"></i><b>6.6</b> Summary</a></li>
-</ul></li>
-<li class="chapter" data-level="7" data-path="chapter7.html"><a href="chapter7.html"><i class="fa fa-check"></i><b>7</b> Plotting tree with data</a>
-<ul>
-<li class="chapter" data-level="7.1" data-path="chapter7.html"><a href="chapter7.html#attach-operator"><i class="fa fa-check"></i><b>7.1</b> Mapping data to the tree structure</a></li>
-<li class="chapter" data-level="7.2" data-path="chapter7.html"><a href="chapter7.html#facet_plot"><i class="fa fa-check"></i><b>7.2</b> Aligning graph to the tree based on tree structure</a></li>
-<li class="chapter" data-level="7.3" data-path="chapter7.html"><a href="chapter7.html#gheatmap"><i class="fa fa-check"></i><b>7.3</b> Visualize tree with associated matrix</a>
-<ul>
-<li class="chapter" data-level="7.3.1" data-path="chapter7.html"><a href="chapter7.html#gheatmap-ggnewscale"><i class="fa fa-check"></i><b>7.3.1</b> Visualize tree with multiple associated matrix</a></li>
-</ul></li>
-<li class="chapter" data-level="7.4" data-path="chapter7.html"><a href="chapter7.html#msaplot"><i class="fa fa-check"></i><b>7.4</b> Visualize tree with multiple sequence alignment</a></li>
-<li class="chapter" data-level="7.5" data-path="chapter7.html"><a href="chapter7.html#composite_plot"><i class="fa fa-check"></i><b>7.5</b> Composite plots</a></li>
-<li class="chapter" data-level="7.6" data-path="chapter7.html"><a href="chapter7.html#ggtree_object"><i class="fa fa-check"></i><b>7.6</b> The <code>ggtree</code> object</a></li>
-<li class="chapter" data-level="7.7" data-path="chapter7.html"><a href="chapter7.html#summary7"><i class="fa fa-check"></i><b>7.7</b> Summary</a></li>
-</ul></li>
-<li class="chapter" data-level="8" data-path="chapter8.html"><a href="chapter8.html"><i class="fa fa-check"></i><b>8</b> Annotating Tree with Silhouette Images and Sub-plots</a>
-<ul>
-<li class="chapter" data-level="8.1" data-path="chapter8.html"><a href="chapter8.html#ggimage"><i class="fa fa-check"></i><b>8.1</b> Annotating Tree with Images</a></li>
-<li class="chapter" data-level="8.2" data-path="chapter8.html"><a href="chapter8.html#phylopic"><i class="fa fa-check"></i><b>8.2</b> Annotating Tree with Phylopic</a></li>
-<li class="chapter" data-level="8.3" data-path="chapter8.html"><a href="chapter8.html#subplots"><i class="fa fa-check"></i><b>8.3</b> Annotating Tree with Sub-plots</a>
-<ul>
-<li class="chapter" data-level="8.3.1" data-path="chapter8.html"><a href="chapter8.html#annotate-with-bar-charts"><i class="fa fa-check"></i><b>8.3.1</b> Annotate with bar charts</a></li>
-<li class="chapter" data-level="8.3.2" data-path="chapter8.html"><a href="chapter8.html#annotate-with-pie-charts"><i class="fa fa-check"></i><b>8.3.2</b> Annotate with pie charts</a></li>
-<li class="chapter" data-level="8.3.3" data-path="chapter8.html"><a href="chapter8.html#annotate-with-other-types-of-charts"><i class="fa fa-check"></i><b>8.3.3</b> Annotate with other types of charts</a></li>
-</ul></li>
-<li class="chapter" data-level="8.4" data-path="chapter8.html"><a href="chapter8.html#phylomoji"><i class="fa fa-check"></i><b>8.4</b> Have Fun with Phylomoji</a>
-<ul>
-<li class="chapter" data-level="8.4.1" data-path="chapter8.html"><a href="chapter8.html#emoji-in-circularfan-layout-tree"><i class="fa fa-check"></i><b>8.4.1</b> Emoji in circular/fan layout tree</a></li>
-<li class="chapter" data-level="8.4.2" data-path="chapter8.html"><a href="chapter8.html#emoji-to-label-clades"><i class="fa fa-check"></i><b>8.4.2</b> Emoji to label clades</a></li>
-<li class="chapter" data-level="8.4.3" data-path="chapter8.html"><a href="chapter8.html#apple-color-emoji"><i class="fa fa-check"></i><b>8.4.3</b> Apple Color Emoji</a></li>
-<li class="chapter" data-level="8.4.4" data-path="chapter8.html"><a href="chapter8.html#phylomoji-in-ascii-art"><i class="fa fa-check"></i><b>8.4.4</b> Phylomoji in ASCII art</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="9" data-path="chapter9.html"><a href="chapter9.html"><i class="fa fa-check"></i><b>9</b> ggtree for other tree-like objects</a>
-<ul>
-<li class="chapter" data-level="9.1" data-path="chapter9.html"><a href="chapter9.html#ggtree-for-phylogenetic-tree-objects"><i class="fa fa-check"></i><b>9.1</b> ggtree for phylogenetic tree objects</a>
-<ul>
-<li class="chapter" data-level="9.1.1" data-path="chapter9.html"><a href="chapter9.html#phylobase"><i class="fa fa-check"></i><b>9.1.1</b> The phylo4 and phylo4d objects</a></li>
-<li class="chapter" data-level="9.1.2" data-path="chapter9.html"><a href="chapter9.html#phylog"><i class="fa fa-check"></i><b>9.1.2</b> The phylog object</a></li>
-<li class="chapter" data-level="9.1.3" data-path="chapter9.html"><a href="chapter9.html#phyloseq"><i class="fa fa-check"></i><b>9.1.3</b> The phyloseq object</a></li>
-</ul></li>
-<li class="chapter" data-level="9.2" data-path="chapter9.html"><a href="chapter9.html#dendrogram"><i class="fa fa-check"></i><b>9.2</b> ggtree for dendrograms</a></li>
-<li class="chapter" data-level="9.3" data-path="chapter9.html"><a href="chapter9.html#igraph"><i class="fa fa-check"></i><b>9.3</b> ggtree for tree graph</a></li>
-<li class="chapter" data-level="9.4" data-path="chapter9.html"><a href="chapter9.html#ggtree-for-other-tree-like-structure"><i class="fa fa-check"></i><b>9.4</b> ggtree for other tree-like structure</a></li>
-</ul></li>
-<li class="part"><span><b>Part III: ggtree extensions</b></span></li>
-<li class="chapter" data-level="10" data-path="chapter10.html"><a href="chapter10.html"><i class="fa fa-check"></i><b>10</b> ggtreeExtra</a>
-<ul>
-<li class="chapter" data-level="10.1" data-path="chapter10.html"><a href="chapter10.html#introduction-3"><i class="fa fa-check"></i><b>10.1</b> Introduction</a></li>
-<li class="chapter" data-level="10.2" data-path="chapter10.html"><a href="chapter10.html#aligning-graphs-to-the-tree-based-on-tree-structure"><i class="fa fa-check"></i><b>10.2</b> Aligning graphs to the tree based on tree structure</a></li>
-<li class="chapter" data-level="10.3" data-path="chapter10.html"><a href="chapter10.html#aligning-multiple-graphs-to-the-tree-for-multi-dimensional-data"><i class="fa fa-check"></i><b>10.3</b> Aligning multiple graphs to the tree for multi-dimensional data</a></li>
-<li class="chapter" data-level="10.4" data-path="chapter10.html"><a href="chapter10.html#api-to-link-ggtree-and-ggplot2."><i class="fa fa-check"></i><b>10.4</b> API to link <em>ggtree</em> and <em>ggplot2</em>.</a></li>
-</ul></li>
-<li class="chapter" data-level="11" data-path="chapter11.html"><a href="chapter11.html"><i class="fa fa-check"></i><b>11</b> Other ggtree extensions</a>
-<ul>
-<li class="chapter" data-level="11.1" data-path="chapter11.html"><a href="chapter11.html#MicrobiotaProcess"><i class="fa fa-check"></i><b>11.1</b> Taxonomy annotation using MicrobiotaProcess</a></li>
-<li class="chapter" data-level="11.2" data-path="chapter11.html"><a href="chapter11.html#visualizing-phylogenetic-network"><i class="fa fa-check"></i><b>11.2</b> Visualizing phylogenetic network</a></li>
-</ul></li>
-<li class="part"><span><b>Part IV: Miscellaneous topics</b></span></li>
-<li class="chapter" data-level="12" data-path="chapter12.html"><a href="chapter12.html"><i class="fa fa-check"></i><b>12</b> ggtree utilities</a>
-<ul>
-<li class="chapter" data-level="12.1" data-path="chapter12.html"><a href="chapter12.html#facet-utils"><i class="fa fa-check"></i><b>12.1</b> Facet utilities</a>
-<ul>
-<li class="chapter" data-level="12.1.1" data-path="chapter12.html"><a href="chapter12.html#facet_widths"><i class="fa fa-check"></i><b>12.1.1</b> facet_widths</a></li>
-<li class="chapter" data-level="12.1.2" data-path="chapter12.html"><a href="chapter12.html#facet_labeller"><i class="fa fa-check"></i><b>12.1.2</b> facet_labeller</a></li>
-</ul></li>
-<li class="chapter" data-level="12.2" data-path="chapter12.html"><a href="chapter12.html#geom2"><i class="fa fa-check"></i><b>12.2</b> Geometric layers</a></li>
-<li class="chapter" data-level="12.3" data-path="chapter12.html"><a href="chapter12.html#layout-utilities"><i class="fa fa-check"></i><b>12.3</b> Layout utilities</a></li>
-<li class="chapter" data-level="12.4" data-path="chapter12.html"><a href="chapter12.html#scale-utilities"><i class="fa fa-check"></i><b>12.4</b> Scale utilities</a>
-<ul>
-<li class="chapter" data-level="12.4.1" data-path="chapter12.html"><a href="chapter12.html#xlim_expand"><i class="fa fa-check"></i><b>12.4.1</b> Expand x limit for specific panel</a></li>
-<li class="chapter" data-level="12.4.2" data-path="chapter12.html"><a href="chapter12.html#ggexpand"><i class="fa fa-check"></i><b>12.4.2</b> Expand plot limit by ratio of plot range</a></li>
-</ul></li>
-<li class="chapter" data-level="12.5" data-path="chapter12.html"><a href="chapter12.html#tree-data-utilities"><i class="fa fa-check"></i><b>12.5</b> Tree data utilities</a>
-<ul>
-<li class="chapter" data-level="12.5.1" data-path="chapter12.html"><a href="chapter12.html#td_filter"><i class="fa fa-check"></i><b>12.5.1</b> Filter tree data</a></li>
-<li class="chapter" data-level="12.5.2" data-path="chapter12.html"><a href="chapter12.html#td_unnest"><i class="fa fa-check"></i><b>12.5.2</b> Flatten list-column tree data</a></li>
-</ul></li>
-<li class="chapter" data-level="12.6" data-path="chapter12.html"><a href="chapter12.html#tree-utilities"><i class="fa fa-check"></i><b>12.6</b> Tree utilities</a>
-<ul>
-<li class="chapter" data-level="12.6.1" data-path="chapter12.html"><a href="chapter12.html#tiporder"><i class="fa fa-check"></i><b>12.6.1</b> Extract tip order</a></li>
-<li class="chapter" data-level="12.6.2" data-path="chapter12.html"><a href="chapter12.html#padding-taxa-labels"><i class="fa fa-check"></i><b>12.6.2</b> Padding taxa labels</a></li>
-</ul></li>
-<li class="chapter" data-level="12.7" data-path="chapter12.html"><a href="chapter12.html#identify"><i class="fa fa-check"></i><b>12.7</b> Interactive ggtree annotation</a></li>
-</ul></li>
-<li class="chapter" data-level="13" data-path="chapter13.html"><a href="chapter13.html"><i class="fa fa-check"></i><b>13</b> Gallery of reproducible examples</a>
-<ul>
-<li class="chapter" data-level="13.1" data-path="chapter13.html"><a href="chapter13.html#hpv58"><i class="fa fa-check"></i><b>13.1</b> Visualizing pairwise nucleotide sequence distance with phylogenetic tree</a></li>
-<li class="chapter" data-level="13.2" data-path="chapter13.html"><a href="chapter13.html#symbolic-bootstrap"><i class="fa fa-check"></i><b>13.2</b> Displaying different symbolic points for bootstrap values.</a></li>
-<li class="chapter" data-level="13.3" data-path="chapter13.html"><a href="chapter13.html#phylo-grouping"><i class="fa fa-check"></i><b>13.3</b> Highlighting different groups.</a></li>
-<li class="chapter" data-level="13.4" data-path="chapter13.html"><a href="chapter13.html#genome-locus"><i class="fa fa-check"></i><b>13.4</b> Phylogenetic tree with genome locus structure</a></li>
-</ul></li>
-<li class="appendix"><span><b>Appendix</b></span></li>
-<li class="chapter" data-level="A" data-path="faq.html"><a href="faq.html"><i class="fa fa-check"></i><b>A</b> Frequently asked questions</a>
-<ul>
-<li class="chapter" data-level="A.1" data-path="faq.html"><a href="faq.html#installation"><i class="fa fa-check"></i><b>A.1</b> Installation</a></li>
-<li class="chapter" data-level="A.2" data-path="faq.html"><a href="faq.html#faq-r"><i class="fa fa-check"></i><b>A.2</b> Basic R related</a>
-<ul>
-<li class="chapter" data-level="A.2.1" data-path="faq.html"><a href="faq.html#faq-local-file"><i class="fa fa-check"></i><b>A.2.1</b> Use your local file</a></li>
-</ul></li>
-<li class="chapter" data-level="A.3" data-path="faq.html"><a href="faq.html#faq-aes-mapping"><i class="fa fa-check"></i><b>A.3</b> Aesthetic mapping</a>
-<ul>
-<li class="chapter" data-level="A.3.1" data-path="faq.html"><a href="faq.html#faq-inherit-aes"><i class="fa fa-check"></i><b>A.3.1</b> Inherit <em>aes</em></a></li>
-<li class="chapter" data-level="A.3.2" data-path="faq.html"><a href="faq.html#faq-dollar-aes"><i class="fa fa-check"></i><b>A.3.2</b> Never use <code>$</code> in aes</a></li>
-</ul></li>
-<li class="chapter" data-level="A.4" data-path="faq.html"><a href="faq.html#faq-text"><i class="fa fa-check"></i><b>A.4</b> Text &amp; Label</a>
-<ul>
-<li class="chapter" data-level="A.4.1" data-path="faq.html"><a href="faq.html#faq-label-truncated"><i class="fa fa-check"></i><b>A.4.1</b> Tip label truncated</a></li>
-<li class="chapter" data-level="A.4.2" data-path="faq.html"><a href="faq.html#faq-modify-label"><i class="fa fa-check"></i><b>A.4.2</b> Modify (tip) labels</a></li>
-<li class="chapter" data-level="A.4.3" data-path="faq.html"><a href="faq.html#faq-formatting-label"><i class="fa fa-check"></i><b>A.4.3</b> Formatting (tip) labels</a></li>
-<li class="chapter" data-level="A.4.4" data-path="faq.html"><a href="faq.html#faq-ggrepel"><i class="fa fa-check"></i><b>A.4.4</b> Avoid overlapping text labels</a></li>
-<li class="chapter" data-level="A.4.5" data-path="faq.html"><a href="faq.html#faq-bootstrap"><i class="fa fa-check"></i><b>A.4.5</b> Bootstrap values from newick format</a></li>
-</ul></li>
-<li class="chapter" data-level="A.5" data-path="faq.html"><a href="faq.html#branch-setting"><i class="fa fa-check"></i><b>A.5</b> Branch setting</a>
-<ul>
-<li class="chapter" data-level="A.5.1" data-path="faq.html"><a href="faq.html#change-branch-length-of-outgroup"><i class="fa fa-check"></i><b>A.5.1</b> Change branch length of outgroup</a></li>
-<li class="chapter" data-level="A.5.2" data-path="faq.html"><a href="faq.html#bind-tip"><i class="fa fa-check"></i><b>A.5.2</b> Attach a new tip to a tree</a></li>
-<li class="chapter" data-level="A.5.3" data-path="faq.html"><a href="faq.html#change-colours-or-line-types-of-arbitrary-selected-branches"><i class="fa fa-check"></i><b>A.5.3</b> Change colours or line types of arbitrary selected branches</a></li>
-<li class="chapter" data-level="A.5.4" data-path="faq.html"><a href="faq.html#arbitrary-point"><i class="fa fa-check"></i><b>A.5.4</b> Add an arbitrary point to a branch</a></li>
-</ul></li>
-<li class="chapter" data-level="A.6" data-path="faq.html"><a href="faq.html#different-x-axis-labels-for-different-facet-panels"><i class="fa fa-check"></i><b>A.6</b> Different x-axis labels for different facet panels</a></li>
-<li class="chapter" data-level="A.7" data-path="faq.html"><a href="faq.html#faq-under-the-tree"><i class="fa fa-check"></i><b>A.7</b> Plot something behind the phylogeny</a></li>
-<li class="chapter" data-level="A.8" data-path="faq.html"><a href="faq.html#faq-enlarge-center-space"><i class="fa fa-check"></i><b>A.8</b> Enlarge center space in circular/fan layout tree</a></li>
-<li class="chapter" data-level="A.9" data-path="faq.html"><a href="faq.html#use-the-most-distant-tip-from-the-root-as-the-origin-of-the-time-scale"><i class="fa fa-check"></i><b>A.9</b> Use the most distant tip from the root as the origin of the time scale</a></li>
-<li class="chapter" data-level="A.10" data-path="faq.html"><a href="faq.html#export-edit"><i class="fa fa-check"></i><b>A.10</b> Edit tree graphic details</a></li>
-</ul></li>
-<li class="chapter" data-level="B" data-path="related-tools.html"><a href="related-tools.html"><i class="fa fa-check"></i><b>B</b> Related tools</a>
-<ul>
-<li class="chapter" data-level="B.1" data-path="chapter11.html"><a href="chapter11.html#MicrobiotaProcess"><i class="fa fa-check"></i><b>B.1</b> MicrobiotaProcess: Convert <em>taxonomy</em> or hierachical clustering result to <em>treedata</em></a></li>
-<li class="chapter" data-level="B.2" data-path="related-tools.html"><a href="related-tools.html#rtol"><i class="fa fa-check"></i><b>B.2</b> rtol: An R interface to Open Tree API</a></li>
-<li class="chapter" data-level="B.3" data-path="related-tools.html"><a href="related-tools.html#plotly"><i class="fa fa-check"></i><b>B.3</b> Convert ggtree to plotly object</a></li>
-<li class="chapter" data-level="B.4" data-path="related-tools.html"><a href="related-tools.html#commicR"><i class="fa fa-check"></i><b>B.4</b> Comic (xkcd-like) phylogenetic tree</a></li>
-<li class="chapter" data-level="B.5" data-path="related-tools.html"><a href="related-tools.html#ascii-tree"><i class="fa fa-check"></i><b>B.5</b> Print ASCII-art rooted tree</a></li>
-<li class="chapter" data-level="B.6" data-path="related-tools.html"><a href="related-tools.html#facet-zoom"><i class="fa fa-check"></i><b>B.6</b> Zoom in selected portion</a></li>
-</ul></li>
-<li class="chapter" data-level="C" data-path="ggimage-tips.html"><a href="ggimage-tips.html"><i class="fa fa-check"></i><b>C</b> Tips for using <code>ggtree</code> with <code>ggimage</code></a>
-<ul>
-<li class="chapter" data-level="C.1" data-path="ggimage-tips.html"><a href="ggimage-tips.html#ggimage-rm-image-bg"><i class="fa fa-check"></i><b>C.1</b> Example 1: Remove background of images</a></li>
-<li class="chapter" data-level="C.2" data-path="ggimage-tips.html"><a href="ggimage-tips.html#ggimage-bgimage"><i class="fa fa-check"></i><b>C.2</b> Example 2: Plot tree on a background image</a></li>
-</ul></li>
-<li class="chapter" data-level="D" data-path="run-ggtree-in-jupyter-notebook.html"><a href="run-ggtree-in-jupyter-notebook.html"><i class="fa fa-check"></i><b>D</b> Run ggtree in Jupyter notebook</a></li>
-<li class="chapter" data-level="E" data-path="figures-and-tables.html"><a href="figures-and-tables.html"><i class="fa fa-check"></i><b>E</b> Figures and Tables</a></li>
-<li class="chapter" data-level="F" data-path="session-info.html"><a href="session-info.html"><i class="fa fa-check"></i><b>F</b> Session Info</a></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
-</ul>
-
-      </nav>
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Data Integration, Manipulation and Visualization of Phylogenetic Trees</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
     </div>
 
-    <div class="book-body">
-      <div class="body-inner">
-        <div class="book-header" role="navigation">
-          <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Integration, Manipulation and Visualization of Phylogenetic Trees</a>
-          </h1>
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">📖 Introduction</a></li>
+<li class="book-part">Part I: Tree data input, output and manipulation</li>
+<li><a class="" href="chapter1.html"><span class="header-section-number">1</span> Importing Tree with Data</a></li>
+<li><a class="active" href="chapter2.html"><span class="header-section-number">2</span> Manipulating Tree with Data</a></li>
+<li><a class="" href="chapter3.html"><span class="header-section-number">3</span> Exporting tree with data</a></li>
+<li class="book-part">Part II: Tree data visualization and annotation</li>
+<li><a class="" href="chapter4.html"><span class="header-section-number">4</span> Phylogenetic Tree Visualization</a></li>
+<li><a class="" href="chapter5.html"><span class="header-section-number">5</span> Phylogenetic Tree Annotation</a></li>
+<li><a class="" href="chapter6.html"><span class="header-section-number">6</span> Visual Exploration of Phylogenetic Tree</a></li>
+<li><a class="" href="chapter7.html"><span class="header-section-number">7</span> Plotting tree with data</a></li>
+<li><a class="" href="chapter8.html"><span class="header-section-number">8</span> Annotating Tree with Silhouette Images and Sub-plots</a></li>
+<li><a class="" href="chapter9.html"><span class="header-section-number">9</span> ggtree for other tree-like objects</a></li>
+<li class="book-part">Part III: ggtree extensions</li>
+<li><a class="" href="chapter10.html"><span class="header-section-number">10</span> ggtreeExtra</a></li>
+<li><a class="" href="chapter11.html"><span class="header-section-number">11</span> Other ggtree extensions</a></li>
+<li class="book-part">Part IV: Miscellaneous topics</li>
+<li><a class="" href="chapter12.html"><span class="header-section-number">12</span> ggtree utilities</a></li>
+<li><a class="" href="chapter13.html"><span class="header-section-number">13</span> Gallery of reproducible examples</a></li>
+<li class="book-part">Appendix</li>
+<li><a class="" href="faq.html"><span class="header-section-number">A</span> Frequently asked questions</a></li>
+<li><a class="" href="related-tools.html"><span class="header-section-number">B</span> Related tools</a></li>
+<li><a class="" href="ggimage-tips.html"><span class="header-section-number">C</span> Tips for using ggtree with ggimage</a></li>
+<li><a class="" href="run-ggtree-in-jupyter-notebook.html"><span class="header-section-number">D</span> Run ggtree in Jupyter notebook</a></li>
+<li><a class="" href="figures-and-tables.html"><span class="header-section-number">E</span> Figures and Tables</a></li>
+<li><a class="" href="session-info.html"><span class="header-section-number">F</span> Session Info</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          
         </div>
-
-        <div class="page-wrapper" tabindex="-1" role="main">
-          <div class="page-inner">
-
-            <section class="normal" id="section-">
-<div id="chapter2" class="section level1" number="2">
-<h1><span class="header-section-number">Chapter 2</span> Manipulating Tree with Data</h1>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="chapter2" class="section level1" number="2">
+<h1>
+<span class="header-section-number">2</span> Manipulating Tree with Data<a class="anchor" aria-label="anchor" href="#chapter2"><i class="fas fa-link"></i></a>
+</h1>
 <div id="tidytree" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> Manipulating tree data using tidy interface</h2>
+<h2>
+<span class="header-section-number">2.1</span> Manipulating tree data using tidy interface<a class="anchor" aria-label="anchor" href="#tidytree"><i class="fas fa-link"></i></a>
+</h2>
 <p>All the tree data parsed/merged
 by <a href="https://bioconductor.org/packages/treeio/">treeio</a> can be converted to tidy
 data frame using the <a href="https://cran.r-project.org/package=tidytree">tidytree</a>
@@ -424,18 +82,21 @@ provides tidy interfaces to manipulate tree with associated data. For instances,
 external data can be linked to phylogeny or evolutionary data obtained from
 different sources can be merged using tidyverse verbs. After the tree data was
 manipulated, it can be converted back to <code>treedata</code> object and exported to <a href="chapter3.html#chapter3">a
-single tree file</a>, further analyzed in R or visualized using <a href="https://bioconductor.org/packages/ggtree/">ggtree</a> <span class="citation">(Yu et al. <a href="#ref-yu_ggtree:_2017" role="doc-biblioref">2017</a>)</span>.</p>
+single tree file</a>, further analyzed in R or visualized using <a href="https://bioconductor.org/packages/ggtree/">ggtree</a> <span class="citation">(Yu et al. <a href="references.html#ref-yu_ggtree:_2017" role="doc-biblioref">2017</a>)</span>.</p>
 <div id="the-phylo-object" class="section level3" number="2.1.1">
-<h3><span class="header-section-number">2.1.1</span> The <code>phylo</code> object</h3>
+<h3>
+<span class="header-section-number">2.1.1</span> The <code>phylo</code> object<a class="anchor" aria-label="anchor" href="#the-phylo-object"><i class="fas fa-link"></i></a>
+</h3>
 <p>The <code>phylo</code> class defined in <a href="https://cran.r-project.org/package=ape">ape</a> is
 fundamental for phylogenetic analysis in R. Most of the R packages
 in <a href="https://CRAN.R-project.org/view=Phylogenetics">this field</a> rely
 extensively on <code>phylo</code> object. The <a href="https://CRAN.R-project.org/package=tidytree">tidytree</a> package provides <code>as_tibble</code>
 method to convert the <code>phylo</code> object to tidy data frame, a <code>tbl_tree</code> object.</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="chapter2.html#cb52-1" aria-hidden="true"></a><span class="kw">library</span>(ape)</span>
-<span id="cb52-2"><a href="chapter2.html#cb52-2" aria-hidden="true"></a><span class="kw">set.seed</span>(<span class="dv">2017</span>)</span>
-<span id="cb52-3"><a href="chapter2.html#cb52-3" aria-hidden="true"></a>tree &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">4</span>)</span>
-<span id="cb52-4"><a href="chapter2.html#cb52-4" aria-hidden="true"></a>tree</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ape-package.ird.fr/">ape</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">2017</span><span class="op">)</span>
+<span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/rtree.html">rtree</a></span><span class="op">(</span><span class="fl">4</span><span class="op">)</span>
+<span class="va">tree</span></code></pre></div>
 <pre><code>## 
 ## Phylogenetic tree with 4 tips and 3 internal nodes.
 ## 
@@ -443,8 +104,9 @@ method to convert the <code>phylo</code> object to tidy data frame, a <code>tbl_
 ##   t4, t1, t3, t2
 ## 
 ## Rooted; includes branch lengths.</code></pre>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="chapter2.html#cb54-1" aria-hidden="true"></a>x &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(tree)</span>
-<span id="cb54-2"><a href="chapter2.html#cb54-2" aria-hidden="true"></a>x</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">as_tibble</span><span class="op">(</span><span class="va">tree</span><span class="op">)</span>
+<span class="va">x</span></code></pre></div>
 <pre><code>## # A tibble: 7 x 4
 ##   parent  node branch.length label
 ##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt;
@@ -456,7 +118,8 @@ method to convert the <code>phylo</code> object to tidy data frame, a <code>tbl_
 ## 6      5     6       0.472   &lt;NA&gt; 
 ## 7      6     7       0.274   &lt;NA&gt;</code></pre>
 <p>The <code>tbl_tree</code> object can be converted back to a <code>phylo</code> object.</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="chapter2.html#cb56-1" aria-hidden="true"></a><span class="kw">as.phylo</span>(x)</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ape/man/as.phylo.html">as.phylo</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
 ## Phylogenetic tree with 4 tips and 3 internal nodes.
 ## 
@@ -466,11 +129,12 @@ method to convert the <code>phylo</code> object to tidy data frame, a <code>tbl_
 ## Rooted; includes branch lengths.</code></pre>
 <p>Using <code>tbl_tree</code> object makes tree and data manipulation more effective and
 easier. For example, we can link evolutionary trait to phylogeny using <a href="https://CRAN.R-project.org/package=dplyr">dplyr</a> verbs <code>full_join</code>:</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="chapter2.html#cb58-1" aria-hidden="true"></a>d &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">label =</span> <span class="kw">paste0</span>(<span class="st">&#39;t&#39;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>),</span>
-<span id="cb58-2"><a href="chapter2.html#cb58-2" aria-hidden="true"></a>            <span class="dt">trait =</span> <span class="kw">rnorm</span>(<span class="dv">4</span>))</span>
-<span id="cb58-3"><a href="chapter2.html#cb58-3" aria-hidden="true"></a></span>
-<span id="cb58-4"><a href="chapter2.html#cb58-4" aria-hidden="true"></a>y &lt;-<span class="st"> </span><span class="kw">full_join</span>(x, d, <span class="dt">by =</span> <span class="st">&#39;label&#39;</span>)</span>
-<span id="cb58-5"><a href="chapter2.html#cb58-5" aria-hidden="true"></a>y</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">'t'</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span>,
+            trait <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">4</span><span class="op">)</span><span class="op">)</span>
+
+<span class="va">y</span> <span class="op">&lt;-</span> <span class="fu">full_join</span><span class="op">(</span><span class="va">x</span>, <span class="va">d</span>, by <span class="op">=</span> <span class="st">'label'</span><span class="op">)</span>
+<span class="va">y</span></code></pre></div>
 <pre><code>## # A tibble: 7 x 5
 ##   parent  node branch.length label  trait
 ##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
@@ -483,12 +147,15 @@ easier. For example, we can link evolutionary trait to phylogeny using <a href="
 ## 7      6     7       0.274   &lt;NA&gt;  NA</code></pre>
 </div>
 <div id="the-treedata-object" class="section level3" number="2.1.2">
-<h3><span class="header-section-number">2.1.2</span> The <code>treedata</code> object</h3>
+<h3>
+<span class="header-section-number">2.1.2</span> The <code>treedata</code> object<a class="anchor" aria-label="anchor" href="#the-treedata-object"><i class="fas fa-link"></i></a>
+</h3>
 <p>The <a href="https://CRAN.R-project.org/package=tidytree">tidytree</a> package defines <code>treedata</code> class to store phylogenetic tree with
 associated data. After mapping external data to the tree structure, the
 <code>tbl_tree</code> object can be converted to a <code>treedata</code> object.</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="chapter2.html#cb60-1" aria-hidden="true"></a><span class="kw">as.treedata</span>(y)</span></code></pre></div>
-<pre><code>## &#39;treedata&#39; S4 object&#39;.
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">as.treedata</span><span class="op">(</span><span class="va">y</span><span class="op">)</span></code></pre></div>
+<pre><code>## 'treedata' S4 object'.
 ## 
 ## ...@ phylo: 
 ## Phylogenetic tree with 4 tips and 3 internal nodes.
@@ -499,7 +166,7 @@ associated data. After mapping external data to the tree structure, the
 ## Rooted; includes branch lengths.
 ## 
 ## with the following features available:
-##  &#39;trait&#39;.</code></pre>
+##  'trait'.</code></pre>
 <p>The <code>treedata</code> class is also used
 in <a href="https://bioconductor.org/packages/treeio/">treeio</a> package to store
 evolutionary evidences inferred by commonly used software (BEAST, EPA, HYPHY,
@@ -509,7 +176,8 @@ to a tidy data frame. The phylogenetic tree structure and the evolutionary
 inferences were stored in the <code>tbl_tree</code> object, making it consistent and easier
 for manipulating evolutionary statistics inferred by different software as well
 as linking external data to the same tree structure.</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="chapter2.html#cb62-1" aria-hidden="true"></a>y <span class="op">%&gt;%</span><span class="st"> </span>as.treedata <span class="op">%&gt;%</span><span class="st"> </span>as_tibble</span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">y</span> <span class="op">%&gt;%</span> <span class="va">as.treedata</span> <span class="op">%&gt;%</span> <span class="va">as_tibble</span></code></pre></div>
 <pre><code>## # A tibble: 7 x 5
 ##   parent  node branch.length label  trait
 ##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
@@ -522,22 +190,27 @@ as linking external data to the same tree structure.</p>
 ## 7      6     7       0.274   &lt;NA&gt;  NA</code></pre>
 </div>
 <div id="accesor-tidytree" class="section level3" number="2.1.3">
-<h3><span class="header-section-number">2.1.3</span> Access related nodes</h3>
+<h3>
+<span class="header-section-number">2.1.3</span> Access related nodes<a class="anchor" aria-label="anchor" href="#accesor-tidytree"><i class="fas fa-link"></i></a>
+</h3>
 <p><a href="https://cran.r-project.org/package=dplyr">dplyr</a> verbs can be applied to <code>tbl_tree</code> directly to manipulate tree data. In addition, <a href="https://CRAN.R-project.org/package=tidytree">tidytree</a> provides several verbs to filter related nodes, including
 <code>child</code>, <code>parent</code>, <code>offspring</code>, <code>ancestor</code>, <code>sibling</code> and <code>MRCA</code>.</p>
 <p>These verbs accept a <code>tbl_tree</code> and a selected node which can be node number or label.</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="chapter2.html#cb64-1" aria-hidden="true"></a><span class="kw">child</span>(y, <span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">child</span><span class="op">(</span><span class="va">y</span>, <span class="fl">5</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 2 x 5
 ##   parent  node branch.length label  trait
 ##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
 ## 1      5     1         0.435 t4     0.943
 ## 2      5     6         0.472 &lt;NA&gt;  NA</code></pre>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="chapter2.html#cb66-1" aria-hidden="true"></a><span class="kw">parent</span>(y, <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">parent</span><span class="op">(</span><span class="va">y</span>, <span class="fl">2</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 1 x 5
 ##   parent  node branch.length label trait
 ##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;
 ## 1      6     7         0.274 &lt;NA&gt;     NA</code></pre>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="chapter2.html#cb68-1" aria-hidden="true"></a><span class="kw">offspring</span>(y, <span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">offspring</span><span class="op">(</span><span class="va">y</span>, <span class="fl">5</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 6 x 5
 ##   parent  node branch.length label  trait
 ##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
@@ -547,33 +220,41 @@ as linking external data to the same tree structure.</p>
 ## 4      6     4       0.0251  t2    -0.283
 ## 5      5     6       0.472   &lt;NA&gt;  NA    
 ## 6      6     7       0.274   &lt;NA&gt;  NA</code></pre>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="chapter2.html#cb70-1" aria-hidden="true"></a><span class="kw">ancestor</span>(y, <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ancestor</span><span class="op">(</span><span class="va">y</span>, <span class="fl">2</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 5
 ##   parent  node branch.length label trait
 ##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;
 ## 1      5     5        NA     &lt;NA&gt;     NA
 ## 2      5     6         0.472 &lt;NA&gt;     NA
 ## 3      6     7         0.274 &lt;NA&gt;     NA</code></pre>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="chapter2.html#cb72-1" aria-hidden="true"></a><span class="kw">sibling</span>(y, <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">sibling</span><span class="op">(</span><span class="va">y</span>, <span class="fl">2</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 1 x 5
 ##   parent  node branch.length label trait
 ##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;
 ## 1      7     3       0.00202 t3    0.570</code></pre>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="chapter2.html#cb74-1" aria-hidden="true"></a><span class="kw">MRCA</span>(y, <span class="dv">2</span>, <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">MRCA</span><span class="op">(</span><span class="va">y</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 1 x 5
 ##   parent  node branch.length label trait
 ##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;
 ## 1      6     7         0.274 &lt;NA&gt;     NA</code></pre>
 <p>All these methods also implemented in <a href="http://bioconductor.org/packages/treeio">treeio</a> for working with <code>phylo</code> and <code>treedata</code> objects. You can try accessing related nodes using the tree object. For instance, the following command will output child nodes of the selected internal node <code>5</code>:</p>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="chapter2.html#cb76-1" aria-hidden="true"></a><span class="kw">child</span>(tree, <span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">child</span><span class="op">(</span><span class="va">tree</span>, <span class="fl">5</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 1 6</code></pre>
 <p>Beware that the methods work for tree objects output related node numbers, while the methods implemented for <code>tbl_tree</code> object output a <code>tibble</code> object that contains related information.</p>
 </div>
 </div>
 <div id="data-integration" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> Data Integration</h2>
+<h2>
+<span class="header-section-number">2.2</span> Data Integration<a class="anchor" aria-label="anchor" href="#data-integration"><i class="fas fa-link"></i></a>
+</h2>
 <div id="merge-tree" class="section level3" number="2.2.1">
-<h3><span class="header-section-number">2.2.1</span> Combining tree data</h3>
+<h3>
+<span class="header-section-number">2.2.1</span> Combining tree data<a class="anchor" aria-label="anchor" href="#merge-tree"><i class="fas fa-link"></i></a>
+</h3>
 <p>The <a href="https://bioconductor.org/packages/treeio/">treeio</a> package serves as an
 infrastructure that enables various types of phylogenetic data inferred from
 common analysis programs to be imported and used in R. For instance <em>d<sub>N</sub>/d<sub>S</sub></em>
@@ -589,10 +270,10 @@ Furthermore, <a href="https://bioconductor.org/packages/treeio/">treeio</a> can 
 multiple phylogenetic trees together into one with their node/branch-specific
 attribute data. Essentially, as a result, one such attribute (<em>e.g.</em>,
 substitution rate) can be mapped to another attribute (<em>e.g.</em>, <em>d<sub>N</sub>/d<sub>S</sub></em>) of
-the same node/branch for comparison and further computations <span class="citation">(Yu et al. <a href="#ref-yu_ggtree:_2017" role="doc-biblioref">2017</a>)</span>.</p>
+the same node/branch for comparison and further computations <span class="citation">(Yu et al. <a href="references.html#ref-yu_ggtree:_2017" role="doc-biblioref">2017</a>)</span>.</p>
 <p>A previously published data set, seventy-six H3 hemagglutinin gene sequences of
 a lineage containing swine and human influenza A viruses
-<span class="citation">(Liang et al. <a href="#ref-liang_expansion_2014" role="doc-biblioref">2014</a>)</span>, was here to demonstrate the utilities of comparing
+<span class="citation">(Liang et al. <a href="references.html#ref-liang_expansion_2014" role="doc-biblioref">2014</a>)</span>, was here to demonstrate the utilities of comparing
 evolutionary statistics inferred by different software. The dataset was
 re-analyzed by <a href="http://beast2.org/">BEAST</a> for timescale estimation
 and <a href="http://abacus.gene.ucl.ac.uk/software/paml.html">CODEML</a> for synonymous and
@@ -601,18 +282,19 @@ outputs from <a href="http://beast2.org/">BEAST</a> using <code>read.beast</code
 from <a href="http://abacus.gene.ucl.ac.uk/software/paml.html">CODEML</a> using
 <code>read.codeml</code> into two <code>treedata</code> objects. Then the two objects containing
 separate sets of node/branch-specific data were merged via the <code>merge_tree</code> function.</p>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="chapter2.html#cb78-1" aria-hidden="true"></a>beast_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;examples/MCC_FluA_H3.tree&quot;</span>, <span class="dt">package=</span><span class="st">&quot;ggtree&quot;</span>)</span>
-<span id="cb78-2"><a href="chapter2.html#cb78-2" aria-hidden="true"></a>rst_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;examples/rst&quot;</span>, <span class="dt">package=</span><span class="st">&quot;ggtree&quot;</span>)</span>
-<span id="cb78-3"><a href="chapter2.html#cb78-3" aria-hidden="true"></a>mlc_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;examples/mlc&quot;</span>, <span class="dt">package=</span><span class="st">&quot;ggtree&quot;</span>)</span>
-<span id="cb78-4"><a href="chapter2.html#cb78-4" aria-hidden="true"></a>beast_tree &lt;-<span class="st"> </span><span class="kw">read.beast</span>(beast_file)</span>
-<span id="cb78-5"><a href="chapter2.html#cb78-5" aria-hidden="true"></a>codeml_tree &lt;-<span class="st"> </span><span class="kw">read.codeml</span>(rst_file, mlc_file)</span>
-<span id="cb78-6"><a href="chapter2.html#cb78-6" aria-hidden="true"></a></span>
-<span id="cb78-7"><a href="chapter2.html#cb78-7" aria-hidden="true"></a>merged_tree &lt;-<span class="st"> </span><span class="kw">merge_tree</span>(beast_tree, codeml_tree)</span>
-<span id="cb78-8"><a href="chapter2.html#cb78-8" aria-hidden="true"></a>merged_tree</span></code></pre></div>
-<pre><code>## &#39;treedata&#39; S4 object that stored information of
-##  &#39;/home/ygc/R/library/ggtree/examples/MCC_FluA_H3.tree&#39;,
-##  &#39;/home/ygc/R/library/ggtree/examples/rst&#39;,
-##  &#39;/home/ygc/R/library/ggtree/examples/mlc&#39;.
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">beast_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"examples/MCC_FluA_H3.tree"</span>, package<span class="op">=</span><span class="st">"ggtree"</span><span class="op">)</span>
+<span class="va">rst_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"examples/rst"</span>, package<span class="op">=</span><span class="st">"ggtree"</span><span class="op">)</span>
+<span class="va">mlc_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"examples/mlc"</span>, package<span class="op">=</span><span class="st">"ggtree"</span><span class="op">)</span>
+<span class="va">beast_tree</span> <span class="op">&lt;-</span> <span class="fu">read.beast</span><span class="op">(</span><span class="va">beast_file</span><span class="op">)</span>
+<span class="va">codeml_tree</span> <span class="op">&lt;-</span> <span class="fu">read.codeml</span><span class="op">(</span><span class="va">rst_file</span>, <span class="va">mlc_file</span><span class="op">)</span>
+
+<span class="va">merged_tree</span> <span class="op">&lt;-</span> <span class="fu">merge_tree</span><span class="op">(</span><span class="va">beast_tree</span>, <span class="va">codeml_tree</span><span class="op">)</span>
+<span class="va">merged_tree</span></code></pre></div>
+<pre><code>## 'treedata' S4 object that stored information of
+##  '/home/ygc/R/library/ggtree/examples/MCC_FluA_H3.tree',
+##  '/home/ygc/R/library/ggtree/examples/rst',
+##  '/home/ygc/R/library/ggtree/examples/mlc'.
 ## 
 ## ...@ phylo: 
 ## Phylogenetic tree with 76 tips and 75 internal nodes.
@@ -623,12 +305,12 @@ separate sets of node/branch-specific data were merged via the <code>merge_tree<
 ## Rooted; includes branch lengths.
 ## 
 ## with the following features available:
-##  &#39;height&#39;,   &#39;height_0.95_HPD&#39;,  &#39;height_median&#39;,
-##  &#39;height_range&#39;, &#39;length&#39;,   &#39;length_0.95_HPD&#39;,
-##  &#39;length_median&#39;,    &#39;length_range&#39;, &#39;posterior&#39;,    &#39;rate&#39;,
-##  &#39;rate_0.95_HPD&#39;,    &#39;rate_median&#39;,  &#39;rate_range&#39;,   &#39;subs&#39;,
-##  &#39;AA_subs&#39;,  &#39;t&#39;,    &#39;N&#39;,    &#39;S&#39;,    &#39;dN_vs_dS&#39;, &#39;dN&#39;,   &#39;dS&#39;,   &#39;N_x_dN&#39;,
-##  &#39;S_x_dS&#39;.</code></pre>
+##  'height',   'height_0.95_HPD',  'height_median',
+##  'height_range', 'length',   'length_0.95_HPD',
+##  'length_median',    'length_range', 'posterior',    'rate',
+##  'rate_0.95_HPD',    'rate_median',  'rate_range',   'subs',
+##  'AA_subs',  't',    'N',    'S',    'dN_vs_dS', 'dN',   'dS',   'N_x_dN',
+##  'S_x_dS'.</code></pre>
 <p>After merging the <code>beast_tree</code> and <code>codeml_tree</code> objects, all
 node/branch-specific data imported from <a href="http://beast2.org/">BEAST</a>
 and <a href="http://abacus.gene.ucl.ac.uk/software/paml.html">CODEML</a> output files are
@@ -640,19 +322,20 @@ by <a href="http://abacus.gene.ucl.ac.uk/software/paml.html">CODEML</a> versus <
 by <a href="http://beast2.org/">BEAST</a> on the same branches.</p>
 
 
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="chapter2.html#cb80-1" aria-hidden="true"></a><span class="kw">library</span>(dplyr)</span>
-<span id="cb80-2"><a href="chapter2.html#cb80-2" aria-hidden="true"></a>df &lt;-<span class="st"> </span>merged_tree <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb80-3"><a href="chapter2.html#cb80-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span></span>
-<span id="cb80-4"><a href="chapter2.html#cb80-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">select</span>(dN_vs_dS, dN, dS, rate) <span class="op">%&gt;%</span></span>
-<span id="cb80-5"><a href="chapter2.html#cb80-5" aria-hidden="true"></a><span class="st">  </span><span class="kw">subset</span>(dN_vs_dS <span class="op">&gt;=</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>dN_vs_dS <span class="op">&lt;=</span><span class="st"> </span><span class="fl">1.5</span>) <span class="op">%&gt;%</span></span>
-<span id="cb80-6"><a href="chapter2.html#cb80-6" aria-hidden="true"></a><span class="st">  </span>tidyr<span class="op">::</span><span class="kw">gather</span>(type, value, dN_vs_dS<span class="op">:</span>dS)</span>
-<span id="cb80-7"><a href="chapter2.html#cb80-7" aria-hidden="true"></a>df<span class="op">$</span>type[df<span class="op">$</span>type <span class="op">==</span><span class="st"> &#39;dN_vs_dS&#39;</span>] &lt;-<span class="st"> &#39;dN/dS&#39;</span></span>
-<span id="cb80-8"><a href="chapter2.html#cb80-8" aria-hidden="true"></a>df<span class="op">$</span>type &lt;-<span class="st"> </span><span class="kw">factor</span>(df<span class="op">$</span>type, <span class="dt">levels=</span><span class="kw">c</span>(<span class="st">&quot;dN/dS&quot;</span>, <span class="st">&quot;dN&quot;</span>, <span class="st">&quot;dS&quot;</span>))</span>
-<span id="cb80-9"><a href="chapter2.html#cb80-9" aria-hidden="true"></a><span class="kw">ggplot</span>(df, <span class="kw">aes</span>(rate, value)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_hex</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb80-10"><a href="chapter2.html#cb80-10" aria-hidden="true"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>type, <span class="dt">scale=</span><span class="st">&#39;free_y&#39;</span>) </span></code></pre></div>
-<div class="figure"><span id="fig:correlations"></span>
-<img src="treedata_files/figure-html/correlations-1.svg" alt="Correlation of dN/dS, dN and dS versus substitution rate. After merging the BEAST and CodeML outputs, the branch-specific estimates (substitution rate, dN/dS , dN and dS) from the two analysis programs are compared on the same branch basis. The associations of dN/dS, dN and dS vs. rate are visualized in hexbin scatter plots." width="864"  />
-<p class="caption">
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
+<span class="va">df</span> <span class="op">&lt;-</span> <span class="va">merged_tree</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/tibble/man/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/select.html">select</a></span><span class="op">(</span><span class="va">dN_vs_dS</span>, <span class="va">dN</span>, <span class="va">dS</span>, <span class="va">rate</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">dN_vs_dS</span> <span class="op">&gt;=</span><span class="fl">0</span> <span class="op">&amp;</span> <span class="va">dN_vs_dS</span> <span class="op">&lt;=</span> <span class="fl">1.5</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/tidyr/man/gather.html">gather</a></span><span class="op">(</span><span class="va">type</span>, <span class="va">value</span>, <span class="va">dN_vs_dS</span><span class="op">:</span><span class="va">dS</span><span class="op">)</span>
+<span class="va">df</span><span class="op">$</span><span class="va">type</span><span class="op">[</span><span class="va">df</span><span class="op">$</span><span class="va">type</span> <span class="op">==</span> <span class="st">'dN_vs_dS'</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">'dN/dS'</span>
+<span class="va">df</span><span class="op">$</span><span class="va">type</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">type</span>, levels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"dN/dS"</span>, <span class="st">"dN"</span>, <span class="st">"dS"</span><span class="op">)</span><span class="op">)</span>
+<span class="fu">ggplot</span><span class="op">(</span><span class="va">df</span>, <span class="fu">aes</span><span class="op">(</span><span class="va">rate</span>, <span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu">geom_hex</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">type</span>, scale<span class="op">=</span><span class="st">'free_y'</span><span class="op">)</span> </code></pre></div>
+<div class="figure">
+<span id="fig:correlations"></span>
+<img src="treedata_files/figure-html/correlations-1.svg" alt="Correlation of dN/dS, dN and dS versus substitution rate. After merging the BEAST and CodeML outputs, the branch-specific estimates (substitution rate, dN/dS , dN and dS) from the two analysis programs are compared on the same branch basis. The associations of dN/dS, dN and dS vs. rate are visualized in hexbin scatter plots." width="864"><p class="caption">
 Figure 2.1: <strong>Correlation of <em>d<sub>N</sub>/d<sub>S</sub></em>, <em>d<sub>N</sub></em> and <em>d<sub>S</sub></em> versus substitution rate.</strong> After merging the <em>BEAST</em> and <em>CodeML</em> outputs, the branch-specific estimates (substitution rate, <em>d<sub>N</sub>/d<sub>S</sub></em> , <em>d<sub>N</sub></em> and <em>d<sub>S</sub></em>) from the two analysis programs are compared on the same branch basis. The associations of <em>d<sub>N</sub>/d<sub>S</sub></em>, <em>d<sub>N</sub></em> and <em>d<sub>S</sub></em> vs. <em>rate</em> are visualized in hexbin scatter plots.
 </p>
 </div>
@@ -664,16 +347,17 @@ from different software packages. Merging tree data is not restricted to
 software findings, associating external data to analysis findings is also
 granted. The <code>merge_tree</code> function is chainable and allows several tree objects
 to be merged into one.</p>
-<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="chapter2.html#cb81-1" aria-hidden="true"></a>phylo &lt;-<span class="st"> </span><span class="kw">as.phylo</span>(beast_tree)</span>
-<span id="cb81-2"><a href="chapter2.html#cb81-2" aria-hidden="true"></a>N &lt;-<span class="st"> </span><span class="kw">Nnode2</span>(phylo)</span>
-<span id="cb81-3"><a href="chapter2.html#cb81-3" aria-hidden="true"></a>d &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">node =</span> <span class="dv">1</span><span class="op">:</span>N, <span class="dt">fake_trait =</span> <span class="kw">rnorm</span>(N), <span class="dt">another_trait =</span> <span class="kw">runif</span>(N))</span>
-<span id="cb81-4"><a href="chapter2.html#cb81-4" aria-hidden="true"></a>fake_tree &lt;-<span class="st"> </span><span class="kw">treedata</span>(<span class="dt">phylo =</span> phylo, <span class="dt">data =</span> d)</span>
-<span id="cb81-5"><a href="chapter2.html#cb81-5" aria-hidden="true"></a>triple_tree &lt;-<span class="st"> </span><span class="kw">merge_tree</span>(merged_tree, fake_tree)</span>
-<span id="cb81-6"><a href="chapter2.html#cb81-6" aria-hidden="true"></a>triple_tree</span></code></pre></div>
-<pre><code>## &#39;treedata&#39; S4 object that stored information of
-##  &#39;/home/ygc/R/library/ggtree/examples/MCC_FluA_H3.tree&#39;,
-##  &#39;/home/ygc/R/library/ggtree/examples/rst&#39;,
-##  &#39;/home/ygc/R/library/ggtree/examples/mlc&#39;.
+<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">phylo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/as.phylo.html">as.phylo</a></span><span class="op">(</span><span class="va">beast_tree</span><span class="op">)</span>
+<span class="va">N</span> <span class="op">&lt;-</span> <span class="fu">Nnode2</span><span class="op">(</span><span class="va">phylo</span><span class="op">)</span>
+<span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tibble/man/tibble.html">tibble</a></span><span class="op">(</span>node <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">N</span>, fake_trait <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>, another_trait <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span><span class="op">)</span>
+<span class="va">fake_tree</span> <span class="op">&lt;-</span> <span class="fu">treedata</span><span class="op">(</span>phylo <span class="op">=</span> <span class="va">phylo</span>, data <span class="op">=</span> <span class="va">d</span><span class="op">)</span>
+<span class="va">triple_tree</span> <span class="op">&lt;-</span> <span class="fu">merge_tree</span><span class="op">(</span><span class="va">merged_tree</span>, <span class="va">fake_tree</span><span class="op">)</span>
+<span class="va">triple_tree</span></code></pre></div>
+<pre><code>## 'treedata' S4 object that stored information of
+##  '/home/ygc/R/library/ggtree/examples/MCC_FluA_H3.tree',
+##  '/home/ygc/R/library/ggtree/examples/rst',
+##  '/home/ygc/R/library/ggtree/examples/mlc'.
 ## 
 ## ...@ phylo: 
 ## Phylogenetic tree with 76 tips and 75 internal nodes.
@@ -684,19 +368,21 @@ to be merged into one.</p>
 ## Rooted; includes branch lengths.
 ## 
 ## with the following features available:
-##  &#39;height&#39;,   &#39;height_0.95_HPD&#39;,  &#39;height_median&#39;,
-##  &#39;height_range&#39;, &#39;length&#39;,   &#39;length_0.95_HPD&#39;,
-##  &#39;length_median&#39;,    &#39;length_range&#39;, &#39;posterior&#39;,    &#39;rate&#39;,
-##  &#39;rate_0.95_HPD&#39;,    &#39;rate_median&#39;,  &#39;rate_range&#39;,   &#39;subs&#39;,
-##  &#39;AA_subs&#39;,  &#39;t&#39;,    &#39;N&#39;,    &#39;S&#39;,    &#39;dN_vs_dS&#39;, &#39;dN&#39;,   &#39;dS&#39;,   &#39;N_x_dN&#39;,
-##  &#39;S_x_dS&#39;,   &#39;fake_trait&#39;,   &#39;another_trait&#39;.</code></pre>
+##  'height',   'height_0.95_HPD',  'height_median',
+##  'height_range', 'length',   'length_0.95_HPD',
+##  'length_median',    'length_range', 'posterior',    'rate',
+##  'rate_0.95_HPD',    'rate_median',  'rate_range',   'subs',
+##  'AA_subs',  't',    'N',    'S',    'dN_vs_dS', 'dN',   'dS',   'N_x_dN',
+##  'S_x_dS',   'fake_trait',   'another_trait'.</code></pre>
 <p>The <code>triple_tree</code> object showed above contains analysis results obtained from <a href="http://beast2.org/">BEAST</a>
 and <a href="http://abacus.gene.ucl.ac.uk/software/paml.html">CODEML</a>, and evolutionary
 trait from external sources. All these information can be used to annotate the
-tree using <a href="https://bioconductor.org/packages/ggtree/">ggtree</a> <span class="citation">(Yu et al. <a href="#ref-yu_ggtree:_2017" role="doc-biblioref">2017</a>)</span>.</p>
+tree using <a href="https://bioconductor.org/packages/ggtree/">ggtree</a> <span class="citation">(Yu et al. <a href="references.html#ref-yu_ggtree:_2017" role="doc-biblioref">2017</a>)</span>.</p>
 </div>
 <div id="link-external-data" class="section level3" number="2.2.2">
-<h3><span class="header-section-number">2.2.2</span> Linking external data to phylogeny</h3>
+<h3>
+<span class="header-section-number">2.2.2</span> Linking external data to phylogeny<a class="anchor" aria-label="anchor" href="#link-external-data"><i class="fas fa-link"></i></a>
+</h3>
 <p>In addition to analysis findings that are associated with the tree as we showed
 above, there is a wide range of heterogeneous data, including phenotypic data,
 experimental data and clinical data <em>etc.</em>, that need to be integrated and
@@ -705,19 +391,21 @@ associated with epidemiological information, such as location, age and subtype.
 Functional annotations may need to be mapped on gene trees for comparative
 genomics studies. To facilitate data
 integration, <a href="https://bioconductor.org/packages/treeio">treeio</a> provides
-<code>full_join</code> method to link external data to phylogeny and stored in either <code>phylo</code> or <code>treedata</code> object. Beware that linking external data to a <code>phylo</code> object will produce a <code>treedata</code> object to store the input <code>phylo</code> with associated data. The <code>full_join</code> methods can also be used at tidy data frame level (<em>i.e.</em> <code>tbl_tree</code> object described previously) and at <code>ggtree</code> level (described in <a href="chapter7.html#attach-operator">session 7.1</a>) <span class="citation">(Yu et al. <a href="#ref-yu_two_2018" role="doc-biblioref">2018</a>)</span>.</p>
+<code>full_join</code> method to link external data to phylogeny and stored in either <code>phylo</code> or <code>treedata</code> object. Beware that linking external data to a <code>phylo</code> object will produce a <code>treedata</code> object to store the input <code>phylo</code> with associated data. The <code>full_join</code> methods can also be used at tidy data frame level (<em>i.e.</em> <code>tbl_tree</code> object described previously) and at <code>ggtree</code> level (described in <a href="chapter7.html#attach-operator">session 7.1</a>) <span class="citation">(Yu et al. <a href="references.html#ref-yu_two_2018" role="doc-biblioref">2018</a>)</span>.</p>
 <p>The following example calculated bootstrap values and merging that values with the tree (a <code>phylo</code> object) by matching their node numbers.</p>
-<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="chapter2.html#cb83-1" aria-hidden="true"></a><span class="kw">library</span>(ape)</span>
-<span id="cb83-2"><a href="chapter2.html#cb83-2" aria-hidden="true"></a><span class="kw">data</span>(woodmouse)</span>
-<span id="cb83-3"><a href="chapter2.html#cb83-3" aria-hidden="true"></a>d &lt;-<span class="st"> </span><span class="kw">dist.dna</span>(woodmouse)</span>
-<span id="cb83-4"><a href="chapter2.html#cb83-4" aria-hidden="true"></a>tr &lt;-<span class="st"> </span><span class="kw">nj</span>(d)</span>
-<span id="cb83-5"><a href="chapter2.html#cb83-5" aria-hidden="true"></a>bp &lt;-<span class="st"> </span><span class="kw">boot.phylo</span>(tr, woodmouse, <span class="cf">function</span>(x) <span class="kw">nj</span>(<span class="kw">dist.dna</span>(x)))</span></code></pre></div>
+<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ape-package.ird.fr/">ape</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">woodmouse</span><span class="op">)</span>
+<span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/dist.dna.html">dist.dna</a></span><span class="op">(</span><span class="va">woodmouse</span><span class="op">)</span>
+<span class="va">tr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/nj.html">nj</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span>
+<span class="va">bp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/boot.phylo.html">boot.phylo</a></span><span class="op">(</span><span class="va">tr</span>, <span class="va">woodmouse</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/nj.html">nj</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ape/man/dist.dna.html">dist.dna</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
 Running bootstraps:       100 / 100
 ## Calculating bootstrap values... done.</code></pre>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="chapter2.html#cb85-1" aria-hidden="true"></a>bp2 &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">node=</span><span class="dv">1</span><span class="op">:</span><span class="kw">Nnode</span>(tr) <span class="op">+</span><span class="st"> </span><span class="kw">Ntip</span>(tr), <span class="dt">bootstrap =</span> bp)</span>
-<span id="cb85-2"><a href="chapter2.html#cb85-2" aria-hidden="true"></a><span class="kw">full_join</span>(tr, bp2, <span class="dt">by=</span><span class="st">&quot;node&quot;</span>)</span></code></pre></div>
-<pre><code>## &#39;treedata&#39; S4 object&#39;.
+<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">bp2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tibble/man/tibble.html">tibble</a></span><span class="op">(</span>node<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/pkg/ape/man/summary.phylo.html">Nnode</a></span><span class="op">(</span><span class="va">tr</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/summary.phylo.html">Ntip</a></span><span class="op">(</span><span class="va">tr</span><span class="op">)</span>, bootstrap <span class="op">=</span> <span class="va">bp</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate-joins.html">full_join</a></span><span class="op">(</span><span class="va">tr</span>, <span class="va">bp2</span>, by<span class="op">=</span><span class="st">"node"</span><span class="op">)</span></code></pre></div>
+<pre><code>## 'treedata' S4 object'.
 ## 
 ## ...@ phylo: 
 ## Phylogenetic tree with 15 tips and 13 internal nodes.
@@ -728,14 +416,15 @@ Running bootstraps:       100 / 100
 ## Unrooted; includes branch lengths.
 ## 
 ## with the following features available:
-##  &#39;bootstrap&#39;.</code></pre>
+##  'bootstrap'.</code></pre>
 <p>Another example demonstrates merging evolutionary trait with the tree (a <code>treedata</code> object) by matching their tip labels.</p>
-<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="chapter2.html#cb87-1" aria-hidden="true"></a>file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/BEAST&quot;</span>, <span class="st">&quot;beast_mcc.tree&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
-<span id="cb87-2"><a href="chapter2.html#cb87-2" aria-hidden="true"></a>beast &lt;-<span class="st"> </span><span class="kw">read.beast</span>(file)</span>
-<span id="cb87-3"><a href="chapter2.html#cb87-3" aria-hidden="true"></a>x &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">label =</span> <span class="kw">as.phylo</span>(beast)<span class="op">$</span>tip.label, <span class="dt">trait =</span> <span class="kw">rnorm</span>(<span class="kw">Ntip</span>(beast)))</span>
-<span id="cb87-4"><a href="chapter2.html#cb87-4" aria-hidden="true"></a><span class="kw">full_join</span>(beast, x, <span class="dt">by=</span><span class="st">&quot;label&quot;</span>)</span></code></pre></div>
-<pre><code>## &#39;treedata&#39; S4 object that stored information of
-##  &#39;/home/ygc/R/library/treeio/extdata/BEAST/beast_mcc.tree&#39;.
+<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/BEAST"</span>, <span class="st">"beast_mcc.tree"</span>, package<span class="op">=</span><span class="st">"treeio"</span><span class="op">)</span>
+<span class="va">beast</span> <span class="op">&lt;-</span> <span class="fu">read.beast</span><span class="op">(</span><span class="va">file</span><span class="op">)</span>
+<span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tibble/man/tibble.html">tibble</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/as.phylo.html">as.phylo</a></span><span class="op">(</span><span class="va">beast</span><span class="op">)</span><span class="op">$</span><span class="va">tip.label</span>, trait <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ape/man/summary.phylo.html">Ntip</a></span><span class="op">(</span><span class="va">beast</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate-joins.html">full_join</a></span><span class="op">(</span><span class="va">beast</span>, <span class="va">x</span>, by<span class="op">=</span><span class="st">"label"</span><span class="op">)</span></code></pre></div>
+<pre><code>## 'treedata' S4 object that stored information of
+##  '/home/ygc/R/library/treeio/extdata/BEAST/beast_mcc.tree'.
 ## 
 ## ...@ phylo: 
 ## Phylogenetic tree with 15 tips and 14 internal nodes.
@@ -746,10 +435,10 @@ Running bootstraps:       100 / 100
 ## Rooted; includes branch lengths.
 ## 
 ## with the following features available:
-##  &#39;height&#39;,   &#39;height_0.95_HPD&#39;,  &#39;height_median&#39;,
-##  &#39;height_range&#39;, &#39;length&#39;,   &#39;length_0.95_HPD&#39;,
-##  &#39;length_median&#39;,    &#39;length_range&#39;, &#39;posterior&#39;,    &#39;rate&#39;,
-##  &#39;rate_0.95_HPD&#39;,    &#39;rate_median&#39;,  &#39;rate_range&#39;,   &#39;trait&#39;.</code></pre>
+##  'height',   'height_0.95_HPD',  'height_median',
+##  'height_range', 'length',   'length_0.95_HPD',
+##  'length_median',    'length_range', 'posterior',    'rate',
+##  'rate_0.95_HPD',    'rate_median',  'rate_range',   'trait'.</code></pre>
 <p>Manipulating tree object is frustrated with the fragmented functions available
 for working with <code>phylo</code> object, not to mention linking external data to the
 phylogeny structure. With <a href="http://bioconductor.org/packages/treeio">treeio</a> package, it is easy to combine tree data from various sources.
@@ -762,7 +451,9 @@ consistent with tools already in wide use, including
 and <a href="https://bioconductor.org/packages/ggtree/">ggtree</a>.</p>
 </div>
 <div id="grouping-taxa" class="section level3" number="2.2.3">
-<h3><span class="header-section-number">2.2.3</span> Grouping taxa</h3>
+<h3>
+<span class="header-section-number">2.2.3</span> Grouping taxa<a class="anchor" aria-label="anchor" href="#grouping-taxa"><i class="fas fa-link"></i></a>
+</h3>
 <p>The <code>groupOTU</code> and <code>groupClade</code> methods are designed for adding taxa grouping
 information to the input tree object. The methods were implemented in <a href="https://CRAN.R-project.org/package=tidytree">tidytree</a>,
 <a href="http://bioconductor.org/packages/treeio">treeio</a> and <a href="http://bioconductor.org/packages/ggtree">ggtree</a> respectively to support adding grouping information at
@@ -770,13 +461,16 @@ information to the input tree object. The methods were implemented in <a href="h
 used directly in tree visualization (<em>e.g.</em> <a href="chapter6.html#group-taxa-vis">coloring tree based on grouping</a>)
 with <a href="https://bioconductor.org/packages/ggtree/">ggtree</a> (Figure <a href="chapter6.html#fig:groupOTU">6.5</a>).</p>
 <div id="groupclade" class="section level4" number="2.2.3.1">
-<h4><span class="header-section-number">2.2.3.1</span> groupClade</h4>
+<h4>
+<span class="header-section-number">2.2.3.1</span> groupClade<a class="anchor" aria-label="anchor" href="#groupclade"><i class="fas fa-link"></i></a>
+</h4>
 <p>The <code>groupClade</code> method accepts an internal node or a vector of internal nodes
 to add grouping information of clade/clades.</p>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="chapter2.html#cb89-1" aria-hidden="true"></a>nwk &lt;-<span class="st"> &#39;(((((((A:4,B:4):6,C:5):8,D:6):3,E:21):10,((F:4,G:12):14,H:8):13):13,((I:5,J:2):30,(K:11,L:11):2):17):4,M:56);&#39;</span></span>
-<span id="cb89-2"><a href="chapter2.html#cb89-2" aria-hidden="true"></a>tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="dt">text=</span>nwk)</span>
-<span id="cb89-3"><a href="chapter2.html#cb89-3" aria-hidden="true"></a></span>
-<span id="cb89-4"><a href="chapter2.html#cb89-4" aria-hidden="true"></a><span class="kw">groupClade</span>(<span class="kw">as_tibble</span>(tree), <span class="kw">c</span>(<span class="dv">17</span>, <span class="dv">21</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">nwk</span> <span class="op">&lt;-</span> <span class="st">'(((((((A:4,B:4):6,C:5):8,D:6):3,E:21):10,((F:4,G:12):14,H:8):13):13,((I:5,J:2):30,(K:11,L:11):2):17):4,M:56);'</span>
+<span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/read.tree.html">read.tree</a></span><span class="op">(</span>text<span class="op">=</span><span class="va">nwk</span><span class="op">)</span>
+
+<span class="fu">groupClade</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/tibble/man/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">17</span>, <span class="fl">21</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 25 x 5
 ##    parent  node branch.length label group
 ##     &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;fct&gt;
@@ -793,12 +487,15 @@ to add grouping information of clade/clades.</p>
 ## # … with 15 more rows</code></pre>
 </div>
 <div id="groupotu" class="section level4" number="2.2.3.2">
-<h4><span class="header-section-number">2.2.3.2</span> groupOTU</h4>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="chapter2.html#cb91-1" aria-hidden="true"></a><span class="kw">set.seed</span>(<span class="dv">2017</span>)</span>
-<span id="cb91-2"><a href="chapter2.html#cb91-2" aria-hidden="true"></a>tr &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">4</span>)</span>
-<span id="cb91-3"><a href="chapter2.html#cb91-3" aria-hidden="true"></a>x &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(tr)</span>
-<span id="cb91-4"><a href="chapter2.html#cb91-4" aria-hidden="true"></a><span class="co">## the input nodes can be node ID or label</span></span>
-<span id="cb91-5"><a href="chapter2.html#cb91-5" aria-hidden="true"></a><span class="kw">groupOTU</span>(x, <span class="kw">c</span>(<span class="st">&#39;t1&#39;</span>, <span class="st">&#39;t4&#39;</span>), <span class="dt">group_name =</span> <span class="st">&quot;fake_group&quot;</span>)</span></code></pre></div>
+<h4>
+<span class="header-section-number">2.2.3.2</span> groupOTU<a class="anchor" aria-label="anchor" href="#groupotu"><i class="fas fa-link"></i></a>
+</h4>
+<div class="sourceCode" id="cb91"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">2017</span><span class="op">)</span>
+<span class="va">tr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/rtree.html">rtree</a></span><span class="op">(</span><span class="fl">4</span><span class="op">)</span>
+<span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tibble/man/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">tr</span><span class="op">)</span>
+<span class="co">## the input nodes can be node ID or label</span>
+<span class="fu">groupOTU</span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'t1'</span>, <span class="st">'t4'</span><span class="op">)</span>, group_name <span class="op">=</span> <span class="st">"fake_group"</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 7 x 5
 ##   parent  node branch.length label fake_group
 ##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;fct&gt;     
@@ -809,9 +506,10 @@ to add grouping information of clade/clades.</p>
 ## 5      5     5      NA       &lt;NA&gt;  1         
 ## 6      5     6       0.472   &lt;NA&gt;  1         
 ## 7      6     7       0.274   &lt;NA&gt;  1</code></pre>
-<p>Both <code>groupClade()</code> and <code>groupOTU()</code> work with <code>tbl_tree</code>, <code>phylo</code> and <code>treedata</code>, and <code>ggtree</code> objects. Here is an example of using <code>groupOTU()</code> with <code>phylo</code> tree object.</p>
-<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="chapter2.html#cb93-1" aria-hidden="true"></a><span class="kw">groupOTU</span>(tr, <span class="kw">c</span>(<span class="st">&#39;t1&#39;</span>, <span class="st">&#39;t4&#39;</span>), <span class="dt">group_name =</span> <span class="st">&quot;fake_group&quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb93-2"><a href="chapter2.html#cb93-2" aria-hidden="true"></a><span class="st">  </span>as_tibble</span></code></pre></div>
+<p>Both <code><a href="https://rdrr.io/pkg/tidytree/man/groupClade.html">groupClade()</a></code> and <code><a href="https://rdrr.io/pkg/tidytree/man/groupOTU.html">groupOTU()</a></code> work with <code>tbl_tree</code>, <code>phylo</code> and <code>treedata</code>, and <code>ggtree</code> objects. Here is an example of using <code><a href="https://rdrr.io/pkg/tidytree/man/groupOTU.html">groupOTU()</a></code> with <code>phylo</code> tree object.</p>
+<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">groupOTU</span><span class="op">(</span><span class="va">tr</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'t1'</span>, <span class="st">'t4'</span><span class="op">)</span>, group_name <span class="op">=</span> <span class="st">"fake_group"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="va">as_tibble</span></code></pre></div>
 <pre><code>## # A tibble: 7 x 5
 ##   parent  node branch.length label fake_group
 ##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;fct&gt;     
@@ -828,12 +526,13 @@ In this example, nodes 2, 3, 7 and 6 (<code>2 (t1) -&gt; 7 -&gt; 6</code> and <c
 grouping together.</p>
 <p>Related OTUs are grouping together and they are not necessarily within a clade.
 They can be monophyletic (clade), polyphyletic or paraphyletic.</p>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="chapter2.html#cb95-1" aria-hidden="true"></a>cls &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">c1=</span><span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;E&quot;</span>),</span>
-<span id="cb95-2"><a href="chapter2.html#cb95-2" aria-hidden="true"></a>            <span class="dt">c2=</span><span class="kw">c</span>(<span class="st">&quot;F&quot;</span>, <span class="st">&quot;G&quot;</span>, <span class="st">&quot;H&quot;</span>),</span>
-<span id="cb95-3"><a href="chapter2.html#cb95-3" aria-hidden="true"></a>            <span class="dt">c3=</span><span class="kw">c</span>(<span class="st">&quot;L&quot;</span>, <span class="st">&quot;K&quot;</span>, <span class="st">&quot;I&quot;</span>, <span class="st">&quot;J&quot;</span>),</span>
-<span id="cb95-4"><a href="chapter2.html#cb95-4" aria-hidden="true"></a>            <span class="dt">c4=</span><span class="st">&quot;M&quot;</span>)</span>
-<span id="cb95-5"><a href="chapter2.html#cb95-5" aria-hidden="true"></a></span>
-<span id="cb95-6"><a href="chapter2.html#cb95-6" aria-hidden="true"></a><span class="kw">as_tibble</span>(tree) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">groupOTU</span>(cls)</span></code></pre></div>
+<div class="sourceCode" id="cb95"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">cls</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>c1<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"E"</span><span class="op">)</span>,
+            c2<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"F"</span>, <span class="st">"G"</span>, <span class="st">"H"</span><span class="op">)</span>,
+            c3<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"L"</span>, <span class="st">"K"</span>, <span class="st">"I"</span>, <span class="st">"J"</span><span class="op">)</span>,
+            c4<span class="op">=</span><span class="st">"M"</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/pkg/tibble/man/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">groupOTU</span><span class="op">(</span><span class="va">cls</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 25 x 5
 ##    parent  node branch.length label group
 ##     &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;fct&gt;
@@ -850,301 +549,302 @@ They can be monophyletic (clade), polyphyletic or paraphyletic.</p>
 ## # … with 15 more rows</code></pre>
 <p>If there are conflicts when tracing back to mrca, user can set <code>overlap</code>
 parameter to “origin” (the first one counts), “overwrite” (default, the last one
-counts) or “abandon” (un-selected for grouping)<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a>.</p>
+counts) or “abandon” (un-selected for grouping)<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://groups.google.com/forum/#!msg/bioc-ggtree/Q4LnwoTf1DM/uqYdYB_VBAAJ" class="uri"&gt;https://groups.google.com/forum/#!msg/bioc-ggtree/Q4LnwoTf1DM/uqYdYB_VBAAJ&lt;/a&gt;&lt;/p&gt;'><sup>7</sup></a>.</p>
 </div>
 </div>
 </div>
 <div id="reroot-treeio" class="section level2" number="2.3">
-<h2><span class="header-section-number">2.3</span> Rerooting tree</h2>
+<h2>
+<span class="header-section-number">2.3</span> Rerooting tree<a class="anchor" aria-label="anchor" href="#reroot-treeio"><i class="fas fa-link"></i></a>
+</h2>
 <p>to be finished.</p>
 </div>
 <div id="rescale-treeio" class="section level2" number="2.4">
-<h2><span class="header-section-number">2.4</span> Rescaling Tree Branches</h2>
+<h2>
+<span class="header-section-number">2.4</span> Rescaling Tree Branches<a class="anchor" aria-label="anchor" href="#rescale-treeio"><i class="fas fa-link"></i></a>
+</h2>
 <p>Phylogenetic data can be merged for joint analysis (Figure <a href="chapter2.html#fig:correlations">2.1</a>). They can be displayed on the same tree structure as more complex annotation to help visually inspection of their evolutionary patterns. All the numerical data stored in <code>treedata</code> object can be used to re-scale tree branches. For example, CodeML infers d<sub>N</sub>/d<sub>S</sub>, d<sub>N</sub> and d<sub>S</sub>, all these statistics can be used as branch lengths. All these values can also be used to color the tree (session <a href="chapter4.html#color-tree">4.3.4</a>) and can be project to vertical dimension to create two-dimensional tree or phenogram (session <a href="#layouts-of-phylogenetic-tree">4.2.2</a> and Figure <a href="chapter4.html#fig:2d">4.5</a> and <a href="chapter4.html#fig:continuousColor">4.11</a>).</p>
 
 
-<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="chapter2.html#cb97-1" aria-hidden="true"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(merged_tree) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>()</span>
-<span id="cb97-2"><a href="chapter2.html#cb97-2" aria-hidden="true"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(<span class="kw">rescale_tree</span>(merged_tree, <span class="st">&#39;dN&#39;</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>()</span>
-<span id="cb97-3"><a href="chapter2.html#cb97-3" aria-hidden="true"></a>p3 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(<span class="kw">rescale_tree</span>(merged_tree, <span class="st">&#39;rate&#39;</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>()</span>
-<span id="cb97-4"><a href="chapter2.html#cb97-4" aria-hidden="true"></a></span>
-<span id="cb97-5"><a href="chapter2.html#cb97-5" aria-hidden="true"></a>cowplot<span class="op">::</span><span class="kw">plot_grid</span>(p1, p2, p3, <span class="dt">ncol=</span><span class="dv">3</span>, <span class="dt">labels =</span> LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>])</span></code></pre></div>
-<div class="figure"><span id="fig:rescale"></span>
-<img src="treedata_files/figure-html/rescale-1.svg" alt="Re-scaling tree branches. The tree with branches scaled in time (year from the root) (A). The tree was re-scaled using dN as branch lengths (B). The tree was re-scaled using substitution rates (C)." width="1152"  />
-<p class="caption">
+<div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu">ggtree</span><span class="op">(</span><span class="va">merged_tree</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme_tree2</span><span class="op">(</span><span class="op">)</span>
+<span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu">ggtree</span><span class="op">(</span><span class="fu">rescale_tree</span><span class="op">(</span><span class="va">merged_tree</span>, <span class="st">'dN'</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme_tree2</span><span class="op">(</span><span class="op">)</span>
+<span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu">ggtree</span><span class="op">(</span><span class="fu">rescale_tree</span><span class="op">(</span><span class="va">merged_tree</span>, <span class="st">'rate'</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme_tree2</span><span class="op">(</span><span class="op">)</span>
+
+<span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html">plot_grid</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, <span class="va">p3</span>, ncol<span class="op">=</span><span class="fl">3</span>, labels <span class="op">=</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<div class="figure">
+<span id="fig:rescale"></span>
+<img src="treedata_files/figure-html/rescale-1.svg" alt="Re-scaling tree branches. The tree with branches scaled in time (year from the root) (A). The tree was re-scaled using dN as branch lengths (B). The tree was re-scaled using substitution rates (C)." width="1152"><p class="caption">
 Figure 2.2: <strong>Re-scaling tree branches.</strong> The tree with branches scaled in time (year from the root) (A). The tree was re-scaled using <em>d<sub>N</sub></em> as branch lengths (B). The tree was re-scaled using substitution rates (C).
 </p>
 </div>
 </div>
 <div id="subsetting-tree-with-data" class="section level2" number="2.5">
-<h2><span class="header-section-number">2.5</span> Subsetting Tree with Data</h2>
+<h2>
+<span class="header-section-number">2.5</span> Subsetting Tree with Data<a class="anchor" aria-label="anchor" href="#subsetting-tree-with-data"><i class="fas fa-link"></i></a>
+</h2>
 <div id="remove-tip" class="section level3" number="2.5.1">
-<h3><span class="header-section-number">2.5.1</span> Removing tips in a phylogenetic tree</h3>
+<h3>
+<span class="header-section-number">2.5.1</span> Removing tips in a phylogenetic tree<a class="anchor" aria-label="anchor" href="#remove-tip"><i class="fas fa-link"></i></a>
+</h3>
 <p>Sometimes we want to remove selected tips from a phylogenetic tree. This is due to several reasons, including low sequence quality, errors in sequence assembly, an alignment error in part of the sequence and an error in phylogenetic inference <em>etc</em>.</p>
-<p>Let’s say that we want to remove three tips (colored by red) from the tree (Figure <a href="chapter2.html#fig:removeTip">2.3</a>A), the <code>drop.tip()</code> method removes specified tips and update tree (Figure <a href="chapter2.html#fig:removeTip">2.3</a>B). All associated data will be maintained in the updated tree.</p>
+<p>Let’s say that we want to remove three tips (colored by red) from the tree (Figure <a href="chapter2.html#fig:removeTip">2.3</a>A), the <code><a href="https://rdrr.io/pkg/ape/man/drop.tip.html">drop.tip()</a></code> method removes specified tips and update tree (Figure <a href="chapter2.html#fig:removeTip">2.3</a>B). All associated data will be maintained in the updated tree.</p>
 
 
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="chapter2.html#cb98-1" aria-hidden="true"></a>f &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/NHX&quot;</span>, <span class="st">&quot;phyldog.nhx&quot;</span>, <span class="dt">package=</span><span class="st">&quot;treeio&quot;</span>)</span>
-<span id="cb98-2"><a href="chapter2.html#cb98-2" aria-hidden="true"></a>nhx &lt;-<span class="st"> </span><span class="kw">read.nhx</span>(f)</span>
-<span id="cb98-3"><a href="chapter2.html#cb98-3" aria-hidden="true"></a>to_drop &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Physonect_sp_@2066767&quot;</span>,</span>
-<span id="cb98-4"><a href="chapter2.html#cb98-4" aria-hidden="true"></a>            <span class="st">&quot;Lychnagalma_utricularia@2253871&quot;</span>,</span>
-<span id="cb98-5"><a href="chapter2.html#cb98-5" aria-hidden="true"></a>            <span class="st">&quot;Kephyes_ovata@2606431&quot;</span>)</span>
-<span id="cb98-6"><a href="chapter2.html#cb98-6" aria-hidden="true"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(nhx) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">color =</span> label <span class="op">%in%</span><span class="st"> </span>to_drop)) <span class="op">+</span></span>
-<span id="cb98-7"><a href="chapter2.html#cb98-7" aria-hidden="true"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="fl">0.8</span>)</span>
-<span id="cb98-8"><a href="chapter2.html#cb98-8" aria-hidden="true"></a></span>
-<span id="cb98-9"><a href="chapter2.html#cb98-9" aria-hidden="true"></a>nhx_reduced &lt;-<span class="st"> </span><span class="kw">drop.tip</span>(nhx, to_drop)</span>
-<span id="cb98-10"><a href="chapter2.html#cb98-10" aria-hidden="true"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(nhx_reduced) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="fl">0.8</span>)  </span>
-<span id="cb98-11"><a href="chapter2.html#cb98-11" aria-hidden="true"></a><span class="kw">plot_grid</span>(p1, p2, <span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>))</span></code></pre></div>
-<div class="figure"><span id="fig:removeTip"></span>
-<img src="treedata_files/figure-html/removeTip-1.svg" alt="Removing tips from tree. Original tree with three tips (colored by red) to remove (A). Updated tree that removed selected tips (B)." width="960" />
-<p class="caption">
+<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/NHX"</span>, <span class="st">"phyldog.nhx"</span>, package<span class="op">=</span><span class="st">"treeio"</span><span class="op">)</span>
+<span class="va">nhx</span> <span class="op">&lt;-</span> <span class="fu">read.nhx</span><span class="op">(</span><span class="va">f</span><span class="op">)</span>
+<span class="va">to_drop</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Physonect_sp_@2066767"</span>,
+            <span class="st">"Lychnagalma_utricularia@2253871"</span>,
+            <span class="st">"Kephyes_ovata@2606431"</span><span class="op">)</span>
+<span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu">ggtree</span><span class="op">(</span><span class="va">nhx</span><span class="op">)</span> <span class="op">+</span> <span class="fu">geom_tiplab</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>color <span class="op">=</span> <span class="va">label</span> <span class="op">%in%</span> <span class="va">to_drop</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">scale_color_manual</span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="st">"red"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.window.html">xlim</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.8</span><span class="op">)</span>
+
+<span class="va">nhx_reduced</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/drop.tip.html">drop.tip</a></span><span class="op">(</span><span class="va">nhx</span>, <span class="va">to_drop</span><span class="op">)</span>
+<span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu">ggtree</span><span class="op">(</span><span class="va">nhx_reduced</span><span class="op">)</span> <span class="op">+</span> <span class="fu">geom_tiplab</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.window.html">xlim</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.8</span><span class="op">)</span>  
+<span class="fu">plot_grid</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, ncol<span class="op">=</span><span class="fl">2</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="figure">
+<span id="fig:removeTip"></span>
+<img src="treedata_files/figure-html/removeTip-1.svg" alt="Removing tips from tree. Original tree with three tips (colored by red) to remove (A). Updated tree that removed selected tips (B)." width="960"><p class="caption">
 Figure 2.3: <strong>Removing tips from tree.</strong> Original tree with three tips (colored by red) to remove (A). Updated tree that removed selected tips (B).
 </p>
 </div>
 </div>
 <div id="subset-tip" class="section level3" number="2.5.2">
-<h3><span class="header-section-number">2.5.2</span> Subsetting tree by tip label</h3>
-<p>Tree can be large and difficult to look at only the portions of interest. The <code>tree_subset()</code> function was created in <a href="http://bioconductor.org/packages/treeio">treeio</a> package to extract a subset of the tree portion while still maintaining the structure of the tree portion. The <code>beast_tree</code> in Figure <a href="chapter2.html#fig:subsetTip">2.4</a>A is slightly crowded. Obviously, we can make the figure taller to allow more space for the labels (similar to use “Expansion” slider in <code>FigTree</code>) or we can make the text smaller. However, these solutions are not always applicable when you have a lot of tips (<em>e.g.</em> hundreds or thousands of tips). In particular, when you are only interested in the portion of the tree around a particular tip, you certainly don’t want to explore a large tree to find centain species you are interested in.</p>
+<h3>
+<span class="header-section-number">2.5.2</span> Subsetting tree by tip label<a class="anchor" aria-label="anchor" href="#subset-tip"><i class="fas fa-link"></i></a>
+</h3>
+<p>Tree can be large and difficult to look at only the portions of interest. The <code><a href="https://docs.ropensci.org/treeio/reference/tree_subset.html">tree_subset()</a></code> function was created in <a href="http://bioconductor.org/packages/treeio">treeio</a> package to extract a subset of the tree portion while still maintaining the structure of the tree portion. The <code>beast_tree</code> in Figure <a href="chapter2.html#fig:subsetTip">2.4</a>A is slightly crowded. Obviously, we can make the figure taller to allow more space for the labels (similar to use “Expansion” slider in <code>FigTree</code>) or we can make the text smaller. However, these solutions are not always applicable when you have a lot of tips (<em>e.g.</em> hundreds or thousands of tips). In particular, when you are only interested in the portion of the tree around a particular tip, you certainly don’t want to explore a large tree to find centain species you are interested in.</p>
 <p>Let’s say you are interested in tip <em>A/Swine/HK/168/2012</em> from the tree (Figure <a href="chapter2.html#fig:subsetTip">2.4</a>A) and you want to look at the immediate relatives of this tip.</p>
-<p>The <code>tree_subset()</code> function allows for you to look at the portions of the tree that are of interest. By default, <code>tree_subset()</code> will internally call <a href="chapter2.html#groupotu"><code>groupOTU()</code></a> to assign group specified tip from the rest of other tips (Figure <a href="chapter2.html#fig:subsetTip">2.4</a>B). Additionally, the branch lengths and related associated data are maintained after subsetting (Figure <a href="chapter2.html#fig:subsetTip">2.4</a>C). The root of the tree is always anchored at zero for the subset tree by default and all the distances are relative to this root. If you want all the distances are relative to the original root, you can specify the root position (by <code>root.position</code> parameter) to the root edge of the subset tree, which is the sum of branch lengths from the original root to the root of the subset tree (Figure <a href="chapter2.html#fig:subsetTip">2.4</a>D and E).</p>
+<p>The <code><a href="https://docs.ropensci.org/treeio/reference/tree_subset.html">tree_subset()</a></code> function allows for you to look at the portions of the tree that are of interest. By default, <code><a href="https://docs.ropensci.org/treeio/reference/tree_subset.html">tree_subset()</a></code> will internally call <a href="chapter2.html#groupotu"><code>groupOTU()</code></a> to assign group specified tip from the rest of other tips (Figure <a href="chapter2.html#fig:subsetTip">2.4</a>B). Additionally, the branch lengths and related associated data are maintained after subsetting (Figure <a href="chapter2.html#fig:subsetTip">2.4</a>C). The root of the tree is always anchored at zero for the subset tree by default and all the distances are relative to this root. If you want all the distances are relative to the original root, you can specify the root position (by <code>root.position</code> parameter) to the root edge of the subset tree, which is the sum of branch lengths from the original root to the root of the subset tree (Figure <a href="chapter2.html#fig:subsetTip">2.4</a>D and E).</p>
 
 
-<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="chapter2.html#cb99-1" aria-hidden="true"></a>beast_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;examples/MCC_FluA_H3.tree&quot;</span>, <span class="dt">package=</span><span class="st">&quot;ggtree&quot;</span>)</span>
-<span id="cb99-2"><a href="chapter2.html#cb99-2" aria-hidden="true"></a>beast_tree &lt;-<span class="st"> </span><span class="kw">read.beast</span>(beast_file)</span>
-<span id="cb99-3"><a href="chapter2.html#cb99-3" aria-hidden="true"></a></span>
-<span id="cb99-4"><a href="chapter2.html#cb99-4" aria-hidden="true"></a>p1 =<span class="st"> </span><span class="kw">ggtree</span>(beast_tree) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb99-5"><a href="chapter2.html#cb99-5" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">40</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>()</span>
-<span id="cb99-6"><a href="chapter2.html#cb99-6" aria-hidden="true"></a></span>
-<span id="cb99-7"><a href="chapter2.html#cb99-7" aria-hidden="true"></a>tree2 =<span class="st"> </span><span class="kw">tree_subset</span>(beast_tree, <span class="st">&quot;A/Swine/HK/168/2012&quot;</span>, <span class="dt">levels_back=</span><span class="dv">4</span>)  </span>
-<span id="cb99-8"><a href="chapter2.html#cb99-8" aria-hidden="true"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree2, <span class="kw">aes</span>(<span class="dt">color=</span>group)) <span class="op">+</span></span>
-<span id="cb99-9"><a href="chapter2.html#cb99-9" aria-hidden="true"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>)) <span class="op">+</span></span>
-<span id="cb99-10"><a href="chapter2.html#cb99-10" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">4</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_tree2</span>() </span>
-<span id="cb99-11"><a href="chapter2.html#cb99-11" aria-hidden="true"></a></span>
-<span id="cb99-12"><a href="chapter2.html#cb99-12" aria-hidden="true"></a>p3 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree2, <span class="kw">aes</span>(<span class="dt">color=</span>group)) <span class="op">+</span></span>
-<span id="cb99-13"><a href="chapter2.html#cb99-13" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="dt">hjust =</span> <span class="fl">-.1</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">5</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb99-14"><a href="chapter2.html#cb99-14" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> rate), <span class="dt">shape =</span> <span class="dv">21</span>, <span class="dt">size =</span> <span class="dv">4</span>) <span class="op">+</span></span>
-<span id="cb99-15"><a href="chapter2.html#cb99-15" aria-hidden="true"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>), <span class="dt">guide =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
-<span id="cb99-16"><a href="chapter2.html#cb99-16" aria-hidden="true"></a><span class="st">  </span><span class="kw">scale_fill_continuous</span>(<span class="dt">low =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">high =</span> <span class="st">&#39;red&#39;</span>) <span class="op">+</span></span>
-<span id="cb99-17"><a href="chapter2.html#cb99-17" aria-hidden="true"></a><span class="st">  </span><span class="kw">theme_tree2</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&#39;right&#39;</span>)</span>
-<span id="cb99-18"><a href="chapter2.html#cb99-18" aria-hidden="true"></a></span>
-<span id="cb99-19"><a href="chapter2.html#cb99-19" aria-hidden="true"></a></span>
-<span id="cb99-20"><a href="chapter2.html#cb99-20" aria-hidden="true"></a>p4 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree2, <span class="kw">aes</span>(<span class="dt">color=</span>group), </span>
-<span id="cb99-21"><a href="chapter2.html#cb99-21" aria-hidden="true"></a>          <span class="dt">root.position =</span> <span class="kw">as.phylo</span>(tree2)<span class="op">$</span>root.edge) <span class="op">+</span></span>
-<span id="cb99-22"><a href="chapter2.html#cb99-22" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">18</span>, <span class="dv">24</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb99-23"><a href="chapter2.html#cb99-23" aria-hidden="true"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>)) <span class="op">+</span></span>
-<span id="cb99-24"><a href="chapter2.html#cb99-24" aria-hidden="true"></a><span class="st">  </span><span class="kw">theme_tree2</span>()</span>
-<span id="cb99-25"><a href="chapter2.html#cb99-25" aria-hidden="true"></a></span>
-<span id="cb99-26"><a href="chapter2.html#cb99-26" aria-hidden="true"></a>p5 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree2, <span class="kw">aes</span>(<span class="dt">color=</span>group), </span>
-<span id="cb99-27"><a href="chapter2.html#cb99-27" aria-hidden="true"></a>          <span class="dt">root.position =</span> <span class="kw">as.phylo</span>(tree2)<span class="op">$</span>root.edge) <span class="op">+</span></span>
-<span id="cb99-28"><a href="chapter2.html#cb99-28" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_rootedge</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">40</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb99-29"><a href="chapter2.html#cb99-29" aria-hidden="true"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>)) <span class="op">+</span></span>
-<span id="cb99-30"><a href="chapter2.html#cb99-30" aria-hidden="true"></a><span class="st">  </span><span class="kw">theme_tree2</span>()</span>
-<span id="cb99-31"><a href="chapter2.html#cb99-31" aria-hidden="true"></a></span>
-<span id="cb99-32"><a href="chapter2.html#cb99-32" aria-hidden="true"></a><span class="kw">plot_grid</span>(p2, p3, p4, p5, <span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">labels=</span>LETTERS[<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>]) <span class="op">%&gt;%</span></span>
-<span id="cb99-33"><a href="chapter2.html#cb99-33" aria-hidden="true"></a><span class="st">  </span><span class="kw">plot_grid</span>(p1, ., <span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;&quot;</span>), <span class="dt">rel_widths=</span><span class="kw">c</span>(.<span class="dv">5</span>, <span class="dv">1</span>))</span></code></pre></div>
-<div class="figure"><span id="fig:subsetTip"></span>
-<img src="treedata_files/figure-html/subsetTip-1.svg" alt="Subsetting tree for specific tip. The original tree (A). The subset tree (B). Subset tree with data (C). Visualize the subset tree relative to original position, without root edge (D) and with root edge (E)." width="1152"  />
-<p class="caption">
+<div class="sourceCode" id="cb99"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">beast_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"examples/MCC_FluA_H3.tree"</span>, package<span class="op">=</span><span class="st">"ggtree"</span><span class="op">)</span>
+<span class="va">beast_tree</span> <span class="op">&lt;-</span> <span class="fu">read.beast</span><span class="op">(</span><span class="va">beast_file</span><span class="op">)</span>
+
+<span class="va">p1</span> <span class="op">=</span> <span class="fu">ggtree</span><span class="op">(</span><span class="va">beast_tree</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">geom_tiplab</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.window.html">xlim</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">40</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme_tree2</span><span class="op">(</span><span class="op">)</span>
+
+<span class="va">tree2</span> <span class="op">=</span> <span class="fu">tree_subset</span><span class="op">(</span><span class="va">beast_tree</span>, <span class="st">"A/Swine/HK/168/2012"</span>, levels_back<span class="op">=</span><span class="fl">4</span><span class="op">)</span>  
+<span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu">ggtree</span><span class="op">(</span><span class="va">tree2</span>, <span class="fu">aes</span><span class="op">(</span>color<span class="op">=</span><span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">scale_color_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="st">"red"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">geom_tiplab</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.window.html">xlim</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme_tree2</span><span class="op">(</span><span class="op">)</span> 
+
+<span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu">ggtree</span><span class="op">(</span><span class="va">tree2</span>, <span class="fu">aes</span><span class="op">(</span>color<span class="op">=</span><span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">geom_tiplab</span><span class="op">(</span>hjust <span class="op">=</span> <span class="op">-</span><span class="fl">.1</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.window.html">xlim</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">5</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">geom_point</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>fill <span class="op">=</span> <span class="va">rate</span><span class="op">)</span>, shape <span class="op">=</span> <span class="fl">21</span>, size <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">scale_color_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="st">"red"</span><span class="op">)</span>, guide <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">scale_fill_continuous</span><span class="op">(</span>low <span class="op">=</span> <span class="st">'blue'</span>, high <span class="op">=</span> <span class="st">'red'</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">theme_tree2</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">'right'</span><span class="op">)</span>
+
+
+<span class="va">p4</span> <span class="op">&lt;-</span> <span class="fu">ggtree</span><span class="op">(</span><span class="va">tree2</span>, <span class="fu">aes</span><span class="op">(</span>color<span class="op">=</span><span class="va">group</span><span class="op">)</span>, 
+          root.position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/as.phylo.html">as.phylo</a></span><span class="op">(</span><span class="va">tree2</span><span class="op">)</span><span class="op">$</span><span class="va">root.edge</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">geom_tiplab</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.window.html">xlim</a></span><span class="op">(</span><span class="fl">18</span>, <span class="fl">24</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">scale_color_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="st">"red"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">theme_tree2</span><span class="op">(</span><span class="op">)</span>
+
+<span class="va">p5</span> <span class="op">&lt;-</span> <span class="fu">ggtree</span><span class="op">(</span><span class="va">tree2</span>, <span class="fu">aes</span><span class="op">(</span>color<span class="op">=</span><span class="va">group</span><span class="op">)</span>, 
+          root.position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/as.phylo.html">as.phylo</a></span><span class="op">(</span><span class="va">tree2</span><span class="op">)</span><span class="op">$</span><span class="va">root.edge</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">geom_rootedge</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">geom_tiplab</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.window.html">xlim</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">40</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">scale_color_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="st">"red"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">theme_tree2</span><span class="op">(</span><span class="op">)</span>
+
+<span class="fu">plot_grid</span><span class="op">(</span><span class="va">p2</span>, <span class="va">p3</span>, <span class="va">p4</span>, <span class="va">p5</span>, ncol<span class="op">=</span><span class="fl">2</span>, labels<span class="op">=</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">plot_grid</span><span class="op">(</span><span class="va">p1</span>, <span class="va">.</span>, ncol<span class="op">=</span><span class="fl">2</span>, labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">""</span><span class="op">)</span>, rel_widths<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.5</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="figure">
+<span id="fig:subsetTip"></span>
+<img src="treedata_files/figure-html/subsetTip-1.svg" alt="Subsetting tree for specific tip. The original tree (A). The subset tree (B). Subset tree with data (C). Visualize the subset tree relative to original position, without root edge (D) and with root edge (E)." width="1152"><p class="caption">
 Figure 2.4: <strong>Subsetting tree for specific tip.</strong> The original tree (A). The subset tree (B). Subset tree with data (C). Visualize the subset tree relative to original position, without root edge (D) and with root edge (E).
 </p>
 </div>
 </div>
 <div id="subset-node" class="section level3" number="2.5.3">
-<h3><span class="header-section-number">2.5.3</span> Subsetting tree by internal node number</h3>
-<p>If you are interesting at certain clade, you can specify the input node as an internal node number. The <code>tree_subset()</code> function will take the clade as a whole and also trace back to particular levels to look at the immediate relatives of the clade (Figure <a href="chapter2.html#fig:subsetNode">2.5</a>A and B). We can use <code>tree_subset</code> to zoom in selected portions and plot a whole tree with the portion of it, that is similar to the <code>ape::zoom()</code> function to explore very large tree (Figure <a href="chapter2.html#fig:subsetNode">2.5</a>C and D).</p>
+<h3>
+<span class="header-section-number">2.5.3</span> Subsetting tree by internal node number<a class="anchor" aria-label="anchor" href="#subset-node"><i class="fas fa-link"></i></a>
+</h3>
+<p>If you are interesting at certain clade, you can specify the input node as an internal node number. The <code><a href="https://docs.ropensci.org/treeio/reference/tree_subset.html">tree_subset()</a></code> function will take the clade as a whole and also trace back to particular levels to look at the immediate relatives of the clade (Figure <a href="chapter2.html#fig:subsetNode">2.5</a>A and B). We can use <code>tree_subset</code> to zoom in selected portions and plot a whole tree with the portion of it, that is similar to the <code><a href="https://rdrr.io/pkg/ape/man/zoom.html">ape::zoom()</a></code> function to explore very large tree (Figure <a href="chapter2.html#fig:subsetNode">2.5</a>C and D).</p>
 
 
-<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="chapter2.html#cb100-1" aria-hidden="true"></a>clade &lt;-<span class="st"> </span><span class="kw">tree_subset</span>(beast_tree, <span class="dt">node=</span><span class="dv">121</span>, <span class="dt">levels_back=</span><span class="dv">0</span>)</span>
-<span id="cb100-2"><a href="chapter2.html#cb100-2" aria-hidden="true"></a>clade2 &lt;-<span class="st"> </span><span class="kw">tree_subset</span>(beast_tree, <span class="dt">node=</span><span class="dv">121</span>, <span class="dt">levels_back=</span><span class="dv">2</span>)</span>
-<span id="cb100-3"><a href="chapter2.html#cb100-3" aria-hidden="true"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(clade) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">5</span>)</span>
-<span id="cb100-4"><a href="chapter2.html#cb100-4" aria-hidden="true"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(clade2, <span class="kw">aes</span>(<span class="dt">color=</span>group)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb100-5"><a href="chapter2.html#cb100-5" aria-hidden="true"></a><span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">8</span>) <span class="op">+</span><span class="st"> </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>))</span>
-<span id="cb100-6"><a href="chapter2.html#cb100-6" aria-hidden="true"></a></span>
-<span id="cb100-7"><a href="chapter2.html#cb100-7" aria-hidden="true"></a></span>
-<span id="cb100-8"><a href="chapter2.html#cb100-8" aria-hidden="true"></a><span class="kw">library</span>(ape)</span>
-<span id="cb100-9"><a href="chapter2.html#cb100-9" aria-hidden="true"></a><span class="kw">library</span>(tidytree)</span>
-<span id="cb100-10"><a href="chapter2.html#cb100-10" aria-hidden="true"></a><span class="kw">library</span>(treeio)</span>
-<span id="cb100-11"><a href="chapter2.html#cb100-11" aria-hidden="true"></a></span>
-<span id="cb100-12"><a href="chapter2.html#cb100-12" aria-hidden="true"></a><span class="kw">data</span>(chiroptera)</span>
-<span id="cb100-13"><a href="chapter2.html#cb100-13" aria-hidden="true"></a></span>
-<span id="cb100-14"><a href="chapter2.html#cb100-14" aria-hidden="true"></a>nodes &lt;-<span class="st"> </span><span class="kw">grep</span>(<span class="st">&quot;Plecotus&quot;</span>, chiroptera<span class="op">$</span>tip.label)</span>
-<span id="cb100-15"><a href="chapter2.html#cb100-15" aria-hidden="true"></a>chiroptera &lt;-<span class="st"> </span><span class="kw">groupOTU</span>(chiroptera, nodes)</span>
-<span id="cb100-16"><a href="chapter2.html#cb100-16" aria-hidden="true"></a></span>
-<span id="cb100-17"><a href="chapter2.html#cb100-17" aria-hidden="true"></a>clade &lt;-<span class="st"> </span><span class="kw">MRCA</span>(chiroptera, nodes)</span>
-<span id="cb100-18"><a href="chapter2.html#cb100-18" aria-hidden="true"></a>x &lt;-<span class="st"> </span><span class="kw">tree_subset</span>(chiroptera, clade, <span class="dt">levels_back =</span> <span class="dv">0</span>)</span>
-<span id="cb100-19"><a href="chapter2.html#cb100-19" aria-hidden="true"></a></span>
-<span id="cb100-20"><a href="chapter2.html#cb100-20" aria-hidden="true"></a>p3 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(chiroptera, <span class="kw">aes</span>(<span class="dt">colour =</span> group)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb100-21"><a href="chapter2.html#cb100-21" aria-hidden="true"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>)) <span class="op">+</span></span>
-<span id="cb100-22"><a href="chapter2.html#cb100-22" aria-hidden="true"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span>
-<span id="cb100-23"><a href="chapter2.html#cb100-23" aria-hidden="true"></a>p4 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(x) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">5</span>)</span>
-<span id="cb100-24"><a href="chapter2.html#cb100-24" aria-hidden="true"></a><span class="kw">plot_grid</span>(p1, p2, p3, p4, </span>
-<span id="cb100-25"><a href="chapter2.html#cb100-25" aria-hidden="true"></a>  <span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">labels=</span>LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>])</span></code></pre></div>
-<div class="figure"><span id="fig:subsetNode"></span>
-<img src="treedata_files/figure-html/subsetNode-1.svg" alt="Subsetting tree for specific clade. Extracting a clade (A). Extracting a clade and trace back to look at its immediate relatives (B). Viewing a very large tree (C) and a selected portion of it (D)." width="960"  />
-<p class="caption">
+<div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">clade</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/treeio/reference/tree_subset.html">tree_subset</a></span><span class="op">(</span><span class="va">beast_tree</span>, node<span class="op">=</span><span class="fl">121</span>, levels_back<span class="op">=</span><span class="fl">0</span><span class="op">)</span>
+<span class="va">clade2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/treeio/reference/tree_subset.html">tree_subset</a></span><span class="op">(</span><span class="va">beast_tree</span>, node<span class="op">=</span><span class="fl">121</span>, levels_back<span class="op">=</span><span class="fl">2</span><span class="op">)</span>
+<span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu">ggtree</span><span class="op">(</span><span class="va">clade</span><span class="op">)</span> <span class="op">+</span> <span class="fu">geom_tiplab</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.window.html">xlim</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">5</span><span class="op">)</span>
+<span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu">ggtree</span><span class="op">(</span><span class="va">clade2</span>, <span class="fu">aes</span><span class="op">(</span>color<span class="op">=</span><span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu">geom_tiplab</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.window.html">xlim</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">8</span><span class="op">)</span> <span class="op">+</span> <span class="fu">scale_color_manual</span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="st">"red"</span><span class="op">)</span><span class="op">)</span>
+
+
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ape-package.ird.fr/">ape</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yulab-smu.top/treedata-book/">tidytree</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/YuLab-SMU/treeio">treeio</a></span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">chiroptera</span><span class="op">)</span>
+
+<span class="va">nodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span><span class="st">"Plecotus"</span>, <span class="va">chiroptera</span><span class="op">$</span><span class="va">tip.label</span><span class="op">)</span>
+<span class="va">chiroptera</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tidytree/man/groupOTU.html">groupOTU</a></span><span class="op">(</span><span class="va">chiroptera</span>, <span class="va">nodes</span><span class="op">)</span>
+
+<span class="va">clade</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tidytree/man/MRCA.html">MRCA</a></span><span class="op">(</span><span class="va">chiroptera</span>, <span class="va">nodes</span><span class="op">)</span>
+<span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/treeio/reference/tree_subset.html">tree_subset</a></span><span class="op">(</span><span class="va">chiroptera</span>, <span class="va">clade</span>, levels_back <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
+
+<span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu">ggtree</span><span class="op">(</span><span class="va">chiroptera</span>, <span class="fu">aes</span><span class="op">(</span>colour <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">scale_color_manual</span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="st">"red"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span>
+<span class="va">p4</span> <span class="op">&lt;-</span> <span class="fu">ggtree</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">+</span> <span class="fu">geom_tiplab</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.window.html">xlim</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">5</span><span class="op">)</span>
+<span class="fu">plot_grid</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, <span class="va">p3</span>, <span class="va">p4</span>, 
+  ncol<span class="op">=</span><span class="fl">2</span>, labels<span class="op">=</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<div class="figure">
+<span id="fig:subsetNode"></span>
+<img src="treedata_files/figure-html/subsetNode-1.svg" alt="Subsetting tree for specific clade. Extracting a clade (A). Extracting a clade and trace back to look at its immediate relatives (B). Viewing a very large tree (C) and a selected portion of it (D)." width="960"><p class="caption">
 Figure 2.5: <strong>Subsetting tree for specific clade.</strong> Extracting a clade (A). Extracting a clade and trace back to look at its immediate relatives (B). Viewing a very large tree (C) and a selected portion of it (D).
 </p>
 </div>
 </div>
 </div>
 <div id="ggtree-fortify" class="section level2" number="2.6">
-<h2><span class="header-section-number">2.6</span> Manipulating tree data for visualization</h2>
-<p>Tree visualization is supported by <a href="chapter4.html#chapter4">ggtree</a>. Although <em>ggtree</em> implemented several methods for <a href="chapter6.html#chapter6">visual exploration of tree with data</a>, you may want to do something that is not supported directly. In this case, you need to manipulate tree data with node coordination positions that used for visualization. This is quite easy with <em>ggtree</em>. User can use <code>fortify()</code> method which internally call <code>tidytree::as_tibble()</code> to convert the tree to tidy data frame and add columns of coordination positions (<em>i.e.</em> x, y, branch and angle) that are used to plot the tree. You can also access the data via <code>ggtree(tree)$data</code>.</p>
-<p>Here is an example to plot two trees face to face that is similar to a <code>ape::cophyloplot()</code>.</p>
+<h2>
+<span class="header-section-number">2.6</span> Manipulating tree data for visualization<a class="anchor" aria-label="anchor" href="#ggtree-fortify"><i class="fas fa-link"></i></a>
+</h2>
+<p>Tree visualization is supported by <a href="chapter4.html#chapter4">ggtree</a>. Although <em>ggtree</em> implemented several methods for <a href="chapter6.html#chapter6">visual exploration of tree with data</a>, you may want to do something that is not supported directly. In this case, you need to manipulate tree data with node coordination positions that used for visualization. This is quite easy with <em>ggtree</em>. User can use <code><a href="https://rdrr.io/pkg/ggplot2/man/fortify.html">fortify()</a></code> method which internally call <code><a href="https://rdrr.io/pkg/tibble/man/as_tibble.html">tidytree::as_tibble()</a></code> to convert the tree to tidy data frame and add columns of coordination positions (<em>i.e.</em> x, y, branch and angle) that are used to plot the tree. You can also access the data via <code>ggtree(tree)$data</code>.</p>
+<p>Here is an example to plot two trees face to face that is similar to a <code><a href="https://rdrr.io/pkg/ape/man/cophyloplot.html">ape::cophyloplot()</a></code>.</p>
 
 
-<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="chapter2.html#cb101-1" aria-hidden="true"></a><span class="kw">library</span>(dplyr)</span>
-<span id="cb101-2"><a href="chapter2.html#cb101-2" aria-hidden="true"></a><span class="kw">library</span>(ggtree)</span>
-<span id="cb101-3"><a href="chapter2.html#cb101-3" aria-hidden="true"></a></span>
-<span id="cb101-4"><a href="chapter2.html#cb101-4" aria-hidden="true"></a><span class="kw">set.seed</span>(<span class="dv">1024</span>)</span>
-<span id="cb101-5"><a href="chapter2.html#cb101-5" aria-hidden="true"></a>x &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)</span>
-<span id="cb101-6"><a href="chapter2.html#cb101-6" aria-hidden="true"></a>y &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)</span>
-<span id="cb101-7"><a href="chapter2.html#cb101-7" aria-hidden="true"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(x, <span class="dt">layout=</span><span class="st">&#39;roundrect&#39;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb101-8"><a href="chapter2.html#cb101-8" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_hilight</span>(</span>
-<span id="cb101-9"><a href="chapter2.html#cb101-9" aria-hidden="true"></a>         <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">subset =</span> node <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">38</span>, <span class="dv">48</span>, <span class="dv">58</span>, <span class="dv">36</span>),</span>
-<span id="cb101-10"><a href="chapter2.html#cb101-10" aria-hidden="true"></a>                     <span class="dt">node =</span> node,</span>
-<span id="cb101-11"><a href="chapter2.html#cb101-11" aria-hidden="true"></a>                     <span class="dt">fill =</span> <span class="kw">as.factor</span>(node)</span>
-<span id="cb101-12"><a href="chapter2.html#cb101-12" aria-hidden="true"></a>                     )</span>
-<span id="cb101-13"><a href="chapter2.html#cb101-13" aria-hidden="true"></a>     ) <span class="op">+</span></span>
-<span id="cb101-14"><a href="chapter2.html#cb101-14" aria-hidden="true"></a><span class="st">    </span><span class="kw">labs</span>(<span class="dt">fill =</span> <span class="st">&quot;clades for tree in left&quot;</span> )</span>
-<span id="cb101-15"><a href="chapter2.html#cb101-15" aria-hidden="true"></a></span>
-<span id="cb101-16"><a href="chapter2.html#cb101-16" aria-hidden="true"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggtree</span>(y)</span>
-<span id="cb101-17"><a href="chapter2.html#cb101-17" aria-hidden="true"></a></span>
-<span id="cb101-18"><a href="chapter2.html#cb101-18" aria-hidden="true"></a>d1 &lt;-<span class="st"> </span>p1<span class="op">$</span>data</span>
-<span id="cb101-19"><a href="chapter2.html#cb101-19" aria-hidden="true"></a>d2 &lt;-<span class="st"> </span>p2<span class="op">$</span>data</span>
-<span id="cb101-20"><a href="chapter2.html#cb101-20" aria-hidden="true"></a></span>
-<span id="cb101-21"><a href="chapter2.html#cb101-21" aria-hidden="true"></a><span class="co">## reverse x-axis and </span></span>
-<span id="cb101-22"><a href="chapter2.html#cb101-22" aria-hidden="true"></a><span class="co">## set offset to make the tree in the right hand side of the first tree</span></span>
-<span id="cb101-23"><a href="chapter2.html#cb101-23" aria-hidden="true"></a>d2<span class="op">$</span>x &lt;-<span class="st"> </span><span class="kw">max</span>(d2<span class="op">$</span>x) <span class="op">-</span><span class="st"> </span>d2<span class="op">$</span>x <span class="op">+</span><span class="st"> </span><span class="kw">max</span>(d1<span class="op">$</span>x) <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
-<span id="cb101-24"><a href="chapter2.html#cb101-24" aria-hidden="true"></a></span>
-<span id="cb101-25"><a href="chapter2.html#cb101-25" aria-hidden="true"></a>pp &lt;-<span class="st"> </span>p1 <span class="op">+</span><span class="st"> </span><span class="kw">geom_tree</span>(<span class="dt">data=</span>d2, <span class="dt">layout=</span><span class="st">&#39;ellipse&#39;</span>) <span class="op">+</span><span class="st">      </span></span>
-<span id="cb101-26"><a href="chapter2.html#cb101-26" aria-hidden="true"></a><span class="st">  </span>ggnewscale<span class="op">::</span><span class="kw">new_scale_fill</span>() <span class="op">+</span></span>
-<span id="cb101-27"><a href="chapter2.html#cb101-27" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_hilight</span>(</span>
-<span id="cb101-28"><a href="chapter2.html#cb101-28" aria-hidden="true"></a>         <span class="dt">data =</span> d2, </span>
-<span id="cb101-29"><a href="chapter2.html#cb101-29" aria-hidden="true"></a>         <span class="dt">mapping =</span> <span class="kw">aes</span>( </span>
-<span id="cb101-30"><a href="chapter2.html#cb101-30" aria-hidden="true"></a>            <span class="dt">subset =</span> node <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">38</span>, <span class="dv">48</span>, <span class="dv">58</span>),</span>
-<span id="cb101-31"><a href="chapter2.html#cb101-31" aria-hidden="true"></a>            <span class="dt">node=</span>node,</span>
-<span id="cb101-32"><a href="chapter2.html#cb101-32" aria-hidden="true"></a>            <span class="dt">fill=</span><span class="kw">as.factor</span>(node))</span>
-<span id="cb101-33"><a href="chapter2.html#cb101-33" aria-hidden="true"></a>  ) <span class="op">+</span></span>
-<span id="cb101-34"><a href="chapter2.html#cb101-34" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">fill =</span> <span class="st">&quot;clades for tree in right&quot;</span> ) </span>
-<span id="cb101-35"><a href="chapter2.html#cb101-35" aria-hidden="true"></a></span>
-<span id="cb101-36"><a href="chapter2.html#cb101-36" aria-hidden="true"></a>dd &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(d1, d2) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb101-37"><a href="chapter2.html#cb101-37" aria-hidden="true"></a><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(label))</span>
-<span id="cb101-38"><a href="chapter2.html#cb101-38" aria-hidden="true"></a></span>
-<span id="cb101-39"><a href="chapter2.html#cb101-39" aria-hidden="true"></a>pp <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(x, y, <span class="dt">group=</span>label), <span class="dt">data=</span>dd, <span class="dt">color=</span><span class="st">&#39;grey&#39;</span>) <span class="op">+</span></span>
-<span id="cb101-40"><a href="chapter2.html#cb101-40" aria-hidden="true"></a><span class="st">    </span><span class="kw">geom_tiplab</span>(<span class="dt">geom =</span> <span class="st">&#39;shadowtext&#39;</span>, <span class="dt">bg.colour =</span> <span class="kw">alpha</span>(<span class="st">&#39;firebrick&#39;</span>, <span class="fl">.5</span>)) <span class="op">+</span></span>
-<span id="cb101-41"><a href="chapter2.html#cb101-41" aria-hidden="true"></a><span class="st">    </span><span class="kw">geom_tiplab</span>(<span class="dt">data =</span> d2, <span class="dt">hjust=</span><span class="dv">1</span>, <span class="dt">geom =</span> <span class="st">&#39;shadowtext&#39;</span>, <span class="dt">bg.colour =</span> <span class="kw">alpha</span>(<span class="st">&#39;firebrick&#39;</span>, <span class="fl">.5</span>))</span></code></pre></div>
-<div class="figure"><span id="fig:cophylo"></span>
-<img src="treedata_files/figure-html/cophylo-1.svg" alt="Plot two phylogenetic trees face to face. Plotting a tree using ggtree() (left hand side) and subsequently add another layer of tree by geom_tree() (right hand side). The relative positions of the plotted trees can be manual adjusted and adding layers to each of the tree (e.g. tip labels and highlighting clades) is independent." width="768"  />
-<p class="caption">
-Figure 2.6: <strong>Plot two phylogenetic trees face to face.</strong> Plotting a tree using <code>ggtree()</code> (left hand side) and subsequently add another layer of tree by <code>geom_tree()</code> (right hand side). The relative positions of the plotted trees can be manual adjusted and adding layers to each of the tree (<em>e.g.</em> tip labels and highlighting clades) is independent.
+<div class="sourceCode" id="cb101"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yulab-smu.top/treedata-book/">ggtree</a></span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1024</span><span class="op">)</span>
+<span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/rtree.html">rtree</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span>
+<span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/rtree.html">rtree</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span>
+<span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">x</span>, layout<span class="op">=</span><span class="st">'roundrect'</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom-hilight.html">geom_hilight</a></span><span class="op">(</span>
+         mapping<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>subset <span class="op">=</span> <span class="va">node</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">38</span>, <span class="fl">48</span>, <span class="fl">58</span>, <span class="fl">36</span><span class="op">)</span>,
+                     node <span class="op">=</span> <span class="va">node</span>,
+                     fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">node</span><span class="op">)</span>
+                     <span class="op">)</span>
+     <span class="op">)</span> <span class="op">+</span>
+    <span class="fu">labs</span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"clades for tree in left"</span> <span class="op">)</span>
+
+<span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>
+
+<span class="va">d1</span> <span class="op">&lt;-</span> <span class="va">p1</span><span class="op">$</span><span class="va">data</span>
+<span class="va">d2</span> <span class="op">&lt;-</span> <span class="va">p2</span><span class="op">$</span><span class="va">data</span>
+
+<span class="co">## reverse x-axis and </span>
+<span class="co">## set offset to make the tree in the right hand side of the first tree</span>
+<span class="va">d2</span><span class="op">$</span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">d2</span><span class="op">$</span><span class="va">x</span><span class="op">)</span> <span class="op">-</span> <span class="va">d2</span><span class="op">$</span><span class="va">x</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">d1</span><span class="op">$</span><span class="va">x</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span>
+
+<span class="va">pp</span> <span class="op">&lt;-</span> <span class="va">p1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tree.html">geom_tree</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">d2</span>, layout<span class="op">=</span><span class="st">'ellipse'</span><span class="op">)</span> <span class="op">+</span>      
+  <span class="fu">ggnewscale</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggnewscale/man/new_scale.html">new_scale_fill</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom-hilight.html">geom_hilight</a></span><span class="op">(</span>
+         data <span class="op">=</span> <span class="va">d2</span>, 
+         mapping <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span> 
+            subset <span class="op">=</span> <span class="va">node</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">38</span>, <span class="fl">48</span>, <span class="fl">58</span><span class="op">)</span>,
+            node<span class="op">=</span><span class="va">node</span>,
+            fill<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">node</span><span class="op">)</span><span class="op">)</span>
+  <span class="op">)</span> <span class="op">+</span>
+  <span class="fu">labs</span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"clades for tree in right"</span> <span class="op">)</span> 
+
+<span class="va">dd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/bind.html">bind_rows</a></span><span class="op">(</span><span class="va">d1</span>, <span class="va">d2</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">label</span><span class="op">)</span><span class="op">)</span>
+
+<span class="va">pp</span> <span class="op">+</span> <span class="fu">geom_line</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, group<span class="op">=</span><span class="va">label</span><span class="op">)</span>, data<span class="op">=</span><span class="va">dd</span>, color<span class="op">=</span><span class="st">'grey'</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span>geom <span class="op">=</span> <span class="st">'shadowtext'</span>, bg.colour <span class="op">=</span> <span class="fu">alpha</span><span class="op">(</span><span class="st">'firebrick'</span>, <span class="fl">.5</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">d2</span>, hjust<span class="op">=</span><span class="fl">1</span>, geom <span class="op">=</span> <span class="st">'shadowtext'</span>, bg.colour <span class="op">=</span> <span class="fu">alpha</span><span class="op">(</span><span class="st">'firebrick'</span>, <span class="fl">.5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="figure">
+<span id="fig:cophylo"></span>
+<img src="treedata_files/figure-html/cophylo-1.svg" alt="Plot two phylogenetic trees face to face. Plotting a tree using ggtree() (left hand side) and subsequently add another layer of tree by geom_tree() (right hand side). The relative positions of the plotted trees can be manual adjusted and adding layers to each of the tree (e.g. tip labels and highlighting clades) is independent." width="768"><p class="caption">
+Figure 2.6: <strong>Plot two phylogenetic trees face to face.</strong> Plotting a tree using <code><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree()</a></code> (left hand side) and subsequently add another layer of tree by <code><a href="https://rdrr.io/pkg/ggtree/man/geom_tree.html">geom_tree()</a></code> (right hand side). The relative positions of the plotted trees can be manual adjusted and adding layers to each of the tree (<em>e.g.</em> tip labels and highlighting clades) is independent.
 </p>
 </div>
-<p>It is quite easy to plot multiple trees and connect taxa in one figure. For instance, plotting trees contructed from all internal gene segments of influenza virus and connecting equivalent strans across the trees <span class="citation">(Venkatesh et al. <a href="#ref-venkatesh_avian_2018" role="doc-biblioref">2018</a>)</span>.</p>
+<p>It is quite easy to plot multiple trees and connect taxa in one figure. For instance, plotting trees contructed from all internal gene segments of influenza virus and connecting equivalent strans across the trees <span class="citation">(Venkatesh et al. <a href="references.html#ref-venkatesh_avian_2018" role="doc-biblioref">2018</a>)</span>.</p>
 
 
-<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="chapter2.html#cb102-1" aria-hidden="true"></a>z &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">30</span>)</span>
-<span id="cb102-2"><a href="chapter2.html#cb102-2" aria-hidden="true"></a>d2 &lt;-<span class="st"> </span><span class="kw">fortify</span>(y)</span>
-<span id="cb102-3"><a href="chapter2.html#cb102-3" aria-hidden="true"></a>d3 &lt;-<span class="st"> </span><span class="kw">fortify</span>(z)</span>
-<span id="cb102-4"><a href="chapter2.html#cb102-4" aria-hidden="true"></a>d2<span class="op">$</span>x &lt;-<span class="st"> </span>d2<span class="op">$</span>x <span class="op">+</span><span class="st"> </span><span class="kw">max</span>(d1<span class="op">$</span>x) <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
-<span id="cb102-5"><a href="chapter2.html#cb102-5" aria-hidden="true"></a>d3<span class="op">$</span>x &lt;-<span class="st"> </span>d3<span class="op">$</span>x <span class="op">+</span><span class="st"> </span><span class="kw">max</span>(d2<span class="op">$</span>x) <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
-<span id="cb102-6"><a href="chapter2.html#cb102-6" aria-hidden="true"></a></span>
-<span id="cb102-7"><a href="chapter2.html#cb102-7" aria-hidden="true"></a>dd =<span class="st"> </span><span class="kw">bind_rows</span>(d1, d2, d3) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb102-8"><a href="chapter2.html#cb102-8" aria-hidden="true"></a><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(label))</span>
-<span id="cb102-9"><a href="chapter2.html#cb102-9" aria-hidden="true"></a></span>
-<span id="cb102-10"><a href="chapter2.html#cb102-10" aria-hidden="true"></a>p1 <span class="op">+</span><span class="st"> </span><span class="kw">geom_tree</span>(<span class="dt">data =</span> d2) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tree</span>(<span class="dt">data =</span> d3) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="dt">data=</span>d3) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb102-11"><a href="chapter2.html#cb102-11" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(x, y, <span class="dt">group=</span>label, <span class="dt">color=</span>node <span class="op">&lt;</span><span class="st"> </span><span class="dv">15</span>), <span class="dt">data=</span>dd, <span class="dt">alpha=</span>.<span class="dv">3</span>)</span></code></pre></div>
-<div class="figure"><span id="fig:cophylo3"></span>
-<img src="treedata_files/figure-html/cophylo3-1.svg" alt="Plot multiple phylogenetic trees side by side. Plotting a tree using ggtree() and subsequently add multiple layers of trees by geom_tree()." width="768"  />
-<p class="caption">
-Figure 2.7: <strong>Plot multiple phylogenetic trees side by side.</strong> Plotting a tree using <code>ggtree()</code> and subsequently add multiple layers of trees by <code>geom_tree()</code>.
+<div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">z</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/rtree.html">rtree</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span>
+<span class="va">d2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/fortify.html">fortify</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>
+<span class="va">d3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/fortify.html">fortify</a></span><span class="op">(</span><span class="va">z</span><span class="op">)</span>
+<span class="va">d2</span><span class="op">$</span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">d2</span><span class="op">$</span><span class="va">x</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">d1</span><span class="op">$</span><span class="va">x</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span>
+<span class="va">d3</span><span class="op">$</span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">d3</span><span class="op">$</span><span class="va">x</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">d2</span><span class="op">$</span><span class="va">x</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span>
+
+<span class="va">dd</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/bind.html">bind_rows</a></span><span class="op">(</span><span class="va">d1</span>, <span class="va">d2</span>, <span class="va">d3</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">label</span><span class="op">)</span><span class="op">)</span>
+
+<span class="va">p1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tree.html">geom_tree</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">d2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tree.html">geom_tree</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">d3</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">d3</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">geom_line</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, group<span class="op">=</span><span class="va">label</span>, color<span class="op">=</span><span class="va">node</span> <span class="op">&lt;</span> <span class="fl">15</span><span class="op">)</span>, data<span class="op">=</span><span class="va">dd</span>, alpha<span class="op">=</span><span class="fl">.3</span><span class="op">)</span></code></pre></div>
+<div class="figure">
+<span id="fig:cophylo3"></span>
+<img src="treedata_files/figure-html/cophylo3-1.svg" alt="Plot multiple phylogenetic trees side by side. Plotting a tree using ggtree() and subsequently add multiple layers of trees by geom_tree()." width="768"><p class="caption">
+Figure 2.7: <strong>Plot multiple phylogenetic trees side by side.</strong> Plotting a tree using <code><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree()</a></code> and subsequently add multiple layers of trees by <code><a href="https://rdrr.io/pkg/ggtree/man/geom_tree.html">geom_tree()</a></code>.
 </p>
 </div>
 </div>
 <div id="summary2" class="section level2" number="2.7">
-<h2><span class="header-section-number">2.7</span> Summary</h2>
+<h2>
+<span class="header-section-number">2.7</span> Summary<a class="anchor" aria-label="anchor" href="#summary2"><i class="fas fa-link"></i></a>
+</h2>
 <p>The <a href="http://bioconductor.org/packages/treeio">treeio</a> package allows us to import diverse phylogeny associated data into R. However, phylogenetic tree is stored in way to facilitate computational processing which is not human fridenly and need expertise to manipulate and explore tree data. The <a href="https://CRAN.R-project.org/package=tidytree">tidytree</a> package provides tidy interface for exploring tree data, while <a href="http://bioconductor.org/packages/ggtree">ggtree</a> provides a set of utilitise to visualize and explore tree data using grammar of graphics. This full suit of packages make it easy for ordinary users to interact with tree data, and allow us to integrate phylogeny associated data from different sources (<em>e.g.</em> experimental result or analysis finding), which creates the possibility of comparative study.</p>
 
 </div>
 </div>
-<h3>References</h3>
-<div id="refs" class="references">
-<div id="ref-liang_expansion_2014">
-<p>Liang, Huyi, Tommy Tsan-Yuk Lam, Xiaohui Fan, Xinchun Chen, Yu Zeng, Ji Zhou, Lian Duan, et al. 2014. “Expansion of Genotypic Diversity and Establishment of 2009 H1N1 Pandemic-Origin Internal Genes in Pigs in China.” <em>Journal of Virology</em>, July, JVI.01327–14. <a href="https://doi.org/10.1128/JVI.01327-14">https://doi.org/10.1128/JVI.01327-14</a>.</p>
-</div>
-<div id="ref-venkatesh_avian_2018">
-<p>Venkatesh, Divya, Marjolein J. Poen, Theo M. Bestebroer, Rachel D. Scheuer, Oanh Vuong, Mzia Chkhaidze, Anna Machablishvili, et al. 2018. “Avian Influenza Viruses in Wild Birds: Virus Evolution in a Multihost Ecosystem.” <em>Journal of Virology</em> 92 (15). <a href="https://doi.org/10.1128/JVI.00433-18">https://doi.org/10.1128/JVI.00433-18</a>.</p>
-</div>
-<div id="ref-yu_two_2018">
-<p>Yu, Guangchuang, Tommy Tsan-Yuk Lam, Huachen Zhu, and Yi Guan. 2018. “Two Methods for Mapping and Visualizing Associated Data on Phylogeny Using Ggtree.” <em>Molecular Biology and Evolution</em> 35 (12): 3041–3. <a href="https://doi.org/10.1093/molbev/msy194">https://doi.org/10.1093/molbev/msy194</a>.</p>
-</div>
-<div id="ref-yu_ggtree:_2017">
-<p>Yu, Guangchuang, David K. Smith, Huachen Zhu, Yi Guan, and Tommy Tsan-Yuk Lam. 2017. “Ggtree: An R Package for Visualization and Annotation of Phylogenetic Trees with Their Covariates and Other Associated Data.” <em>Methods in Ecology and Evolution</em> 8 (1): 28–36. <a href="https://doi.org/10.1111/2041-210X.12628">https://doi.org/10.1111/2041-210X.12628</a>.</p>
-</div>
-</div>
-<div class="footnotes">
-<hr />
-<ol start="7">
-<li id="fn7"><p><a href="https://groups.google.com/forum/#!msg/bioc-ggtree/Q4LnwoTf1DM/uqYdYB_VBAAJ" class="uri">https://groups.google.com/forum/#!msg/bioc-ggtree/Q4LnwoTf1DM/uqYdYB_VBAAJ</a><a href="chapter2.html#fnref7" class="footnote-back">↩︎</a></p></li>
-</ol>
-</div>
-            </section>
 
-          </div>
-        </div>
-      </div>
-<a href="chapter1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="chapter3.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
-    </div>
+  <div class="chapter-nav">
+<div class="prev"><a href="chapter1.html"><span class="header-section-number">1</span> Importing Tree with Data</a></div>
+<div class="next"><a href="chapter3.html"><span class="header-section-number">3</span> Exporting tree with data</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#chapter2"><span class="header-section-number">2</span> Manipulating Tree with Data</a></li>
+<li>
+<a class="nav-link" href="#tidytree"><span class="header-section-number">2.1</span> Manipulating tree data using tidy interface</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#the-phylo-object"><span class="header-section-number">2.1.1</span> The phylo object</a></li>
+<li><a class="nav-link" href="#the-treedata-object"><span class="header-section-number">2.1.2</span> The treedata object</a></li>
+<li><a class="nav-link" href="#accesor-tidytree"><span class="header-section-number">2.1.3</span> Access related nodes</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#data-integration"><span class="header-section-number">2.2</span> Data Integration</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#merge-tree"><span class="header-section-number">2.2.1</span> Combining tree data</a></li>
+<li><a class="nav-link" href="#link-external-data"><span class="header-section-number">2.2.2</span> Linking external data to phylogeny</a></li>
+<li><a class="nav-link" href="#grouping-taxa"><span class="header-section-number">2.2.3</span> Grouping taxa</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#reroot-treeio"><span class="header-section-number">2.3</span> Rerooting tree</a></li>
+<li><a class="nav-link" href="#rescale-treeio"><span class="header-section-number">2.4</span> Rescaling Tree Branches</a></li>
+<li>
+<a class="nav-link" href="#subsetting-tree-with-data"><span class="header-section-number">2.5</span> Subsetting Tree with Data</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#remove-tip"><span class="header-section-number">2.5.1</span> Removing tips in a phylogenetic tree</a></li>
+<li><a class="nav-link" href="#subset-tip"><span class="header-section-number">2.5.2</span> Subsetting tree by tip label</a></li>
+<li><a class="nav-link" href="#subset-node"><span class="header-section-number">2.5.3</span> Subsetting tree by internal node number</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#ggtree-fortify"><span class="header-section-number">2.6</span> Manipulating tree data for visualization</a></li>
+<li><a class="nav-link" href="#summary2"><span class="header-section-number">2.7</span> Summary</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2020-11-04.</p>
   </div>
-<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
-<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
-<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
-<script>
-gitbook.require(["gitbook"], function(gitbook) {
-gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": null,
-"text": null
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": ["treedata.pdf", "treedata.epub"],
-"toc": {
-"collapse": "subsection"
-}
-});
-});
-</script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -1158,5 +858,4 @@ gitbook.start({
   })();
 </script>
 </body>
-
 </html>
