@@ -279,6 +279,62 @@ q + geom_text(data=d, aes(label=label))
 
 ## Branch setting
 
+### Plot the same tree as in `plot.phylo()`
+
+By default, `ggtree()` ladderizes the input tree so that the tree will appear less cluttered. This is the reason why the tree visualized by `ggtree()` is different from the one using `plot.phylo()` which displays nonladderized tree. To disable the ladderize effect, user can pass the parameter `ladderize = FALSE` to the `ggtree()` function as demonstrated in \@ref:(fig:ggtreeladderize). 
+
+
+```{r eval=FALSE}
+library(ape)
+library(ggtree)
+set.seed(42)
+x <- rtree(5)
+plot(x)
+ggtree(x, ladderize = FALSE) + geom_tiplab()
+ggtree(x) + geom_tiplab()
+```
+
+
+(ref:ggtreeladderizescap) Ladderize and nonladderize tree.
+
+(ref:ggtreeladderizecap) **Ladderize and nonladderize tree.** `plot.phylo()` displays nonladderized tree (A), use `ladderize = FALSE` to display nonladderized tree in `ggtree()` (B), `ggtree()` displays ladderized tree by default (C).
+
+```{r echo=F}
+library(ape)
+library(ggtree)
+library(ggplotify)
+
+set.seed(2020)
+x <- rtree(5)
+
+#p1 <- as.ggplot(~plot(x))
+#p2 <- ggtree(x, ladderize = FALSE) + geom_tiplab()
+#p3 <- ggtree(x) + geom_tiplab()
+
+## don't know why throw error when combine them in bookdown
+## it is OK in interactive R terminal
+
+# cowplot::plot_grid(p1, p2, p3, labels=c("A", "B", "C"), ncol=3)
+```
+
+```{r ggtreeladderize, fig.cap="(ref:ggtreeladderizecap)", fig.scap="(ref:ggtreeladderizescap)", fig.width=8, fig.height=4, echo=FALSE, out.width="100%"}
+pg <- readRDS("data/ladderize-example.rds")
+print(pg) 
+```
+
+### Specifying the order of the tips 
+
+
+The `rotateConstr()` function provided in `r CRANpkg("ape")` rotates internal branches based on the specified order of the tips and the order should be followed when plotting the tree (from bottom to top). As `ggtree()` always ladderize the input tree, users need to disable by passing `ladderize = FALSE`. Then the the order of the tree will be displayed as expected (\@ref(fig:rotateConstr)). Users can also extract tip order that displayed by `ggtree()` using the `get_taxa_name()` function as demonstrated in [session 12.6](#tiporder).  
+
+(ref:rotateConstrscap) Specifying tree order.
+
+(ref:rotateConstrcap) **Specifying tree order.** The order of the input tree will be maintained in `ggtree()` when `ladderize = FALSE`. 
+
+```{r rotateConstr, fig.cap="(ref:rotateConstrcap)", fig.scap="(ref:rotateConstrscap)", fig.width=6, fig.height=4, out.width="100%"}
+y <- ape::rotateConstr(x, c('t4', 't2', 't5', 't1', 't3'))
+ggtree(y, ladderize = FALSE) + geom_tiplab()
+```
 
 ### Change branch length of outgroup
 
@@ -401,7 +457,7 @@ This is not supported by `r CRANpkg("ggplot2")` in general. However, we can just
 
 
 
-```{r xlabFacets, fig.width=7, fig.height=8, fig.cap="(ref:xlabFacetscap)", fig.scap="(ref:xlabFacetsscap)"}
+```{r xlabFacets, fig.width=7, fig.height=5, fig.cap="(ref:xlabFacetscap)", fig.scap="(ref:xlabFacetsscap)"}
 library(ggtree)
 library(ggplot2)
 set.seed(2019-05-02)
