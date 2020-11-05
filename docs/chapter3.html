@@ -75,9 +75,7 @@
 <h2>
 <span class="header-section-number">3.1</span> Introduction<a class="anchor" aria-label="anchor" href="#introduction-1"><i class="fas fa-link"></i></a>
 </h2>
-<p>The <a href="https://bioconductor.org/packages/treeio/">treeio</a> package supports parsing
-various phylogenetic tree file formats including software outputs that contain
-evolutionary evidences. Some of the formats are just log file
+<p>The <a href="https://bioconductor.org/packages/treeio/">treeio</a> package <span class="citation">(Wang et al. <a href="references.html#ref-wang_treeio_2020" role="doc-biblioref">2020</a>)</span> supports parsing various phylogenetic tree file formats including software outputs that contain evolutionary evidences. Some of the formats are just log file
 (<em>e.g.</em> <a href="http://abacus.gene.ucl.ac.uk/software/paml.html">PAML</a>
 and <a href="http://ginger.ucdavis.edu/r8s">r8s</a> outputs), while some of the others are
 non-standard formats (<em>e.g.</em> <a href="http://beast2.org/">BEAST</a>
@@ -86,9 +84,9 @@ bracket, which was reserved to store comment in standard Nexus format, to store
 inferences). With <a href="https://bioconductor.org/packages/treeio/">treeio</a>, we are
 now able to parse these files to extract phylogenetic tree and map associated
 data on the tree structure. Exporting tree structure is easy, users can use
-<code>as.phyo</code> method defined <a href="https://bioconductor.org/packages/treeio/">treeio</a> to
-convert <code>treedata</code> object to <code>phylo</code> object then using <code>write.tree</code> or
-<code>write.nexus</code> implemented
+the <code>as.phyo()</code> method defined <a href="https://bioconductor.org/packages/treeio/">treeio</a> to
+convert a <code>treedata</code> object to a <code>phylo</code> object then using <code><a href="https://rdrr.io/pkg/ape/man/write.tree.html">write.tree()</a></code> or
+<code><a href="https://rdrr.io/pkg/ape/man/write.nexus.html">write.nexus()</a></code> implemented
 in <a href="https://cran.r-project.org/web/packages/ape/index.html">ape</a> package
 <span class="citation">(Paradis, Claude, and Strimmer <a href="references.html#ref-paradis_ape_2004" role="doc-biblioref">2004</a>)</span> to export the tree structure as Newick text or Nexus file.
 This is quite useful for converting non-standard formats to standard format and
@@ -105,8 +103,8 @@ format</a> may not be the best solution,
 it is currently a good approach for storing heterogeneous associated data. The
 beauty of the format is that all the annotate elements are stored within square
 bracket, which is reserved for comments. So that the file can be parsed as
-standard Nexus by ignoring annotate elements and existing programs should be
-able to read them.</p>
+standard Nexus by ignoring annotated elements and existing programs should be
+able to read it.</p>
 </div>
 <div id="exporting-tree-data-to-beast-nexus-format" class="section level2" number="3.2">
 <h2>
@@ -116,8 +114,7 @@ able to read them.</p>
 <h3>
 <span class="header-section-number">3.2.1</span> Exporting/converting software output<a class="anchor" aria-label="anchor" href="#exportingconverting-software-output"><i class="fas fa-link"></i></a>
 </h3>
-<p>The <a href="https://bioconductor.org/packages/treeio/">treeio</a> package provides
-<code>write.beast</code> to export <code>treedata</code> object as BEAST Nexus file <span class="citation">(Bouckaert et al. <a href="references.html#ref-bouckaert_beast_2014" role="doc-biblioref">2014</a>)</span>.
+<p>The <a href="https://bioconductor.org/packages/treeio/">treeio</a> package <span class="citation">(Wang et al. <a href="references.html#ref-wang_treeio_2020" role="doc-biblioref">2020</a>)</span> provides the <code><a href="https://docs.ropensci.org/treeio/reference/write.beast.html">write.beast()</a></code> function to export <code>treedata</code> object as BEAST Nexus file <span class="citation">(Bouckaert et al. <a href="references.html#ref-bouckaert_beast_2014" role="doc-biblioref">2014</a>)</span>.
 With <a href="https://bioconductor.org/packages/treeio/">treeio</a>, it is easy to convert
 software output to BEAST format if the output can be parsed
 by <a href="https://bioconductor.org/packages/treeio/">treeio</a> (see <a href="chapter1.html#chapter1">Chapter 1</a>). For example, we can
@@ -228,7 +225,7 @@ END;</code></pre>
 
 <div class="figure">
 <span id="fig:beastFigtree"></span>
-<img src="treedata_files/figure-html/beastFigtree-1.svg" alt="Visualizing BEAST file in FigTree. Directly visualizing NHX file (A) and CodeML output (B) in FigTree is not supported. treeio can convert these files to BEAST compatible NEXUS format which can be directly opened in FigTree and visualized annotated data." width="768"><p class="caption">
+<img src="treedata_files/figure-html/beastFigtree-1.svg" alt="Visualizing BEAST file in FigTree. Directly visualizing NHX file (A) and CodeML output (B) in FigTree is not supported. treeio can convert these files to BEAST compatible NEXUS format which can be directly opened in FigTree and visualized annotated data." width="100%"><p class="caption">
 Figure 3.1: <strong>Visualizing BEAST file in FigTree.</strong> Directly visualizing <code>NHX</code> file (A) and <code>CodeML</code> output (B) in <code>FigTree</code> is not supported. <code>treeio</code> can convert these files to BEAST compatible NEXUS format which can be directly opened in <code>FigTree</code> and visualized annotated data.
 </p>
 </div>
@@ -239,8 +236,7 @@ Figure 3.1: <strong>Visualizing BEAST file in FigTree.</strong> Directly visuali
 </h3>
 <p>Using the utilities provided
 by <a href="https://CRAN.R-project.org/package=tidytree">tidytree</a> and <a href="https://bioconductor.org/packages/treeio/">treeio</a>, it is easy to link
-external data onto the corresponding phylogeny. The <code>write.beast</code> function enable users
-to export the tree with external data to a single tree file.</p>
+external data onto the corresponding phylogeny. The <code><a href="https://docs.ropensci.org/treeio/reference/write.beast.html">write.beast()</a></code> function enables users to export the tree with external data to a single tree file.</p>
 <div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">phylo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/as.phylo.html">as.phylo</a></span><span class="op">(</span><span class="va">nhx</span><span class="op">)</span>
 <span class="co">## print the newick text</span>
@@ -417,13 +413,13 @@ using <a href="https://bioconductor.org/packages/ggtree/">ggtree</a> <span class
 <h2>
 <span class="header-section-number">3.3</span> Exporting Tree Data to <em>jtree</em> Format<a class="anchor" aria-label="anchor" href="#write-jtree"><i class="fas fa-link"></i></a>
 </h2>
-<p>The <a href="https://bioconductor.org/packages/treeio/">treeio</a> package provides
-<code>write.beast</code> to export <code>treedata</code> to BEAST Nexus file. This is quite useful
-to convert file format, combine tree with data and merging tree data from
+<p>The <a href="https://bioconductor.org/packages/treeio/">treeio</a> package <span class="citation">(Wang et al. <a href="references.html#ref-wang_treeio_2020" role="doc-biblioref">2020</a>)</span> provides the
+<code><a href="https://docs.ropensci.org/treeio/reference/write.beast.html">write.beast()</a></code> function to export <code>treedata</code> to BEAST Nexus file. This is quite useful
+to convert file format, combine tree with data and merge tree data from
 different sources as we demonstrated in
 <a href="chapter3.html#exporting-tree-data-to-beast-nexus-format">session 3.2</a>.
 The <a href="https://bioconductor.org/packages/treeio/">treeio</a> package also supplies
-<code>read.beast</code> function to parse output file of <code>write.beast</code>. Although
+the <code><a href="https://docs.ropensci.org/treeio/reference/beast-parser.html">read.beast()</a></code> function to parse output file of the <code><a href="https://docs.ropensci.org/treeio/reference/write.beast.html">write.beast()</a></code> function. Although
 with <a href="https://bioconductor.org/packages/treeio/">treeio</a>, the R community has the ability to
 manipulate BEAST Nexus format and process tree data, there is still lacking
 library/package for parsing BEAST file in other programming language.</p>
@@ -431,8 +427,7 @@ library/package for parsing BEAST file in other programming language.</p>
 widely supported in almost all modern programming languages. To make it easy
 to import tree with data in other programming
 languages, <a href="https://bioconductor.org/packages/treeio/">treeio</a> supports
-exporting tree with data in jtree format, which is JSON-based and can be easy to parse using any
-languages that supports JSON.</p>
+exporting tree with data in the <code>jtree</code> format, which is JSON-based and can be easy to parse using any languages that supports JSON.</p>
 <div class="sourceCode" id="cb121"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://docs.ropensci.org/treeio/reference/write-jtree.html">write.jtree</a></span><span class="op">(</span><span class="va">tree2</span><span class="op">)</span></code></pre></div>
 <pre><code>{
@@ -689,7 +684,7 @@ languages that supports JSON.</p>
 ],
     "metadata": {"info": "R-package treeio", "data": "Tue Nov  3 10:39:01 2020"}
 }</code></pre>
-<p>The <em>jtree</em> format is based on JSON and can be parsed using JSON parser.</p>
+<p>The <code>jtree</code> format is based on JSON and can be parsed using JSON parser.</p>
 <div class="sourceCode" id="cb123"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">jtree_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">'.jtree'</span><span class="op">)</span>
 <span class="fu"><a href="https://docs.ropensci.org/treeio/reference/write-jtree.html">write.jtree</a></span><span class="op">(</span><span class="va">tree2</span>, file <span class="op">=</span> <span class="va">jtree_file</span><span class="op">)</span>
@@ -737,8 +732,8 @@ $metadata$info
 
 $metadata$data
 [1] "Tue Nov  3 10:39:01 2020"</code></pre>
-<p>The <em>jtree</em> file can be directly imported as a <code>treedata</code> object using
-<code>read.jtree</code> provided also
+<p>The <code>jtree</code> file can be directly imported as a <code>treedata</code> object using
+the <code><a href="https://docs.ropensci.org/treeio/reference/read-jtree.html">read.jtree()</a></code> function provided also
 in <a href="https://bioconductor.org/packages/treeio/">treeio</a> package (see also <a href="chapter1.html#jtree">session 1.3</a>).</p>
 <div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://docs.ropensci.org/treeio/reference/read-jtree.html">read.jtree</a></span><span class="op">(</span><span class="va">jtree_file</span><span class="op">)</span></code></pre></div>
@@ -760,7 +755,7 @@ in <a href="https://bioconductor.org/packages/treeio/">treeio</a> package (see a
 <h2>
 <span class="header-section-number">3.4</span> Summary<a class="anchor" aria-label="anchor" href="#summary3"><i class="fas fa-link"></i></a>
 </h2>
-<p>Phylogenetic tree associated data is often stored in a separate file and need expertise to map the data to the tree structure. Lacking standardization to store and represent phylogeny and associated data makes it difficult for researchers to access and integrate the phylogenetic data into their studies. The <a href="http://bioconductor.org/packages/treeio">treeio</a> package provides functions to import phylogeny with associated data from a number of sources, including analysis finding from commonly used software and external data such as experimental, clinical or meta data. These tree + data can be exported into a single file as a BEAST or jtree formats, and the output file can be parsed back to R by <a href="http://bioconductor.org/packages/treeio">treeio</a> and the data is easy to access. The input and output utilities supplied by <a href="http://bioconductor.org/packages/treeio">treeio</a> package lay the foundation for phylogenetic data integration for downstream comparative study and visualization.</p>
+<p>Phylogenetic tree associated data is often stored in a separate file and need expertise to map the data to the tree structure. Lacking standardization to store and represent phylogeny and associated data, makes it difficult for researchers to access and integrate the phylogenetic data into their studies. The <a href="http://bioconductor.org/packages/treeio">treeio</a> package provides functions to import phylogeny with associated data from a number of sources, including analysis finding from commonly used software and external data such as experimental, clinical or meta data. These tree + data can be exported into a single file as <code>BEAST</code> or <code>jtree</code> formats, and the output file can be parsed back to R by <a href="http://bioconductor.org/packages/treeio">treeio</a> and the data is easy to access. The input and output utilities supplied by <a href="http://bioconductor.org/packages/treeio">treeio</a> package lay the foundation for phylogenetic data integration for downstream comparative study and visualization.</p>
 
 </div>
 </div>
@@ -800,7 +795,7 @@ in <a href="https://bioconductor.org/packages/treeio/">treeio</a> package (see a
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2020-11-04.</p>
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2020-11-05.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
