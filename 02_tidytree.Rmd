@@ -341,7 +341,77 @@ counts) or "abandon" (un-selected for grouping)^[<https://groups.google.com/foru
 
 ## Rerooting tree {#reroot-treeio}
 
-to be finished.
+Rerooting is a frequently used operation in various tree editors, such as [Figtree](https://github.com/rambaut/figtree), [TreeGraph 2](http://treegraph.bioinfweb.info/) have this function. The [root](https://rdrr.io/cran/ape/man/root.html) function of [ape](https://cran.r-project.org/web/packages/ape/index.html) allows you to reroot your tree in R.
+
+(ref:rerootingscap) Rerooting tree in R.
+
+(ref:rerootingscap) **Rerooting tree with root of ape.** The tree rerooted by [root](https://rdrr.io/cran/ape/man/root.html) function
+
+```{r rerooting, fig.width=12, fig.height=4.5, message=F, echo=T, fig.cap="(ref:rerootingscap)", fig.scap="(ref:rerootingscap)", out.extra='', out.width="100%"}
+set.seed(2020)
+library(ape)
+library(ggtree)
+
+tree <- rtree(8)
+
+# you can reroot with a leaf
+tree_root <- root(tree, "t3")
+
+# you can reroot with a outgroup
+tree_root <- root(tree, c("t3","t8"))
+
+ggtree(tree_root) + geom_tiplab()
+```
+
+But one user found that this result is somewhat different from the one shown by Figtree in this [question](https://groups.google.com/g/bioc-ggtree/c/f8TeyYUD-J4/m/fboQOXlLAQAJ). We can export the above tree to a file and see what it looks like in Figtree.
+
+```{r}
+write.tree(tree,file = "tree.nwk")
+```
+
+(ref:rootFigtreescap) Rerooting tree in FigTree.
+
+(ref:rootFigtreescap) **Rerooting tree in FigTree.** Rerooting tree in `FigTree` is easy, just select a branch and click `Reroot` in top left.
+
+```{r rootFigtree, fig.width=15.1, fig.height=11.4, echo=FALSE, fig.cap="(ref:rootFigtreescap)", fig.scap="(ref:rootFigtreescap)", out.width="100%"}
+p = magick::image_read("img/figtree_reroot.png")
+ggplotify::as.ggplot(p)
+```
+The tree graph after the [root](https://rdrr.io/cran/ape/man/root.html) function reroot loses the branch length before outgroup (Figure \@ref(fig:rerootingscap)), This branch length exists in Figtree (Figure \@ref(fig:rootFigtreescap)) and equal to another branch after root node. 
+
+Based on the above conclusions, we can optimize the results of [root](https://rdrr.io/cran/ape/man/root.html) function so that the branch length will not lost.
+
+(ref:root2scap) Optimize the results of root function.
+
+(ref:root2scap) **Optimize the results of root function.** The tree rerooted by [root](https://rdrr.io/cran/ape/man/root.html) function and modified the branch length before outgroup. These operations are integrated into the `root2` function.
+
+```{r root2scap, fig.width=12, fig.height=4.5, message=F, echo=T, fig.cap="(ref:root2scap)", fig.scap="(ref:root2scap)", out.extra='', out.width="100%"}
+root2 <- function(tree, rootlab) {
+  #  tree is tree your need to reroot
+  #  rootlab is outgroup or node in function root of ape
+  tree_root <- ape::root(tree,rootlab)
+  # convert tree to data table
+  tree_data <- tidytree::as_tibble(tree_root)
+  # get branch.length between root node
+  root_num <- dplyr::filter(tree_data, parent == node)$node
+  length <- max(dplyr::filter(tree_data, parent == root_num)$branch.length,na.rm = TRUE)
+  
+  # change branch.length between root node to node 59
+  if (length > 0) {
+    tree_data_out <- dplyr::mutate(tree_data, branch.length = ifelse(parent == root_num & branch.length == 0, 
+                                                        length, branch.length))
+  }  else {
+    tree_data_out <- tree_data
+  }
+  # convert data table to tree
+  tree_out <- ape::as.phylo(tree_data_out)
+  return(tree_out)
+}
+
+tree_root2 <- root2(tree,c("t3","t8"))
+
+ggtree(tree_root2) + geom_tiplab()
+```
 
 ## Rescaling Tree Branches {#rescale-treeio}
 
