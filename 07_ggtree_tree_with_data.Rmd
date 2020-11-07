@@ -6,11 +6,11 @@ opts_chunk$set(message=FALSE, warning=FALSE, eval=TRUE, echo=TRUE, cache=TRUE)
 ```
 
 Integrating user data to annotate phylogenetic tree can be done at different
-levels. The `r Biocpkg("treeio")` package implements `full_join` methods to
+levels. The `r Biocpkg("treeio")` package [@wang_treeio_2020] implements `full_join` methods to
 [combine tree data to phylogenetic tree object](https://bioconductor.org/packages/devel/bioc/vignettes/treeio/inst/doc/Importer.html).
 The `r CRANpkg("tidytree")` package supports [linking tree data to phylogeny
 using tidyverse verbs](https://cran.r-project.org/web/packages/tidytree/vignette/tiytree.html).
-`r Biocpkg("ggtree")` supports mapping external data to phylogeny for
+The `r Biocpkg("ggtree")` package [@yu_two_2018] supports mapping external data to phylogeny for
 visualization  and annotation on the fly. Although the feature of linking external data is overlapping among these packages, they have different application scopes. For example, in addition to the `treedata` object, `r Biocpkg("ggtree")` also supports several other tree objects (see [chapter 9](#chapter9)), including `phylo4d`, `phyloseq` and `obkData` that were designed to contain domain specific data. The design of these objects did not consider to support linking external data to the object (it can not be done at tree object level). We can visualize trees from these objects using `r Biocpkg("ggtree")` and link external data at visualization level [@yu_two_2018].
 
 `r Biocpkg("ggtree")` provides two general methods for mapping and visualizing associated external data on phylogenies. [Method 1](#attach-operator) allows external data to be mapped on the tree structure and used as visual characteristic in tree and data visualization. [Method 2](#facet_plot) plots the data with the tree side by side using different geometric functions after reordering the data based on the tree structure. These two methods integrate data with phylogeny for further exploration and comparison in the evolutionary biology context. 
@@ -23,7 +23,7 @@ In `r Biocpkg("ggtree")`, we implemented an operator, `%<+%`, to attach annotati
 
 (ref:attachercap) **Example of attaching multiple datasets**. 
 
-```{r attacher, fig.width=9.5, fig.height=6.2, warning=FALSE, message=FALSE, fig.cap="(ref:attachercap)", fig.scap="(ref:attacherscap)"}
+```{r attacher, fig.width=9.5, fig.height=6.2, warning=FALSE, message=FALSE, fig.cap="(ref:attachercap)", fig.scap="(ref:attacherscap)", out.width='100%'}
 library(ggimage)
 library(ggtree)
 ## url <- paste0("https://raw.githubusercontent.com/TreeViz/",
@@ -63,7 +63,7 @@ The `geom_facet` is designed to work with most of the `geom` layers defined in `
 (ref:plottreecap) **Example of plotting SNP and trait data**. 
 
 
-```{r plottree, fig.width=12, fig.height=7, message=F, fig.cap="(ref:plottreecap)", fig.scap="(ref:plottreescap)"}
+```{r plottree, fig.width=12, fig.height=7, message=F, fig.cap="(ref:plottreecap)", fig.scap="(ref:plottreescap)", out.width='100%'}
 library(ggtree)
 ## remote_folder <- paste0("https://raw.githubusercontent.com/katholt/",
 ##                         "plotTree/master/tree_example_april2015/")
@@ -161,7 +161,7 @@ gheatmap(p, genotype, offset=8, width=0.6,
 (ref:gheatmapcap) **Example of plotting matrix with `gheatmap`**. 
 
 
-```{r gheatmap, fig.width=8, fig.height=12, warning=FALSE, message=FALSE, echo=F,fig.cap="(ref:gheatmapcap)", fig.scap="(ref:gheatmapscap)"}
+```{r gheatmap, fig.width=8, fig.height=12, warning=FALSE, message=FALSE, echo=F,fig.cap="(ref:gheatmapcap)", fig.scap="(ref:gheatmapscap)", out.width='100%'}
 beast_file <- system.file("examples/MCC_FluA_H3.tree", package="ggtree")
 beast_tree <- read.beast(beast_file)
 
@@ -200,7 +200,7 @@ To solve this issue, we can use [ggnewscale](https://github.com/eliocamp/ggnewsc
 
 (ref:mgheatmapcap) **Example of plotting multiple matrix with `gheatmap`**. 
 
-```{r mgheatmap, fig.width=10, fig.height=8, fig.cap="(ref:gheatmapcap)", fig.scap="(ref:gheatmapscap)"}
+```{r mgheatmap, fig.width=10, fig.height=8, fig.cap="(ref:gheatmapcap)", fig.scap="(ref:gheatmapscap)", out.width='100%'}
 
 nwk <- system.file("extdata", "sample.nwk", package="treeio")
 
@@ -254,7 +254,7 @@ msaplot(p, "data/sequence.fasta", window=c(120, 200))
 (ref:msaplotcap) **Example of plotting multiple sequence alignment with a tree**. 
 
 
-```{r msaplot, fig.width=14, fig.height=7, warning=FALSE, echo=F, fig.cap="(ref:msaplotcap)", fig.scap="(ref:msaplotscap)"}
+```{r msaplot, fig.width=14, fig.height=7, warning=FALSE, echo=F, fig.cap="(ref:msaplotcap)", fig.scap="(ref:msaplotscap)", out.width='100%'}
 tree <- read.tree("data/tree.nwk")
 p <- ggtree(tree) + geom_tiplab(size=3) + 
     theme(legend.position="none")
@@ -364,7 +364,7 @@ p2 %>% insert_left(g) %>% insert_right(p1, width=.5)
 
 (ref:compositecap) **Example of aligning tree with data side by side to create composite plot**. `cowplot` aligns subplots (A), while `aplot` do extra works to make sure that tree associated subplots are properly ordered according to the tree structure (B). Note: The 'A' category in the bar plot that is not matched with the tree was removed.
 
-```{r composite, dev= "svg", echo = FALSE, fig.width=12, fig.height=10, fig.cap="(ref:compositecap)", fig.scap="(ref:compositescap)"}
+```{r composite, dev= "svg", echo = FALSE, fig.width=12, fig.height=10, fig.cap="(ref:compositecap)", fig.scap="(ref:compositescap)", out.width='100%'}
 pg1 <- cowplot::plot_grid(g, p2, p1, ncol=3)
 library(aplot)
 pg2 <- p2 %>% insert_left(g) %>% insert_right(p1, width=.5)

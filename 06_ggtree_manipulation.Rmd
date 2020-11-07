@@ -12,7 +12,7 @@ flip <- ggtree::flip
 ```
 
 
-The `r Biocpkg("ggtree")` supports many ways of manipulating the tree visually, including viewing selected clade to explore large tree (Figure \@ref(fig:viewClade)), taxa clustering (Figure \@ref(fig:groupOTU)), rotating clade or tree (Figure \@ref(fig:rfClade)B and \@ref(fig:rotateTree)), zoom out or collapsing clades (Figure \@ref(fig:collapseExpand)A and \@ref(fig:scaleClade)), *etc.*. Details tree manipulation functions are summarized in Table \@ref(tab:treeman).
+The `r Biocpkg("ggtree")` [@yu_ggtree:_2017] supports many ways of manipulating the tree visually, including viewing selected clade to explore large tree (Figure \@ref(fig:viewClade)), taxa clustering (Figure \@ref(fig:groupOTU)), rotating clade or tree (Figure \@ref(fig:rfClade)B and \@ref(fig:rotateTree)), zoom out or collapsing clades (Figure \@ref(fig:collapseExpand)A and \@ref(fig:scaleClade)), *etc.*. Details tree manipulation functions are summarized in Table \@ref(tab:treeman).
 
 
 ```{r treeman, echo=FALSE, out.extra='', message=FALSE}
@@ -40,7 +40,7 @@ knitr::kable(treeman, caption = "Tree manipulation functions.", booktabs = T) %>
 
 
 
-A clade is a monophyletic group that contains a single ancestor and all of its descendants. We can visualize a specific selected clade via the `viewClade` function as demonstrated in Figure \@ref(fig:viewClade)B. Another similar function is `gzoom` which plots the tree with selected clade side by side. These two functions are developed to explore large tree.
+A clade is a monophyletic group that contains a single ancestor and all of its descendants. We can visualize a specific selected clade via the `viewClade` function as demonstrated in Figure \@ref(fig:viewClade)B. Another solution is to extract the selected clade as a new tree object as described in [session 2.5](#subsetting-tree-with-data). These functions are developed to help users exploring large tree.
 
 (ref:viewCladescap) Viewing a selected clade of a tree.
 
@@ -56,7 +56,7 @@ viewClade(p, MRCA(p, "I", "L"))
 ```
 \setstretch{1.5}
 
-```{r viewClade, echo=F, fig.cap="(ref:viewCladecap)", message=F, warning=F, fig.scap="(ref:viewCladescap)", out.extra=''}
+```{r viewClade, echo=F, fig.cap="(ref:viewCladecap)", message=F, warning=F, fig.scap="(ref:viewCladescap)", out.extra='', out.width='100%'}
 library(ggtree)
 nwk <- system.file("extdata", "sample.nwk", package="treeio")
 tree <- read.tree(nwk)
@@ -81,7 +81,7 @@ The *ggtree* provides another option to zoom out (or compress) these clades via 
 (ref:scaleCladecap) **Scaling selected clade.** Clades can be zoom in (if `scale > 1`) to highlight or zoom out to save space. 
 
 \setstretch{1.2}
-```{r scaleClade, message=FALSE, fig.cap="(ref:scaleCladecap)", fig.scap="(ref:scaleCladescap)", out.extra=''}
+```{r scaleClade, message=FALSE, fig.cap="(ref:scaleCladecap)", fig.scap="(ref:scaleCladescap)", out.extra='', out.width='100%'}
 tree2 <- groupClade(tree, c(17, 21))
 p <- ggtree(tree2, aes(color=group)) + theme(legend.position='none') +
   scale_color_manual(values=c("black", "firebrick", "steelblue"))
@@ -114,7 +114,7 @@ expand(p2, node=23) %>% expand(node=21)
 ```
 \setstretch{1.5}
 
-```{r collapseExpand, echo=F, fig.cap="(ref:collapseExpandcap)", fig.scap="(ref:collapseExpandscap)", out.extra='', fig.width=8, fig.height=4}
+```{r collapseExpand, echo=F, fig.cap="(ref:collapseExpandcap)", fig.scap="(ref:collapseExpandscap)", out.extra='', fig.width=8, fig.height=4, out.width='100%'}
 p2 <- p %>% collapse(node=21) + 
   geom_point2(aes(subset=(node==21)), shape=21, size=5, fill='green')
 p2 <- collapse(p2, node=23) + 
@@ -155,7 +155,7 @@ scaleClade(p, 23, .2) %>% collapse(23, 'min', fill="darkgreen")
 (ref:collapseModecap) **Collapse clade as triangle.** 'max' takes the position of most distant tip (A). 'min' takes the position of closest tip (B). 'mixed' takes the positions of both closest and distant tips (C), which looks more like the shape of the clade. Set color, fill and alpha of the triangles (D). Combine with `scaleClade` to zoom out triangle to save space (E).
 
 
-```{r collapseMode, echo=F, fig.width=8, fig.height=8, fig.cap="(ref:collapseModecap)", fig.scap="(ref:collapseModescap)"}
+```{r collapseMode, echo=F, fig.width=8, fig.height=8, fig.cap="(ref:collapseModecap)", fig.scap="(ref:collapseModescap)", out.width='100%'}
 p2 <- p + geom_tiplab()
 node <- 21
 g1 = expand(collapse(p2, node, 'max'), node)
@@ -190,7 +190,7 @@ A phylogenetic tree can be annotated by mapping different line type, size, color
 
 
 \setstretch{1.2}
-```{r groupOTU, message=FALSE, fig.cap="(ref:groupOTUcap)", fig.scap="(ref:groupOTUscap)", out.extra=''}
+```{r groupOTU, message=FALSE, fig.cap="(ref:groupOTUcap)", fig.scap="(ref:groupOTUscap)", out.extra='', out.width='100%'}
 data(iris)
 rn <- paste0(iris[,5], "_", 1:150)
 rownames(iris) <- rn
@@ -218,7 +218,7 @@ ggtree(tree_iris, aes(color=Species), layout = 'circular', branch.length = 'none
 
 ## Exploring tree structure
 
-To facilitate exploring the tree structure, *ggtree* supports rotating selected clade by 180 degree using the `rotate` function (Figure \@ref(fig:rfClade)B). Position of immediate descendant clades of internal node can be exchanged via `flip` function (Figure \@ref(fig:rfClade)C).
+To facilitate exploring the tree structure, *ggtree* supports rotating selected clade by 180 degree using the `rotate()` function (Figure \@ref(fig:rfClade)B). Position of immediate descendant clades of internal node can be exchanged via `flip()` function (Figure \@ref(fig:rfClade)C).
 
 (ref:rotateCladescap) Exploring tree structure.
 
@@ -230,7 +230,7 @@ p1 <- p + geom_point2(aes(subset=node==16), color='darkgreen', size=5)
 p2 <- rotate(p1, 17) %>% rotate(21)
 flip(p2, 17, 21)
 ```          
-```{r rfClade, fig.cap="(ref:rotateCladecap)", fig.scap="(ref:rotateCladescap)", out.extra='', fig.width=7, fig.height=3, echo=F}
+```{r rfClade, fig.cap="(ref:rotateCladecap)", fig.scap="(ref:rotateCladescap)", out.extra='', fig.width=7, fig.height=3, echo=F, out.width='100%'}
 p1 <- p + geom_tiplab() + 
         geom_point2(aes(subset=node==16), color='darkgreen', size=5)
 p2 <- rotate(p1, 17) %>% rotate(21)
@@ -241,7 +241,7 @@ plot_grid(p1, p2, p3, ncol=3, labels = LETTERS[1:3])
 
 
 
-Most of the tree manipulation functions are working on clades, while `r Biocpkg("ggtree")` also provides functions to manipulate a tree, including `open_tree` to transform a tree in either rectangular or circular layout to fan layout, and `rotate_tree` function to rotate a tree for specific angle in both circular or fan layouts, as demonstrated in Figure \@ref(fig:openTree) and \@ref(fig:rotateTree).
+Most of the tree manipulation functions are working on clades, while `r Biocpkg("ggtree")` also provides functions to manipulate a tree, including `open_tree()` to transform a tree in either rectangular or circular layout to fan layout, and `rotate_tree()` function to rotate a tree for specific angle in both circular or fan layouts, as demonstrated in Figure \@ref(fig:openTree) and \@ref(fig:rotateTree).
 
 
 \setstretch{1.2}

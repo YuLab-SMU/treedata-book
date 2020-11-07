@@ -55,10 +55,8 @@
 <li class="book-part">Appendix</li>
 <li><a class="" href="faq.html"><span class="header-section-number">A</span> Frequently asked questions</a></li>
 <li><a class="" href="related-tools.html"><span class="header-section-number">B</span> Related tools</a></li>
-<li><a class="" href="ggimage-tips.html"><span class="header-section-number">C</span> Tips for using ggtree with ggimage</a></li>
-<li><a class="" href="run-ggtree-in-jupyter-notebook.html"><span class="header-section-number">D</span> Run ggtree in Jupyter notebook</a></li>
-<li><a class="" href="figures-and-tables.html"><span class="header-section-number">E</span> Figures and Tables</a></li>
-<li><a class="" href="session-info.html"><span class="header-section-number">F</span> Session Info</a></li>
+<li><a class="" href="figures-and-tables.html"><span class="header-section-number">C</span> Figures and Tables</a></li>
+<li><a class="" href="session-info.html"><span class="header-section-number">D</span> Session Info</a></li>
 <li><a class="" href="references.html">References</a></li>
 </ul>
 
@@ -75,14 +73,15 @@
 <h2>
 <span class="header-section-number">10.1</span> Introduction<a class="anchor" aria-label="anchor" href="#introduction-3"><i class="fas fa-link"></i></a>
 </h2>
-<p>Phylogenetic trees can be easily visualized with multiple layout using <a href="http://bioconductor.org/packages/ggtree">ggtree</a> <span class="citation">(Yu et al. <a href="references.html#ref-yu_ggtree:_2017" role="doc-biblioref">2017</a>)</span>. It provides programmable visualization and annotation of phylogenetic trees. It not only supports visualization and annotation of phylogenetic trees but also other tree-like structures. So it can be generally applied in related biological researches. None R package, to our knowledge, are developed to align multiple layers to the circular trees or other layout trees. To solve the problem, We developed <a href="http://bioconductor.org/packages/ggtreeExtra">ggtreeExtra</a>, which can align associated graphs to <code>circular</code>, <code>fan</code> or <code>radial</code> and other <code>rectangular</code> layout tree. <a href="http://bioconductor.org/packages/ggtreeExtra">ggtreeExtra</a> provides function, <code>geom_fruit</code> to align graphs to the tree. But the associated graphs will align in different position. So we also developed <code>geom_fruit_list</code> to add multiple layers in the same position. Furthermore, The <code>axis</code> of external layers can be added using the <code>axis.params=list(axis="x")</code> in <code>geom_fruit</code>. The <code>grid lines</code> of external layers can be added using the <code>grid.params=list()</code> in <code>geom_fruit</code>. These functions are based on <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> using grammar of graphics <span class="citation">(Wickham <a href="references.html#ref-wickham_ggplot2_2009" role="doc-biblioref">2009</a>)</span>.</p>
+<p>The <a href="http://bioconductor.org/packages/ggtree">ggtree</a> package <span class="citation">(Yu et al. <a href="references.html#ref-yu_ggtree:_2017" role="doc-biblioref">2017</a>)</span> provides programmable visualization and annotation of <a href="chapter5.html#chapter5">phylogenetic trees</a> and <a href="chapter9.html#chapter9">other tree-like structures</a>. It supports visualizing tree data in multiple layers or with the tree side by side (see also <a href="chapter7.html#chapter7">Chapter 7</a> and <span class="citation">(Yu et al. <a href="references.html#ref-yu_two_2018" role="doc-biblioref">2018</a>)</span>). Although <a href="http://bioconductor.org/packages/ggtree">ggtree</a> supports <a href="chapter4.html#tree-layouts">many layouts</a>, the <code><a href="https://rdrr.io/pkg/ggtree/man/facet-plot.html">geom_facet()</a></code> layer only works with <code>rectangular</code>, <code>roundrect</code>, <code>ellipse</code> and <code>slanted</code> layouts to present tree data on different panels. There is no direct supports in <a href="http://bioconductor.org/packages/ggtree">ggtree</a> to present data on the outer rings of tree in <code>circular</code>, <code>fan</code> and <code>radial</code> layouts. To solve this issue, we developed the <a href="http://bioconductor.org/packages/ggtreeExtra">ggtreeExtra</a> package, which allows users to align associated graph layers in outer rings of circular layout tree. In addition, it also works with <code>rectangular</code> tree layout (Figure <a href="chapter10.html#fig:HMPplot2">10.3</a>).</p>
 </div>
-<div id="aligning-graphs-to-the-tree-based-on-tree-structure" class="section level2" number="10.2">
+<div id="geom-fruit1" class="section level2" number="10.2">
 <h2>
-<span class="header-section-number">10.2</span> Aligning graphs to the tree based on tree structure<a class="anchor" aria-label="anchor" href="#aligning-graphs-to-the-tree-based-on-tree-structure"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.2</span> Aligning graphs to the tree based on tree structure<a class="anchor" aria-label="anchor" href="#geom-fruit1"><i class="fas fa-link"></i></a>
 </h2>
-<p>The phylogenetic trees are often visualized with different graph created using associated datasets. Like the <code>geom_facet</code> of <a href="http://bioconductor.org/packages/ggtree">ggtree</a> <span class="citation">(Yu et al. <a href="references.html#ref-yu_ggtree:_2017" role="doc-biblioref">2017</a>)</span>, <a href="http://bioconductor.org/packages/ggtreeExtra">ggtreeExtra</a> also provides <code>geom_fruit</code> layer which accepts an input <code>data.frame</code> and a <code>geom</code> function to plot the input data. The data will be visualized in an additional position of the plot. <code>geom_fruit</code> also is a general function to link graphs to phylogenetic trees. It will re-orders the input data based on the tree structure and displayed the data with the associated <code>geom</code> at specific position.</p>
-<p>The <code>geom_fruit</code> is designed to work with most of <code>geom</code> layers defined in <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a>. It control the position of graphs by <code>position</code> parameter, which was provided the <code>Position</code> object of <a href="http://bioconductor.org/packages/ggtreeExtra">ggtreeExtra</a>. The default position parameters is ‘auto’. This means that the <code>geom_bar</code> will use <code><a href="https://rdrr.io/pkg/ggtreeExtra/man/position_stackx.html">position_stackx()</a></code>, <code>geom_violin</code> and <code>geom_boxplot</code> will use <code><a href="https://rdrr.io/pkg/ggtreeExtra/man/position_dodgex.html">position_dodgex()</a></code>, <code>geom_point</code> and <code>geom_tile</code> will use <code><a href="https://rdrr.io/pkg/ggtreeExtra/man/position_identityx.html">position_identityx()</a></code>. So if the <code>geom</code> defined in other <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a>-based packages has <code>position</code> parameter, which support the result of a call to a position adjustment function, it also can work with <code>geom_fruit</code>, such as <code>geom_star</code> in <a href="https://CRAN.R-project.org/package=ggstar">ggstar</a>, which provides the regular polygon layer for easily discernible shapes based on the grammar of <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a>. Since the <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> community keeps expanding and more <code>geom</code> layers will be implemented in either <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> or other extensions, <code>geom_fruit</code> also will gain more power to present data in future.</p>
+<p>The <a href="http://bioconductor.org/packages/ggtreeExtra">ggtreeExtra</a> package provides a layer function, <code><a href="https://rdrr.io/pkg/ggtreeExtra/man/geom_fruit.html">geom_fruit()</a></code>, to align graphs with the tree side by side. Similar to the <code><a href="https://rdrr.io/pkg/ggtree/man/facet-plot.html">geom_facet()</a></code> layout described in <a href="chapter7.html#chapter7">Chapter 7</a>, <code><a href="https://rdrr.io/pkg/ggtreeExtra/man/geom_fruit.html">geom_fruit()</a></code> internally re-order the input data based on the tree structure and visualize the data using specified geometric layer function with user provided aesthetic mapping and non-variable setting. The graph will be displayed on the outer ring of the tree.</p>
+<p>The <code><a href="https://rdrr.io/pkg/ggtreeExtra/man/geom_fruit.html">geom_fruit()</a></code> is designed to work with most of <code>geom</code> layers defined in <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> and its extensions. The position of the graph (<em>i.e.</em> on the outer ring) is controlled by the <code>position</code> parameter, which accepts a <code>Positioin</code> object. The default value of the <code>position</code> parameter is ‘auto’ and the <code><a href="https://rdrr.io/pkg/ggtreeExtra/man/geom_fruit.html">geom_fruit()</a></code> layer will guess and determine (hopefully) a suitable position for the specified geometric layer. That means using <code><a href="https://rdrr.io/pkg/ggtreeExtra/man/position_stackx.html">position_stackx()</a></code> for <code><a href="https://rdrr.io/pkg/ggplot2/man/geom_bar.html">geom_bar()</a></code>, <code><a href="https://rdrr.io/pkg/ggtreeExtra/man/position_dodgex.html">position_dodgex()</a></code> for <code><a href="https://rdrr.io/pkg/ggplot2/man/geom_violin.html">geom_violin()</a></code> and <code><a href="https://rdrr.io/pkg/ggplot2/man/geom_boxplot.html">geom_boxplot()</a></code>, and <code><a href="https://rdrr.io/pkg/ggtreeExtra/man/position_identityx.html">position_identityx()</a></code> for others (<em>e.g.</em> <code><a href="https://rdrr.io/pkg/ggplot2/man/geom_point.html">geom_point()</a></code> and <code><a href="https://rdrr.io/pkg/ggplot2/man/geom_tile.html">geom_tile()</a></code> <em>etc.</em>). A geometric layer that has a <code>position</code> parameter should be compatible with <code><a href="https://rdrr.io/pkg/ggtreeExtra/man/geom_fruit.html">geom_fruit()</a></code>, as it allows using position functions defined in the <a href="http://bioconductor.org/packages/ggtreeExtra">ggtreeExtra</a> package to adjust output layer position. Besides, the <code><a href="https://rdrr.io/pkg/ggtreeExtra/man/geom_fruit.html">geom_fruit()</a></code> layer allows setting <code>axis</code> and background grid lines for the current layer using the <code>axis.params</code> and <code>grid.params</code> parameters respectively.</p>
+<p>The following example uses microbiome data that provided in the <a href="http://bioconductor.org/packages/phyloseq">phyloseq</a> package and boxplot is employed to visualize species abundance data. The <code><a href="https://rdrr.io/pkg/ggtreeExtra/man/geom_fruit.html">geom_fruit()</a></code> layer automatically re-arranges the abundance data according to the circular tree structure and visualizes the data using the specific <code>geom</code> function (<em>i.e.</em> <code><a href="https://rdrr.io/pkg/ggplot2/man/geom_boxplot.html">geom_boxplot()</a></code>). Visualizing this dataset using <code><a href="https://wilkelab.org/ggridges/reference/geom_density_ridges.html">geom_density_ridges()</a></code> with <code><a href="https://rdrr.io/pkg/ggtree/man/facet-plot.html">geom_facet()</a></code> can be found in Fig. 1 of <span class="citation">(Yu et al. <a href="references.html#ref-yu_two_2018" role="doc-biblioref">2018</a>)</span>.</p>
 
 
 <div class="sourceCode" id="cb223"><pre class="downlit sourceCode r">
@@ -144,19 +143,18 @@
          legend.text<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_text</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">7</span><span class="op">)</span> <span class="co"># The label text of legend, the sizes should be adjust with dpi.</span>
      <span class="op">)</span>
 <span class="va">p</span></code></pre></div>
-<div class="figure" style="text-align: center">
+<div class="figure">
 <span id="fig:psbox"></span>
-<img src="treedata_files/figure-html/psbox-1.svg" alt="Phylogenetic tree with OTU abundance distribution." width="864"><p class="caption">
-Figure 10.1: <strong>Phylogenetic tree with OTU abundance distribution</strong>.
+<img src="treedata_files/figure-html/psbox-1.svg" alt="Phylogenetic tree with OTU abundance distribution. Species abundance distribution were aligned to the tree and visualized as boxplots. The Phylum information was used to color symbolic points on the tree and also species abundance distributions." width="100%"><p class="caption">
+Figure 10.1: <strong>Phylogenetic tree with OTU abundance distribution</strong>. Species abundance distribution were aligned to the tree and visualized as boxplots. The Phylum information was used to color symbolic points on the tree and also species abundance distributions.
 </p>
 </div>
-<p>This example uses microbiome data that provided in <code>phyloseq</code> package and boxplot is employed to visualize species abundance data. The <code>geom_fruit</code> layer automatically re-arranges the abundance data according to the circular tree structure, visualizes the data using the specify <code>geom</code> function.</p>
 </div>
-<div id="aligning-multiple-graphs-to-the-tree-for-multi-dimensional-data" class="section level2" number="10.3">
+<div id="geom-fruit2" class="section level2" number="10.3">
 <h2>
-<span class="header-section-number">10.3</span> Aligning multiple graphs to the tree for multi-dimensional data<a class="anchor" aria-label="anchor" href="#aligning-multiple-graphs-to-the-tree-for-multi-dimensional-data"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.3</span> Aligning multiple graphs to the tree for multi-dimensional data<a class="anchor" aria-label="anchor" href="#geom-fruit2"><i class="fas fa-link"></i></a>
 </h2>
-<p>Circular layout is efficient layout to show the phylogenetic tree and multi-dimensional data. The continuous dataset can be displayed using heat map, bar plot, box plot or dot plot etc. This example reproduce Fig.2 of <span class="citation">(Morgan, Segata, and Huttenhower <a href="references.html#ref-morgan2013HMP" role="doc-biblioref">2013</a>)</span>. The data is provided by GraPhlAn <span class="citation">(Asnicar et al. <a href="references.html#ref-GraPhlAn" role="doc-biblioref">2015</a>)</span>, which contained the relative abundance of microbiome at different body sites. This example demonstrates the abilities of adding multiple layers (dot plot, heat map and bar plot) created with continuous data to a specific panel, and the attributes of tip point also can be extracted to map Figure <a href="chapter10.html#fig:HMPplot">10.2</a>. And the tree in <code>geom_fruit</code> can be fully annotated with multiple layers (high light, clade labels <em>etc</em>).</p>
+<p>We are able to add multiple <code><a href="https://rdrr.io/pkg/ggtreeExtra/man/geom_fruit.html">geom_fruit()</a></code> layers to a tree and circular layout is indeed more compact and efficient for multi-dimensional data. This example reproduce Fig.2 of <span class="citation">(Morgan, Segata, and Huttenhower <a href="references.html#ref-morgan2013HMP" role="doc-biblioref">2013</a>)</span>. The data is provided by GraPhlAn <span class="citation">(Asnicar et al. <a href="references.html#ref-GraPhlAn" role="doc-biblioref">2015</a>)</span>, which contained the relative abundance of microbiome at different body sites. This example demonstrates the abilities of adding multiple layers (heat map and bar plot) to present different types of data (Figure <a href="chapter10.html#fig:HMPplot">10.2</a>).</p>
 
 
 <div class="sourceCode" id="cb224"><pre class="downlit sourceCode r">
@@ -213,9 +211,9 @@ Figure 10.1: <strong>Phylogenetic tree with OTU abundance distribution</strong>.
                    fontface<span class="op">=</span><span class="st">"italic"</span>
                    <span class="op">)</span>
 
-<span class="va">p</span> <span class="op">&lt;-</span> <span class="va">p</span> <span class="op">%&lt;+%</span> <span class="va">dat1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtreeExtra/man/geom_fruit.html">geom_fruit</a></span><span class="op">(</span>geom<span class="op">=</span><span class="va">geom_star</span>,
-                              mapping<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>fill<span class="op">=</span><span class="va">Phylum</span>, starshape<span class="op">=</span><span class="va">Type</span>, size<span class="op">=</span><span class="va">Size</span><span class="op">)</span>,
-                              position<span class="op">=</span><span class="st">"identity"</span>,starstroke<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span><span class="op">+</span>
+<span class="va">p</span> <span class="op">&lt;-</span> <span class="va">p</span> <span class="op">%&lt;+%</span> <span class="va">dat1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggstar/man/geom_star.html">geom_star</a></span><span class="op">(</span>
+                        mapping<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>fill<span class="op">=</span><span class="va">Phylum</span>, starshape<span class="op">=</span><span class="va">Type</span>, size<span class="op">=</span><span class="va">Size</span><span class="op">)</span>,
+                        position<span class="op">=</span><span class="st">"identity"</span>,starstroke<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span> <span class="op">+</span>
          <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#FFC125"</span>,<span class="st">"#87CEFA"</span>,<span class="st">"#7B68EE"</span>,<span class="st">"#808080"</span>,<span class="st">"#800080"</span>,
                                     <span class="st">"#9ACD32"</span>,<span class="st">"#D15FEE"</span>,<span class="st">"#FFC0CB"</span>,<span class="st">"#EE6A50"</span>,<span class="st">"#8DEEEE"</span>,
                                     <span class="st">"#006400"</span>,<span class="st">"#800000"</span>,<span class="st">"#B0171F"</span>,<span class="st">"#191970"</span><span class="op">)</span>,
@@ -227,8 +225,9 @@ Figure 10.1: <strong>Phylogenetic tree with OTU abundance distribution</strong>.
                                 na.translate<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">+</span>
          <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/scale_size.html">scale_size_continuous</a></span><span class="op">(</span>range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2.5</span><span class="op">)</span>,
                                guide <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/guide_legend.html">guide_legend</a></span><span class="op">(</span>keywidth <span class="op">=</span> <span class="fl">0.5</span>, keyheight <span class="op">=</span> <span class="fl">0.5</span>, order<span class="op">=</span><span class="fl">3</span>,
-                                                    override.aes<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>starshape<span class="op">=</span><span class="fl">15</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
-         <span class="fu"><a href="https://rdrr.io/pkg/ggnewscale/man/new_scale.html">new_scale_fill</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
+                                                    override.aes<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>starshape<span class="op">=</span><span class="fl">15</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+                                                    
+<span class="va">p</span> <span class="op">&lt;-</span> <span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggnewscale/man/new_scale.html">new_scale_fill</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
          <span class="fu"><a href="https://rdrr.io/pkg/ggtreeExtra/man/geom_fruit.html">geom_fruit</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">dat2</span>, geom<span class="op">=</span><span class="va">geom_tile</span>,
                     mapping<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>y<span class="op">=</span><span class="va">ID</span>, x<span class="op">=</span><span class="va">Sites</span>, alpha<span class="op">=</span><span class="va">Abundance</span>, fill<span class="op">=</span><span class="va">Sites</span><span class="op">)</span>,
                     color <span class="op">=</span> <span class="st">"grey50"</span>, offset <span class="op">=</span> <span class="fl">0.04</span>,size <span class="op">=</span> <span class="fl">0.02</span><span class="op">)</span><span class="op">+</span>
@@ -239,7 +238,7 @@ Figure 10.1: <strong>Phylogenetic tree with OTU abundance distribution</strong>.
                     pwidth<span class="op">=</span><span class="fl">0.38</span>, 
                     orientation<span class="op">=</span><span class="st">"y"</span>, 
                     stat<span class="op">=</span><span class="st">"identity"</span>,
-         <span class="op">)</span><span class="op">+</span>
+         <span class="op">)</span> <span class="op">+</span>
          <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#0000FF"</span>,<span class="st">"#FFA500"</span>,<span class="st">"#FF0000"</span>,<span class="st">"#800000"</span>,
                                     <span class="st">"#006400"</span>,<span class="st">"#800080"</span>,<span class="st">"#696969"</span><span class="op">)</span>,
                            guide<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/guide_legend.html">guide_legend</a></span><span class="op">(</span>keywidth <span class="op">=</span> <span class="fl">0.3</span>, keyheight <span class="op">=</span> <span class="fl">0.3</span>, order<span class="op">=</span><span class="fl">4</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
@@ -251,24 +250,36 @@ Figure 10.1: <strong>Phylogenetic tree with OTU abundance distribution</strong>.
                legend.spacing.y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">0.02</span>, <span class="st">"cm"</span><span class="op">)</span>,
              <span class="op">)</span>
 <span class="va">p</span></code></pre></div>
-<div class="figure" style="text-align: center">
+<div class="figure">
 <span id="fig:HMPplot"></span>
-<img src="treedata_files/figure-html/HMPplot-1.svg" alt="Phylogenetic tree about the abundance of microbes at different sites of human." width="672"><p class="caption">
-Figure 10.2: <strong>Phylogenetic tree about the abundance of microbes at different sites of human</strong>.
+<img src="treedata_files/figure-html/HMPplot-1.svg" alt="Presenting microbiome data (abundance and location) on phylogenetic tree. The tree was annotated with symbolic points, highlighted clades and clade labels. Two geom_fruit() layers was used to visualize location and abundance information." width="100%"><p class="caption">
+Figure 10.2: <strong>Presenting microbiome data (abundance and location) on phylogenetic tree.</strong> The tree was annotated with symbolic points, highlighted clades and clade labels. Two <code><a href="https://rdrr.io/pkg/ggtreeExtra/man/geom_fruit.html">geom_fruit()</a></code> layers was used to visualize location and abundance information.
 </p>
 </div>
-<p>The shape of tip labels indicated the commensal microbes or potential pathogens. The transparency of heat map indicates the abundance of microbes, and colors of heat map indicate the different sites of human. The bar plot indicates the relative abundance at body site of the most abundance. The node labels contain taxonomy information in this example, so it can be highlight using <code>geom_hilight</code>. The datasets disabled with heat map and bar plot are the format of specific <code>geom</code> of <code>ggplot2</code>. If you have short table format datasets, you can use <code><a href="https://rdrr.io/pkg/reshape2/man/melt.html">reshape2::melt()</a></code> or <code><a href="https://rdrr.io/pkg/tidyr/man/pivot_longer.html">tidyr::pivot_longer()</a></code> to convert them.</p>
-</div>
-<div id="api-to-link-ggtree-and-ggplot2." class="section level2" number="10.4">
-<h2>
-<span class="header-section-number">10.4</span> API to link <em>ggtree</em> and <em>ggplot2</em>.<a class="anchor" aria-label="anchor" href="#api-to-link-ggtree-and-ggplot2."><i class="fas fa-link"></i></a>
-</h2>
-<p>As we known, <em>ggplot2</em> is a general tool for visualization in many fields. <em>ggtree</em> is also a general tool for visualization of phylogenetic trees or other tree-like structures. So it can be applied in many research fields, such as infectious disease epidemiology, metagenome, population genetics, evolutionary biology and ecology. <a href="http://bioconductor.org/packages/ggtreeExtra">ggtreeExtra</a> provides <code>geom_fruit</code>, an application programming interface to link <a href="http://bioconductor.org/packages/ggtree">ggtree</a><span class="citation">(Yu et al. <a href="references.html#ref-yu_ggtree:_2017" role="doc-biblioref">2017</a>)</span> and <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> <span class="citation">(Wickham <a href="references.html#ref-wickham_ggplot2_2009" role="doc-biblioref">2009</a>)</span>. So it also can be applied in many fields. The some cases of metagenome research has been showed in Figure <a href="chapter10.html#fig:psbox">10.1</a> and Figure <a href="chapter10.html#fig:HMPplot">10.2</a>. In this section, we reproduce the FIG 4 of <span class="citation">(Chow et al. <a href="references.html#ref-Chowe:_2020" role="doc-biblioref">2020</a>)</span> and Fig 1 of <span class="citation">(Wong et al. <a href="references.html#ref-RN46:_2015" role="doc-biblioref">2015</a>)</span> to show that it also can be applied in population genetics. Again, it show that the tree in <code>geom_fruit</code> can be fully annotated with multiple layers (clade group) in Figure <a href="chapter10.html#fig:Caurisplot">10.3</a>.</p>
-
-
+<p>The shape of the tip points indicates the types of microbes (commensal microbes or potential pathogens). The transparency of the heatmap indicates the abundance of the microbes, and the colours of the heatmap indicate different sites of the human body. The bar plot indicates the relative abundance of the most prevalent species at the body sites. The node labels contain taxonomy information in this example, and the information was used to highlight and label corresponding clades using <code><a href="https://rdrr.io/pkg/ggtree/man/geom-hilight.html">geom_hilight()</a></code> and <code><a href="https://rdrr.io/pkg/ggtree/man/geom_cladelab.html">geom_cladelab()</a></code> respectively.</p>
+<p>The <code><a href="https://rdrr.io/pkg/ggtreeExtra/man/geom_fruit.html">geom_fruit()</a></code> layer supports rectangular layout. Users can either add a <code><a href="https://rdrr.io/pkg/ggtreeExtra/man/geom_fruit.html">geom_fruit()</a></code> layer to a rectangular tree (e.g. <code>ggtree(tree_object) + geom_fruit(...)</code>) or using <code><a href="https://rdrr.io/pkg/ggtree/man/tree-layout.html">layout_rectangular()</a></code> to transform a circular layout tree to a rectangular layout tree as demonstrated in Figure <a href="chapter10.html#fig:HMPplot2">10.3</a>.</p>
 
 
 <div class="sourceCode" id="cb225"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/tree-layout.html">layout_rectangular</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/theme.html">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.05</span>, <span class="fl">.7</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="figure">
+<span id="fig:HMPplot2"></span>
+<img src="treedata_files/figure-html/HMPplot2-1.svg" alt="Illustration of using geom_fruit() in rectangular tree layout." width="100%"><p class="caption">
+Figure 10.3: <strong>Illustration of using <code><a href="https://rdrr.io/pkg/ggtreeExtra/man/geom_fruit.html">geom_fruit()</a></code> in rectangular tree layout.</strong>
+</p>
+</div>
+</div>
+<div id="examples-for-population-genetics" class="section level2" number="10.4">
+<h2>
+<span class="header-section-number">10.4</span> Examples for population genetics<a class="anchor" aria-label="anchor" href="#examples-for-population-genetics"><i class="fas fa-link"></i></a>
+</h2>
+<p>The <a href="http://bioconductor.org/packages/ggtree">ggtree</a> <span class="citation">(Yu et al. <a href="references.html#ref-yu_ggtree:_2017" role="doc-biblioref">2017</a>)</span> and <a href="http://bioconductor.org/packages/ggtreeExtra">ggtreeExtra</a> packages are designed as general tools and can be applied to many research fields, such as infectious disease epidemiology, metagenome, population genetics, evolutionary biology and ecology. We have introduced examples for metagenome research (Figure <a href="chapter10.html#fig:psbox">10.1</a> and Figure <a href="chapter10.html#fig:HMPplot">10.2</a>). In this session, we present examples for population genetics by reproducing Fig. 4 of <span class="citation">(Chow et al. <a href="references.html#ref-Chowe:_2020" role="doc-biblioref">2020</a>)</span> and Fig 1 of <span class="citation">(Wong et al. <a href="references.html#ref-RN46:_2015" role="doc-biblioref">2015</a>)</span>.</p>
+
+
+
+
+<div class="sourceCode" id="cb226"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yulab-smu.top/treedata-book/">ggtree</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/YuLab-SMU/ggtreeExtra/">ggtreeExtra</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
@@ -420,14 +431,14 @@ Figure 10.2: <strong>Phylogenetic tree about the abundance of microbes at differ
           legend.spacing.y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">0.02</span>, <span class="st">"cm"</span><span class="op">)</span>
       <span class="op">)</span>
 <span class="va">p3</span></code></pre></div>
-<div class="figure" style="text-align: center">
+<div class="figure">
 <span id="fig:Caurisplot"></span>
-<img src="treedata_files/figure-html/Caurisplot-1.svg" alt="Antifungal susceptibility and point mutations in drug targets in Candida auris ." width="672"><p class="caption">
-Figure 10.3: <strong>Antifungal susceptibility and point mutations in drug targets in <em>Candida auris</em> </strong>.
+<img src="treedata_files/figure-html/Caurisplot-1.svg" alt="Antifungal susceptibility and point mutations in drug targets in Candida auris ." width="100%"><p class="caption">
+Figure 10.4: <strong>Antifungal susceptibility and point mutations in drug targets in <em>Candida auris</em> </strong>.
 </p>
 </div>
-<p>The advantage of using <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> is we do not need to take care of the details. We can provide the data, and tell how to map variables to aesthetics using <em>aes</em>. The legend also can be setted using <code>scale</code>. In addition, the tree be fully annotated with multiple layers also can be supported by <code>geom_fruit</code>. In this example, the phylogenetic tree is annotated with different color to show different clade. The external heat maps show the susceptibility to fluconazole (FCZ), amphotericin B (AMB) and micafungin (MCF). The external points show the point mutations in lanosterol 14-alpha-demethylase ERG11 (Y132F, K143R, and F126L) and beta-1,3-D-glucan synthase FKS1 (S639Y/P/F) associated with resistance <span class="citation">(Chow et al. <a href="references.html#ref-Chowe:_2020" role="doc-biblioref">2020</a>)</span>.</p>
-<div class="sourceCode" id="cb226"><pre class="downlit sourceCode r">
+<p>In this example, the phylogenetic tree is annotated with different colours to display different clades. The external heatmaps presents the susceptibility to fluconazole (FCZ), amphotericin B (AMB) and micafungin (MCF). The external points display the point mutations in lanosterol 14-alpha-demethylase ERG11 (Y132F, K143R, and F126L) and beta-1,3-D-glucan synthase FKS1 (S639Y/P/F) associated with resistance <span class="citation">(Chow et al. <a href="references.html#ref-Chowe:_2020" role="doc-biblioref">2020</a>)</span>.</p>
+<div class="sourceCode" id="cb227"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/YuLab-SMU/ggtreeExtra/">ggtreeExtra</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yulab-smu.top/treedata-book/">ggtree</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
@@ -523,13 +534,29 @@ Figure 10.3: <strong>Antifungal susceptibility and point mutations in drug targe
            legend.spacing.y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">0.02</span>, <span class="st">"cm"</span><span class="op">)</span>
            <span class="op">)</span>
 <span class="va">p3</span></code></pre></div>
-<div class="figure" style="text-align: center">
+<div class="figure">
 <span id="fig:Styphiplot"></span>
-<img src="treedata_files/figure-html/Styphiplot-1.svg" alt="Population structure of the 1,832 S. Typhi isolates." width="672"><p class="caption">
-Figure 10.4: <strong>Population structure of the 1,832 <em>S. Typhi</em> isolates</strong>.
+<img src="treedata_files/figure-html/Styphiplot-1.svg" alt="Population structure of the 1,832 S. Typhi isolates." width="100%"><p class="caption">
+Figure 10.5: <strong>Population structure of the 1,832 <em>S. Typhi</em> isolates</strong>.
 </p>
 </div>
-<p>Except the point mutations, the associated data about region and time also can be annotated. This is an rooted maximum-likelihood tree of <em>S. Typhi</em> inferred from 22,145 SNPs <span class="citation">(Wong et al. <a href="references.html#ref-RN46:_2015" role="doc-biblioref">2015</a>)</span>, the color of tip points represent the geographical origin of the isolates, and the red points of external layer indicate H58 lineage. The color of external heat map indicates the years of isolation <span class="citation">(Wong et al. <a href="references.html#ref-RN46:_2015" role="doc-biblioref">2015</a>)</span>.</p>
+<p>This is a rooted maximum-likelihood tree of <em>S. Typhi</em> inferred from 22,145 SNPs <span class="citation">(Wong et al. <a href="references.html#ref-RN46:_2015" role="doc-biblioref">2015</a>)</span>, the colours of the tip points represent the geographical origin of the isolates, and the red symbolic points indicate the halotype of H58 lineage. The colour of external heatmap indicates the years of isolation <span class="citation">(Wong et al. <a href="references.html#ref-RN46:_2015" role="doc-biblioref">2015</a>)</span>.</p>
+</div>
+<div id="summary10" class="section level2" number="10.5">
+<h2>
+<span class="header-section-number">10.5</span> Summary<a class="anchor" aria-label="anchor" href="#summary10"><i class="fas fa-link"></i></a>
+</h2>
+<!--
+
+[ggtreeExtra](http://bioconductor.org/packages/ggtreeExtra) provides function, `geom_fruit` to align graphs to the tree. But the associated graphs will align in different position. So we also developed `geom_fruit_list` to add multiple layers in the same position. 
+
+
+
+
+such as `geom_star` in [ggstar](https://CRAN.R-project.org/package=ggstar), which provides the regular polygon layer for easily discernible shapes based on the grammar of [ggplot2](https://CRAN.R-project.org/package=ggplot2). 
+
+-->
+<p>Both <code><a href="https://rdrr.io/pkg/ggtree/man/facet-plot.html">geom_facet()</a></code> and <code><a href="https://rdrr.io/pkg/ggtreeExtra/man/geom_fruit.html">geom_fruit()</a></code> is becoming more powerful to present data with trees as more geometric layers will be implemented by the <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> community.</p>
 
 </div>
 </div>
@@ -541,9 +568,10 @@ Figure 10.4: <strong>Population structure of the 1,832 <em>S. Typhi</em> isolate
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#chapter10"><span class="header-section-number">10</span> ggtreeExtra</a></li>
 <li><a class="nav-link" href="#introduction-3"><span class="header-section-number">10.1</span> Introduction</a></li>
-<li><a class="nav-link" href="#aligning-graphs-to-the-tree-based-on-tree-structure"><span class="header-section-number">10.2</span> Aligning graphs to the tree based on tree structure</a></li>
-<li><a class="nav-link" href="#aligning-multiple-graphs-to-the-tree-for-multi-dimensional-data"><span class="header-section-number">10.3</span> Aligning multiple graphs to the tree for multi-dimensional data</a></li>
-<li><a class="nav-link" href="#api-to-link-ggtree-and-ggplot2."><span class="header-section-number">10.4</span> API to link ggtree and ggplot2.</a></li>
+<li><a class="nav-link" href="#geom-fruit1"><span class="header-section-number">10.2</span> Aligning graphs to the tree based on tree structure</a></li>
+<li><a class="nav-link" href="#geom-fruit2"><span class="header-section-number">10.3</span> Aligning multiple graphs to the tree for multi-dimensional data</a></li>
+<li><a class="nav-link" href="#examples-for-population-genetics"><span class="header-section-number">10.4</span> Examples for population genetics</a></li>
+<li><a class="nav-link" href="#summary10"><span class="header-section-number">10.5</span> Summary</a></li>
 </ul>
 
       <div class="book-extra">
@@ -560,7 +588,7 @@ Figure 10.4: <strong>Population structure of the 1,832 <em>S. Typhi</em> isolate
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2020-11-05.</p>
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2020-11-07.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

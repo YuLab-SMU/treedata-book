@@ -32,7 +32,7 @@ p
 
 
 
-```{r rotlSubtree, fig.width=8, fig.height=6, fig.cap="(ref:rotlSubtreecap)", fig.scap="(ref:rotlSubtreescap)"} 
+```{r rotlSubtree, fig.width=8, fig.height=6, fig.cap="(ref:rotlSubtreecap)", fig.scap="(ref:rotlSubtreescap)", out.width='100%'} 
 ## example from: https://github.com/ropensci/rotl
 library(rotl)
 apes <- c("Pongo", "Pan", "Gorilla", "Hoolock", "Homo")
@@ -85,7 +85,7 @@ plotly::ggplotly(p2)
 
 
 
-```{r ggtreeplotly, fig.cap="(ref:ggtreeplotlycap)", fig.scap="(ref:ggtreeplotlyscap)", echo=FALSE} 
+```{r ggtreeplotly, fig.cap="(ref:ggtreeplotlycap)", fig.scap="(ref:ggtreeplotlyscap)", echo=FALSE, out.width='100%'} 
 knitr::include_graphics("img/ggtree-plotly.gif")
 ```
 
@@ -178,18 +178,18 @@ ggtree(x) + ggforce::facet_zoom(xy = node %in% nn)
 ```
 
 
-# Tips for using `ggtree` with `ggimage` {#ggimage-tips}
+## Tips for using `ggtree` with `ggimage` {#ggimage-tips}
 
 `r Biocpkg("ggtree")` supports annotating tree with silhouette images via the `r CRANpkg("ggimage")` package. `r CRANpkg("ggimage")` provides grammar of graphic syntax to work with image files. It allows processing images on the fly via the `image_fun` parameter, which accepts a function to process `magick-image` object. The `r CRANpkg("magick")` package provides several functions and these functions can be combined to perform a particular task.
 
-## Example 1: Remove background of images {#ggimage-rm-image-bg}
+### Example 1: Remove background of images {#ggimage-rm-image-bg}
 
 (ref:ggimagebgscap) Remove image background.
 
 (ref:ggimagebgcap) **Remove image background.** Plotting silhouette images on phylogenetic tree without (A) and with (B) background remove.
 
 
-```{r ggimagebg, fig.width=8, fig.height=4, fig.cap="(ref:ggimagebgcap)", fig.scap="(ref:ggimagebgscap)"} 
+```{r ggimagebg, fig.width=8, fig.height=4, fig.cap="(ref:ggimagebgcap)", fig.scap="(ref:ggimagebgscap)", out.width='100%'} 
 set.seed(1982)
 x <- rtree(5)
 p <- ggtree(x) + theme_grey()
@@ -201,7 +201,7 @@ p2 <- p + geom_nodelab(image="img/frogs/frog.jpg", geom="image", size=.12,
 plot_grid(p1, p2, ncol=2)
 ```
 
-## Example 2: Plot tree on a background image {#ggimage-bgimage}
+### Example 2: Plot tree on a background image {#ggimage-bgimage}
 
 The `geom_bgimage` add a layer of the image and put the layer to the bottom of the layer stack. It is a normal layer and doesn't change the structure of the output `ggtree` object. Users can add annotation layers as without the background image layer.
 
@@ -217,7 +217,7 @@ ggtree(rtree(20), size=1.5, color="white") +
 ```
 
 
-# Run ggtree in Jupyter notebook
+## Run ggtree in Jupyter notebook
 
 If you have [Jupyter notebook](https://jupyter.org/) installed on your system, you can install [IRkernel](https://irkernel.github.io/) with the following command in R:
 
@@ -233,7 +233,7 @@ Then you can use ggtree and other R packages in Jupyter notebook. Here is a scre
 (ref:jupytercap) **ggtree in Jupyter notebook.** Running ggtree in Jupyter notebook via R kernel. 
 
 
-```{r jupyter, echo=F, fig.cap="(ref:jupytercap)", fig.scap="(ref:jupyterscap)"}
+```{r jupyter, echo=F, fig.cap="(ref:jupytercap)", fig.scap="(ref:jupyterscap)", out.width='100%'}
 ## htmltools::includeHTML("img/ggtree_jupyter.html")
 knitr::include_graphics("img/Screenshot_2019-06-24_ggtree-jupyter.png")
 ```
