@@ -1,25 +1,26 @@
 
 # Related tools {#related-tools}
 
-## MicrobiotaProcess: Convert *taxonomy* or hierachical clustering result to *treedata* {#MicrobiotaProcess-hierarchical}
+## MicrobiotaProcess: Convert taxonomy table to a `treedata` object {#MicrobiotaProcess-taxonomy}
 
-In `microbiome` or `ecological data`, the *taxonomy* names are widely used to visualized their hierarchical relationship with associated dataset. However, the *taxonomy* names often are promiscuous and omissive. `convert_to_treedata` of `r Biocpkg("MicrobiotaProcess")` solves the problem well. It can automatically extract their upper level taxonomic information to complete it, when some *taxonomy* names are confused and missing. It also can convert the information to a *treedata* object, which can be visualized by `r Biocpkg("ggtree")`.
+Taxonomy (genus, family, ...) data are widely used in microbiome or ecology. Hierarchical taxonomies are tree-like structure that organize items into subcategories and can be converted to a tree object (see also the [phylog object](#phylog)). The `r Biocpkg("MicrobiotaProcess")` supports converting a `taxonomyTable` object, defined in the `r Biocpkg("phyloseq")` package, to a `treedata` object, and the taxonomic hierarchical relationship can be visualized using `r Biocpkg("ggtree")`. When there are taxonomy names that are [confused and missing](https://github.com/YuLab-SMU/MicrobiotaProcess/issues/14), the `as.treedata()` method for `taxonomyTable` object will complete their upper level taxonomic information automatically.  
 
-(ref:TaxaToTreescap) Get a hierachical clustering tree with the taxonomy names.
 
-(ref:TaxaToTreecap) Get a hierachical clustering tree with the taxonomy names.
+
+(ref:TaxaToTreescap) Convert a `taxonomyTable` object to a `treedata` object. 
+
+(ref:TaxaToTreecap) **Convert a `taxonomyTable` object to a `treedata` object.** 
 
 ```{r TaxaTree, fig.widht=8, fig.height=8, fig.cap="(ref:TaxaToTreecap)", fig.scap="ref:TaxaToTreescap"}
 library(MicrobiotaProcess)
 library(ggtree)
+
 data(kostic2012crc)
-taxa <- data.frame(kostic2012crc@tax_table, check.names=FALSE)
+taxa <- phyloseq::tax_table(kostic2012crc)
+tree <- as.treedata(taxa)
 
-tree <- convert_to_treedata(data=taxa)
-
-p <- ggtree(tree, layout="circular", size=0.2) +
+ggtree(tree, layout="circular", size=0.2) +
      geom_tiplab(size=1)
-p
 ```
 
 ## rtol: An R interface to Open Tree API {#rtol}

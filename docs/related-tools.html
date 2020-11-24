@@ -47,7 +47,7 @@
 <li><a class="" href="chapter8.html"><span class="header-section-number">8</span> Annotating Tree with Silhouette Images and Sub-plots</a></li>
 <li><a class="" href="chapter9.html"><span class="header-section-number">9</span> ggtree for other tree-like objects</a></li>
 <li class="book-part">Part III: ggtree extensions</li>
-<li><a class="" href="chapter10.html"><span class="header-section-number">10</span> ggtreeExtra</a></li>
+<li><a class="" href="chapter10.html"><span class="header-section-number">10</span> ggtreeExtra for presenting data on circular layout</a></li>
 <li><a class="" href="chapter11.html"><span class="header-section-number">11</span> Other ggtree extensions</a></li>
 <li class="book-part">Part IV: Miscellaneous topics</li>
 <li><a class="" href="chapter12.html"><span class="header-section-number">12</span> ggtree utilities</a></li>
@@ -69,28 +69,27 @@
 <h1>
 <span class="header-section-number">B</span> Related tools<a class="anchor" aria-label="anchor" href="#related-tools"><i class="fas fa-link"></i></a>
 </h1>
-<div id="MicrobiotaProcess-hierarchical" class="section level2" number="15.1">
+<div id="MicrobiotaProcess-taxonomy" class="section level2" number="15.1">
 <h2>
-<span class="header-section-number">B.1</span> MicrobiotaProcess: Convert <em>taxonomy</em> or hierachical clustering result to <em>treedata</em><a class="anchor" aria-label="anchor" href="#MicrobiotaProcess-hierarchical"><i class="fas fa-link"></i></a>
+<span class="header-section-number">B.1</span> MicrobiotaProcess: Convert taxonomy table to a <code>treedata</code> object<a class="anchor" aria-label="anchor" href="#MicrobiotaProcess-taxonomy"><i class="fas fa-link"></i></a>
 </h2>
-<p>In <code>microbiome</code> or <code>ecological data</code>, the <em>taxonomy</em> names are widely used to visualized their hierarchical relationship with associated dataset. However, the <em>taxonomy</em> names often are promiscuous and omissive. <code>convert_to_treedata</code> of <a href="http://bioconductor.org/packages/MicrobiotaProcess">MicrobiotaProcess</a> solves the problem well. It can automatically extract their upper level taxonomic information to complete it, when some <em>taxonomy</em> names are confused and missing. It also can convert the information to a <em>treedata</em> object, which can be visualized by <a href="http://bioconductor.org/packages/ggtree">ggtree</a>.</p>
+<p>Taxonomy (genus, family, …) data are widely used in microbiome or ecology. Hierarchical taxonomies are tree-like structure that organize items into subcategories and can be converted to a tree object (see also the <a href="chapter9.html#phylog">phylog object</a>). The <a href="http://bioconductor.org/packages/MicrobiotaProcess">MicrobiotaProcess</a> supports converting a <code>taxonomyTable</code> object, defined in the <a href="http://bioconductor.org/packages/phyloseq">phyloseq</a> package, to a <code>treedata</code> object, and the taxonomic hierarchical relationship can be visualized using <a href="http://bioconductor.org/packages/ggtree">ggtree</a>. When there are taxonomy names that are <a href="https://github.com/YuLab-SMU/MicrobiotaProcess/issues/14">confused and missing</a>, the <code><a href="https://rdrr.io/pkg/tidytree/man/as.treedata.html">as.treedata()</a></code> method for <code>taxonomyTable</code> object will complete their upper level taxonomic information automatically.</p>
 
 
 <div class="sourceCode" id="cb290"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/YuLab-SMU/MicrobiotaProcess/">MicrobiotaProcess</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yulab-smu.top/treedata-book/">ggtree</a></span><span class="op">)</span>
+
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">kostic2012crc</span><span class="op">)</span>
-<span class="va">taxa</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">kostic2012crc</span><span class="op">@</span><span class="va">tax_table</span>, check.names<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>
+<span class="va">taxa</span> <span class="op">&lt;-</span> <span class="fu">phyloseq</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/phyloseq/man/tax_table-methods.html">tax_table</a></span><span class="op">(</span><span class="va">kostic2012crc</span><span class="op">)</span>
+<span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tidytree/man/as.treedata.html">as.treedata</a></span><span class="op">(</span><span class="va">taxa</span><span class="op">)</span>
 
-<span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MicrobiotaProcess/man/convert_to_treedata.html">convert_to_treedata</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">taxa</span><span class="op">)</span>
-
-<span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span>, layout<span class="op">=</span><span class="st">"circular"</span>, size<span class="op">=</span><span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span>
-     <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">1</span><span class="op">)</span>
-<span class="va">p</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span>, layout<span class="op">=</span><span class="st">"circular"</span>, size<span class="op">=</span><span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span>
+     <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">1</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <span id="fig:TaxaTree"></span>
-<img src="treedata_files/figure-html/TaxaTree-1.svg" alt="Get a hierachical clustering tree with the taxonomy names." width="672"><p class="caption">
-Figure B.1: Get a hierachical clustering tree with the taxonomy names.
+<img src="treedata_files/figure-html/TaxaTree-1.svg" alt="Convert a taxonomyTable object to a treedata object." width="672"><p class="caption">
+Figure B.1: <strong>Convert a <code>taxonomyTable</code> object to a <code>treedata</code> object.</strong>
 </p>
 </div>
 </div>
@@ -375,7 +374,7 @@ Figure B.7: <strong>ggtree in Jupyter notebook.</strong> Running ggtree in Jupyt
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#related-tools"><span class="header-section-number">B</span> Related tools</a></li>
-<li><a class="nav-link" href="#MicrobiotaProcess-hierarchical"><span class="header-section-number">B.1</span> MicrobiotaProcess: Convert taxonomy or hierachical clustering result to treedata</a></li>
+<li><a class="nav-link" href="#MicrobiotaProcess-taxonomy"><span class="header-section-number">B.1</span> MicrobiotaProcess: Convert taxonomy table to a treedata object</a></li>
 <li><a class="nav-link" href="#rtol"><span class="header-section-number">B.2</span> rtol: An R interface to Open Tree API</a></li>
 <li><a class="nav-link" href="#plotly"><span class="header-section-number">B.3</span> Convert ggtree to plotly object</a></li>
 <li><a class="nav-link" href="#commicR"><span class="header-section-number">B.4</span> Comic (xkcd-like) phylogenetic tree</a></li>
@@ -404,7 +403,7 @@ Figure B.7: <strong>ggtree in Jupyter notebook.</strong> Running ggtree in Jupyt
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2020-11-19.</p>
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2020-11-24.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
