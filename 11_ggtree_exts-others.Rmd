@@ -26,33 +26,34 @@ There are `r length(unlist(x))` packages in CRAN or Bioconductor that depend or 
 
 + [ggdaisie](https://github.com/richelbilderbeek/ggdaisie): ggtree and DAISIE R package
 + [microbiomeViz](https://github.com/lch14forever/microbiomeViz): Visualize microbiome data with black magic ggtree
-+ [microbiomeMarker](https://github.com/yiluheihei/microbiomeMarker)
++ [microbiomeMarker](https://github.com/yiluheihei/microbiomeMarker): microbiome biomarker analysis
 
 
 ## Taxonomy annotation using MicrobiotaProcess {#MicrobiotaProcess}
 
-The `ggdiffcalde` in `r Biocpkg("MicrobiotaProcess")` is developed based on `r Biocpkg("ggtree")` [@yu_ggtree:_2017]. It can be used to visualized the result of `diff_analysis` in `r Biocpkg("MicrobiotaProcess")`. In addition, If you have a data frame contained hierarchical relationship, like the taxonomy annotation or KEGG levels annotation, to plot the framework, and a data frame (first column should be the labels from data frame contained hierarchical relationship, a column of factor variable, another column contains `pvalue` also can be provided.). It provided `circular`, `radial`, `rectangular`, `inward_circular` and `slanted` layout. Here, we show an example to show how to use data frame to visualize the different taxonomy tree. The data frame of this example is from the results of `diff_analysis` with the public datasets [@kostic2012genomic].
+The `r Biocpkg("MicrobiotaProcess")` package provides a LEfSe-like algorithm [@segata_metagenomic_2011] to discover microbiome biomarker by comparing taxon abudance between different classes. It also provides several methods to visualize the analysis result. The `ggdiffcalde()` is developed based on `r Biocpkg("ggtree")` [@yu_ggtree:_2017]. In addition to the `diff_analysis()` result, it also supports a data frame that contains hierarchical relationship (*e.g.* [taxonomy annotation](#MicrobiotaProcess-taxonomy) or KEGG annotation) with another data frame that contains taxa and factor information and/or pvalue. The following example demonstrates how to use data frames (*i.e.* analysis result) to visualize the differential taxonomy tree. More details can be found on the vignette of the `r Biocpkg("MicrobiotaProcess")` package. 
 
-(ref:CRCdiffscap) Different taxonomy clade.
 
-(ref:CRCdiffcap) **Different taxonomy clade**.
+(ref:CRCdiffscap) Visualize differential taxonomy clade.
 
-```{r CRCdiffclade, fig.width=7, fig.height=7, message=FALSE, fig.cap="(ref:CRCdiffcap)", fig.scap="(ref:CRCdiffscap)", out.extra='', warning=FALSE}
+(ref:CRCdiffcap) **Visualize differential taxonomy clade.** 
+
+```{r CRCdiffclade, fig.width=7, fig.height=7, message=FALSE, fig.cap="(ref:CRCdiffcap)", fig.scap="(ref:CRCdiffscap)", out.extra='', warning=FALSE, message=FALSE, results='hide'}
 library(MicrobiotaProcess)
 library(ggplot2)
 
 taxa <- read.csv("data/alltax_info.csv")
 dt <- read.csv("data/difftax_tab.csv")
 
-p <- ggdiffclade(obj=taxa,
-                 nodedf=dt,
-                 factorName="DIAGNOSIS",
-                 layout="radial",
-                 skpointsize=0.6,
-                 cladetext=2,
-                 linewd=0.2, # The size argument has been replace with linewd in devel version
-                 taxlevel=3,
-                 reduce=TRUE) + # This argument is to remove the branch of unknown taxonomy, it is provided in devel version.
+ggdiffclade(obj=taxa,
+            nodedf=dt,
+            factorName="DIAGNOSIS",
+            layout="radial",
+            skpointsize=0.6,
+            cladetext=2,
+            linewd=0.2,
+            taxlevel=3,
+            reduce=TRUE) + # This argument is to remove the branch of unknown taxonomy.
      scale_fill_manual(values=c("#00AED7", "#009E73"))+
      guides(color = guide_legend(keywidth = 0.1, keyheight = 0.6,
                                  order = 3,ncol=1)) +
@@ -63,12 +64,10 @@ p <- ggdiffclade(obj=taxa,
            legend.title=element_text(size=7.5), # This should be adjusted with different devout.
            legend.text=element_text(size=5.5), 
            legend.box.spacing=unit(0.02,"cm")
-           )
-
-p
+        )
 ```
 
-The `colors` represent the relevant features enriched in the relevant `classgroup`. The size of point colored represent the `-log10(pvalue)`, which means the larger point represents the higher significance. In the example, we found *Fusobacterium* sequences were enriched in carcinomas, and Firmicutes, Bacteroides, Clostridiales were depleted in tumors. These results were consistent with the original article [@kostic2012genomic]. In addition, we also found *Campylobacter* were enriched in tumors, but the relative abundance of it is lower than *Fusobacterium*. And the species of *Campylobacter* has been proven to associated with the colorectal cancer [@He289; @wu2013dysbiosis; @amer2017microbiome]. 
+The data frame of this example is from the analysis result of `diff_analysis()` using public datasets [@kostic2012genomic]. The `colors` represent the features enriched in the relevant class groups. The size of circle points represents the `-log10(pvalue)`, *i.e.* a larger point indicates a greater signficance. In Figure \@ref(fig:CRCdiffclade), we can found that *Fusobacterium* sequences were enriched in carcinomas, while Firmicutes, Bacteroides and Clostridiales were depleted in tumors. These results were consistent with the original article [@kostic2012genomic]. The species of *Campylobacter* has been proven to associated with the colorectal cancer [@He289; @wu2013dysbiosis; @amer2017microbiome]. We can found in the Figure \@ref(fig:CRCdiffclade) that *Campylobacter* were enriched in tumors, while its relative abundance is lower than *Fusobacterium*.  
 
 
 ## Visualizing phylogenetic network 

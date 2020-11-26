@@ -87,13 +87,13 @@
 <li><p><a href="https://github.com/willgearty/deeptime">deeptime</a>: Plotting Tools for Anyone Working in Deep Time</p></li>
 <li><p><a href="https://github.com/richelbilderbeek/ggdaisie">ggdaisie</a>: ggtree and DAISIE R package</p></li>
 <li><p><a href="https://github.com/lch14forever/microbiomeViz">microbiomeViz</a>: Visualize microbiome data with black magic ggtree</p></li>
-<li><p><a href="https://github.com/yiluheihei/microbiomeMarker">microbiomeMarker</a></p></li>
+<li><p><a href="https://github.com/yiluheihei/microbiomeMarker">microbiomeMarker</a>: microbiome biomarker analysis</p></li>
 </ul>
 <div id="MicrobiotaProcess" class="section level2" number="11.1">
 <h2>
 <span class="header-section-number">11.1</span> Taxonomy annotation using MicrobiotaProcess<a class="anchor" aria-label="anchor" href="#MicrobiotaProcess"><i class="fas fa-link"></i></a>
 </h2>
-<p>The <code>ggdiffcalde</code> in <a href="http://bioconductor.org/packages/MicrobiotaProcess">MicrobiotaProcess</a> is developed based on <a href="http://bioconductor.org/packages/ggtree">ggtree</a> <span class="citation">(Yu et al. <a href="references.html#ref-yu_ggtree:_2017" role="doc-biblioref">2017</a>)</span>. It can be used to visualized the result of <code>diff_analysis</code> in <a href="http://bioconductor.org/packages/MicrobiotaProcess">MicrobiotaProcess</a>. In addition, If you have a data frame contained hierarchical relationship, like the taxonomy annotation or KEGG levels annotation, to plot the framework, and a data frame (first column should be the labels from data frame contained hierarchical relationship, a column of factor variable, another column contains <code>pvalue</code> also can be provided.). It provided <code>circular</code>, <code>radial</code>, <code>rectangular</code>, <code>inward_circular</code> and <code>slanted</code> layout. Here, we show an example to show how to use data frame to visualize the different taxonomy tree. The data frame of this example is from the results of <code>diff_analysis</code> with the public datasets <span class="citation">(Kostic et al. <a href="references.html#ref-kostic2012genomic" role="doc-biblioref">2012</a>)</span>.</p>
+<p>The <a href="http://bioconductor.org/packages/MicrobiotaProcess">MicrobiotaProcess</a> package provides a LEfSe-like algorithm <span class="citation">(Segata et al. <a href="references.html#ref-segata_metagenomic_2011" role="doc-biblioref">2011</a>)</span> to discover microbiome biomarker by comparing taxon abudance between different classes. It also provides several methods to visualize the analysis result. The <code>ggdiffcalde()</code> is developed based on <a href="http://bioconductor.org/packages/ggtree">ggtree</a> <span class="citation">(Yu et al. <a href="references.html#ref-yu_ggtree:_2017" role="doc-biblioref">2017</a>)</span>. In addition to the <code><a href="https://rdrr.io/pkg/MicrobiotaProcess/man/diff_analysis.html">diff_analysis()</a></code> result, it also supports a data frame that contains hierarchical relationship (<em>e.g.</em> <a href="related-tools.html#MicrobiotaProcess-taxonomy">taxonomy annotation</a> or KEGG annotation) with another data frame that contains taxa and factor information and/or pvalue. The following example demonstrates how to use data frames (<em>i.e.</em> analysis result) to visualize the differential taxonomy tree. More details can be found on the vignette of the <a href="http://bioconductor.org/packages/MicrobiotaProcess">MicrobiotaProcess</a> package.</p>
 
 
 <div class="sourceCode" id="cb230"><pre class="downlit sourceCode r">
@@ -103,15 +103,15 @@
 <span class="va">taxa</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"data/alltax_info.csv"</span><span class="op">)</span>
 <span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"data/difftax_tab.csv"</span><span class="op">)</span>
 
-<span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MicrobiotaProcess/man/ggdiffclade.html">ggdiffclade</a></span><span class="op">(</span>obj<span class="op">=</span><span class="va">taxa</span>,
-                 nodedf<span class="op">=</span><span class="va">dt</span>,
-                 factorName<span class="op">=</span><span class="st">"DIAGNOSIS"</span>,
-                 layout<span class="op">=</span><span class="st">"radial"</span>,
-                 skpointsize<span class="op">=</span><span class="fl">0.6</span>,
-                 cladetext<span class="op">=</span><span class="fl">2</span>,
-                 linewd<span class="op">=</span><span class="fl">0.2</span>, <span class="co"># The size argument has been replace with linewd in devel version</span>
-                 taxlevel<span class="op">=</span><span class="fl">3</span>,
-                 reduce<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span> <span class="co"># This argument is to remove the branch of unknown taxonomy, it is provided in devel version.</span>
+<span class="fu"><a href="https://rdrr.io/pkg/MicrobiotaProcess/man/ggdiffclade.html">ggdiffclade</a></span><span class="op">(</span>obj<span class="op">=</span><span class="va">taxa</span>,
+            nodedf<span class="op">=</span><span class="va">dt</span>,
+            factorName<span class="op">=</span><span class="st">"DIAGNOSIS"</span>,
+            layout<span class="op">=</span><span class="st">"radial"</span>,
+            skpointsize<span class="op">=</span><span class="fl">0.6</span>,
+            cladetext<span class="op">=</span><span class="fl">2</span>,
+            linewd<span class="op">=</span><span class="fl">0.2</span>,
+            taxlevel<span class="op">=</span><span class="fl">3</span>,
+            reduce<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span> <span class="co"># This argument is to remove the branch of unknown taxonomy.</span>
      <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#00AED7"</span>, <span class="st">"#009E73"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
      <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/guides.html">guides</a></span><span class="op">(</span>color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/guide_legend.html">guide_legend</a></span><span class="op">(</span>keywidth <span class="op">=</span> <span class="fl">0.1</span>, keyheight <span class="op">=</span> <span class="fl">0.6</span>,
                                  order <span class="op">=</span> <span class="fl">3</span>,ncol<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
@@ -122,16 +122,14 @@
            legend.title<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_text</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">7.5</span><span class="op">)</span>, <span class="co"># This should be adjusted with different devout.</span>
            legend.text<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_text</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">5.5</span><span class="op">)</span>, 
            legend.box.spacing<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">0.02</span>,<span class="st">"cm"</span><span class="op">)</span>
-           <span class="op">)</span>
-
-<span class="va">p</span></code></pre></div>
+        <span class="op">)</span></code></pre></div>
 <div class="figure">
 <span id="fig:CRCdiffclade"></span>
-<img src="treedata_files/figure-html/CRCdiffclade-1.svg" alt="Different taxonomy clade." width="672"><p class="caption">
-Figure 11.1: <strong>Different taxonomy clade</strong>.
+<img src="treedata_files/figure-html/CRCdiffclade-1.svg" alt="Visualize differential taxonomy clade." width="672"><p class="caption">
+Figure 11.1: <strong>Visualize differential taxonomy clade.</strong>
 </p>
 </div>
-<p>The <code>colors</code> represent the relevant features enriched in the relevant <code>classgroup</code>. The size of point colored represent the <code>-log10(pvalue)</code>, which means the larger point represents the higher significance. In the example, we found <em>Fusobacterium</em> sequences were enriched in carcinomas, and Firmicutes, Bacteroides, Clostridiales were depleted in tumors. These results were consistent with the original article <span class="citation">(Kostic et al. <a href="references.html#ref-kostic2012genomic" role="doc-biblioref">2012</a>)</span>. In addition, we also found <em>Campylobacter</em> were enriched in tumors, but the relative abundance of it is lower than <em>Fusobacterium</em>. And the species of <em>Campylobacter</em> has been proven to associated with the colorectal cancer <span class="citation">(He et al. <a href="references.html#ref-He289" role="doc-biblioref">2019</a>; Wu et al. <a href="references.html#ref-wu2013dysbiosis" role="doc-biblioref">2013</a>; Amer et al. <a href="references.html#ref-amer2017microbiome" role="doc-biblioref">2017</a>)</span>.</p>
+<p>The data frame of this example is from the analysis result of <code><a href="https://rdrr.io/pkg/MicrobiotaProcess/man/diff_analysis.html">diff_analysis()</a></code> using public datasets <span class="citation">(Kostic et al. <a href="references.html#ref-kostic2012genomic" role="doc-biblioref">2012</a>)</span>. The <code>colors</code> represent the features enriched in the relevant class groups. The size of circle points represents the <code>-log10(pvalue)</code>, <em>i.e.</em> a larger point indicates a greater signficance. In Figure <a href="chapter11.html#fig:CRCdiffclade">11.1</a>, we can found that <em>Fusobacterium</em> sequences were enriched in carcinomas, while Firmicutes, Bacteroides and Clostridiales were depleted in tumors. These results were consistent with the original article <span class="citation">(Kostic et al. <a href="references.html#ref-kostic2012genomic" role="doc-biblioref">2012</a>)</span>. The species of <em>Campylobacter</em> has been proven to associated with the colorectal cancer <span class="citation">(He et al. <a href="references.html#ref-He289" role="doc-biblioref">2019</a>; Wu et al. <a href="references.html#ref-wu2013dysbiosis" role="doc-biblioref">2013</a>; Amer et al. <a href="references.html#ref-amer2017microbiome" role="doc-biblioref">2017</a>)</span>. We can found in the Figure <a href="chapter11.html#fig:CRCdiffclade">11.1</a> that <em>Campylobacter</em> were enriched in tumors, while its relative abundance is lower than <em>Fusobacterium</em>.</p>
 </div>
 <div id="visualizing-phylogenetic-network" class="section level2" number="11.2">
 <h2>
@@ -190,7 +188,7 @@ Figure 11.2: <strong>Phylogenetic network</strong>.
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2020-11-24.</p>
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2020-11-26.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
