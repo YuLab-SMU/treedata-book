@@ -21,3 +21,10 @@ cover:
 
 largeImg:
 	ls -lhS gh-pages/treedata_files/figure-html | head  
+
+publish:
+	cd gh-pages;\
+	git add .;\
+	git commit -m 'update';\
+	git push -u origin gh-pages
+	
