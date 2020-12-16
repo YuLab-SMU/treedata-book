@@ -98,13 +98,24 @@ badge_version <- function(pkg, color="green") {
 }
 
 
+## based on https://bookdown.org/yihui/rmarkdown-cookbook/fig-process.html
+
+svg2png <- function(path, options) {
+    if (!grepl('[.]svg$', path)) return(path)
+
+    output <- sub(".svg$", ".png", path)
+    system2("convert", paste("-density 150", path, output))
+    file.remove(path)
+    return(output)
+}
+
 ## manual setting. the ropenscilabs/icon package will set up everything for you.
 ## fontawesome supports
 ## htmltools::tagList(rmarkdown::html_dependency_font_awesome())
 
-
 library(knitr)
-opts_chunk$set(message=FALSE, warning=FALSE, eval=TRUE, echo=TRUE, cache=TRUE, dev='svg')
+opts_chunk$set(message=FALSE, warning=FALSE, eval=TRUE, 
+            echo=TRUE, cache=TRUE, dev='svg')
 ```
 
 
