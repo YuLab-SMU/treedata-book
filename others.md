@@ -23,10 +23,6 @@ ggtree for pvclust
 
 setup git branches:
 
-https://stackoverflow.com/questions/34100048/create-empty-branch-on-github
-https://gist.github.com/chrisjacob/833223
-
-
 ## 把master重命名为all
 git checkout master
 git branch -m master all
