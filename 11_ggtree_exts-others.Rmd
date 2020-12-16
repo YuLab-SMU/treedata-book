@@ -1,0 +1,97 @@
+
+# Other ggtree extensions {#chapter11}
+
+```{r include=F}
+library(knitr)
+opts_chunk$set(message=FALSE, warning=FALSE, eval=TRUE, echo=TRUE, cache=TRUE)
+```
+
+
+
+
+```{r revdep}
+rp <- BiocManager::repositories()
+db <- utils::available.packages(repo=rp)
+x <- tools::package_dependencies('ggtree', db=db, 
+                                which = c("Depends", "Imports"), 
+                                reverse=TRUE)
+print(x)                                
+```
+
+There are `r length(unlist(x))` packages in CRAN or Bioconductor that depend or import `r Biocpkg("ggtree")` and several packages on github that extends ggtree.
+
+
+
++ [deeptime](https://github.com/willgearty/deeptime): Plotting Tools for Anyone Working in Deep Time
+
++ [ggdaisie](https://github.com/richelbilderbeek/ggdaisie): ggtree and DAISIE R package
++ [microbiomeViz](https://github.com/lch14forever/microbiomeViz): Visualize microbiome data with black magic ggtree
++ [microbiomeMarker](https://github.com/yiluheihei/microbiomeMarker): microbiome biomarker analysis
+
+
+## Taxonomy annotation using MicrobiotaProcess {#MicrobiotaProcess}
+
+The `r Biocpkg("MicrobiotaProcess")` package provides a LEfSe-like algorithm [@segata_metagenomic_2011] to discover microbiome biomarker by comparing taxon abudance between different classes. It also provides several methods to visualize the analysis result. The `ggdiffcalde()` is developed based on `r Biocpkg("ggtree")` [@yu_ggtree:_2017]. In addition to the `diff_analysis()` result, it also supports a data frame that contains hierarchical relationship (*e.g.* [taxonomy annotation](#MicrobiotaProcess-taxonomy) or KEGG annotation) with another data frame that contains taxa and factor information and/or pvalue. The following example demonstrates how to use data frames (*i.e.* analysis result) to visualize the differential taxonomy tree. More details can be found on the vignette of the `r Biocpkg("MicrobiotaProcess")` package. 
+
+
+(ref:CRCdiffscap) Visualize differential taxonomy clade.
+
+(ref:CRCdiffcap) **Visualize differential taxonomy clade.** 
+
+```{r CRCdiffclade, fig.width=7, fig.height=7, fig.process=svg2png, message=FALSE, fig.cap="(ref:CRCdiffcap)", fig.scap="(ref:CRCdiffscap)", out.extra='', warning=FALSE, message=FALSE, results='hide'}
+library(MicrobiotaProcess)
+library(ggplot2)
+
+taxa <- read.csv("data/alltax_info.csv")
+dt <- read.csv("data/difftax_tab.csv")
+
+ggdiffclade(obj=taxa,
+            nodedf=dt,
+            factorName="DIAGNOSIS",
+            layout="radial",
+            skpointsize=0.6,
+            cladetext=2,
+            linewd=0.2,
+            taxlevel=3,
+            reduce=TRUE) + # This argument is to remove the branch of unknown taxonomy.
+     scale_fill_manual(values=c("#00AED7", "#009E73"))+
+     guides(color = guide_legend(keywidth = 0.1, keyheight = 0.6,
+                                 order = 3,ncol=1)) +
+     theme(panel.background=element_rect(fill=NA),
+           legend.position="right",
+           plot.margin=margin(0,0,0,0),
+           legend.spacing.y=unit(0.02, "cm"), 
+           legend.title=element_text(size=7.5), # This should be adjusted with different devout.
+           legend.text=element_text(size=5.5), 
+           legend.box.spacing=unit(0.02,"cm")
+        )
+```
+
+The data frame of this example is from the analysis result of `diff_analysis()` using public datasets [@kostic2012genomic]. The `colors` represent the features enriched in the relevant class groups. The size of circle points represents the `-log10(pvalue)`, *i.e.* a larger point indicates a greater signficance. In Figure \@ref(fig:CRCdiffclade), we can found that *Fusobacterium* sequences were enriched in carcinomas, while Firmicutes, Bacteroides and Clostridiales were depleted in tumors. These results were consistent with the original article [@kostic2012genomic]. The species of *Campylobacter* has been proven to associated with the colorectal cancer [@He289; @wu2013dysbiosis; @amer2017microbiome]. We can found in the Figure \@ref(fig:CRCdiffclade) that *Campylobacter* were enriched in tumors, while its relative abundance is lower than *Fusobacterium*.  
+
+
+## Visualizing phylogenetic network 
+
+[ggnetworx](https://github.com/KlausVigo/ggnetworx): phylogenetic networks using ggplot2 and ggtree
+
+
+(ref:phylonetworxscap) Phylogenetic network.
+
+(ref:phylonetworxcap) **Phylogenetic network**.
+
+```{r phylonetworx, fig.width=7, fig.height=7, message=FALSE, fig.cap="(ref:phylonetworxcap)", fig.scap="(ref:phylonetworxscap)", out.extra='', warning=FALSE}
+library(ggplot2)
+library(ggtree)
+library(ggnetworx)
+
+file <- system.file("extdata/trees/woodmouse.nxs", package = "phangorn")
+Nnet <- phangorn::read.nexus.networx(file)
+
+ggplot(Nnet, aes(x, y))  + geom_splitnet() + theme_tree()+   
+    geom_tiplab2(aes(color=label), hjust=-.1)+
+    scale_color_manual(values=rainbow(15)) +   
+    theme(legend.position="none") +
+    ggexpand(.1) + ggexpand(.1, direction=-1)
+```                 
+
+

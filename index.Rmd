@@ -1,0 +1,138 @@
+---
+title: 'Data Integration, Manipulation and Visualization of Phylogenetic Trees'
+author: Guangchuang Yu
+date: "`r Sys.Date()`"
+knit: "bookdown::render_book"
+site: bookdown::bookdown_site
+output:
+  bookdown::bs4_book:
+  bookdown::pdf_book:
+    dev: "cairo_pdf"
+    latex_engine: xelatex
+bibliography: references.bib
+biblio-style: apalike
+always_allow_html: yes
+toc_appendix: yes
+fontsize: "12pt"
+mainfont: Times New Roman
+sansfont: Arial
+monofontoptions: "Scale=0.7"
+linestretch: 1.5
+toc-depth: 2
+link-citations: yes
+github-repo: YuLab-SMU/treedata-book
+twiter-handle: guangchuangyu
+description: "Master ggtree package suit to handle tree with data."
+documentclass: book
+papersize: A4
+classoption: twoside
+highlight_bw: yes
+geometry: "left=35mm,right=35mm,top=25mm,bottom=25mm"
+---
+
+
+```{r include=FALSE}
+library(conflicted)
+library(ape)
+library(Biostrings)
+## library(OutbreakTools)
+library(igraph)
+library(phylobase)
+
+library(emojifont)
+library(cowplot)
+library(ggplot2)
+library(dplyr)
+library(kableExtra)
+library(tidytree)
+library(treeio)
+library(ggtree)
+
+conflict_prefer("expand", "ggtree")
+conflict_prefer("mask", "treeio")
+conflict_prefer("parent", "treeio")
+conflict_prefer("ancestor", "treeio")
+conflict_prefer("get.data", "treeio")
+conflict_prefer("drop.tip", "treeio")
+conflict_prefer("paste", "base")
+
+conflict_prefer("MRCA", "tidytree")
+
+conflict_prefer("filter", "dplyr")
+conflict_prefer("rename", "dplyr")
+conflict_prefer("collapse", "dplyr")
+conflict_prefer("intersect", "dplyr")
+conflict_prefer("union", "dplyr")
+
+conflict_prefer("strsplit", "base")
+
+conflict_prefer("geom_errorbarh", "ggplot2")
+
+conflict_prefer("as.data.frame", "BiocGenerics")
+
+
+options(width=60)
+
+theme_set(theme_grey())
+
+CRANpkg <- function (pkg) {
+    cran <- "https://CRAN.R-project.org/package"
+    fmt <- "[%s](%s=%s)"
+    sprintf(fmt, pkg, cran, pkg)
+}
+
+Biocpkg <- function (pkg) {
+    sprintf("[%s](http://bioconductor.org/packages/%s)", pkg, pkg)
+}
+
+Githubpkg <- function (user, pkg) {
+    gh <- "https://github.com"
+    fmt <- "[%s](%s/%s/%s)"
+    sprintf(fmt, pkg, gh, user, pkg)
+}
+
+badge_version <- function(pkg, color="green") {
+    v <- packageVersion(pkg)
+    url <- paste0("https://github.com/YuLab-SMU/", pkg)
+    badger::badge_custom(pkg, v, color, url)
+}
+
+
+## based on https://bookdown.org/yihui/rmarkdown-cookbook/fig-process.html
+
+svg2png <- function(path, options) {
+    if (!grepl('[.]svg$', path)) return(path)
+
+    output <- sub(".svg$", ".png", path)
+    system2("convert", paste("-density 150", path, output))
+    file.remove(path)
+    return(output)
+}
+
+## manual setting. the ropenscilabs/icon package will set up everything for you.
+## fontawesome supports
+## htmltools::tagList(rmarkdown::html_dependency_font_awesome())
+
+library(knitr)
+opts_chunk$set(message=FALSE, warning=FALSE, eval=TRUE, 
+            echo=TRUE, cache=TRUE, dev='svg')
+```
+
+
+# Welcome {-}
+
+<img class="cover" src="book-cover.png" width="210" height="297" /> This is the online work-in-progress book of "Data Integration, Manipulation and Visualization of Phylogenetic Trees". This book gives your all the details of using the ggtree package suit to handle tree with data. The book is written by Guangchuang Yu.
+
+
+`r if (knitr::is_latex_output()) '-->'`
+
+
+
+
+<!--
+
+<center>
+<img src="book-cover.png" style="width:500px;border:2px solid black;"/>
+</center>
+
+-->

@@ -1,0 +1,278 @@
+# Gallery of reproducible examples {#chapter13}
+
+
+
+
+## Visualizing pairwise nucleotide sequence distance with phylogenetic tree {#hpv58}
+
+
+This example reproduces Fig. 1 of [@chen_ancient_2017]. It extracts accession numbers from tip labels of the HPV58 tree and calculates pairwise nucleotide sequence distances. The distance matrix is visualized as dot and line plots. This example demonstrates the abilities of adding multiple layers to a specific panel. As illustrated on Figure \@ref(fig:jv2017), the `facet_plot` function displays sequence distances as a dot plot and then adds a layer of line plot to the same panel, *i.e.* Sequence Distance. In addition, the tree in `facet_plot` can be fully annotated with multiple layers (clade labels, bootstrap support values, *etc*). The source code of this example was firstly published in Supplemental File of [@yu_two_2018].
+
+```{r message=FALSE}
+
+library(tibble)
+library(tidyr)
+library(Biostrings)
+library(treeio)
+library(ggplot2)
+library(ggtree)
+
+tree <- read.tree("data/HPV58.tree")
+
+clade <- c(A3 = 92, A1 = 94, A2 = 108, B1 = 156, B2 = 159, C = 163, D1 = 173, D2 = 176)
+tree <- groupClade(tree, clade)
+cols <- c(A1 = "#EC762F", A2 = "#CA6629", A3 = "#894418", B1 = "#0923FA", 
+         B2 = "#020D87", C = "#000000", D1 = "#9ACD32",D2 = "#08630A")
+
+## visualize the tree with tip labels and tree scale
+p <- ggtree(tree, aes(color = group), ladderize = FALSE) %>% rotate(rootnode(tree)) + 
+    geom_tiplab(aes(label = paste0("italic('", label, "')")), parse = TRUE, size = 2.5) +
+    geom_treescale(x = 0, y = 1, width = 0.002) + 
+    scale_color_manual(values = c(cols, "black"), na.value = "black", name = "Lineage",
+                      breaks = c("A1", "A2", "A3", "B1", "B2", "C", "D1", "D2")) +
+    guides(color = guide_legend(override.aes = list(size = 5, shape = 15))) +
+    theme_tree2(legend.position = c(.1, .88))
+## Optional
+## add labels for monophyletic (A, C and D) and paraphyletic (B) groups  
+p <- p + geom_cladelabel(94, "italic(A1)", color = cols[["A1"]], offset = .003, align = TRUE, 
+                    offset.text = -.001, barsize = 1.2, extend = c(0, 0.5), parse = TRUE) +
+    geom_cladelabel(108, "italic(A2)", color = cols[["A2"]], offset = .003, align = TRUE, 
+                   offset.text = -.001, barsize = 1.2, extend = 0.5, parse = TRUE) +
+    geom_cladelabel(131, "italic(A3)", color = cols[["A3"]], offset = .003, align = TRUE, 
+                   offset.text = -.001, barsize = 1.2, extend = c(0.5, 0), parse = TRUE) +
+    geom_cladelabel(92, "italic(A)", color = "darkgrey", offset = .00315, align = TRUE, 
+                   offset.text = 0.0002, barsize = 2, fontsize = 5, parse = TRUE) +
+    geom_cladelabel(156, "italic(B1)", color = cols[["B1"]], offset = .003, align = TRUE, 
+                   offset.text = -.001, barsize = 1.2, extend = c(0, 0.5), parse = TRUE) +
+    geom_cladelabel(159, "italic(B2)", color = cols[["B2"]], offset = .003, align = TRUE, 
+                   offset.text = -.001, barsize = 1.2, extend = c(0.5, 0), parse = TRUE) +
+    geom_strip(65, 71, "italic(B)", color = "darkgrey", offset = 0.00315, align = TRUE, 
+                   offset.text = 0.0002, barsize = 2, fontsize = 5, parse = TRUE) + 
+    geom_cladelabel(163, "italic(C)", color = "darkgrey", offset = .0031, align = TRUE, 
+                   offset.text = 0.0002, barsize = 3.2, fontsize = 5, parse = TRUE) +
+    geom_cladelabel(173, "italic(D1)", color = cols[["D1"]], offset = .003, align = TRUE, 
+                   offset.text = -.001, barsize = 1.2, extend = c(0, 0.5), parse = TRUE) +
+    geom_cladelabel(176, "italic(D2)", color = cols[["D2"]], offset = .003, align = TRUE, 
+                   offset.text = -.001, barsize = 1.2, extend = c(0.5, 0), parse = TRUE) +
+    geom_cladelabel(172, "italic(D)", color = "darkgrey", offset = .00315, align = TRUE, 
+                   offset.text = 0.0002, barsize = 2, fontsize = 5, parse = TRUE) 
+## Optional
+## display support values
+p <- p + geom_nodelab(aes(subset = (node == 92), label = "*"), 
+                    color = "black", nudge_x = -.001, nudge_y = 1) +
+    geom_nodelab(aes(subset = (node == 155), label = "*"), 
+                    color = "black", nudge_x = -.0003, nudge_y = -1) +
+    geom_nodelab(aes(subset = (node == 158), label = "95/92/1.00"), 
+                    color = "black", nudge_x = -0.0001, nudge_y = -1, hjust = 1) +
+    geom_nodelab(aes(subset = (node == 162), label = "98/97/1.00"), 
+                    color = "black", nudge_x = -0.0001, nudge_y = -1, hjust = 1) +
+    geom_nodelab(aes(subset = (node == 172), label = "*"), 
+                    color = "black", nudge_x = -.0003, nudge_y = -1) 
+```
+
+```{r eval=F}
+## extract accession numbers from tip labels
+tl <- tree$tip.label
+acc <- sub("\\w+\\|", "", tl)
+names(tl) <- acc
+
+## read sequences from GenBank directly into R
+## and convert the object to DNAStringSet
+tipseq <- ape::read.GenBank(acc) %>% as.character %>% 
+    lapply(., paste0, collapse = "") %>% unlist %>% 
+    DNAStringSet
+## align the sequences using muscle
+tipseq_aln <- muscle::muscle(tipseq)
+tipseq_aln <- DNAStringSet(tipseq_aln)
+```
+
+```{r echo=F}
+## extract accession numbers from tip labels
+tl <- tree$tip.label
+acc <- sub("\\w+\\|", "", tl)
+names(tl) <- acc
+
+## writeXStringSet(tipseq_aln, file = "data/HPV58_aln.fas")
+tipseq_aln <- readDNAStringSet("data/HPV58_aln.fas")
+```
+
+
+(ref:jv2017scap) Phylogeny of HPV58 complete genomes with dot and line plots of pairwise nucleotide sequence distances.
+
+(ref:jv2017cap) **Phylogeny of HPV58 complete genomes with dot and line plots of pairwise nucleotide sequence distances**. 
+
+
+```{r jv2017, fig.width=12, fig.height=12, fig.process=svg2png, fig.cap="(ref:jv2017cap)", fig.scap="(ref:jv2017scap)", warning=FALSE, out.width='100%'}
+## calculate pairwise hamming distances among sequences
+tipseq_dist <- stringDist(tipseq_aln, method = "hamming")
+
+## calculate percentage of differences
+tipseq_d <- as.matrix(tipseq_dist) / width(tipseq_aln[1]) * 100
+
+## convert the matrix to tidy data frame for facet_plot
+dd <- as_tibble(tipseq_d)
+dd$seq1 <- rownames(tipseq_d)
+td <- gather(dd,seq2, dist, -seq1)
+td$seq1 <- tl[td$seq1]
+td$seq2 <- tl[td$seq2]
+
+g <- p$data$group
+names(g) <- p$data$label
+td$clade <- g[td$seq2] 
+
+## visualize the sequence differences using dot plot and line plot
+## and align the sequence difference plot to the tree using facet_plot
+p2 <- facet_plot(p, panel = "Sequence Distance", data = td, geom_point, 
+            mapping = aes(x = dist, color = clade, shape = clade), alpha = .6) %>%
+    facet_plot(panel = "Sequence Distance", data = td, geom = geom_path, 
+            mapping=aes(x = dist, group = seq2, color = clade), alpha = .6) + 
+    scale_shape_manual(values = 1:8, guide = FALSE) 
+
+print(p2)
+```
+
+## Displaying different symbolic points for bootstrap values. {#symbolic-bootstrap}
+
+We can cut the bootstrap values into several intervals, *e.g.* to indicate whether the clade is high, moderate or low support. Then we can use these intervals as categorical variable to set different color or shape of symbolic points to indicate the bootstrap values belong to which category.
+
+(ref:bpintervalscap) Partitioning bootstrap values.
+
+(ref:bpintervalcap) **Partitioning bootstrap values**. Bootstrap values were divided into three categories and this information was used to color circle points.
+
+```{r include = FALSE}
+## phytools also have a read.newick function
+read.newick <- treeio::read.newick
+```
+
+```{r bpinterval, fig.width=7.5, fig.height=8.6, fig.cap="(ref:bpintervalcap)", fig.scap="(ref:bpintervalscap)", dev="jpeg", out.width='100%'}
+library(treeio)
+library(ggplot2)
+library(ggtree)
+
+tree <- read.newick("data/RMI.phy_phyml_tree_rooted_labeled.txt", node.label='support') 
+root <- rootnode(tree)  
+ggtree(tree, color="black", size=1.5, linetype=1,  right=TRUE) + 
+    geom_tiplab(size=4.5, hjust = -0.060, fontface="bold") +  xlim(0, 0.09) + 
+    geom_point2(aes(subset=!isTip & node != root, 
+                    fill=cut(support, c(0, 700, 900, 1000))), 
+                    shape=21, size=4) + 
+    theme_tree(legend.position=c(0.2, 0.2)) + 
+    scale_fill_manual(values=c("white", "grey", "black"), guide='legend', 
+                    name='Bootstrap Percentage(BP)', 
+                    breaks=c('(900,1e+03]', '(700,900]', '(0,700]'), 
+                    labels=expression(BP>=90,70 <= BP * " < 90", BP < 70))
+```
+
+
+## Highlighting different groups. {#phylo-grouping}
+
+
+This example reproduces Figure 1 of [@larsen_identification_2019]. It used `groupOTU` to add grouping information of chicken CTLDcps. The branch linetype and color are defined based on this grouping information. Two groups of CTLDcps are highlighted in different background colors using `geom_hilight` (red for Group II and green for Group V). The avian-specific expansion of group V with subgroup of A and B- are labelled using `geom_cladelabel` (Figure \@ref(fig:treeLarsen)).
+
+
+
+(ref:treeLarsenscap) Phylogenetic tree of CTLDcps.
+
+(ref:treeLarsencap) **Phylogenetic tree of CTLDcps**. 
+
+
+
+
+```{r treeLarsen, fig.process=svg2png, fig.cap="(ref:treeLarsencap)", fig.scap="(ref:treeLarsenscap)", fig.width=7.5, fig.height=6.3, out.width='100%'}
+mytree <- read.tree("data/Tree 30.4.19.nwk")
+
+# Define nodes for coloring later on
+tiplab <- mytree$tip.label
+cls <- tiplab[grep("^ch", tiplab)] 
+labeltree <- groupOTU(mytree, cls)
+
+p <- ggtree(labeltree, aes(color=group, linetype=group), layout="circular") +
+    scale_color_manual(values = c("#efad29", "#63bbd4")) +
+    geom_nodepoint(color="black", size=0.1) +
+    geom_tiplab(size=2, color="black")
+
+p2 <- flip(p, 136, 110) %>% 
+    flip(141, 145) %>% 
+    rotate(141) %>% 
+    rotate(142) %>% 
+    rotate(160) %>% 
+    rotate(164) %>% 
+    rotate(131)
+
+### Group V and II coloring 
+p3 <- p2 + geom_hilight(node = 110, fill = "#229f8a", alpha = 0.2, extend = 0.43) +    
+    geom_hilight(node = 88, fill = "#229f8a", alpha = 0.2, extend = 0.445) +
+    geom_hilight(node = 156, fill = "#229f8a", alpha = 0.2, extend = 0.35) +
+    geom_hilight(node = 136, fill = "#f9311f", alpha = 0.2, extend = 0.512)
+
+### Putting on a label on the avian specific expansion 
+p4 <- p3 + geom_cladelabel(node = 113, label = "Avian-specific expansion", 
+                        align = TRUE, angle = -35, offset.text = 0.05, 
+                        hjust = "center", fontsize = 2,  offset = 0.2, barsize = 0.2)
+    
+### Adding the bootstrap values with subset used to remove all bootstraps < 50  
+p5 <- p4 + geom_text2(aes(label=label, 
+                        subset = !is.na(as.numeric(label)) & as.numeric(label) > 50), 
+                    size = 2, color = "black",nudge_y = 0.7, nudge_x = -0.05)
+ 
+### Putting labels on the subgroups 
+p6 <- p5 + geom_cladelabel(node = 114, label = "Subgroup A", align = TRUE, 
+                        angle = -55, offset.text = .03, hjust = "center", 
+                        offset = 0.05, barsize = 0.2, fontsize = 2) +
+            geom_cladelabel(node = 121, label = "Subgroup B", align = TRUE, 
+                        angle = -15, offset.text = .03, hjust = "center", 
+                        offset = 0.05, barsize = 0.2, fontsize = 2) +
+            theme(legend.position="none", 
+                plot.margin=grid::unit(c(-15,-15,-15,-15), "mm"))
+
+print(p6)
+```
+  
+## Phylogenetic tree with genome locus structure {#genome-locus}
+
+The `geom_motif` is defined in `ggtree` and it is a wrapper layer of `gggenes::geom_gene_arrow`. The `geom_motif` can automatically adjust genomic alignment by selective gene (via the `on` parameter) and can label genes via the `label` parameter. In the following example, we use `example_genes` dataset provided by `r CRANpkg("gggenes")`. As the dataset only provide genomic coordinations of a set of genes, a phylogeny for the genomes need to be firstly constructed. We calculate jaccard similarity based on the ratio of overlapping genes among genomes and correspondingly determine genome distance. BioNJ algorithm was applied to construct the tree (Figure \@ref(fig:gggenes)). 
+
+
+(ref:gggenesscap) Genomic features with phylogenetic tree.
+
+(ref:gggenescap) **Genomic features with phylogenetic tree.**
+
+
+```{r gggenes, fig.width=9, fig.height=4, fig.cap="(ref:gggenescap)", fig.scap="(ref:gggenesscap)", out.width='100%'}
+library(dplyr)
+library(ggplot2)
+library(gggenes)
+library(ggtree)
+
+get_genes <- function(data, genome) {
+    filter(data, molecule == genome) %>% pull(gene)
+}
+
+g <- unique(example_genes[,1])
+n <- length(g)
+d <- matrix(nrow = n, ncol = n)
+rownames(d) <- colnames(d) <- g
+genes <- lapply(g, get_genes, data = example_genes)
+
+for (i in 1:n) {
+    for (j in 1:i) {
+        jaccard_sim <- length(intersect(genes[[i]], genes[[j]])) / 
+                       length(union(genes[[i]], genes[[j]]))
+        d[j, i] <- d[i, j] <- 1 - jaccard_sim
+    }
+}
+
+tree <- ape::bionj(d) 
+
+p <- ggtree(tree, branch.length='none') + 
+    geom_tiplab() + xlim_tree(5.5) + 
+    geom_facet(mapping = aes(xmin = start, xmax = end, fill = gene),
+               data = example_genes, geom = geom_motif, panel = 'Alignment',
+               on = 'genE', label = 'gene', align = 'left') +
+    scale_fill_brewer(palette = "Set3") + 
+    scale_x_continuous(expand=c(0,0)) +
+    theme(strip.text=element_blank(),
+        panel.spacing=unit(0, 'cm'))
+
+facet_widths(p, widths=c(1,2))
+```

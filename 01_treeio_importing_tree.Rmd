@@ -1,0 +1,810 @@
+# (PART\*) Part I: Tree data input, output and manipulation {-}
+
+# Importing Tree with Data {#chapter1}
+
+
+
+```{r echo=FALSE, results="hide", message=FALSE}
+library(tidyr)
+library(dplyr)
+library(tidytree)
+library(ggplot2)
+
+library("treeio")
+
+CRANpkg <- function (pkg) {
+    cran <- "https://CRAN.R-project.org/package"
+    fmt <- "[%s](%s=%s)"
+    sprintf(fmt, pkg, cran, pkg)
+}
+
+Biocpkg <- function (pkg) {
+    sprintf("[%s](http://bioconductor.org/packages/%s)", pkg, pkg)
+}
+```
+
+## Overview of Phylogenetic Tree Construction {#pc}
+
+
+Phylogenetic trees are used to describe genealogical relationships among a group of organisms, which can be constructed based on the genetic sequences of the organisms. A rooted phylogenetic tree represents a model of evolutionary history depicted by ancestor-descendant relationships between tree nodes and clustering of 'sister' or 'cousin' organisms at different level of relatedness, as illustrated in Figure \@ref(fig:phylogeny). In infectious disease research, phylogenetic trees are usually built from the pathogens' gene or genome sequences to show which pathogen sample is genetically closer to a pathogen sample, providing insights into the underlying unobserved epidemiologic linkage and potential source of an outbreak.
+
+(ref:phylogenyscap) Components of a phylogenetic tree.
+
+(ref:phylogenycap) **Components of a phylogenetic tree.** External nodes (green circles), also called 'tips', represent actual organisms sampled and sequenced (*e.g.*, virus in infectious disease research). They are the 'taxa' in the terminology of evolutionary biology. The internal nodes (blue circles) represent hypothetical ancestors for the tips. The root (red circle) is the common ancestor of all species in the tree. The horizontal lines are branches and represent evolutionary changes (grey number) measured in unit of time or genetic divergence. The bar at the bottom provides the scale of these branch lengths. 
+
+```{r phylogeny, message=FALSE, echo=F, fig.width=6, fig.height=4, fig.cap='(ref:phylogenycap)', fig.scap='(ref:phylogenyscap)', out.extra=''}
+require(ggtree)
+set.seed(2017-04-22)
+tr <- rtree(10)
+p <- ggtree(tr) + 
+  geom_nodepoint(color='#619CFF', size=3) + 
+  geom_rootpoint(size=3, color='#F8766D') + 
+  geom_tippoint(color='#00BA38', size=3) +
+  geom_text2(aes(subset=(node != parent), 
+                 label=round(branch.length, 2), x=branch), 
+             vjust=-.5, color='grey50', size=3) + geom_treescale() 
+
+d <- p$data
+i <- d$isTip
+d$label[i][order(d$y[i],decreasing=F)] <- paste0('virus', 10:1)
+p$data <- d
+p + geom_tiplab(offset = .05, size=4.5) + xlim(NA,4)
+```
+
+Phylogenetic tree can be constructed from genetic sequences using distance-based methods or character-based methods. Distance-based methods, including unweighted pair group method with arithmetic means (UPGMA\index{UPGMA}) and Neighbor-joining (NJ\index{NJ}), are based on the matrix of pairwise genetic distances calculated between sequences. The character-based methods, including maximum parsimony\index{maximum parsimony} (MP) [@fitch_toward_1971], maximum likelihood\index{maximum likelihood} (ML) [@felsenstein_evolutionary_1981], and Bayesian\index{Bayesian} Markov Chain Monte Carlo\index{Markov Chain Monte Carlo} (BMCMC) method [@rannala_probability_1996], are based on mathematical model that describes the evolution of genetic characters and search for the best phylogenetic tree according to their own optimality criteria.
+
+
+Maximum Parsimony (MP) method assumes that the evolutionary change is rare and minimizes the amount of character-state changes (*e.g.*, number of DNA substitutions). The criterion is similar to Occam's razor, that the simplest hypothesis that can explains the data is the best hypothesis. Unweighted parsimony assumes mutations across different characters (nucleotides or amino acids) are equally likely while weighted method assume unequal likely of mutations (*e.g.*, the third codon position is more liable than other codon positions; and the transition mutations have higher frequency than transversion). The concept of MP method is straightforward and intuitive, which is a probable reason for its popularity amongst biologists who care more about the research question rather than the computational details of the analysis. However, this method has a number of disadvantages, which in particular the tree inference can be biased by the well-known systematic error called long-branch attraction (LBA\index{LBA}) that incorrectly infer distantly related lineages as closely related [@felsenstein_cases_1978]. This is because MP method poorly takes into consideration of many sequence evolution factors (*e.g.*, reversals and convergence) that are hardly observable from the existing genetic data.
+
+Maximum likelihood (ML) method and Bayesian Markov Chain Monte Carlo (BMCMC) method are the two most commonly used methods in phylogenetic tree construction and are most often used in scientific publications. ML and BMCMC methods require a substitution model of sequence evolution. Different sequence data have different substitution models to formulate the evolutionary process of DNA, codon and amino acid. There are several models for nucleotide substitution, including JC69\index{JC69}, K2P\index{K2P}, F81\index{F81}, HKY\index{HKY} and GTR\index{GTR} [@arenas_trends_2015]. These models can be used in conjunction with the rate variation across sites (denoted as +$\Gamma$)) [@yang_maximum_1994] and the proportion of invariable sites (denoted as +I) [@shoemaker_evidence_1989]. Previous research [@lemmon_importance_2004] had suggested that misspecification of substitution model might bias phylogenetic inference. Procedural testing for the best-fit substitution model is recommended.
+
+
+The optimal criterion of ML method is to find the tree that maximizes the likelihood given the sequence data. The procedure of ML method is simple: calculating the likelihood of a tree and optimizing its topology and branches (and the substitution model parameters, if not fixed) until the best tree is found. Heuristic search such as those implemented in *PhyML* and *RAxML*, is often used to find the best tree based on the likelihood criterion. Bayesian method finds the tree that maximizes posterior probability by sampling trees through MCMC based on the given substitution model. One of the advantage of BMCMC is that parameter variance and tree topological uncertainty, included by the posterior clade probability, can be naturally and conveniently obtained from the sampling trees in MCMC process. Moreover, influence of topological uncertainty to other parameter estimates are also naturally integrated in the BMCMC phylogenetic framework.
+
+In a simple phylogenetic tree, data associated with the tree branches/nodes could be the branch lengths (indicating genetic or time divergence) and lineage supports such as bootstrap values estimated from bootstrapping procedure or posterior clade probability summarized from the sampled trees in the BMCMC analysis.
+
+
+
+
+## Phylogenetic Tree Formats {#format}
+
+
+There are several file formats designed to store phylogenetic trees and the data associated with the nodes and branches. The three commonly used formats are Newick^[http://evolution.genetics.washington.edu/phylip/newick_doc.html], NEXUS [@maddison_nexus:_1997] and Phylip [@felsenstein_phylip_1989]. Some formats (*e.g.*, NHX) are extended from Newick\index{Newick} format. Newick and NEXUS formats are supported as input by most of the software in evolutionary biology, while some of the software tools output newer standard files (*e.g.*, *BEAST* and *MrBayes*) by introducing new rules/data blocks for storing evolutionary inferences. On the other cases (*e.g.*, *PAML* and *r8s*), output log files are only recognized by their own single software.
+
+
+### Newick tree format 
+
+The Newick tree format is the standard for representing trees in computer-readable form. 
+
+
+(ref:randomTreescap) A sample tree for demonstrating Newick text to encode tree structure.
+
+(ref:randomTreecap) **A sample tree for demonstrating Newick text to encode tree structure.** Tips were aligned to right hand side and branch lengths were labelled on the middle of each branch.
+
+```{r randomTree, message=FALSE, warning=F, fig.height=3.5, echo=FALSE, fig.cap="(ref:randomTreecap)", fig.scap="(ref:randomTreescap)", out.extra=''}
+library(Biostrings)
+library(ape)
+library(phytools)
+library(ggtree)
+library(dplyr)
+library(tidyr)
+library(stringr)
+linewidth <- 60
+set.seed(2016-11-08)
+tr <- roundBranches(rtree(5), 2)
+ggtree(tr, size=1.5) + geom_tiplab(align=T, size=8, linesize=.8) + geom_label2(aes(subset=node != parent, x=branch, label=branch.length))
+```
+
+The rooted tree shown in Figure \@ref(fig:randomTree) can be represented by the following sequence of characters as a newick tree text.
+
+```{r message=FALSE, echo=FALSE, comment=""}
+cat(write.tree(tr), '\n')
+```
+
+The tree text ends with semicolon. Internal nodes are represented by a pair of matched parentheses. Between the parentheses are descendant nodes of that node. For instance `(t4:0.59, t1:0.37)` represents the parent node of `t4` and `t1` that are the immediate descendants. Sibling nodes are separated by comma and tips are represented by their names. A branch length (from parent node to child node) is represented by a real number after the child node and preceded by a colon. Singular data (*e.g.*, bootstrap values) associated with internal nodes or branches maybe encoded as node label and represented by the simple text/numbers before the colon.
+
+
+Newick tree format was developed by Meacham in 1984 for the *PHYLIP* [@retief_phylogenetic_2000] package. Newick format is now the most widely used tree format and used by *PHYLIP*, *PAUP\** [@wilgenbusch_inferring_2003], *TREE-PUZZLE* [@schmidt_tree-puzzle:_2002], *MrBayes* and many other applications. Phylip tree format contains Phylip multiple sequence alignment (MSA) with a corresponding Newick tree text that was built based on the MSA sequences in the same file.
+
+### NEXUS tree format
+
+The NEXUS\index{NEXUS} format [@maddison_nexus:_1997] incorporates Newick tree text with related information organized into separated units known as **blocks**. A NEXUS block has the following structure:
+
+\setstretch{1.2}
+```
+#NEXUS
+...
+BEGIN characters;
+...
+END;
+```
+\setstretch{1.5}
+
+For example, the above example tree can be saved as a following NEXUS format:
+
+```{r message=FALSE, echo=FALSE, eval=FALSE}
+write.nexus(tr)
+```
+
+\setstretch{1.2}
+```
+#NEXUS
+[R-package APE, Wed Nov  9 11:46:32 2016]
+
+BEGIN TAXA;
+	DIMENSIONS NTAX = 5;
+	TAXLABELS
+		t5
+		t4
+		t1
+		t2
+		t3
+	;
+END;
+BEGIN TREES;
+	TRANSLATE
+		1	t5,
+		2	t4,
+		3	t1,
+		4	t2,
+		5	t3
+	;
+	TREE * UNTITLED = [&R] (1:0.89,((2:0.59,3:0.37):0.34,
+	(4:0.03,5:0.67):0.9):0.04);
+END;
+```
+\setstretch{1.5}
+
+Comments can be placed by using square brackets. Some blocks can be recognized by most of the programs including `TAXA` (contains information of taxa), `DATA` (contains data matrix, *e.g.*, sequence alignment) and `TREE` (contains phylogenetic tree, *i.e.*, Newick tree text). Notably, blocks can be very diversed and some of them are only be recognized by one particular program. For example NEXUS file exported by *PAUP\** has a **paup** block which contains *PAUP\** commands, whereas *FigTree* exports NEXUS file with a **figtree** block that contains visualization settings. NEXUS organizes different types of data into different blocks, whereas programs that support reading NEXUS can parse some blocks they recognized and ignore those they could not. This is a good mechanism to allow different programs to use the same format without crashing when unsupported types of data are present. Notably most of the programs only support parsing `TAXA`, `DATA` and `TREE` blocks, therefore a program/platform that could generically read all kinds of data blocks from the NEXUS would be useful for phylogenetic data integration.
+
+The `DATA` block is widely used to store sequence alignment. For this purpose, user can store tree and sequence data in Phylip format which are essentially Phylip multiple sequence alignment and Newick tree text respectively. It is used in Phylogeny Inference Package (*PHYLIP*). 
+
+<!-- 
+
+~~and it's also a drawback of NEXUS for most of the software can only parse the tree strucuture without support of the associated data. NEXUS is good for storing specific information for particular program, it can be used for storing annotated trees.~~
+
+It is very difficult to share tree annotation data among different programs unless the data is a matrix which can be stored in `DATA` block. The `DATA` block is widely used to store sequence alignment. For this purpose, user can store tree in Phylip format which was used in PHYLIP package and can contains Phylip multiple sequence alignment with Newick tree text.
+
+-->
+
+
+### New Hampshire eXtended format {#nhxtext}
+
+<!-- Although NEXUS supports additional information in separated blocks, they are mostly not recognized by different software and can't share information among different programs. In order to store annotated tree,-->
+
+Newick, NEXUS and phylip are mainly designed to store phylogenetic tree and basic singular data associated with internal nodes or branches. In addition to the singular data annotation at branches and nodes (mentioned above), New Hampshire eXtended format (NHX\index{NHX}), which is based on Newick (also called New Hampshire), was developed to introduce tags to associate multiple data fields with the tree nodes (both internal nodes and tips). Tags are placed after branch length and must be wrapped between `[&&NHX` and `]` which makes it possible to compatible with NEXUS format as it defined characters between `[` and `]` as comments. NHX is also the output format of *PHYLDOG* [@boussau_genome-scale_2013] and *RevBayes* [@hohna_revbayes:_2016]. A Tree Viewer (*ATV*) [@zmasek_atv:_2001] is a java tool that supports displaying annotation data stored in NHX format, but this package is no more maintained.
+
+Here is a sample tree from NHX definition document^[http://www.genetics.wustl.edu/eddy/forester/NHX.html]:
+
+\setstretch{1.2}
+```{r echo=F, comment=NA}
+x <- "(((ADH2:0.1[&&NHX:S=human], ADH1:0.11[&&NHX:S=human]):0.05[&&NHX:S=primates:D=Y:B=100],ADHY:0.1[&&NHX:S=nematode],ADHX:0.12[&&NHX:S=insect]):0.1[&&NHX:S=metazoa:D=N],(ADH4:0.09[&&NHX:S=yeast],ADH3:0.13[&&NHX:S=yeast], ADH2:0.12[&&NHX:S=yeast],ADH1:0.11[&&NHX:S=yeast]):0.1[&&NHX:S=Fungi])[&&NHX:D=N];"
+cat(str_wrap(x, linewidth))
+```
+\setstretch{1.5}
+
+
+### Jplace format 
+
+In order to store the NGS short reads mapped onto a phylogenetic tree (for the purpose of metagenomic classification), Matsen proposed jplace\index{jplace} format for such phylogenetic placements [@matsen_format_2012]. Jplace format is based on JSON and contains four keys: `tree`, `fields`, `placements`, `metadata` and `version`. The `tree` value contains tree text extended from Newick tree format by putting the edge label in brackets (if available) after branch length and putting the edge number in curly braces after edge label. The `fields` value contains header information of placement data. The value of `placements` is a list of `pqueries`. Each `pquery` contains two keys: `p` for placements and `n` for name or `nm` for names with multiplicity. The value of `p` is a list of placement for that `pqueries`.
+
+Here is a jplace sample file:
+
+\setstretch{1.2}
+```
+{
+	"tree": "(((((((A:4{1},B:4{2}):6{3},C:5{4}):8{5},D:6{6}):
+	3{7},E:21{8}):10{9},((F:4{10},G:12{11}):14{12},H:8{13}):
+	13{14}):13{15},((I:5{16},J:2{17}):30{18},(K:11{19},
+	L:11{20}):2{21}):17{22}):4{23},M:56{24});",
+	"placements": [
+	{"p":[24, -61371.300778, 0.333344, 0.000003, 0.003887], 
+	 "n":["AA"]
+	},
+	{"p":[[1, -61312.210786, 0.333335, 0.000001, 0.000003],
+	      [2, -61322.210823, 0.333322, 0.000003, 0.000003],
+	      [3, -61352.210823, 0.333322, 0.000961, 0.000003]],
+	 "n":["BB"]
+	},
+	{"p":[[8, -61312.229128, 0.200011, 0.000001, 0.000003],
+	      [9, -61322.229179, 0.200000, 0.000003, 0.000003],
+	      [10, -61342.229223, 0.199992, 0.000003, 0.000003]], 
+	"n":["CC"]
+	}
+	],
+	"metadata": {"info": "a jplace sample file"},
+	"version" : 2,
+	"fields": ["edge_num", "likelihood", "like_weight_ratio", 
+	"distal_length", "pendant_length"
+	]
+}
+```
+\setstretch{1.5}
+
+Jplace is the output format of *pplacer*\index{pplacer} [@matsen_pplacer:_2010] and Evolutionary Placement Algorithm (*EPA*\index{EPA}) [@berger_performance_2011]. But these two programs do not contain tools to visualize placement results. *Pplacer* provides `placeviz` to convert jplace file to phyloXML\index{phyloXML} or Newick formats which can be visualized by *Archaeopteryx*^[https://sites.google.com/site/cmzmasek/home/software/archaeopteryx]. 
+
+### Software outputs
+
+*RAxML*\index{RAxML} [@stamatakis_raxml_2014] can output Newick format by storing the bootstrap values as internal node labels. Another way that *RAxML* supported is to place bootstrap value inside square brackets and after branch length. This could not be supported by most of the software that support Newick format where square brackets will be ignored. 
+
+*BEAST*\index{BEAST} [@bouckaert_beast_2014] output is based on NEXUS and it also introduce square brackets in the tree block to store evolutionary evidences inferred by *BEAST*. Inside brackets, curly braces may also incorporated if feature values have length more than 1 (*e.g.*, HPD or range of substitution rate). These brackets are placed between node and branch length (*i.e.*, after label if exists and before colon). Bracket is not defined in Newick format and is reserve character for NEXUS comment. So these information will be ignored for standard NEXUS parsers. 
+
+
+Here is a sample `TREE` block of the *BEAST* output:
+
+\setstretch{1.2}
+```{r echo=FALSE, comment=NA}
+f <- system.file("extdata/BEAST/beast_mcc.tree", package="treeio")
+x <- readLines(f)
+tr <- x[42]
+tr <- gsub("\\[[^\\[]+(length=\\d+\\.\\d)[^\\[]*\\]", "[&\\1]", tr)
+tr <- gsub("(:\\d+\\.\\d{2})\\d*,", "\\1,", tr)
+#w <- 80
+#ii <- 1:floor(nchar(tr)/w)* w
+#start <- c(1, ii+1)
+#end <- c(ii, nchar(tr))
+#x <- c(x[1:41],
+#      substring(tr, start, end),
+#      x[43:length(x)])
+#cat(paste0(x, collapse="\n"))
+cat(str_wrap(tr, linewidth))
+```
+\setstretch{1.5}
+
+*BEAST* output can contain many different evolutionary inferences, depending of the analysis models defined in *BEAUTi* for running. For example in molecular clock analysis, it contains `rate`, `length`, `height`, `posterior` and corresponding HPD and range for uncertainty estimation. `Rate` is the estimated evolutionary rate of the branch. `Length` is the length of the branch in years. `Height` is the time from node to root while `posterior` is the Bayesian clade credibility value. The above example is the output tree of clock analysis and should contains these inferences. To save space, only the `length` estimation was shown above. Besides, MEGA [@kumar_mega7_2016] also supports exporting tree in BEAST compatible Nexus format (see [session 1.3.2](#mega)). 
+
+*MrBayes*\index{MrBayes} [@huelsenbeck_mrbayes_2001] is a program that uses Markov Chain Monte Carlo\index{Markov Chain Monte Carlo} method to sample from the posterior probability distributions. Its output file annotates nodes and branches separately by two sets of square brackets. For example below, posterior clade probabilities for the node and branch length estimates for the branch:
+
+\setstretch{1.2}
+```{r echo=F, comment=NA}
+f <- system.file("extdata/MrBayes/Gq_nxs.tre", package="treeio")
+x <- readLines(f)
+tr <- x[36]
+tr <- gsub("\\[[^\\[]+(prob=\\d+\\.\\d)[^\\[]*\\]:", "[&\\1]:", tr) 
+tr <- gsub("\\[[^\\[]+(length_mean=[^,]+)[^\\[]*\\]([,\\)]{1})", "[&\\1]\\2", tr)
+tr <- gsub("\\[[^\\[]+(prob=\\d+\\.\\d)[^\\[]*\\]\\[", "[&\\1]\\[", tr)
+tr <- gsub("\\[[^\\[]+(length_mean=[^,]+)[^\\[]*\\];", "[&\\1];", tr)
+
+tr <- gsub("(\\[&length_mean=\\d+\\.\\d)\\d*(e-)0*([1-9]+)\\]", "[&\\1\\2\\3]", tr)
+tr <- gsub("(\\[&length_mean=0)\\.0+e\\+0+\\]", "[&\\1]", tr)
+tr <- gsub("e-0*", "e-", tr)
+tr <- gsub("\\[&\\[&", "[&", tr)
+tr <- gsub("(:\\d+\\.\\d{2})\\d*([e\\,\\[]{1})", "\\1\\2", tr)
+
+#w <- 80
+#ii <- 1:floor(nchar(tr)/w)* w
+#start <- c(1, ii+1)
+#end <- c(ii, nchar(tr))
+#x <- c(x[1:35],
+#      substring(tr, start, end),
+#      x[37:length(x)])
+#cat(paste0(x, collapse="\n"))
+cat(str_wrap(tr, linewidth))
+```
+\setstretch{1.5}
+
+To save space, most of the inferences were removed and only contains `prob` for clade probability and `length_mean` for mean value of branch length. The full version of this file also contains `prob_stddev`, `prob_range`, `prob(percent)`, `prob+-sd` for probability inferences and `length_median`, `length_95%_HPD` for every branch.
+
+The *BEAST* and *MrBayes* outputs are expected to be parsed without inferences (dropped as comments) by software that support NEXUS. *FigTree* supports parsing *BEAST* and *MrBayes* outputs with inferences that can be used to display or annotate on the tree. But from there extracting these data for further analysis is still challenging.
+
+
+*HyPhy*\index{HyPhy} [@pond_hyphy:_2005] could do a number of phylogenetic analysis, including ancestral sequence\index{ancestral sequences} reconstruction. For ancestral sequence reconstruction, these sequences and the Newick tree text are stored in NEXUS format as the major analysis output. It did not completely follow the NEXUS\index{NEXUS} definition and only put the ancestral node labels in `TAXA` instead of external node label. The `MATRIX` block contains sequence alignment of ancestral nodes which cannot be referred back to the tree stored in `TREES` block since it does not contains node labels. Here is the sample output (to save space, only the first 72bp of alignment are shown):
+
+\setstretch{1.2}
+```{r echo=FALSE, warning=FALSE, comment=NA}
+f <- system.file("extdata/HYPHY/ancseq.nex", package="treeio")
+x <- readLines(f)
+x[25:37] <- substring(x[25:37], 1, 73)
+x[4] <- sub("on", "\n\ton",x[4])
+x[11] <- sub("'Node15' ", "'Node15'\n\t\t\t", x[11]) 
+cat(paste0(x, collapse="\n"))
+```
+\setstretch{1.5}
+
+
+There are other applications that output rich information text that also contains phylogenetic trees with associated data. For example *r8s*\index{r8s} [@sanderson_r8s:_2003] output three trees in its log file, namely `TREE`, `RATE` and `PHYLO` for branches scaled by time, substitution rate, and absolute substitutions respectively.
+
+
+Phylogenetic Analysis by Maximum Likelihood (*PAML*\index{PAML}) [@yang_paml_2007] is a package of programs for phylogenetic analyses of DNA or protein sequences. Two main programs, *BaseML* and *CodeML*, implement a variety of models. *BaseML* estimates tree topology, branch lengths and substitution parameters using a number of nucleotide substitution models available, including JC69\index{JC69}, K80, F81, F84, HKY85\index{HKY85}, T92, TN93 and GTR\index{GTR}. *CodeML* estimates synonymous and non-synonymous substitution rates, likelihood ratio test of positive selection under codon substitution models [@goldman_codon-based_1994].
+
+*BaseML*\index{BaseML} outputs *mlb* file that contains input sequence (taxa) alignment and phylogenetic tree with branch length as well as substitution model and other parameters estimated. The supplementary result file, *rst*, contains sequence alignment (with ancestral sequence if perform reconstruction of ancestral sequences) and Naive Empirical Bayes (NBE) probabilities that each site in the alignment evolved. *CodeML* outputs *mlc* file that contains tree structure and estimation of synonymous and non-synonymous substitution rates. *CodeML*\index{CodeML} also output supplementary result file, *rst*, that is similar to *BaseML* except that site is defined as codon instead of nucleotide. Parsing these files can be tedious and would oftentimes need a number of post-processing steps and require expertise in programming (e.g. with Python^[<http://biopython.org/wiki/PAML>] or Perl^[<http://bioperl.org/howtos/PAML_HOWTO.html>]).
+
+
+Introducing square brackets is quite common for storing extra information, including *RAxML* to store bootstrap value, NHX format for annotation, jplace for edge label and *BEAST* for evolutionary estimation, *etc.*. But the positions to place square brackets are not consistent in different software and the contents employ different rules for storing associated data, these properties make it difficult to parse associated data. For most of the software, they will just ignore square brackets and only parse the tree structure if the file is compatible. Some of them contains invalid characters (e.g. curly braces in `tree` field of jplace format) and even the tree structure can't be parsed by standard parsers. 
+
+It is difficult to extract useful phylogeny/taxon-related information from the different analysis outputs produced by various evolutionary inference software, for displaying on the same phylogenetic tree and for further analysis. *FigTree*\index{FigTree} supports *BEAST* output, but not for most of other software outputs that contains evolutionary inferences or associated data. For those output rich text files (e.g. *r8s*, *PAML*, *etc.*), the tree structure cannot be parsed by any tree viewing software and users need expertise to manually extract the phylogenetic tree and other useful result data from the output file. However, such manual operation is slow and error-prone.
+
+
+<!-- can't be supported and hard to display on the tree. A very common solution is to modified node labels by putting associated data to node labels and dispaly them as node lables. This is quite restricted and error prone.--> 
+
+It was not easy to retrieve phylogenetic trees with evolutionary data from different analysis outputs of commonly used software in the field. Some of them (*e.g.*, *PAML* output and jplace file) without software or programming library to support parsing file, while others (*e.g.*, *BEAST* and *MrBayes* output) can be parsed without evolutionary inferences as they are stored in square brackets that will be omitted as comment by most of the software. Although *FigTree* support visualizing evolutionary statistics inferred by *BEAST* and *MrBayes*, extracting these data for further analysis is not supported. Different software packages implement different algorithms for different analyses (*e.g.*, *PAML* for *d~N~/d~S~*, *HyPhy* for ancestral sequences and *BEAST* for skyline analysis). Therefore, in encountering the genomic sequence data, there is a desire need to efficiently and flexibly integrate different analysis inference results for comprehensive understanding, comparison and further analysis. This motivated us to develop the programming library to parse the phylogenetic trees and data from various sources.
+
+<!--
+to complete each other or compare similar analyses from different software (*e.g.*, clade probability inferred from `BEAST` and `MrBayes`). Without programming library to parse these software outputs make it difficult to integrate evolutionary statistics for comparison and further analysis.
+-->
+
+## Getting Tree Data with *treeio*
+
+
+Phylogenetic trees are commonly used to present evolutionary relationships of
+species. Information associated with taxon species/strains may be further
+analyzed in the context of the evolutionary history depicted by the phylogenetic
+tree. For example, host information of the influenza virus strains in the tree
+could be studied to understand host range of a virus linage. Moreover, such
+meta-data (*e.g.*, isolation host, time, location, *etc.*) directly associated
+with taxon strains are also often subjected to further evolutionary or
+comparative phylogenetic models and analyses, to infer their dynamics associated
+with the evolutionary or transmission processes of the virus. All these
+meta-data or other phenotypic or experimental data are stored either as the
+annotation data associated with the nodes or branches, and are often produced in
+inconsistent format by different analysis programs.
+
+
+Getting trees into R is still limited. Newick and Nexus can be imported by
+several packages, including `r CRANpkg("ape")`, `r CRANpkg("phylobase")`. NeXML
+format can be parsed by `r CRANpkg("RNeXML")`. However, analysis results from
+widely used software packages in this field are not well
+supported. SIMMAP output can be parsed by `r CRANpkg("phyext2")` and `r CRANpkg("phytools")`.
+Although [PHYLOCH](http://www.christophheibl.de/Rpackages.html) can
+import *BEAST* and *MrBayes* output, only internal node attributes were parsed and
+tip attributes were ignore^[<https://github.com/ropensci/software-review/issues/179#issuecomment-369164110>]. Many other software outputs are mainly required
+programming expertise to import the tree with associated data. Linking external
+data, including experimental and clinical data, to phylogeny is another obstacle
+for evolution biologists.
+
+
+To fill the gap that most of the tree formats or software outputs cannot be parsed within the same software/platform, an R package `r Biocpkg("treeio")` [@wang_treeio_2020] was developed for parsing various tree file formats and outputs from common evolutionary analysis software. The `r Biocpkg("treeio")` package is developed with the R programming language [@rstats]. Not only the tree structure can be parsed but also the associated data and evolutionary inferences, including NHX
+annotation, clock rate inferences (from [BEAST](http://beast2.org/)
+or [r8s](http://ginger.ucdavis.edu/r8s) [@sanderson_r8s:_2003] programs),
+snynonymous and non-synonymous substitutions (from CodeML), and ancestral
+sequence construction (from
+[HyPhy](https://veg.github.io/hyphy-site/),
+[BaseML](http://abacus.gene.ucl.ac.uk/software/paml.html)
+or [CodeML](http://abacus.gene.ucl.ac.uk/software/paml.html)), *etc.*.
+Currently, [treeio](https://bioconductor.org/packages/treeio/) is able to read
+the following file formats: Newick, Nexus, New Hampshire eXtended format (NHX),
+jplace and Phylip as well as the data outputs from the following analysis programs:
+[ASTRAL](https://github.com/smirarab/ASTRAL),
+[BEAST](http://beast2.org/),
+[EPA](http://sco.h-its.org/exelixis/web/software/epa/index.html),
+[HyPhy](https://veg.github.io/hyphy-site/),
+[MEGA](https://www.megasoftware.net/),
+[MrBayes](http://nbisweden.github.io/MrBayes/),
+[PAML](http://abacus.gene.ucl.ac.uk/software/paml.html),
+[PHYLDOG](https://pbil.univ-lyon1.fr/software/phyldog/),
+[pplacer](http://matsen.fhcrc.org/pplacer/),
+[r8s](http://ginger.ucdavis.edu/r8s),
+[RAxML](http://evomics.org/learning/phylogenetics/raxml/) and
+[RevBayes](https://revbayes.github.io/intro.html) *etc*. This is made possible with the several parser functions developed in *treeio* (Table \@ref(tab:treeio-function)) [@wang_treeio_2020].
+
+
+```{r treeio-function, echo=F, message=FALSE}
+ff <- tibble::tribble(
+  ~`Parser function`, ~Description,
+  "read.astral"			, "parsing output of ASTRAL",
+  "read.beast"      	, "parsing output of BEAST",
+  "read.codeml"     	, "parsing output of CodeML (rst and mlc files)",
+  "read.codeml_mlc" 	, "parsing mlc file (output of CodeML)",
+  "read.fasta"			, "parsing FASTA format sequence file",
+  "read.hyphy"      	, "parsing output of HYPHY",
+  "read.hyphy.seq"  	, "parsing ancestral sequences from HYPHY output",
+  "read.iqtree"			, "parsing IQ-Tree newick string, with ability to parse SH-aLRT and UFBoot support values",
+  "read.jplace"     	, "parsing jplace file including output of EPA and pplacer",
+  "read.jtree"			, "parsing [jtree](#write-jtree) format",
+  "read.mega"			, "parsing MEGA Nexus output",
+  "read.mega_tabular"	, "parsing MEGA tabular output",
+  "read.mrbayes"    	, "parsing output of MrBayes",
+  "read.newick"     	, "parsing newick string, with ability to parse node label as support values",
+  "read.nexus"			, "parsing standard NEXUS file (re-exported from ape)",
+  "read.nhx"        	, "parsing NHX file including output of PHYLDOG and RevBayes",
+  "read.paml_rst"   	, "parsing rst file (output of BaseML or CodeML)",
+  "read.phylip"     	, "parsing phylip file (phylip alignment + newick string)",
+  "read.phylip.seq" 	, "parsing multiple sequence alignment from phylip file",
+  "read.phylip.tree"	, "parsing newick string from phylip file",
+  "read.phyloxml"		, "parsing phyloXML file",
+  "read.r8s"        	, "parsing output of r8s",
+  "read.raxml"      	, "parsing output of RAxML",
+  "read.tree"			, "parsing newick string (re-exported from ape)"
+  )
+
+knitr::kable(ff, caption = "Parser functions defined in treeio", booktabs = T)
+```
+
+
+
+The [treeio](https://bioconductor.org/packages/treeio/) package defines base
+classes and functions for phylogenetic tree input and output. It is an
+infrastructure that enables evolutionary evidences that inferred by commonly
+used software packages to be used in `R`. For instance, *d~N~/d~S~* values or
+ancestral sequences inferred
+by [CODEML](http://abacus.gene.ucl.ac.uk/software/paml.html) [@yang_paml_2007],
+clade support values (posterior) inferred
+by [BEAST](http://beast2.org/) [@bouckaert_beast_2014] and short read placement
+by
+[EPA](http://sco.h-its.org/exelixis/web/software/epa/index.html) [@berger_performance_2011]
+and [pplacer](http://matsen.fhcrc.org/pplacer/) [@matsen_pplacer_2010]. These
+evolutionary evidences can be further analyzed in `R` and used to annotate
+phylogenetic tree using `r Biocpkg("ggtree")`
+[@yu_ggtree:_2017]. The growth of analysis tools and models introduces
+a challenge to integrate different varieties of data and analysis results from
+different sources for an integral analysis on the the same phylogenetic tree
+background. The `r Biocpkg("treeio")` package [@wang_treeio_2020]
+provides a `merge_tree` function to allow [combining tree data](#merge-tree) obtained from
+different sources. In addition, `r Biocpkg("treeio")` also enables [external data](#link-external-data) to be linked to phylogenetic tree structure.
+
+
+After parsing, storage of the tree structure with associated data is made
+through a S4 class, `treedata`, defined in the `r CRANpkg('tidytree')` package. These parsed data
+are mapped to the tree branches and nodes inside `treedata` object, so that they
+can be efficiently used to visually annotate the tree
+using `r Biocpkg("ggtree")` package [@yu_ggtree:_2017] (described in Chapter [4](#chapter4) and [5](#chapter5)). 
+A programmable platform for phylogenetic data parsing, integration and annotations as such makes us easier to identify the evolutionary dynamics and correlation patterns (Figure \@ref(fig:treeioDiagram), Figure 1 of [@wang_treeio_2020]).
+
+
+
+
+(ref:treeioDiagramscap) Overview of the *treeio* package and its relations with *tidytree* and *ggtree*.
+
+(ref:treeioDiagramcap) __Overview of the *treeio* package and its relations with *tidytree* and *ggtree*__. *Treeio* supports parsing a tree with data from a number of file formats and software outputs. A *treedata* object stores a phylogenetic tree with node/branch-associated data. *Treeio* provides several functions to manipulate a tree with data. Users can convert the *treedata* object into a tidy data frame (each row represents a node in the tree and each column represents a variable) and process the tree with data using the tidy interface implemented in *tidytree*. The tree can be extracted from the *treedata* object and exported to a Newick and NEXUS file or can be exported with associated data into a single file (either in the BEAST NEXUS or jtree format). Associated data stored in the *treedata* object can be used to annotate the tree using *ggtree*. In addition, *ggtree* supports a number of tree objects, including *phyloseq* for microbiome data and *obkData* for outbreak data. The *phylo*, multiPhylo (*ape* package), *phylo4*, *phylo4d* (*phylobase* package), *phylog* (*ade4* package), *phyloseq* (*phyloseq* package), and *obkData* (*OutbreakTools* package) are tree objects defined by the R community to store tree with or without domain-specific data. All these tree objects as well as hierachical clustering results (*e.g.*, *hclust* and *dendrogram* objects) are supported by *ggtree*.
+
+```{r treeioDiagram, out.width="95%", echo=FALSE, fig.cap="(ref:treeioDiagramcap)", fig.scap="(ref:treeioDiagramscap)"}
+knitr::include_graphics("img/treeio-diagram.png")
+```
+
+
+### Overview of *treeio*
+
+The `r Biocpkg("treeio")` package [@wang_treeio_2020] defined `S4` classes for storing phylogenetic tree with diverse types of associated data or covariates from different sources including analysis outputs from different software packages. It also defined corresponding parser functions for parsing phylogenetic tree with annotation data and stored as data object in R for further manipulation or analysis (see Table \@ref(tab:treeio-function)). Several accessor functions were defined to facilitate accessing the tree annotation data, including `get.fields` for obtaining annotation features available in the tree object, `get.placements` for obtaining the phylogenetic placement results (*i.e.*, output of *pplacer*, *EPA*, *etc.*), `get.subs` for obtaining the genetic substitutions from parent node to child node, and `get.tipseq` for getting the tip sequences. 
+
+
+The `S3` class, `phylo`, which was defined in `r CRANpkg("ape")`\index{ape} [@paradis_ape_2004] package, is widely used in `R` community and many packages. As *treeio* uses `S4` class, to enable those available R packages to analyze the tree imported by *treeio*, *treeio* provides `as.phylo` function to convert *treeio*-generated tree object to `phylo` object that only contains tree structure without annotation data. In the other way, *treeio* also provides `as.treedata` function to convert `phylo` object with evolutionary analysis result (*e.g.*, bootstrap values calculated by `r CRANpkg("ape")` or ancestral states inferred by `r CRANpkg("phangorn")`\index{phangorn} [@schliep_phangorn_2011] *etc*) to be stored as a `treedata` `S4` object, making it easy to map the data to the tree structure and to be visualized using `r Biocpkg("ggtree")` [@yu_ggtree:_2017].
+
+
+<!--
+(*e.g.*, `phangorn`  for ancestral state reconstruction and `ape` for divergence time estimation) that implemented evolutionary inferences are supporting `phylo` object. 
+-->
+
+To allow integration of different kinds of data in phylogenetic tree, `r Biocpkg("treeio")` [@wang_treeio_2020] provides `merge_tree` function (details in [section 2.2.1](#merge-tree)) for combining evolutionary statistics/evidences imported from different sources including those common tree files and outputs from analysis programs (Table \@ref(tab:treeio-function)). There are other information, such as sampling location, taxonomy information, experimental result and evolutionary traits, *etc.* that are stored in separate files with user-defined format. In `r Biocpkg("treeio")`, we could read in these data from the users' files using standard R *IO* functions, and attach them to the tree object by the [full_join](#link-external-data) methods defined in `r CRANpkg("tidytree")` and `r Biocpkg("treeio")` packages (see also the [`%<+%` operator](#attach-operator) defined in `r Biocpkg("ggtree")`). After attaching, the data will become the attributes associated with nodes or branches, which can be compared with other data incorporated, or can be visually displayed on the tree.
+
+To facilitate storing the merged data into a single file, `r Biocpkg("treeio")`\index{treeio} implemented `write.baset` and `write.jtree` function to export treedata object for storing complex data associated with the phylogenetic tree (see [Chapter 3](#chapter3)). 
+
+<!-- A full list of functions that defined in *treeio* can be found in Table \@ref(tab:treeio). -->
+
+### Function Demonstration
+
+#### Parsing BEAST output
+
+```{r}
+file <- system.file("extdata/BEAST", "beast_mcc.tree", package="treeio")
+beast <- read.beast(file)
+beast
+```
+
+Since _`%`_ is not a valid character in _`names`_, all the feature names that contain _`x%`_ will convert to _`0.x`_. For example, _`length_95%_HPD`_ will be changed to _`length_0.95_HPD`_.
+
+Not only tree structure but also all the features inferred by *BEAST* will be stored in the `S4` object. These features can be used for tree annotation (Figure \@ref(fig:beast)). 
+
+#### Parsing MEGA output {#mega}
+
+[MEGA](https://www.megasoftware.net/) [@kumar_mega7_2016] supports exporting trees in three distinct formats: Newick, tabular and Nexus. The Newick file can be parsed using the `read.tree` or `read.newick` functions. MEGA Nexus file is similar to BEAST Nexus and `r Biocpkg("treeio")` [@wang_treeio_2020] provides `read.mega` function to parse the tree.
+
+```{r}
+file <- system.file("extdata/MEGA7", "mtCDNA_timetree.nex", package = "treeio")
+read.mega(file)
+```
+
+The tabular output contains tree and associated information (divergence time in this example) in a tabular flat text file. The `read.mega_tabular` function can parse the tree with data simultaneously.
+
+
+```{r}
+file <- system.file("extdata/MEGA7", "mtCDNA_timetree_tabular.txt", package = "treeio")
+read.mega_tabular(file) 
+```
+
+
+#### Parsing MrBayes output
+
+```{r}
+file <- system.file("extdata/MrBayes", "Gq_nxs.tre", package="treeio")
+read.mrbayes(file)
+```
+
+#### Parsing PAML output
+
+The `read.paml_rst` function can parse *rst* file
+from [BASEML](http://abacus.gene.ucl.ac.uk/software/paml.html)
+and [CODEML](http://abacus.gene.ucl.ac.uk/software/paml.html). The only
+difference is the space in the sequences.
+For [BASEML](http://abacus.gene.ucl.ac.uk/software/paml.html), each ten bases
+are separated by one space, while
+for [CODEML](http://abacus.gene.ucl.ac.uk/software/paml.html), each three bases
+(triplet) are separated by one space.
+
+```{r fig.width=12, fig.height=10, warning=FALSE, fig.align="center"}
+brstfile <- system.file("extdata/PAML_Baseml", "rst", package="treeio")
+brst <- read.paml_rst(brstfile)
+brst
+```
+
+Similarly, we can parse the *rst* file from [CODEML](http://abacus.gene.ucl.ac.uk/software/paml.html).
+
+```{r}
+crstfile <- system.file("extdata/PAML_Codeml", "rst", package="treeio")
+## type can be one of "Marginal" or "Joint"
+crst <- read.paml_rst(crstfile, type = "Joint")
+crst
+```
+
+Ancestral sequences inferred by [BASEML](http://abacus.gene.ucl.ac.uk/software/paml.html)
+or [CODEML](http://abacus.gene.ucl.ac.uk/software/paml.html) via marginal or
+joint ML reconstruction methods will be stored in the S4 object and mapped to
+tree nodes. [treeio](https://bioconductor.org/packages/treeio/) [@wang_treeio_2020] will automatically determine the substitutions between the
+sequences at the both ends of each branch. Amino acid substitution will also be
+determined by translating nucleotide sequences to amino acid sequences. These
+computed substitutions will also be stored in the S4 object for efficient tree annotation later (Figure \@ref(fig:codeml)).
+
+
+[CODEML](http://abacus.gene.ucl.ac.uk/software/paml.html) infers selection
+pressure and estimated *d~N~/d~S~*, *d~N~* and *d~S~*. These information are
+stored in output file *mlc*, which can be parsed by `read.codeml_mlc` function.
+
+
+```{r}
+mlcfile <- system.file("extdata/PAML_Codeml", "mlc", package="treeio")
+mlc <- read.codeml_mlc(mlcfile)
+mlc
+```
+
+
+In previous session, we separately parsed *rst* and *mlc* files. However, they
+can also be parsed together using `read.codeml` function.
+
+
+```{r}
+## tree can be one of "rst" or "mlc" to specify
+## using tree from which file as base tree in the object
+ml <- read.codeml(crstfile, mlcfile, tree = "mlc")
+ml
+```
+
+
+All the features in both *rst* and *mlc* files were imported into a single S4
+object and hence are available for further annotation and visualization. For
+example, we can annotate and display both *d~N~/d~S~* (from *mlc* file) and
+amino acid substitutions (derived from *rst* file) on the same phylogenetic tree [@yu_ggtree:_2017].
+
+
+#### Parsing HyPhy output
+
+
+Ancestral sequences inferred by [HyPhy](https://veg.github.io/hyphy-site/) are
+stored in the Nexus output file, which contains the tree topology and ancestral
+sequences. To parse this data file, users can use the `read.hyphy.seq` function.
+
+
+```{r warning=FALSE}
+ancseq <- system.file("extdata/HYPHY", "ancseq.nex", package="treeio")
+read.hyphy.seq(ancseq)
+```
+
+To map the sequences on the tree, user should also provide an
+internal-node-labelled tree. If users want to determine substitution, they need
+also provide tip sequences.
+
+```{r warning=FALSE}
+nwk <- system.file("extdata/HYPHY", "labelledtree.tree", package="treeio")
+tipfas <- system.file("extdata", "pa.fas", package="treeio")
+hy <- read.hyphy(nwk, ancseq, tipfas)
+hy
+```
+
+
+
+
+#### Parsing r8s output
+
+[r8s](http://loco.biosci.arizona.edu/r8s/) uses parametric, semiparametric and
+nonparametric methods to relax molecular clock to allow better estimations of
+divergence times and evolution rates [@sanderson_r8s:_2003]. It outputs three
+trees in log file, namely *TREE*, *RATO* and *PHYLO* for time tree, rate tree
+and absolute substitution tree respectively.
+
+
+Time tree is scaled by divergence time, rate tree is scaled by substitution rate
+and absolute substitution tree is scaled by absolute number of substitution.
+After parsing the file, all these three trees are stored in a *multiPhylo* object (Figure \@ref(fig:mutiPhylo)).
+
+
+```{r fig.width=4, fig.height=6, width=60, warning=FALSE, fig.align="center"}
+r8s <- read.r8s(system.file("extdata/r8s", "H3_r8s_output.log", package="treeio"))
+r8s
+```
+
+
+#### Parsing output of RAxML bootstraping analysis
+
+
+[RAxML](http://evomics.org/learning/phylogenetics/raxml/) bootstraping analysis
+output a Newick tree text that is not standard as it stores bootstrap values
+inside square brackets after branch lengths. This file usually cannot be parsed
+by traditional Newick parser, such as `ape::read.tree`. The function
+`read.raxml` can read such file and stored the bootstrap as an additional
+features, which can be used to display on the tree or used to color tree
+branches, *etc.*.
+
+```{r fig.width=12, fig.height=10, width=60, warning=FALSE, fig.align="center"}
+raxml_file <- system.file("extdata/RAxML", "RAxML_bipartitionsBranchLabels.H3", package="treeio")
+raxml <- read.raxml(raxml_file)
+raxml
+```
+
+
+#### Parsing NHX tree
+
+NHX (New Hampshire eXtended) format is an extension of Newick by introducing NHX
+tags. NHX is commonly used in phylogenetics software,
+including
+[PHYLDOG](http://pbil.univ-lyon1.fr/software/phyldog/) [@boussau_genome-scale_2013],
+[RevBayes](http://revbayes.github.io/intro.html) [@hohna_probabilistic_2014],
+for storing statistical inferences. The following codes imported a NHX tree with
+associated data inferred by PHYLDOG (Figure \@ref(fig:beastFigtree)A).
+
+```{r}
+nhxfile <- system.file("extdata/NHX", "phyldog.nhx", package="treeio")
+nhx <- read.nhx(nhxfile)
+nhx
+```
+
+#### Parsing Phylip tree
+
+Phylip format contains multiple sequence alignment of taxa in Phylip sequence
+format with corresponding Newick tree text that was built from taxon sequences.
+Multiple sequence alignment can be sorted based on the tree structure and displayed at
+the right hand side of the tree using `r Biocpkg("ggtree")` (see also the [`msaplot` function](#msaplot) and Basic Protocol 5 of [@yu_cp_2020]).
+
+```{r}
+phyfile <- system.file("extdata", "sample.phy", package="treeio")
+phylip <- read.phylip(phyfile)
+phylip
+```
+
+#### Parsing EPA and pplacer output
+
+[EPA](http://sco.h-its.org/exelixis/web/software/epa/index.html)
+[@berger_performance_2011] and [PPLACER](http://matsen.fhcrc.org/pplacer/)
+[@matsen_pplacer_2010] have common output file format, `jplace`, which can be
+parsed by `read.jplace()` function.
+
+```{r}
+jpf <- system.file("extdata/EPA.jplace",  package="treeio")
+jp <- read.jplace(jpf)
+print(jp)
+```
+
+The number of evolutionary placement on each branch will be calculated and
+stored as the *nplace* feature, which can be mapped to line size and/or color
+using [ggtree](https://bioconductor.org/packages/ggtree/) [@yu_ggtree:_2017].
+
+
+#### Parsing jtree format{#jtree}
+
+The *jtree* is a JSON based format that was defined in
+this [treeio](https://bioconductor.org/packages/treeio/) package [@wang_treeio_2020] to support tree
+data inter change (see [session 3.3](#write-jtree)).
+Phylogenetic tree with associated data can be exported to a single *jtree*
+file using `write.jtree` function. The *jtree* can be easily parsed using any
+JSON parser. The *jtree* format contains three keys: tree, data and metadata.
+The tree value contains tree text extended from Newick tree format by putting
+the edge number in curly braces after branch length. The data value contains
+node/branch-specific data, while metadata value contains additional meta information.
+
+
+```{r}
+jtree_file <- tempfile(fileext = '.jtree')
+write.jtree(beast, file = jtree_file)
+read.jtree(file = jtree_file)
+```
+
+### Converting other tree-like object to `phylo` or `treedata` object {#as-treedata}
+
+
+To extend the application scopes of `r Biocpkg("treeio")`, `r CRANpkg("tidytree")` and `r Biocpkg("ggtree")`, `r Biocpkg("treeio")` [@wang_treeio_2020] provides several `as.phylo` and `as.treedata` methods to convert other tree-like objects, such as `phylo4d` and `pml`, to `phylo` or `treedata` object. So that users can easily [mapping associated data to the tree structure](#data-integration), [exporting tree with/without data to a single file](#chapter3), [manipulating](#chapter2) and [visualizing tree](#chapter4) with/without data. These convert functions (Table \@ref(tab:treeio-treedata-object)) create the possibility of using `r CRANpkg("tidytree")` to process tree using tidy interface and `r Biocpkg("ggtree")` to visualize tree using grammar of graphic syntax.
+
+
+
+```{r treeio-treedata-object, echo=F, message=FALSE}
+ff <- tibble::tribble(
+  ~`Convert function`, ~`Supported object`, ~Description,
+  "as.phylo", 		"ggtree", 	"convert ggtree object to phylo object",
+  "as.phylo", 		"igraph",	"convert igraph object (only tree graph supported) to phylo object",
+  "as.phylo", 		"phylo4",	"convert phylo4 object to phylo object",
+  "as.phylo", 		"pvclust",	"convert pvclust object to phylo object",
+  "as.phylo",		"treedata",	"convert treedata object to phylo object",
+  "as.treedata",	"ggtree",	"convert ggtree object to treedata object",
+  "as.treedata",	"phylo4",	"convert phylo4 object to treedata object",
+  "as.treedata",	"phylo4d",	"convert phylo4d object to treedata object",
+  "as.treedata",	"pml",		"convert pml object to treedata object",
+  "as.treedata",	"pvclust",	"convert pvclust object to treedata object",
+  )
+
+
+require(kableExtra)
+caption = "Conversion of tree-like object to phylo or treedata object"
+
+knitr::kable(ff, caption=caption, booktabs = T) %>% 
+  collapse_rows(columns = 1, latex_hline = "major", valign ="top") %>%
+  kable_styling(latex_options = c("striped", "scale_down"),
+                bootstrap_options = c("striped", "hover")) #%>% landscape
+```
+
+Here, we used `pml` object which was defined in the `r CRANpkg("phangorn")` package, as an example. The `pml()` function computes the likelihood of a phylogenetic tree given a sequence alignment and a model and the `optim.pml()` function optimizes different model parameters. The output is a `pml` object and it can be converted to a `treedata` object using `as.treedata` provided by `r Biocpkg("treeio")` [@wang_treeio_2020]. The amino acid substitution (ancestral sequence estimated by `pml`) that stored in the `treedata` object can be visualized using `r Biocpkg("ggtree")` as demonstrated in Figure \@ref(fig:pmlTree).
+
+
+(ref:pmlTreescap) Converting `pml` object to `treedata` object. 
+
+(ref:pmlTreecap) **Converting `pml` object to `treedata` object.** 
+
+```{r pmlTree, fig.width=14, fig.height=14, fig.cap="(ref:pmlTreecap)", fig.scap="(ref:pmlTreescap)", message=FALSE, out.width="100%"}
+library(phangorn)
+treefile <- system.file("extdata", "pa.nwk", package="treeio")
+tre <- read.tree(treefile)
+tipseqfile <- system.file("extdata", "pa.fas", package="treeio")
+tipseq <- read.phyDat(tipseqfile,format="fasta")
+fit <- pml(tre, tipseq, k=4)
+fit <- optim.pml(fit, optNni=FALSE, optBf=T, optQ=T,
+                 optInv=T, optGamma=T, optEdge=TRUE,
+                 optRooted=FALSE, model = "GTR",
+				 control = pml.control(trace =0))
+
+pmltree <- as.treedata(fit)
+ggtree(pmltree) + geom_text(aes(x=branch, label=AA_subs, vjust=-.5))
+```
+
+### Getting information from `treedata` object {#get-treedata-data}
+
+After the tree was imported, users may want to extract information that stored
+in the `treedata` object. `r Biocpkg("treeio")` provides several accessor
+methods to extract tree structure, features/attributes that stored in the object
+and their corresponding values.
+
+The `get.tree` or `as.phylo` methods can convert the `treedata` object to
+`phylo` object which is the fundamental tree object in the R community and
+many packages work with `phylo` object.
+
+```{r}
+beast_file <- system.file("examples/MCC_FluA_H3.tree", package="ggtree")
+beast_tree <- read.beast(beast_file)
+# or get.tree
+as.phylo(beast_tree)
+```
+
+The `get.fields` method return a vector of features/attributes that stored in
+the object and associated with the phylogeny.
+
+```{r}
+get.fields(beast_tree)
+```
+
+The `get.data` method return a tibble of all the associated data.
+
+
+```{r}
+get.data(beast_tree)
+```
+
+If users are only interesting a subset of the features/attributes return by
+`get.fields`, they can extract the information from the output of `get.data` or
+directly subset the data by `[` or `[[`.
+
+```{r}
+beast_tree[, c("node", "height")]
+head(beast_tree[["height_median"]])
+```
+
+## Summary {#summary1}
+
+
+Software tools for inferring molecular evolution (*e.g.*, ancestral states, molecular dating\index{molecular dating} and selection pressure, *etc.*) are proliferating, but there is no single data format that is used by all different programs and capable to store different types of phylogenetic data. Most of the software packages have their own unique output formats and these formats are not compatible with each other. Parsing software outputs is challenging, which restricts the joint analysis using different tools. The `r Biocpkg("treeio")` [@wang_treeio_2020] provides a set of functions (Table \@ref(tab:treeio-function)) for parsing various types of phylogenetic data files and a set of converter (Table \@ref(tab:treeio-treedata-object)) to convert tree-like object to phylo or treedata object. These phylogenetic data can be integrated together that allows further exploration and comparison. To date, most software tools in the field of molecular evolution are isolated and often not fully compatible with each other's input and output files. These software tools are designed to do their own analysis and the outputs are often not readable in other software. No tools have been designed to unify the inference data from different analysis programs. An efficient incorporation of data from different inference methods can enhance the comparison and understanding of the study target, which may help discover new systematic patterns and generate new hypothesis.
+
+
+As phylogenetic trees are growing in its application to identify patterns in evolutionary context, more different disciplines are employing phylogenetic trees in their research. For example, spatial ecologists may map the geographical positions of the organisms to their phylogenetic trees to understand the biogeography of the species [@schon_age_2015]; disease epidemiologists may incorporate the pathogen sampling time and locations into the phylogenetic analysis to infer the disease transmission dynamics in spatiotemporal space [@he_emergence_2013]; microbiologists may determine the pathogenicity of different pathogen\index{pathogen} strains and map them into their phylogenetic trees to identify the genetic determinants of the pathogenicity [@bosi_comparative_2016]; genomic scientists may use the phylogenetic trees to help taxonomically classify their metagenomic sequence data [@gupta_using_2015]. A robust tool such as `r Biocpkg("treeio")` to import and map different types of data into the phylogenetic tree is important to facilitate these phylogenetics-related research, or *a.k.a* 'phylodynamics'. Such tool could also help integrate different metadata (time, geography, genotype\index{genotype}, epidemiological information) and analysis results (selective pressure, evolutionary rates) at the highest level and provide a comprehensive understanding of the study organisms. In the field of influenza research, there have been such attemps of studying phylodynamics\index{phylodynamics} of the influenza virus by mapping different meta-data and analysis results on the same phylogenetic tree and evolutionary time scale [@lam_dissemination_2015]. 
