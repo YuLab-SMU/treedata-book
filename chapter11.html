@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 11 Other ggtree extensions | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
+<meta name="author" content="Guangchuang Yu">
+<!-- CSS --><!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.6/header-attrs.js"></script><script src="libs/jquery-3.5.1/jquery-3.5.1.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.5.2/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.5.2/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.1.9000/tabs.js"></script><script src="libs/bs3compat-0.2.1.9000/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<link href="libs/font-awesome-5.3.1/css/fontawesome-all.min.css" rel="stylesheet">
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="libs/pathseg-1.0.2/pathseg.js"></script><script src="libs/comic-0.961/comic.min.js"></script><script src="libs/comicR-binding-0.2/comicR.js"></script><script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script>
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Data Integration, Manipulation and Visualization of Phylogenetic Trees</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Welcome</a></li>
+<li><a class="" href="introduction.html">Introduction</a></li>
+<li class="book-part">Part I: Tree data input, output and manipulation</li>
+<li><a class="" href="chapter1.html"><span class="header-section-number">1</span> Importing Tree with Data</a></li>
+<li><a class="" href="chapter2.html"><span class="header-section-number">2</span> Manipulating Tree with Data</a></li>
+<li><a class="" href="chapter3.html"><span class="header-section-number">3</span> Exporting tree with data</a></li>
+<li class="book-part">Part II: Tree data visualization and annotation</li>
+<li><a class="" href="chapter4.html"><span class="header-section-number">4</span> Phylogenetic Tree Visualization</a></li>
+<li><a class="" href="chapter5.html"><span class="header-section-number">5</span> Phylogenetic Tree Annotation</a></li>
+<li><a class="" href="chapter6.html"><span class="header-section-number">6</span> Visual Exploration of Phylogenetic Tree</a></li>
+<li><a class="" href="chapter7.html"><span class="header-section-number">7</span> Plotting tree with data</a></li>
+<li><a class="" href="chapter8.html"><span class="header-section-number">8</span> Annotating Tree with Silhouette Images and Sub-plots</a></li>
+<li><a class="" href="chapter9.html"><span class="header-section-number">9</span> ggtree for other tree-like objects</a></li>
+<li class="book-part">Part III: ggtree extensions</li>
+<li><a class="" href="chapter10.html"><span class="header-section-number">10</span> ggtreeExtra for presenting data on circular layout</a></li>
+<li><a class="active" href="chapter11.html"><span class="header-section-number">11</span> Other ggtree extensions</a></li>
+<li class="book-part">Part IV: Miscellaneous topics</li>
+<li><a class="" href="chapter12.html"><span class="header-section-number">12</span> ggtree utilities</a></li>
+<li><a class="" href="chapter13.html"><span class="header-section-number">13</span> Gallery of reproducible examples</a></li>
+<li class="book-part">Appendix</li>
+<li><a class="" href="faq.html"><span class="header-section-number">A</span> Frequently asked questions</a></li>
+<li><a class="" href="related-tools.html"><span class="header-section-number">B</span> Related tools</a></li>
+<li><a class="" href="figures-and-tables.html"><span class="header-section-number">C</span> Figures and Tables</a></li>
+<li><a class="" href="session-info.html"><span class="header-section-number">D</span> Session Info</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="chapter11" class="section level1" number="11">
+<h1>
+<span class="header-section-number">11</span> Other ggtree extensions<a class="anchor" aria-label="anchor" href="#chapter11"><i class="fas fa-link"></i></a>
+</h1>
+<div class="sourceCode" id="cb228"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">rp</span> <span class="op">&lt;-</span> <span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/repositories.html">repositories</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">db</span> <span class="op">&lt;-</span> <span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/available.packages.html">available.packages</a></span><span class="op">(</span>repo<span class="op">=</span><span class="va">rp</span><span class="op">)</span>
+<span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">tools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/tools/package_dependencies.html">package_dependencies</a></span><span class="op">(</span><span class="st">'ggtree'</span>, db<span class="op">=</span><span class="va">db</span>, 
+                                which <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Depends"</span>, <span class="st">"Imports"</span><span class="op">)</span>, 
+                                reverse<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/phylobase/man/print-methods.html">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>                                </code></pre></div>
+<pre><code>## $ggtree
+## [1] "LymphoSeq"         "MicrobiotaProcess"
+## [3] "philr"             "singleCellTK"     
+## [5] "sitePath"          "genBaRcode"       
+## [7] "harrietr"          "RAINBOWR"         
+## [9] "STraTUS"</code></pre>
+<p>There are 9 packages in CRAN or Bioconductor that depend or import <a href="http://bioconductor.org/packages/ggtree">ggtree</a> and several packages on github that extends ggtree.</p>
+<ul>
+<li><p><a href="https://github.com/willgearty/deeptime">deeptime</a>: Plotting Tools for Anyone Working in Deep Time</p></li>
+<li><p><a href="https://github.com/richelbilderbeek/ggdaisie">ggdaisie</a>: ggtree and DAISIE R package</p></li>
+<li><p><a href="https://github.com/lch14forever/microbiomeViz">microbiomeViz</a>: Visualize microbiome data with black magic ggtree</p></li>
+<li><p><a href="https://github.com/yiluheihei/microbiomeMarker">microbiomeMarker</a>: microbiome biomarker analysis</p></li>
+</ul>
+<div id="MicrobiotaProcess" class="section level2" number="11.1">
+<h2>
+<span class="header-section-number">11.1</span> Taxonomy annotation using MicrobiotaProcess<a class="anchor" aria-label="anchor" href="#MicrobiotaProcess"><i class="fas fa-link"></i></a>
+</h2>
+<p>The <a href="http://bioconductor.org/packages/MicrobiotaProcess">MicrobiotaProcess</a> package provides a LEfSe-like algorithm <span class="citation">(Segata et al. <a href="references.html#ref-segata_metagenomic_2011" role="doc-biblioref">2011</a>)</span> to discover microbiome biomarker by comparing taxon abudance between different classes. It also provides several methods to visualize the analysis result. The <code>ggdiffcalde()</code> is developed based on <a href="http://bioconductor.org/packages/ggtree">ggtree</a> <span class="citation">(Yu et al. <a href="references.html#ref-yu_ggtree:_2017" role="doc-biblioref">2017</a>)</span>. In addition to the <code><a href="https://rdrr.io/pkg/MicrobiotaProcess/man/diff_analysis.html">diff_analysis()</a></code> result, it also supports a data frame that contains hierarchical relationship (<em>e.g.</em> <a href="related-tools.html#MicrobiotaProcess-taxonomy">taxonomy annotation</a> or KEGG annotation) with another data frame that contains taxa and factor information and/or pvalue. The following example demonstrates how to use data frames (<em>i.e.</em> analysis result) to visualize the differential taxonomy tree. More details can be found on the vignette of the <a href="http://bioconductor.org/packages/MicrobiotaProcess">MicrobiotaProcess</a> package.</p>
+
+
+<div class="sourceCode" id="cb230"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/YuLab-SMU/MicrobiotaProcess/">MicrobiotaProcess</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
+
+<span class="va">taxa</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"data/alltax_info.csv"</span><span class="op">)</span>
+<span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"data/difftax_tab.csv"</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/pkg/MicrobiotaProcess/man/ggdiffclade.html">ggdiffclade</a></span><span class="op">(</span>obj<span class="op">=</span><span class="va">taxa</span>,
+            nodedf<span class="op">=</span><span class="va">dt</span>,
+            factorName<span class="op">=</span><span class="st">"DIAGNOSIS"</span>,
+            layout<span class="op">=</span><span class="st">"radial"</span>,
+            skpointsize<span class="op">=</span><span class="fl">0.6</span>,
+            cladetext<span class="op">=</span><span class="fl">2</span>,
+            linewd<span class="op">=</span><span class="fl">0.2</span>,
+            taxlevel<span class="op">=</span><span class="fl">3</span>,
+            reduce<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span> <span class="co"># This argument is to remove the branch of unknown taxonomy.</span>
+     <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#00AED7"</span>, <span class="st">"#009E73"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
+     <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/guides.html">guides</a></span><span class="op">(</span>color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/guide_legend.html">guide_legend</a></span><span class="op">(</span>keywidth <span class="op">=</span> <span class="fl">0.1</span>, keyheight <span class="op">=</span> <span class="fl">0.6</span>,
+                                 order <span class="op">=</span> <span class="fl">3</span>,ncol<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+     <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/theme.html">theme</a></span><span class="op">(</span>panel.background<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_rect</a></span><span class="op">(</span>fill<span class="op">=</span><span class="cn">NA</span><span class="op">)</span>,
+           legend.position<span class="op">=</span><span class="st">"right"</span>,
+           plot.margin<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">margin</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>,
+           legend.spacing.y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">0.02</span>, <span class="st">"cm"</span><span class="op">)</span>, 
+           legend.title<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_text</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">7.5</span><span class="op">)</span>, <span class="co"># This should be adjusted with different devout.</span>
+           legend.text<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_text</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">5.5</span><span class="op">)</span>, 
+           legend.box.spacing<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">0.02</span>,<span class="st">"cm"</span><span class="op">)</span>
+        <span class="op">)</span></code></pre></div>
+<div class="figure">
+<span id="fig:CRCdiffclade"></span>
+<img src="treedata_files/figure-html/CRCdiffclade-1.png" alt="Visualize differential taxonomy clade." width="672"><p class="caption">
+Figure 11.1: <strong>Visualize differential taxonomy clade.</strong>
+</p>
+</div>
+<p>The data frame of this example is from the analysis result of <code><a href="https://rdrr.io/pkg/MicrobiotaProcess/man/diff_analysis.html">diff_analysis()</a></code> using public datasets <span class="citation">(Kostic et al. <a href="references.html#ref-kostic2012genomic" role="doc-biblioref">2012</a>)</span>. The <code>colors</code> represent the features enriched in the relevant class groups. The size of circle points represents the <code>-log10(pvalue)</code>, <em>i.e.</em> a larger point indicates a greater signficance. In Figure <a href="chapter11.html#fig:CRCdiffclade">11.1</a>, we can found that <em>Fusobacterium</em> sequences were enriched in carcinomas, while Firmicutes, Bacteroides and Clostridiales were depleted in tumors. These results were consistent with the original article <span class="citation">(Kostic et al. <a href="references.html#ref-kostic2012genomic" role="doc-biblioref">2012</a>)</span>. The species of <em>Campylobacter</em> has been proven to associated with the colorectal cancer <span class="citation">(He et al. <a href="references.html#ref-He289" role="doc-biblioref">2019</a>; Wu et al. <a href="references.html#ref-wu2013dysbiosis" role="doc-biblioref">2013</a>; Amer et al. <a href="references.html#ref-amer2017microbiome" role="doc-biblioref">2017</a>)</span>. We can found in the Figure <a href="chapter11.html#fig:CRCdiffclade">11.1</a> that <em>Campylobacter</em> were enriched in tumors, while its relative abundance is lower than <em>Fusobacterium</em>.</p>
+</div>
+<div id="visualizing-phylogenetic-network" class="section level2" number="11.2">
+<h2>
+<span class="header-section-number">11.2</span> Visualizing phylogenetic network<a class="anchor" aria-label="anchor" href="#visualizing-phylogenetic-network"><i class="fas fa-link"></i></a>
+</h2>
+<p><a href="https://github.com/KlausVigo/ggnetworx">ggnetworx</a>: phylogenetic networks using ggplot2 and ggtree</p>
+
+
+<div class="sourceCode" id="cb231"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yulab-smu.top/treedata-book/">ggtree</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/KlausVigo/ggnetworx">ggnetworx</a></span><span class="op">)</span>
+
+<span class="va">file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/trees/woodmouse.nxs"</span>, package <span class="op">=</span> <span class="st">"phangorn"</span><span class="op">)</span>
+<span class="va">Nnet</span> <span class="op">&lt;-</span> <span class="fu">phangorn</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/phangorn/man/read.nexus.splits.html">read.nexus.networx</a></span><span class="op">(</span><span class="va">file</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">Nnet</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span><span class="op">)</span>  <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggnetworx/man/geom_splitnet.html">geom_splitnet</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/theme_tree.html">theme_tree</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span>   
+    <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab2.html">geom_tiplab2</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>color<span class="op">=</span><span class="va">label</span><span class="op">)</span>, hjust<span class="op">=</span><span class="op">-</span><span class="fl">.1</span><span class="op">)</span><span class="op">+</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">rainbow</a></span><span class="op">(</span><span class="fl">15</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>   
+    <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/theme.html">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggexpand.html">ggexpand</a></span><span class="op">(</span><span class="fl">.1</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggexpand.html">ggexpand</a></span><span class="op">(</span><span class="fl">.1</span>, direction<span class="op">=</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span></code></pre></div>
+<div class="figure">
+<span id="fig:phylonetworx"></span>
+<img src="treedata_files/figure-html/phylonetworx-1.svg" alt="Phylogenetic network." width="672"><p class="caption">
+Figure 11.2: <strong>Phylogenetic network</strong>.
+</p>
+</div>
+
+</div>
+</div>
+
+
+
+  <div class="chapter-nav">
+<div class="prev"><a href="chapter10.html"><span class="header-section-number">10</span> ggtreeExtra for presenting data on circular layout</a></div>
+<div class="next"><a href="chapter12.html"><span class="header-section-number">12</span> ggtree utilities</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#chapter11"><span class="header-section-number">11</span> Other ggtree extensions</a></li>
+<li><a class="nav-link" href="#MicrobiotaProcess"><span class="header-section-number">11.1</span> Taxonomy annotation using MicrobiotaProcess</a></li>
+<li><a class="nav-link" href="#visualizing-phylogenetic-network"><span class="header-section-number">11.2</span> Visualizing phylogenetic network</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2020-12-16.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+</html>
