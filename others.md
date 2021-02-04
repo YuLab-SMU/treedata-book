@@ -35,3 +35,11 @@ ggtree(as.phylo(x), layout='roundrect') + geom_label(aes(label=label))
 还可以把原来的label当做是个指代，替换成真正的label，可以用ggtext支持富文本。
 
 
+
+https://github.com/YuLab-SMU/treeio/issues/43
+把数据访问写一下。
+
+
+https://github.com/YuLab-SMU/treeio/pull/44
+
+支持phyloxml
