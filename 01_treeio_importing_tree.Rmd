@@ -101,7 +101,14 @@ The rooted tree shown in Figure \@ref(fig:randomTree) can be represented by the 
 cat(write.tree(tr), '\n')
 ```
 
-The tree text ends with semicolon. Internal nodes are represented by a pair of matched parentheses. Between the parentheses are descendant nodes of that node. For instance `(t4:0.59, t1:0.37)` represents the parent node of `t4` and `t1` that are the immediate descendants. Sibling nodes are separated by comma and tips are represented by their names. A branch length (from parent node to child node) is represented by a real number after the child node and preceded by a colon. Singular data (*e.g.*, bootstrap values) associated with internal nodes or branches maybe encoded as node label and represented by the simple text/numbers before the colon.
+```{r siblingNodes, echo=FALSE}
+i <- parent(tr, nodeid(tr, 't1')) # parent node of t1
+tr2 <- tree_subset(tr, i, levels_back=0)
+tr2$root.edge <- NULL
+siblingNodes <- sub(";", "", write.tree(tr2))
+```
+
+The tree text ends with semicolon. Internal nodes are represented by a pair of matched parentheses. Between the parentheses are descendant nodes of that node. For instance `r siblingNodes` represents the parent node of `r tr2$tip.label[1]` and `r tr2$tip.label[2]` that are the immediate descendants. Sibling nodes are separated by comma and tips are represented by their names. A branch length (from parent node to child node) is represented by a real number after the child node and preceded by a colon. Singular data (*e.g.*, bootstrap values) associated with internal nodes or branches maybe encoded as node label and represented by the simple text/numbers before the colon.
 
 
 Newick tree format was developed by Meacham in 1984 for the *PHYLIP* [@retief_phylogenetic_2000] package. Newick format is now the most widely used tree format and used by *PHYLIP*, *PAUP\** [@wilgenbusch_inferring_2003], *TREE-PUZZLE* [@schmidt_tree-puzzle:_2002], *MrBayes* and many other applications. Phylip tree format contains Phylip multiple sequence alignment (MSA) with a corresponding Newick tree text that was built based on the MSA sequences in the same file.
@@ -122,37 +129,11 @@ END;
 
 For example, the above example tree can be saved as a following NEXUS format:
 
-```{r message=FALSE, echo=FALSE, eval=FALSE}
+\setstretch{1.2}
+```{r message=FALSE, echo=FALSE, eval=TRUE}
 write.nexus(tr)
 ```
 
-\setstretch{1.2}
-```
-#NEXUS
-[R-package APE, Wed Nov  9 11:46:32 2016]
-
-BEGIN TAXA;
-	DIMENSIONS NTAX = 5;
-	TAXLABELS
-		t5
-		t4
-		t1
-		t2
-		t3
-	;
-END;
-BEGIN TREES;
-	TRANSLATE
-		1	t5,
-		2	t4,
-		3	t1,
-		4	t2,
-		5	t3
-	;
-	TREE * UNTITLED = [&R] (1:0.89,((2:0.59,3:0.37):0.34,
-	(4:0.03,5:0.67):0.9):0.04);
-END;
-```
 \setstretch{1.5}
 
 Comments can be placed by using square brackets. Some blocks can be recognized by most of the programs including `TAXA` (contains information of taxa), `DATA` (contains data matrix, *e.g.*, sequence alignment) and `TREE` (contains phylogenetic tree, *i.e.*, Newick tree text). Notably, blocks can be very diversed and some of them are only be recognized by one particular program. For example NEXUS file exported by *PAUP\** has a **paup** block which contains *PAUP\** commands, whereas *FigTree* exports NEXUS file with a **figtree** block that contains visualization settings. NEXUS organizes different types of data into different blocks, whereas programs that support reading NEXUS can parse some blocks they recognized and ignore those they could not. This is a good mechanism to allow different programs to use the same format without crashing when unsupported types of data are present. Notably most of the programs only support parsing `TAXA`, `DATA` and `TREE` blocks, therefore a program/platform that could generically read all kinds of data blocks from the NEXUS would be useful for phylogenetic data integration.
