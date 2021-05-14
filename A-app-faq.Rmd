@@ -568,6 +568,71 @@ p2 <- revts(p) + scale_x_continuous(labels=abs)
 plot_grid(p, p2, ncol=2, labels=c("A", "B"))
 ```
 
+## Remove blank margins for circular layout tree {#circular-blank}
+
+For plots in polar coordinates, such as circular layout tree, it is very common that extra spaces will be generated. 
+
+If you are using `Rmarkdown`, you can set the following options for `r CRANpkg("knitr")` to remove extra white space automatically.
+
+```r
+library(knitr)
+knit_hooks$set(crop = hook_pdfcrop)
+opts_chunk$set(crop = TRUE)
+```
+
+
+Otherwise, we can use command line tools to remove extra white space:
+
+```shell
+## for pdf
+pdfcrop x.pdf
+
+## for png
+convert -trim x.png x-crop.png
+```
+
+If you want to do it in R, you can use the `r CRANpkg("magick")` package:
+
+
+```r
+library(magick)
+
+x <- image_read("x.png")
+## x <- image_read_pdf("x.pdf") # for PDF
+
+image_trim(x)
+```
+
+
+Here is an example:
+
+(ref:trimSpacescap) Trim extra white space for polar coordinates.
+
+(ref:trimSpacecap) **Trim extra white space for polar coordinates.** Original plot (A). Trim version (B).
+
+
+```{r trimSpace, fig.width=8.8, fig.height=4.5, fig.cap="(ref:trimSpacecap)", fig.scap="(ref:trimSpacescap)", out.width="100%"}
+library(ggplot2)
+library(ggtree)
+library(patchwork)
+library(magick)
+
+set.seed(2021)
+tr <- rtree(30)
+p <- ggtree(tr, size=1, colour="purple", layout='circular')
+
+f <- tempfile(fileext=".png")
+ggsave(filename = f, plot = p, width=7, height=7)
+
+x <- image_read(f, density=300)
+y <- image_trim(x)
+
+panel_border <- theme(panel.border=element_rect(colour='black', fill=NA, size=2))
+xx <- image_ggplot(x) + panel_border
+yy <- image_ggplot(y) + panel_border
+
+xx + yy + plot_annotation(tag_levels = "A")
+``` 
 
 
 ## Edit tree graphic details {#export-edit}
