@@ -6,12 +6,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Chapter 3 Exporting tree with data | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
 <meta name="author" content="Guangchuang Yu">
-<!-- CSS --><!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.6/header-attrs.js"></script><script src="libs/jquery-3.5.1/jquery-3.5.1.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="libs/bootstrap-4.5.2/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.5.2/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.1.9000/tabs.js"></script><script src="libs/bs3compat-0.2.1.9000/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.8/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.5.3/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.5.3/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.4/tabs.js"></script><script src="libs/bs3compat-0.2.4/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 <link href="libs/font-awesome-5.3.1/css/fontawesome-all.min.css" rel="stylesheet">
-<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="libs/pathseg-1.0.2/pathseg.js"></script><script src="libs/comic-0.961/comic.min.js"></script><script src="libs/comicR-binding-0.2/comicR.js"></script><script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script>
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="libs/pathseg-1.0.2/pathseg.js"></script><script src="libs/comic-0.961/comic.min.js"></script><script src="libs/comicR-binding-0.2/comicR.js"></script><script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script><!-- CSS -->
 </head>
 <body data-spy="scroll" data-target="#toc">
 
@@ -73,7 +73,7 @@
 <h2>
 <span class="header-section-number">3.1</span> Introduction<a class="anchor" aria-label="anchor" href="#introduction-1"><i class="fas fa-link"></i></a>
 </h2>
-<p>The <a href="https://bioconductor.org/packages/treeio/">treeio</a> package <span class="citation">(Wang et al. <a href="references.html#ref-wang_treeio_2020" role="doc-biblioref">2020</a>)</span> supports parsing various phylogenetic tree file formats including software outputs that contain evolutionary evidences. Some of the formats are just log file
+<p>The <a href="https://bioconductor.org/packages/treeio/">treeio</a> package <span class="citation">(<a href="references.html#ref-wang_treeio_2020" role="doc-biblioref">Wang et al. 2020</a>)</span> supports parsing various phylogenetic tree file formats including software outputs that contain evolutionary evidences. Some of the formats are just log file
 (<em>e.g.</em> <a href="http://abacus.gene.ucl.ac.uk/software/paml.html">PAML</a>
 and <a href="http://ginger.ucdavis.edu/r8s">r8s</a> outputs), while some of the others are
 non-standard formats (<em>e.g.</em> <a href="http://beast2.org/">BEAST</a>
@@ -86,14 +86,14 @@ the <code>as.phyo()</code> method defined <a href="https://bioconductor.org/pack
 convert a <code>treedata</code> object to a <code>phylo</code> object then using <code><a href="https://rdrr.io/pkg/ape/man/write.tree.html">write.tree()</a></code> or
 <code><a href="https://rdrr.io/pkg/ape/man/write.nexus.html">write.nexus()</a></code> implemented
 in <a href="https://cran.r-project.org/web/packages/ape/index.html">ape</a> package
-<span class="citation">(Paradis, Claude, and Strimmer <a href="references.html#ref-paradis_ape_2004" role="doc-biblioref">2004</a>)</span> to export the tree structure as Newick text or Nexus file.
+<span class="citation">(<a href="references.html#ref-paradis_ape_2004" role="doc-biblioref">Paradis, Claude, and Strimmer 2004</a>)</span> to export the tree structure as Newick text or Nexus file.
 This is quite useful for converting non-standard formats to standard format and
 for extracting tree from software outputs, such as log file.</p>
 <p>However, exporting tree with associated data is still challenging. These
 associated data can be parsed from analysis programs or obtained from external
 sources (<em>e.g.</em> phenotypic data, experimental data and clinical data). The major
 obstacle here is that there is no standard format that designed for storing
-tree with data. <a href="http://www.nexml.org/">NeXML</a> <span class="citation">(Vos et al. <a href="references.html#ref-vos_nexml:_2012" role="doc-biblioref">2012</a>)</span> maybe the most
+tree with data. <a href="http://www.nexml.org/">NeXML</a> <span class="citation">(<a href="references.html#ref-vos_nexml:_2012" role="doc-biblioref">Vos et al. 2012</a>)</span> maybe the most
 flexible format, however it is currently not widely supported. Most of the
 analysis programs in this field rely extensively on Newick string and Nexus
 format. In my opinion, although <a href="http://beast.community/nexus_metacomments">BEAST Nexus
@@ -112,7 +112,7 @@ able to read it.</p>
 <h3>
 <span class="header-section-number">3.2.1</span> Exporting/converting software output<a class="anchor" aria-label="anchor" href="#exportingconverting-software-output"><i class="fas fa-link"></i></a>
 </h3>
-<p>The <a href="https://bioconductor.org/packages/treeio/">treeio</a> package <span class="citation">(Wang et al. <a href="references.html#ref-wang_treeio_2020" role="doc-biblioref">2020</a>)</span> provides the <code><a href="https://docs.ropensci.org/treeio/reference/write.beast.html">write.beast()</a></code> function to export <code>treedata</code> object as BEAST Nexus file <span class="citation">(Bouckaert et al. <a href="references.html#ref-bouckaert_beast_2014" role="doc-biblioref">2014</a>)</span>.
+<p>The <a href="https://bioconductor.org/packages/treeio/">treeio</a> package <span class="citation">(<a href="references.html#ref-wang_treeio_2020" role="doc-biblioref">Wang et al. 2020</a>)</span> provides the <code><a href="https://docs.ropensci.org/treeio/reference/write.beast.html">write.beast()</a></code> function to export <code>treedata</code> object as BEAST Nexus file <span class="citation">(<a href="references.html#ref-bouckaert_beast_2014" role="doc-biblioref">Bouckaert et al. 2014</a>)</span>.
 With <a href="https://bioconductor.org/packages/treeio/">treeio</a>, it is easy to convert
 software output to BEAST format if the output can be parsed
 by <a href="https://bioconductor.org/packages/treeio/">treeio</a> (see <a href="chapter1.html#chapter1">Chapter 1</a>). For example, we can
@@ -387,7 +387,7 @@ BEGIN TREES;
 END;</code></pre>
 <p>The output BEAST Nexus file can be imported into R using the <code>read.beast</code>
 function and all the associated data can be used to annotate the tree
-using <a href="https://bioconductor.org/packages/ggtree/">ggtree</a> <span class="citation">(Yu et al. <a href="references.html#ref-yu_ggtree:_2017" role="doc-biblioref">2017</a>)</span>.</p>
+using <a href="https://bioconductor.org/packages/ggtree/">ggtree</a> <span class="citation">(<a href="references.html#ref-yu_ggtree:_2017" role="doc-biblioref">Yu et al. 2017</a>)</span>.</p>
 <div class="sourceCode" id="cb119"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">outfile</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".tree"</span><span class="op">)</span>
 <span class="fu"><a href="https://docs.ropensci.org/treeio/reference/write.beast.html">write.beast</a></span><span class="op">(</span><span class="va">tree2</span>, file <span class="op">=</span> <span class="va">outfile</span><span class="op">)</span>
@@ -411,7 +411,7 @@ using <a href="https://bioconductor.org/packages/ggtree/">ggtree</a> <span class
 <h2>
 <span class="header-section-number">3.3</span> Exporting Tree Data to <em>jtree</em> Format<a class="anchor" aria-label="anchor" href="#write-jtree"><i class="fas fa-link"></i></a>
 </h2>
-<p>The <a href="https://bioconductor.org/packages/treeio/">treeio</a> package <span class="citation">(Wang et al. <a href="references.html#ref-wang_treeio_2020" role="doc-biblioref">2020</a>)</span> provides the
+<p>The <a href="https://bioconductor.org/packages/treeio/">treeio</a> package <span class="citation">(<a href="references.html#ref-wang_treeio_2020" role="doc-biblioref">Wang et al. 2020</a>)</span> provides the
 <code><a href="https://docs.ropensci.org/treeio/reference/write.beast.html">write.beast()</a></code> function to export <code>treedata</code> to BEAST Nexus file. This is quite useful
 to convert file format, combine tree with data and merge tree data from
 different sources as we demonstrated in
@@ -793,7 +793,7 @@ in <a href="https://bioconductor.org/packages/treeio/">treeio</a> package (see a
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-02-24.</p>
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-05-14.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
