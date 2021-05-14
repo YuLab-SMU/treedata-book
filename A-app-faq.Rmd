@@ -336,25 +336,52 @@ y <- ape::rotateConstr(x, c('t4', 't2', 't5', 't1', 't3'))
 ggtree(y, ladderize = FALSE) + geom_tiplab()
 ```
 
-### Change branch length of outgroup
+### Shrink outlier long branch
 
-When outgroups are on a very long branch length (Figure \@ref(fig:outgroupEdge)A), we would like to keep the out groups in the tree but ignore their branch lengths (Figure \@ref(fig:outgroupEdge)B)^[example from: <https://groups.google.com/d/msg/bioc-ggtree/T2ySvqv351g/mHsyljvBCwAJ>]. This can be easily done by modifying coordination of the out groups.
-
-
-(ref:outgroupEdgescap) Changing branch length of outgroup.
-
-(ref:outgroupEdgecap) **Changing branch length of outgroup.** Original tree (A) and reduced outgroup branch length version (B).
+When outgroups are on a very long branch length (Figure \@ref(fig:outgroupEdge)A), we would like to keep the out groups in the tree but ignore their branch lengths (Figure \@ref(fig:outgroupEdge)B)^[example from: <https://groups.google.com/d/msg/bioc-ggtree/T2ySvqv351g/mHsyljvBCwAJ>]. This can be easily done by modifying coordination of the out groups (Figure \@ref(fig:outgroupEdge)B). Another approach is to truncate the plot using `r CRANpkg("ggbreak")` (Figure \@ref(fig:outgroupEdge)C).
 
 
-```{r outgroupEdge, fig.cap="(ref:outgroupEdgecap)", fig.scap="(ref:outgroupEdgescap)", fig.width=6, fig.height=5}
+(ref:outgroupEdgescap) Shrink outlier long branch.
+
+(ref:outgroupEdgecap) **Shrink outlier long branch.** Original tree (A); reduced outgroup branch length (B); truncated tree plot (C).
+
+
+```{r eval=F}
+x <- read.tree("data/long-branch-example.newick")
+m <- MRCA(x, 75, 76)
+y <- groupClade(x, m)
+
+## A
+p <- p1 <- ggtree(y, aes(linetype = group)) + 
+  geom_tiplab(size = 2) + 
+  theme(legend.position = 'none') 
+
+## B
+p$data[p$data$node %in% c(75, 76), "x"] <- mean(p$data$x)
+
+## C
+library(ggbreak)
+p2 <- p1 + scale_x_break(c(0.03, 0.09)) + hexpand(.05)
+
+## align plot
+p1 + p + p2 + plot_annotation(tag_levels="A")
+```
+
+```{r fig.show='hide', echo=FALSE}
 x <- read.tree("data/long-branch-example.newick")
 m <- MRCA(x, 75, 76)
 y <- groupClade(x, m)
 p <- p1 <- ggtree(y, aes(linetype = group)) + 
-  geom_tiplab(size = 2) +
-  theme(legend.position = 'none')
+  geom_tiplab(size = 2) + 
+  theme(legend.position = 'none') 
 p$data[p$data$node %in% c(75, 76), "x"] <- mean(p$data$x)
-plot_grid(p1, p, ncol=2)
+
+library(ggbreak)
+p2 <- p1 + scale_x_break(c(0.03, 0.09)) + hexpand(.05)
+pg <- p1 + p + p2 + plot_annotation(tag_levels="A")
+```
+```{r outgroupEdge, fig.cap="(ref:outgroupEdgecap)", fig.scap="(ref:outgroupEdgescap)", fig.width=9, fig.height=5, out.width="100%", echo=FALSE}
+print(pg)
 ```
 
 ### Attach a new tip to a tree {#bind-tip}
@@ -368,7 +395,7 @@ Users can use `phytools::bind.tip()` [@revell_phytools_2012] to attach a new tip
 (ref:bindTipcap) **Attaching a new tip to a tree.** 
 
 
-```{r bindTip, fig.cap="(ref:bindTipcap)", fig.scap="(ref:bindTipscap)", fig.width=6, fig.height=5}
+```{r bindTip, fig.cap="(ref:bindTipcap)", fig.scap="(ref:bindTipscap)", fig.width=6, fig.height=5, out.width="100%"}
 library(phytools)
 library(tidytree)
 library(ggplot2)
@@ -403,7 +430,7 @@ If you want to colour or change line types of specific branches, you only need t
 (ref:btypecap) **Change colours and line types of specific branches.** 
 
 
-```{r btype, fig.cap="(ref:btypecap)", fig.scap="(ref:btypescap)", fig.width=7, fig.height=5}
+```{r btype, fig.cap="(ref:btypecap)", fig.scap="(ref:btypescap)", fig.width=7, fig.height=5, out.width="100%"}
 set.seed(123)
 x <- rtree(10)
 ## binary choices of colours
@@ -457,7 +484,7 @@ This is not supported by `r CRANpkg("ggplot2")` in general. However, we can just
 
 
 
-```{r xlabFacets, fig.width=7, fig.height=5, fig.cap="(ref:xlabFacetscap)", fig.scap="(ref:xlabFacetsscap)"}
+```{r xlabFacets, fig.width=7, fig.height=5, fig.cap="(ref:xlabFacetscap)", fig.scap="(ref:xlabFacetsscap)", out.width="100%"}
 library(ggtree)
 library(ggplot2)
 set.seed(2019-05-02)
@@ -510,7 +537,7 @@ ggplot(x) + geom_hilight(node=7, alpha=1) + geom_tree() + theme_tree()
 (ref:treeLayerOrdercap) **Add layers behind tree structure.** A layer on top of the tree structure (A). Reverse layer order of A (B). Add layer behind the tree layer (C).
 
 
-```{r treeLayerOrder, echo=F, fig.width=6, fig.height=3, fig.cap="(ref:treeLayerOrdercap)", fig.scap="(ref:treeLayerOrderscap)"}
+```{r treeLayerOrder, echo=F, fig.width=6, fig.height=3, fig.cap="(ref:treeLayerOrdercap)", fig.scap="(ref:treeLayerOrderscap)", out.width="100%"}
 g <- p
 p$layers <- rev(p$layers)
 cowplot::plot_grid(g, p, 
@@ -550,7 +577,7 @@ The `revts` will reverse the x-axis by setting the most recent tip to 0. We can 
 (ref:distantTipcap) **Origin of the time scale.** Forward: from the root to tips (A). Backward: from the most distant tip to the root (B).
 
 
-```{r distantTip, fig.cap="(ref:distantTipcap)", fig.scap="(ref:distantTipscap)", fig.width=6, fig.height=3}
+```{r distantTip, fig.cap="(ref:distantTipcap)", fig.scap="(ref:distantTipscap)", fig.width=6, fig.height=3, out.width="100%"}
 tr <- rtree(10)
 p <- ggtree(tr) + theme_tree2()
 p2 <- revts(p) + scale_x_continuous(labels=abs)
