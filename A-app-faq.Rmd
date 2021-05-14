@@ -346,7 +346,7 @@ When outgroups are on a very long branch length (Figure \@ref(fig:outgroupEdge)A
 (ref:outgroupEdgecap) **Shrink outlier long branch.** Original tree (A); reduced outgroup branch length (B); truncated tree plot (C).
 
 
-```{r eval=F}
+```{r outgroupEdge, fig.cap="(ref:outgroupEdgecap)", fig.scap="(ref:outgroupEdgescap)", fig.width=9, fig.height=5, out.width="100%", fig.keep="last"}
 x <- read.tree("data/long-branch-example.newick")
 m <- MRCA(x, 75, 76)
 y <- groupClade(x, m)
@@ -367,22 +367,6 @@ p2 <- p1 + scale_x_break(c(0.03, 0.09)) + hexpand(.05)
 p1 + p + p2 + plot_annotation(tag_levels="A")
 ```
 
-```{r fig.show='hide', echo=FALSE}
-x <- read.tree("data/long-branch-example.newick")
-m <- MRCA(x, 75, 76)
-y <- groupClade(x, m)
-p <- p1 <- ggtree(y, aes(linetype = group)) + 
-  geom_tiplab(size = 2) + 
-  theme(legend.position = 'none') 
-p$data[p$data$node %in% c(75, 76), "x"] <- mean(p$data$x)
-
-library(ggbreak)
-p2 <- p1 + scale_x_break(c(0.03, 0.09)) + hexpand(.05)
-pg <- p1 + p + p2 + plot_annotation(tag_levels="A")
-```
-```{r outgroupEdge, fig.cap="(ref:outgroupEdgecap)", fig.scap="(ref:outgroupEdgescap)", fig.width=9, fig.height=5, out.width="100%", echo=FALSE}
-print(pg)
-```
 
 ### Attach a new tip to a tree {#bind-tip}
 
