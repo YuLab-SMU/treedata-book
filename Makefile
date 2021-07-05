@@ -1,8 +1,10 @@
 bs4:
+	rm -rf gh-pages/libs;\
 	Rscript -e 'library(bookdown); render_book("index.Rmd", "bs4_book")';\
 	sed -i 's/Chalkduster/Comic Sans MS/g' gh-pages/related-tools.html 
 
 gitbook:
+	rm -rf gh-pages/libs;\
 	Rscript -e 'library(bookdown); render_book("index.Rmd", "gitbook")';\
 	sed -i 's/Chalkduster/Comic Sans MS/g' gh-pages/related-tools.html 
 
