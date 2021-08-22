@@ -1,3 +1,6 @@
+
+
+
 ## to do
 
 
@@ -25,7 +28,8 @@ ggtree + deeptime can do something like this, <https://www.sciencedirect.com/sci
 + [add td_mutate and geom_hilight, geom_cladelab supporting fuction data](https://github.com/YuLab-SMU/ggtree/pull/421)
 + [fix the issue of data argument of geom_tiplab](https://github.com/YuLab-SMU/ggtree/pull/426)
 + [options to control the line type of radial](https://github.com/YuLab-SMU/ggtree/pull/427)
-
++ [ data argument of geom_facet supporting function #430 ](https://github.com/YuLab-SMU/ggtree/pull/430)
++ [add `select`, `filter`, `mutate`, `left_join`, `unnest`, `pull` and `rename` verbs for `treedata` object](https://github.com/YuLab-SMU/tidytree/pull/19)
 
 
 
