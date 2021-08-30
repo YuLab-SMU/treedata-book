@@ -6,6 +6,7 @@
 
 ggtree + deeptime can do something like this, <https://www.sciencedirect.com/science/article/pii/S2590197420300197>.
 
++ [ introduce align argument in geom_hilight #431 ](https://github.com/YuLab-SMU/ggtree/pull/431)
 + [geom_facet() support discrete scale](https://github.com/YuLab-SMU/ggtree/issues/351)
 + [geom_cladelab: the devel version of geom_cladelabel to support aes mapping](https://github.com/YuLab-SMU/ggtree/pull/342)
 + [add horizontal parameter in geom_cladelabel](https://github.com/YuLab-SMU/ggtree/pull/343)
