@@ -6,12 +6,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Chapter 6 Visual Exploration of Phylogenetic Tree | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
 <meta name="author" content="Guangchuang Yu">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.8/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="libs/bootstrap-4.5.3/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.5.3/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.4/tabs.js"></script><script src="libs/bs3compat-0.2.4/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<meta name="description" content="The ggtree (Yu et al. 2017) supports many ways of manipulating the tree visually, including viewing selected clade to explore large tree (Figure 6.1), taxa clustering (Figure 6.5), rotating clade...">
+<meta name="generator" content="bookdown 0.23 with bs4_book()">
+<meta property="og:title" content="Chapter 6 Visual Exploration of Phylogenetic Tree | Data Integration, Manipulation and Visualization of Phylogenetic Trees">
+<meta property="og:type" content="book">
+<meta property="og:description" content="The ggtree (Yu et al. 2017) supports many ways of manipulating the tree visually, including viewing selected clade to explore large tree (Figure 6.1), taxa clustering (Figure 6.5), rotating clade...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 6 Visual Exploration of Phylogenetic Tree | Data Integration, Manipulation and Visualization of Phylogenetic Trees">
+<meta name="twitter:description" content="The ggtree (Yu et al. 2017) supports many ways of manipulating the tree visually, including viewing selected clade to explore large tree (Figure 6.1), taxa clustering (Figure 6.5), rotating clade...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.10/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.5.1/tabs.js"></script><script src="libs/bs3compat-0.2.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 <link href="libs/font-awesome-5.3.1/css/fontawesome-all.min.css" rel="stylesheet">
-<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="libs/pathseg-1.0.2/pathseg.js"></script><script src="libs/comic-0.961/comic.min.js"></script><script src="libs/comicR-binding-0.2/comicR.js"></script><script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script><!-- CSS -->
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="libs/pathseg-1.0.2/pathseg.js"></script><script src="libs/comic-0.961/comic.min.js"></script><script src="libs/comicR-binding-0.2/comicR.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS -->
 </head>
 <body data-spy="scroll" data-target="#toc">
 
@@ -179,7 +187,7 @@ convert a tree to fan layout by specific open angle
 <span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/viewClade.html">viewClade</a></span><span class="op">(</span><span class="va">p</span>, <span class="fu"><a href="https://rdrr.io/pkg/tidytree/man/MRCA.html">MRCA</a></span><span class="op">(</span><span class="va">p</span>, <span class="st">"I"</span>, <span class="st">"L"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<span id="fig:viewClade"></span>
+<span style="display:block;" id="fig:viewClade"></span>
 <img src="treedata_files/figure-html/viewClade-1.svg" alt="Viewing a selected clade of a tree. An example tree used to demonstrate how ggtree support exploring or manipulating phylogenetic tree visually (A). The ggtree supports visualizing selected clade (B). A clade can be selected by specifying a node number or determined by most recent common ancestor of selected tips." width="100%"><p class="caption">
 Figure 6.1: <strong>Viewing a selected clade of a tree.</strong> An example tree used to demonstrate how <em>ggtree</em> support exploring or manipulating phylogenetic tree visually (A). The <em>ggtree</em> supports visualizing selected clade (B). A clade can be selected by specifying a node number or determined by most recent common ancestor of selected tips.
 </p>
@@ -199,7 +207,7 @@ Figure 6.1: <strong>Viewing a selected clade of a tree.</strong> An example tree
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="st">"firebrick"</span>, <span class="st">"steelblue"</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/scaleClade.html">scaleClade</a></span><span class="op">(</span><span class="va">p</span>, node<span class="op">=</span><span class="fl">17</span>, scale<span class="op">=</span><span class="fl">.1</span><span class="op">)</span> </code></pre></div>
 <div class="figure">
-<span id="fig:scaleClade"></span>
+<span style="display:block;" id="fig:scaleClade"></span>
 <img src="treedata_files/figure-html/scaleClade-1.svg" alt="Scaling selected clade. Clades can be zoom in (if scale &gt; 1) to highlight or zoom out to save space." width="100%"><p class="caption">
 Figure 6.2: <strong>Scaling selected clade.</strong> Clades can be zoom in (if <code>scale &gt; 1</code>) to highlight or zoom out to save space.
 </p>
@@ -221,7 +229,7 @@ Figure 6.2: <strong>Scaling selected clade.</strong> Clades can be zoom in (if <
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">p2</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/expand.html">expand</a></span><span class="op">(</span><span class="va">p2</span>, node<span class="op">=</span><span class="fl">23</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/expand.html">expand</a></span><span class="op">(</span>node<span class="op">=</span><span class="fl">21</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<span id="fig:collapseExpand"></span>
+<span style="display:block;" id="fig:collapseExpand"></span>
 <img src="treedata_files/figure-html/collapseExpand-1.svg" alt="Collapsing selected clades and expanding collapsed clades. Clades can be selected to collapse (A) and the collapsed clades can be expanded back (B) if necessary as ggtree stored all information of species relationships. Green and red symbols were displayed on the tree to indicate the collapsed clades." width="100%"><p class="caption">
 Figure 6.3: <strong>Collapsing selected clades and expanding collapsed clades.</strong> Clades can be selected to collapse (A) and the collapsed clades can be expanded back (B) if necessary as <em>ggtree</em> stored all information of species relationships. Green and red symbols were displayed on the tree to indicate the collapsed clades.
 </p>
@@ -244,7 +252,7 @@ Figure 6.3: <strong>Collapsing selected clades and expanding collapsed clades.</
 
 
 <div class="figure">
-<span id="fig:collapseMode"></span>
+<span style="display:block;" id="fig:collapseMode"></span>
 <img src="treedata_files/figure-html/collapseMode-1.svg" alt="Collapse clade as triangle. ‘max’ takes the position of most distant tip (A). ‘min’ takes the position of closest tip (B). ‘mixed’ takes the positions of both closest and distant tips (C), which looks more like the shape of the clade. Set color, fill and alpha of the triangles (D). Combine with scaleClade to zoom out triangle to save space (E)." width="100%"><p class="caption">
 Figure 6.4: <strong>Collapse clade as triangle.</strong> ‘max’ takes the position of most distant tip (A). ‘min’ takes the position of closest tip (B). ‘mixed’ takes the positions of both closest and distant tips (C), which looks more like the shape of the clade. Set color, fill and alpha of the triangles (D). Combine with <code>scaleClade</code> to zoom out triangle to save space (E).
 </p>
@@ -274,7 +282,7 @@ Figure 6.4: <strong>Collapse clade as triangle.</strong> ‘max’ takes the pos
 <span class="fu"><a href="https://rdrr.io/pkg/tidytree/man/groupOTU.html">groupOTU</a></span><span class="op">(</span><span class="va">p_iris</span>, <span class="va">grp</span>, <span class="st">'Species'</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>color<span class="op">=</span><span class="va">Species</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"right"</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<span id="fig:groupOTU"></span>
+<span style="display:block;" id="fig:groupOTU"></span>
 <img src="treedata_files/figure-html/groupOTU-1.svg" alt="Grouping OTUs. OTU clustering based on their relationships. Selected OTUs and their ancestors upto MRCA will be clustered together." width="100%"><p class="caption">
 Figure 6.5: <strong>Grouping OTUs.</strong> OTU clustering based on their relationships. Selected OTUs and their ancestors upto MRCA will be clustered together.
 </p>
@@ -297,7 +305,7 @@ Figure 6.5: <strong>Grouping OTUs.</strong> OTU clustering based on their relati
 <span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/rotate.html">rotate</a></span><span class="op">(</span><span class="va">p1</span>, <span class="fl">17</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/rotate.html">rotate</a></span><span class="op">(</span><span class="fl">21</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/flip.html">flip</a></span><span class="op">(</span><span class="va">p2</span>, <span class="fl">17</span>, <span class="fl">21</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<span id="fig:rfClade"></span>
+<span style="display:block;" id="fig:rfClade"></span>
 <img src="treedata_files/figure-html/rfClade-1.svg" alt="Exploring tree structure. A clade (indicated by darkgreen circle) in a tree (A) can be rotated by 180° (B) and the positions of its immediate descedant clades (colored by blue and red) can be exchanged (C)." width="100%"><p class="caption">
 Figure 6.6: <strong>Exploring tree structure.</strong> A clade (indicated by darkgreen circle) in a tree (A) can be rotated by 180° (B) and the positions of its immediate descedant clades (colored by blue and red) can be exchanged (C).
 </p>
@@ -309,7 +317,7 @@ Figure 6.6: <strong>Exploring tree structure.</strong> A clade (indicated by dar
 
 
 <div class="figure">
-<span id="fig:openTree"></span>
+<span style="display:block;" id="fig:openTree"></span>
 <img src="treedata_files/figure-html/openTree-1.svg" alt="Transforming a tree to fan layout. A tree can be transformed to fan layout by open_tree with specific angle parameter." width="576"><p class="caption">
 Figure 6.7: <strong>Transforming a tree to fan layout.</strong> A tree can be transformed to fan layout by <code>open_tree</code> with specific <em>angle</em> parameter.
 </p>
@@ -319,7 +327,7 @@ Figure 6.7: <strong>Transforming a tree to fan layout.</strong> A tree can be tr
 
 
 <div class="figure">
-<span id="fig:rotateTree"></span>
+<span style="display:block;" id="fig:rotateTree"></span>
 <img src="treedata_files/figure-html/rotateTree-1.svg" alt="Rotating tree. A circular/fan layout tree can be rotated by any specific angle." width="576"><p class="caption">
 Figure 6.8: <strong>Rotating tree.</strong> A circular/fan layout tree can be rotated by any specific <em>angle</em>.
 </p>
@@ -336,7 +344,7 @@ Figure 6.8: <strong>Rotating tree.</strong> A circular/fan layout tree can be ro
 
 
 <div class="figure">
-<span id="fig:rotategif"></span>
+<span style="display:block;" id="fig:rotategif"></span>
 <img src="img/rotate_clade.gif" alt="Traverse and rotate all clades."><p class="caption">
 Figure 6.9: <strong>Traverse and rotate all clades.</strong>
 </p>
@@ -353,7 +361,7 @@ Figure 6.9: <strong>Traverse and rotate all clades.</strong>
 
 
 <div class="figure">
-<span id="fig:fangif"></span>
+<span style="display:block;" id="fig:fangif"></span>
 <img src="img/fan_layout.gif" alt="Open tree with different angles."><p class="caption">
 Figure 6.10: <strong>Open tree with different angles.</strong>
 </p>
@@ -366,7 +374,7 @@ Figure 6.10: <strong>Open tree with different angles.</strong>
 
 
 <div class="figure">
-<span id="fig:rotatetreegif"></span>
+<span style="display:block;" id="fig:rotatetreegif"></span>
 <img src="img/rotate_tree.gif" alt="Rotate tree with different angles."><p class="caption">
 Figure 6.11: <strong>Rotate tree with different angles.</strong>
 </p>
@@ -410,7 +418,7 @@ Figure 6.11: <strong>Rotate tree with different angles.</strong>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-05-14.</p>
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-08-28.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
@@ -430,6 +438,22 @@ Figure 6.11: <strong>Rotate tree with different angles.</strong>
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
 </script>
 </body>
 </html>

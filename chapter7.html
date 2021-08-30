@@ -6,12 +6,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Chapter 7 Plotting tree with data | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
 <meta name="author" content="Guangchuang Yu">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.8/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="libs/bootstrap-4.5.3/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.5.3/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.4/tabs.js"></script><script src="libs/bs3compat-0.2.4/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<meta name="description" content="Integrating user data to annotate phylogenetic tree can be done at different levels. The treeio package (Wang et al. 2020) implements full_join methods to combine tree data to phylogenetic tree...">
+<meta name="generator" content="bookdown 0.23 with bs4_book()">
+<meta property="og:title" content="Chapter 7 Plotting tree with data | Data Integration, Manipulation and Visualization of Phylogenetic Trees">
+<meta property="og:type" content="book">
+<meta property="og:description" content="Integrating user data to annotate phylogenetic tree can be done at different levels. The treeio package (Wang et al. 2020) implements full_join methods to combine tree data to phylogenetic tree...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 7 Plotting tree with data | Data Integration, Manipulation and Visualization of Phylogenetic Trees">
+<meta name="twitter:description" content="Integrating user data to annotate phylogenetic tree can be done at different levels. The treeio package (Wang et al. 2020) implements full_join methods to combine tree data to phylogenetic tree...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.10/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.5.1/tabs.js"></script><script src="libs/bs3compat-0.2.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 <link href="libs/font-awesome-5.3.1/css/fontawesome-all.min.css" rel="stylesheet">
-<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="libs/pathseg-1.0.2/pathseg.js"></script><script src="libs/comic-0.961/comic.min.js"></script><script src="libs/comicR-binding-0.2/comicR.js"></script><script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script><!-- CSS -->
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="libs/pathseg-1.0.2/pathseg.js"></script><script src="libs/comic-0.961/comic.min.js"></script><script src="libs/comicR-binding-0.2/comicR.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS -->
 </head>
 <body data-spy="scroll" data-target="#toc">
 
@@ -106,7 +114,7 @@ visualization and annotation on the fly. Although the feature of linking externa
 <span class="va">p2</span> <span class="op">%&lt;+%</span> <span class="va">d2</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html">geom_label</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">vernacularName.y</span>, fill <span class="op">=</span> <span class="va">posterior</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
     <span class="fu">scale_fill_gradientn</span><span class="op">(</span>colors <span class="op">=</span> <span class="fu">RColorBrewer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html">brewer.pal</a></span><span class="op">(</span><span class="fl">3</span>, <span class="st">"YlGnBu"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<span id="fig:attacher"></span>
+<span style="display:block;" id="fig:attacher"></span>
 <img src="treedata_files/figure-html/attacher-1.svg" alt="Example of attaching multiple datasets." width="100%"><p class="caption">
 Figure 7.1: <strong>Example of attaching multiple datasets</strong>.
 </p>
@@ -169,8 +177,8 @@ Figure 7.1: <strong>Example of attaching multiple datasets</strong>.
                 stat <span class="op">=</span> <span class="st">"identity"</span>, width <span class="op">=</span> <span class="fl">.6</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/theme_tree2.html">theme_tree2</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.05</span>, <span class="fl">.85</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<span id="fig:plottree"></span>
-<img src="treedata_files/figure-html/plottree-1.svg" alt="Example of plotting SNP and trait data." width="100%"><p class="caption">
+<span style="display:block;" id="fig:plottree"></span>
+<img src="treedata_files/figure-html/plottree-1.png" alt="Example of plotting SNP and trait data." width="100%"><p class="caption">
 Figure 7.2: <strong>Example of plotting SNP and trait data</strong>.
 </p>
 </div>
@@ -210,7 +218,7 @@ Figure 7.2: <strong>Example of plotting SNP and trait data</strong>.
 
 
 <div class="figure">
-<span id="fig:gheatmap"></span>
+<span style="display:block;" id="fig:gheatmap"></span>
 <img src="treedata_files/figure-html/gheatmap-1.png" alt="Example of plotting matrix with gheatmap." width="100%"><p class="caption">
 Figure 7.3: <strong>Example of plotting matrix with <code>gheatmap</code></strong>.
 </p>
@@ -249,7 +257,7 @@ Figure 7.3: <strong>Example of plotting matrix with <code>gheatmap</code></stron
          colnames_angle<span class="op">=</span><span class="fl">90</span>, colnames_offset_y <span class="op">=</span> <span class="fl">.25</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">scale_fill_viridis_c</span><span class="op">(</span>option<span class="op">=</span><span class="st">"A"</span>, name<span class="op">=</span><span class="st">"continuous\nvalue"</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<span id="fig:mgheatmap"></span>
+<span style="display:block;" id="fig:mgheatmap"></span>
 <img src="treedata_files/figure-html/mgheatmap-1.svg" alt="Example of plotting matrix with gheatmap." width="100%"><p class="caption">
 Figure 7.4: <strong>Example of plotting matrix with <code>gheatmap</code></strong>.
 </p>
@@ -273,7 +281,7 @@ Figure 7.4: <strong>Example of plotting matrix with <code>gheatmap</code></stron
 
 
 <div class="figure">
-<span id="fig:msaplot"></span>
+<span style="display:block;" id="fig:msaplot"></span>
 <img src="treedata_files/figure-html/msaplot-1.png" alt="Example of plotting multiple sequence alignment with a tree." width="100%"><p class="caption">
 Figure 7.5: <strong>Example of plotting multiple sequence alignment with a tree</strong>.
 </p>
@@ -361,7 +369,7 @@ The `ylim2()` is not designed specific for [ggtree](http://bioconductor.org/pack
 
 
 <div class="figure">
-<span id="fig:composite"></span>
+<span style="display:block;" id="fig:composite"></span>
 <img src="treedata_files/figure-html/composite-1.svg" alt="Example of aligning tree with data side by side to create composite plot. cowplot aligns subplots (A), while aplot do extra works to make sure that tree associated subplots are properly ordered according to the tree structure (B). Note: The ‘A’ category in the bar plot that is not matched with the tree was removed." width="100%"><p class="caption">
 Figure 7.6: <strong>Example of aligning tree with data side by side to create composite plot</strong>. <code>cowplot</code> aligns subplots (A), while <code>aplot</code> do extra works to make sure that tree associated subplots are properly ordered according to the tree structure (B). Note: The ‘A’ category in the bar plot that is not matched with the tree was removed.
 </p>
@@ -437,7 +445,7 @@ p %<% rtree(50)
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-05-14.</p>
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-08-28.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
@@ -457,6 +465,22 @@ p %<% rtree(50)
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
 </script>
 </body>
 </html>

@@ -6,12 +6,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Chapter 12 ggtree utilities | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
 <meta name="author" content="Guangchuang Yu">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.8/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="libs/bootstrap-4.5.3/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.5.3/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.4/tabs.js"></script><script src="libs/bs3compat-0.2.4/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<meta name="description" content='12.1 Facet utilities  12.1.1 facet_widths library(ggplot2) library(ggstance) library(ggtree) library(reshape2) set.seed(123) tree &lt;- rtree(30) p &lt;- ggtree(tree, branch.length = "none") +  ...'>
+<meta name="generator" content="bookdown 0.23 with bs4_book()">
+<meta property="og:title" content="Chapter 12 ggtree utilities | Data Integration, Manipulation and Visualization of Phylogenetic Trees">
+<meta property="og:type" content="book">
+<meta property="og:description" content='12.1 Facet utilities  12.1.1 facet_widths library(ggplot2) library(ggstance) library(ggtree) library(reshape2) set.seed(123) tree &lt;- rtree(30) p &lt;- ggtree(tree, branch.length = "none") +  ...'>
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 12 ggtree utilities | Data Integration, Manipulation and Visualization of Phylogenetic Trees">
+<meta name="twitter:description" content='12.1 Facet utilities  12.1.1 facet_widths library(ggplot2) library(ggstance) library(ggtree) library(reshape2) set.seed(123) tree &lt;- rtree(30) p &lt;- ggtree(tree, branch.length = "none") +  ...'>
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.10/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.5.1/tabs.js"></script><script src="libs/bs3compat-0.2.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 <link href="libs/font-awesome-5.3.1/css/fontawesome-all.min.css" rel="stylesheet">
-<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="libs/pathseg-1.0.2/pathseg.js"></script><script src="libs/comic-0.961/comic.min.js"></script><script src="libs/comicR-binding-0.2/comicR.js"></script><script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script><!-- CSS -->
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="libs/pathseg-1.0.2/pathseg.js"></script><script src="libs/comic-0.961/comic.min.js"></script><script src="libs/comicR-binding-0.2/comicR.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS -->
 </head>
 <body data-spy="scroll" data-target="#toc">
 
@@ -110,7 +118,7 @@
 
 
 <div class="figure">
-<span id="fig:facetWidth"></span>
+<span style="display:block;" id="fig:facetWidth"></span>
 <img src="treedata_files/figure-html/facetWidth-1.svg" alt="Adjust relative widths of ggplot facets. The facet_widths function works with ggtree (A) as well as ggplot (B)." width="576"><p class="caption">
 Figure 12.1: <strong>Adjust relative widths of ggplot facets.</strong> The <code>facet_widths</code> function works with <code>ggtree</code> (A) as well as <code>ggplot</code> (B).
 </p>
@@ -129,7 +137,7 @@ Figure 12.1: <strong>Adjust relative widths of ggplot facets.</strong> The <code
 
 
 <div class="figure">
-<span id="fig:facetLab"></span>
+<span style="display:block;" id="fig:facetLab"></span>
 <img src="treedata_files/figure-html/facetLab-1.svg" alt="Rename facet labels. Rename multiple labels simultaneously (A) or only for specific one (B) are all supported. facet_labeller can combine with facet_widths to rename facet label and then adjust relative widths (B)." width="576"><p class="caption">
 Figure 12.2: <strong>Rename facet labels.</strong> Rename multiple labels simultaneously (A) or only for specific one (B) are all supported. <code>facet_labeller</code> can combine with <code>facet_widths</code> to rename facet label and then adjust relative widths (B).
 </p>
@@ -165,7 +173,7 @@ Figure 12.2: <strong>Rename facet labels.</strong> Rename multiple labels simult
     <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_label2.html">geom_label2</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>subset <span class="op">=</span> <span class="va">node</span> <span class="op">&lt;</span><span class="fl">5</span>, label <span class="op">=</span> <span class="va">label</span><span class="op">)</span><span class="op">)</span>
 <span class="fu">plot_grid</span><span class="op">(</span><span class="va">p</span>, <span class="va">p2</span>, ncol<span class="op">=</span><span class="fl">2</span>, labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<span id="fig:layer2"></span>
+<span style="display:block;" id="fig:layer2"></span>
 <img src="treedata_files/figure-html/layer2-1.svg" alt="Geometric layers that supports subsetting. Thes layers works with ggplot2 (A) and ggtree (B)." width="100%"><p class="caption">
 Figure 12.3: <strong>Geometric layers that supports subsetting.</strong> Thes layers works with <code>ggplot2</code> (A) and <code>ggtree</code> (B).
 </p>
@@ -243,7 +251,7 @@ transform rectangular/circular layout to inward_circular layout
 
 
 <div class="figure">
-<span id="fig:layoutLayer"></span>
+<span style="display:block;" id="fig:layoutLayer"></span>
 <img src="treedata_files/figure-html/layoutLayer-1.svg" alt="Layout layers for transforming among different layouts. Default rectangular layout (A); transform rectangular to dendrogram layout (B); transform circular to rectangular layout (C); transform rectangular to circular layout (D); transform rectangular to fan layout (E); transform rectangular to inward circular layout (F)." width="100%"><p class="caption">
 Figure 12.4: <strong>Layout layers for transforming among different layouts</strong>. Default rectangular layout (A); transform rectangular to dendrogram layout (B); transform circular to rectangular layout (C); transform rectangular to circular layout (D); transform rectangular to fan layout (E); transform rectangular to inward circular layout (F).
 </p>
@@ -276,7 +284,7 @@ Figure 12.4: <strong>Layout layers for transforming among different layouts</str
 
 
 <div class="figure">
-<span id="fig:xlimExpand"></span>
+<span style="display:block;" id="fig:xlimExpand"></span>
 <img src="treedata_files/figure-html/xlimExpand-1.svg" alt="Setting xlim for user specific panel. xlim for ggtree::facet_plot (A, Tree and Dot panels), and ggplot2::facet_grid (B, virginica panel)." width="100%"><p class="caption">
 Figure 12.5: <strong>Setting xlim for user specific panel.</strong> xlim for <code><a href="https://rdrr.io/pkg/ggtree/man/facet-plot.html">ggtree::facet_plot</a></code> (A, Tree and Dot panels), and <code><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html">ggplot2::facet_grid</a></code> (B, virginica panel).
 </p>
@@ -300,8 +308,8 @@ Figure 12.5: <strong>Setting xlim for user specific panel.</strong> xlim for <co
     <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggexpand.html">vexpand</a></span><span class="op">(</span><span class="fl">.2</span><span class="op">)</span>
 <span class="fu">plot_grid</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>, rel_widths<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.6</span>, <span class="fl">.4</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<span id="fig:hexpand"></span>
-<img src="treedata_files/figure-html/hexpand-1.svg" alt="Expanding plot limits by a fraction of x or y range. expand x limit at right hand side by default (A). expand x limit for left hand side when direction = -1 and expand y limit at upper side (B)." width="100%"><p class="caption">
+<span style="display:block;" id="fig:hexpand"></span>
+<img src="treedata_files/figure-html/hexpand-1.png" alt="Expanding plot limits by a fraction of x or y range. expand x limit at right hand side by default (A). expand x limit for left hand side when direction = -1 and expand y limit at upper side (B)." width="100%"><p class="caption">
 Figure 12.6: <strong>Expanding plot limits by a fraction of x or y range.</strong> expand x limit at right hand side by default (A). expand x limit for left hand side when direction = -1 and expand y limit at upper side (B).
 </p>
 </div>
@@ -330,7 +338,7 @@ Figure 12.6: <strong>Expanding plot limits by a fraction of x or y range.</stron
                         <span class="va">node</span> <span class="op">%in%</span> <span class="va">selected_nodes</span><span class="op">)</span>, 
             hjust<span class="op">=</span><span class="fl">0</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<span id="fig:tdFilter"></span>
+<span style="display:block;" id="fig:tdFilter"></span>
 <img src="treedata_files/figure-html/tdFilter-1.svg" alt="Filtering ggtree plot data in geom layers." width="672"><p class="caption">
 Figure 12.7: <strong>Filtering ggtree plot data in geom layers.</strong>
 </p>
@@ -352,7 +360,7 @@ Figure 12.7: <strong>Filtering ggtree plot data in geom layers.</strong>
 <span class="va">d2</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">nest</a></span><span class="op">(</span><span class="va">d</span>, value <span class="op">=</span><span class="va">value</span>, group<span class="op">=</span><span class="va">group</span><span class="op">)</span>
 <span class="co">## d2 is a nested data</span>
 <span class="va">d2</span></code></pre></div>
-<pre><code>## # A tibble: 5 x 3
+<pre><code>## # A tibble: 5 × 3
 ##   id    value            group           
 ##   &lt;chr&gt; &lt;list&gt;           &lt;list&gt;          
 ## 1 t2    &lt;tibble [2 × 1]&gt; &lt;tibble [2 × 1]&gt;
@@ -380,7 +388,7 @@ Figure 12.7: <strong>Filtering ggtree plot data in geom layers.</strong>
 
 <span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html">plot_grid</a></span><span class="op">(</span><span class="va">p2</span>, <span class="va">p3</span>, labels<span class="op">=</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span>            </code></pre></div>
 <div class="figure">
-<span id="fig:tdUnnest"></span>
+<span style="display:block;" id="fig:tdUnnest"></span>
 <img src="treedata_files/figure-html/tdUnnest-1.svg" alt="Flattening ggtree plot data. (A) list-columns can be flattened by td_unnest(). (B) Different tree data utilites can be combined to work together (e.g. filter data by td_filter() and then flatten it by td_unnest()." width="100%"><p class="caption">
 Figure 12.8: <strong>Flattening ggtree plot data.</strong> (A) list-columns can be flattened by <code><a href="https://rdrr.io/pkg/ggtree/man/td_unnest.html">td_unnest()</a></code>. (B) Different tree data utilites can be combined to work together (e.g. filter data by <code><a href="https://rdrr.io/pkg/ggtree/man/td_filter.html">td_filter()</a></code> and then flatten it by <code><a href="https://rdrr.io/pkg/ggtree/man/td_unnest.html">td_unnest()</a></code>.
 </p>
@@ -403,9 +411,9 @@ Figure 12.8: <strong>Flattening ggtree plot data.</strong> (A) list-columns can 
 <span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/rtree.html">rtree</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>
 <span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
     <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom-hilight.html">geom_hilight</a></span><span class="op">(</span>node <span class="op">=</span> <span class="fl">12</span>, extendto <span class="op">=</span> <span class="fl">2.5</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/phylobase/man/print-methods.html">print</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/pkg/MicrobiotaProcess/man/print.html">print</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<span id="fig:tiporder"></span>
+<span style="display:block;" id="fig:tiporder"></span>
 <img src="treedata_files/figure-html/tiporder-1.svg" alt="An example tree for demonstraing get_taxa_name() function." width="480"><p class="caption">
 Figure 12.9: <strong>An example tree for demonstraing <code><a href="https://rdrr.io/pkg/ggtree/man/get_taxa_name.html">get_taxa_name()</a></code> function.</strong>
 </p>
@@ -433,7 +441,7 @@ Figure 12.9: <strong>An example tree for demonstraing <code><a href="https://rdr
 <span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">tree</span><span class="op">$</span><span class="va">tip.label</span>, 
                 newlabel <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/label_pad.html">label_pad</a></span><span class="op">(</span><span class="va">tree</span><span class="op">$</span><span class="va">tip.label</span><span class="op">)</span>,
                 newlabel2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/label_pad.html">label_pad</a></span><span class="op">(</span><span class="va">tree</span><span class="op">$</span><span class="va">tip.label</span>, pad <span class="op">=</span> <span class="st">" "</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/phylobase/man/print-methods.html">print</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/pkg/MicrobiotaProcess/man/print.html">print</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span></code></pre></div>
 <pre><code>##                  label             newlabel
 ## 1                   t1 ··················t1
 ## 2 long string for test long string for test
@@ -459,7 +467,7 @@ Figure 12.9: <strong>An example tree for demonstraing <code><a href="https://rdr
                     linetype <span class="op">=</span> <span class="cn">NULL</span>, offset<span class="op">=</span><span class="op">-</span><span class="fl">.5</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">2</span><span class="op">)</span>
 <span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html">plot_grid</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, ncol<span class="op">=</span><span class="fl">2</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span><span class="op">)</span>                            </code></pre></div>
 <div class="figure">
-<span id="fig:labelpad"></span>
+<span style="display:block;" id="fig:labelpad"></span>
 <img src="treedata_files/figure-html/labelpad-1.svg" alt="Align tip label to the end. With dotted line (A) and without dotted line (B)." width="100%"><p class="caption">
 Figure 12.10: <strong>Align tip label to the end.</strong> With dotted line (A) and without dotted line (B).
 </p>
@@ -474,7 +482,7 @@ Figure 12.10: <strong>Align tip label to the end.</strong> With dotted line (A) 
 
 
 <div class="figure">
-<span id="fig:ggtreeidentify"></span>
+<span style="display:block;" id="fig:ggtreeidentify"></span>
 <img src="img/ggtree-identify.gif" alt="Interactive phylogenetic tree using identify() method. Highlighting, labelling and rotating clades are all supported." width="100%"><p class="caption">
 Figure 12.11: <strong>Interactive phylogenetic tree using identify() method.</strong> Highlighting, labelling and rotating clades are all supported.
 </p>
@@ -537,7 +545,7 @@ Figure 12.11: <strong>Interactive phylogenetic tree using identify() method.</st
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-05-14.</p>
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-08-28.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
@@ -557,6 +565,22 @@ Figure 12.11: <strong>Interactive phylogenetic tree using identify() method.</st
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
 </script>
 </body>
 </html>

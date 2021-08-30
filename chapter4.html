@@ -6,12 +6,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Chapter 4 Phylogenetic Tree Visualization | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
 <meta name="author" content="Guangchuang Yu">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.8/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="libs/bootstrap-4.5.3/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.5.3/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.4/tabs.js"></script><script src="libs/bs3compat-0.2.4/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<meta name="description" content="4.1 Introduction There are many software packages and webtools that are designed for displaying phylogenetic trees, such as TreeView (Page 2002), FigTree, TreeDyn (Chevenet et al. 2006),...">
+<meta name="generator" content="bookdown 0.23 with bs4_book()">
+<meta property="og:title" content="Chapter 4 Phylogenetic Tree Visualization | Data Integration, Manipulation and Visualization of Phylogenetic Trees">
+<meta property="og:type" content="book">
+<meta property="og:description" content="4.1 Introduction There are many software packages and webtools that are designed for displaying phylogenetic trees, such as TreeView (Page 2002), FigTree, TreeDyn (Chevenet et al. 2006),...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 4 Phylogenetic Tree Visualization | Data Integration, Manipulation and Visualization of Phylogenetic Trees">
+<meta name="twitter:description" content="4.1 Introduction There are many software packages and webtools that are designed for displaying phylogenetic trees, such as TreeView (Page 2002), FigTree, TreeDyn (Chevenet et al. 2006),...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.10/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.5.1/tabs.js"></script><script src="libs/bs3compat-0.2.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 <link href="libs/font-awesome-5.3.1/css/fontawesome-all.min.css" rel="stylesheet">
-<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="libs/pathseg-1.0.2/pathseg.js"></script><script src="libs/comic-0.961/comic.min.js"></script><script src="libs/comicR-binding-0.2/comicR.js"></script><script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script><!-- CSS -->
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="libs/pathseg-1.0.2/pathseg.js"></script><script src="libs/comic-0.961/comic.min.js"></script><script src="libs/comicR-binding-0.2/comicR.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS -->
 </head>
 <body data-spy="scroll" data-target="#toc">
 
@@ -112,7 +120,7 @@ It implements <code>geom_tree</code> layer for displaying phylogenetic tree, as 
 
 
 <div class="figure">
-<span id="fig:basicviz"></span>
+<span style="display:block;" id="fig:basicviz"></span>
 <img src="treedata_files/figure-html/basicviz-1.svg" alt="Basic tree visualization. Default ggtree output with ladderized effect (A), non-variable setting (e.g. colour, size, line type) (B), nonladderized tree (C), cladogram that only display tree topology without branch length information (D)." width="100%"><p class="caption">
 Figure 4.1: <strong>Basic tree visualization.</strong> Default ggtree output with ladderized effect (A), non-variable setting (<em>e.g.</em> colour, size, line type) (B), nonladderized tree (C), cladogram that only display tree topology without branch length information (D).
 </p>
@@ -143,7 +151,7 @@ Figure 4.1: <strong>Basic tree visualization.</strong> Default ggtree output wit
 
 
 <div class="figure">
-<span id="fig:layout"></span>
+<span style="display:block;" id="fig:layout"></span>
 <img src="treedata_files/figure-html/layout-1.svg" alt="Tree layouts. Phylogram: rectangular layout (A), round rectangular layout (B), slanted layout (C), ellipse layout (D), circular layout (E) and fan layout (F). Unrooted: equal-angle method (G) and daylight method (H). Cladogram: rectangular layout (I), ellipse (J), circular layout (K) and unrooted layout (L). Slanted and fan layouts for cladogram are also supported." width="100%"><p class="caption">
 Figure 4.2: <strong>Tree layouts.</strong> Phylogram: rectangular layout (A), round rectangular layout (B), slanted layout (C), ellipse layout (D), circular layout (E) and fan layout (F). Unrooted: equal-angle method (G) and daylight method (H). Cladogram: rectangular layout (I), ellipse (J), circular layout (K) and unrooted layout (L). Slanted and fan layouts for cladogram are also supported.
 </p>
@@ -167,7 +175,7 @@ https://groups.google.com/d/msg/bioc-ggtree/UoGQekWHIvw/ZswUUZKSGwAJ), *etc.*. -
 
 
 <div class="figure">
-<span id="fig:layout2"></span>
+<span style="display:block;" id="fig:layout2"></span>
 <img src="treedata_files/figure-html/layout2-1.svg" alt="Derived Tree layouts. right-to-left rectangular layout (A), bottom-up rectangular layout (B), top-down rectangular layout (Dendrogram) (C), rotated rectangular layout (D), bottom-up slanted layout (E), top-down slanted layout (Cladogram) (F), circular layout (G), circular inward layout (H and I)." width="100%"><p class="caption">
 Figure 4.3: <strong>Derived Tree layouts.</strong> right-to-left rectangular layout (A), bottom-up rectangular layout (B), top-down rectangular layout (Dendrogram) (C), rotated rectangular layout (D), bottom-up slanted layout (E), top-down slanted layout (Cladogram) (F), circular layout (G), circular inward layout (H and I).
 </p>
@@ -184,7 +192,7 @@ Figure 4.3: <strong>Derived Tree layouts.</strong> right-to-left rectangular lay
 <span class="va">beast_tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/treeio/reference/beast-parser.html">read.beast</a></span><span class="op">(</span><span class="va">beast_file</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">beast_tree</span>, mrsd<span class="op">=</span><span class="st">"2013-01-01"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/theme_tree2.html">theme_tree2</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<span id="fig:timescaled"></span>
+<span style="display:block;" id="fig:timescaled"></span>
 <img src="treedata_files/figure-html/timescaled-1.svg" alt="Time-scaled layout. The x-axis is the timescale (in units of year). The divergence time in this example was inferred by BEAST using molecular clock model." width="672"><p class="caption">
 Figure 4.4: <strong>Time-scaled layout.</strong> The <em>x-axis</em> is the timescale (in units of year). The divergence time in this example was inferred by <em>BEAST</em> using molecular clock model.
 </p>
@@ -227,7 +235,7 @@ Figure 4.4: <strong>Time-scaled layout.</strong> The <em>x-axis</em> is the time
   <span class="fu">annotate</span><span class="op">(</span><span class="st">"text"</span>, <span class="fl">1992.3</span>, <span class="fl">5.2</span>, hjust<span class="op">=</span><span class="fl">0</span>, size<span class="op">=</span><span class="fl">4</span>,
            label<span class="op">=</span><span class="st">"Tip nodes (blue: human; red: swine)"</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<span id="fig:2d"></span>
+<span style="display:block;" id="fig:2d"></span>
 <img src="treedata_files/figure-html/2d-1.svg" alt="Two-dimensional tree layout. The trunk and other branches highlighted in red (for swine) and blue (for human). The x-axis is scaled to the branch length (in units of year) of the time-scaled tree. The y-axis is scaled to the node attribute variable, in this case the number of predicted N-linked glycosylation site (NLG) on the hemagglutinin protein. Colored circles indicate the different types of tree nodes. Note that nodes assigned the same x- (temporal) and y- (NLG) coordinates are superimposed in this representation and appear as one node, which is shaded based on the colors of all the nodes at that point." width="100%"><p class="caption">
 Figure 4.5: <strong>Two-dimensional tree layout.</strong> The trunk and other branches highlighted in red (for swine) and blue (for human). The <em>x</em>-axis is scaled to the branch length (in units of year) of the time-scaled tree. The <em>y</em>-axis is scaled to the node attribute variable, in this case the number of predicted <em>N</em>-linked glycosylation site (NLG) on the hemagglutinin protein. Colored circles indicate the different types of tree nodes. Note that nodes assigned the same <em>x</em>- (temporal) and <em>y</em>- (NLG) coordinates are superimposed in this representation and appear as one node, which is shaded based on the colors of all the nodes at that point.
 </p>
@@ -270,7 +278,7 @@ Figure 4.5: <strong>Two-dimensional tree layout.</strong> The trunk and other br
 
 
 <div class="figure">
-<span id="fig:treescale"></span>
+<span style="display:block;" id="fig:treescale"></span>
 <img src="treedata_files/figure-html/treescale-1.svg" alt="Display tree scale. geom_treescale automatically add a scale bar for evolutionary distance (A). Users can modify color, width and position of the scale (B) as well as size of the scale bar and text and their relative position (C). Another possible solution is to enable x-axis which is useful for time-scale tree (D)." width="100%"><p class="caption">
 Figure 4.6: <strong>Display tree scale.</strong> <code>geom_treescale</code> automatically add a scale bar for evolutionary distance (A). Users can modify color, width and position of the scale (B) as well as size of the scale bar and text and their relative position (C). Another possible solution is to enable x-axis which is useful for time-scale tree (D).
 </p>
@@ -290,7 +298,7 @@ Figure 4.6: <strong>Display tree scale.</strong> <code>geom_treescale</code> aut
 
 
 <div class="figure">
-<span id="fig:nodeTip"></span>
+<span style="display:block;" id="fig:nodeTip"></span>
 <img src="treedata_files/figure-html/nodeTip-1.svg" alt="Display external and internal nodes. geom_point() automatically add symbolic points of all nodes (A). geom_nodepoint() adds symbolic points for internal nodes and geom_tippoint() adds symbolic points for external nodes (B)." width="100%"><p class="caption">
 Figure 4.7: <strong>Display external and internal nodes.</strong> <code><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point()</a></code> automatically add symbolic points of all nodes (A). <code><a href="https://rdrr.io/pkg/ggtree/man/geom_nodepoint.html">geom_nodepoint()</a></code> adds symbolic points for internal nodes and <code><a href="https://rdrr.io/pkg/ggtree/man/geom_tippoint.html">geom_tippoint()</a></code> adds symbolic points for external nodes (B).
 </p>
@@ -316,8 +324,8 @@ geom, <code><a href="https://rdrr.io/pkg/ggtree/man/geom_nodelab.html">geom_node
 
 
 <div class="figure">
-<span id="fig:tiplab"></span>
-<img src="treedata_files/figure-html/tiplab-1.svg" alt="Display tip labels. geom_tiplab() supports displaying tip labels (A). For circular, fan or unrooted tree layout, the labels can be rotated to fit the angle of the branches (B). For dendrogram/rectangular layout, tip labels can be displayed as y-axis label (C)." width="100%"><p class="caption">
+<span style="display:block;" id="fig:tiplab"></span>
+<img src="treedata_files/figure-html/tiplab-1.png" alt="Display tip labels. geom_tiplab() supports displaying tip labels (A). For circular, fan or unrooted tree layout, the labels can be rotated to fit the angle of the branches (B). For dendrogram/rectangular layout, tip labels can be displayed as y-axis label (C)." width="100%"><p class="caption">
 Figure 4.8: <strong>Display tip labels.</strong> <code><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab()</a></code> supports displaying tip labels (A). For circular, fan or unrooted tree layout, the labels can be rotated to fit the angle of the branches (B). For dendrogram/rectangular layout, tip labels can be displayed as y-axis label (C).
 </p>
 </div>
@@ -347,7 +355,7 @@ Figure 4.8: <strong>Display tip labels.</strong> <code><a href="https://rdrr.io/
 
 
 <div class="figure">
-<span id="fig:rootedge"></span>
+<span style="display:block;" id="fig:rootedge"></span>
 <img src="treedata_files/figure-html/rootedge-1.svg" alt="Display root edge. geom_rootedge supports displaying root edge if the root edge was presented (A). It shows nothing if there is no root edge (B). In this case, users can manually setting root edge for the tree (C) or just specify the length of root for plotting (D)." width="576"><p class="caption">
 Figure 4.9: <strong>Display root edge.</strong> <code>geom_rootedge</code> supports displaying root edge if the root edge was presented (A). It shows nothing if there is no root edge (B). In this case, users can manually setting root edge for the tree (C) or just specify the length of root for plotting (D).
 </p>
@@ -365,7 +373,7 @@ Figure 4.9: <strong>Display root edge.</strong> <code>geom_rootedge</code> suppo
     <span class="fu">scale_color_continuous</span><span class="op">(</span>low<span class="op">=</span><span class="st">'darkgreen'</span>, high<span class="op">=</span><span class="st">'red'</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"right"</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<span id="fig:colortree"></span>
+<span style="display:block;" id="fig:colortree"></span>
 <img src="treedata_files/figure-html/colortree-1.svg" alt="Color tree by continuous or discrete feature. Edges are colored by values that associated with child node." width="480"><p class="caption">
 Figure 4.10: <strong>Color tree by continuous or discrete feature.</strong> Edges are colored by values that associated with child node.
 </p>
@@ -404,7 +412,7 @@ Figure 4.10: <strong>Color tree by continuous or discrete feature.</strong> Edge
 
 <span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html">plot_grid</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, ncol<span class="op">=</span><span class="fl">2</span>, labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span><span class="op">)</span>    </code></pre></div>
 <div class="figure">
-<span id="fig:continuousColor"></span>
+<span style="display:block;" id="fig:continuousColor"></span>
 <img src="treedata_files/figure-html/continuousColor-1.png" alt="Continuous state transition in edges. Edges are colored by the values from ancestral trait to offspring." width="100%"><p class="caption">
 Figure 4.11: <strong>Continuous state transition in edges.</strong> Edges are colored by the values from ancestral trait to offspring.
 </p>
@@ -416,7 +424,7 @@ Figure 4.11: <strong>Continuous state transition in edges.</strong> Edges are co
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>color<span class="op">=</span><span class="va">trait</span><span class="op">)</span>, continuous <span class="op">=</span> <span class="cn">TRUE</span>, yscale <span class="op">=</span> <span class="st">"trait"</span><span class="op">)</span> <span class="op">+</span> 
     <span class="fu">scale_color_viridis_c</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<span id="fig:phenogram"></span>
+<span style="display:block;" id="fig:phenogram"></span>
 <img src="treedata_files/figure-html/phenogram-1.svg" alt="Phenogram. Projecting the tree into a space defined by time (or genetic distance) on the horizontal axis and phenotype on the vertical dimension." width="576"><p class="caption">
 Figure 4.12: <strong>Phenogram.</strong> Projecting the tree into a space defined by time (or genetic distance) on the horizontal axis and phenotype on the vertical dimension.
 </p>
@@ -436,7 +444,8 @@ Figure 4.12: <strong>Phenogram.</strong> Projecting the tree into a space define
 <pre><code>## 'treedata' S4 object that stored information of
 ##  '/home/ygc/R/library/ggtree/examples/MCC_FluA_H3.tree'.
 ## 
-## ...@ phylo: 
+## ...@ phylo:
+## 
 ## Phylogenetic tree with 76 tips and 75 internal nodes.
 ## 
 ## Tip labels:
@@ -448,7 +457,28 @@ Figure 4.12: <strong>Phenogram.</strong> Projecting the tree into a space define
 ##  'height',   'height_0.95_HPD',  'height_median',
 ##  'height_range', 'length',   'length_0.95_HPD',
 ##  'length_median',    'length_range', 'posterior',    'rate',
-##  'rate_0.95_HPD',    'rate_median',  'rate_range'.</code></pre>
+##  'rate_0.95_HPD',    'rate_median',  'rate_range'.
+## 
+## # The associated data tibble abstraction: 151 × 16
+## # The 'node', 'label' and 'isTip' are from the phylo tree.
+##     node label    isTip height height_0.95_HPD height_median
+##    &lt;int&gt; &lt;chr&gt;    &lt;lgl&gt;  &lt;dbl&gt; &lt;list&gt;                  &lt;dbl&gt;
+##  1     1 A/Hokka… TRUE       0 &lt;lgl [1]&gt;                  NA
+##  2     2 A/New_Y… TRUE       9 &lt;dbl [2]&gt;                   9
+##  3     3 A/New_Y… TRUE       8 &lt;dbl [2]&gt;                   8
+##  4     4 A/New_Y… TRUE      14 &lt;dbl [2]&gt;                  14
+##  5     5 A/New_Y… TRUE       8 &lt;dbl [2]&gt;                   8
+##  6     6 A/New_Y… TRUE      15 &lt;dbl [2]&gt;                  15
+##  7     7 A/New_Y… TRUE      13 &lt;dbl [2]&gt;                  13
+##  8     8 A/New_Y… TRUE      17 &lt;dbl [2]&gt;                  17
+##  9     9 A/New_Y… TRUE      17 &lt;dbl [2]&gt;                  17
+## 10    10 A/New_Y… TRUE      19 &lt;dbl [2]&gt;                  19
+## # … with 141 more rows, and 10 more variables:
+## #   height_range &lt;list&gt;, length &lt;dbl&gt;,
+## #   length_0.95_HPD &lt;list&gt;, length_median &lt;dbl&gt;,
+## #   length_range &lt;list&gt;, posterior &lt;dbl&gt;, rate &lt;dbl&gt;,
+## #   rate_0.95_HPD &lt;list&gt;, rate_median &lt;dbl&gt;,
+## #   rate_range &lt;list&gt;</code></pre>
 <div class="sourceCode" id="cb149"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">beast_tree</span>, mrsd<span class="op">=</span><span class="st">'2013-01-01'</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/theme_tree2.html">theme_tree2</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu">labs</span><span class="op">(</span>caption<span class="op">=</span><span class="st">"Divergence time"</span><span class="op">)</span>
@@ -465,7 +495,7 @@ Figure 4.12: <strong>Phenogram.</strong> Projecting the tree into a space define
 
 
 <div class="figure">
-<span id="fig:rescaleTree"></span>
+<span style="display:block;" id="fig:rescaleTree"></span>
 <img src="treedata_files/figure-html/rescaleTree-1.svg" alt="Rescale tree branches. A time scaled tree inferred by BEAST (A) and its branches were rescaled by substitution rate (B). A tree inferred by CodeML (C) and the branches were rescaled by dN/dS values (D)." width="100%"><p class="caption">
 Figure 4.13: <strong>Rescale tree branches.</strong> A time scaled tree inferred by BEAST (A) and its branches were rescaled by substitution rate (B). A tree inferred by CodeML (C) and the branches were rescaled by <em>d<sub>N</sub>/d<sub>S</sub></em> values (D).
 </p>
@@ -490,7 +520,7 @@ phylogenetic distance (via x-axis). These two themes all accept a parameter of
 
 
 <div class="figure" style="text-align: center">
-<span id="fig:theme"></span>
+<span style="display:block;" id="fig:theme"></span>
 <img src="treedata_files/figure-html/theme-1.svg" alt="ggtree themes. All ggplot2 theme components can be modified and all the ggplot2 themes can be applied to ggtree() output." width="100%"><p class="caption">
 Figure 4.14: <strong>ggtree themes.</strong> All ggplot2 theme components can be modified and all the ggplot2 themes can be applied to <code><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree()</a></code> output.
 </p>
@@ -513,7 +543,7 @@ Figure 4.14: <strong>ggtree themes.</strong> All ggplot2 theme components can be
 <span class="va">r8s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/treeio/reference/read.r8s.html">read.r8s</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/r8s"</span>, <span class="st">"H3_r8s_output.log"</span>, package<span class="op">=</span><span class="st">"treeio"</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">r8s</span><span class="op">)</span> <span class="op">+</span> <span class="fu">facet_wrap</span><span class="op">(</span> <span class="op">~</span><span class="va">.id</span>, scale<span class="op">=</span><span class="st">"free"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/theme_tree2.html">theme_tree2</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<span id="fig:mutiPhylo"></span>
+<span style="display:block;" id="fig:mutiPhylo"></span>
 <img src="treedata_files/figure-html/mutiPhylo-1.svg" alt="Visualize multiPhylo object." width="100%"><p class="caption">
 Figure 4.15: <strong>Visualize multiPhylo object.</strong>
 </p>
@@ -525,7 +555,7 @@ Figure 4.15: <strong>Visualize multiPhylo object.</strong>
 <code class="sourceCode R"><span class="va">btrees</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/read.tree.html">read.tree</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/RAxML"</span>, <span class="st">"RAxML_bootstrap.H3"</span>, package<span class="op">=</span><span class="st">"treeio"</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">btrees</span><span class="op">)</span> <span class="op">+</span> <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">.id</span>, ncol<span class="op">=</span><span class="fl">10</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<span id="fig:bp100"></span>
+<span style="display:block;" id="fig:bp100"></span>
 <img src="treedata_files/figure-html/bp100-1.png" alt="Visualize one hundred bootstrap trees." width="100%"><p class="caption">
 Figure 4.16: <strong>Visualize one hundred bootstrap trees.</strong>
 </p>
@@ -552,7 +582,7 @@ Figure 4.16: <strong>Visualize one hundred bootstrap trees.</strong>
   <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tippoint.html">geom_tippoint</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>colour<span class="op">=</span><span class="va">var2</span><span class="op">)</span>, data<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/td_filter.html">td_filter</a></span><span class="op">(</span><span class="va">.id</span> <span class="op">==</span> <span class="st">"TREE2"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">scale_colour_viridis_c</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<span id="fig:onetreefacet"></span>
+<span style="display:block;" id="fig:onetreefacet"></span>
 <img src="treedata_files/figure-html/onetreefacet-1.svg" alt="Annotate one tree with values from different variables. Using subset aesthetic mapping (as in TREE1 panel) or td_filter() (as in TREE2 panel) to filter variable to be displayed on specific panel." width="100%"><p class="caption">
 Figure 4.17: <strong>Annotate one tree with values from different variables.</strong> Using <code>subset</code> aesthetic mapping (as in TREE1 panel) or <code><a href="https://rdrr.io/pkg/ggtree/man/td_filter.html">td_filter()</a></code> (as in TREE2 panel) to filter variable to be displayed on specific panel.
 </p>
@@ -569,7 +599,7 @@ Figure 4.17: <strong>Annotate one tree with values from different variables.</st
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggdensitree.html">ggdensitree</a></span><span class="op">(</span><span class="va">btrees</span>, alpha<span class="op">=</span><span class="fl">.3</span>, colour<span class="op">=</span><span class="st">'steelblue'</span><span class="op">)</span> <span class="op">+</span> 
     <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">3</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">45</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<span id="fig:densiTree"></span>
+<span style="display:block;" id="fig:densiTree"></span>
 <img src="treedata_files/figure-html/densiTree-1.png" alt="DensiTree." width="100%"><p class="caption">
 Figure 4.18: <strong>DensiTree.</strong>
 </p>
@@ -632,7 +662,7 @@ Figure 4.18: <strong>DensiTree.</strong>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-05-14.</p>
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-08-28.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
@@ -652,6 +682,22 @@ Figure 4.18: <strong>DensiTree.</strong>
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
 </script>
 </body>
 </html>

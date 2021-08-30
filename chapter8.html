@@ -6,12 +6,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Chapter 8 Annotating Tree with Silhouette Images and Sub-plots | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
 <meta name="author" content="Guangchuang Yu">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.8/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="libs/bootstrap-4.5.3/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.5.3/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.4/tabs.js"></script><script src="libs/bs3compat-0.2.4/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<meta name="description" content="8.1 Annotating Tree with Images We usually use text to label taxa, i.e. displaying taxa names. If the text is image file name (either local or remote), ggtree can read the image and display the...">
+<meta name="generator" content="bookdown 0.23 with bs4_book()">
+<meta property="og:title" content="Chapter 8 Annotating Tree with Silhouette Images and Sub-plots | Data Integration, Manipulation and Visualization of Phylogenetic Trees">
+<meta property="og:type" content="book">
+<meta property="og:description" content="8.1 Annotating Tree with Images We usually use text to label taxa, i.e. displaying taxa names. If the text is image file name (either local or remote), ggtree can read the image and display the...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 8 Annotating Tree with Silhouette Images and Sub-plots | Data Integration, Manipulation and Visualization of Phylogenetic Trees">
+<meta name="twitter:description" content="8.1 Annotating Tree with Images We usually use text to label taxa, i.e. displaying taxa names. If the text is image file name (either local or remote), ggtree can read the image and display the...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.10/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.5.1/tabs.js"></script><script src="libs/bs3compat-0.2.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 <link href="libs/font-awesome-5.3.1/css/fontawesome-all.min.css" rel="stylesheet">
-<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="libs/pathseg-1.0.2/pathseg.js"></script><script src="libs/comic-0.961/comic.min.js"></script><script src="libs/comicR-binding-0.2/comicR.js"></script><script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script><!-- CSS -->
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="libs/pathseg-1.0.2/pathseg.js"></script><script src="libs/comic-0.961/comic.min.js"></script><script src="libs/comicR-binding-0.2/comicR.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS -->
 </head>
 <body data-spy="scroll" data-target="#toc">
 
@@ -90,8 +98,8 @@
     <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span>geom<span class="op">=</span><span class="st">'label'</span>, offset<span class="op">=</span><span class="fl">1</span>, hjust<span class="op">=</span><span class="fl">.5</span><span class="op">)</span> <span class="op">+</span> 
     <span class="fu"><a href="https://rdrr.io/pkg/ggimage/man/geom_image.html">geom_image</a></span><span class="op">(</span>x<span class="op">=</span><span class="fl">.8</span>, y<span class="op">=</span><span class="fl">5.5</span>, image<span class="op">=</span><span class="st">"img/frogs/frog.jpg"</span>, size<span class="op">=</span><span class="fl">.2</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<span id="fig:frogimage"></span>
-<img src="treedata_files/figure-html/frogimage-1.svg" alt="Labelling taxa with images." width="100%"><p class="caption">
+<span style="display:block;" id="fig:frogimage"></span>
+<img src="treedata_files/figure-html/frogimage-1.png" alt="Labelling taxa with images." width="100%"><p class="caption">
 Figure 8.1: <strong>Labelling taxa with images.</strong>
 </p>
 </div>
@@ -138,7 +146,7 @@ pg <- pg %<+% phylopic_info +
 
 
 <div class="figure">
-<span id="fig:phylopic"></span>
+<span style="display:block;" id="fig:phylopic"></span>
 <img src="treedata_files/figure-html/phylopic-1.svg" alt="Labelling taxa with phylopic images. ggtree will automatically download phylopic figures by querying provided UID. The figures can be colored using numerical or categorical values." width="576"><p class="caption">
 Figure 8.2: <strong>Labelling taxa with phylopic images.</strong> ggtree will automatically download phylopic figures by querying provided UID. The figures can be colored using numerical or categorical values.
 </p>
@@ -178,7 +186,7 @@ Figure 8.2: <strong>Labelling taxa with phylopic images.</strong> ggtree will au
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">8</span><span class="op">)</span>
 <span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/inset.html">geom_inset</a></span><span class="op">(</span><span class="va">bars</span>, width <span class="op">=</span> <span class="fl">.08</span>, height <span class="op">=</span> <span class="fl">.05</span>, x <span class="op">=</span> <span class="st">"branch"</span><span class="op">)</span> </code></pre></div>
 <div class="figure">
-<span id="fig:barInset"></span>
+<span style="display:block;" id="fig:barInset"></span>
 <img src="treedata_files/figure-html/barInset-1.png" alt="Annotate internal nodes with barplots." width="100%"><p class="caption">
 Figure 8.3: <strong>Annotate internal nodes with barplots.</strong>
 </p>
@@ -197,7 +205,7 @@ Figure 8.3: <strong>Annotate internal nodes with barplots.</strong>
 <span class="va">pies</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">pies</span>, <span class="kw">function</span><span class="op">(</span><span class="va">g</span><span class="op">)</span> <span class="va">g</span><span class="op">+</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">cols</span><span class="op">)</span><span class="op">)</span>
 <span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/inset.html">geom_inset</a></span><span class="op">(</span><span class="va">pies</span>, width <span class="op">=</span> <span class="fl">.1</span>, height <span class="op">=</span> <span class="fl">.1</span><span class="op">)</span> </code></pre></div>
 <div class="figure">
-<span id="fig:pieInset"></span>
+<span style="display:block;" id="fig:pieInset"></span>
 <img src="treedata_files/figure-html/pieInset-1.png" alt="Annotate internal nodes with pie plots." width="100%"><p class="caption">
 Figure 8.4: <strong>Annotate internal nodes with pie plots.</strong>
 </p>
@@ -216,7 +224,7 @@ Figure 8.4: <strong>Annotate internal nodes with pie plots.</strong>
 <span class="va">pies_and_bars</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">bars</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>
 <span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/inset.html">geom_inset</a></span><span class="op">(</span><span class="va">pies_and_bars</span>, width<span class="op">=</span><span class="fl">.08</span>, height<span class="op">=</span><span class="fl">.05</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<span id="fig:barpieInset"></span>
+<span style="display:block;" id="fig:barpieInset"></span>
 <img src="treedata_files/figure-html/barpieInset-1.png" alt="Annotate internal nodes with different types of subplots (bar and pie)." width="100%"><p class="caption">
 Figure 8.5: <strong>Annotate internal nodes with different types of subplots (bar and pie).</strong>
 </p>
@@ -248,7 +256,7 @@ Figure 8.5: <strong>Annotate internal nodes with different types of subplots (ba
   <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span>parse<span class="op">=</span><span class="st">"emoji"</span>, size<span class="op">=</span><span class="fl">15</span>, vjust<span class="op">=</span><span class="fl">.25</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">group</span><span class="op">)</span>, geom<span class="op">=</span><span class="st">"label"</span>, x<span class="op">=</span><span class="fl">3.5</span>, hjust<span class="op">=</span><span class="fl">.5</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<span id="fig:phylomoji1"></span>
+<span style="display:block;" id="fig:phylomoji1"></span>
 <img src="treedata_files/figure-html/phylomoji1-1.svg" alt="Parsing label as emoji. Text (e.g. node or tip labels) can be parsed as emoji." width="100%"><p class="caption">
 Figure 8.6: <strong>Parsing label as emoji.</strong> Text (<em>e.g.</em> node or tip labels) can be parsed as emoji.
 </p>
@@ -272,7 +280,7 @@ Figure 8.6: <strong>Parsing label as emoji.</strong> Text (<em>e.g.</em> node or
 
 
 <div class="figure">
-<span id="fig:emojifan"></span>
+<span style="display:block;" id="fig:emojifan"></span>
 <img src="treedata_files/figure-html/emojifan-1.png" alt="Phylomoji in cirular and fan layouts." width="100%"><p class="caption">
 Figure 8.7: <strong>Phylomoji in cirular and fan layouts.</strong>
 </p>
@@ -297,7 +305,7 @@ Figure 8.7: <strong>Phylomoji in cirular and fan layouts.</strong>
     <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_cladelabel.html">geom_cladelabel</a></span><span class="op">(</span>node<span class="op">=</span><span class="fl">48</span>, label<span class="op">=</span><span class="st">"family"</span>, parse<span class="op">=</span><span class="st">"emoji"</span>,
                     fontsize<span class="op">=</span><span class="fl">12</span>, align<span class="op">=</span><span class="cn">TRUE</span>, colour<span class="op">=</span><span class="st">"darkkhaki"</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<span id="fig:emojiclade"></span>
+<span style="display:block;" id="fig:emojiclade"></span>
 <img src="treedata_files/figure-html/emojiclade-1.svg" alt="Emoji to label clades." width="100%"><p class="caption">
 Figure 8.8: <strong>Emoji to label clades.</strong>
 </p>
@@ -324,7 +332,7 @@ Figure 8.8: <strong>Emoji to label clades.</strong>
 
 
 <div class="figure">
-<span id="fig:applemoji"></span>
+<span style="display:block;" id="fig:applemoji"></span>
 <img src="img/apple_emoji2.png" alt="Use Apple Color Emoji in ggtree." width="80%"><p class="caption">
 Figure 8.9: <strong>Use Apple Color Emoji in ggtree.</strong>
 </p>
@@ -380,7 +388,7 @@ Figure 8.9: <strong>Use Apple Color Emoji in ggtree.</strong>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-05-14.</p>
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-08-28.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
@@ -400,6 +408,22 @@ Figure 8.9: <strong>Use Apple Color Emoji in ggtree.</strong>
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
 </script>
 </body>
 </html>

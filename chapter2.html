@@ -6,12 +6,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Chapter 2 Manipulating Tree with Data | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
 <meta name="author" content="Guangchuang Yu">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.8/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="libs/bootstrap-4.5.3/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.5.3/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.4/tabs.js"></script><script src="libs/bs3compat-0.2.4/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<meta name="description" content="2.1 Manipulating tree data using tidy interface All the tree data parsed/merged by treeio (Wang et al. 2020) can be converted to tidy data frame using the tidytree package. The tidytree package...">
+<meta name="generator" content="bookdown 0.23 with bs4_book()">
+<meta property="og:title" content="Chapter 2 Manipulating Tree with Data | Data Integration, Manipulation and Visualization of Phylogenetic Trees">
+<meta property="og:type" content="book">
+<meta property="og:description" content="2.1 Manipulating tree data using tidy interface All the tree data parsed/merged by treeio (Wang et al. 2020) can be converted to tidy data frame using the tidytree package. The tidytree package...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 2 Manipulating Tree with Data | Data Integration, Manipulation and Visualization of Phylogenetic Trees">
+<meta name="twitter:description" content="2.1 Manipulating tree data using tidy interface All the tree data parsed/merged by treeio (Wang et al. 2020) can be converted to tidy data frame using the tidytree package. The tidytree package...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.10/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.5.1/tabs.js"></script><script src="libs/bs3compat-0.2.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 <link href="libs/font-awesome-5.3.1/css/fontawesome-all.min.css" rel="stylesheet">
-<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="libs/pathseg-1.0.2/pathseg.js"></script><script src="libs/comic-0.961/comic.min.js"></script><script src="libs/comicR-binding-0.2/comicR.js"></script><script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script><!-- CSS -->
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="libs/pathseg-1.0.2/pathseg.js"></script><script src="libs/comic-0.961/comic.min.js"></script><script src="libs/comicR-binding-0.2/comicR.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS -->
 </head>
 <body data-spy="scroll" data-target="#toc">
 
@@ -106,7 +114,7 @@ method to convert the <code>phylo</code> object to tidy data frame, a <code>tbl_
 <div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">as_tibble</span><span class="op">(</span><span class="va">tree</span><span class="op">)</span>
 <span class="va">x</span></code></pre></div>
-<pre><code>## # A tibble: 7 x 4
+<pre><code>## # A tibble: 7 × 4
 ##   parent  node branch.length label
 ##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt;
 ## 1      5     1       0.435   t4   
@@ -134,7 +142,7 @@ easier (see also example in <a href="faq.html#bind-tip">FAQ</a>). For example, w
 
 <span class="va">y</span> <span class="op">&lt;-</span> <span class="fu">full_join</span><span class="op">(</span><span class="va">x</span>, <span class="va">d</span>, by <span class="op">=</span> <span class="st">'label'</span><span class="op">)</span>
 <span class="va">y</span></code></pre></div>
-<pre><code>## # A tibble: 7 x 5
+<pre><code>## # A tibble: 7 × 5
 ##   parent  node branch.length label  trait
 ##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
 ## 1      5     1       0.435   t4     0.943
@@ -156,7 +164,8 @@ associated data. After mapping external data to the tree structure, the
 <code class="sourceCode R"><span class="fu">as.treedata</span><span class="op">(</span><span class="va">y</span><span class="op">)</span></code></pre></div>
 <pre><code>## 'treedata' S4 object'.
 ## 
-## ...@ phylo: 
+## ...@ phylo:
+## 
 ## Phylogenetic tree with 4 tips and 3 internal nodes.
 ## 
 ## Tip labels:
@@ -165,7 +174,19 @@ associated data. After mapping external data to the tree structure, the
 ## Rooted; includes branch lengths.
 ## 
 ## with the following features available:
-##  'trait'.</code></pre>
+##  'trait'.
+## 
+## # The associated data tibble abstraction: 7 × 4
+## # The 'node', 'label' and 'isTip' are from the phylo tree.
+##    node label isTip  trait
+##   &lt;int&gt; &lt;chr&gt; &lt;lgl&gt;  &lt;dbl&gt;
+## 1     1 t4    TRUE   0.943
+## 2     2 t1    TRUE  -0.171
+## 3     3 t3    TRUE   0.570
+## 4     4 t2    TRUE  -0.283
+## 5     5 &lt;NA&gt;  FALSE NA    
+## 6     6 &lt;NA&gt;  FALSE NA    
+## 7     7 &lt;NA&gt;  FALSE NA</code></pre>
 <p>The <code>treedata</code> class is also used
 in the <a href="https://bioconductor.org/packages/treeio/">treeio</a> package <span class="citation">(<a href="references.html#ref-wang_treeio_2020" role="doc-biblioref">Wang et al. 2020</a>)</span> to store evolutionary evidences inferred by commonly used software (BEAST, EPA, HYPHY,
 MrBayes, PAML, PHYLDOG, pplacer, r8s, RAxML and RevBayes, etc.) (see details in <a href="chapter1.html#chapter1">Chapter 1</a>).</p>
@@ -175,7 +196,7 @@ for manipulating evolutionary statistics inferred by different software as well
 as linking external data to the same tree structure.</p>
 <div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">y</span> <span class="op">%&gt;%</span> <span class="va">as.treedata</span> <span class="op">%&gt;%</span> <span class="va">as_tibble</span></code></pre></div>
-<pre><code>## # A tibble: 7 x 5
+<pre><code>## # A tibble: 7 × 5
 ##   parent  node branch.length label  trait
 ##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
 ## 1      5     1       0.435   t4     0.943
@@ -195,20 +216,20 @@ as linking external data to the same tree structure.</p>
 <p>These verbs accept a <code>tbl_tree</code> and a selected node which can be node number or label.</p>
 <div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">child</span><span class="op">(</span><span class="va">y</span>, <span class="fl">5</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 2 x 5
+<pre><code>## # A tibble: 2 × 5
 ##   parent  node branch.length label  trait
 ##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
 ## 1      5     1         0.435 t4     0.943
 ## 2      5     6         0.472 &lt;NA&gt;  NA</code></pre>
 <div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">parent</span><span class="op">(</span><span class="va">y</span>, <span class="fl">2</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 1 x 5
+<pre><code>## # A tibble: 1 × 5
 ##   parent  node branch.length label trait
 ##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;
 ## 1      6     7         0.274 &lt;NA&gt;     NA</code></pre>
 <div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">offspring</span><span class="op">(</span><span class="va">y</span>, <span class="fl">5</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 6 x 5
+<pre><code>## # A tibble: 6 × 5
 ##   parent  node branch.length label  trait
 ##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
 ## 1      5     1       0.435   t4     0.943
@@ -219,7 +240,7 @@ as linking external data to the same tree structure.</p>
 ## 6      6     7       0.274   &lt;NA&gt;  NA</code></pre>
 <div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ancestor</span><span class="op">(</span><span class="va">y</span>, <span class="fl">2</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 3 x 5
+<pre><code>## # A tibble: 3 × 5
 ##   parent  node branch.length label trait
 ##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;
 ## 1      5     5        NA     &lt;NA&gt;     NA
@@ -227,13 +248,13 @@ as linking external data to the same tree structure.</p>
 ## 3      6     7         0.274 &lt;NA&gt;     NA</code></pre>
 <div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">sibling</span><span class="op">(</span><span class="va">y</span>, <span class="fl">2</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 1 x 5
+<pre><code>## # A tibble: 1 × 5
 ##   parent  node branch.length label trait
 ##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;
 ## 1      7     3       0.00202 t3    0.570</code></pre>
 <div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">MRCA</span><span class="op">(</span><span class="va">y</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 1 x 5
+<pre><code>## # A tibble: 1 × 5
 ##   parent  node branch.length label trait
 ##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;
 ## 1      6     7         0.274 &lt;NA&gt;     NA</code></pre>
@@ -291,7 +312,8 @@ the <code><a href="https://docs.ropensci.org/treeio/reference/read.codeml.html">
 ##  '/home/ygc/R/library/ggtree/examples/rst',
 ##  '/home/ygc/R/library/ggtree/examples/mlc'.
 ## 
-## ...@ phylo: 
+## ...@ phylo:
+## 
 ## Phylogenetic tree with 76 tips and 75 internal nodes.
 ## 
 ## Tip labels:
@@ -305,7 +327,29 @@ the <code><a href="https://docs.ropensci.org/treeio/reference/read.codeml.html">
 ##  'length_median',    'length_range', 'posterior',    'rate',
 ##  'rate_0.95_HPD',    'rate_median',  'rate_range',   'subs',
 ##  'AA_subs',  't',    'N',    'S',    'dN_vs_dS', 'dN',   'dS',   'N_x_dN',
-##  'S_x_dS'.</code></pre>
+##  'S_x_dS'.
+## 
+## # The associated data tibble abstraction: 151 × 26
+## # The 'node', 'label' and 'isTip' are from the phylo tree.
+##     node label    isTip height height_0.95_HPD height_median
+##    &lt;int&gt; &lt;chr&gt;    &lt;lgl&gt;  &lt;dbl&gt; &lt;list&gt;                  &lt;dbl&gt;
+##  1     1 A/Hokka… TRUE       0 &lt;lgl [1]&gt;                  NA
+##  2     2 A/New_Y… TRUE       9 &lt;dbl [2]&gt;                   9
+##  3     3 A/New_Y… TRUE       8 &lt;dbl [2]&gt;                   8
+##  4     4 A/New_Y… TRUE      14 &lt;dbl [2]&gt;                  14
+##  5     5 A/New_Y… TRUE       8 &lt;dbl [2]&gt;                   8
+##  6     6 A/New_Y… TRUE      15 &lt;dbl [2]&gt;                  15
+##  7     7 A/New_Y… TRUE      13 &lt;dbl [2]&gt;                  13
+##  8     8 A/New_Y… TRUE      17 &lt;dbl [2]&gt;                  17
+##  9     9 A/New_Y… TRUE      17 &lt;dbl [2]&gt;                  17
+## 10    10 A/New_Y… TRUE      19 &lt;dbl [2]&gt;                  19
+## # … with 141 more rows, and 20 more variables:
+## #   height_range &lt;list&gt;, length &lt;dbl&gt;,
+## #   length_0.95_HPD &lt;list&gt;, length_median &lt;dbl&gt;,
+## #   length_range &lt;list&gt;, posterior &lt;dbl&gt;, rate &lt;dbl&gt;,
+## #   rate_0.95_HPD &lt;list&gt;, rate_median &lt;dbl&gt;,
+## #   rate_range &lt;list&gt;, subs &lt;chr&gt;, AA_subs &lt;chr&gt;, t &lt;dbl&gt;,
+## #   N &lt;dbl&gt;, S &lt;dbl&gt;, dN_vs_dS &lt;dbl&gt;, dN &lt;dbl&gt;, dS &lt;dbl&gt;, …</code></pre>
 <p>After merging the <code>beast_tree</code> and <code>codeml_tree</code> objects, all
 node/branch-specific data imported from <a href="http://beast2.org/">BEAST</a>
 and <a href="http://abacus.gene.ucl.ac.uk/software/paml.html">CODEML</a> output files are
@@ -329,7 +373,7 @@ by <a href="http://beast2.org/">BEAST</a> on the same branches.</p>
 <span class="fu">ggplot</span><span class="op">(</span><span class="va">df</span>, <span class="fu">aes</span><span class="op">(</span><span class="va">rate</span>, <span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu">geom_hex</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">type</span>, scale<span class="op">=</span><span class="st">'free_y'</span><span class="op">)</span> </code></pre></div>
 <div class="figure">
-<span id="fig:correlations"></span>
+<span style="display:block;" id="fig:correlations"></span>
 <img src="treedata_files/figure-html/correlations-1.svg" alt="Correlation of dN/dS, dN and dS versus substitution rate. After merging the BEAST and CodeML outputs, the branch-specific estimates (substitution rate, dN/dS , dN and dS) from the two analysis programs are compared on the same branch basis. The associations of dN/dS, dN and dS vs. rate are visualized in hexbin scatter plots." width="100%"><p class="caption">
 Figure 2.1: <strong>Correlation of <em>d<sub>N</sub>/d<sub>S</sub></em>, <em>d<sub>N</sub></em> and <em>d<sub>S</sub></em> versus substitution rate.</strong> After merging the <em>BEAST</em> and <em>CodeML</em> outputs, the branch-specific estimates (substitution rate, <em>d<sub>N</sub>/d<sub>S</sub></em> , <em>d<sub>N</sub></em> and <em>d<sub>S</sub></em>) from the two analysis programs are compared on the same branch basis. The associations of <em>d<sub>N</sub>/d<sub>S</sub></em>, <em>d<sub>N</sub></em> and <em>d<sub>S</sub></em> vs. <em>rate</em> are visualized in hexbin scatter plots.
 </p>
@@ -354,7 +398,8 @@ to be merged into one.</p>
 ##  '/home/ygc/R/library/ggtree/examples/rst',
 ##  '/home/ygc/R/library/ggtree/examples/mlc'.
 ## 
-## ...@ phylo: 
+## ...@ phylo:
+## 
 ## Phylogenetic tree with 76 tips and 75 internal nodes.
 ## 
 ## Tip labels:
@@ -368,7 +413,29 @@ to be merged into one.</p>
 ##  'length_median',    'length_range', 'posterior',    'rate',
 ##  'rate_0.95_HPD',    'rate_median',  'rate_range',   'subs',
 ##  'AA_subs',  't',    'N',    'S',    'dN_vs_dS', 'dN',   'dS',   'N_x_dN',
-##  'S_x_dS',   'fake_trait',   'another_trait'.</code></pre>
+##  'S_x_dS',   'fake_trait',   'another_trait'.
+## 
+## # The associated data tibble abstraction: 151 × 28
+## # The 'node', 'label' and 'isTip' are from the phylo tree.
+##     node label    isTip height height_0.95_HPD height_median
+##    &lt;int&gt; &lt;chr&gt;    &lt;lgl&gt;  &lt;dbl&gt; &lt;list&gt;                  &lt;dbl&gt;
+##  1     1 A/Hokka… TRUE       0 &lt;lgl [1]&gt;                  NA
+##  2     2 A/New_Y… TRUE       9 &lt;dbl [2]&gt;                   9
+##  3     3 A/New_Y… TRUE       8 &lt;dbl [2]&gt;                   8
+##  4     4 A/New_Y… TRUE      14 &lt;dbl [2]&gt;                  14
+##  5     5 A/New_Y… TRUE       8 &lt;dbl [2]&gt;                   8
+##  6     6 A/New_Y… TRUE      15 &lt;dbl [2]&gt;                  15
+##  7     7 A/New_Y… TRUE      13 &lt;dbl [2]&gt;                  13
+##  8     8 A/New_Y… TRUE      17 &lt;dbl [2]&gt;                  17
+##  9     9 A/New_Y… TRUE      17 &lt;dbl [2]&gt;                  17
+## 10    10 A/New_Y… TRUE      19 &lt;dbl [2]&gt;                  19
+## # … with 141 more rows, and 22 more variables:
+## #   height_range &lt;list&gt;, length &lt;dbl&gt;,
+## #   length_0.95_HPD &lt;list&gt;, length_median &lt;dbl&gt;,
+## #   length_range &lt;list&gt;, posterior &lt;dbl&gt;, rate &lt;dbl&gt;,
+## #   rate_0.95_HPD &lt;list&gt;, rate_median &lt;dbl&gt;,
+## #   rate_range &lt;list&gt;, subs &lt;chr&gt;, AA_subs &lt;chr&gt;, t &lt;dbl&gt;,
+## #   N &lt;dbl&gt;, S &lt;dbl&gt;, dN_vs_dS &lt;dbl&gt;, dN &lt;dbl&gt;, dS &lt;dbl&gt;, …</code></pre>
 <p>The <code>triple_tree</code> object showed above contains analysis results obtained from <a href="http://beast2.org/">BEAST</a>
 and <a href="http://abacus.gene.ucl.ac.uk/software/paml.html">CODEML</a>, and evolutionary
 trait from external sources. All these information can be used to annotate the
@@ -402,7 +469,8 @@ Running bootstraps:       100 / 100
 <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">full_join</a></span><span class="op">(</span><span class="va">tr</span>, <span class="va">bp2</span>, by<span class="op">=</span><span class="st">"node"</span><span class="op">)</span></code></pre></div>
 <pre><code>## 'treedata' S4 object'.
 ## 
-## ...@ phylo: 
+## ...@ phylo:
+## 
 ## Phylogenetic tree with 15 tips and 13 internal nodes.
 ## 
 ## Tip labels:
@@ -411,7 +479,23 @@ Running bootstraps:       100 / 100
 ## Unrooted; includes branch lengths.
 ## 
 ## with the following features available:
-##  'bootstrap'.</code></pre>
+##  'bootstrap'.
+## 
+## # The associated data tibble abstraction: 28 × 4
+## # The 'node', 'label' and 'isTip' are from the phylo tree.
+##     node label   isTip bootstrap
+##    &lt;int&gt; &lt;chr&gt;   &lt;lgl&gt;     &lt;int&gt;
+##  1     1 No305   TRUE         NA
+##  2     2 No304   TRUE         NA
+##  3     3 No306   TRUE         NA
+##  4     4 No0906S TRUE         NA
+##  5     5 No0908S TRUE         NA
+##  6     6 No0909S TRUE         NA
+##  7     7 No0910S TRUE         NA
+##  8     8 No0912S TRUE         NA
+##  9     9 No0913S TRUE         NA
+## 10    10 No1103S TRUE         NA
+## # … with 18 more rows</code></pre>
 <p>Another example demonstrates merging evolutionary trait with the tree (a <code>treedata</code> object) by matching their tip labels.</p>
 <div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/BEAST"</span>, <span class="st">"beast_mcc.tree"</span>, package<span class="op">=</span><span class="st">"treeio"</span><span class="op">)</span>
@@ -421,7 +505,8 @@ Running bootstraps:       100 / 100
 <pre><code>## 'treedata' S4 object that stored information of
 ##  '/home/ygc/R/library/treeio/extdata/BEAST/beast_mcc.tree'.
 ## 
-## ...@ phylo: 
+## ...@ phylo:
+## 
 ## Phylogenetic tree with 15 tips and 14 internal nodes.
 ## 
 ## Tip labels:
@@ -433,7 +518,28 @@ Running bootstraps:       100 / 100
 ##  'height',   'height_0.95_HPD',  'height_median',
 ##  'height_range', 'length',   'length_0.95_HPD',
 ##  'length_median',    'length_range', 'posterior',    'rate',
-##  'rate_0.95_HPD',    'rate_median',  'rate_range',   'trait'.</code></pre>
+##  'rate_0.95_HPD',    'rate_median',  'rate_range',   'trait'.
+## 
+## # The associated data tibble abstraction: 29 × 17
+## # The 'node', 'label' and 'isTip' are from the phylo tree.
+##     node label  isTip height height_0.95_HPD height_median
+##    &lt;int&gt; &lt;chr&gt;  &lt;lgl&gt;  &lt;dbl&gt; &lt;list&gt;                  &lt;dbl&gt;
+##  1     1 A_1995 TRUE      18 &lt;dbl [2]&gt;                  18
+##  2     2 B_1996 TRUE      17 &lt;dbl [2]&gt;                  17
+##  3     3 C_1995 TRUE      18 &lt;dbl [2]&gt;                  18
+##  4     4 D_1987 TRUE      26 &lt;dbl [2]&gt;                  26
+##  5     5 E_1996 TRUE      17 &lt;dbl [2]&gt;                  17
+##  6     6 F_1997 TRUE      16 &lt;dbl [2]&gt;                  16
+##  7     7 G_1992 TRUE      21 &lt;dbl [2]&gt;                  21
+##  8     8 H_1992 TRUE      21 &lt;dbl [2]&gt;                  21
+##  9     9 I_1994 TRUE      19 &lt;dbl [2]&gt;                  19
+## 10    10 J_1983 TRUE      30 &lt;dbl [2]&gt;                  30
+## # … with 19 more rows, and 11 more variables:
+## #   height_range &lt;list&gt;, length &lt;dbl&gt;,
+## #   length_0.95_HPD &lt;list&gt;, length_median &lt;dbl&gt;,
+## #   length_range &lt;list&gt;, posterior &lt;dbl&gt;, rate &lt;dbl&gt;,
+## #   rate_0.95_HPD &lt;list&gt;, rate_median &lt;dbl&gt;,
+## #   rate_range &lt;list&gt;, trait &lt;dbl&gt;</code></pre>
 <p>Manipulating tree object is frustrated with the fragmented functions available
 for working with <code>phylo</code> object, not to mention linking external data to the
 phylogeny structure. With the <a href="http://bioconductor.org/packages/treeio">treeio</a> package <span class="citation">(<a href="references.html#ref-wang_treeio_2020" role="doc-biblioref">Wang et al. 2020</a>)</span>, it is easy to combine tree data from various sources.
@@ -466,7 +572,7 @@ to add grouping information of selected clade/clades.</p>
 <span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/read.tree.html">read.tree</a></span><span class="op">(</span>text<span class="op">=</span><span class="va">nwk</span><span class="op">)</span>
 
 <span class="fu">groupClade</span><span class="op">(</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">17</span>, <span class="fl">21</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 25 x 5
+<pre><code>## # A tibble: 25 × 5
 ##    parent  node branch.length label group
 ##     &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;fct&gt;
 ##  1     20     1             4 A     1    
@@ -491,7 +597,7 @@ to add grouping information of selected clade/clades.</p>
 <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">tr</span><span class="op">)</span>
 <span class="co">## the input nodes can be node ID or label</span>
 <span class="fu">groupOTU</span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'t1'</span>, <span class="st">'t4'</span><span class="op">)</span>, group_name <span class="op">=</span> <span class="st">"fake_group"</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 7 x 5
+<pre><code>## # A tibble: 7 × 5
 ##   parent  node branch.length label fake_group
 ##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;fct&gt;     
 ## 1      5     1       0.435   t4    1         
@@ -505,7 +611,7 @@ to add grouping information of selected clade/clades.</p>
 <div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">groupOTU</span><span class="op">(</span><span class="va">tr</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'t2'</span>, <span class="st">'t4'</span><span class="op">)</span>, group_name <span class="op">=</span> <span class="st">"fake_group"</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="va">as_tibble</span></code></pre></div>
-<pre><code>## # A tibble: 7 x 5
+<pre><code>## # A tibble: 7 × 5
 ##   parent  node branch.length label fake_group
 ##    &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;fct&gt;     
 ## 1      5     1       0.435   t4    1         
@@ -528,7 +634,7 @@ They can be monophyletic (clade), polyphyletic or paraphyletic.</p>
             c4<span class="op">=</span><span class="st">"M"</span><span class="op">)</span>
 
 <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">groupOTU</span><span class="op">(</span><span class="va">cls</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 25 x 5
+<pre><code>## # A tibble: 25 × 5
 ##    parent  node branch.length label group
 ##     &lt;int&gt; &lt;int&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;fct&gt;
 ##  1     20     1             4 A     c1   
@@ -568,7 +674,7 @@ counts) or “abandon” (un-selected for grouping)<a class="footnote-ref" tabin
 
 <span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html">plot_grid</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, <span class="va">p3</span>, ncol<span class="op">=</span><span class="fl">3</span>, labels <span class="op">=</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<span id="fig:rescale"></span>
+<span style="display:block;" id="fig:rescale"></span>
 <img src="treedata_files/figure-html/rescale-1.svg" alt="Re-scaling tree branches. The tree with branches scaled in time (year from the root) (A). The tree was re-scaled using dN as branch lengths (B). The tree was re-scaled using substitution rates (C)." width="100%"><p class="caption">
 Figure 2.2: <strong>Re-scaling tree branches.</strong> The tree with branches scaled in time (year from the root) (A). The tree was re-scaled using <em>d<sub>N</sub></em> as branch lengths (B). The tree was re-scaled using substitution rates (C).
 </p>
@@ -599,7 +705,7 @@ Figure 2.2: <strong>Re-scaling tree branches.</strong> The tree with branches sc
 <span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu">ggtree</span><span class="op">(</span><span class="va">nhx_reduced</span><span class="op">)</span> <span class="op">+</span> <span class="fu">geom_tiplab</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.window.html">xlim</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.8</span><span class="op">)</span>  
 <span class="fu">plot_grid</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, ncol<span class="op">=</span><span class="fl">2</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<span id="fig:removeTip"></span>
+<span style="display:block;" id="fig:removeTip"></span>
 <img src="treedata_files/figure-html/removeTip-1.png" alt="Removing tips from tree. Original tree with three tips (colored by red) to remove (A). Updated tree that removed selected tips (B)." width="100%"><p class="caption">
 Figure 2.3: <strong>Removing tips from tree.</strong> Original tree with three tips (colored by red) to remove (A). Updated tree that removed selected tips (B).
 </p>
@@ -649,7 +755,7 @@ Figure 2.3: <strong>Removing tips from tree.</strong> Original tree with three t
 <span class="fu">plot_grid</span><span class="op">(</span><span class="va">p2</span>, <span class="va">p3</span>, <span class="va">p4</span>, <span class="va">p5</span>, ncol<span class="op">=</span><span class="fl">2</span>, labels<span class="op">=</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">plot_grid</span><span class="op">(</span><span class="va">p1</span>, <span class="va">.</span>, ncol<span class="op">=</span><span class="fl">2</span>, labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">""</span><span class="op">)</span>, rel_widths<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.5</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<span id="fig:subsetTip"></span>
+<span style="display:block;" id="fig:subsetTip"></span>
 <img src="treedata_files/figure-html/subsetTip-1.png" alt="Subsetting tree for specific tip. The original tree (A). The subset tree (B). Subset tree with data (C). Visualize the subset tree relative to original position, without root edge (D) and with root edge (E)." width="100%"><p class="caption">
 Figure 2.4: <strong>Subsetting tree for specific tip.</strong> The original tree (A). The subset tree (B). Subset tree with data (C). Visualize the subset tree relative to original position, without root edge (D) and with root edge (E).
 </p>
@@ -689,7 +795,7 @@ Figure 2.4: <strong>Subsetting tree for specific tip.</strong> The original tree
 <span class="fu">plot_grid</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, <span class="va">p3</span>, <span class="va">p4</span>, 
   ncol<span class="op">=</span><span class="fl">2</span>, labels<span class="op">=</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<span id="fig:subsetNode"></span>
+<span style="display:block;" id="fig:subsetNode"></span>
 <img src="treedata_files/figure-html/subsetNode-1.png" alt="Subsetting tree for specific clade. Extracting a clade (A). Extracting a clade and trace back to look at its immediate relatives (B). Viewing a very large tree (C) and a selected portion of it (D)." width="100%"><p class="caption">
 Figure 2.5: <strong>Subsetting tree for specific clade.</strong> Extracting a clade (A). Extracting a clade and trace back to look at its immediate relatives (B). Viewing a very large tree (C) and a selected portion of it (D).
 </p>
@@ -747,7 +853,7 @@ Figure 2.5: <strong>Subsetting tree for specific clade.</strong> Extracting a cl
     <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span>geom <span class="op">=</span> <span class="st">'shadowtext'</span>, bg.colour <span class="op">=</span> <span class="fu">alpha</span><span class="op">(</span><span class="st">'firebrick'</span>, <span class="fl">.5</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">d2</span>, hjust<span class="op">=</span><span class="fl">1</span>, geom <span class="op">=</span> <span class="st">'shadowtext'</span>, bg.colour <span class="op">=</span> <span class="fu">alpha</span><span class="op">(</span><span class="st">'firebrick'</span>, <span class="fl">.5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<span id="fig:cophylo"></span>
+<span style="display:block;" id="fig:cophylo"></span>
 <img src="treedata_files/figure-html/cophylo-1.png" alt="Plot two phylogenetic trees face to face. Plotting a tree using ggtree() (left hand side) and subsequently add another layer of tree by geom_tree() (right hand side). The relative positions of the plotted trees can be manual adjusted and adding layers to each of the tree (e.g. tip labels and highlighting clades) is independent." width="100%"><p class="caption">
 Figure 2.6: <strong>Plot two phylogenetic trees face to face.</strong> Plotting a tree using <code><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree()</a></code> (left hand side) and subsequently add another layer of tree by <code><a href="https://rdrr.io/pkg/ggtree/man/geom_tree.html">geom_tree()</a></code> (right hand side). The relative positions of the plotted trees can be manual adjusted and adding layers to each of the tree (<em>e.g.</em> tip labels and highlighting clades) is independent.
 </p>
@@ -768,7 +874,7 @@ Figure 2.6: <strong>Plot two phylogenetic trees face to face.</strong> Plotting 
 <span class="va">p1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tree.html">geom_tree</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">d2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tree.html">geom_tree</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">d3</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">d3</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">geom_line</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, group<span class="op">=</span><span class="va">label</span>, color<span class="op">=</span><span class="va">node</span> <span class="op">&lt;</span> <span class="fl">15</span><span class="op">)</span>, data<span class="op">=</span><span class="va">dd</span>, alpha<span class="op">=</span><span class="fl">.3</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<span id="fig:cophylo3"></span>
+<span style="display:block;" id="fig:cophylo3"></span>
 <img src="treedata_files/figure-html/cophylo3-1.svg" alt="Plot multiple phylogenetic trees side by side. Plotting a tree using ggtree() and subsequently add multiple layers of trees by geom_tree()." width="100%"><p class="caption">
 Figure 2.7: <strong>Plot multiple phylogenetic trees side by side.</strong> Plotting a tree using <code><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree()</a></code> and subsequently add multiple layers of trees by <code><a href="https://rdrr.io/pkg/ggtree/man/geom_tree.html">geom_tree()</a></code>.
 </p>
@@ -831,7 +937,7 @@ Figure 2.7: <strong>Plot multiple phylogenetic trees side by side.</strong> Plot
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-05-14.</p>
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-08-28.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
@@ -851,6 +957,22 @@ Figure 2.7: <strong>Plot multiple phylogenetic trees side by side.</strong> Plot
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
 </script>
 </body>
 </html>

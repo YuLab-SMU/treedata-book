@@ -6,12 +6,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Chapter 11 Other ggtree extensions | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
 <meta name="author" content="Guangchuang Yu">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.8/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="libs/bootstrap-4.5.3/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.5.3/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.4/tabs.js"></script><script src="libs/bs3compat-0.2.4/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<meta name="description" content="rp &lt;- BiocManager::repositories() db &lt;- utils::available.packages(repo=rp) x &lt;- tools::package_dependencies('ggtree', db=db,                 which = c(&quot;Depends&quot;, &quot;Imports&quot;),                ...">
+<meta name="generator" content="bookdown 0.23 with bs4_book()">
+<meta property="og:title" content="Chapter 11 Other ggtree extensions | Data Integration, Manipulation and Visualization of Phylogenetic Trees">
+<meta property="og:type" content="book">
+<meta property="og:description" content="rp &lt;- BiocManager::repositories() db &lt;- utils::available.packages(repo=rp) x &lt;- tools::package_dependencies('ggtree', db=db,                 which = c(&quot;Depends&quot;, &quot;Imports&quot;),                ...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 11 Other ggtree extensions | Data Integration, Manipulation and Visualization of Phylogenetic Trees">
+<meta name="twitter:description" content="rp &lt;- BiocManager::repositories() db &lt;- utils::available.packages(repo=rp) x &lt;- tools::package_dependencies('ggtree', db=db,                 which = c(&quot;Depends&quot;, &quot;Imports&quot;),                ...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.10/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.5.1/tabs.js"></script><script src="libs/bs3compat-0.2.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 <link href="libs/font-awesome-5.3.1/css/fontawesome-all.min.css" rel="stylesheet">
-<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="libs/pathseg-1.0.2/pathseg.js"></script><script src="libs/comic-0.961/comic.min.js"></script><script src="libs/comicR-binding-0.2/comicR.js"></script><script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script><!-- CSS -->
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="libs/pathseg-1.0.2/pathseg.js"></script><script src="libs/comic-0.961/comic.min.js"></script><script src="libs/comicR-binding-0.2/comicR.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS -->
 </head>
 <body data-spy="scroll" data-target="#toc">
 
@@ -77,12 +85,15 @@
                                 reverse<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/phylobase/man/print-methods.html">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>                                </code></pre></div>
 <pre><code>## $ggtree
-## [1] "LymphoSeq"         "MicrobiotaProcess"
-## [3] "philr"             "singleCellTK"     
-## [5] "sitePath"          "genBaRcode"       
-## [7] "harrietr"          "RAINBOWR"         
-## [9] "STraTUS"</code></pre>
-<p>There are 9 packages in CRAN or Bioconductor that depend or import <a href="http://bioconductor.org/packages/ggtree">ggtree</a> and several packages on github that extends ggtree.</p>
+##  [1] "enrichplot"        "ggtreeExtra"      
+##  [3] "LymphoSeq"         "miaViz"           
+##  [5] "MicrobiotaProcess" "philr"            
+##  [7] "singleCellTK"      "sitePath"         
+##  [9] "systemPipeTools"   "treekoR"          
+## [11] "dowser"            "genBaRcode"       
+## [13] "harrietr"          "RAINBOWR"         
+## [15] "STraTUS"</code></pre>
+<p>There are 15 packages in CRAN or Bioconductor that depend or import <a href="http://bioconductor.org/packages/ggtree">ggtree</a> and several packages on github that extends ggtree.</p>
 <ul>
 <li><p><a href="https://github.com/willgearty/deeptime">deeptime</a>: Plotting Tools for Anyone Working in Deep Time</p></li>
 <li><p><a href="https://github.com/richelbilderbeek/ggdaisie">ggdaisie</a>: ggtree and DAISIE R package</p></li>
@@ -124,7 +135,7 @@
            legend.box.spacing<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">0.02</span>,<span class="st">"cm"</span><span class="op">)</span>
         <span class="op">)</span></code></pre></div>
 <div class="figure">
-<span id="fig:CRCdiffclade"></span>
+<span style="display:block;" id="fig:CRCdiffclade"></span>
 <img src="treedata_files/figure-html/CRCdiffclade-1.png" alt="Visualize differential taxonomy clade." width="672"><p class="caption">
 Figure 11.1: <strong>Visualize differential taxonomy clade.</strong>
 </p>
@@ -152,7 +163,7 @@ Figure 11.1: <strong>Visualize differential taxonomy clade.</strong>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggexpand.html">ggexpand</a></span><span class="op">(</span><span class="fl">.1</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggexpand.html">ggexpand</a></span><span class="op">(</span><span class="fl">.1</span>, direction<span class="op">=</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<span id="fig:phylonetworx"></span>
+<span style="display:block;" id="fig:phylonetworx"></span>
 <img src="treedata_files/figure-html/phylonetworx-1.svg" alt="Phylogenetic network." width="672"><p class="caption">
 Figure 11.2: <strong>Phylogenetic network</strong>.
 </p>
@@ -188,7 +199,7 @@ Figure 11.2: <strong>Phylogenetic network</strong>.
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-05-14.</p>
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-08-28.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
@@ -208,6 +219,22 @@ Figure 11.2: <strong>Phylogenetic network</strong>.
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
 </script>
 </body>
 </html>
