@@ -341,7 +341,41 @@ counts) or "abandon" (un-selected for grouping)^[<https://groups.google.com/foru
 
 ## Rerooting tree {#reroot-treeio}
 
-to be finished.
+The phylogenetic tree can be rerooted with specified `outgroup`. For the `phylo` class, the `root()` of CRANpkg("ape") can be used to reroot the tree. The Biocpkg("treeio") also implemented `root()` method for `treedata` object. This method is designed to re-root a phylogenetic tree with associated data via respect to the specified `outgroup` or at the specified `node` based on the `root()` of CRANpkg("ape").
+
+```{r}
+trda <- read.newick("./data/reroot/test.nw", node.label="support")
+trda
+trda2 <- root(trda, outgroup = "X", edgelabel = TRUE)
+p1 <- ggtree(trda) + 
+      geom_tiplab() + 
+      geom_nodelab(
+        mapping = aes(x = branch, label = support), 
+        color = "red",
+        nudge_y = -0.1
+      ) +
+      geom_nodelab(
+        mapping = aes(x = branch, label = branch.length),
+        color = "blue",
+        nudge_y = 0.1
+      )
+# after reroot
+p2 <- ggtree(trda2) +
+      geom_tiplab() +
+      geom_nodelab(
+        mapping = aes(x = branch, label = support),
+        color = "red",
+        nudge_y = -0.1
+      ) +
+      geom_nodelab(
+        mapping = aes(x = branch, label = branch.length),
+        color = "blue",
+        nudge_y = 0.1
+      )
+p1 / p2
+```
+
+The `outgroup` parameter represent the specific new `outgroup`, it can be character or node number, and if it is a single one value, meaning using the node below this tip as the new root, if it has multiple values, meaning the most recent common of the values will be used as the new root. Note that, if the node labels should be as the edge labels, the `edgelabel` should be set to `TRUE` to return the correct relationship between `node` and `associated data`, this feature inherits the `root()` of CRANpkg("ape"), which was introduced according to the review [@reroot_review].
 
 ## Rescaling Tree Branches {#rescale-treeio}
 
