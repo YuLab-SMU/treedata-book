@@ -341,11 +341,16 @@ counts) or "abandon" (un-selected for grouping)^[<https://groups.google.com/foru
 
 ## Rerooting tree {#reroot-treeio}
 
-The phylogenetic tree can be rerooted with specified `outgroup`. For the `phylo` class, the `root()` of CRANpkg("ape") can be used to reroot the tree. The Biocpkg("treeio") also implemented `root()` method for `treedata` object. This method is designed to re-root a phylogenetic tree with associated data via respect to the specified `outgroup` or at the specified `node` based on the `root()` of CRANpkg("ape").
+A phylogenetic tree can be rerooted with a specified `outgroup`. The `r CRANpkg("ape")` package implements a `root()` method to reroot a tree stored in a `phylo` object, while the `r Biocpkg("treeio")` package provides the `root()` method for `treedata` object. This method is designed to re-root a phylogenetic tree with associated data with respect to the specified `outgroup` or at the specified `node` based on the `root()` implemented in `r CRANpkg("ape")`.
 
-```{r}
-trda <- read.newick("./data/reroot/test.nw", node.label="support")
-trda
+
+(ref:rerootscap) Reroot a phylogenetic tree with associated data.
+
+(ref:rerootcap) **Reroot a phylogenetic tree with associated data.** Original tree (A) and  rerooted tree (B) with branch length and support value presented. 
+
+
+```{r reroot, fig.width=8, fig.height=4, fig.cap="(ref:rerootcap)", fig.scap="(ref:rerootscap)"}
+trda <- read.newick("data/reroot/test.nw", node.label="support")
 trda2 <- root(trda, outgroup = "X", edgelabel = TRUE)
 p1 <- ggtree(trda) + 
       geom_tiplab() + 
@@ -372,10 +377,11 @@ p2 <- ggtree(trda2) +
         color = "blue",
         nudge_y = 0.1
       )
-p1 / p2
+plot_list(p1, p2, tag_levels='A', ncol=2)
 ```
 
-The `outgroup` parameter represent the specific new `outgroup`, it can be character or node number, and if it is a single one value, meaning using the node below this tip as the new root, if it has multiple values, meaning the most recent common of the values will be used as the new root. Note that, if the node labels should be as the edge labels, the `edgelabel` should be set to `TRUE` to return the correct relationship between `node` and `associated data`, this feature inherits the `root()` of CRANpkg("ape"), which was introduced according to the review [@reroot_review].
+
+The `outgroup` parameter represents the specific new `outgroup`, it can be character or node number. If it is a single one value, meaning using the node below this tip as the new root, if it has multiple values, meaning the most recent common of the values will be used as the new root. Note that, if the node labels should be treated as edge labels, the `edgelabel` should be set to `TRUE` to return the correct relationship between `node` and `associated data`. More details about reroot, including precautions and pitfalls, please refer to the review article [@reroot_review].
 
 ## Rescaling Tree Branches {#rescale-treeio}
 
@@ -392,7 +398,7 @@ p1 <- ggtree(merged_tree) + theme_tree2()
 p2 <- ggtree(rescale_tree(merged_tree, 'dN')) + theme_tree2()
 p3 <- ggtree(rescale_tree(merged_tree, 'rate')) + theme_tree2()
 
-cowplot::plot_grid(p1, p2, p3, ncol=3, labels = LETTERS[1:3])
+plot_list(p1, p2, p3, ncol=3, tag_levels='A')
 ```
 
 
@@ -420,7 +426,7 @@ p1 <- ggtree(nhx) + geom_tiplab(aes(color = label %in% to_drop)) +
 
 nhx_reduced <- drop.tip(nhx, to_drop)
 p2 <- ggtree(nhx_reduced) + geom_tiplab() + xlim(0, 0.8)  
-plot_grid(p1, p2, ncol=2, labels = c("A", "B"))
+plot_list(p1, p2, ncol=2, tag_levels = "A")
 ```
 
 
