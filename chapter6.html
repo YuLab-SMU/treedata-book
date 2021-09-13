@@ -180,7 +180,7 @@ convert a tree to fan layout by specific open angle
 <p>A clade is a monophyletic group that contains a single ancestor and all of its descendants. We can visualize a specific selected clade via the <code>viewClade</code> function as demonstrated in Figure <a href="chapter6.html#fig:viewClade">6.1</a>B. Another solution is to extract the selected clade as a new tree object as described in <a href="chapter2.html#subsetting-tree-with-data">session 2.5</a>. These functions are developed to help users exploring large tree.</p>
 
 
-<div class="sourceCode" id="cb174"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb175"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yulab-smu.top/treedata-book/">ggtree</a></span><span class="op">)</span>
 <span class="va">nwk</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"sample.nwk"</span>, package<span class="op">=</span><span class="st">"treeio"</span><span class="op">)</span>
 <span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/read.tree.html">read.tree</a></span><span class="op">(</span><span class="va">nwk</span><span class="op">)</span>
@@ -201,7 +201,7 @@ Figure 6.1: <strong>Viewing a selected clade of a tree.</strong> An example tree
 <p>The <em>ggtree</em> provides another option to zoom out (or compress) these clades via the <code>scaleClade</code> function. In this way, we retain the topology and branch lengths of compressed clades. This helps to save the space to highlight those clades of primary interest to the study.</p>
 
 
-<div class="sourceCode" id="cb175"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb176"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">tree2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tidytree/man/groupClade.html">groupClade</a></span><span class="op">(</span><span class="va">tree</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">17</span>, <span class="fl">21</span><span class="op">)</span><span class="op">)</span>
 <span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree2</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>color<span class="op">=</span><span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">'none'</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="st">"firebrick"</span>, <span class="st">"steelblue"</span><span class="op">)</span><span class="op">)</span>
@@ -221,7 +221,7 @@ Figure 6.2: <strong>Scaling selected clade.</strong> Clades can be zoom in (if <
 <p>It is a common practice to prune or collapse clades so that certain aspects of a tree can be emphasized. The <em>ggtree</em> supports collapsing selected clades using the <code>collapse</code> function as shown in Figure <a href="chapter6.html#fig:collapseExpand">6.3</a>A.</p>
 
 
-<div class="sourceCode" id="cb176"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb177"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p2</span> <span class="op">&lt;-</span> <span class="va">p</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/compute.html">collapse</a></span><span class="op">(</span>node<span class="op">=</span><span class="fl">21</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_point2.html">geom_point2</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>subset<span class="op">=</span><span class="op">(</span><span class="va">node</span><span class="op">==</span><span class="fl">21</span><span class="op">)</span><span class="op">)</span>, shape<span class="op">=</span><span class="fl">21</span>, size<span class="op">=</span><span class="fl">5</span>, fill<span class="op">=</span><span class="st">'green'</span><span class="op">)</span>
 <span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/compute.html">collapse</a></span><span class="op">(</span><span class="va">p2</span>, node<span class="op">=</span><span class="fl">23</span><span class="op">)</span> <span class="op">+</span> 
@@ -236,18 +236,18 @@ Figure 6.3: <strong>Collapsing selected clades and expanding collapsed clades.</
 </div>
 <p>Here two clades were collapsed and labelled by green circle and red square symbolic points. Collapsing is a common strategy to collapse clades that are too large for displaying in full or are not primary interest of the study. In <em>ggtree</em>, we can expand (<em>i.e.</em>, uncollapse) the collapsed branches back with <code>expand</code> function to show details of species relationships as demonstrated in Figure <a href="chapter6.html#fig:collapseExpand">6.3</a>B.</p>
 <p>Triangles are often used to represent the collapsed clade and <a href="http://bioconductor.org/packages/ggtree">ggtree</a> also supports it. The <code>collapse</code> function provides a “mode” parameter, which by default is “none” and the selected clade was collapsed as a “tip.” User can specify <code>mode</code> to “max” (Figure <a href="chapter6.html#fig:collapseMode">6.4</a>A), “min” (Figure <a href="chapter6.html#fig:collapseMode">6.4</a>B) and “mixed” (Figure <a href="chapter6.html#fig:collapseMode">6.4</a>C).</p>
-<div class="sourceCode" id="cb177"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb178"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p2</span> <span class="op">&lt;-</span> <span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">node</span> <span class="op">&lt;-</span> <span class="fl">21</span>
 <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/compute.html">collapse</a></span><span class="op">(</span><span class="va">p2</span>, <span class="va">node</span>, <span class="st">'max'</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/expand.html">expand</a></span><span class="op">(</span><span class="va">node</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/compute.html">collapse</a></span><span class="op">(</span><span class="va">p2</span>, <span class="va">node</span>, <span class="st">'min'</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/expand.html">expand</a></span><span class="op">(</span><span class="va">node</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/compute.html">collapse</a></span><span class="op">(</span><span class="va">p2</span>, <span class="va">node</span>, <span class="st">'mixed'</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/expand.html">expand</a></span><span class="op">(</span><span class="va">node</span><span class="op">)</span></code></pre></div>
 <p>We can pass additional parameter to set the color and transparency of the triangles (Figure <a href="chapter6.html#fig:collapseMode">6.4</a>D).</p>
-<div class="sourceCode" id="cb178"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb179"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/compute.html">collapse</a></span><span class="op">(</span><span class="va">p</span>, <span class="fl">21</span>, <span class="st">'mixed'</span>, fill<span class="op">=</span><span class="st">'steelblue'</span>, alpha<span class="op">=</span><span class="fl">.4</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/compute.html">collapse</a></span><span class="op">(</span><span class="fl">23</span>, <span class="st">'mixed'</span>, fill<span class="op">=</span><span class="st">'firebrick'</span>, color<span class="op">=</span><span class="st">'blue'</span><span class="op">)</span></code></pre></div>
 <p>We can combine <a href="chapter6.html#scale-clade">scaleClade</a> with <code>collapse</code> to zoom in/out of the triangles (Figure <a href="chapter6.html#fig:collapseMode">6.4</a>E).</p>
-<div class="sourceCode" id="cb179"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb180"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/scaleClade.html">scaleClade</a></span><span class="op">(</span><span class="va">p</span>, <span class="fl">23</span>, <span class="fl">.2</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/compute.html">collapse</a></span><span class="op">(</span><span class="fl">23</span>, <span class="st">'min'</span>, fill<span class="op">=</span><span class="st">"darkgreen"</span><span class="op">)</span>  </code></pre></div>
 
 
@@ -267,7 +267,7 @@ Figure 6.4: <strong>Collapse clade as triangle.</strong> ‘max’ takes the pos
 <p>A phylogenetic tree can be annotated by mapping different line type, size, color or shape to the branches or nodes that have been assigned to different groups.</p>
 
 
-<div class="sourceCode" id="cb180"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb181"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span>
 <span class="va">rn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">iris</span><span class="op">[</span>,<span class="fl">5</span><span class="op">]</span>, <span class="st">"_"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">150</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">rn</span>
@@ -288,7 +288,7 @@ Figure 6.5: <strong>Grouping OTUs.</strong> OTU clustering based on their relati
 </p>
 </div>
 <p>We can grouping taxa at tree level. The following code will produce identical figure of Figure <a href="chapter6.html#fig:groupOTU">6.5</a> (see more details described at <a href="chapter2.html#grouping-taxa">session 2.2.3</a>).</p>
-<div class="sourceCode" id="cb181"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb182"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">tree_iris</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tidytree/man/groupOTU.html">groupOTU</a></span><span class="op">(</span><span class="va">tree_iris</span>, <span class="va">grp</span>, <span class="st">"Species"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree_iris</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>color<span class="op">=</span><span class="va">Species</span><span class="op">)</span>, layout <span class="op">=</span> <span class="st">'circular'</span>, branch.length <span class="op">=</span> <span class="st">'none'</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"right"</span><span class="op">)</span></code></pre></div>
@@ -300,7 +300,7 @@ Figure 6.5: <strong>Grouping OTUs.</strong> OTU clustering based on their relati
 <p>To facilitate exploring the tree structure, <em>ggtree</em> supports rotating selected clade by 180 degree using the <code><a href="https://rdrr.io/pkg/ggtree/man/rotate.html">rotate()</a></code> function (Figure <a href="chapter6.html#fig:rfClade">6.6</a>B). Position of immediate descendant clades of internal node can be exchanged via <code><a href="https://rdrr.io/pkg/ggtree/man/flip.html">flip()</a></code> function (Figure <a href="chapter6.html#fig:rfClade">6.6</a>C).</p>
 
 
-<div class="sourceCode" id="cb182"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb183"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p1</span> <span class="op">&lt;-</span> <span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_point2.html">geom_point2</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>subset<span class="op">=</span><span class="va">node</span><span class="op">==</span><span class="fl">16</span><span class="op">)</span>, color<span class="op">=</span><span class="st">'darkgreen'</span>, size<span class="op">=</span><span class="fl">5</span><span class="op">)</span>
 <span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/rotate.html">rotate</a></span><span class="op">(</span><span class="va">p1</span>, <span class="fl">17</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/rotate.html">rotate</a></span><span class="op">(</span><span class="fl">21</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/flip.html">flip</a></span><span class="op">(</span><span class="va">p2</span>, <span class="fl">17</span>, <span class="fl">21</span><span class="op">)</span></code></pre></div>
@@ -311,7 +311,7 @@ Figure 6.6: <strong>Exploring tree structure.</strong> A clade (indicated by dar
 </p>
 </div>
 <p>Most of the tree manipulation functions are working on clades, while <a href="http://bioconductor.org/packages/ggtree">ggtree</a> also provides functions to manipulate a tree, including <code><a href="https://rdrr.io/pkg/ggtree/man/open_tree.html">open_tree()</a></code> to transform a tree in either rectangular or circular layout to fan layout, and <code><a href="https://rdrr.io/pkg/ggtree/man/rotate_tree.html">rotate_tree()</a></code> function to rotate a tree for specific angle in both circular or fan layouts, as demonstrated in Figure <a href="chapter6.html#fig:openTree">6.7</a> and <a href="chapter6.html#fig:rotateTree">6.8</a>.</p>
-<div class="sourceCode" id="cb183"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb184"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/open_tree.html">open_tree</a></span><span class="op">(</span><span class="va">p</span>, <span class="fl">180</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">p3</span><span class="op">)</span></code></pre></div>
 
@@ -322,7 +322,7 @@ Figure 6.6: <strong>Exploring tree structure.</strong> A clade (indicated by dar
 Figure 6.7: <strong>Transforming a tree to fan layout.</strong> A tree can be transformed to fan layout by <code>open_tree</code> with specific <em>angle</em> parameter.
 </p>
 </div>
-<div class="sourceCode" id="cb184"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb185"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/rotate_tree.html">rotate_tree</a></span><span class="op">(</span><span class="va">p3</span>, <span class="fl">180</span><span class="op">)</span></code></pre></div>
 
 
@@ -333,7 +333,7 @@ Figure 6.8: <strong>Rotating tree.</strong> A circular/fan layout tree can be ro
 </p>
 </div>
 <p>The following example traverse all the internal nodes and rotate them one by one (Figure <a href="chapter6.html#fig:rotategif">6.9</a>).</p>
-<div class="sourceCode" id="cb185"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb186"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">2016</span><span class="op">-</span><span class="fl">05</span><span class="op">-</span><span class="fl">29</span><span class="op">)</span>
 <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/rtree.html">rtree</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span>
 <span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="op">)</span>
@@ -349,7 +349,7 @@ Figure 6.8: <strong>Rotating tree.</strong> A circular/fan layout tree can be ro
 Figure 6.9: <strong>Traverse and rotate all clades.</strong>
 </p>
 </div>
-<div class="sourceCode" id="cb186"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb187"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
 <span class="va">tr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/rtree.html">rtree</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span>
 <span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tr</span>, layout<span class="op">=</span><span class="st">'circular'</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="op">)</span>
@@ -367,7 +367,7 @@ Figure 6.10: <strong>Open tree with different angles.</strong>
 </p>
 </div>
 <p>Figure <a href="chapter6.html#fig:rotatetreegif">6.11</a> illustrates rotating tree with different angles.</p>
-<div class="sourceCode" id="cb187"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb188"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw">for</span> <span class="op">(</span><span class="va">angle</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">270</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
     <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/rotate_tree.html">rotate_tree</a></span><span class="op">(</span><span class="va">p</span>, <span class="va">angle</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggtitle</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"rotate angle:"</span>, <span class="va">angle</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span></code></pre></div>
@@ -418,7 +418,7 @@ Figure 6.11: <strong>Rotate tree with different angles.</strong>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-09-02.</p>
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-09-13.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
