@@ -8,6 +8,9 @@ gitbook:
 	Rscript -e 'library(bookdown); render_book("index.Rmd", "gitbook")';\
 	sed -i 's/Chalkduster/Comic Sans MS/g' gh-pages/related-tools.html 
 
+pdf:
+	pagedjs-cli ./gh-pages/index.html -o treedata-book.pdf
+
 pdfbook:
 	Rscript -e 'library(bookdown); render_book("index.Rmd", "pdf_book")'
 

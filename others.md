@@ -2,7 +2,8 @@
 
 
 ## to do
-
+https://github.com/YuLab-SMU/ggtree/pull/434
+https://github.com/YuLab-SMU/ggtree/issues/367
 
 ggtree + deeptime can do something like this, <https://www.sciencedirect.com/science/article/pii/S2590197420300197>.
 
