@@ -382,9 +382,11 @@ Figure 4.10: <strong>Color tree by continuous or discrete feature.</strong> Edge
 
 
 <div class="sourceCode" id="cb146"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">anole.tree</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/pkg/ape/man/read.tree.html">read.tree</a></span><span class="op">(</span><span class="st">"http://www.phytools.org/eqg2015/data/anole.tre"</span><span class="op">)</span>
-<span class="va">svl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"http://www.phytools.org/eqg2015/data/svl.csv"</span>,
-    row.names<span class="op">=</span><span class="fl">1</span><span class="op">)</span>
+<code class="sourceCode R"><span class="co">## anole.tree&lt;-read.tree("http://www.phytools.org/eqg2015/data/anole.tre")</span>
+<span class="co">## svl &lt;- read.csv("http://www.phytools.org/eqg2015/data/svl.csv",</span>
+<span class="co">##     row.names=1)</span>
+<span class="va">anole.tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/read.tree.html">read.tree</a></span><span class="op">(</span><span class="st">"data/anole.tre"</span><span class="op">)</span>
+<span class="va">svl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"data/svl.csv"</span>, row.names <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
 <span class="va">svl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">svl</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>
 <span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu">phytools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/phytools/man/fastAnc.html">fastAnc</a></span><span class="op">(</span><span class="va">anole.tree</span>,<span class="va">svl</span>,vars<span class="op">=</span><span class="cn">TRUE</span>,CI<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
 
@@ -394,7 +396,7 @@ Figure 4.10: <strong>Color tree by continuous or discrete feature.</strong> Edge
 
 <span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">td</span>, <span class="va">nd</span><span class="op">)</span>
 <span class="va">d</span><span class="op">$</span><span class="va">node</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">node</span><span class="op">)</span>
-<span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate-joins.html">full_join</a></span><span class="op">(</span><span class="va">anole.tree</span>, <span class="va">d</span>, by <span class="op">=</span> <span class="st">'node'</span><span class="op">)</span>
+<span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">full_join</a></span><span class="op">(</span><span class="va">anole.tree</span>, <span class="va">d</span>, by <span class="op">=</span> <span class="st">'node'</span><span class="op">)</span>
 
 <span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>color<span class="op">=</span><span class="va">trait</span><span class="op">)</span>, layout <span class="op">=</span> <span class="st">'circular'</span>, 
         ladderize <span class="op">=</span> <span class="cn">FALSE</span>, continuous <span class="op">=</span> <span class="cn">TRUE</span>, size<span class="op">=</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span>
@@ -572,7 +574,7 @@ Figure 4.16: <strong>Visualize one hundred bootstrap trees.</strong>
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">2020</span><span class="op">)</span>
 <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/rtree.html">rtree</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span>
 <span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>label<span class="op">=</span><span class="va">x</span><span class="op">$</span><span class="va">tip.label</span>, var1<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span><span class="op">)</span>, var2<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate-joins.html">full_join</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">d</span>, by<span class="op">=</span><span class="st">'label'</span><span class="op">)</span>
+<span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">full_join</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">d</span>, by<span class="op">=</span><span class="st">'label'</span><span class="op">)</span>
 <span class="va">trs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>TREE1 <span class="op">=</span> <span class="va">tree</span>, TREE2 <span class="op">=</span> <span class="va">tree</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">trs</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">'treedataList'</span>
 <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">trs</span><span class="op">)</span> <span class="op">+</span> <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">.id</span><span class="op">)</span> <span class="op">+</span> 
@@ -662,7 +664,7 @@ Figure 4.18: <strong>DensiTree.</strong>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-09-13.</p>
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-09-29.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

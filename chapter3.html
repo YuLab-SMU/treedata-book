@@ -134,7 +134,7 @@ convert NHX file to BEAST file and use NHX tags to color the tree using
 <span class="co"># write.beast(nhx, file = "phyldog.tree")</span>
 <span class="fu"><a href="https://docs.ropensci.org/treeio/reference/write.beast.html">write.beast</a></span><span class="op">(</span><span class="va">nhx</span><span class="op">)</span></code></pre></div>
 <pre><code>#NEXUS
-[R-package treeio, Mon Sep 13 10:21:51 2021]
+[R-package treeio, Wed Sep 29 15:33:28 2021]
 
 BEGIN TAXA;
     DIMENSIONS NTAX = 16;
@@ -185,7 +185,7 @@ END;</code></pre>
 <span class="co"># write.beast(ml, file = "codeml.tree")</span>
 <span class="fu"><a href="https://docs.ropensci.org/treeio/reference/write.beast.html">write.beast</a></span><span class="op">(</span><span class="va">ml</span><span class="op">)</span></code></pre></div>
 <pre><code>#NEXUS
-[R-package treeio, Mon Sep 13 10:21:51 2021]
+[R-package treeio, Wed Sep 29 15:33:28 2021]
 
 BEGIN TAXA;
     DIMENSIONS NTAX = 15;
@@ -251,10 +251,10 @@ external data onto the corresponding phylogeny. The <code><a href="https://docs.
 <div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">N</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/treeio/reference/getNodeNum.html">Nnode2</a></span><span class="op">(</span><span class="va">phylo</span><span class="op">)</span>
 <span class="va">fake_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>node <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">N</span>, fake_trait <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>, another_trait <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span><span class="op">)</span>
-<span class="va">fake_tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate-joins.html">full_join</a></span><span class="op">(</span><span class="va">phylo</span>, <span class="va">fake_data</span>, by <span class="op">=</span> <span class="st">"node"</span><span class="op">)</span>
+<span class="va">fake_tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">full_join</a></span><span class="op">(</span><span class="va">phylo</span>, <span class="va">fake_data</span>, by <span class="op">=</span> <span class="st">"node"</span><span class="op">)</span>
 <span class="fu"><a href="https://docs.ropensci.org/treeio/reference/write.beast.html">write.beast</a></span><span class="op">(</span><span class="va">fake_tree</span><span class="op">)</span></code></pre></div>
 <pre><code>#NEXUS
-[R-package treeio, Mon Sep 13 10:21:54 2021]
+[R-package treeio, Wed Sep 29 15:33:31 2021]
 
 BEGIN TAXA;
     DIMENSIONS NTAX = 16;
@@ -309,7 +309,7 @@ data obtained from software output can be combined with external data, as well
 as different tree objects can be merged together (for details, see <a href="chapter2.html#chapter2">Chapter 2</a>).</p>
 <div class="sourceCode" id="cb112"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## combine tree object with data</span>
-<span class="va">tree_with_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate-joins.html">full_join</a></span><span class="op">(</span><span class="va">nhx</span>, <span class="va">fake_data</span>, by <span class="op">=</span> <span class="st">"node"</span><span class="op">)</span>
+<span class="va">tree_with_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">full_join</a></span><span class="op">(</span><span class="va">nhx</span>, <span class="va">fake_data</span>, by <span class="op">=</span> <span class="st">"node"</span><span class="op">)</span>
 <span class="va">tree_with_data</span></code></pre></div>
 <pre><code>## 'treedata' S4 object that stored information of
 ##  '/home/ygc/R/library/treeio/extdata/NHX/phyldog.nhx'.
@@ -385,7 +385,7 @@ be exported into a single file.</p>
 <div class="sourceCode" id="cb118"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://docs.ropensci.org/treeio/reference/write.beast.html">write.beast</a></span><span class="op">(</span><span class="va">tree2</span><span class="op">)</span></code></pre></div>
 <pre><code>#NEXUS
-[R-package treeio, Mon Sep 13 10:21:54 2021]
+[R-package treeio, Wed Sep 29 15:33:31 2021]
 
 BEGIN TAXA;
     DIMENSIONS NTAX = 16;
@@ -437,7 +437,7 @@ using <a href="https://bioconductor.org/packages/ggtree/">ggtree</a> <span class
 <span class="fu"><a href="https://docs.ropensci.org/treeio/reference/write.beast.html">write.beast</a></span><span class="op">(</span><span class="va">tree2</span>, file <span class="op">=</span> <span class="va">outfile</span><span class="op">)</span>
 <span class="fu"><a href="https://docs.ropensci.org/treeio/reference/beast-parser.html">read.beast</a></span><span class="op">(</span><span class="va">outfile</span><span class="op">)</span></code></pre></div>
 <pre><code>## 'treedata' S4 object that stored information of
-##  '/tmp/Rtmpokvzlv/filefe7e59644620.tree'.
+##  '/tmp/RtmpZNddcF/file35338557e2144.tree'.
 ## 
 ## ...@ phylo:
 ## 
@@ -741,7 +741,7 @@ exporting tree with data in the <code>jtree</code> format, which is JSON-based a
     "another_trait": 0.9664
   }
 ],
-    "metadata": {"info": "R-package treeio", "data": "Mon Sep 13 10:21:54 2021"}
+    "metadata": {"info": "R-package treeio", "data": "Wed Sep 29 15:33:31 2021"}
 }</code></pre>
 <p>The <code>jtree</code> format is based on JSON and can be parsed using JSON parser.</p>
 <div class="sourceCode" id="cb124"><pre class="downlit sourceCode r">
@@ -790,14 +790,14 @@ $metadata$info
 [1] "R-package treeio"
 
 $metadata$data
-[1] "Mon Sep 13 10:21:54 2021"</code></pre>
+[1] "Wed Sep 29 15:33:31 2021"</code></pre>
 <p>The <code>jtree</code> file can be directly imported as a <code>treedata</code> object using
 the <code><a href="https://docs.ropensci.org/treeio/reference/read-jtree.html">read.jtree()</a></code> function provided also
 in <a href="https://bioconductor.org/packages/treeio/">treeio</a> package (see also <a href="chapter1.html#jtree">session 1.3</a>).</p>
 <div class="sourceCode" id="cb126"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://docs.ropensci.org/treeio/reference/read-jtree.html">read.jtree</a></span><span class="op">(</span><span class="va">jtree_file</span><span class="op">)</span></code></pre></div>
 <pre><code>## 'treedata' S4 object that stored information of
-##  '/tmp/Rtmpokvzlv/filefe7e52813fa8.jtree'.
+##  '/tmp/RtmpZNddcF/file3533863d9635f.jtree'.
 ## 
 ## ...@ phylo:
 ## 
@@ -872,7 +872,7 @@ in <a href="https://bioconductor.org/packages/treeio/">treeio</a> package (see a
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-09-13.</p>
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-09-29.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
