@@ -20,7 +20,7 @@ Online tools such as `iTOL` [@letunic_interactive_2007] and `EvolView` [@he_evol
 (ref:frogimagecap) **Labelling taxa with images.** 
 
 
-```{r frogimage, fig.width=8.5, fig.height=7, message=F, warning=F, dev='svg', dpi=200, fig.cap="(ref:frogimagecap)", fig.scap="(ref:frogimagescap)", out.width='100%'}
+```{r frogimage, fig.width=8.5, fig.height=7, message=F, warning=F, dev='png', dpi=200, fig.cap="(ref:frogimagecap)", fig.scap="(ref:frogimagescap)", out.width='100%'}
 library(ggimage)
 library(ggtree)
 
@@ -69,7 +69,15 @@ newick <- "((Pongo_abelii,(Gorilla_gorilla_gorilla,(Pan_paniscus,Pan_troglodytes
 tree <- read.tree(text=newick)
 
 d <- ggimage::phylopic_uid(tree$tip.label)
+
+## optional: download the phylopic images
+ggimage::download_phylopic(d$uid, destdir="data/phylopic", quiet=TRUE)
+
 d$body_mass = c(52, 114, 47, 45, 58, 6)
+
+## to enable using downloaded files
+## otherwise, geom_tiplab will try to read the online images
+options(phylopic_dir = "data/phylopic")
 
 p <- ggtree(tree) %<+% d + 
   geom_tiplab(aes(image=uid, colour=body_mass), geom="phylopic", offset=2.5) +
