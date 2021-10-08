@@ -11,7 +11,7 @@ Taxonomy (genus, family, ...) data are widely used in microbiome or ecology. Hie
 
 (ref:TaxaToTreecap) **Convert a `taxonomyTable` object to a `treedata` object.** 
 
-```{r TaxaTree, fig.widht=8, fig.height=8, fig.process=svg2png, fig.cap="(ref:TaxaToTreecap)", fig.scap="ref:TaxaToTreescap"}
+```{r TaxaTree, fig.widht=8, fig.height=8, fig.cap="(ref:TaxaToTreecap)", fig.scap="ref:TaxaToTreescap"}
 library(MicrobiotaProcess)
 library(ggtree)
 
@@ -44,87 +44,12 @@ ggtree(tr) + geom_tiplab() + xlim(NA, 5)
 
 
 
-## Convert ggtree to plotly object {#plotly}
-
-One way to make quick interactive phylogenetic tree is using `r Biocpkg("ggtree")` with the `r CRANpkg("plotly")` package. The [ggplotly()](https://plotly-r.com/improving-ggplotly.html) is able to convert `ggtree` object to a `plotly` object. Note that the `r Biocpkg("ggtree")` package also supports interactive manipulation of phylogenetic tree via the [identify()](#identify) method.
-
-
-```r
-# example from https://twitter.com/drandersgs/status/965996335882059776
-
-# LOAD LIBS ---------------------------------------------------------------
-library(ape)
-library(ggtree)
-library(plotly)
-# CREATE A TREE -------------------------------------------------------------
-n_samples <- 20
-n_grp <- 4
-tree <- ape::rtree(n = n_samples)
-# CREATE SOME METADATA ----------------------------------------------------
-id <- tree$tip.label
-set.seed(42)
-grp <- sample(LETTERS[1:n_grp], size = n_samples, replace = T)
-dat <- tibble::tibble(id = id,
-                      grp = grp)
-# PLOT THE TREE -----------------------------------------------------------
-p1 <- ggtree(tree)
-metat <- p1$data %>%
-  dplyr::inner_join(dat, c('label' = 'id'))
-p2 <- p1 +
-  geom_point(data = metat,
-             aes(x = x,
-                 y = y,
-                 colour = grp,
-                 label = id))
-plotly::ggplotly(p2)
+```{r, eval = !knitr::is_latex_output(), child="ggtree-plotly.Rmd"}
 ```
 
 
-(ref:ggtreeplotlyscap) Interactive phylogenetic tree by combining ggtree with plotly.
-
-(ref:ggtreeplotlycap) **Interactive phylogenetic tree by combining ggtree with plotly.**
-
-
-
-```{r ggtreeplotly, fig.cap="(ref:ggtreeplotlycap)", fig.scap="(ref:ggtreeplotlyscap)", echo=FALSE, out.width='100%'} 
-knitr::include_graphics("img/ggtree-plotly.gif")
+```{r, eval = !knitr::is_latex_output(), child="ggtree-commicR.Rmd"}
 ```
-
-
-
-## Comic (xkcd-like) phylogenetic tree {#commicR}
-
-
-```{r ggsvg, fig.show='hide'}
-library(htmltools)    
-library(XML)    
-library(gridSVG)    
-library(ggplot2)    
-library(ggtree)
-library(comicR)    
-
-p <- ggtree(rtree(30), layout="circular")  +
-    geom_tiplab(aes(label=label), color="purple")
-print(p)
-svg <- grid.export(name="", res=100)$svg
-```
-
-(ref:comicRscap) Remove image background.
-
-(ref:comicRcap) **Remove image background.** Plotting silhouette images on phylogenetic tree without (A) and with (B) background remove.
-
-
-```{r comicR} 
-tagList(
-    tags$div(
-             id = "ggtree_comic",
-             tags$style("#ggtree_comic text {font-family:Chalkduster;}"),
-             HTML(saveXML(svg)),
-             comicR("#ggtree_comic", ff=5)
-         )
-) # %>% html_print
-```
-
 
 
 ## Print ASCII-art rooted tree {#ascii-tree}
@@ -141,7 +66,9 @@ It is neat to print ASCII-art of phylogeny. Sometimes we don't want to plot the 
 
 `r Biocpkg("ggtree")` supports parsing tip labels as emoji to create [phylomoji](#phylomoji). With the `r CRANpkg("data.tree")` and `r CRANpkg("emojifont")` packages, we can also print phylomoji as ASCII text.
 
-```{r asciiTreeEmoji, comment=NA}
+
+
+```{r asciiTreeEmoji, comment=NA, eval=FALSE}
 library(emojifont)
 
 tt <- '((snail,mushroom),(((sunflower,evergreen_tree),leaves),green_salad));'
@@ -211,7 +138,7 @@ The `geom_bgimage` add a layer of the image and put the layer to the bottom of t
 (ref:bgimagecap) **Use image file as tree background.**
 
 
-```{r bgimage, fig.width=6, fig.height=4, fig.process=svg2png, fig.cap="(ref:bgimagecap)", fig.scap="(ref:bgimagescap)"} 
+```{r bgimage, fig.width=6, fig.height=4, fig.cap="(ref:bgimagecap)", fig.scap="(ref:bgimagescap)"} 
 ggtree(rtree(20), size=1.5, color="white") + 
   geom_bgimage('img/blackboard.jpg') + 
   geom_tiplab(color="white", size=5, family='xkcd')

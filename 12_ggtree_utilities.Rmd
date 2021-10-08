@@ -417,20 +417,25 @@ cowplot::plot_grid(p1, p2, ncol=2, labels = c("A", "B"))
 
 ## Interactive ggtree annotation {#identify}
 
-The `r Biocpkg("ggtree")` package supports interactive tree annotation or manipulation by implementing an `identify()` method. Users can click on a node to highlight a clade, to label or rotate it *etc*. Users can also use the `r CRANpkg("plotly")` package to convert `ggtree` to `plotly` object to quickly create [interactive phylogenetic tree](#plotly).
 
+```{r echo=FALSE}
+link = ifelse (knitr::is_latex_output(), "https://twitter.com/drandersgs/status/965996335882059776", "#plotly")
 
-
-
-(ref:ggtreeidentifyscap) Interactive phylogenetic tree using identify() method.
-
-(ref:ggtreeidentifycap) **Interactive phylogenetic tree using identify() method.** Highlighting, labelling and rotating clades are all supported.
-
-
-
-```{r ggtreeidentify, out.width="100%", fig.cap="(ref:ggtreeidentifycap)", fig.scap="(ref:ggtreeidentifyscap)", echo=FALSE}
-knitr::include_graphics("img/ggtree-identify.gif")
+plotly_ggtree_link <- paste0("[interactive phylogenetic tree](", link, ")")
 ```
+
+
+The `r Biocpkg("ggtree")` package supports interactive tree annotation or manipulation by implementing an `identify()` method. Users can click on a node to highlight a clade, to label or rotate it *etc*. Users can also use the `r CRANpkg("plotly")` package to convert `ggtree` to `plotly` object to quickly create 
+```{r results='asis', echo=FALSE}
+cat(plotly_ggtree_link)
+```
+.
+
+
+
+```{r, eval = !knitr::is_latex_output(), child="ggtree-identity.Rmd"}
+```
+
 
 Video of using `identify()` to interactively manipulate phylogenetic tree can be found on Youtube `r icon::fa("youtube", colour='red')` and Youku:
 

@@ -20,14 +20,19 @@ monofontoptions: "Scale=0.7"
 linestretch: 1.5
 toc-depth: 2
 link-citations: yes
+colorlinks: yes
+lot: yes
+lof: yes
 github-repo: YuLab-SMU/treedata-book
 twiter-handle: guangchuangyu
 description: "Master ggtree package suit to handle tree with data."
-documentclass: book
+documentclass: krantz
 papersize: A4
 classoption: twoside
 highlight_bw: yes
+graphics: yes
 geometry: "left=35mm,right=35mm,top=25mm,bottom=25mm"
+cover-image: book-cover.png
 ---
 
 
@@ -72,7 +77,10 @@ conflict_prefer("geom_errorbarh", "ggplot2")
 conflict_prefer("as.data.frame", "BiocGenerics")
 
 
-options(width=60)
+options(
+  htmltools.dir.version = FALSE, formatR.indent = 2, width = 55, digits = 4
+)
+
 
 theme_set(theme_grey())
 
@@ -121,8 +129,15 @@ svg2png <- function(path, options) {
 
 library(knitr)
 opts_chunk$set(message=FALSE, warning=FALSE, eval=TRUE, 
-            echo=TRUE, cache=TRUE, dev='svg', out.width="98%",
+            echo=TRUE, cache=TRUE, out.width="98%",
             fig.process=svg2png)
+
+if (knitr::is_latex_output()) {
+    opts_chunk$set(dev = "cairo_pdf")
+} else {
+    opts_chunk$set(dev = "svg")
+}
+
 ```
 
 

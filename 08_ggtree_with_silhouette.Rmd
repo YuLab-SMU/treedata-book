@@ -62,7 +62,7 @@ pg <- pg %<+% phylopic_info +
 
 `r CRANpkg("ggimage")` package supports querying phylopic uid from scientific name, which is very handy for annotating tree with phylopic.
 
-```{r ggimage_phylopic, dev='svg'}
+```{r ggimage_phylopic, eval=FALSE}
 library(ggtree)
 newick <- "((Pongo_abelii,(Gorilla_gorilla_gorilla,(Pan_paniscus,Pan_troglodytes)Pan,Homo_sapiens)Homininae)Hominidae,Nomascus_leucogenys)Hominoidea;"
 
@@ -93,9 +93,10 @@ p <- ggtree(tree) %<+% d +
 (ref:phylopiccap) **Labelling taxa with phylopic images.** ggtree will automatically download phylopic figures by querying provided UID. The figures can be colored using numerical or categorical values.
 
 
-```{r phylopic, fig.width=6, figh.height=5, dev='svg', fig.cap="(ref:phylopiccap)", fig.scap="(ref:phylopicscap)", echo=FALSE}
-print(p)
+```{r phylopic, fig.width=6, figh.height=5, fig.cap="(ref:phylopiccap)", fig.scap="(ref:phylopicscap)", echo=FALSE}
+# print(p)
 # cowplot::plot_grid(pg, p, ncol=2, labels=LETTERS[1:2]) 
+knitr::include_graphics("img/phylopic.png")
 ```
 
 ## Annotating Tree with Sub-plots {#subplots}
@@ -111,7 +112,7 @@ print(p)
 
 
 
-```{r barInset, fig.width=10, fig.height=9.6, fig.process=svg2png, fig.cap="(ref:barInsetcap)", fig.scap="(ref:barInsetscap)", out.width='100%'}
+```{r barInset, fig.width=10, fig.height=9.6, fig.cap="(ref:barInsetcap)", fig.scap="(ref:barInsetscap)", out.width='100%'}
 library(phytools)
 data(anoletree)
 x <- getStates(anoletree,"tips")
@@ -151,7 +152,7 @@ Similarly, users can use `nodepie` function to generate a list of pie charts and
 
 
 
-```{r pieInset, fig.width=10, fig.height=9.6, fig.process=svg2png, fig.cap="(ref:pieInsetcap)", fig.scap="(ref:pieInsetscap)", out.width='100%'}
+```{r pieInset, fig.width=10, fig.height=9.6, fig.cap="(ref:pieInsetcap)", fig.scap="(ref:pieInsetscap)", out.width='100%'}
 pies <- nodepie(ancstats, cols = 1:6)
 pies <- lapply(pies, function(g) g+scale_fill_manual(values = cols))
 p + geom_inset(pies, width = .1, height = .1) 
@@ -168,7 +169,7 @@ The `inset` function accepts a list of ggplot graphic objects and these input ob
 
 
 
-```{r barpieInset, fig.width=10, fig.height=9.6, fig.process=svg2png, fig.cap="(ref:barpieInsetcap)", fig.scap="(ref:barpieInsetscap)", out.width='100%'}
+```{r barpieInset, fig.width=10, fig.height=9.6, fig.cap="(ref:barpieInsetcap)", fig.scap="(ref:barpieInsetscap)", out.width='100%'}
 pies_and_bars <- pies
 i <- sample(length(pies), 20)
 pies_and_bars[i] <- bars[i]
@@ -194,7 +195,7 @@ Here, we will use **ggtree** to recreate the figure:
 (ref:phylomoji1cap) **Parsing label as emoji.** Text (*e.g.* node or tip labels) can be parsed as emoji. 
 
 
-```{r phylomoji1, fig.width=7, fig.height=5, warning=F, dev='svg', fig.cap="(ref:phylomoji1cap)", fig.scap="(ref:phylomoji1scap)", out.width='100%'}
+```{r phylomoji1, fig.width=7, fig.height=5, warning=F, fig.cap="(ref:phylomoji1cap)", fig.scap="(ref:phylomoji1scap)", out.width='100%'}
 library(ggplot2)
 library(ggtree)
 
@@ -234,7 +235,7 @@ p2 %>% rotate_tree(-90)
 (ref:emojifancap) **Phylomoji in cirular and fan layouts.** 
 
 
-```{r emojifan, fig.width=9.2, fig.height=7.3, fig.process=svg2png, warning=F, echo=F, dev='svg', fig.cap="(ref:emojifancap)", fig.scap="(ref:emojifanscap)", out.width='100%'}
+```{r emojifan, fig.width=9.2, fig.height=7.3, warning=F, echo=F, fig.cap="(ref:emojifancap)", fig.scap="(ref:emojifanscap)", out.width='100%'}
 p <- ggtree(tree, layout = "circular", size=1) +  
   geom_tiplab(parse="emoji", size=10, vjust=.25)
 
@@ -271,7 +272,7 @@ Another example using `r Biocpkg("ggtree")` and `r CRANpkg("emojifont")` to prod
 (ref:emojicladecap) **Emoji to label clades.** 
 
 
-```{r emojiclade, fig.width=6, fig.height=5, dev='svg', fig.cap="(ref:emojicladecap)", fig.scap="(ref:emojicladescap)", out.width='100%'}
+```{r emojiclade, fig.width=6, fig.height=5, fig.cap="(ref:emojicladecap)", fig.scap="(ref:emojicladescap)", out.width='100%'}
 set.seed(123)
 tr <- rtree(30)
 

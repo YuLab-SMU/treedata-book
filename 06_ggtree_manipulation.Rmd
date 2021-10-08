@@ -285,7 +285,13 @@ ggplot() + ylim(0.5, 1) + xlim(0, 1)  + theme_tree() +
 
 The following example traverse all the internal nodes and rotate them one by one (Figure \@ref(fig:rotategif)).
 
-```{r eval=F}
+
+(ref:rotategifscap) Traverse and rotate all clades.
+
+(ref:rotategifcap) **Traverse and rotate all clades.** 
+
+
+```{r eval=F, echo=!knitr::is_latex_output()}
 set.seed(2016-05-29)
 x <- rtree(50)
 p <- ggtree(x) + geom_tiplab()
@@ -296,16 +302,28 @@ for (n in reorder(x, 'postorder')$edge[,1] %>% unique) {
 ```
 
 
-(ref:rotategifscap) Traverse and rotate all clades.
-
-(ref:rotategifcap) **Traverse and rotate all clades.** 
-
-```{r rotategif, fig.width=8, fig.height=9.6, echo=FALSE, fig.cap="(ref:rotategifcap)", fig.scap="(ref:rotategifscap)"}
+```{r rotategif, fig.width=8, fig.height=9.6, echo=FALSE, eval=!knitr::is_latex_output()}
 knitr::include_graphics("img/rotate_clade.gif")
 ```
 
 
-```{r eval=FALSE}
+```{r rotategif, eval=knitr::is_latex_output(), echo=knitr::is_latex_output(), fig.width=15, fig.height=6}
+set.seed(2016-05-29)
+x <- rtree(50)
+p <- ggtree(x) + geom_tiplab()
+
+nn <- sample(unique(reorder(x, 'postorder')$edge[,1]), 4)
+
+pp <- lapply(nn, function(n) {
+    p <- rotate(p, n)
+    p + geom_point2(aes(subset=(node == n)), color='red')
+})
+
+plot_list(gglist=pp, tag_levels='A', nrow=1)
+```
+
+
+```{r eval=FALSE, echo=!knitr::is_latex_output()}
 set.seed(123)
 tr <- rtree(50)
 p <- ggtree(tr, layout='circular') + geom_tiplab()
@@ -322,14 +340,29 @@ Figure \@ref(fig:fangif) demonstrates the usage of `open_tree` with different op
 
 (ref:fangifcap) **Open tree with different angles.** 
 
-```{r fangif, fig.width=8, fig.height=9.6, echo=FALSE, fig.cap="(ref:fangifcap)", fig.scap="(ref:fangifscap)"}
+```{r fangif, fig.width=8, fig.height=9.6, echo=FALSE, fig.cap="(ref:fangifcap)", fig.scap="(ref:fangifscap)", eval=!knitr::is_latex_output()}
 knitr::include_graphics("img/fan_layout.gif")
 ```
+
+```{r fangif, eval=knitr::is_latex_output(), echo=knitr::is_latex_output(), fig.width=8, fig.height=8, message=FALSE}
+set.seed(123)
+tr <- rtree(50)
+p <- ggtree(tr, layout='circular') 
+angles <- seq(0, 270, length.out=6)
+
+pp <- lapply(angles, function(angle) {
+  open_tree(p, angle=angle) + ggtitle(paste("open angle:", angle))
+})
+
+plot_list(gglist=pp, tag_levels='A', nrow=2)
+```
+
+
 
 Figure \@ref(fig:rotatetreegif) illustrates rotating tree with different angles.
 
 
-```{r eval=FALSE}
+```{r eval=FALSE, echo=!knitr::is_latex_output()}
 for (angle in seq(0, 270, 10)) {
     print(rotate_tree(p, angle) + ggtitle(paste("rotate angle:", angle)))
 }
@@ -340,11 +373,19 @@ for (angle in seq(0, 270, 10)) {
 
 (ref:rotatetreegifcap) **Rotate tree with different angles.** 
 
-```{r rotatetreegif, fig.width=8, fig.height=9.6, echo=FALSE, fig.cap="(ref:rotatetreegifcap)", fig.scap="(ref:rotatetreegifscap)"}
+```{r rotatetreegif, fig.width=8, fig.height=9.6, echo=FALSE, eval=!knitr::is_latex_output(), fig.cap="(ref:rotatetreegifcap)", fig.scap="(ref:rotatetreegifscap)"}
 knitr::include_graphics("img/rotate_tree.gif")
 ```
 
 
+```{r eval=knitr::is_latex_output(), echo=knitr::is_latex_output(), fig.width=8, fig.height=8, message=FALSE}
+p <- p + geom_tippoint(aes(subset = node == 1), colour = 'red', size=3)
+pp <- lapply(angles, function(angle) {
+  rotate_tree(p, angle=angle) + ggtitle(paste("rotate angle:", angle))
+})
+
+plot_list(gglist=pp, tag_levels='A', nrow=2)
+```
 
 
 Interactive tree manipulation is also possible via [`identify` methods](#identify).
