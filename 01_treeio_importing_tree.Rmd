@@ -13,16 +13,6 @@ library(tidytree)
 library(ggplot2)
 
 library("treeio")
-
-CRANpkg <- function (pkg) {
-    cran <- "https://CRAN.R-project.org/package"
-    fmt <- "[%s](%s=%s)"
-    sprintf(fmt, pkg, cran, pkg)
-}
-
-Biocpkg <- function (pkg) {
-    sprintf("[%s](http://bioconductor.org/packages/%s)", pkg, pkg)
-}
 ```
 
 ## Overview of Phylogenetic Tree Construction {#pc}
@@ -231,9 +221,9 @@ cat(str_wrap(tr, linewidth))
 ```
 
 
-*BEAST* output can contain many different evolutionary inferences, depending on the analysis models defined in *BEAUTi* for running. For example in molecular clock analysis, it contains `rate`, `length`, `height`, `posterior` and corresponding HPD and range for uncertainty estimation. `Rate` is the estimated evolutionary rate of the branch. `Length` is the length of the branch in years. `Height` is the time from node to root while `posterior` is the Bayesian clade credibility value. The above example is the output tree of clock analysis and should contain these inferences. To save space, only the `length` estimation was shown above. Besides, MEGA [@kumar_mega7_2016] also supports exporting tree in BEAST compatible Nexus format (see [session 1.3.2](#mega)). 
+*BEAST* output can contain many different evolutionary inferences, depending on the analysis models defined in *BEAUTi* for running. For example in molecular clock analysis, it contains `rate`, `length`, `height`, `posterior` and corresponding HPD and range for uncertainty estimation. `Rate` is the estimated evolutionary rate of the branch. `Length` is the length of the branch in years. `Height` is the time from node to root while `posterior` is the Bayesian clade credibility value. The above example is the output tree of a molecular clock analysis and should contain these inferences. To save space, only the `length` estimation was shown above. Besides, **MEGA** [@kumar_mega7_2016] also supports exporting tree in BEAST compatible Nexus format (see [session 1.3.2](#mega)). 
 
-*MrBayes*\index{MrBayes} [@huelsenbeck_mrbayes_2001] is a program that uses Markov Chain Monte Carlo\index{Markov Chain Monte Carlo} method to sample from the posterior probability distributions. Its output file annotates nodes and branches separately by two sets of square brackets. For example below, posterior clade probabilities for the node and branch length estimates for the branch:
+**MrBayes**\index{MrBayes} [@huelsenbeck_mrbayes_2001] is a program that uses Markov Chain Monte Carlo\index{Markov Chain Monte Carlo} method to sample from the posterior probability distributions. Its output file annotates nodes and branches separately by two sets of square brackets. For example below, posterior clade probabilities for the node and branch length estimates for the branch:
 
 
 ```{r echo=F, comment=NA}
