@@ -1,5 +1,7 @@
 # (PART\*) Part I: Tree data input, output and manipulation {-}
 
+\newpage
+
 # Importing Tree with Data {#chapter1}
 
 
@@ -117,7 +119,7 @@ Newick tree format was developed by Meacham in 1984 for the *PHYLIP* [@retief_ph
 
 The NEXUS\index{NEXUS} format [@maddison_nexus:_1997] incorporates Newick tree text with related information organized into separated units known as **blocks**. A NEXUS block has the following structure:
 
-\setstretch{1.2}
+
 ```
 #NEXUS
 ...
@@ -125,16 +127,14 @@ BEGIN characters;
 ...
 END;
 ```
-\setstretch{1.5}
 
 For example, the above example tree can be saved as a following NEXUS format:
 
-\setstretch{1.2}
 ```{r message=FALSE, echo=FALSE, eval=TRUE}
 write.nexus(tr)
 ```
 
-\setstretch{1.5}
+
 
 Comments can be placed by using square brackets. Some blocks can be recognized by most of the programs including `TAXA` (contains information of taxa), `DATA` (contains data matrix, *e.g.*, sequence alignment) and `TREE` (contains phylogenetic tree, *i.e.*, Newick tree text). Notably, blocks can be very diversed and some of them are only be recognized by one particular program. For example NEXUS file exported by *PAUP\** has a **paup** block which contains *PAUP\** commands, whereas *FigTree* exports NEXUS file with a **figtree** block that contains visualization settings. NEXUS organizes different types of data into different blocks, whereas programs that support reading NEXUS can parse some blocks they recognized and ignore those they could not. This is a good mechanism to allow different programs to use the same format without crashing when unsupported types of data are present. Notably most of the programs only support parsing `TAXA`, `DATA` and `TREE` blocks, therefore a program/platform that could generically read all kinds of data blocks from the NEXUS would be useful for phylogenetic data integration.
 
@@ -157,12 +157,11 @@ Newick, NEXUS and phylip are mainly designed to store phylogenetic tree and basi
 
 Here is a sample tree from NHX definition document^[http://www.genetics.wustl.edu/eddy/forester/NHX.html]:
 
-\setstretch{1.2}
 ```{r echo=F, comment=NA}
 x <- "(((ADH2:0.1[&&NHX:S=human], ADH1:0.11[&&NHX:S=human]):0.05[&&NHX:S=primates:D=Y:B=100],ADHY:0.1[&&NHX:S=nematode],ADHX:0.12[&&NHX:S=insect]):0.1[&&NHX:S=metazoa:D=N],(ADH4:0.09[&&NHX:S=yeast],ADH3:0.13[&&NHX:S=yeast], ADH2:0.12[&&NHX:S=yeast],ADH1:0.11[&&NHX:S=yeast]):0.1[&&NHX:S=Fungi])[&&NHX:D=N];"
 cat(str_wrap(x, linewidth))
 ```
-\setstretch{1.5}
+
 
 
 ### Jplace format 
@@ -171,7 +170,7 @@ In order to store the NGS short reads mapped onto a phylogenetic tree (for the p
 
 Here is a jplace sample file:
 
-\setstretch{1.2}
+
 ```
 {
 	"tree": "(((((((A:4{1},B:4{2}):6{3},C:5{4}):8{5},D:6{6}):
@@ -200,7 +199,7 @@ Here is a jplace sample file:
 	]
 }
 ```
-\setstretch{1.5}
+
 
 Jplace is the output format of *pplacer*\index{pplacer} [@matsen_pplacer:_2010] and Evolutionary Placement Algorithm (*EPA*\index{EPA}) [@berger_performance_2011]. But these two programs do not contain tools to visualize placement results. *Pplacer* provides `placeviz` to convert jplace file to phyloXML\index{phyloXML} or Newick formats which can be visualized by *Archaeopteryx*^[https://sites.google.com/site/cmzmasek/home/software/archaeopteryx]. 
 
@@ -213,7 +212,7 @@ Jplace is the output format of *pplacer*\index{pplacer} [@matsen_pplacer:_2010] 
 
 Here is a sample `TREE` block of the *BEAST* output:
 
-\setstretch{1.2}
+
 ```{r echo=FALSE, comment=NA}
 f <- system.file("extdata/BEAST/beast_mcc.tree", package="treeio")
 x <- readLines(f)
@@ -230,13 +229,13 @@ tr <- gsub("(:\\d+\\.\\d{2})\\d*,", "\\1,", tr)
 #cat(paste0(x, collapse="\n"))
 cat(str_wrap(tr, linewidth))
 ```
-\setstretch{1.5}
+
 
 *BEAST* output can contain many different evolutionary inferences, depending on the analysis models defined in *BEAUTi* for running. For example in molecular clock analysis, it contains `rate`, `length`, `height`, `posterior` and corresponding HPD and range for uncertainty estimation. `Rate` is the estimated evolutionary rate of the branch. `Length` is the length of the branch in years. `Height` is the time from node to root while `posterior` is the Bayesian clade credibility value. The above example is the output tree of clock analysis and should contain these inferences. To save space, only the `length` estimation was shown above. Besides, MEGA [@kumar_mega7_2016] also supports exporting tree in BEAST compatible Nexus format (see [session 1.3.2](#mega)). 
 
 *MrBayes*\index{MrBayes} [@huelsenbeck_mrbayes_2001] is a program that uses Markov Chain Monte Carlo\index{Markov Chain Monte Carlo} method to sample from the posterior probability distributions. Its output file annotates nodes and branches separately by two sets of square brackets. For example below, posterior clade probabilities for the node and branch length estimates for the branch:
 
-\setstretch{1.2}
+
 ```{r echo=F, comment=NA}
 f <- system.file("extdata/MrBayes/Gq_nxs.tre", package="treeio")
 x <- readLines(f)
@@ -262,7 +261,7 @@ tr <- gsub("(:\\d+\\.\\d{2})\\d*([e\\,\\[]{1})", "\\1\\2", tr)
 #cat(paste0(x, collapse="\n"))
 cat(str_wrap(tr, linewidth))
 ```
-\setstretch{1.5}
+
 
 To save space, most of the inferences were removed and only contains `prob` for clade probability and `length_mean` for mean value of branch length. The full version of this file also contains `prob_stddev`, `prob_range`, `prob(percent)`, `prob+-sd` for probability inferences and `length_median`, `length_95%_HPD` for every branch.
 
@@ -270,7 +269,7 @@ The *BEAST* and *MrBayes* outputs are expected to be parsed without inferences (
 
 *HyPhy*\index{HyPhy} [@pond_hyphy:_2005] could do a number of phylogenetic analysis, including ancestral sequence\index{ancestral sequences} reconstruction. For ancestral sequence reconstruction, these sequences and the Newick tree text are stored in NEXUS format as the major analysis output. It did not completely follow the NEXUS\index{NEXUS} definition and only put the ancestral node labels in `TAXA` instead of the external node label. The `MATRIX` block contains sequence alignment of ancestral nodes which cannot be referred back to the tree stored in `TREES` block since it does not contain node labels. Here is the sample output (to save space, only the first 72bp of alignment are shown):
 
-\setstretch{1.2}
+
 ```{r echo=FALSE, warning=FALSE, comment=NA}
 f <- system.file("extdata/HYPHY/ancseq.nex", package="treeio")
 x <- readLines(f)
@@ -279,7 +278,6 @@ x[4] <- sub("on", "\n\ton",x[4])
 x[11] <- sub("'Node15' ", "'Node15'\n\t\t\t", x[11]) 
 cat(paste0(x, collapse="\n"))
 ```
-\setstretch{1.5}
 
 
 There are other applications that output rich information text that also contains phylogenetic trees with associated data. For example *r8s*\index{r8s} [@sanderson_r8s:_2003] output three trees in its log file, namely `TREE`, `RATE` and `PHYLO` for branches scaled by time, substitution rate, and absolute substitutions respectively.

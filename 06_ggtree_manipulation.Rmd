@@ -1,3 +1,5 @@
+\newpage
+
 # Visual Exploration of Phylogenetic Tree {#chapter6}
 
 
@@ -46,7 +48,7 @@ A clade is a monophyletic group that contains a single ancestor and all of its d
 
 (ref:viewCladecap) **Viewing a selected clade of a tree.** An example tree used to demonstrate how *ggtree* support exploring or manipulating phylogenetic tree visually (A). The *ggtree* supports visualizing selected clade (B). A clade can be selected by specifying a node number or determined by most recent common ancestor of selected tips.
 
-\setstretch{1.2}
+
 ```{r eval=F, fig.cap="(ref:viewCladecap)", fig.scap="(ref:viewCladescap)", out.extra=''}
 library(ggtree)
 nwk <- system.file("extdata", "sample.nwk", package="treeio")
@@ -54,7 +56,7 @@ tree <- read.tree(nwk)
 p <- ggtree(tree) + geom_tiplab()
 viewClade(p, MRCA(p, "I", "L"))
 ```
-\setstretch{1.5}
+
 
 ```{r viewClade, echo=F, fig.cap="(ref:viewCladecap)", message=F, warning=F, fig.scap="(ref:viewCladescap)", out.extra='', out.width='100%'}
 library(ggtree)
@@ -80,14 +82,14 @@ The *ggtree* provides another option to zoom out (or compress) these clades via 
 
 (ref:scaleCladecap) **Scaling selected clade.** Clades can be zoom in (if `scale > 1`) to highlight or zoom out to save space. 
 
-\setstretch{1.2}
+
 ```{r scaleClade, message=FALSE, fig.cap="(ref:scaleCladecap)", fig.scap="(ref:scaleCladescap)", out.extra='', out.width='100%'}
 tree2 <- groupClade(tree, c(17, 21))
 p <- ggtree(tree2, aes(color=group)) + theme(legend.position='none') +
   scale_color_manual(values=c("black", "firebrick", "steelblue"))
 scaleClade(p, node=17, scale=.1) 
 ```
-\setstretch{1.5}
+
 
 If users want to emphasize important clades, they can use `scaleClade` function with `scale` parameter larger than 1. Then the selected clade will be zoomed in. Users can also use `groupClade` to select clades and color them with different colors as shown in Figure \@ref(fig:scaleClade).
 
@@ -103,7 +105,7 @@ It is a common practice to prune or collapse clades so that certain aspects of a
 (ref:collapseExpandcap) **Collapsing selected clades and expanding collapsed clades.** Clades can be selected to collapse (A) and the collapsed clades can be expanded back (B) if necessary as *ggtree* stored all information of species relationships. Green and red symbols were displayed on the tree to indicate the collapsed clades. 
 
 
-\setstretch{1.2}
+
 ```{r collapseClade, eval=F, fig.cap="(ref:collapseCladecap)", fig.scap="(ref:collapseCladescap)", out.extra=''}
 p2 <- p %>% collapse(node=21) + 
   geom_point2(aes(subset=(node==21)), shape=21, size=5, fill='green')
@@ -112,7 +114,7 @@ p2 <- collapse(p2, node=23) +
 print(p2)
 expand(p2, node=23) %>% expand(node=21)
 ```
-\setstretch{1.5}
+
 
 ```{r collapseExpand, echo=F, fig.cap="(ref:collapseExpandcap)", fig.scap="(ref:collapseExpandscap)", out.extra='', fig.width=8, fig.height=4, out.width='100%'}
 p2 <- p %>% collapse(node=21) + 
@@ -189,7 +191,7 @@ A phylogenetic tree can be annotated by mapping different line type, size, color
 (ref:groupOTUcap) **Grouping OTUs.** OTU clustering based on their relationships. Selected OTUs and their ancestors upto MRCA will be clustered together.
 
 
-\setstretch{1.2}
+
 ```{r groupOTU, message=FALSE, fig.cap="(ref:groupOTUcap)", fig.scap="(ref:groupOTUscap)", out.extra='', out.width='100%'}
 data(iris)
 rn <- paste0(iris[,5], "_", 1:150)
@@ -205,7 +207,7 @@ p_iris <- ggtree(tree_iris, layout = 'circular', branch.length='none')
 groupOTU(p_iris, grp, 'Species') + aes(color=Species) +
   theme(legend.position="right")
 ```
-\setstretch{1.5}
+
 
 We can grouping taxa at tree level. The following code will produce identical figure of Figure \@ref(fig:groupOTU) (see more details described at [session 2.2.3](#grouping-taxa)).
 
@@ -224,7 +226,7 @@ To facilitate exploring the tree structure, *ggtree* supports rotating selected 
 
 (ref:rotateCladecap) **Exploring tree structure.** A clade (indicated by darkgreen circle) in a tree (A) can be rotated by 180&deg; (B) and the positions of its immediate descedant clades (colored by blue and red) can be exchanged (C).
 
-\setstretch{1.2}
+
 ```{r echo=T, eval=F}
 p1 <- p + geom_point2(aes(subset=node==16), color='darkgreen', size=5)
 p2 <- rotate(p1, 17) %>% rotate(21)
@@ -237,19 +239,18 @@ p2 <- rotate(p1, 17) %>% rotate(21)
 p3 <- flip(p2, 17, 21)
 plot_grid(p1, p2, p3, ncol=3, labels = LETTERS[1:3])
 ```
-\setstretch{1.5}
+
 
 
 
 Most of the tree manipulation functions are working on clades, while `r Biocpkg("ggtree")` also provides functions to manipulate a tree, including `open_tree()` to transform a tree in either rectangular or circular layout to fan layout, and `rotate_tree()` function to rotate a tree for specific angle in both circular or fan layouts, as demonstrated in Figure \@ref(fig:openTree) and \@ref(fig:rotateTree).
 
 
-\setstretch{1.2}
+
 ```{r eval=FALSE}
 p3 <- open_tree(p, 180) + geom_tiplab()
 print(p3)
 ```
-\setstretch{1.5}
 
 (ref:openTreescap) Transforming a tree to fan layout.
 
@@ -264,11 +265,10 @@ ggplot() + ylim(0.5, 1) + xlim(0, 1) + theme_tree() +
 
 
 
-\setstretch{1.2}
 ```{r eval=FALSE}
 rotate_tree(p3, 180)
 ```
-\setstretch{1.5}
+
 
 (ref:rotateTreescap) Rotating tree.
 
@@ -290,8 +290,9 @@ The following example traverse all the internal nodes and rotate them one by one
 
 (ref:rotategifcap) **Traverse and rotate all clades.** 
 
+<!--
 
-```{r eval=F, echo=!knitr::is_latex_output()}
+{r eval=F, echo=!knitr::is_latex_output()}
 set.seed(2016-05-29)
 x <- rtree(50)
 p <- ggtree(x) + geom_tiplab()
@@ -302,12 +303,13 @@ for (n in reorder(x, 'postorder')$edge[,1] %>% unique) {
 ```
 
 
-```{r rotategif, fig.width=8, fig.height=9.6, echo=FALSE, eval=!knitr::is_latex_output()}
+{r rotategif, fig.width=8, fig.height=9.6, echo=FALSE, eval=!knitr::is_latex_output()}
 knitr::include_graphics("img/rotate_clade.gif")
 ```
 
+-->
 
-```{r rotategif, eval=knitr::is_latex_output(), echo=knitr::is_latex_output(), fig.width=15, fig.height=6}
+```{r rotategif, fig.width=15, fig.height=6, fig.cap="(ref:rotategifcap)", fig.scap="(ref:rotategifscap)"}
 set.seed(2016-05-29)
 x <- rtree(50)
 p <- ggtree(x) + geom_tiplab()
@@ -322,8 +324,8 @@ pp <- lapply(nn, function(n) {
 plot_list(gglist=pp, tag_levels='A', nrow=1)
 ```
 
-
-```{r eval=FALSE, echo=!knitr::is_latex_output()}
+<!--
+{r eval=FALSE, echo=!knitr::is_latex_output()}
 set.seed(123)
 tr <- rtree(50)
 p <- ggtree(tr, layout='circular') + geom_tiplab()
@@ -333,6 +335,11 @@ for (angle in seq(0, 270, 10)) {
 }
 ```
 
+{r fangif, fig.width=8, fig.height=9.6, echo=FALSE, fig.cap="(ref:fangifcap)", fig.scap="(ref:fangifscap)", eval=!knitr::is_latex_output()}
+knitr::include_graphics("img/fan_layout.gif")
+```
+
+-->
 
 Figure \@ref(fig:fangif) demonstrates the usage of `open_tree` with different open angles.
 
@@ -340,11 +347,8 @@ Figure \@ref(fig:fangif) demonstrates the usage of `open_tree` with different op
 
 (ref:fangifcap) **Open tree with different angles.** 
 
-```{r fangif, fig.width=8, fig.height=9.6, echo=FALSE, fig.cap="(ref:fangifcap)", fig.scap="(ref:fangifscap)", eval=!knitr::is_latex_output()}
-knitr::include_graphics("img/fan_layout.gif")
-```
 
-```{r fangif, eval=knitr::is_latex_output(), echo=knitr::is_latex_output(), fig.width=8, fig.height=8, message=FALSE}
+```{r fangif, fig.width=8, fig.height=8, message=FALSE, fig.cap="(ref:fangifcap)", fig.scap="(ref:fangifscap)"}
 set.seed(123)
 tr <- rtree(50)
 p <- ggtree(tr, layout='circular') 
@@ -361,24 +365,26 @@ plot_list(gglist=pp, tag_levels='A', nrow=2)
 
 Figure \@ref(fig:rotatetreegif) illustrates rotating tree with different angles.
 
-
-```{r eval=FALSE, echo=!knitr::is_latex_output()}
+<!--
+{r eval=FALSE, echo=!knitr::is_latex_output()}
 for (angle in seq(0, 270, 10)) {
     print(rotate_tree(p, angle) + ggtitle(paste("rotate angle:", angle)))
 }
 ```
 
+{r rotatetreegif, fig.width=8, fig.height=9.6, echo=FALSE, eval=!knitr::is_latex_output(), fig.cap="(ref:rotatetreegifcap)", fig.scap="(ref:rotatetreegifscap)"}
+knitr::include_graphics("img/rotate_tree.gif")
+```
+
+-->
 
 (ref:rotatetreegifscap) Rotate tree with different angles.
 
 (ref:rotatetreegifcap) **Rotate tree with different angles.** 
 
-```{r rotatetreegif, fig.width=8, fig.height=9.6, echo=FALSE, eval=!knitr::is_latex_output(), fig.cap="(ref:rotatetreegifcap)", fig.scap="(ref:rotatetreegifscap)"}
-knitr::include_graphics("img/rotate_tree.gif")
-```
 
 
-```{r eval=knitr::is_latex_output(), echo=knitr::is_latex_output(), fig.width=8, fig.height=8, message=FALSE}
+```{r rotatetreegif, fig.width=8, fig.height=8, message=FALSE, fig.cap="(ref:rotatetreegifcap)", fig.scap="(ref:rotatetreegifscap)"}
 p <- p + geom_tippoint(aes(subset = node == 1), colour = 'red', size=3)
 pp <- lapply(angles, function(angle) {
   rotate_tree(p, angle=angle) + ggtitle(paste("rotate angle:", angle))
