@@ -1,0 +1,45 @@
+## Convert ggtree to plotly object {#plotly}
+
+One way to make quick interactive phylogenetic tree is using `r Biocpkg("ggtree")` with the `r CRANpkg("plotly")` package. The [ggplotly()](https://plotly-r.com/improving-ggplotly.html) is able to convert `ggtree` object to a `plotly` object. Note that the `r Biocpkg("ggtree")` package also supports interactive manipulation of phylogenetic tree via the [identify()](#identify) method.
+
+
+```r
+# example from https://twitter.com/drandersgs/status/965996335882059776
+
+# LOAD LIBS ---------------------------------------------------------------
+library(ape)
+library(ggtree)
+library(plotly)
+# CREATE A TREE -------------------------------------------------------------
+n_samples <- 20
+n_grp <- 4
+tree <- ape::rtree(n = n_samples)
+# CREATE SOME METADATA ----------------------------------------------------
+id <- tree$tip.label
+set.seed(42)
+grp <- sample(LETTERS[1:n_grp], size = n_samples, replace = T)
+dat <- tibble::tibble(id = id,
+                      grp = grp)
+# PLOT THE TREE -----------------------------------------------------------
+p1 <- ggtree(tree)
+metat <- p1$data %>%
+  dplyr::inner_join(dat, c('label' = 'id'))
+p2 <- p1 +
+  geom_point(data = metat,
+             aes(x = x,
+                 y = y,
+                 colour = grp,
+                 label = id))
+plotly::ggplotly(p2)
+```
+
+
+(ref:ggtreeplotlyscap) Interactive phylogenetic tree by combining ggtree with plotly.
+
+(ref:ggtreeplotlycap) **Interactive phylogenetic tree by combining ggtree with plotly.**
+
+
+
+```{r ggtreeplotly, fig.cap="(ref:ggtreeplotlycap)", fig.scap="(ref:ggtreeplotlyscap)", echo=FALSE, out.width='100%'} 
+knitr::include_graphics("img/ggtree-plotly.gif")
+```

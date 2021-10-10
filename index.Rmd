@@ -13,21 +13,22 @@ bibliography: references.bib
 biblio-style: apalike
 always_allow_html: yes
 toc_appendix: yes
-fontsize: "12pt"
-mainfont: Times New Roman
-sansfont: Arial
+fontsize: "11pt"
 monofontoptions: "Scale=0.7"
-linestretch: 1.5
 toc-depth: 2
 link-citations: yes
+colorlinks: yes
+lot: yes
+lof: yes
 github-repo: YuLab-SMU/treedata-book
 twiter-handle: guangchuangyu
 description: "Master ggtree package suit to handle tree with data."
-documentclass: book
-papersize: A4
+documentclass: krantz
 classoption: twoside
 highlight_bw: yes
+graphics: yes
 geometry: "left=35mm,right=35mm,top=25mm,bottom=25mm"
+cover-image: book-cover.png
 ---
 
 
@@ -72,23 +73,26 @@ conflict_prefer("geom_errorbarh", "ggplot2")
 conflict_prefer("as.data.frame", "BiocGenerics")
 
 
-options(width=60)
+options(
+  htmltools.dir.version = FALSE, formatR.indent = 2, width = 55, digits = 4
+)
+
 
 theme_set(theme_grey())
 
 CRANpkg <- function (pkg) {
     cran <- "https://CRAN.R-project.org/package"
-    fmt <- "[%s](%s=%s)"
+    fmt <- "[**%s**](%s=%s)"
     sprintf(fmt, pkg, cran, pkg)
 }
 
 Biocpkg <- function (pkg) {
-    sprintf("[%s](http://bioconductor.org/packages/%s)", pkg, pkg)
+    sprintf("[**%s**](http://bioconductor.org/packages/%s)", pkg, pkg)
 }
 
 Githubpkg <- function (user, pkg) {
     gh <- "https://github.com"
-    fmt <- "[%s](%s/%s/%s)"
+    fmt <- "[**%s**](%s/%s/%s)"
     sprintf(fmt, pkg, gh, user, pkg)
 }
 
@@ -121,25 +125,64 @@ svg2png <- function(path, options) {
 
 library(knitr)
 opts_chunk$set(message=FALSE, warning=FALSE, eval=TRUE, 
-            echo=TRUE, cache=TRUE, dev='svg', out.width="98%",
+            echo=TRUE, cache=TRUE, out.width="98%",
             fig.process=svg2png)
+
+if (knitr::is_latex_output()) {
+    opts_chunk$set(dev = "cairo_pdf")
+} else {
+    opts_chunk$set(dev = "svg")
+}
+
 ```
 
-
+<!--
 # Welcome {-}
 
-<img class="cover" src="book-cover.png" width="210" height="297" /> This is the online work-in-progress book of "Data Integration, Manipulation and Visualization of Phylogenetic Trees". This book gives your all the details of using the ggtree package suit to handle tree with data. The book is written by Guangchuang Yu.
+<img class="cover" src="book-cover.png" width="210" height="297" /> This is the online work-in-progress book of "Data Integration, Manipulation and Visualization of Phylogenetic Trees". This book gives your all the details of using the ggtree package suite to handle tree with data. The book is written by Guangchuang Yu.
 
-
-`r if (knitr::is_latex_output()) '-->'`
-
-
-
-
-<!--
 
 <center>
 <img src="book-cover.png" style="width:500px;border:2px solid black;"/>
 </center>
 
 -->
+
+\newpage
+
+# Preface {-}
+
+The book is meant as a guide for data integration, manipulation and visualization of phylogenetic trees using a suite of R packages, `r CRANpkg("tidytree")`, `r Biocpkg("treeio")` and `r Biocpkg("ggtree")`. Hence, if you are starting to read this book, we assume you have a working knowledge of how to use R and `r CRANpkg("ggplot2")`.
+
+
+## How to read this book
+
+## Structure of the book
+
+
++ Part 1 (Tree data input, output and manipulation) describes `r Biocpkg("treeio")` package for tree data input and output, and `r CRANpkg("tidytree")` package for tree data manipulation.
++ Part 2 (Tree data visualization and annotation) introduces tree visualization and annotation using grammar of graphic syntax implemented in the `r Biocpkg("ggtree")` package. It emphasizes on presenting tree associated data on the tree.
++ Part 3 (ggtree extensions) introduces ggtreeExtra for presenting data on circular layout trees and other extensions including MicrobiotaProcess and ggnetworx *etc.*.
++ Part 4 (Miscellaneous topics) describes utilities provided by the `r Biocpkg("ggtree")` package suite and presents a set of reproducible examples.
+
+
+
+
+## Software information and conventions
+
+
+The basic R session information when compiling this book is as follows:
+
+```{r tidy=FALSE}
+xfun::session_info(
+    c('ape', 'aplot', 'ggplot2', 'ggtree', 
+      'ggtreeExtra', 'tidytree', 'treeio'),
+    dependencies = FALSE)
+```
+
+Package names are in bold text (*e.g.*, **ggtree**), and function names are followed by parentheses (*e.g.*, `treeio::read.beast()`). The doulbe-colon operator (`::`) means accessing an object from a package. 
+
+\newpage
+
+# Acknowledgements {-}
+

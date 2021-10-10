@@ -1,3 +1,5 @@
+\newpage
+
 
 # Figures and Tables
 
@@ -45,11 +47,12 @@ y <- as.data.frame(y)
 colnames(y) <- c("Package", "Geom Layer", "Description")
 
 require(kableExtra)
+
 caption = "Geometric layers that supported by 'geom_facet()' and 'facet_plot()'"
-knitr::kable(y, caption=caption, booktabs = T) %>% 
+knitr::kable(y, caption='xxx', booktabs = T) %>% 
   collapse_rows(columns = 1, latex_hline = "major", valign ="top") %>%
-  kable_styling(latex_options = c("striped", "scale_down"),
-                bootstrap_options = c("striped", "hover")) #%>% landscape
+  kable_styling(latex_options = c("striped", "scale_down", "hold_position"),
+                bootstrap_options = c("striped", "hover")) %>% landscape
 ```
 
 
@@ -79,11 +82,13 @@ x <- tibble::tribble(
 y <- as.data.frame(x)
 
 require(kableExtra)
+
 caption = "Tree-like objects supported by ggtree"
-knitr::kable(y, caption=caption, booktabs = T) %>% 
+knitr::kable(y, caption='xxx', booktabs = T) %>% 
   collapse_rows(columns = 1, latex_hline = "major", valign ="top") %>%
   kable_styling(latex_options = c("striped", "scale_down"),
                 bootstrap_options = c("striped", "hover")) #%>% landscape
+
 ```
 
 
@@ -127,19 +132,5 @@ knitr::kable(ff, caption = "Functions defined in treeio.", booktabs = T) #%>%
 
 -->
 
-
-
-# Session Info {#session-info}
-
-The book was written using R Markdown and was compiled by `r CRANpkg("bookdown")` package. Here is the session information on the system on which this thesis was compiled:
-
-```{r sessionInfo, echo=FALSE, cache=FALSE}
-## options(width=90)
-devtools::session_info()
-if (FALSE) {
-  sessionInfo() %>% capture.output %>%
-    `[`(., -c(5:8)) %>% paste('\n') %>% cat
-}
-## options(width=80)
+```{r, eval = !knitr::is_latex_output(), child="session-info.Rmd"}
 ```
-
