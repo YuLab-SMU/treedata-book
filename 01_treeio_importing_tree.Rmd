@@ -221,7 +221,7 @@ cat(str_wrap(tr, linewidth))
 ```
 
 
-*BEAST* output can contain many different evolutionary inferences, depending on the analysis models defined in *BEAUTi* for running. For example in molecular clock analysis, it contains `rate`, `length`, `height`, `posterior` and corresponding HPD and range for uncertainty estimation. `Rate` is the estimated evolutionary rate of the branch. `Length` is the length of the branch in years. `Height` is the time from node to root while `posterior` is the Bayesian clade credibility value. The above example is the output tree of a molecular clock analysis and should contain these inferences. To save space, only the `length` estimation was shown above. Besides, **MEGA** [@kumar_mega7_2016] also supports exporting tree in BEAST compatible Nexus format (see [session 1.3.2](#mega)). 
+*BEAST* output can contain many different evolutionary inferences, depending on the analysis models defined in *BEAUTi* for running. For example in molecular clock analysis, it contains `rate`, `length`, `height`, `posterior` and corresponding HPD and range for uncertainty estimation. `Rate` is the estimated evolutionary rate of the branch. `Length` is the length of the branch in years. `Height` is the time from node to root while `posterior` is the Bayesian clade credibility value. The above example is the output tree of a molecular clock analysis and should contain these inferences. To save space, only the `length` estimation was shown above. Besides, Molecular Evolutionary Genetics Analysis (**MEGA**) [@kumar_mega7_2016] also supports exporting tree in BEAST compatible Nexus format (see [session 1.3.2](#mega)). 
 
 **MrBayes**\index{MrBayes} [@huelsenbeck_mrbayes_2001] is a program that uses Markov Chain Monte Carlo\index{Markov Chain Monte Carlo} method to sample from the posterior probability distributions. Its output file annotates nodes and branches separately by two sets of square brackets. For example below, posterior clade probabilities for the node and branch length estimates for the branch:
 
@@ -386,9 +386,9 @@ clade support values (posterior) inferred
 by [BEAST](http://beast2.org/) [@bouckaert_beast_2014] and short read placement
 by
 [EPA](http://sco.h-its.org/exelixis/web/software/epa/index.html) [@berger_performance_2011]
-and [pplacer](http://matsen.fhcrc.org/pplacer/) [@matsen_pplacer_2010]. These
-evolutionary evidences can be further analyzed in `R` and used to annotate
-phylogenetic tree using `r Biocpkg("ggtree")`
+and [pplacer](http://matsen.fhcrc.org/pplacer/) [@matsen_pplacer_2010]. These pieces of 
+evolutionary evidence can be further analyzed in `R` and used to annotate
+a phylogenetic tree using `r Biocpkg("ggtree")`
 [@yu_ggtree:_2017]. The growth of analysis tools and models introduces
 a challenge to integrate different varieties of data and analysis results from
 different sources for an integral analysis on the same phylogenetic tree
@@ -400,7 +400,7 @@ After parsing, storage of the tree structure with associated data is made
 through an S4 class, `treedata`, defined in the `r CRANpkg('tidytree')` package. These parsed data
 are mapped to the tree branches and nodes inside `treedata` object, so that they
 can be efficiently used to visually annotate the tree
-using `r Biocpkg("ggtree")` package [@yu_ggtree:_2017] (described in Chapter [4](#chapter4) and [5](#chapter5)). 
+using `r Biocpkg("ggtree")` [@yu_ggtree:_2017] and `r Biocpkg("ggtreeExtra")` [@ggtreeExtra_2021]. 
 A programmable platform for phylogenetic data parsing, integration and annotations as such makes us easier to identify the evolutionary dynamics and correlation patterns (Figure \@ref(fig:treeioDiagram), Figure 1 of [@wang_treeio_2020]).
 
 
@@ -427,9 +427,9 @@ The `S3` class, `phylo`, which was defined in `r CRANpkg("ape")`\index{ape} [@pa
 (*e.g.*, `phangorn`  for ancestral state reconstruction and `ape` for divergence time estimation) that implemented evolutionary inferences are supporting `phylo` object. 
 -->
 
-To allow integration of different kinds of data in phylogenetic tree, `r Biocpkg("treeio")` [@wang_treeio_2020] provides `merge_tree` function (details in [section 2.2.1](#merge-tree)) for combining evolutionary statistics/evidences imported from different sources including those common tree files and outputs from analysis programs (Table \@ref(tab:treeio-function)). There is other information, such as sampling location, taxonomy information, experimental result and evolutionary traits, *etc.* that are stored in separate files with user-defined format. In `r Biocpkg("treeio")`, we could read in these data from the users' files using standard R *IO* functions, and attach them to the tree object by the [full_join](#link-external-data) methods defined in `r CRANpkg("tidytree")` and `r Biocpkg("treeio")` packages (see also the [`%<+%` operator](#attach-operator) defined in `r Biocpkg("ggtree")`). After attaching, the data will become the attributes associated with nodes or branches, which can be compared with other data incorporated, or can be visually displayed on the tree.
+To allow integration of different kinds of data in phylogenetic tree, `r Biocpkg("treeio")` [@wang_treeio_2020] provides `merge_tree` function (details in [section 2.2.1](#merge-tree)) for combining evolutionary statistics/evidence imported from different sources including those common tree files and outputs from analysis programs (Table \@ref(tab:treeio-function)). There is other information, such as sampling location, taxonomy information, experimental result and evolutionary traits, *etc.* that are stored in separate files with user-defined format. In `r Biocpkg("treeio")`, we could read in these data from the users' files using standard R *IO* functions, and attach them to the tree object by the [full_join](#link-external-data) methods defined in `r CRANpkg("tidytree")` and `r Biocpkg("treeio")` packages (see also the [`%<+%` operator](#attach-operator) defined in `r Biocpkg("ggtree")`). After attaching, the data will become the attributes associated with nodes or branches, which can be compared with other data incorporated, or can be visually displayed on the tree [@yu_two_2018].
 
-To facilitate storing the merged data into a single file, `r Biocpkg("treeio")`\index{treeio} implemented `write.baset` and `write.jtree` function to export treedata object for storing complex data associated with the phylogenetic tree (see [Chapter 3](#chapter3)). 
+To facilitate storing complex data associated with the phylogenetic tree, `r Biocpkg("treeio")`\index{treeio} implemented `write.baset` and `write.jtree` function to export treedata object into a single file (see [Chapter 3](#chapter3)). 
 
 <!-- A full list of functions that defined in *treeio* can be found in Table \@ref(tab:treeio). -->
 
@@ -449,7 +449,7 @@ Not only tree structure but also all the features inferred by *BEAST* will be st
 
 #### Parsing MEGA output {#mega}
 
-[MEGA](https://www.megasoftware.net/) [@kumar_mega7_2016] supports exporting trees in three distinct formats: Newick, tabular and Nexus. The Newick file can be parsed using the `read.tree` or `read.newick` functions. MEGA Nexus file is similar to BEAST Nexus and `r Biocpkg("treeio")` [@wang_treeio_2020] provides `read.mega` function to parse the tree.
+Molecular Evolutionary Genetics Analysis (**[MEGA](https://www.megasoftware.net/)**) software [@kumar_mega7_2016] supports exporting trees in three distinct formats: Newick, tabular and Nexus. The Newick file can be parsed using the `read.tree` or `read.newick` functions. MEGA Nexus file is similar to BEAST Nexus and `r Biocpkg("treeio")` [@wang_treeio_2020] provides `read.mega` function to parse the tree.
 
 ```{r}
 file <- system.file("extdata/MEGA7", "mtCDNA_timetree.nex", package = "treeio")
@@ -466,6 +466,9 @@ read.mega_tabular(file)
 
 
 #### Parsing MrBayes output
+
+
+The Nexus file generated by **MrBayes** is BEAST compatible. The `r Biocpkg("treeio")` package provides the `read.mrbayes()` which internally calls `read.beast()` to parse **MrBayes** outputs.
 
 ```{r}
 file <- system.file("extdata/MrBayes", "Gq_nxs.tre", package="treeio")
