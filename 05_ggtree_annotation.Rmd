@@ -65,7 +65,7 @@ Layers defined in *ggplot2* can be applied to *ggtree* directly as demonstrated 
 ```{r geoms, echo=FALSE, message=FALSE}
 geoms <- matrix(c(
   "geom_balance", "highlights the two direct descendant clades of an internal node",
-  "geom_cladelab", "annotate a clade with bar and text label",
+  "geom_cladelab", "annotate a clade with bar and text label (or image)",
   "geom_facet", "plot associated data in specific panel (facet) and align the plot with the tree",
   "geom_hilight", "highlight selected clade with rectanglar or round shape",
   "geom_inset", "add insets (subplots) to tree nodes",
@@ -96,7 +96,7 @@ knitr::kable(geoms, caption = "Geom layers defined in ggtree.", booktabs = T) %>
 
 The `r Biocpkg("ggtree")` [@yu_ggtree:_2017] implements `geom_cladelab()` layer to annotate a selected clade with a bar indicating the clade with a corresponding label.
 
-The `geom_cladelab()` layer accepts a selected internal node number and label corresponding clade automatically (Figure \@ref(fig:cladelabel)A). To get the internal node number, please refer to [Chapter 2](#accesor-tidytree).
+The `geom_cladelab()` layer accepts a selected internal node number and label corresponding clade automatically (Figure \@ref(fig:cladelabel)A). To get the internal node number, please refer to [Chapter 2](#accesor-tidytree). 
 
 
 ```{r eval=F}
@@ -165,6 +165,40 @@ ggtree(tree, layout="daylight") +
                   angle=-95, hjust=.5, fontsize=8)
 ```
 
+The `geom_cladelab` layer also supports using aesthetic mapping to automatically annotate the clade with bar and text label (or image)
+
+```{r eval=F}
+dat <- data.frame(node = c(45, 34), name = c("test label", "another clade"))
+# The node and label is required when geom="text" or geom="label" or geom="shadowtext".
+p + geom_cladelab(data = dat, mapping = aes(node = node, label = name, color = name), fontsize = 3)
+```
+
+In addition, it also allow user to use the image or phylopic to annotate the clades.
+
+```{r eval=F}
+dt <- data.frame(node = c(45, 34), 
+                 image = c("7fb9bea8-e758-4986-afb2-95a2c3bf983d", "0174801d-15a6-4668-bfe0-4c421fbe51e8"), 
+                 name = c("specie A", "specie B"))
+# when geom="phylopic" or geom="image", the image of aes is required.
+p + geom_cladelab(data = dt, mapping = aes(node = node, label = name, image = image), geom = "phylopic", imagecolor = "black", offset=1, offset.text=0.5)
+# The color or size of image also can be mapped.
+p + geom_cladelab(data = dt, mapping = aes(node = node, label = name, image = image, color = name), geom = "phylopic", offset = 1, offset.text=0.5)
+```
+
+(ref:cladelabaesscap) Labeling clades using aesthetic mapping.
+(ref:cladelabaescap) **Labeling clades using aesthetic mapping.** geom_cladelab also allow users to use aesthetic mapping to annotate the clades (A). It also supports using image or phylopic to annotate clades (B). The character (such as color or size) of text or image can also be mapped (C).
+
+```{r cladelabaes, echo=FALSE, fig.width=12, fig.height=5, fig.cap="(ref:cladelabaescap)", fig.scap="(ref:cladelabaesscap)", out.width='100%'}
+dat <- data.frame(node=c(45, 34), name=c("test label", "another clade"))
+f5 <- p + geom_cladelab(data=dat, mapping=aes(node=node, label=name, color=name), fontsize = 3) 
+dt <- data.frame(node = c(45, 34),                                                                                                                            
+                 image = c("7fb9bea8-e758-4986-afb2-95a2c3bf983d", "0174801d-15a6-4668-bfe0-4c421fbe51e8"),
+                 name = c("specie A", "specie B"))
+f6 <- p + geom_cladelab(data=dt, mapping = aes(node = node, label = name, image = image), geom = "phylopic", imagecolor = "black", offset=1, offset.text=0.5)
+f7 <- p + geom_cladelab(data=dt, mapping = aes(node = node, label = name, image = image, color = name), geom = "phylopic", offset = 1, offset.text=0.5)  
+plot_grid(f5, f6, f7, ncol=3, labels=LETTERS[1:3]) 
+```
+
 `geom_cladelab` is designed for labeling Monophyletic (Clade) while there are related taxa that are not form a clade. `ggtree` provides `geom_strip` to add a strip/bar to indicate the association with optional label for Polyphyletic or Paraphyletic (Figure \@ref(fig:striplabel)B).
 
 ```{r eval=F}
@@ -173,11 +207,11 @@ p + geom_tiplab() +
             label="associated taxa", offset.text=.1) + 
   geom_strip('t1', 't18', barsize=2, color='blue', 
             label = "another label", offset.text=.1)
-```  
+```
 
 (ref:striplabelscap) Labeling associated taxa.
 
-(ref:striplabelcap) **Labeling associated taxa.** `geom_cladelab` is for labeling Monophyletic and it also supports unrooted layout (A). `geom_strip` is designed for labeling associated taxa (Monophyletic, Polyphyletic or Paraphyletic) (B).
+(ref:striplabelcap) **Labeling associated taxa.** `geom_cladelab` is designed for labeling Monophyletic and it also supports unrooted layout (A). `geom_strip` is designed for labeling associated taxa (Monophyletic, Polyphyletic or Paraphyletic) (B).
 
 ```{r striplabel, fig.width=13.5, fig.height=6.5, echo=FALSE, warning=FALSE, fig.cap="(ref:striplabelcap)", fig.scap="(ref:striplabelscap)", out.width='100%'}
 
