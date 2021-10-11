@@ -1,6 +1,7 @@
 bs4:
 	rm -rf gh-pages/libs;\
 	sed -i 's/pdf/gh-pages/g' _bookdown.yml;\
+	sed -i 's/colorlinks: false/colorlinks: true/g' index.Rmd;\
 	Rscript -e 'library(bookdown); render_book("index.Rmd", "bs4_book")';\
 	sed -i 's/Chalkduster/Comic Sans MS/g' gh-pages/related-tools.html 
 
@@ -9,11 +10,12 @@ gitbook:
 	Rscript -e 'library(bookdown); render_book("index.Rmd", "gitbook")';\
 	sed -i 's/Chalkduster/Comic Sans MS/g' gh-pages/related-tools.html 
 
-pdf:
-	pagedjs-cli ./gh-pages/index.html -o treedata-book.pdf
+##pdf:
+##	pagedjs-cli ./gh-pages/index.html -o treedata-book.pdf
 
 pdfbook:
 	sed -i 's/gh-pages/pdf/g' _bookdown.yml;\
+	sed -i 's/colorlinks: true/colorlinks: false/g' index.Rmd;\
 	Rscript -e 'library(bookdown); render_book("index.Rmd", "pdf_book")'
 
 epub:
