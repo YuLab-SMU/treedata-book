@@ -95,8 +95,9 @@ This reason for this issue is that `r CRANpkg("ggplot2")` can't auto adjust `xli
 ```r
 library(ggtree)
 ## example tree from https://support.bioconductor.org/p/72398/
-tree <- read.tree(text= paste("(Organism1.006G249400.1:0.03977,(Organism2.022118m:0.01337,", 
-             "(Organism3.J34265.1:0.00284,Organism4.G02633.1:0.00468)0.51:0.0104):0.02469);"))
+tree <- read.tree(text= paste("(Organism1.006G249400.1:0.03977,", 
+    "(Organism2.022118m:0.01337,(Organism3.J34265.1:0.00284,",
+    "Organism4.G02633.1:0.00468)0.51:0.0104):0.02469);"))
 p <- ggtree(tree) + geom_tiplab()  
 ```
 
@@ -264,12 +265,23 @@ If you want to only display a subset of `bootstrap` (e.g. bootstrap > 80), you c
 ```{r nwkbs, fig.width=12, fig.height=8, fig.cap="(ref:nwkbscap)", fig.scap="(ref:nwkbsscap)", out.width='100%'}
 nwk <- system.file("extdata/RAxML","RAxML_bipartitions.H3", package='treeio')
 tr <- read.tree(nwk)
-ggtree(tr) + geom_label2(aes(label=label, subset = !is.na(as.numeric(label)) & as.numeric(label) > 80))
+ggtree(tr) + geom_label2(aes(label=label, 
+      subset = !is.na(as.numeric(label)) & as.numeric(label) > 80))
 ```
+
+As this is a very common issue, we implemented a `read.newick()` function in the `r Biocpkg("treeio")` package to allow parsing internal node labels as support values. So that it can be more easy to disaply bootstrap values using the following code:
+
+```r
+tr <- read.newick(nwk, node.label='support')
+ggtree(tr) + geom_nodelab(geom='label', aes(label=support, subset=support > 80))
+```
+
+
+<!-- 
 
 Another solution is converting the bootstrap value outside `ggtree`.
 
-```r
+
 q <- ggtree(tr)
 d <- q$data
 d <- d[!d$isTip,]
@@ -277,7 +289,9 @@ d$label <- as.numeric(d$label)
 d <- d[d$label > 80,]
 
 q + geom_text(data=d, aes(label=label))
-```
+
+-->
+
 
 ## Branch setting
 
