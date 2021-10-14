@@ -278,13 +278,33 @@ Another example using `r Biocpkg("ggtree")` and `r CRANpkg("emojifont")` to prod
 set.seed(123)
 tr <- rtree(30)
 
-ggtree(tr) + xlim(NA, 5.2) +
-    geom_cladelabel(node=41, label="chicken", parse="emoji",
-                    fontsize=12, align=TRUE, colour="firebrick") +
-    geom_cladelabel(node=53, label="duck", parse="emoji",
-                    fontsize=12, align=TRUE, colour="steelblue") +
-    geom_cladelabel(node=48, label="family", parse="emoji",
-                    fontsize=12, align=TRUE, colour="darkkhaki")
+dat <- data.frame(
+           node = c(41, 53, 48),
+           name = c("chicken", "duck", "family")
+       )
+
+p <- ggtree(tr) + 
+     xlim(NA, 5.2) +
+     geom_cladelab(
+         data = dat,
+         mapping = aes(
+             node = node, 
+             label = name, 
+             color = name
+         ),
+         parse = "emoji",
+         fontsize = 12,
+         align = TRUE,
+         show.legend = FALSE
+     ) +
+     scale_color_manual(
+         values = c(
+             chicken="firebrick", 
+             duck="steelblue", 
+             family = "darkkhaki"
+         )
+     )
+p
 ```
 
 
