@@ -11,7 +11,6 @@
 This example reproduces Fig. 1 of [@chen_ancient_2017]. It extracts accession numbers from tip labels of the HPV58 tree and calculates pairwise nucleotide sequence distances. The distance matrix is visualized as dot and line plots. This example demonstrates the abilities of adding multiple layers to a specific panel. As illustrated on Figure \@ref(fig:jv2017), the `facet_plot` function displays sequence distances as a dot plot and then adds a layer of line plot to the same panel, *i.e.* Sequence Distance. In addition, the tree in `facet_plot` can be fully annotated with multiple layers (clade labels, bootstrap support values, *etc*). The source code of this example was firstly published in Supplemental File of [@yu_two_2018].
 
 ```{r message=FALSE}
-
 library(tibble)
 library(tidyr)
 library(Biostrings)
@@ -35,29 +34,66 @@ p <- ggtree(tree, aes(color = group), ladderize = FALSE) %>% rotate(rootnode(tre
     guides(color = guide_legend(override.aes = list(size = 5, shape = 15))) +
     theme_tree2(legend.position = c(.1, .88))
 ## Optional
-## add labels for monophyletic (A, C and D) and paraphyletic (B) groups  
-p <- p + geom_cladelabel(94, "italic(A1)", color = cols[["A1"]], offset = .003, align = TRUE, 
-                    offset.text = -.001, barsize = 1.2, extend = c(0, 0.5), parse = TRUE) +
-    geom_cladelabel(108, "italic(A2)", color = cols[["A2"]], offset = .003, align = TRUE, 
-                   offset.text = -.001, barsize = 1.2, extend = 0.5, parse = TRUE) +
-    geom_cladelabel(131, "italic(A3)", color = cols[["A3"]], offset = .003, align = TRUE, 
-                   offset.text = -.001, barsize = 1.2, extend = c(0.5, 0), parse = TRUE) +
-    geom_cladelabel(92, "italic(A)", color = "darkgrey", offset = .00315, align = TRUE, 
-                   offset.text = 0.0002, barsize = 2, fontsize = 5, parse = TRUE) +
-    geom_cladelabel(156, "italic(B1)", color = cols[["B1"]], offset = .003, align = TRUE, 
-                   offset.text = -.001, barsize = 1.2, extend = c(0, 0.5), parse = TRUE) +
-    geom_cladelabel(159, "italic(B2)", color = cols[["B2"]], offset = .003, align = TRUE, 
-                   offset.text = -.001, barsize = 1.2, extend = c(0.5, 0), parse = TRUE) +
-    geom_strip(65, 71, "italic(B)", color = "darkgrey", offset = 0.00315, align = TRUE, 
-                   offset.text = 0.0002, barsize = 2, fontsize = 5, parse = TRUE) + 
-    geom_cladelabel(163, "italic(C)", color = "darkgrey", offset = .0031, align = TRUE, 
-                   offset.text = 0.0002, barsize = 3.2, fontsize = 5, parse = TRUE) +
-    geom_cladelabel(173, "italic(D1)", color = cols[["D1"]], offset = .003, align = TRUE, 
-                   offset.text = -.001, barsize = 1.2, extend = c(0, 0.5), parse = TRUE) +
-    geom_cladelabel(176, "italic(D2)", color = cols[["D2"]], offset = .003, align = TRUE, 
-                   offset.text = -.001, barsize = 1.2, extend = c(0.5, 0), parse = TRUE) +
-    geom_cladelabel(172, "italic(D)", color = "darkgrey", offset = .00315, align = TRUE, 
-                   offset.text = 0.0002, barsize = 2, fontsize = 5, parse = TRUE) 
+## add labels for monophyletic (A, C and D) and paraphyletic (B) groups 
+dat <- tibble(node = c(94, 108, 131, 92, 156, 159, 163, 173, 176,172),
+              name = c("A1", "A2", "A3", "A", "B1", "B2", "C", "D1", "D2", "D"),
+              offset = c(0.003, 0.003, 0.003, 0.00315, 0.003, 0.003, 0.0031, 0.003, 0.003, 0.00315),
+              offset.text = c(-.001, -.001, -.001, 0.0002, -.001, -.001, 0.0002, -.001, -.001, 0.0002),
+              barsize = c(1.2, 1.2, 1.2, 2, 1.2, 1.2, 3.2, 1.2, 1.2, 2),
+              extend = list(c(0, 0.5), 0.5, c(0.5, 0), 0, c(0, 0.5), c(0.5, 0), 0, c(0, 0.5), c(0.5, 0), 0)
+            ) %>% 
+       dplyr::group_split(barsize)
+
+p <- p +
+     geom_cladelab(
+         data = dat[[1]],
+         mapping = aes(
+             node = node,
+             label = name,
+             color = group,
+             offset = offset,
+             offset.text = offset.text,
+             extend = extend
+         ),
+         barsize = 1.2,
+         fontface = 3,
+         align = TRUE
+     ) +
+     geom_cladelab(
+         data = dat[[2]],
+         mapping = aes(
+             node = node,
+             label = name,
+             offset = offset,
+             offset.text =offset.text,
+             extend = extend
+         ),
+         barcolor = "darkgrey",
+         textcolor = "darkgrey",
+         barsize = 2,
+         fontsize = 5,
+         fontface = 3,
+         align = TRUE
+     ) +
+     geom_cladelab(
+         data = dat[[3]],
+         mapping = aes(
+             node = node,
+             label = name,
+             offset = offset,
+             offset.text = offset.text,
+             extend = extend
+         ),
+         barcolor = "darkgrey",
+         textcolor = "darkgrey",
+         barsize = 3.2,
+         fontsize = 5,
+         fontface = 3,
+         align = TRUE
+     ) +
+     geom_strip(65, 71, "italic(B)", color = "darkgrey", offset = 0.00315, align = TRUE,
+                offset.text = 0.0002, barsize = 2, fontsize = 5, parse = TRUE)
+
 ## Optional
 ## display support values
 p <- p + geom_nodelab(aes(subset = (node == 92), label = "*"), 
