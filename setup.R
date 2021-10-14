@@ -63,6 +63,7 @@ pkg_pplacer <- mypkg("PPLACER", "http://matsen.fhcrc.org/pplacer/")
 pkg_astral <- mypkg("ASTRAL", "https://github.com/smirarab/ASTRAL")
 pkg_mega <- mypkg("MEGA", "https://www.megasoftware.net/")
 pkg_mrbayes <- mypkg("MrBayes", "http://nbisweden.github.io/MrBayes/")
+pkg_figtree <- mypkg("FigTree", "http://beast.community/figtree")
 
 
 badge_version <- function(pkg, color="green") {
