@@ -243,6 +243,8 @@ integration, `r Biocpkg("treeio")` provides
 
 The following example calculated bootstrap values and merging that values with the tree (a `phylo` object) by matching their node numbers.
 
+
+
 ```{r apeBoot, message=FALSE}
 library(ape)
 data(woodmouse)
@@ -250,7 +252,8 @@ d <- dist.dna(woodmouse)
 tr <- nj(d)
 bp <- boot.phylo(tr, woodmouse, function(x) nj(dist.dna(x)))
 bp2 <- tibble(node=1:Nnode(tr) + Ntip(tr), bootstrap = bp)
-full_join(tr, bp2, by="node")
+tr2 <- full_join(tr, bp2, by="node")
+tr2
 ```
 
 Another example demonstrates merging evolutionary trait with the tree (a `treedata` object) by matching their tip labels.
@@ -520,9 +523,9 @@ plot_list(p1, p2, p3, p4,
 
 ## Manipulating tree data for visualization {#ggtree-fortify}
 
-Tree visualization is supported by [ggtree](#chapter4) [@yu_ggtree:_2017]. Although `r Biocpkg("ggtree")` implemented several methods for [visual exploration of tree with data](#chapter6), you may want to do something that is not supported directly. In this case, you need to manipulate tree data with node coordination positions that used for visualization. This is quite easy with `r Biocpkg("ggtree")`. User can use the `fortify()` method which internally call `tidytree::as_tibble()` to convert the tree to a tidy data frame and add columns of coordination positions (*i.e.* x, y, branch and angle) that are used to plot the tree. You can also access the data via `ggtree(tree)$data`.
+Tree visualization is supported by `r Biocpkg("ggtree")` [@yu_ggtree:_2017]. Although `r Biocpkg("ggtree")` implemented several methods for [visual exploration of tree with data](#chapter6), you may want to do something that is not supported directly. In this case, you need to manipulate tree data with node coordination positions that are used for visualization. This is quite easy with `r Biocpkg("ggtree")`. User can use the `fortify()` method which internally call `tidytree::as_tibble()` to convert the tree to a tidy data frame and add columns of coordination positions (*i.e.* x, y, branch and angle) that are used to plot the tree. You can also access the data via `ggtree(tree)$data`.
 
-Here is an example to plot two trees face to face that is similar to a `ape::cophyloplot()`.
+Here is an example to plot two trees face to face that is similar to a graph produced by the `ape::cophyloplot()` function.
 
 
 
@@ -599,5 +602,5 @@ p1 + geom_tree(data = d2) + geom_tree(data = d3) + geom_tiplab(data=d3) +
 
 ## Summary {#summary2}
 
-The `r Biocpkg("treeio")` package allows us to import diverse phylogeny associated data into R. However, phylogenetic tree is stored in a way to facilitate computational processing which is not human fridenly and need expertise to manipulate and explore tree data. The `r CRANpkg("tidytree")` package provides tidy interface for exploring tree data, while `r Biocpkg("ggtree")` provides a set of utilitise to visualize and explore tree data using grammar of graphics. This full suit of packages make it easy for ordinary users to interact with tree data, and allow us to integrate phylogeny associated data from different sources (*e.g.* experimental result or analysis finding), which creates the possibility of comparative study. 
+The `r Biocpkg("treeio")` package allows us to import diverse phylogeny associated data into R. However, phylogenetic tree is stored in a way to facilitate computational processing which is not human fridenly and need expertise to manipulate and explore tree data. The `r CRANpkg("tidytree")` package provides tidy interface for exploring tree data, while `r Biocpkg("ggtree")` provides a set of utilitise to visualize and explore tree data using grammar of graphics. This full suite of packages make it easy for ordinary users to interact with tree data and allow us to integrate phylogeny associated data from different sources (*e.g.* experimental result or analysis finding), which creates the possibilities of integrative and comparative study. Moreover, this package suite brings phylogenetic analysis into the tidyverse and certainly takes us to the next level of processing phylogenetic data.
 
