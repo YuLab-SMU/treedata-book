@@ -42,26 +42,10 @@ conflict_prefer("as.data.frame", "BiocGenerics")
 
 theme_set(theme_grey())
 
-CRANpkg <- function (pkg) {
-    cran <- "https://CRAN.R-project.org/package"
-    fmt <- "[**%s**](%s=%s)"
-    sprintf(fmt, pkg, cran, pkg)
-}
+library(yulab.utils)
+# pkg name in bold
+options("yulab.utils_pkgfmt" = '**%s**') 
 
-Biocpkg <- function (pkg) {
-    sprintf("[**%s**](http://bioconductor.org/packages/%s)", pkg, pkg)
-}
-
-Githubpkg <- function (user, pkg) {
-    gh <- "https://github.com"
-    fmt <- "[**%s**](%s/%s/%s)"
-    sprintf(fmt, pkg, gh, user, pkg)
-}
-
-mypkg <- function(pkg, url) {
-    fmt <- "[**%s**](%s)"
-    sprintf(fmt, pkg, url)
-}
 
 pkg_paml <- mypkg("PAML", "http://abacus.gene.ucl.ac.uk/software/paml.html")
 pkg_baseml <- mypkg("BASEML", "http://abacus.gene.ucl.ac.uk/software/paml.html")

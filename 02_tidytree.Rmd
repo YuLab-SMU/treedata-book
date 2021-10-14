@@ -222,7 +222,7 @@ triple_tree
 The `triple_tree` object showed above contains analysis results obtained from `r pkg_beast`
 and `r pkg_codeml`, and evolutionary
 trait from external sources. All these information can be used to annotate the
-tree using [ggtree](https://bioconductor.org/packages/ggtree/) [@yu_ggtree:_2017].
+tree using `r Biocpkg("ggtree")` [@yu_ggtree:_2017] and `r Biocpkg("ggtreeExtra")` [@ggtreeExtra_2021].
 
 
 
@@ -230,15 +230,15 @@ tree using [ggtree](https://bioconductor.org/packages/ggtree/) [@yu_ggtree:_2017
 ### Linking external data to phylogeny {#link-external-data}
 
 
-In addition to analysis findings that are associated with the tree as we showed
+In addition to analysis findings that are associated with the tree as demonstrated
 above, there is a wide range of heterogeneous data, including phenotypic data,
 experimental data and clinical data *etc.*, that need to be integrated and
 linked to phylogeny. For example, in the study of viral evolution, tree nodes may
 associated with epidemiological information, such as location, age and subtype.
 Functional annotations may need to be mapped on gene trees for comparative
 genomics studies. To facilitate data
-integration, [treeio](https://bioconductor.org/packages/treeio) provides
-`full_join` method to link external data to phylogeny and stored in either `phylo` or `treedata` object. Beware that linking external data to a `phylo` object will produce a `treedata` object to store the input `phylo` with associated data. The `full_join` methods can also be used at tidy data frame level (*i.e.* `tbl_tree` object described previously) and at `ggtree` level (described in [session 7.1](#attach-operator)) [@yu_two_2018].
+integration, `r Biocpkg("treeio")` provides
+`full_join()` method to link external data to phylogeny and stored in either `phylo` or `treedata` object. Beware that linking external data to a `phylo` object will produce a `treedata` object to store the input `phylo` with associated data. The `full_join` methods can also be used at tidy data frame level (*i.e.* `tbl_tree` object described previously) and at `ggtree` level (described in [Chapter 7](#attach-operator)) [@yu_two_2018].
 
 
 The following example calculated bootstrap values and merging that values with the tree (a `phylo` object) by matching their node numbers.
@@ -264,15 +264,14 @@ full_join(beast, x, by="label")
 ```
 
 Manipulating tree object is frustrated with the fragmented functions available
-for working with `phylo` object, not to mention linking external data to the
+for working with `phylo` objects, not to mention linking external data to the
 phylogeny structure. With the `r Biocpkg("treeio")` package [@wang_treeio_2020], it is easy to combine tree data from various sources. 
-In addition, with `r CRANpkg("tidytree")` package ([session 2.1](#tidytree)), manipulating tree is more easier using 
-[tidy data principles](https://www.jstatsoft.org/article/view/v059i10) and 
+In addition, with the `r CRANpkg("tidytree")` package, manipulating tree is more easier using the [tidy data principles](https://www.jstatsoft.org/article/view/v059i10) and 
 consistent with tools already in wide use, including
-[dplyr](https://cran.r-project.org/package=dplyr),
-[tidyr](https://cran.r-project.org/package=tidyr),
-[ggplot2](https://cran.r-project.org/package=ggplot2)
-and [ggtree](https://bioconductor.org/packages/ggtree/) [@yu_ggtree:_2017].
+`r CRANpkg("dplyr")`,
+`r CRANpkg("tidyr")`,
+`r CRANpkg("ggplot2")`
+and `r Biocpkg("ggtree")` [@yu_ggtree:_2017].
 
 
 ### Grouping taxa
@@ -281,8 +280,8 @@ The `groupOTU()` and `groupClade()` methods are designed for adding taxa groupin
 information to the input tree object. The methods were implemented in `r CRANpkg("tidytree")`,
 `r Biocpkg("treeio")` and `r Biocpkg("ggtree")` respectively to support adding grouping information at the 
 `tbl_tree`, `phylo` and `treedata`, and `ggtree` levels. These grouping information can be
-used directly in tree visualization (*e.g.* [coloring tree based on grouping](#group-taxa-vis))
-with [ggtree](https://bioconductor.org/packages/ggtree/) (Figure \@ref(fig:groupOTU)).
+used directly in tree visualization (*e.g.* [coloring tree based on grouping information](#group-taxa-vis))
+with `r Biocpkg("ggtree")` (Figure \@ref(fig:groupOTU)).
 
 
 
@@ -345,7 +344,7 @@ counts) or "abandon" (un-selected for grouping)^[<https://groups.google.com/foru
 
 ## Rerooting tree {#reroot-treeio}
 
-A phylogenetic tree can be rerooted with a specified `outgroup`. The `r CRANpkg("ape")` package implements a `root()` method to reroot a tree stored in a `phylo` object, while the `r Biocpkg("treeio")` package provides the `root()` method for `treedata` object. This method is designed to re-root a phylogenetic tree with associated data with respect to the specified `outgroup` or at the specified `node` based on the `root()` implemented in `r CRANpkg("ape")`.
+A phylogenetic tree can be rerooted with a specified `outgroup`. The `r CRANpkg("ape")` package implements a `root()` method to reroot a tree stored in a `phylo` object, while the `r Biocpkg("treeio")` package provides the `root()` method for `treedata` object. This method is designed to re-root a phylogenetic tree with associated data with respect to the specified `outgroup` or at the specified `node` based on the `root()` implemented in the `r CRANpkg("ape")` package.
 
 
 (ref:rerootscap) Reroot a phylogenetic tree with associated data.
@@ -385,11 +384,11 @@ plot_list(p1, p2, tag_levels='A', ncol=2)
 ```
 
 
-The `outgroup` parameter represents the specific new `outgroup`, it can be character or node number. If it is a single one value, meaning using the node below this tip as the new root, if it has multiple values, meaning the most recent common of the values will be used as the new root. Note that, if the node labels should be treated as edge labels, the `edgelabel` should be set to `TRUE` to return the correct relationship between `node` and `associated data`. More details about reroot, including precautions and pitfalls, please refer to the review article [@reroot_review].
+The `outgroup` parameter represents the specific new `outgroup`, it can be a node label (character) or node number. If it is a single one value, meaning using the node below this tip as the new root, if it has multiple values, meaning the most recent common of the values will be used as the new root. Note that, if the node labels should be treated as edge labels, the `edgelabel` should be set to `TRUE` to return the correct relationship between `node` and `associated data`. More details about reroot, including precautions and pitfalls, please refer to the review article [@reroot_review].
 
 ## Rescaling Tree Branches {#rescale-treeio}
 
-Phylogenetic data can be merged for joint analysis (Figure \@ref(fig:correlations)). They can be displayed on the same tree structure as more complex annotation to help visually inspection of their evolutionary patterns. All the numerical data stored in `treedata` object can be used to re-scale tree branches. For example, CodeML infers d~N~/d~S~, d~N~ and d~S~, all these statistics can be used as branch lengths. All these values can also be used to color the tree (session [4.3.4](#color-tree)) and can be project to vertical dimension to create two-dimensional tree or phenogram (session [4.2.2](#layouts-of-phylogenetic-tree) and Figure \@ref(fig:2d) and \@ref(fig:continuousColor)). Instead of modifying branch lengths in the tree object, user can directly specifying a variable as branch length in `ggtree()` as demonstrated in [session 4.3.6](#rescale-tree). 
+Phylogenetic data can be merged for joint analysis (Figure \@ref(fig:correlations)). They can be displayed on the same tree structure as more complex annotation to help visually inspection of their evolutionary patterns. All the numerical data stored in `treedata` object can be used to re-scale tree branches. For example, CodeML infers d~N~/d~S~, d~N~ and d~S~, all these statistics can be used as branch lengths. All these values can also be used to color the tree (session [4.3.4](#color-tree)) and can be project to vertical dimension to create two-dimensional tree or phenogram (session [4.2.2](#layouts-of-phylogenetic-tree) and Figure \@ref(fig:2d) and \@ref(fig:continuousColor)). 
 
 
 
@@ -405,6 +404,8 @@ p3 <- ggtree(rescale_tree(merged_tree, 'rate')) + theme_tree2()
 plot_list(p1, p2, p3, ncol=3, tag_levels='A')
 ```
 
+Instead of modifying branch lengths in the tree object using the `rescale_tree()` function, user can directly specifying a variable as branch length in `ggtree()` as demonstrated in [session 4.3.6](#rescale-tree). 
+
 
 ## Subsetting Tree with Data
 
@@ -412,14 +413,14 @@ plot_list(p1, p2, p3, ncol=3, tag_levels='A')
 
 Sometimes we want to remove selected tips from a phylogenetic tree. This is due to several reasons, including low sequence quality, errors in sequence assembly, an alignment error in part of the sequence and an error in phylogenetic inference *etc*.
 
-Let's say that we want to remove three tips (colored by red) from the tree (Figure \@ref(fig:removeTip)A), the `drop.tip()` method removes specified tips and update the tree (Figure \@ref(fig:removeTip)B). All associated data will be maintained in the updated tree. 
+Let's say that we want to remove three tips (colored by red) from the tree (Figure \@ref(fig:removeTip)A), the `drop.tip()` method removes specified tips and updates the tree (Figure \@ref(fig:removeTip)B). All associated data will be maintained in the updated tree. 
 
 (ref:removeTipscap) Removing tips from tree.
 
 (ref:removeTipcap) **Removing tips from tree.** Original tree with three tips (colored by red) to remove (A). Updated tree that removed selected tips (B).
 
 
-```{r removeTip, fig.width=10, fig.height=6, fig.cap="(ref:removeTipcap)", fig.scap="(ref:removeTipscap)", out.width="100%"}
+```{r removeTip, fig.width=12, fig.height=6, fig.cap="(ref:removeTipcap)", fig.scap="(ref:removeTipscap)", out.width="100%"}
 f <- system.file("extdata/NHX", "phyldog.nhx", package="treeio")
 nhx <- read.nhx(f)
 to_drop <- c("Physonect_sp_@2066767",
@@ -455,32 +456,28 @@ p1 = ggtree(beast_tree) +
 
 tree2 = tree_subset(beast_tree, "A/Swine/HK/168/2012", levels_back=4)  
 p2 <- ggtree(tree2, aes(color=group)) +
-  scale_color_manual(values = c("black", "red")) +
+  scale_color_manual(values = c("black", "red"), guide = 'none') +
   geom_tiplab() +  xlim(0, 4) + theme_tree2() 
 
-p3 <- ggtree(tree2, aes(color=group)) +
-  geom_tiplab(hjust = -.1) + xlim(0, 5) + 
+p3 <- p2 +   
   geom_point(aes(fill = rate), shape = 21, size = 4) +
-  scale_color_manual(values = c("black", "red"), guide = FALSE) +
   scale_fill_continuous(low = 'blue', high = 'red') +
-  theme_tree2() + theme(legend.position = 'right')
-
+  xlim(0,5) + theme(legend.position = 'right')
 
 p4 <- ggtree(tree2, aes(color=group), 
           root.position = as.phylo(tree2)$root.edge) +
   geom_tiplab() + xlim(18, 24) + 
-  scale_color_manual(values = c("black", "red")) +
+  scale_color_manual(values = c("black", "red"), guide = 'none') +
   theme_tree2()
 
-p5 <- ggtree(tree2, aes(color=group), 
-          root.position = as.phylo(tree2)$root.edge) +
-  geom_rootedge() + geom_tiplab() + xlim(0, 40) + 
-  scale_color_manual(values = c("black", "red")) +
-  theme_tree2()
+p5 <- p4 + 
+  geom_rootedge() + xlim(0, 40) 
 
-plot_grid(p2, p3, p4, p5, ncol=2, labels=LETTERS[2:5]) %>%
-  plot_grid(p1, ., ncol=2, labels=c("A", ""), rel_widths=c(.5, 1))
+plot_list(p1, p2, p3, p4, p5, 
+        design="AABBCC\nAADDEE", tag_levels='A')
 ```
+
+
 
 ### Subsetting tree by internal node number {#subset-node}
 
@@ -515,8 +512,8 @@ p3 <- ggtree(chiroptera, aes(colour = group)) +
   scale_color_manual(values=c("black", "red")) +
   theme(legend.position = "none")
 p4 <- ggtree(x) + geom_tiplab() + xlim(0, 5)
-plot_grid(p1, p2, p3, p4, 
-  ncol=2, labels=LETTERS[1:4])
+plot_list(p1, p2, p3, p4, 
+  ncol=2, tag_levels = 'A')
 ```  
 
 
