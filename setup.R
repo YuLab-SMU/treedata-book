@@ -64,6 +64,12 @@ pkg_astral <- mypkg("ASTRAL", "https://github.com/smirarab/ASTRAL")
 pkg_mega <- mypkg("MEGA", "https://www.megasoftware.net/")
 pkg_mrbayes <- mypkg("MrBayes", "http://nbisweden.github.io/MrBayes/")
 pkg_figtree <- mypkg("FigTree", "http://beast.community/figtree")
+pkg_treeview <- mypkg("TreeView", "http://en.bio-soft.net/tree/TreeView.html")
+pkg_treedyn <- mypkg("TreeDyn", "http://www.treedyn.org/")
+pkg_evolview <- mypkg("EvolView", "https://www.evolgenius.info/evolview/")
+pkg_itol <- mypkg("iTOL", "https://itol.embl.de/")
+pkg_phylip <- mypkg("PHYLIP", "https://evolution.genetics.washington.edu/phylip.html")
+pkg_paup <- mypkg("PAUP\\*", "https://paup.phylosolutions.com/")
 
 
 badge_version <- function(pkg, color="green") {

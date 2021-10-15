@@ -252,8 +252,7 @@ d <- dist.dna(woodmouse)
 tr <- nj(d)
 bp <- boot.phylo(tr, woodmouse, function(x) nj(dist.dna(x)))
 bp2 <- tibble(node=1:Nnode(tr) + Ntip(tr), bootstrap = bp)
-tr2 <- full_join(tr, bp2, by="node")
-tr2
+full_join(tr, bp2, by="node")
 ```
 
 Another example demonstrates merging evolutionary trait with the tree (a `treedata` object) by matching their tip labels.
