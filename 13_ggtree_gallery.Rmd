@@ -205,7 +205,7 @@ ggtree(tree, color="black", size=1.5, linetype=1,  right=TRUE) +
 ## Highlighting different groups. {#phylo-grouping}
 
 
-This example reproduces Figure 1 of [@larsen_identification_2019]. It used `groupOTU` to add grouping information of chicken CTLDcps. The branch linetype and color are defined based on this grouping information. Two groups of CTLDcps are highlighted in different background colors using `geom_hilight` (red for Group II and green for Group V). The avian-specific expansion of group V with subgroup of A and B- are labelled using `geom_cladelabel` (Figure \@ref(fig:treeLarsen)).
+This example reproduces Figure 1 of [@larsen_identification_2019]. It used `groupOTU` to add grouping information of chicken CTLDcps. The branch linetype and color are defined based on this grouping information. Two groups of CTLDcps are highlighted in different background colors using `geom_hilight` (red for Group II and green for Group V). The avian-specific expansion of group V with subgroup of A and B- are labelled using `geom_cladelab` (Figure \@ref(fig:treeLarsen)).
 
 
 
@@ -238,31 +238,72 @@ p2 <- flip(p, 136, 110) %>%
     rotate(131)
 
 ### Group V and II coloring 
-p3 <- p2 + geom_hilight(node = 110, fill = "#229f8a", alpha = 0.2, extend = 0.43) +    
-    geom_hilight(node = 88, fill = "#229f8a", alpha = 0.2, extend = 0.445) +
-    geom_hilight(node = 156, fill = "#229f8a", alpha = 0.2, extend = 0.35) +
-    geom_hilight(node = 136, fill = "#f9311f", alpha = 0.2, extend = 0.512)
+dat <- data.frame(
+           node = c(110, 88, 156,136),
+           fill = c("#229f8a", "#229f8a", "#229f8a", "#f9311f")
+       )
+p3 <- p2 +
+      geom_hilight(
+          data = dat,
+          mapping = aes(
+              node = node,
+              fill = I(fill)
+          ),
+          alpha = 0.2,
+          extendto = 1.4
+      )
 
 ### Putting on a label on the avian specific expansion 
-p4 <- p3 + geom_cladelabel(node = 113, label = "Avian-specific expansion", 
-                        align = TRUE, angle = -35, offset.text = 0.05, 
-                        hjust = "center", fontsize = 2,  offset = 0.2, barsize = 0.2)
+p4 <- p3 +
+      geom_cladelab(
+          node = 113,
+          label = "Avian-specific expansion",
+          align = TRUE,
+          angle = -35,
+          offset.text = 0.05,
+          hjust = "center",
+          fontsize = 2,
+          offset = .2,
+          barsize = .2
+      )
     
 ### Adding the bootstrap values with subset used to remove all bootstraps < 50  
-p5 <- p4 + geom_text2(aes(label=label, 
-                        subset = !is.na(as.numeric(label)) & as.numeric(label) > 50), 
-                    size = 2, color = "black",nudge_y = 0.7, nudge_x = -0.05)
- 
-### Putting labels on the subgroups 
-p6 <- p5 + geom_cladelabel(node = 114, label = "Subgroup A", align = TRUE, 
-                        angle = -55, offset.text = .03, hjust = "center", 
-                        offset = 0.05, barsize = 0.2, fontsize = 2) +
-            geom_cladelabel(node = 121, label = "Subgroup B", align = TRUE, 
-                        angle = -15, offset.text = .03, hjust = "center", 
-                        offset = 0.05, barsize = 0.2, fontsize = 2) +
-            theme(legend.position="none", 
-                plot.margin=grid::unit(c(-15,-15,-15,-15), "mm"))
+p5 <- p4 +
+      geom_nodelab(
+          mapping = aes(
+              label = label,
+              subset = !is.na(as.numeric(label)) & as.numeric(label) > 50
+          ),
+          size = 2,
+          color = "black",
+          nudge_y = 0.7,
+          nudge_x = -0.05
+      )
 
+### Putting labels on the subgroups 
+p6 <- p5 +
+      geom_cladelab(
+          data = data.frame(
+              node = c(114, 121),
+              name = c("Subgroup A", "Subgroup B")
+          ),
+          mapping = aes(
+              node = node,
+              label = name
+          ),
+          align = TRUE,
+          offset = .05,
+          offset.text = .03,
+          hjust = "center",
+          barsize = .2,
+          fontsize = 2,
+          angle = "auto",
+          horizontal = FALSE
+      ) +
+      theme(
+          legend.position = "none",
+          plot.margin = grid::unit(c(-15, -15, -15, -15), "mm")
+      )
 print(p6)
 ```
   
