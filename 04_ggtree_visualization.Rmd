@@ -637,7 +637,7 @@ r8s <- read.r8s(system.file("extdata/r8s", "H3_r8s_output.log", package="treeio"
 ggtree(r8s) + facet_wrap( ~.id, scale="free") + theme_tree2()
 ```
 
-One hundred bootstrap trees can also be view simultaneously. This allows researchers to explore a large set of phylogenetic trees to find consensus and distinct trees. Consensus tree can be summarized via `DensiTree` (Figure \@ref(fig:densiTree)). 
+One hundred bootstrap trees can also be view simultaneously. This allows researchers to explore a large set of phylogenetic trees to find consensus and distinct trees. Consensus tree can be summarized via density tree (Figure \@ref(fig:densiTree)). 
 
 (ref:bp100scap) Visualizing one hundred bootstrap trees simultaneously.
 
@@ -654,9 +654,9 @@ ggtree(btrees) + facet_wrap(~.id, ncol=10)
 
 ### Annotate one tree with values from different variables
 
-To annotate one tree (the same tree) with the values from different variables, one can plot them separately and use `r CRANpkg("cowplot")` or `r CRANpkg("patchwork")` to combine them side by side. 
+To annotate one tree (the same tree) with the values from different variables, one can plot them separately and use `r CRANpkg("patchwork")` or `r CRANpkg("aplot")` to combine them side by side. 
 
-Another solution is to utilize the ability of plotting a list of trees by `r Biocpkg("ggtree")`, and then add annotation layers for the selected variable at a specific panel via the [subset](#geom2) aesthetic mapping supported by `r Biocpkg("ggtree")` or using [td_filter()](#td_filter) as demonstrated in Figure \@ref(fig:onetreefacet). 
+Another solution is to utilize the ability of plotting a list of trees by `r Biocpkg("ggtree")`, and then add annotation layers for the selected variable at a specific panel via the [subset](#geom2) aesthetic mapping supported by `r Biocpkg("ggtree")` or using the `td_filter()` as demonstrated in Figure \@ref(fig:onetreefacet). The `.id` is the conserved variable that is internally used to stored the IDs of different trees. 
 
 
 (ref:onetreefacetscap) Annotate one tree with values from different variables.
@@ -681,12 +681,13 @@ ggtree(trs) + facet_wrap(~.id) +
 
 ### DensiTree {#densitree}
 
-Another way to view the bootstrap trees is to merge them together to form a density tree using `ggdensitree()` function.
+Another way to view the bootstrap trees is to merge them together to form a density tree using `ggdensitree()` function. This will help us to identify consensus and differences among a large set of trees. The trees will be stacked on top of each other and the structures of the trees will be rotated to ensure the consistency of the tip order. The tip order is determined by the `tip.order` parameter and by default (`tip.order = 'mode') the tips are ordered by the most common seen topology. The user can pass in a character vector to specify the tip order, or pass in an integer, N, to order the tips by the order of the tips in the Nth tree. Passing `mds` to `tip.order` will order the tips based on MDS (Multidimensional Scaling) of the path length between the tips, or passing `mds_dist` will order the tips based on MDS of the distance between the tips. 
+
 
 
 (ref:densiTreescap) DensiTree.
 
-(ref:densiTreecap) **DensiTree.** 
+(ref:densiTreecap) **DensiTree.** Trees are stacked on top of each other and the structure of the trees are rotated to ensure the consistency of the tip order.
 
 ```{r densiTree, fig.width=12, fig.height=7.5, fig.cap="(ref:densiTreecap)", fig.scap="(ref:densiTreescap)", out.width='100%'}
 ggdensitree(btrees, alpha=.3, colour='steelblue') + 
@@ -697,5 +698,7 @@ ggdensitree(btrees, alpha=.3, colour='steelblue') +
 
 ## Summary {#summary4}
 
-Visualizing phylogenetic tree using `r Biocpkg("ggtree")` is easy by using a single command `ggtree(tree)`. The `r Biocpkg("ggtree")` package provides several geometric layers to display tree components such as tip labels, symbolic points for both external and internal nodes, root edge, *etc*. Associated data can be used to rescale branch lengths, color the tree and be displayed on the tree. All these can be done by the ggplot2 grammar of graphic syntax. `r Biocpkg("ggtree")` also provides several layers that are specifically designed for tree annotation (see [Chapter 5](#chapter5)).
+Visualizing phylogenetic tree using `r Biocpkg("ggtree")` is easy by using a single command `ggtree(tree)`. The `r Biocpkg("ggtree")` package provides several geometric layers to display tree components such as tip labels, symbolic points for both external and internal nodes, root edge, *etc*. Associated data can be used to rescale branch lengths, color the tree and be displayed on the tree. All these can be done by the `r CRANpkg("ggplot2")` grammar of graphic syntax, which makes it very easy to overlay layers and customize the tree graph (via `r CRANpkg("ggplot2")` themes and scales). The `r Biocpkg("ggtree")` package also provides several layers that are specifically designed for tree annotation which will be introduced in [Chapter 5](#chapter5). The `r Biocpkg("ggtree")` package makes the presentation of trees and associated data extremely easy. Simple graphs are easy to generate, while complex graphs are simply superimposed layers and are also easy to generate. 
+
+
 
