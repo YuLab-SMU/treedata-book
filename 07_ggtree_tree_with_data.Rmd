@@ -8,14 +8,13 @@ opts_chunk$set(message=FALSE, warning=FALSE, eval=TRUE, echo=TRUE, cache=TRUE)
 ```
 
 Integrating user data to annotate phylogenetic tree can be done at different
-levels. The `r Biocpkg("treeio")` package [@wang_treeio_2020] implements `full_join` methods to
-[combine tree data to phylogenetic tree object](https://bioconductor.org/packages/devel/bioc/vignettes/treeio/inst/doc/Importer.html).
-The `r CRANpkg("tidytree")` package supports [linking tree data to phylogeny
-using tidyverse verbs](https://cran.r-project.org/web/packages/tidytree/vignette/tiytree.html).
+levels. The `r Biocpkg("treeio")` package [@wang_treeio_2020] implements `full_join()` methods to combine tree data to phylogenetic tree object.
+The `r CRANpkg("tidytree")` package supports linking tree data to phylogeny
+using tidyverse verbs (see also [Chapter 2](#chapter2)).
 The `r Biocpkg("ggtree")` package [@yu_two_2018] supports mapping external data to phylogeny for
 visualization and annotation on the fly. Although the feature of linking external data is overlapping among these packages, they have different application scopes. For example, in addition to the `treedata` object, `r Biocpkg("ggtree")` also supports several other tree objects (see [chapter 9](#chapter9)), including `phylo4d`, `phyloseq` and `obkData` that were designed to contain domain specific data. The design of these objects did not consider supporting linking external data to the object (it can not be done at tree object level). We can visualize trees from these objects using `r Biocpkg("ggtree")` and link external data at the visualization level [@yu_two_2018].
 
-`r Biocpkg("ggtree")` provides two general methods for mapping and visualizing associated external data on phylogenies. [Method 1](#attach-operator) allows external data to be mapped on the tree structure and used as visual characteristics in tree and data visualization. [Method 2](#facet_plot) plots the data with the tree side by side using different geometric functions after reordering the data based on the tree structure. These two methods integrate data with phylogeny for further exploration and comparison in the evolutionary biology context. 
+The `r Biocpkg("ggtree")` package provides two general methods for mapping and visualizing associated external data on phylogenies. [Method 1](#attach-operator) allows external data to be mapped on the tree structure and used as visual characteristics in the tree and data visualization. [Method 2](#facet_plot) plots the data with the tree side by side using different geometric functions after reordering the data based on the tree structure. These two methods integrate data with phylogeny for further exploration and comparison in the evolutionary biology context. The `r Biocpkg("ggtreeExtra")` provides a better implementation of the Method 2 proposed in `r Biocpkg("ggtree")` (see also [Chapter 10](#chapter10)) and works with both rectangular and circular layouts [@ggtreeExtra_2021].
 
 ## Mapping data to the tree structure {#attach-operator}
 

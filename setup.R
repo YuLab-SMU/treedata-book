@@ -94,3 +94,12 @@ svg2png <- function(path, options) {
     file.remove(path)
     return(output)
 }
+
+
+trim_fig <- function(path, options) {
+    output <- sub(".png$", "-crop.png", path)
+    system2("convert", paste("-trim", path, output))
+    file.remove(path)
+    return(output)
+}
+
