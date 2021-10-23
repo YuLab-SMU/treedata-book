@@ -121,7 +121,7 @@ p2 <- p %>% collapse(node=21) +
 p2 <- collapse(p2, node=23) + 
   geom_point2(aes(subset=(node==23)), shape=23, size=5, fill='red')
 p3 <- expand(p2, node=23) %>% expand(node=21) 
-plot_grid(p2, p3, ncol=2, labels=c("A", "B"))
+plot_list(p2, p3, ncol=2, tag_levels = "A")
 ```
 
 Here two clades were collapsed and labelled by green circle and red square symbolic points. Collapsing is a common strategy to collapse clades that are too large for displaying in full or are not the primary interest of the study. In `r Biocpkg("ggtree")`, we can expand (*i.e.*, uncollapse) the collapsed branches back with the `expand()` function to show details of species relationships as demonstrated in Figure \@ref(fig:collapseExpand)B.
@@ -162,16 +162,17 @@ node <- 21
 g1 = expand(collapse(p2, node, 'max'), node)
 g2 = expand(collapse(p2, node, 'min'), node)
 g3 = expand(collapse(p2, node, 'mixed'), node)
-pp = plot_grid(g1,g2,g3, ncol=3, labels=LETTERS[1:3])
 
 pg1 <- collapse(p, 21, 'mixed', fill='steelblue', alpha=.4) %>% 
   collapse(23, 'mixed', fill='firebrick', color='blue')
 
 pg2 <- scaleClade(p, 23, .2) %>% collapse(23, 'min', fill="darkgreen")  
 
-gg <- plot_grid(pg1, pg2, ncol=2, labels=LETTERS[4:5])
+##pp = plot_list(g1,g2,g3, ncol=3, labels=LETTERS[1:3])
+##gg <- plot_list(pg1, pg2, ncol=2, labels=LETTERS[4:5])
+##plot_list(pp, gg, ncol=1)
 
-plot_grid(pp, gg, ncol=1)
+plot_list(g1, g2, g3, pg1, pg2, design="AABBCC\nDDDEEE", tag_levels='A')
 ```
 
 
@@ -179,15 +180,15 @@ plot_grid(pp, gg, ncol=1)
 ## Grouping Taxa {#group-taxa-vis}
 
 
-The `groupClade` function assigns the branches and nodes under different clades into different groups.  _`groupClade`_ accepts an internal node or a vector of internal nodes to cluster clade/clades.
+The `groupClade()` function assigns the branches and nodes under different clades into different groups. It accepts an internal node or a vector of internal nodes to cluster clade/clades.
 
-Similarly, `groupOTU` function assigns branches and nodes to different groups based on user-specified groups of operational taxonomic units (OTUs) that are not necessarily within a clade, but can be monophyletic (clade), polyphyletic or paraphyletic. It accepts a vector of OTUs (taxa name) or a list of OTUs and will trace back from OTUs to their most recent common ancestor (MRCA) and cluster them together as demonstrated in Figure \@ref(fig:groupOTU).
+Similarly, the `groupOTU()` function assigns branches and nodes to different groups based on user-specified groups of operational taxonomic units (OTUs) that are not necessarily within a clade, but can be monophyletic (clade), polyphyletic or paraphyletic. It accepts a vector of OTUs (taxa name) or a list of OTUs and will trace back from OTUs to their most recent common ancestor (MRCA) and cluster them together as demonstrated in Figure \@ref(fig:groupOTU).
 
 A phylogenetic tree can be annotated by mapping different line type, size, color or shape to the branches or nodes that have been assigned to different groups. 
 
 (ref:groupOTUscap) Grouping OTUs.
 
-(ref:groupOTUcap) **Grouping OTUs.** OTU clustering based on their relationships. Selected OTUs and their ancestors up to MRCA will be clustered together.
+(ref:groupOTUcap) **Grouping OTUs.** OTU clustering based on their relationships. Selected OTUs and their ancestors up to the MRCA will be clustered together.
 
 
 
@@ -228,21 +229,21 @@ To facilitate exploring the tree structure, `r Biocpkg("ggtree")` supports rotat
 
 ```{r echo=T, eval=F}
 p1 <- p + geom_point2(aes(subset=node==16), color='darkgreen', size=5)
-p2 <- rotate(p1, 17) %>% rotate(21)
+p2 <- rotate(p1, 16)
 flip(p2, 17, 21)
 ```          
 ```{r rfClade, fig.cap="(ref:rotateCladecap)", fig.scap="(ref:rotateCladescap)", out.extra='', fig.width=7, fig.height=3, echo=F, out.width='100%'}
 p1 <- p + geom_tiplab() + 
         geom_point2(aes(subset=node==16), color='darkgreen', size=5)
-p2 <- rotate(p1, 17) %>% rotate(21)
+p2 <- rotate(p1, 16)
 p3 <- flip(p2, 17, 21)
-plot_grid(p1, p2, p3, ncol=3, labels = LETTERS[1:3])
+plot_list(p1, p2, p3, ncol=3, tag_levels='A')
 ```
 
 
 
 
-Most of the tree manipulation functions are working on clades, while `r Biocpkg("ggtree")` also provides functions to manipulate a tree, including `open_tree()` to transform a tree in either rectangular or circular layout to fan layout, and `rotate_tree()` function to rotate a tree for specific angle in both circular or fan layouts, as demonstrated in Figure \@ref(fig:openTree) and \@ref(fig:rotateTree).
+Most of the tree manipulation functions are working on clades, while `r Biocpkg("ggtree")` also provides functions to manipulate a tree, including `open_tree()` to transform a tree in either rectangular or circular layout to the fan layout, and `rotate_tree()` function to rotate a tree for specific angle in both circular or fan layouts, as demonstrated in Figure \@ref(fig:openTree) and \@ref(fig:rotateTree).
 
 
 
@@ -253,7 +254,7 @@ print(p3)
 
 (ref:openTreescap) Transforming a tree to fan layout.
 
-(ref:openTreecap) **Transforming a tree to fan layout.** A tree can be transformed to fan layout by `open_tree` with a specific *angle* parameter.
+(ref:openTreecap) **Transforming a tree to fan layout.** A tree can be transformed to fan layout by `open_tree` with a specific `angle`.
 
 ```{r openTree, fig.cap="(ref:openTreecap)", fig.scap="(ref:openTreescap)",echo=FALSE, fig.width=6, fig.height=3.5, out.extra=''}
 p3 <- open_tree(p, 180) + geom_tiplab() 
@@ -271,7 +272,7 @@ rotate_tree(p3, 180)
 
 (ref:rotateTreescap) Rotating tree.
 
-(ref:rotateTreecap) **Rotating tree.** A circular/fan layout tree can be rotated by any specific *angle*.
+(ref:rotateTreecap) **Rotating tree.** A circular/fan layout tree can be rotated by any specific `angle`.
 
 
 ```{r rotateTree, echo=FALSE, fig.cap="(ref:rotateTreecap)", fig.scap="(ref:rotateTreescap)", fig.width=6, fig.height=3.2, out.extra=''}
@@ -282,7 +283,11 @@ ggplot() + ylim(0.5, 1) + xlim(0, 1)  + theme_tree() +
 
 
 
-The following example traverses all the internal nodes and rotates them one by one (Figure \@ref(fig:rotategif)).
+The following example rotates four selected nodes 
+
+
+
+traverses all the internal nodes and rotates them one by one (Figure \@ref(fig:rotategif)).
 
 
 (ref:rotategifscap) Traverse and rotate all clades.
@@ -313,11 +318,14 @@ set.seed(2016-05-29)
 x <- rtree(50)
 p <- ggtree(x) + geom_tiplab()
 
+## nn <- unique(reorder(x, 'postorder')$edge[,1]) 
+## to traverse all the internal nodes
+
 nn <- sample(unique(reorder(x, 'postorder')$edge[,1]), 4)
 
 pp <- lapply(nn, function(n) {
     p <- rotate(p, n)
-    p + geom_point2(aes(subset=(node == n)), color='red')
+    p + geom_point2(aes(subset=(node == n)), color='red', size=3)
 })
 
 plot_list(gglist=pp, tag_levels='A', nrow=1)
