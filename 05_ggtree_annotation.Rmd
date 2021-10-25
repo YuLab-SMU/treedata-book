@@ -267,7 +267,7 @@ The `geom_hilight` layer also supports highlighting clades for unrooted layout t
 
 ```{r eval=FALSE, fig.width=5, fig.height=5, fig.align='center', warning=FALSE, message=FALSE}
 ## type can be 'encircle' or 'rect'
-pg + geom_hilight(node=55) + 
+pg + geom_hilight(node=55, linetype = 3) + 
   geom_hilight(node=35, fill='darkgreen', type="rect")
 ```
 
@@ -287,20 +287,20 @@ ggtree(tree) +
 ```
 
 
-The `geom_hilight` layer supports using aesthetic mapping to automatically highlight clades as demonstrated in Figure \@ref(fig:hilight)E-F. For plot in cartesian coordinates (*e.g.*, rectangular layout), the rectangule can be rounded (Figure \@ref(fig:hilight)E) or filled with gradient colors (Figure \@ref(fig:hilight)F).
+The `geom_hilight()` layer supports using aesthetic mapping to automatically highlight clades as demonstrated in Figure \@ref(fig:hilight)E-F. For plot in cartesian coordinates (*e.g.*, rectangular layout), the rectangule can be rounded (Figure \@ref(fig:hilight)E) or filled with gradient colors (Figure \@ref(fig:hilight)F).
 
 ```{r eval=FALSE, fig.width=5, fig.height=5, fig.align='center', warning=FALSE, message=FALSE}
 ## using external data
 d <- data.frame(node=c(17, 21), type=c("A", "B"))
 ggtree(tree) + geom_hilight(data=d, aes(node=node, fill=type),
-                            roundrect = TRUE)
+                            type = "roundrect")
 
 ## using data stored in tree object
 x <- read.nhx(system.file("extdata/NHX/ADH.nhx", package="treeio"))
 ggtree(x) + geom_hilight(mapping=aes(subset = node %in% c(10, 12), 
                                     fill = S),
-                        gradient = TRUE, graident.direction = 'rt',
-                        alpha = .68) +
+                        type = "gradient", graident.direction = 'rt',
+                        alpha = .8) +
   scale_fill_manual(values=c("steelblue", "darkgreen"))
 ```
 
@@ -320,21 +320,22 @@ p1= ggtree(tree) + geom_hilight(node=21, fill="steelblue", alpha=.6) +
 p2= ggtree(tree, layout="circular") + geom_hilight(node=21, fill="steelblue", alpha=.6) +
     geom_hilight(node=23, fill="darkgreen", alpha=.6)
 
-p3 = pg + geom_hilight(node=55) + geom_hilight(node=35, fill='darkgreen', type='rect')
+p3 = pg + geom_hilight(node=55, linetype = 3) + 
+  geom_hilight(node=35, fill='darkgreen', type='rect', linetype = 3)
 
 p4 = ggtree(tree) +
   geom_balance(node=16, fill='steelblue', color='white', alpha=0.6, extend=1) +
   geom_balance(node=19, fill='darkgreen', color='white', alpha=0.6, extend=1) 
 
 d <- data.frame(node=c(17, 21), type=c("A", "B"))
-p5 <- ggtree(tree) + geom_hilight(data=d, aes(node=node, fill=type), roundrect = TRUE)
+p5 <- ggtree(tree) + geom_hilight(data=d, aes(node=node, fill=type), type = "roundrect")
 
 ## using data stored in tree object
 x <- read.nhx(system.file("extdata/NHX/ADH.nhx", package="treeio"))
 p6 <- ggtree(x) + geom_hilight(mapping=aes(subset = node %in% c(10, 12), 
                                     fill = S),
-                        gradient = TRUE, graident.direction = 'rt',
-                        alpha = .68) +
+                        type = "gradient", graident.direction = 'rt',
+                        alpha = .8) +
   scale_fill_manual(values=c("steelblue", "darkgreen"))
 
 plot_list(p1, p2, p3, p4, p5, p6, ncol=3, tag_levels='A')    
