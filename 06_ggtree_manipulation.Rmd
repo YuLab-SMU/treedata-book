@@ -350,7 +350,7 @@ Figure \@ref(fig:fangif) demonstrates the usage of `open_tree()` with different 
 (ref:fangifcap) **Open tree with different angles.** 
 
 
-```{r fangif, fig.width=8, fig.height=8, message=FALSE, fig.cap="(ref:fangifcap)", fig.scap="(ref:fangifscap)"}
+```{r fangifCode, eval=FALSE}
 set.seed(123)
 tr <- rtree(50)
 p <- ggtree(tr, layout='circular') 
@@ -363,6 +363,19 @@ pp <- lapply(angles, function(angle) {
 plot_list(gglist=pp, tag_levels='A', nrow=2)
 ```
 
+```{r fangif, fig.width=6, fig.height=4, message=FALSE, fig.cap="(ref:fangifcap)", fig.scap="(ref:fangifscap)"}
+set.seed(123)
+tr <- rtree(50)
+p <- ggtree(tr, layout='circular') 
+angles <- seq(0, 270, length.out=6)
+
+pp <- lapply(angles, function(angle) {
+  open_tree(p, angle=angle) + ggtitle(paste("open angle:", angle))
+})
+
+g <- plot_list(gglist=pp, tag_levels='A', nrow=2)
+ggplotify::as.ggplot(g, vjust=-.1,scale=1.1)
+```
 
 
 Figure \@ref(fig:rotatetreegif) illustrates rotating tree with different angles.
@@ -386,7 +399,7 @@ knitr::include_graphics("img/rotate_tree.gif")
 
 
 
-```{r rotatetreegif, fig.width=8, fig.height=8, message=FALSE, fig.cap="(ref:rotatetreegifcap)", fig.scap="(ref:rotatetreegifscap)"}
+```{r rotatetreegif, fig.width=8, fig.height=6, echo=FALSE, message=FALSE, fig.cap="(ref:rotatetreegifcap)", fig.scap="(ref:rotatetreegifscap)"}
 p <- p + geom_tippoint(aes(subset = node == 1), colour = 'red', size=3)
 pp <- lapply(angles, function(angle) {
   rotate_tree(p, angle=angle) + ggtitle(paste("rotate angle:", angle))
