@@ -456,7 +456,7 @@ through an S4 class, `treedata`, defined in the `r CRANpkg('tidytree')` package.
 are mapped to the tree branches and nodes inside `treedata` object, so that they
 can be efficiently used to visually annotate the tree
 using `r Biocpkg("ggtree")` [@yu_ggtree:_2017] and `r Biocpkg("ggtreeExtra")` [@ggtreeExtra_2021]. 
-A programmable platform for phylogenetic data parsing, integration and annotations as such makes us easier to identify the evolutionary dynamics and correlation patterns (Figure \@ref(fig:treeioDiagram), Figure 1 of [@wang_treeio_2020]).
+A programmable platform for phylogenetic data parsing, integration, and annotations as such makes us easier to identify the evolutionary dynamics and correlation patterns (Figure \@ref(fig:treeioDiagram), Figure 1 of [@wang_treeio_2020]).
 
 
 
@@ -472,7 +472,7 @@ knitr::include_graphics("img/treeio-diagram.png", auto_pdf = TRUE)
 
 ### Overview of `r Biocpkg("treeio")`
 
-The `r Biocpkg("treeio")` package [@wang_treeio_2020] defined `S4` classes for storing phylogenetic tree with diverse types of associated data or covariates from different sources including analysis outputs from different software packages. It also defined corresponding parser functions for parsing phylogenetic tree with annotation data and stored as data object in R for further manipulation or analysis (see Table \@ref(tab:treeio-function)). Several accessor functions were defined to facilitate accessing the tree annotation data, including `get.fields` for obtaining annotation features available in the tree object, `get.placements` for obtaining the phylogenetic placement results (*i.e.*, output of `r pkg_pplacer`, `r pkg_epa`, *etc.*), `get.subs` for obtaining the genetic substitutions from parent node to child node, and `get.tipseq` for getting the tip sequences. 
+The `r Biocpkg("treeio")` package [@wang_treeio_2020] defined `S4` classes for storing phylogenetic trees with diverse types of associated data or covariates from different sources including analysis outputs from different software packages. It also defined corresponding parser functions for parsing phylogenetic trees with annotation data and stored them as data objects in R for further manipulation or analysis (see Table \@ref(tab:treeio-function)). Several accessor functions were defined to facilitate accessing the tree annotation data, including `get.fields` for obtaining annotation features available in the tree object, `get.placements` for obtaining the phylogenetic placement results (*i.e.*, the output of `r pkg_pplacer`, `r pkg_epa`, *etc.*), `get.subs` for obtaining the genetic substitutions from parent node to child node, and `get.tipseq` for getting the tip sequences. 
 
 
 The `S3` class, `phylo`, which was defined in `r CRANpkg("ape")`\index{ape} [@paradis_ape_2004] package, is widely used in `R` community and many packages. As *treeio* uses `S4` class, to enable those available R packages to analyze the tree imported by *treeio*, *treeio* provides `as.phylo` function to convert *treeio*-generated tree object to `phylo` object that only contains tree structure without annotation data. In the other way, *treeio* also provides `as.treedata` function to convert `phylo` object with evolutionary analysis result (*e.g.*, bootstrap values calculated by `r CRANpkg("ape")` or ancestral states inferred by `r CRANpkg("phangorn")`\index{phangorn} [@schliep_phangorn_2011] *etc*) to be stored as a `treedata` `S4` object, making it easy to map the data to the tree structure and to be visualized using `r Biocpkg("ggtree")` [@yu_ggtree:_2017].
@@ -482,9 +482,9 @@ The `S3` class, `phylo`, which was defined in `r CRANpkg("ape")`\index{ape} [@pa
 (*e.g.*, `phangorn`  for ancestral state reconstruction and `ape` for divergence time estimation) that implemented evolutionary inferences are supporting `phylo` object. 
 -->
 
-To allow integration of different kinds of data in phylogenetic tree, `r Biocpkg("treeio")` [@wang_treeio_2020] provides `merge_tree` function (details in [section 2.2.1](#merge-tree)) for combining evolutionary statistics/evidence imported from different sources including those common tree files and outputs from analysis programs (Table \@ref(tab:treeio-function)). There is other information, such as sampling location, taxonomy information, experimental result and evolutionary traits, *etc.* that are stored in separate files with user-defined format. In `r Biocpkg("treeio")`, we could read in these data from the users' files using standard R *IO* functions, and attach them to the tree object by the [full_join](#link-external-data) methods defined in `r CRANpkg("tidytree")` and `r Biocpkg("treeio")` packages (see also the [`%<+%` operator](#attach-operator) defined in `r Biocpkg("ggtree")`). After attaching, the data will become the attributes associated with nodes or branches, which can be compared with other data incorporated, or can be visually displayed on the tree [@yu_two_2018].
+To allow integration of different kinds of data in a phylogenetic tree, `r Biocpkg("treeio")` [@wang_treeio_2020] provides `merge_tree` function (details in [section 2.2.1](#merge-tree)) for combining evolutionary statistics/evidence imported from different sources including those common tree files and outputs from analysis programs (Table \@ref(tab:treeio-function)). There is other information, such as sampling location, taxonomy information, experimental result, and evolutionary traits, *etc.* that are stored in separate files with the user-defined format. In `r Biocpkg("treeio")`, we could read in these data from the users' files using standard R *IO* functions, and attach them to the tree object by the [full_join](#link-external-data) methods defined in `r CRANpkg("tidytree")` and `r Biocpkg("treeio")` packages (see also the [`%<+%` operator](#attach-operator) defined in `r Biocpkg("ggtree")`). After attaching, the data will become the attributes associated with nodes or branches, which can be compared with other data incorporated or can be visually displayed on the tree [@yu_two_2018].
 
-To facilitate storing complex data associated with the phylogenetic tree, `r Biocpkg("treeio")`\index{treeio} implemented `write.baset` and `write.jtree` function to export treedata object into a single file (see [Chapter 3](#chapter3)). 
+To facilitate storing complex data associated with the phylogenetic tree, `r Biocpkg("treeio")`\index{treeio} implemented `write.baset` and `write.jtree` function to export a `treedata` object into a single file (see [Chapter 3](#chapter3)). 
 
 <!-- A full list of functions that defined in *treeio* can be found in Table \@ref(tab:treeio). -->
 
@@ -509,7 +509,7 @@ Not only tree structure but also all the features inferred by `r pkg_beast` will
 
 #### Parsing MEGA output {#mega}
 
-Molecular Evolutionary Genetics Analysis (`r pkg_mega`) software [@kumar_mega7_2016] supports exporting trees in three distinct formats: Newick, tabular and Nexus. The Newick file can be parsed using the `read.tree` or `read.newick` functions. MEGA Nexus file is similar to BEAST Nexus and `r Biocpkg("treeio")` [@wang_treeio_2020] provides `read.mega` function to parse the tree.
+Molecular Evolutionary Genetics Analysis (`r pkg_mega`) software [@kumar_mega7_2016] supports exporting trees in three distinct formats: Newick, tabular, and Nexus. The Newick file can be parsed using the `read.tree` or `read.newick` functions. MEGA Nexus file is similar to BEAST Nexus and `r Biocpkg("treeio")` [@wang_treeio_2020] provides `read.mega` function to parse the tree.
 
 ```{r}
 file <- system.file("extdata/MEGA7", "mtCDNA_timetree.nex", 
@@ -540,7 +540,7 @@ read.mrbayes(file)
 #### Parsing PAML output
 
 Phylogenetic Analysis by Maximum Likelihood (`r pkg_paml`) is a package of tools for phylogenetic analyses of DNA and protein sequences using maximum likelihood. Tree search algorithms are implemented in `r pkg_baseml` and `r pkg_codeml`. The `read.paml_rst()` function provided in `r Biocpkg("treeio")` can parse *rst* file from `r pkg_baseml` and `r pkg_codeml`. The only difference is the space in the sequences.
-For `r pkg_baseml`, each ten bases are separated by one space, while for `r pkg_codeml`, each three bases (triplet) are separated by one space.
+For `r pkg_baseml`, every ten bases are separated by one space, while for `r pkg_codeml`, every three bases (triplet) are separated by one space.
 
 ```{r fig.width=12, fig.height=10, warning=FALSE, fig.align="center"}
 brstfile <- system.file("extdata/PAML_Baseml", "rst", package="treeio")
@@ -561,7 +561,7 @@ crst
 Ancestral sequences inferred by `r pkg_baseml` or `r pkg_codeml` via marginal or
 joint ML reconstruction methods will be stored in the S4 object and mapped to
 tree nodes. `r Biocpkg("treeio")` [@wang_treeio_2020] will automatically determine the substitutions between the
-sequences at both ends of each branch. Amino acid substitution will also be
+sequences at both ends of each branch. The amino acid substitution will also be
 determined by translating nucleotide sequences to amino acid sequences. These
 computed substitutions will also be stored in the S4 object for efficient tree annotation later (Figure \@ref(fig:codeml)).
 
@@ -621,14 +621,14 @@ hy
 
 #### Parsing r8s output
 
-The `r pkg_r8s` package uses parametric, semiparametric and
-nonparametric methods to relax molecular clock to allow better estimations of
+The `r pkg_r8s` package uses parametric, semiparametric, and
+nonparametric methods to relax the molecular clock to allow better estimations of
 divergence times and evolution rates [@sanderson_r8s:_2003]. It outputs three
-trees in log file, namely *TREE*, *RATO* and *PHYLO* for time tree, rate tree
+trees in a log file, namely *TREE*, *RATO*, and *PHYLO* for time tree, rate tree,
 and absolute substitution tree respectively.
 
-Time tree is scaled by divergence time, rate tree is scaled by substitution rate
-and absolute substitution tree is scaled by the absolute number of substitution.
+The time tree is scaled by divergence time, the rate tree is scaled by substitution rate
+and the absolute substitution tree is scaled by the absolute number of substitutions.
 After parsing the file, all these three trees are stored in a *multiPhylo* object (Figure \@ref(fig:mutiPhylo)).
 
 
@@ -638,15 +638,15 @@ r8s
 ```
 
 
-#### Parsing output of RAxML bootstraping analysis
+#### Parsing output of RAxML bootstrap analysis
 
 `r pkg_raxml` bootstrapping analysis
 outputs a Newick tree text that is not standard as it stores bootstrap values
 inside square brackets after branch lengths. This file usually cannot be parsed
-by traditional Newick parser, such as `ape::read.tree()`. The function
-`read.raxml()` can read such file and stored the bootstrap as an additional
+by a traditional Newick parser, such as `ape::read.tree()`. The function
+`read.raxml()` can read such file and store the bootstrap as an additional
 feature, which can be used to display on the tree or used to color tree
-branches, *etc.*.
+branches, *etc.*
 
 
 
@@ -691,7 +691,7 @@ phylip
 
 #### Parsing EPA and pplacer output
 
-`r pkg_epa` [@berger_performance_2011] and `r pkg_pplacer` [@matsen_pplacer_2010] have common output file format, `jplace`, which can be
+`r pkg_epa` [@berger_performance_2011] and `r pkg_pplacer` [@matsen_pplacer_2010] have a common output file format, `jplace`, which can be
 parsed by the `read.jplace()` function.
 
 ```{r}
@@ -707,12 +707,12 @@ using `r Biocpkg("ggtree")` [@yu_ggtree:_2017].
 
 #### Parsing jtree format{#jtree}
 
-The *jtree* is a JSON based format that was defined in
+The *jtree* is a JSON-based format that was defined in
 this `r Biocpkg("treeio")` package [@wang_treeio_2020] to support tree
 data interchange (see [session 3.3](#write-jtree)).
 Phylogenetic tree with associated data can be exported to a single *jtree*
 file using the `write.jtree()` function. The *jtree* can be easily parsed using any
-JSON parser. The *jtree* format contains three keys: tree, data and metadata.
+JSON parser. The *jtree* format contains three keys: tree, data, and metadata.
 The tree value contains tree text extended from Newick tree format by putting
 the edge number in curly braces after branch length. The data value contains
 node/branch-specific data, while the metadata value contains additional meta information.
@@ -727,10 +727,10 @@ read.jtree(file = jtree_file)
 ```
 
 
-### Converting other tree-like object to `phylo` or `treedata` object {#as-treedata}
+### Converting other tree-like objects to `phylo` or `treedata` objects {#as-treedata}
 
 
-To extend the application scopes of `r Biocpkg("treeio")`, `r CRANpkg("tidytree")` and `r Biocpkg("ggtree")`, `r Biocpkg("treeio")` [@wang_treeio_2020] provides several `as.phylo` and `as.treedata` methods to convert other tree-like objects, such as `phylo4d` and `pml`, to `phylo` or `treedata` object. So that users can easily [mapping associated data to the tree structure](#data-integration), [exporting tree with/without data to a single file](#chapter3), [manipulating](#chapter2) and [visualizing tree](#chapter4) with/without data. These convert functions (Table \@ref(tab:treeio-treedata-object)) create the possibility of using `r CRANpkg("tidytree")` to process tree using tidy interface and `r Biocpkg("ggtree")` to visualize tree using grammar of graphic syntax.
+To extend the application scopes of `r Biocpkg("treeio")`, `r CRANpkg("tidytree")` and `r Biocpkg("ggtree")`, `r Biocpkg("treeio")` [@wang_treeio_2020] provides several `as.phylo` and `as.treedata` methods to convert other tree-like objects, such as `phylo4d` and `pml`, to `phylo` or `treedata` object. So that users can easily [map associated data to the tree structure](#data-integration), [export a tree with/without data to a single file](#chapter3), [manipulate](#chapter2) and [visualize a tree](#chapter4) with/without data. These convert functions (Table \@ref(tab:treeio-treedata-object)) create the possibility of using `r CRANpkg("tidytree")` to process tree using tidy interface and `r Biocpkg("ggtree")` to visualize tree using the grammar of graphic syntax.
 
 
 
@@ -786,7 +786,7 @@ ggtree(pmltree) + geom_text(aes(x=branch, label=AA_subs, vjust=-.5))
 
 After the tree was imported, users may want to extract information stored
 in the `treedata` object. `r Biocpkg("treeio")` provides several accessor
-methods to extract tree structure, features/attributes that stored in the object
+methods to extract tree structure, features/attributes that stored in the object,
 and their corresponding values.
 
 The `get.tree()` or `as.phylo()` methods can convert the `treedata` object to a
@@ -826,7 +826,7 @@ head(beast_tree[["height_median"]])
 ## Summary {#summary1}
 
 
-Software tools for inferring molecular evolution (*e.g.*, ancestral states, molecular dating\index{molecular dating} and selection pressure, *etc.*) are proliferating, but there is no single data format that is used by all different programs and capable to store different types of phylogenetic data. Most of the software packages have their own unique output formats and these formats are not compatible with each other. Parsing software outputs is challenging, which restricts the joint analysis using different tools. The `r Biocpkg("treeio")` package [@wang_treeio_2020] provides a set of functions (Table \@ref(tab:treeio-function)) for parsing various types of phylogenetic data files and a set of converter (Table \@ref(tab:treeio-treedata-object)) to convert tree-like object to phylo or treedata objects. These phylogenetic data can be integrated together that allows further exploration and comparison. To date, most software tools in the field of molecular evolution are isolated and often not fully compatible with each other's input and output files. These software tools are designed to do their own analysis and the outputs are often not readable in other software. No tools have been designed to unify the inference data from different analysis programs. Efficient incorporation of data from different inference methods can enhance the comparison and understanding of the study target, which may help discover new systematic patterns and generate new hypotheses.
+Software tools for inferring molecular evolution (*e.g.*, ancestral states, molecular dating\index{molecular dating} and selection pressure, *etc.*) are proliferating, but there is no single data format that is used by all different programs and capable to store different types of phylogenetic data. Most of the software packages have their unique output formats and these formats are not compatible with each other. Parsing software outputs is challenging, which restricts the joint analysis using different tools. The `r Biocpkg("treeio")` package [@wang_treeio_2020] provides a set of functions (Table \@ref(tab:treeio-function)) for parsing various types of phylogenetic data files and a set of converters (Table \@ref(tab:treeio-treedata-object)) to convert tree-like objects to phylo or treedata objects. These phylogenetic data can be integrated that allowing further exploration and comparison. To date, most software tools in the field of molecular evolution are isolated and often not fully compatible with each other's input and output files. These software tools are designed to do their analysis and the outputs are often not readable in other software. No tools have been designed to unify the inference data from different analysis programs. Efficient incorporation of data from different inference methods can enhance the comparison and understanding of the study target, which may help discover new systematic patterns and generate new hypotheses.
 
 
-As phylogenetic trees are growing in their application to identify patterns in an evolutionary context, more different disciplines are employing phylogenetic trees in their research. For example, spatial ecologists may map the geographical positions of the organisms to their phylogenetic trees to understand the biogeography of the species [@schon_age_2015]; disease epidemiologists may incorporate the pathogen sampling time and locations into the phylogenetic analysis to infer the disease transmission dynamics in spatiotemporal space [@he_emergence_2013]; microbiologists may determine the pathogenicity of different pathogen\index{pathogen} strains and map them into their phylogenetic trees to identify the genetic determinants of the pathogenicity [@bosi_comparative_2016]; genomic scientists may use the phylogenetic trees to help taxonomically classify their metagenomic sequence data [@gupta_using_2015]. A robust tool such as `r Biocpkg("treeio")` to import and map different types of data into the phylogenetic tree is important to facilitate these phylogenetics-related research, or *a.k.a* 'phylodynamics'. Such tools could also help integrate different metadata (time, geography, genotype\index{genotype}, epidemiological information) and analysis results (selective pressure, evolutionary rates) at the highest level and provide a comprehensive understanding of the study organisms. In the field of influenza research, there have been such attempts of studying phylodynamics\index{phylodynamics} of the influenza virus by mapping different meta-data and analysis results on the same phylogenetic tree and evolutionary time scale [@lam_dissemination_2015]. 
+As phylogenetic trees are growing in their application to identify patterns in an evolutionary context, more different disciplines are employing phylogenetic trees in their research. For example, spatial ecologists may map the geographical positions of the organisms to their phylogenetic trees to understand the biogeography of the species [@schon_age_2015]; disease epidemiologists may incorporate the pathogen sampling time and locations into the phylogenetic analysis to infer the disease transmission dynamics in spatiotemporal space [@he_emergence_2013]; microbiologists may determine the pathogenicity of different pathogen\index{pathogen} strains and map them into their phylogenetic trees to identify the genetic determinants of the pathogenicity [@bosi_comparative_2016]; genomic scientists may use the phylogenetic trees to help taxonomically classify their metagenomic sequence data [@gupta_using_2015]. A robust tool such as `r Biocpkg("treeio")` to import and map different types of data into the phylogenetic tree is important to facilitate these phylogenetics-related research or *a.k.a* 'phylodynamics'. Such tools could also help integrate different metadata (time, geography, genotype\index{genotype}, epidemiological information) and analysis results (selective pressure, evolutionary rates) at the highest level and provide a comprehensive understanding of the study organisms. In the field of influenza research, there have been such attempts of studying the phylodynamics\index{phylodynamics} of the influenza virus by mapping different meta-data and analysis results on the same phylogenetic tree and evolutionary time scale [@lam_dissemination_2015]. 
