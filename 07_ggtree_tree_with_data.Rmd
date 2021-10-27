@@ -56,12 +56,12 @@ Although the data integrated by the `%<+%` operator in `r Biocpkg("ggtree")` is 
 
 For associating phylogenetic tree with different types of plot produced by user's data, `r Biocpkg("ggtree")` provides `geom_facet()` layer and `facet_plot()` function which accept an input `data.frame` and a `geom` layer to draw the input data. The data will be displayed in an additional panel of the plot. The `geom_facet()` (or `facet_plot`) is a general solution for linking the graphic layer to a tree. The function internally re-orders the input data based on the tree structure and visualizes the data at the specific panel by the geometric layer. Users are free to visualize several panels to plot different types of data as demonstrated in Figure \@ref(fig:phyloseq) and to use different geometric layers to plot the same dataset (Figure \@ref(fig:jv2017)) or different datasets on the same panel.
 
-The `geom_facet()` is designed to work with most of the `geom` layers defined in `r CRANpkg("ggplot2")` and other `r CRANpkg("ggplot2")`-based packages. A list of the geometric layers that work seamlessly with `geom_facet()` and `facet_plot()` can be found in Table \@ref(tab:facet-geom). As the `r CRANpkg("ggplot2")` community keeps expanding and more `geom` layers will be implemented in either `r CRANpkg("ggplot2")` or other extensions, `geom_facet()` and `facet_plot()` will gain more power to present data in future. Note that different `geom` layers can be combined to present data on the same panel and the combinations of different `geom` layers create the possibility to present more complex data with phylogeny (see also Figure \@ref(fig:jv2017) and \@ref(fig:gggenes)). Detailed descriptions can be found in [Supplemental File](https://github.com/GuangchuangYu/plotting_tree_with_data/) of [@yu_two_2018].
+The `geom_facet()` is designed to work with most of the `geom` layers defined in `r CRANpkg("ggplot2")` and other `r CRANpkg("ggplot2")`-based packages. A list of the geometric layers that work seamlessly with `geom_facet()` and `facet_plot()` can be found in Table \@ref(tab:facet-geom). As the `r CRANpkg("ggplot2")` community keeps expanding and more `geom` layers will be implemented in either `r CRANpkg("ggplot2")` or other extensions, `geom_facet()` and `facet_plot()` will gain more power to present data in future. Note that different `geom` layers can be combined to present data on the same panel and the combinations of different `geom` layers create the possibility to present more complex data with phylogeny (see also Figure \@ref(fig:jv2017) and \@ref(fig:gggenes)). Users can progressively adding multiple panels to present and compare different datasets in the evolutionary context (Figure \@ref(fig:plottree)). Detailed descriptions can be found in [Supplemental File](https://github.com/GuangchuangYu/plotting_tree_with_data/) of [@yu_two_2018].
 
 
 (ref:plottreescap) Example of plotting SNP and trait data.
 
-(ref:plottreecap) **Example of plotting SNP and trait data**. 
+(ref:plottreecap) **Example of plotting SNP and trait data**. The 'location' informaton was attached to the tree and used to color tip symbols (Tree panel), and other datasets. SNP and Trait data were visualized as dot chart (SNP panel) and bar chart (Trait panel). 
 
 
 ```{r plottree, fig.width=12, fig.height=7, message=F, fig.cap="(ref:plottreecap)", fig.scap="(ref:plottreescap)", out.width='100%'}
@@ -113,7 +113,7 @@ p + geom_facet(panel = "SNP", data = snp_data, geom = geom_point,
     theme_tree2(legend.position=c(.05, .85))
 ```
 
-Companion functions to adjust [panel widths](#facet_widths) and [rename panel name](#facet_labeller) are described in [session 12.1](#facet-utils). Removing panel name is also possible and example was presented in Figure \@ref(fig:gggenes). We can also use `r CRANpkg("cowplot")` or `r Githubpkg("thomasp85", "patchwork")` to create composite plots as described in [session 7.6](#composite_plot). 
+Companion functions to adjust [panel widths](#facet_widths) and [rename panel name](#facet_labeller) are described in [session 12.1](#facet-utils). Removing panel name is also possible and example was presented in Figure \@ref(fig:gggenes). We can also use `r CRANpkg("aplot")` or `r CRANpkg("patchwork")` to create composite plots as described in [session 7.5](#composite_plot). 
 
 The `geom_facet()` (or `facet_plot()`) internally used `ggplot2::facet_grid()` and only works with cartesian coordinate system. To align graph to the tree for polar system (e.g. for circular or fan layouts), we developed another Bioconductor package, `r Biocpkg("ggtreeExtra")`. The `r Biocpkg("ggtreeExtra")` package provides the `geom_fruit()` layer that works similar to `geom_facet()` (details described in [Chapter 10](#chapter10)).
 
