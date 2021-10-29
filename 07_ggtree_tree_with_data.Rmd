@@ -113,16 +113,16 @@ p + geom_facet(panel = "SNP", data = snp_data, geom = geom_point,
     theme_tree2(legend.position=c(.05, .85))
 ```
 
-Companion functions to adjust [panel widths](#facet_widths) and [rename panel name](#facet_labeller) are described in [session 12.1](#facet-utils). Removing panel name is also possible and example was presented in Figure \@ref(fig:gggenes). We can also use `r CRANpkg("aplot")` or `r CRANpkg("patchwork")` to create composite plots as described in [session 7.5](#composite_plot). 
+Companion functions to adjust [panel widths](#facet_widths) and [rename panel names](#facet_labeller) are described in [session 12.1](#facet-utils). Removing panel name is also possible and example was presented in Figure \@ref(fig:gggenes). We can also use `r CRANpkg("aplot")` or `r CRANpkg("patchwork")` to create composite plots as described in [session 7.5](#composite_plot). 
 
-The `geom_facet()` (or `facet_plot()`) internally used `ggplot2::facet_grid()` and only works with cartesian coordinate system. To align graph to the tree for polar system (e.g. for circular or fan layouts), we developed another Bioconductor package, `r Biocpkg("ggtreeExtra")`. The `r Biocpkg("ggtreeExtra")` package provides the `geom_fruit()` layer that works similar to `geom_facet()` (details described in [Chapter 10](#chapter10)).
+The `geom_facet()` (or `facet_plot()`) internally used `ggplot2::facet_grid()` and only works with cartesian coordinate system. To align graph to the tree for polar system (e.g. for circular or fan layouts), we developed another Bioconductor package, `r Biocpkg("ggtreeExtra")`. The `r Biocpkg("ggtreeExtra")` package provides the `geom_fruit()` layer that works similar to `geom_facet()` (details described in [Chapter 10](#chapter10)). The `geom_fruit()` is a better implementation of the Method 2 proposed in [@yu_two_2018].
 
-## Visualize tree with associated matrix {#gheatmap}
+## Visualize a tree with associated matrix {#gheatmap}
 
 
-The `gheatmap` function is designed to visualize phylogenetic tree with heatmap of associated matrix (either numerical or categorical). `geom_facet` is a general solution for plotting data with the tree, including heatmap. `gheatmap` is specifically designed for plotting heatmap with tree and provides a shortcut for handling column labels and color palette. Another difference is that `geom_facet` only supports rectangular and slanted tree layouts while `gheatmap` supports rectangular, slanted and circular (Figure \@ref(fig:mgheatmap)) layouts. 
+The `gheatmap()` function is designed to visualize phylogenetic tree with heatmap of associated matrix (either numerical or categorical). The `geom_facet()` layer is a general solution for plotting data with the tree, including heatmap. The `gheatmap()` function is specifically designed for plotting heatmap with a tree and provides a shortcut for handling column labels and color palette. Another difference is that `geom_facet()` only supports rectangular and slanted tree layouts while `gheatmap()` supports rectangular, slanted and circular (Figure \@ref(fig:mgheatmap)) layouts. 
 
-In the following example, we visualized a tree of H3 influenza viruses with their associated genotype (Figure \@ref(fig:gheatmap)A).
+In the following example, we visualized a tree of H3 influenza viruses with their associated genotypes (Figure \@ref(fig:gheatmap)A).
 
 ```{r fig.width=8, fig.height=6, fig.align="center", warning=FALSE, message=FALSE, eval=F}
 beast_file <- system.file("examples/MCC_FluA_H3.tree", package="ggtree")
@@ -140,10 +140,10 @@ gheatmap(p, genotype, offset=5, width=0.5, font.size=3,
         values=c("steelblue", "firebrick", "darkgreen"), name="genotype")
 ```
 
-The _width_ parameter is to control the width of the heatmap. It supports another parameter _offset_ for controlling the distance between the tree and the heatmap, such as allocating space for tip labels.
+The `width` parameter is to control the width of the heatmap. It supports another parameter `offset` for controlling the distance between the tree and the heatmap, such as allocating space for tip labels.
 
 
-For time-scaled tree, as in this example, it's more often to use `x` axis by using `theme_tree2`. But with this solution, the heatmap is just another layer and will change the `x` axis. To overcome this issue, we implemented `scale_x_ggtree` to set the x axis more reasonable (Figure \@ref(fig:gheatmap)B).
+For time-scaled tree, as in this example, it's more often to use `x` axis by using `theme_tree2`. But with this solution, the heatmap is just another layer and will change the `x` axis. To overcome this issue, we implemented `scale_x_ggtree()` to set the x axis more reasonable (Figure \@ref(fig:gheatmap)B).
 
 
 ```{r fig.width=8, fig.height=6, fig.align="center", warning=FALSE, eval=F}
@@ -157,9 +157,9 @@ gheatmap(p, genotype, offset=8, width=0.6,
 ```
 
 
-(ref:gheatmapscap) Example of plotting matrix with `gheatmap`.
+(ref:gheatmapscap) Example of plotting matrix with `gheatmap()`.
 
-(ref:gheatmapcap) **Example of plotting matrix with `gheatmap`**. 
+(ref:gheatmapcap) **Example of plotting matrix with `gheatmap()`**. A H3 influenza tree with genotype table visualized as a heatmap (A); Tips were aligned and with a tailored x-axis for divergene times (tree) and genomic segments (heatmap) (B).
 
 
 ```{r gheatmap, fig.width=8, fig.height=12, warning=FALSE, message=FALSE, echo=F,fig.cap="(ref:gheatmapcap)", fig.scap="(ref:gheatmapscap)", out.width='100%'}
@@ -175,7 +175,9 @@ p1 <- ggtree(beast_tree, mrsd="2013-01-01") +
 g1 <- gheatmap(p1, genotype, offset=5, width=0.5, font.size=3, 
         colnames_angle=-45, hjust=0) +
     scale_fill_manual(breaks=c("HuH3N2", "pdm", "trig"), 
-        values=c("steelblue", "firebrick", "darkgreen"), name="genotype")
+        values=c("steelblue", "firebrick", "darkgreen"), name="genotype")+ 
+    vexpand(.03, -1)
+
 
 
 p2 <- ggtree(beast_tree, mrsd="2013-01-01") + 
@@ -186,20 +188,20 @@ g2 <- gheatmap(p2, genotype, offset=8, width=0.6,
     scale_x_ggtree() + 
     scale_y_continuous(expand=c(0, 0.3))
 
-cowplot::plot_grid(g1, g2, ncol=1, labels=c("A", "B"    ))
+plot_list(g1, g2, ncol=1, tag_levels='A')
 ```
 
 
-### Visualize tree with multiple associated matrix {#gheatmap-ggnewscale}
+### Visualize a tree with multiple associated matrix {#gheatmap-ggnewscale}
 
-Of course, we can use multiple `gheatmap` function call to align several associated matrices with the tree, however, `r CRANpkg("ggplot2")` doesn't allow us to use multiple `fill` scales^[see also discussion in <https://github.com/GuangchuangYu/ggtree/issues/78> and <https://groups.google.com/d/msg/bioc-ggtree/VQqbF79NAWU/IjIvpQOBGwAJ>].
+Of course, we can use multiple `gheatmap()` function call to align several associated matrices with the tree. However, `r CRANpkg("ggplot2")` doesn't allow us to use multiple `fill` scales^[see also discussion in <https://github.com/GuangchuangYu/ggtree/issues/78> and <https://groups.google.com/d/msg/bioc-ggtree/VQqbF79NAWU/IjIvpQOBGwAJ>].
 
-To solve this issue, we can use [ggnewscale](https://github.com/eliocamp/ggnewscale) to create new `fill` scales. Here is an example of using [ggnewscale](https://github.com/eliocamp/ggnewscale) with `gheatmap`.
+To solve this issue, we can use the `r CRANpkg("ggnewscale")` package to create new `fill` scales. Here is an example of using `r CRANpkg("ggnewscale")` with `gheatmap()`.
 
 
-(ref:mgheatmapscap) Example of plotting multiple matrix with `gheatmap`.
+(ref:mgheatmapscap) Example of plotting multiple matrix with `gheatmap()`.
 
-(ref:mgheatmapcap) **Example of plotting multiple matrix with `gheatmap`**. 
+(ref:mgheatmapcap) **Example of plotting multiple matrix with `gheatmap()`**. A data frame (with 'first' and 'second' columns) was visualized as a discrete heatmap and another data frame (with 'A', 'B' and 'C' columns) was visualized as a continuous heatmap with corresponding discrete and continuous palette of colors (Figure \@ref(fig:mgheatmap)). 
 
 ```{r mgheatmap, fig.width=10, fig.height=8, fig.cap="(ref:gheatmapcap)", fig.scap="(ref:gheatmapscap)", out.width='100%'}
 
@@ -229,9 +231,9 @@ gheatmap(p2, df2, offset=15, width=.3,
     scale_fill_viridis_c(option="A", name="continuous\nvalue")
 ```
 
-## Visualize tree with multiple sequence alignment {#msaplot}
+## Visualize a tree with multiple sequence alignment {#msaplot}
 
-The `msaplot` accepts a tree (output of `ggtree`) and a fasta file, then it can visualize the tree with sequence alignment. We can specify the `width` (relative to the tree) of the alignment and adjust the relative position by `offset`, which are similar to `gheatmap` function.
+The `msaplot()` accepts a tree (output of `ggtree()`) and a fasta file, then it can visualize the tree with sequence alignment. We can specify the `width` (relative to the tree) of the alignment and adjust the relative position by `offset`, which are similar to the `gheatmap()` function (Figure \@ref(fig:msaplot)A)..
 
 ```{r eval=F}
 tree <- read.tree("data/tree.nwk")
@@ -241,7 +243,7 @@ msaplot(p, "data/sequence.fasta", offset=3, width=2)
 
 
 
-A specific slice of the alignment can also be displayed by specifying `window` parameter.
+A specific slice of the alignment can also be displayed by specifying the `window` parameter (Figure \@ref(fig:msaplot)B)..
 
 ```{r fig.width=7, fig.height=7, fig.align='center', warning=FALSE, eval=F}
 p <- ggtree(tree, layout='circular') + 
@@ -252,7 +254,7 @@ msaplot(p, "data/sequence.fasta", window=c(120, 200))
 
 (ref:msaplotscap) Example of plotting multiple sequence alignment with a tree.
 
-(ref:msaplotcap) **Example of plotting multiple sequence alignment with a tree**. 
+(ref:msaplotcap) **Example of plotting multiple sequence alignment with a tree**. Whole MSA sequences were visualized with a tree in rectangular layout (A); Circular layout with a slice of alignment window (B).  
 
 
 ```{r msaplot, fig.width=14, fig.height=7, warning=FALSE, echo=F, fig.cap="(ref:msaplotcap)", fig.scap="(ref:msaplotscap)", out.width='100%'}
@@ -265,12 +267,15 @@ p2 <- ggtree(tree, layout='circular') +
     geom_tiplab(offset=4, align=TRUE) + xlim(NA, 12) + 
     theme(legend.position="none")
 g2 = msaplot(p2, "data/sequence.fasta", window=c(120, 200))  
-cowplot::plot_grid(g1, g2, ncol=2, labels=c("A", "B"))
+plot_list(g1, g2, ncol=2, tag_levels='A')
 ```
+
+To better support visualizing multiple sequence alignment with a tree and other associated data, we developed the `r Biocpkg("ggmsa")` package with the ability to label the sequences and color the sequences with different color schemes [@yu_cp_2020]. The `ggmsa()` output is compatible with `geom_facet()` and `ggtreeExtra::geom_fruit()` and can be used to visualize a tree, multiple sequence alignment, and different types of associated data to explore their underlying linkages/associations. 
 
 ## Composite plots {#composite_plot}
 
-In addition to aligning graph to a tree using [geom_facet](#facet_plot) and special cases using [gheatmap](#gheatmap) and [msaplot](#msaplot), users can use `r CRANpkg("cowplot")`, `r CRANpkg("patchwork")`, `r CRANpkg("gtable")`^[<https://github.com/YuLab-SMU/ggtree/issues/313>] or other packages to create composite plots. However, extra efforts need to be done to make sure all the plots are aligned properly. The [get_taxa_name()](#tiporder) function is quite useful for users to re-order their data based on the tree structure. To remove this obstacle, we created an R package `r CRANpkg("aplot")` that can re-order the internal data of 'ggplot' object and create composite plots that align properly with a tree.
+In addition to aligning graphs to a tree using `geom_facet()` or `ggtreeExtra::geom_fruit()` and special cases using the `gheatmap()` and `msaplot()` functions, users can use `r CRANpkg("cowplot")`, `r CRANpkg("patchwork")`, `r CRANpkg("gtable")`^[<https://github.com/YuLab-SMU/ggtree/issues/313>] or other packages to create composite plots. However, extra efforts need to be done to make sure all the plots are aligned properly. The [`ggtree::get_taxa_name()`](#tiporder) function is quite useful for users to re-order their data based on the tree structure. To remove this obstacle, we created an R package `r CRANpkg("aplot")` that can re-order the internal data of a `ggplot` object and create composite plots that align properly with a tree.
+
 
 In the following example, we have a tree with two associated datasets.
 
@@ -292,7 +297,18 @@ d2 <- data.frame(
     value = rnorm(50, 0, 3)) 
 
 g <- ggtree(tr) + geom_tiplab(align=TRUE)
+
+p1 <- ggplot(d1, aes(label, value)) + geom_col(aes(fill=label)) + 
+    geom_text(aes(label=label, y= value+.1)) +
+    coord_flip() + theme_tree2() + theme(legend.position='none')
+ 
+p2 <- ggplot(d2, aes(x=category, y=label)) + 
+    geom_tile(aes(fill=value)) + scale_fill_viridis_c() + 
+    theme_minimal() + xlab(NULL) + ylab(NULL)
 ```
+
+
+
 <!-- 
 We can extract coordinates from `ggtree` object using `r CRANpkg("dplyr")` verbs implemented in `r CRANpkg("tidytree")`, and merge the y-coordinates to our datasets.
 
@@ -311,15 +327,6 @@ Now we can visualize our datasets using the y-coordinates that match correspondi
 -->
 
 
-```{r}
-p1 <- ggplot(d1, aes(label, value)) + geom_col(aes(fill=label)) + 
-    geom_text(aes(label=label, y= value+.1)) +
-    coord_flip() + theme_tree2() + theme(legend.position='none')
- 
-p2 <- ggplot(d2, aes(x=category, y=label)) + 
-    geom_tile(aes(fill=value)) + scale_fill_viridis_c() + 
-    theme_tree2() 
-```
 
 <!-- 
 If we combine these two plots with `ggtree` using either `r CRANpkg("cowplot")` or `r Githubpkg("thomasp85", "patchwork")`, they do not align properly. 
@@ -363,7 +370,7 @@ p2 %>% insert_left(g) %>% insert_right(p1, width=.5)
 
 (ref:compositescap) Example of aligning tree with data side by side to create composite plot.
 
-(ref:compositecap) **Example of aligning tree with data side by side to create composite plot**. `cowplot` aligns subplots (A), while `aplot` does extra works to make sure that tree associated subplots are properly ordered according to the tree structure (B). Note: The 'A' category in the bar plot that is not matched with the tree was removed.
+(ref:compositecap) **Example of aligning tree with data side by side to create composite plot**. `r CRANpkg("cowplot")`` just places the subplots together (A), while `r CRANpkg("aplot")` does extra works to make sure that tree associated subplots are properly ordered according to the tree structure (B). Note: The 'A' category in the bar plot that is not matched with the tree was removed.
 
 ```{r composite, echo = FALSE, fig.width=12, fig.height=10, fig.cap="(ref:compositecap)", fig.scap="(ref:compositescap)", out.width='100%'}
 pg1 <- cowplot::plot_grid(g, p2, p1, ncol=3)
@@ -373,6 +380,7 @@ pg2 <- ggplotify::as.ggplot(pg2)
 cowplot::plot_grid(pg1, pg2, ncol=1, labels=c("A", "B")) 
 ```
 
+<!--
 
 ## The `ggtree` object {#ggtree_object}
 
@@ -380,7 +388,7 @@ cowplot::plot_grid(pg1, pg2, ncol=1, labels=c("A", "B"))
 to be finished.
 
 
-<!--
+
 ## Update tree view with a new tree
 
 In previous example, we have a _`p`_ object that stored the tree viewing of 13 tips and internal nodes highlighted with specific colored big dots. If users want to apply this pattern (we can imaging a more complex one) to a new tree, you don't need to build the tree step by step. `ggtree` provides an operator, _`%<%`_, for applying the visualization pattern to a new tree.
@@ -395,22 +403,22 @@ p %<% rtree(50)
 ## Summary {#summary7}
 
 
-Although there are many software packages support visualizing phylogenetic tree, plotting tree with data is often missing or with only limited supports. Some of the packages defines `S4` classes to store phylogenetic tree with domain specific data, such as `r CRANpkg("OutbreakTools")` [@jombart_outbreaktools_2014] defined `obkData` for storing tree with epidemiology data and `r Biocpkg("phyloseq")` [@mcmurdie_phyloseq_2013] defines `phyloseq` for storing tree with microbiome data. These packages are capable to present some of the data stored in the object on the tree. However, not all the associated data are supported. For example, species abundance stored in `phyloseq` object is not supported to be visualized using `r Biocpkg("phyloseq")` package. These packages did not provide any utilities to integrate external data for tree visualization. None of these packages support visualizing external data and aligning the plot to tree based on the tree structure. 
+Although there are many software packages support visualizing phylogenetic tree, plotting tree with data is often missing or with only limited supports. Some of the packages defines `S4` classes to store phylogenetic tree with domain specific data, such as `r CRANpkg("OutbreakTools")` [@jombart_outbreaktools_2014] defined `obkData` for storing tree with epidemiology data and `r Biocpkg("phyloseq")` [@mcmurdie_phyloseq_2013] defines `phyloseq` for storing tree with microbiome data. These packages are capable to present some of the data stored in the object on the tree. However, not all the associated data are supported. For example, species abundance stored in the `phyloseq` object is not supported to be visualized using the `r Biocpkg("phyloseq")` package. These packages did not provide any utilities to integrate external data for tree visualization. None of these packages support visualizing external data and aligning the plot to a tree based on the tree structure. 
 
 
-`r Biocpkg("ggtree")` provides general solutions for integrating data. Method 1, the `%<+%` operator, can integrate external and internal node data and map the data as a visual characteristic to visualize the tree and other datasets used in `geom_facet`. Method 2, the `geom_facet` layer, has no restriction of input data as long as there is a `geom` function available to plot the data (*e.g.* species abundance displayed by `geom_density_ridges` as demonstrated in Figure \@ref(fig:phyloseq)). Users are free to combine different panels and combine different `geom` layers in the same panel (Figure \@ref(fig:jv2017)). `r Biocpkg("ggtree")` has many unique features that cannot be found in other implementations:
+The `r Biocpkg("ggtree")` package provides two general solutions for integrating data. Method 1, the `%<+%` operator, can integrate external and internal node data and map the data as a visual characteristic to visualize the tree and other datasets used in `geom_facet()` or `ggtreeExtra::geom_fruit()`. Method 2, the `geom_facet` layer or `ggtreeExtra::geom_fruit()`, has no restriction of input data as long as there is a `geom` function available to plot the data (*e.g.* species abundance displayed by `geom_density_ridges` as demonstrated in Figure \@ref(fig:phyloseq)). Users are free to combine different panels and combine different `geom` layers in the same panel (Figure \@ref(fig:jv2017)). The `r Biocpkg("ggtree")` package has many unique features that cannot be found in other implementations [@yu_two_2018]:
 
-1. Integrating node/edge data to the tree can be mapped to visual characteristics of the tree or other datasets (Figure \ref{fig:attacher}).
+1. Integrating node/edge data to the tree can be mapped to visual characteristics of the tree or other datasets (Figure \ref(fig:attacher)).
 2. Capable of parsing expression (math symbols or text formatting), emoji and image files ([chapter 8](#chapter8)). 
-3. No predefinition of input data types or how the data should be plotted in `geom_facet` (Table \@ref(tab:facet-geom)).
+3. No predefinition of input data types or how the data should be plotted in `geom_facet()` (Table \@ref(tab:facet-geom)).
 4. Combining different `geom` functions to visualize associated data is supported (Figure \@ref(fig:jv2017)).
 5. Visualizing different datasets on the same panel is supported.
-6. Data integrated by `%<+%` can be used in `geom_facet`.
+6. Data integrated by `%<+%` can be used in `geom_facet()` layer.
 7. Able to add further annotation to specific layers.
 8. Modular design by separating tree visualization, data integration (method 1) and graph alignment (method 2).
 
 
-Modular design is a unique feature for `r Biocpkg("ggtree")` to stand out from other packages. The tree can be visualized with data stored in tree object or external data linked by `%<+%` operator, and fully annotated with multiple layers of annotations (Figure \@ref(fig:attacher) and \@ref(fig:jv2017)), before passing it to `geom_facet`. `geom_facet` can be called progressively to add multiple panels or multiple layers on the same panels (Figure \@ref(fig:jv2017)). This creates the possibility of plotting a full annotated tree with complex data panels that contains multiple graphic layers.
+Modular design is a unique feature for `r Biocpkg("ggtree")` to stand out from other packages. The tree can be visualized with data stored in the tree object or external data linked by the `%<+%` operator, and fully annotated with multiple layers of annotations (Figure \@ref(fig:attacher) and \@ref(fig:jv2017)), before passing it to `geom_facet()` layer. The `geom_facet()` layer can be called progressively to add multiple panels or multiple layers on the same panels (Figure \@ref(fig:jv2017)). This creates the possibility of plotting a full annotated tree with complex data panels that contains multiple graphic layers.
 
-`r Biocpkg("ggtree")` fits the `R` ecosystem and extends the abilities of integrating and presenting data with trees to existing phylogenetic packages. As demonstrated in Figure \@ref(fig:phyloseq), we are able to plot species abundance distributions with `phyloseq` object. This cannot be easily done without `r Biocpkg("ggtree")`. With `r Biocpkg("ggtree")`, we are able to attach additional data to tree objects using `%<+%` and align graphs to tree using `geom_facet`. Integrating `r Biocpkg("ggtree")` to existing workflows will definitely extend the abilities and broaden the applications to present phylogeny-associated data, especially for comparative studies.
+The `r Biocpkg("ggtree")` package fits the `R` ecosystem and extends the abilities of integrating and presenting data with trees to existing phylogenetic packages. As demonstrated in Figure \@ref(fig:phyloseq), we are able to plot species abundance distributions with `phyloseq` object. This cannot be easily done without `r Biocpkg("ggtree")`. With `r Biocpkg("ggtree")`, we are able to attach additional data to tree objects using the `%<+%` operator and align graphs to a tree using the `geom_facet()` layer. Integrating `r Biocpkg("ggtree")` to existing workflows will definitely extend the abilities and broaden the applications to present phylogeny-associated data, especially for comparative studies.
 
