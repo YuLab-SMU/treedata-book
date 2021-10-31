@@ -17,31 +17,31 @@ library("ggtree")
 
 ## Introduction
 
-There are many software packages and web tools that are designed for displaying phylogenetic trees, such as `r pkg_treeview` [@page_visualizing_2002], `r pkg_figtree`\index{FigTree}, `r pkg_treedyn` [@chevenet_treedyn:_2006], *Dendroscope* [@huson_dendroscope_2012], `r pkg_evolview`\index{EvolView} [@he_evolview_2016] and `r pkg_itol`\index{iTOL} [@letunic_interactive_2007], *etc.*. Only a few of them, such as `r pkg_figtree`, `r pkg_treedyn` and `r pkg_itol`, allow users to annotate the trees with colored branches, highlighted clades with tree features. However, their pre-defined annotating functions are usually limited to some specific phylogenetic data. As phylogenetic trees are becoming more widely used in multidisciplinary studies, there is an increasing need to incorporate various types of the phylogenetic covariates and other associated data from different sources into the trees for visualizations and further analyses. For instance, the influenza virus has a wide host range, diverse and dynamic genotypes and characteristic transmission behaviors that are mostly associated with the virus evolution and essentially among themselves. Therefore, in addition to standalone applications that focus on each of the specific analysis and data type, researchers studying molecular evolution need a robust and programmable platform that allows the high levels of integration and visualization of many of these different aspects of data (raw or from other primary analyses) over the phylogenetic trees to identify their associations and patterns.
+There are many software packages and web tools that are designed for displaying phylogenetic trees, such as `r pkg_treeview` [@page_visualizing_2002], `r pkg_figtree`\index{FigTree}, `r pkg_treedyn` [@chevenet_treedyn:_2006], *Dendroscope* [@huson_dendroscope_2012], `r pkg_evolview`\index{EvolView} [@he_evolview_2016], and `r pkg_itol`\index{iTOL} [@letunic_interactive_2007], *etc*. Only a few of them, such as `r pkg_figtree`, `r pkg_treedyn` and `r pkg_itol`, allow users to annotate the trees with colored branches, highlighted clades with tree features. However, their pre-defined annotating functions are usually limited to some specific phylogenetic data. As phylogenetic trees are becoming more widely used in multidisciplinary studies, there is an increasing need to incorporate various types of phylogenetic covariates and other associated data from different sources into the trees for visualizations and further analyses. For instance, the influenza virus has a wide host range, diverse and dynamic genotypes, and characteristic transmission behaviors that are mostly associated with the virus evolution and essentially among themselves. Therefore, in addition to standalone applications that focus on each of the specific analysis and data types, researchers studying molecular evolution need a robust and programmable platform that allows the high levels of integration and visualization of many of these different aspects of data (raw or from other primary analyses) over the phylogenetic trees to identify their associations and patterns.
 
 
 To fill this gap, we developed `r Biocpkg("ggtree")`\index{ggtree} [@yu_ggtree:_2017], a package for the R programming language [@rstats] released under the Bioconductor\index{Bioconductor} project [@gentleman_bioconductor_2004]. The `r Biocpkg("ggtree")` is built to work with `treedata` objects (see [chapter 1](#chapter1) and [chapter 9](#chapter9)), and display tree graphics with the `r CRANpkg("ggplot2")` package [@wickham_ggplot2_2016] that was based on the grammar of graphics [@wilkinson_grammar_2005]. 
 
 
-The R language is increasingly being used in phylogenetics. However, a comprehensive package, designed for viewing and annotating phylogenetic trees, particularly with complex data integration, is not yet available. Most of the R packages in phylogenetics focus on specific statistical analyses rather than viewing and annotating the trees with more generalized phylogeny-associated data. Some packages, including `r CRANpkg("ape")`\index{ape} [@paradis_ape_2004] and `r CRANpkg("phytools")` [@revell_phytools_2012], which are capable of displaying and annotating trees, are developed using the base graphics system of R. In particular, `r CRANpkg("ape")` is one of the fundamental package for phylogenetic analysis and data processing. However, the base graphics system is relatively difficult to extend and limits the complexity of the tree figure to be displayed. `r CRANpkg("OutbreakTools")` [@jombart_outbreaktools_2014] and `r Biocpkg("phyloseq")` [@mcmurdie_phyloseq_2013] extended `r CRANpkg("ggplot2")` to plot phylogenetic trees. The `r CRANpkg("ggplot2")` system of graphics allows rapid customization and exploration of design solutions. However these packages were designed for epidemiology and microbiome data respectively and did not aim to provide a general solution for tree visualization\index{visualization} and annotation\index{annotation}. The `r Biocpkg("ggtree")` package also inherits versatile properties of `r CRANpkg("ggplot2")`, and more importantly allows constructing complex tree figures by freely combining multiple layers of annotations (see also [Chapter 5](#chapter5)) using the tree associated data imported from different sources (see detailed in [Chapter 1](#chapter1) and [@wang_treeio_2020]).
+The R language is increasingly being used in phylogenetics. However, a comprehensive package, designed for viewing and annotating phylogenetic trees, particularly with complex data integration, is not yet available. Most of the R packages in phylogenetics focus on specific statistical analyses rather than viewing and annotating the trees with more generalized phylogeny-associated data. Some packages, including `r CRANpkg("ape")`\index{ape} [@paradis_ape_2004] and `r CRANpkg("phytools")` [@revell_phytools_2012], which are capable of displaying and annotating trees, are developed using the base graphics system of R. In particular, `r CRANpkg("ape")` is one of the fundamental packages for phylogenetic analysis and data processing. However, the base graphics system is relatively difficult to extend and limits the complexity of the tree figure to be displayed. `r CRANpkg("OutbreakTools")` [@jombart_outbreaktools_2014] and `r Biocpkg("phyloseq")` [@mcmurdie_phyloseq_2013] extended `r CRANpkg("ggplot2")` to plot phylogenetic trees. The `r CRANpkg("ggplot2")` system of graphics allows rapid customization and exploration of design solutions. However, these packages were designed for epidemiology and microbiome data respectively and did not aim to provide a general solution for tree visualization\index{visualization} and annotation\index{annotation}. The `r Biocpkg("ggtree")` package also inherits versatile properties of `r CRANpkg("ggplot2")`, and more importantly allows constructing complex tree figures by freely combining multiple layers of annotations (see also [Chapter 5](#chapter5)) using the tree associated data imported from different sources (see detailed in [Chapter 1](#chapter1) and [@wang_treeio_2020]).
 
 
 ## Visualizing Phylogenetic Tree with `r Biocpkg("ggtree")`
 
 
-The `r Biocpkg("ggtree")` package [@yu_ggtree:_2017] is designed for annotating phylogenetic trees with their associated data of different types and from various sources. These data could come from users or analysis programs, and might include evolutionary rates, ancestral sequences\index{ancestral sequences}, *etc.* that are associated with the taxa from real samples, or with the internal nodes representing hypothetic ancestor strain/species, or with the tree branches indicating evolutionary time courses [@wang_treeio_2020]. For instance, the data could be the geographic positions of the sampled avian influenza viruses (informed by the survey locations) and the ancestral nodes (by phylogeographic inference) in the viral gene tree [@lam_phylodynamics_2012].
+The `r Biocpkg("ggtree")` package [@yu_ggtree:_2017] is designed for annotating phylogenetic trees with their associated data of different types and from various sources. These data could come from users or analysis programs and might include evolutionary rates, ancestral sequences\index{ancestral sequences}, *etc.* that are associated with the taxa from real samples, or with the internal nodes representing hypothetic ancestor strain/species, or with the tree branches indicating evolutionary time courses [@wang_treeio_2020]. For instance, the data could be the geographic positions of the sampled avian influenza viruses (informed by the survey locations) and the ancestral nodes (by phylogeographic inference) in the viral gene tree [@lam_phylodynamics_2012].
 
-The `r Biocpkg("ggtree")` supports `r CRANpkg("ggplot2")`'s graphical language, which allows high level of customization, is intuitive and flexible. It is notable that `r CRANpkg("ggplot2")` itself does not provide low-level geometric objects or other support for tree-like structures, and hence `r Biocpkg("ggtree")` is a useful extension on that regard. Even though the other two phylogenetics-related R packages, `r CRANpkg("OutbreakTools")` and `r Biocpkg("phyloseq")`, are developed based on `r CRANpkg("ggplot2")`, the most valuable part of the `r CRANpkg("ggplot2")`\index{ggplot2} syntax - adding layers of annotations - is not supported in these packages. For example, if we have plotted a tree without taxa labels, `r CRANpkg("OutbreakTools")` and `r Biocpkg("phyloseq")` provide no easy way for general `R` users, who have little knowledge about the infrastructures of these packages, to add a layer of taxa labels. The `r Biocpkg("ggtree")` extends `r CRANpkg("ggplot2")` to support tree objects by implementing a geometric layer, `geom_tree()`, to support visualizing tree structure. In `r Biocpkg("ggtree")`, viewing a phylogenetic tree is relatively easy, via the command `ggplot(tree_object) + geom_tree() + theme_tree()` or `ggtree(tree_object)` for short. Layers of annotations can be added one by one via the `+` operator. To facilitate tree visualization, `r Biocpkg("ggtree")` provides several geometric layers, including `geom_treescale()` for adding legend of tree branch scale (genetic distance, divergence time, *etc.*), `geom_range()` for displaying uncertainty of branch lengths (confidence interval or range, *etc.*), `geom_tiplab()` for adding taxa label, `geom_tippoint()` and `geom_nodepoint()` for adding symbols of tips and internal nodes, `geom_hilight()` for highlighting clades with rectangle, and `geom_cladelab()` for annotating selected clades with bar and text label, *etc.*. A full list of geometric layers provided by `r Biocpkg("ggtree")` are summarized in Table \@ref(tab:geoms).
+The `r Biocpkg("ggtree")` supports `r CRANpkg("ggplot2")`'s graphical language, which allows a high level of customization, is intuitive and flexible. Notably, `r CRANpkg("ggplot2")` itself does not provide low-level geometric objects or other support for tree-like structures, and hence `r Biocpkg("ggtree")` is a useful extension in that regard. Even though the other two phylogenetics-related R packages, `r CRANpkg("OutbreakTools")`, and `r Biocpkg("phyloseq")`, are developed based on `r CRANpkg("ggplot2")`, the most valuable part of the `r CRANpkg("ggplot2")`\index{ggplot2} syntax - adding layers of annotations - is not supported in these packages. For example, if we have plotted a tree without taxa labels, `r CRANpkg("OutbreakTools")` and `r Biocpkg("phyloseq")` provide no easy way for general `R` users, who have little knowledge about the infrastructures of these packages, to add a layer of taxa labels. The `r Biocpkg("ggtree")` extends `r CRANpkg("ggplot2")` to support tree objects by implementing a geometric layer, `geom_tree()`, to support visualizing tree structure. In `r Biocpkg("ggtree")`, viewing a phylogenetic tree is relatively easy, via the command `ggplot(tree_object) + geom_tree() + theme_tree()` or `ggtree(tree_object)` for short. Layers of annotations can be added one by one via the `+` operator. To facilitate tree visualization, `r Biocpkg("ggtree")` provides several geometric layers, including `geom_treescale()` for adding legend of tree branch scale (genetic distance, divergence time, *etc.*), `geom_range()` for displaying uncertainty of branch lengths (confidence interval or range, *etc.*), `geom_tiplab()` for adding taxa label, `geom_tippoint()` and `geom_nodepoint()` for adding symbols of tips and internal nodes, `geom_hilight()` for highlighting clades with rectangle, and `geom_cladelab()` for annotating selected clades with bar and text label, *etc.*. A full list of geometric layers provided by `r Biocpkg("ggtree")` is summarized in Table \@ref(tab:geoms).
 
 
 To view a phylogenetic tree, we first need to parse the tree file into `R`. 
-The `r Biocpkg("treeio")` package is able to parse diverse annotation data from different software outputs into `S4` phylogenetic data objects (see also [Chapter 1](#chapter1)). The `r Biocpkg("ggtree")` package mainly utilizes these `S4` objects to display and annotate the tree. There are also other R packages that defined `S3`/`S4` classes to store phylogenetic trees with domain specific associated data, including `phylo4` and `phylo4d` defined in the `r CRANpkg("phylobase")` package, `obkdata` defined in the `r CRANpkg("OutbreakTools")` package, and `phyloseq` defined in the `r Biocpkg("phyloseq")` package ,*etc*. All these tree objects are also supported in `r Biocpkg("ggtree")` and their specific annotation data can be used to annotate the tree directly in `r Biocpkg("ggtree")` (see also [Chapter 9](#chapter9)). Such compatibility of `r Biocpkg("ggtree")` facilitates the integration of data and analysis results. In addition, `r Biocpkg("ggtree")` also supports other tree-like structures, including [dendrogram](#dendrogram) and [tree graph](#igraph).
+The `r Biocpkg("treeio")` package is able to parse diverse annotation data from different software outputs into `S4` phylogenetic data objects (see also [Chapter 1](#chapter1)). The `r Biocpkg("ggtree")` package mainly utilizes these `S4` objects to display and annotate the tree. Other R packages defined `S3`/`S4` classes to store phylogenetic trees with domain-specific associated data, including `phylo4` and `phylo4d` defined in the `r CRANpkg("phylobase")` package, `obkdata` defined in the `r CRANpkg("OutbreakTools")` package, and `phyloseq` defined in the `r Biocpkg("phyloseq")` package, *etc*. All these tree objects are also supported in `r Biocpkg("ggtree")` and their specific annotation data can be used to annotate the tree directly in `r Biocpkg("ggtree")` (see also [Chapter 9](#chapter9)). Such compatibility of `r Biocpkg("ggtree")` facilitates the integration of data and analysis results. In addition, `r Biocpkg("ggtree")` also supports other tree-like structures, including [dendrogram](#dendrogram) and [tree graphs](#igraph).
 
 
 ### Basic Tree Visualization
 
-The `r Biocpkg('ggtree')` package extends `r CRANpkg('ggplot2')` [@wickham_ggplot2_2016] package to support viewing phylogenetic tree.
-It implements `geom_tree()` layer for displaying phylogenetic tree, as shown below in Figure \@ref(fig:basicviz)A.
+The `r Biocpkg('ggtree')` package extends `r CRANpkg('ggplot2')` [@wickham_ggplot2_2016] package to support viewing a phylogenetic tree.
+It implements `geom_tree()` layer for displaying a phylogenetic tree, as shown below in Figure \@ref(fig:basicviz)A.
 
 
 ```{r fig.width=3, fig.height=3, fig.align="center", eval=F}
@@ -56,7 +56,7 @@ ggplot(tree, aes(x, y)) + geom_tree() + theme_tree()
 
 The function, `ggtree()`, was implemented as a shortcut to visualize a tree, and it works exactly the same as shown above.
 
-The `r Biocpkg('ggtree')` package takes all the advantages of `r CRANpkg('ggplot2')`. For example, we can change the color, size and type of the lines as we do with `r CRANpkg('ggplot2')` (Figure \@ref(fig:basicviz)B).
+The `r Biocpkg('ggtree')` package takes all the advantages of `r CRANpkg('ggplot2')`. For example, we can change the color, size, and type of the lines as we do with `r CRANpkg('ggplot2')` (Figure \@ref(fig:basicviz)B).
 
 ```{r fig.width=3, fig.height=3, fig.align="center", eval=F}
 ggtree(tree, color="firebrick", size=2, linetype="dotted")
@@ -68,7 +68,7 @@ By default, the tree is viewed in ladderize form, user can set the parameter `la
 ggtree(tree, ladderize=FALSE)
 ```
 
-The `branch.length` is used to scale the edge, user can set the parameter `branch.length = "none"` to only view the tree topology (cladogram, Figure \@ref(fig:basicviz)D) or other numerical variable to scale the tree (*e.g.* _d~N~/d~S~_, see also in [Chapter 5](#chapter5)).
+The `branch.length` is used to scale the edge, user can set the parameter `branch.length = "none"` to only view the tree topology (cladogram, Figure \@ref(fig:basicviz)D) or other numerical variables to scale the tree (*e.g.* _d~N~/d~S~_, see also in [Chapter 5](#chapter5)).
 
 ```{r fig.width=3, fig.height=3, fig.align="center", eval=F}
 ggtree(tree, branch.length="none")
@@ -78,7 +78,7 @@ ggtree(tree, branch.length="none")
 
 (ref:basicvizscap) Basic tree visualization.
 
-(ref:basicvizcap) **Basic tree visualization.** Default ggtree output with ladderized effect (A), non-variable setting (*e.g.* colour, size, line type) (B), nonladderized tree (C), cladogram that only displays tree topology without branch length information (D).
+(ref:basicvizcap) **Basic tree visualization.** Default ggtree output with ladderized effect (A), non-variable setting (*e.g.* color, size, line type) (B), nonladderized tree (C), cladogram that only displays tree topology without branch length information (D).
 
 
 ```{r basicviz, fig.width=12, fig.height=3, echo=F, fig.cap="(ref:basicvizcap)", fig.scap="(ref:basicvizscap)", out.width="100%"}
@@ -97,9 +97,9 @@ aplot::plot_list(
     ncol=4, tag_levels='A')
 ```
 
-### Layouts of phylogenetic tree {#tree-layouts}
+### Layouts of a phylogenetic tree {#tree-layouts}
 
-Viewing phylogenetic with `r Biocpkg("ggtree")` is quite simple, just pass the tree object to the `ggtree()` function. We have developed several types of layouts for tree presentation (Figure \@ref(fig:layout)), including *rectangular* (by default), *roundrect* (rounded rectangular), *ellipse*, *slanted*, *circular*, *fan*, *unrooted*\index{unrooted} (equal angle and daylight methods), time-scaled and 2-dimensional layouts. 
+Viewing phylogenetic with `r Biocpkg("ggtree")` is quite simple, just pass the tree object to the `ggtree()` function. We have developed several types of layouts for tree presentation (Figure \@ref(fig:layout)), including *rectangular* (by default), *roundrect* (rounded rectangular), *ellipse*, *slanted*, *circular*, *fan*, *unrooted*\index{unrooted} (equal angle and daylight methods), time-scaled, and 2-dimensional layouts. 
 
 Here are examples of visualizing a tree with different layouts:
 
@@ -126,7 +126,7 @@ ggtree(tree, layout="daylight", branch.length = 'none')
 
 (ref:layoutscap) Tree layouts.
 
-(ref:layoutcap) **Tree layouts.** Phylogram: rectangular layout (A), rounded rectangular layout (B), slanted layout (C), ellipse layout (D), circular layout (E) and fan layout (F). Unrooted: equal-angle method (G) and daylight method (H). Cladogram: rectangular layout (I), ellipse (J), circular layout (K) and unrooted layout (L). Slanted and fan layouts for cladogram are also supported.
+(ref:layoutcap) **Tree layouts.** Phylogram: rectangular layout (A), rounded rectangular layout (B), slanted layout (C), ellipse layout (D), circular layout (E), and fan layout (F). Unrooted: equal-angle method (G) and daylight method (H). Cladogram: rectangular layout (I), ellipse (J), circular layout (K), and unrooted layout (L). Slanted and fan layouts for cladogram are also supported.
 
 ```{r layout, echo=F, fig.width=12, fig.height=9, fig.cap="(ref:layoutcap)", fig.scap="(ref:layoutscap)", out.extra='', message=FALSE, out.width="100%"}
 library(ggtree)
@@ -158,7 +158,7 @@ playout
 ```
 
 
-There are also other possible layouts that can be drawn by modifying
+Other possible layouts that can be drawn by modifying
 scales/coordination (Figure \@ref(fig:layout2)).
 
 <!-- for examples, [reverse label of time
@@ -208,23 +208,23 @@ plot_grid(
 
 
 
-**Phylogram.** Layouts of *rectangular*, *roundrect*, *slanted*, *ellipse*, *circular* and *fan* are supported to visualize phylogram\index{phylogram} (by default, with branch length scaled) as demonstrated in Figure \@ref(fig:layout)A-F.
+**Phylogram.** Layouts of *rectangular*, *roundrect*, *slanted*, *ellipse*, *circular*, and *fan* are supported to visualize phylogram\index{phylogram} (by default, with branch length scaled) as demonstrated in Figure \@ref(fig:layout)A-F.
 
 
 **Unrooted layout.** Unrooted (also called 'radial') layout is supported by equal-angle and daylight algorithms, users can specify unrooted layout algorithm by passing "equal_angle" or "daylight" to `layout` parameter to visualize the tree. The equal-angle method was proposed by Christopher Meacham in *PLOTREE*, which was incorporated in `r pkg_phylip` [@retief_phylogenetic_2000]. This method starts from the root of the tree and allocates arcs of angle to each subtree proportional to the number of tips in it. It iterates from root to tips and subdivides the angle allocated to a subtree into angles for its dependent subtrees. This method is fast and was implemented in many software packages. As shown in Figure \@ref(fig:layout)G, the equal angle method has a drawback that tips tend to be clustered together, which will leave many spaces unused. The daylight method starts from an initial tree built by equal angle and iteratively improves it by successively going to each interior node and swinging subtrees so that the arcs of "daylight" are equal (Figure \@ref(fig:layout)H). This method was firstly implemented in `r pkg_paup` [@wilgenbusch_inferring_2003].
 
 
 
-**Cladogram.** To visualize cladogram\index{cladogram} that without branch length scaling and only display the tree structure,  `branch.length` is set to "none" and it works for all types of layouts (Figure \@ref(fig:layout)I-L).
+**Cladogram.** To visualize a cladogram\index{cladogram} that is without branch length scaling and only display the tree structure,  `branch.length` is set to "none" and it works for all types of layouts (Figure \@ref(fig:layout)I-L).
 
 
 
-**Time-scaled layout.** For time-scaled tree\index{time-scaled tree}, the most recent sampling date must be specified via the `mrsd` parameter and `ggtree()` will scale the tree by sampling (tip) and divergence (internal node) time, and a time scale axis will be displayed under the tree by default. Users can use the `r CRANpkg("deeptime")` package to add geologic time scale (e.g., periods and eras) to a `ggtree()` plot. 
+**Time-scaled layout.** For a time-scaled tree\index{time-scaled tree}, the most recent sampling date must be specified via the `mrsd` parameter, and `ggtree()` will scale the tree by sampling (tip) and divergence (internal node) time, and a time scale axis will be displayed under the tree by default. Users can use the `r CRANpkg("deeptime")` package to add geologic time scale (e.g., periods and eras) to a `ggtree()` plot. 
 
 
 (ref:timescaledscap) Time-scaled layout.
 
-(ref:timescaledcap) **Time-scaled layout.** The *x-axis* is the timescale (in units of year). The divergence time in this example was inferred by `r pkg_beast` using the molecular clock model. 
+(ref:timescaledcap) **Time-scaled layout.** The *x-axis* is the timescale (in units of the year). The divergence time in this example was inferred by `r pkg_beast` using the molecular clock model. 
 
 
 ```{r timescaled, fig.cap="(ref:timescaledcap)", fig.scap="(ref:timescaledscap)", out.extra='', fig.height=4.5}
@@ -241,7 +241,7 @@ In this example, we used the previous time-scaled tree of H3 human and swine inf
 
 (ref:2dscap) Two-dimensional tree layout.
 
-(ref:2dcap) **Two-dimensional tree layout.** The trunk and other branches highlighted in red (for swine) and blue (for human). The *x*-axis is scaled to the branch length (in units of year) of the time-scaled tree. The *y*-axis is scaled to the node attribute variable, in this case the number of predicted *N*-linked glycosylation site (NLG) on the hemagglutinin protein. Colored circles indicate the different types of tree nodes. Note that nodes assigned the same *x*- (temporal) and *y*- (NLG) coordinates are superimposed in this representation and appear as one node, which is shaded based on the colors of all the nodes at that point.
+(ref:2dcap) **Two-dimensional tree layout.** The trunk and other branches are highlighted in red (for swine) and blue (for humans). The *x*-axis is scaled to the branch length (in units of year) of the time-scaled tree. The *y*-axis is scaled to the node attribute variable, in this case, the number of predicted *N*-linked glycosylation sites (NLG) on the hemagglutinin protein. Colored circles indicate the different types of tree nodes. Note that nodes assigned the same *x*- (temporal) and *y*- (NLG) coordinates are superimposed in this representation and appear as one node, which is shaded based on the colors of all the nodes at that point.
 
 
 ```{r 2d, fig.cap="(ref:2dcap)", fig.width=8.5, fig.height=5, fig.scap="(ref:2dscap)", out.extra='', out.width='100%'}
@@ -280,7 +280,7 @@ p + geom_nodepoint(color="grey", size=3, alpha=.8) +
 ```
 
 
-As shown in Figure \@ref(fig:2d), a two-dimensional tree is good at visualizing the change of phenotype over the evolution in the phylogenetic tree. In this example, it is shown that H3 gene of the human influenza A virus maintained a high level of *N*-linked glycosylation sites (n=8 to 9) over the last two decades and dropped significantly to 5 or 6 in a separate viral lineage transmitted to swine populations and established there. It was indeed hypothesized that the human influenza virus with a high level of glycosylation on the viral hemagglutinin protein provides better shielding effect to protect the antigenic sites from exposure to the herd immunity, and thus has a selective advantage in human populations that maintain a high level of herd immunity against the circulating human influenza virus strains. For the viral lineage that newly jumped across the species barrier and transmitted to the swine population, the shielding effect of the high-level surface glycan oppositely imposes selective disadvantage because the receptor-binding domain may also be shielded which greatly affects the viral fitness of the lineage that newly adapted to a new host species. Another example of two-dimensional tree can be found in Figure \@ref(fig:phenogram).
+As shown in Figure \@ref(fig:2d), a two-dimensional tree is good at visualizing the change of phenotype over the evolution in the phylogenetic tree. In this example, it is shown that the H3 gene of the human influenza A virus maintained a high level of *N*-linked glycosylation sites (n=8 to 9) over the last two decades and dropped significantly to 5 or 6 in a separate viral lineage transmitted to swine populations and established there. It was indeed hypothesized that the human influenza virus with a high level of glycosylation on the viral hemagglutinin protein provides a better shielding effect to protect the antigenic sites from exposure to the herd immunity, and thus has a selective advantage in human populations that maintain a high level of herd immunity against the circulating human influenza virus strains. For the viral lineage that newly jumped across the species barrier and transmitted to the swine population, the shielding effect of the high-level surface glycan oppositely imposes selective disadvantage because the receptor-binding domain may also be shielded which greatly affects the viral fitness of the lineage that newly adapted to a new host species. Another example of a two-dimensional tree can be found in Figure \@ref(fig:phenogram).
 
 
 ## Displaying Tree Components
