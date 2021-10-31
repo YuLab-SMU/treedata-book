@@ -18,7 +18,8 @@ library(treeio)
 library(ggplot2)
 library(ggtree)
 
-tree <- read.tree("data/HPV58.tree")
+#tree <- read.tree("data/HPV58.tree")
+tree <- tree_HPV58
 
 clade <- c(A3 = 92, A1 = 94, A2 = 108, B1 = 156, B2 = 159, C = 163, D1 = 173, D2 = 176)
 tree <- groupClade(tree, clade)
@@ -131,7 +132,12 @@ acc <- sub("\\w+\\|", "", tl)
 names(tl) <- acc
 
 ## writeXStringSet(tipseq_aln, file = "data/HPV58_aln.fas")
-tipseq_aln <- readDNAStringSet("data/HPV58_aln.fas")
+#tipseq_aln <- readDNAStringSet("data/HPV58_aln.fas")
+tipseq_aln <- TDbook::HPV58_aln %>% 
+              as.character %>%
+              lapply(., paste0, collapse = "") %>%
+              unlist() %>%
+              Biostrings::DNAStringSet()
 ```
 
 
@@ -186,8 +192,10 @@ read.newick <- treeio::read.newick
 library(treeio)
 library(ggplot2)
 library(ggtree)
+library(TDbook)
 
-tree <- read.newick("data/RMI.phy_phyml_tree_rooted_labeled.txt", node.label='support') 
+#tree <- read.newick("data/RMI.phy_phyml_tree_rooted_labeled.txt", node.label='support') 
+tree <- read.newick(text_RMI_tree, node.label = "support")
 root <- rootnode(tree)  
 ggtree(tree, color="black", size=1.5, linetype=1,  right=TRUE) + 
     geom_tiplab(size=4.5, hjust = -0.060, fontface="bold") +  xlim(0, 0.09) + 
@@ -217,7 +225,9 @@ This example reproduces Figure 1 of [@larsen_identification_2019]. It used `grou
 
 
 ```{r treeLarsen, fig.cap="(ref:treeLarsencap)", fig.scap="(ref:treeLarsenscap)", fig.width=7.5, fig.height=6.3, out.width='100%'}
-mytree <- read.tree("data/Tree 30.4.19.nwk")
+library(TDbook)
+#mytree <- read.tree("data/Tree 30.4.19.nwk")
+mytree <- tree_treenwk_30.4.19
 
 # Define nodes for coloring later on
 tiplab <- mytree$tip.label

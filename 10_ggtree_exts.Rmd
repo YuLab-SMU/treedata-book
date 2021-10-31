@@ -105,14 +105,19 @@ library(tidytree)
 library(ggstar)
 library(ggplot2)
 library(ggnewscale)
+library(TDbook)
 
-tree <- read.tree("data/HMP_tree/hmptree.nwk")
+#tree <- read.tree("data/HMP_tree/hmptree.nwk")
+tree <- tree_hmptree
 # the abundance and types of microbes
-dat1 <- read.csv("data/HMP_tree/tippoint_attr.csv")
+#dat1 <- read.csv("data/HMP_tree/tippoint_attr.csv")
+dat1 <- df_tippoint
 # the abundance of microbes at different body sites.
-dat2 <- read.csv("data/HMP_tree/ringheatmap_attr.csv")
+#dat2 <- read.csv("data/HMP_tree/ringheatmap_attr.csv")
+dat2 <- df_ring_heatmap
 # the abundance of microbes at the body sites of greatest prevalence.
-dat3 <- read.csv("data/HMP_tree/barplot_attr.csv")
+#dat3 <- read.csv("data/HMP_tree/barplot_attr.csv")
+dat3 <- df_barplot_attr
 
 # adjust the order
 dat2$Sites <- factor(dat2$Sites, levels=c("Stool (prevalence)", "Cheek (prevalence)",
@@ -228,9 +233,12 @@ library(ggnewscale)
 library(dplyr)
 library(tidytree)
 library(ggstar)
+library(TDbook)
 
-dat <- read.csv("data/microreact/Candida_auris/microreact-project-Candidaauris-data.csv")
-tr <- read.tree("data/microreact/Candida_auris/microreact-project-Candidaauris-tree.nwk")
+#dat <- read.csv("data/microreact/Candida_auris/microreact-project-Candidaauris-data.csv")
+#tr <- read.tree("data/microreact/Candida_auris/microreact-project-Candidaauris-tree.nwk")
+dat <- df_Candidaauris_data
+tr <- tree_Candidaauris
 
 countries <- c("Canada", "United States",
                "Colombia", "Panama",
@@ -385,11 +393,12 @@ library(treeio)
 library(tidytree)
 library(dplyr)
 library(ggstar)
+library(TDbook)
 
-tr <- read.tree("data/microreact/Salmonella_Typhi/microreact-project-NJIDqgsS-tree.nwk")
-
-metada <- read.csv("data/microreact/Salmonella_Typhi/microreact-project-NJIDqgsS-data.csv")
-
+#tr <- read.tree("data/microreact/Salmonella_Typhi/microreact-project-NJIDqgsS-tree.nwk")
+tr <- tree_NJIDqgsS
+#metada <- read.csv("data/microreact/Salmonella_Typhi/microreact-project-NJIDqgsS-data.csv")
+metada <- df_NJIDqgsS
 metadata <- metada %>%
             select(c("id", "country", "country__colour", "year", "year__colour", "haplotype"))
 metadata$haplotype <- unlist(lapply(metadata$haplotype, function(x)ifelse(nchar(x)>0,x,NA)))
