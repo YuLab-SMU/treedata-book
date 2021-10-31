@@ -21,6 +21,11 @@ pdfbook:
 epub:
 	Rscript -e 'library(bookdown); render_book("index.Rmd", "epub_book")'
 
+word:
+	Rscript -e 'library(bookdown); render_book("index.Rmd", "word_document2")';\
+	mv gh-pages/treedata.docx ./treedata.docx
+
+
 clean:
 	Rscript -e 'bookdown::clean_book()';\
 	rm -rf _bookdown_files

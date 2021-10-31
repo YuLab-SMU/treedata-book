@@ -13,13 +13,13 @@ library(ggtree)
 
 ## Annotating Tree with Images {#ggimage}
 
-We usually use text to label taxa, *i.e.* displaying taxa names. If the text is image file name (either local or remote), `r Biocpkg("ggtree")` can read the image and display the actual image as label of the taxa (Figure \@ref(fig:frogimage)). The `geom_tiplab` and `geom_nodelab` are capable to render silhouette image by internally called `r CRANpkg("ggimage")` package. 
+We usually use text to label taxa, *i.e.* displaying taxa names. If the text is the image file name (either local or remote), `r Biocpkg("ggtree")` can read the image and display the actual image as the label of the taxa (Figure \@ref(fig:frogimage)). The `geom_tiplab()` and `geom_nodelab()` are capable to render silhouette image by internally called the `r CRANpkg("ggimage")` package. 
 
-Online tools such as `iTOL` [@letunic_interactive_2007] and `EvolView` [@he_evolview_2016] support displaying subplots on phylogenetic tree. However only bar and pie charts are supported by these tools. Users may want to visualize node-associated data with other visualization methods, such as violin plot [@grubaugh_genomic_2017], venn diagram [@lott_covenntree:_2015], sequence logo *etc*, and display them on the tree. In `r Biocpkg("ggtree")`, all kinds of subplots are supported as we can export all subplots to image files and use them to label corresponding nodes on the tree.
+Online tools such as `r pkg_itol` [@letunic_interactive_2007] and `r pkg_evolview` [@he_evolview_2016] support displaying subplots on a phylogenetic tree. However only bar and pie charts are supported by these tools. Users may want to visualize node-associated data with other visualization methods, such as violin plot [@grubaugh_genomic_2017], venn diagram [@lott_covenntree:_2015], sequence logo, *etc.*, and display them on the tree. In `r Biocpkg("ggtree")`, all kinds of subplots are supported as we can export all subplots to image files and use them to label corresponding nodes on the tree.
 
 (ref:frogimagescap) Labelling taxa with images.
 
-(ref:frogimagecap) **Labelling taxa with images.** 
+(ref:frogimagecap) **Labelling taxa with images.** Users need to specify `geom = "image"` and mapping the image file names onto the `image` aesthetics. 
 
 
 ```{r frogimage, fig.width=4.25, fig.height=3.5, message=F, warning=F, dev='png', fig.cap="(ref:frogimagecap)", fig.scap="(ref:frogimagescap)", out.width='100%'}
@@ -38,8 +38,7 @@ ggtree(x) + xlim(NA, 7) + ylim(NA, 6.2) +
 
 ## Annotating Tree with Phylopic {#phylopic}
 
-[Phylopic](phylopic.org) contains more than 3200 silhouettes and covers almost all life forms. **ggtree** also supports using phylopic^[<https://twitter.com/guangchuangyu/status/593443854541434882>] to annotate the tree. Most importantly, we can color the image using numerical/categorical variable.
-
+[Phylopic](phylopic.org) contains more than 3200 silhouettes and covers almost all life forms. The `r Biocpkg("ggtree")` package supports using phylopic^[<https://twitter.com/guangchuangyu/status/593443854541434882>] to annotate the tree by setting `geom="phylopic"` and mapping phylopic UID to the `image` aesthetics. The `r CRANpkg("ggimage")` package supports querying phylopic UID from scientific name, which is very handy for annotating tree with phylopic. In the following example, tip labels were used to query phylopic UID and phylopic images were used to label the tree as another layer of tip labels. Most importantly, we can color or resize the images using numerical/categorical variables and here the values of body mass were used to encode the color of the images (Figure \@ref(fig:phylopic)). 
 
 
 <!--
@@ -60,9 +59,17 @@ pg <- pg %<+% phylopic_info +
               geom="phylopic", alpha = .6) + 
   theme(legend.position=c(.2, .8))
 #```
+
+## optional: download the phylopic images
+ggimage::download_phylopic(d$uid, destdir="data/phylopic", quiet=TRUE)
+
+## to enable using downloaded files
+## otherwise, geom_tiplab will try to read the online images
+options(phylopic_dir = "data/phylopic")
+
+
 -->
 
-`r CRANpkg("ggimage")` package supports querying phylopic uid from scientific name, which is very handy for annotating tree with phylopic.
 
 ```{r ggimage_phylopic, eval=FALSE}
 library(ggtree)
@@ -71,15 +78,7 @@ newick <- "((Pongo_abelii,(Gorilla_gorilla_gorilla,(Pan_paniscus,Pan_troglodytes
 tree <- read.tree(text=newick)
 
 d <- ggimage::phylopic_uid(tree$tip.label)
-
-## optional: download the phylopic images
-ggimage::download_phylopic(d$uid, destdir="data/phylopic", quiet=TRUE)
-
-d$body_mass = c(52, 114, 47, 45, 58, 6)
-
-## to enable using downloaded files
-## otherwise, geom_tiplab will try to read the online images
-options(phylopic_dir = "data/phylopic")
+d$body_mass <- c(52, 114, 47, 45, 58, 6)
 
 p <- ggtree(tree) %<+% d + 
   geom_tiplab(aes(image=uid, colour=body_mass), geom="phylopic", offset=2.5) +
@@ -92,7 +91,7 @@ p <- ggtree(tree) %<+% d +
 
 (ref:phylopicscap) Labelling taxa with phylopic images. 
 
-(ref:phylopiccap) **Labelling taxa with phylopic images.** ggtree will automatically download phylopic figures by querying provided UID. The figures can be colored using numerical or categorical values.
+(ref:phylopiccap) **Labelling taxa with phylopic images.** The `r Biocpkg("ggtree")` will automatically download phylopic figures by querying provided UID. The figures can be colored using numerical or categorical values.
 
 
 ```{r phylopic, fig.width=6, figh.height=5, fig.cap="(ref:phylopiccap)", fig.scap="(ref:phylopicscap)", echo=FALSE}
@@ -104,9 +103,13 @@ knitr::include_graphics("img/phylopic.png")
 ## Annotating Tree with Sub-plots {#subplots}
 
 
-`ggtree` provides a layer, `geom_inset`, for adding subplots to a phylogenetic tree. The input is a named list of ggplot graphic objects (can be any kind of charts). These objects should named by node numbers. Users can also use `r CRANpkg("ggplotify")` to convert plots that generated by other functions (even implemented by base graphics) to ggplot objects, which can then be used in `geom_inset`. To facilitate adding bar and pie charts (e.g. summarized stats of results from ancestral reconstruction) to phylogenetic tree, `r Biocpkg("ggtree")` provides `nodepie` and `nodebar` functions to create a list of pie or bar charts.
+The `r Biocpkg("ggtree")` package provides a layer, `geom_inset()`, for adding subplots to a phylogenetic tree. The input is a named list of `ggplot` graphic objects (can be any kind of chart). These objects should be named by node numbers. Users can also use `r CRANpkg("ggplotify")` to convert plots generated by other functions (even implemented by base graphics) to `ggplot` objects, which can then be used in the `geom_inset()` layer. To facilitate adding bar and pie charts (*e.g.* summarized stats of results from ancestral reconstruction) to phylogenetic tree, `r Biocpkg("ggtree")` provides the `nodepie()` and `nodebar()` functions to create a list of pie or bar charts.
 
 ### Annotate with bar charts
+
+
+This example uses `ape::ace()` function to estimate ancestral character states. The likelihoods of the stats were visualized as stacked bar charts which were overlayed onto internal nodes of the tree using the `geom_inset()` layer (Figure \@ref(fig:pieInset)A). 
+
 
 (ref:barInsetscap) Annotate internal nodes with barplots.
 
@@ -135,39 +138,40 @@ p <- ggtree(tree2) + geom_tiplab() +
     scale_color_manual(values = cols) +
     theme(legend.position = "right") + 
     xlim(NA, 8)
-p + geom_inset(bars, width = .08, height = .05, x = "branch") 
+p1 <- p + geom_inset(bars, width = .08, height = .05, x = "branch") 
 ```
 
 
-The *x* position can be one of 'node' or 'branch' and can be adjusted by the parameter *hjust* and *vjust* for horizontal and vertical adjustment respectively.
-
+The `x` position can be one of 'node' or 'branch' and can be adjusted by the parameters, `hjust` and `vjust`, for horizontal and vertical adjustment respectively. The `width` and `height` parameters restict the size of the inset plots. 
 
 
 
 ### Annotate with pie charts
 
-Similarly, users can use `nodepie` function to generate a list of pie charts and place these charts to annotate corresponding nodes. Both `nodebar` and `nodepie` accepts parameter *alpha* to allow transparency.
+Similarly, users can use the `nodepie()` function to generate a list of pie charts and place these charts to annotate corresponding nodes (Figure \@ref(fig:pieInset)B). Both `nodebar()` and `nodepie()` accept a parameter of `alpha` to allow transparency. 
 
-(ref:pieInsetscap) Annotate internal nodes with pie plots.
+(ref:pieInsetscap) Annotate internal nodes with bar or pie charts.
 
-(ref:pieInsetcap) **Annotate internal nodes with pie plots.** 
+(ref:pieInsetcap) **Annotate internal nodes with bar or pie charts.** Using bar charts (A) or pie charts (B) to display summary statistics of internal nodes. 
 
 
 
-```{r pieInset, fig.width=10, fig.height=9.6, fig.cap="(ref:pieInsetcap)", fig.scap="(ref:pieInsetscap)", out.width='100%'}
+```{r pieInset, fig.width=16, fig.height=9.6, fig.cap="(ref:pieInsetcap)", fig.scap="(ref:pieInsetscap)", out.width='100%'}
 pies <- nodepie(ancstats, cols = 1:6)
 pies <- lapply(pies, function(g) g+scale_fill_manual(values = cols))
-p + geom_inset(pies, width = .1, height = .1) 
+p2 <- p + geom_inset(pies, width = .1, height = .1) 
+
+plot_list(p1, p2, guides='collect', tag_levels='A')
 ```
 
 
-### Annotate with other types of charts
+### Annotate with mixed types of charts
 
-The `inset` function accepts a list of ggplot graphic objects and these input objects are not restricted to pie or bar charts. They can be any kinds of charts and hybrid of these charts.
+The `geom_inset()` layer accepts a list of 'ggplot' graphic objects and these input objects are not restricted to pie or bar charts. They can be any kind of charts or hybrid of these charts. The `geom_inset()` is not only useful to display ancestral stats, but also applicable to visualize different types of data that are associated to selected nodes in the tree.
 
-(ref:barpieInsetscap) Annotate internal nodes with different types of subplots (bar and pie).
+(ref:barpieInsetscap) Annotate internal nodes with different types of subplots.
 
-(ref:barpieInsetcap) **Annotate internal nodes with different types of subplots (bar and pie).** 
+(ref:barpieInsetcap) **Annotate internal nodes with different types of subplots.** 
 
 
 
@@ -214,7 +218,7 @@ ggtree(tree, linetype = "dashed", size=1, color='firebrick') %<+% d +
   geom_tiplab(aes(label = group), geom="label", x=3.5, hjust=.5)
 ```
 
-Note that the output may depends on what emoji fonts installed in your system^[Google Noto emoji fonts was installed in my system].
+Note that the output may depend on what emoji fonts is installed in your system^[Google Noto emoji fonts was installed in my system].
 
 With `r Biocpkg("ggtree")`, it is easy to generate phylomoji. The emoji is treated as **text**, like abc. We can use emojis to label taxa, clade, color and rotate emoji with any given color and angle. This functionality is internally supported by the `r CRANpkg("emojifont")` package.
 

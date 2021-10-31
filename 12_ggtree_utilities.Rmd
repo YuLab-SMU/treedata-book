@@ -33,7 +33,7 @@ p2 <- facet_plot(p + xlim_tree(8), panel = 'bar', data = df, geom = geom_barh,
 facet_widths(p2, widths = c(1, 2))
 ```
 
-It also supports using name vector to set the widths of specific panels. The following code will display identical figure to Figure \@ref(fig:facetWidth)A.
+It also supports using name vector to set the widths of specific panels. The following code will display an identical figure to Figure \@ref(fig:facetWidth)A.
 
 ```r
 facet_widths(p2, c(Tree = .5))
@@ -93,7 +93,7 @@ The `facet_labeller` function was designed to re-label selected panels, and it c
 facet_labeller(p2, c(Tree = "phylogeny", bar = "HELLO"))
 ```
 
-If you want to combine `facet_widths` with `facet_labeller`, you need to call `facet_labeller` to re-label the panels before using `facet_widths` to set the relative widths of each panels. Otherwise it wont work since the output of `facet_widths` is re-drawn from `grid` object.
+If you want to combine `facet_widths` with `facet_labeller`, you need to call `facet_labeller` to re-label the panels before using `facet_widths` to set the relative widths of each panel. Otherwise, it won't work since the output of `facet_widths` is re-drawn from `grid` object.
 
 ```{r eval=F}
 facet_labeller(p2, c(Tree = "phylogeny")) %>% facet_widths(c(Tree = .4))
@@ -115,7 +115,7 @@ plot_grid(plot_grid(ggdraw(), pg1, rel_widths=c(.04, 1)),
 ## Geometric layers {#geom2}
 
 
-Subsetting is not supported in layers defined in `r CRANpkg("ggplot2")`, while it is quite useful in phylogenetic annotation since it allows us to annotate at specific node(s) (e.g. only label bootstrap values that larger than 75).
+Subsetting is not supported in layers defined in `r CRANpkg("ggplot2")`, while it is quite useful in phylogenetic annotation since it allows us to annotate at specific node(s) (e.g. only label bootstrap values that are larger than 75).
 
 In `r Biocpkg("ggtree")`, we provides modified version of layers defined in `ggplot2` to support aesthetic mapping of `subset`, including:
 
@@ -125,9 +125,9 @@ In `r Biocpkg("ggtree")`, we provides modified version of layers defined in `ggp
 + geom_label2
 
 
-(ref:layer2scap) Geometric layers that supports subsetting.
+(ref:layer2scap) Geometric layers that support subsetting.
 
-(ref:layer2cap) **Geometric layers that supports subsetting.** Thes layers works with `ggplot2` (A) and `ggtree` (B).
+(ref:layer2cap) **Geometric layers that support subsetting.** Thes layers works with `ggplot2` (A) and `ggtree` (B).
 
 
 ```{r layer2, fig.width=11, fig.height=5, fig.cap="(ref:layer2cap)", fig.scap="(ref:layer2scap)", out.width="100%"}
@@ -214,7 +214,7 @@ The `scale_x_range()` documented in [session 5.2.4](#uncertainty-of-evolutionary
 
 ### Expand x limit for specific panel {#xlim_expand}
 
-Sometimes we need to set `xlim` for specific panel (*e.g.* allocate more space for [long tip labels](#faq-label-truncated) at `Tree` panel). However, the `ggplot2::xlim()` function applies to all the panels. `r Biocpkg("ggtree")` provides `xlim_expand()` to adjust `xlim` for user specific panel. It accepts two parameters, `xlim` and `panel`, and can adjust all individual panels as demonstrated in Figure \@ref(fig:xlimExpand)A. If you only want to adjust `xlim` of the `Tree` panel, you can use `xlim_tree()` as a shortcut.
+Sometimes we need to set `xlim` for specific panel (*e.g.* allocate more space for [long tip labels](#faq-label-truncated) at `Tree` panel). However, the `ggplot2::xlim()` function applies to all the panels. `r Biocpkg("ggtree")` provides `xlim_expand()` to adjust `xlim` for user-specific panel. It accepts two parameters, `xlim` and `panel`, and can adjust all individual panels as demonstrated in Figure \@ref(fig:xlimExpand)A. If you only want to adjust `xlim` of the `Tree` panel, you can use `xlim_tree()` as a shortcut.
 
 
 ```{r eval=FALSE}
@@ -239,9 +239,9 @@ g <- ggplot(iris, aes(Sepal.Length, Sepal.Width)) +
 g + xlim_expand(c(0, 15), 'virginica')
 ```    
 
-(ref:xlimExpandscap) Setting xlim for user specific panel.
+(ref:xlimExpandscap) Setting xlim for user-specific panel.
 
-(ref:xlimExpandcap) **Setting xlim for user specific panel.** xlim for `ggtree::facet_plot` (A, Tree and Dot panels), and `ggplot2::facet_grid` (B, virginica panel).
+(ref:xlimExpandcap) **Setting xlim for user-specific panel.** xlim for `ggtree::facet_plot` (A, Tree and Dot panels), and `ggplot2::facet_grid` (B, virginica panel).
 
 
 ```{r xlimExpand, echo=FALSE, fig.cap="(ref:xlimExpandcap)", fig.scap="(ref:xlimExpandscap)", fig.width=12, fig.height = 5, out.width='100%'}
@@ -261,17 +261,17 @@ plot_grid(plot_grid(ggdraw(), p2, rel_widths=c(.04, 1)),
     ncol=2, labels=c("A", "B"))
 ```
 
-### Expand plot limit by ratio of plot range {#ggexpand}
+### Expand plot limit by the ratio of plot range {#ggexpand}
 
 The `r CRANpkg("ggplot2")` package cannot automatically adjust plot limits and it is very common that long text was truncated. Users need to adjust x (y) limits manually via the `xlim()` (`ylim()`) command (see also [FAQ: Tip label truncated](#faq-label-truncated)). 
 
 The `xlim()` (`ylim()`) is a good solution to this issue. However, we can put the thing more simple, by expanding the plot panel by a ratio of the axis range without knowing what the exact value is. 
 
-We provide `hexpand()` function to expand x limit by specifying a fraction of the x range and it works for both direction (`direction=1` for right hand side and `direction=-1` for left hand side) (Figure \@ref(fig:hexpand)). Another version `vexpand()` works with similar behavior for y axis and the `ggexpand()` function works for both x and y axes (Figure \@ref(fig:phylonetworx)). 
+We provide `hexpand()` function to expand x limit by specifying a fraction of the x range and it works for both directions (`direction=1` for right hand side and `direction=-1` for left hand side) (Figure \@ref(fig:hexpand)). Another version `vexpand()` works with similar behavior for y axis and the `ggexpand()` function works for both x and y axes (Figure \@ref(fig:phylonetworx)). 
 
 (ref:hexpandscap) Expanding plot limits by a fraction of x or y range.
 
-(ref:hexpandcap) **Expanding plot limits by a fraction of x or y range.** expand x limit at right hand side by default (A). expand x limit for left hand side when direction = -1 and expand y limit at upper side (B). 
+(ref:hexpandcap) **Expanding plot limits by a fraction of x or y range.** expand x limit at right hand side by default (A). expand x limit for left hand side when direction = -1 and expand y limit at the upper side (B). 
 
 
 ```{r hexpand,fig.cap="(ref:hexpandcap)", fig.scap="(ref:hexpandscap)", fig.width=12, fig.height = 5, out.width='100%'}
@@ -324,9 +324,9 @@ d2  <- nest(d, value =value, group=group)
 d2
 ```
 
-Neste data is supported by the operator, `%<+%`, and can be mapped to the tree structure. If a geom layer can't directly supports visualizing nested data, we need to flatten the data before applying the geom layer to display it. The `r Biocpkg("ggtree")` package provides a function, `td_unnest()`, which return a function that works similar to `tidyr::unnest()` and can be used to flatten ggtree plot data as demonstrated in Figure \@ref(fig:tdUnnest)A.
+Neste data is supported by the operator, `%<+%`, and can be mapped to the tree structure. If a geom layer can't directly support visualizing nested data, we need to flatten the data before applying the geom layer to display it. The `r Biocpkg("ggtree")` package provides a function, `td_unnest()`, which return a function that works similar to `tidyr::unnest()` and can be used to flatten ggtree plot data as demonstrated in Figure \@ref(fig:tdUnnest)A.
 
-All tree data utilities provide a `.f` parameter to pass a function to pre-operate the data. This create the possibility to combine different tree data utilities as demonstrated in Figure \@ref(fig:tdUnnest)B. 
+All tree data utilities provide a `.f` parameter to pass a function to pre-operate the data. This creates the possibility to combine different tree data utilities as demonstrated in Figure \@ref(fig:tdUnnest)B. 
 
 (ref:tdunnestscap) Flattening ggtree plot data.
 
@@ -354,7 +354,7 @@ cowplot::plot_grid(p2, p3, labels=LETTERS[1:2])
 
 ### Extract tip order {#tiporder}
 
-To create [composite plots](#composite_plot), users need to re-order their data manually before they creating tree associated graph. The order of their data should be consistent with tip order presented in ggtree plot. For this purpose, we provide the `get_taxa_name()` function to extract an ordered vector of tips based on the tree structure plotted by ggtree. 
+To create [composite plots](#composite_plot), users need to re-order their data manually before creating tree associated graphs. The order of their data should be consistent with the tip order presented in ggtree plot. For this purpose, we provide the `get_taxa_name()` function to extract an ordered vector of tips based on the tree structure plotted by ggtree. 
 
 (ref:tiporderscap) An example tree for demonstraing `get_taxa_name()` function.
 
@@ -369,13 +369,13 @@ p <- ggtree(tree) + geom_tiplab() +
 print(p)
 ```
 
-The `get_taxa_name()` function will return a vector of ordered tip labels according to the tree structure displayed on Figure \@ref(fig:tiporder).
+The `get_taxa_name()` function will return a vector of ordered tip labels according to the tree structure displayed in Figure \@ref(fig:tiporder).
 
 ```{r}
 get_taxa_name(p)
 ```
 
-If user specific a node, the `get_taxa_name()` will extract order tips of selected clade (i.e. highlighted region on the Figure \@ref(fig:tiporder)).
+If user specific a node, the `get_taxa_name()` will extract order tips of selected clade (i.e. highlighted region in the Figure \@ref(fig:tiporder)).
 
 
 ```{r}
@@ -427,7 +427,7 @@ plotly_ggtree_link <- paste0("[interactive phylogenetic tree](", link, ")")
 ```
 
 
-The `r Biocpkg("ggtree")` package supports interactive tree annotation or manipulation by implementing an `identify()` method. Users can click on a node to highlight a clade, to label or rotate it *etc*. Users can also use the `r CRANpkg("plotly")` package to convert `ggtree` to `plotly` object to quickly create 
+The `r Biocpkg("ggtree")` package supports interactive tree annotation or manipulation by implementing an `identify()` method. Users can click on a node to highlight a clade, to label or rotate it ,*etc.*. Users can also use the `r CRANpkg("plotly")` package to convert `ggtree` to `plotly` object to quickly create 
 ```{r results='asis', echo=FALSE}
 cat(plotly_ggtree_link)
 ```
