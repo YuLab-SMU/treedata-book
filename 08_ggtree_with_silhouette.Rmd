@@ -167,7 +167,7 @@ plot_list(p1, p2, guides='collect', tag_levels='A')
 
 ### Annotate with mixed types of charts
 
-The `geom_inset()` layer accepts a list of 'ggplot' graphic objects and these input objects are not restricted to pie or bar charts. They can be any kind of charts or hybrid of these charts. The `geom_inset()` is not only useful to display ancestral stats, but also applicable to visualize different types of data that are associated to selected nodes in the tree.
+The `geom_inset()` layer accepts a list of 'ggplot' graphic objects and these input objects are not restricted to pie or bar charts. They can be any kind of charts or hybrid of these charts. The `geom_inset()` is not only useful to display ancestral stats, but also applicable to visualize different types of data that are associated to selected nodes in the tree. Here, we use a mixure of pie and bar charts to annotate the tree as an example (Figure \@ref(fig:barpieInset)).
 
 (ref:barpieInsetscap) Annotate internal nodes with different types of subplots.
 
@@ -187,13 +187,9 @@ p + geom_inset(pies_and_bars, width=.08, height=.05)
 
 ## Have Fun with Phylomoji {#phylomoji}
 
-
-[#phylomoji](https://twitter.com/hashtag/phylomoji?src=hash) is fun and it is internally supported by **ggtree** since 2015^[<https://twitter.com/guangchuangyu/status/662095056610811904> and <https://twitter.com/guangchuangyu/status/667337429704011777>].
-
-Here, we will use **ggtree** to recreate the figure:
+Phylomoji is a phylogenetic tree of emoji. It is fun^[<https://twitter.com/hashtag/phylomoji?src=hash>] and very useful for education of the evolution concept. The `r Biocpkg("ggtree")` supports producing phylomoji since 2015^[<https://twitter.com/guangchuangyu/status/662095056610811904> and <https://twitter.com/guangchuangyu/status/667337429704011777>]. Here, we will use `r Biocpkg("ggtree")` to recreate the following phylomoji figure^[<https://twitter.com/OxyMLZ/status/1055586178651451392>]:
 
 [![](img/phylomoji.png)](https://twitter.com/OxyMLZ/status/1055586178651451392)
-
 
 
 (ref:phylomoji1scap) Parsing label as emoji.
@@ -201,7 +197,7 @@ Here, we will use **ggtree** to recreate the figure:
 (ref:phylomoji1cap) **Parsing label as emoji.** Text (*e.g.* node or tip labels) can be parsed as emoji. 
 
 
-```{r phylomoji1, fig.width=7, fig.height=5, warning=F, fig.cap="(ref:phylomoji1cap)", fig.scap="(ref:phylomoji1scap)", out.width='100%'}
+```{r phylomoji1, fig.width=7, fig.height=5, warning=F, fig.cap="(ref:phylomoji1cap)", fig.scap="(ref:phylomoji1scap)", out.width='100%', echo=FALSE}
 library(ggplot2)
 library(ggtree)
 
@@ -212,15 +208,22 @@ d <- data.frame(label = c('snail','mushroom', 'sunflower',
                 group = c('animal', 'fungi', 'flowering plant',
                           'conifers', 'ferns', 'mosses'))
 
-ggtree(tree, linetype = "dashed", size=1, color='firebrick') %<+% d + 
+p <- ggtree(tree, linetype = "dashed", size=1, color='firebrick') %<+% d + 
   xlim(0, 4.5) + ylim(0.5, 6.5) +
   geom_tiplab(parse="emoji", size=15, vjust=.25) +
-  geom_tiplab(aes(label = group), geom="label", x=3.5, hjust=.5)
+  geom_tiplab(aes(label = group), geom="label", x=3.5, hjust=1)
+
+if (knitr::is_html_output()) {
+  print(p)
+} else {
+  knitr::include_graphics("img/phylomoji-ggtree.png")
+} 
 ```
+
 
 Note that the output may depend on what emoji fonts is installed in your system^[Google Noto emoji fonts was installed in my system].
 
-With `r Biocpkg("ggtree")`, it is easy to generate phylomoji. The emoji is treated as **text**, like abc. We can use emojis to label taxa, clade, color and rotate emoji with any given color and angle. This functionality is internally supported by the `r CRANpkg("emojifont")` package.
+With `r Biocpkg("ggtree")`, it is easy to generate phylomoji. The emoji is treated as text, like 'abc'. We can use emojis to label taxa, clade, color and rotate emoji with any given color and angle. This functionality is internally supported by the `r CRANpkg("emojifont")` package.
 
 ### Emoji in circular/fan layout tree
 
@@ -257,21 +260,31 @@ p3x <- ggplot() + ylim(0, 1) + xlim(0.5, 1) + theme_tree() +
   annotation_custom(ggplotGrob(p3), 
                     ymin=-.1, ymax=1.1, xmin=-.25, xmax=1.25)
 
-a <- plot_grid(p, labels='A')
-b <- plot_grid(p2x, labels='B')
-c <- plot_grid(p3x, labels='C')
+a <- plot_list(p, labels='A')
+b <- plot_list(p2x, labels='B')
+c <- plot_list(p3x, labels='C')
 g <- ggplot() + xlim(0,1) + ylim(0,1) 
 
-g + annotation_custom(ggplotGrob(c), xmin=.5, xmax=1, ymin=0, ymax=1) + 
+gg <- g + annotation_custom(ggplotGrob(c), xmin=.5, xmax=1, ymin=0, ymax=1) + 
   annotation_custom(ggplotGrob(b), xmin=0.005, xmax=.5, ymin=0, ymax=.3) + 
-  annotation_custom(ggplotGrob(a), xmin=0, xmax=.5, ymin=.3, ymax=1) +
+  annotation_custom(ggplotGrob(a), xmin=0, xmax=.5, ymin=.4, ymax=1) +
   theme_void()
+
+if (knitr::is_html_output()) {
+  print(gg)
+} else {
+  knitr::include_graphics("img/phylomoji-ggtree-circular.png")
+}
 ```
 
-Another example using `r Biocpkg("ggtree")` and `r CRANpkg("emojifont")` to produce phylogeny of plant emojis can be found on <https://github.com/ghuertaramos/PlantPhylomoji>.
+
+Another example using `r Biocpkg("ggtree")` and `r CRANpkg("emojifont")` to produce phylogeny of plant emojis can be found in a scientific article [@escudero_grand_2020].
 
 
 ### Emoji to label clades
+
+
+Parsing clade labels as emojis is also supported in the `geom_cladelab()` layer. For example, in a phylogenetic tree of influenza viuses, we can use emojis to label clades to represent host species similar to Figure \@ref(fig:emojiclade). 
 
 (ref:emojicladescap) Emoji to label clades.
 
@@ -317,7 +330,6 @@ p
 
 Although `R`'s graphical devices don't support `r icons::fontawesome("apple")` `AppleColorEmoji` font, it's still possible to use it. We can export the `plot` to `svg` file and render it in `r icons::icon_style(icons::fontawesome("safari"), fill ='steelblue')``Safari`.
 
-
 ```r
 library(ggtree)
 tree_text <- "(((((cow, (whale, dolphin)), (pig2, boar)), camel), fish), seedling);"
@@ -334,9 +346,9 @@ ps = grid.export("emoji.svg", addClass=T)
 ```
 
 
-(ref:applemojiscap) Use Apple Color Emoji in ggtree.
+(ref:applemojiscap) Use Apple Color Emoji in `ggtree`.
 
-(ref:applemojicap) **Use Apple Color Emoji in ggtree.** 
+(ref:applemojicap) **Use Apple Color Emoji in `ggtree`.** The background is an image of a *opisthocomus* from Phylopic database and the tip labels were parsed as emojis using `AppleColorEmoji` font. 
 
 
 
@@ -346,5 +358,10 @@ knitr::include_graphics("img/apple_emoji2.png")
 
 ### Phylomoji in ASCII art
 
-This is also possible, please refer to [Appendix D](#ascii-tree) for details.
+Producing phylomoji as an ASCII art is also possible. Users can refer to [Appendix D](#ascii-tree) for details.
+
+## Summary (#summary8)
+
+The `r Biocpkg("ggtree")` supports parsing labels, including tip labels, internal node labels, and clade labels, as images, math expression, and emoji, in case the labels can be parsed as image file names, `plotmath` expression, or emoji names respectively. It can be fun, but it's also very useful for scientific research. The use of images on phylogenetic trees can help to present species-related characteristics, including morphological, anatomical, and even macromolecular structures. Moreover, `r Biocpkg("ggtree")` supports summarizing statistical inferences (*e.g.*, biogeographic range reconstruction and posterior distribution) or associated data of the nodes as subplots to be displayed on a phylogenetic tree. 
+
 
