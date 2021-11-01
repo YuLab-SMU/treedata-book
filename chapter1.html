@@ -133,7 +133,7 @@ BEGIN characters;
 END;</code></pre>
 <p>For example, the above example tree can be saved as the following NEXUS format:</p>
 <pre><code>#NEXUS
-[R-package APE, Fri Oct 29 10:37:40 2021]
+[R-package APE, Mon Nov  1 14:57:30 2021]
 
 BEGIN TAXA;
     DIMENSIONS NTAX = 5;
@@ -170,7 +170,7 @@ It is very difficult to share tree annotation data among different programs unle
 <span class="header-section-number">1.2.3</span> New Hampshire eXtended format<a class="anchor" aria-label="anchor" href="#nhxtext"><i class="fas fa-link"></i></a>
 </h3>
 <!-- Although NEXUS supports additional information in separated blocks, they are mostly not recognized by different software and can't share information among different programs. In order to store annotated tree,-->
-<p>Newick, NEXUS, and phylip are mainly designed to store phylogenetic trees and basic singular data associated with internal nodes or branches. In addition to the singular data annotation at branches and nodes (mentioned above), New Hampshire eXtended format (NHX), which is based on Newick (also called New Hampshire), was developed to introduce tags to associate multiple data fields with the tree nodes (both internal nodes and tips). Tags are placed after branch length and must be wrapped between <code>[&amp;&amp;NHX</code> and <code>]</code> which makes it possible to be compatible with NEXUS format as it defined characters between <code><a href="https://rdrr.io/r/base/Extract.html">[</a></code> and <code>]</code> as comments. NHX is also the output format of <a href="http://pbil.univ-lyon1.fr/software/phyldog/"><strong>PHYLDOG</strong></a> <span class="citation">(<a href="references.html#ref-boussau_genome-scale_2013" role="doc-biblioref">Boussau et al. 2013</a>)</span> and <a href="http://revbayes.github.io/intro.html"><strong>RevBayes</strong></a> <span class="citation">(<a href="references.html#ref-hohna_revbayes:_2016" role="doc-biblioref">Höhna et al. 2016</a>)</span>. A Tree Viewer (<a href="http://phylogeny.lirmm.fr/phylo_cgi/one_task.cgi?task_type=atv"><strong>ATV</strong></a>) <span class="citation">(<a href="references.html#ref-zmasek_atv:_2001" role="doc-biblioref">Zmasek and Eddy 2001</a>)</span> is a java tool that supports displaying annotation data stored in NHX format, but this package is no more maintained.</p>
+<p>Newick, NEXUS, and phylip are mainly designed to store phylogenetic trees and basic singular data associated with internal nodes or branches. In addition to the singular data annotation at branches and nodes (mentioned above), New Hampshire eXtended format (NHX), which is based on Newick (also called New Hampshire), was developed to introduce tags to associate multiple data fields with the tree nodes (both internal nodes and tips). Tags are placed after branch length and must be wrapped between <code>[&amp;&amp;NHX</code> and <code>]</code> which makes it possible to be compatible with NEXUS format as it defined characters between <code>[</code> and <code>]</code> as comments. NHX is also the output format of <a href="http://pbil.univ-lyon1.fr/software/phyldog/"><strong>PHYLDOG</strong></a> <span class="citation">(<a href="references.html#ref-boussau_genome-scale_2013" role="doc-biblioref">Boussau et al. 2013</a>)</span> and <a href="http://revbayes.github.io/intro.html"><strong>RevBayes</strong></a> <span class="citation">(<a href="references.html#ref-hohna_revbayes:_2016" role="doc-biblioref">Höhna et al. 2016</a>)</span>. A Tree Viewer (<a href="http://phylogeny.lirmm.fr/phylo_cgi/one_task.cgi?task_type=atv"><strong>ATV</strong></a>) <span class="citation">(<a href="references.html#ref-zmasek_atv:_2001" role="doc-biblioref">Zmasek and Eddy 2001</a>)</span> is a java tool that supports displaying annotation data stored in NHX format, but this package is no more maintained.</p>
 <p>Here is a sample tree from NHX definition document<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="http://www.genetics.wustl.edu/eddy/forester/NHX.html" class="uri"&gt;http://www.genetics.wustl.edu/eddy/forester/NHX.html&lt;/a&gt;&lt;/p&gt;'><sup>3</sup></a>:</p>
 <pre><code>(((ADH2:0.1[&amp;&amp;NHX:S=human], ADH1:0.11[&amp;&amp;NHX:S=human]):0.05
 [&amp;&amp;NHX:S=primates:D=Y:B=100],ADHY:0.1[&amp;&amp;NHX:S=nematode],
@@ -1043,7 +1043,7 @@ node/branch-specific data, while the metadata value contains additional meta inf
 <span class="fu">read.jtree</span><span class="op">(</span>file <span class="op">=</span> <span class="va">jtree_file</span><span class="op">)</span></code></pre></div>
 <pre><code>## 'treedata' S4 object that stored information
 ## of
-##  '/tmp/RtmpGClndg/file399657947c2f0.jtree'.
+##  '/tmp/RtmpWEzyH4/fileded745272601.jtree'.
 ## 
 ## ...@ phylo:
 ## 
@@ -1201,7 +1201,7 @@ convert pvclust object to treedata object
 <div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/KlausVigo/phangorn">phangorn</a></span><span class="op">)</span>
 <span class="va">treefile</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"pa.nwk"</span>, package<span class="op">=</span><span class="st">"treeio"</span><span class="op">)</span>
-<span class="va">tre</span> <span class="op">&lt;-</span> <span class="fu">read.tree</span><span class="op">(</span><span class="va">treefile</span><span class="op">)</span>
+<span class="va">tre</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/read.tree.html">read.tree</a></span><span class="op">(</span><span class="va">treefile</span><span class="op">)</span>
 <span class="va">tipseqfile</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"pa.fas"</span>, package<span class="op">=</span><span class="st">"treeio"</span><span class="op">)</span>
 <span class="va">tipseq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/phangorn/man/read.phyDat.html">read.phyDat</a></span><span class="op">(</span><span class="va">tipseqfile</span>,format<span class="op">=</span><span class="st">"fasta"</span><span class="op">)</span>
 <span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/phangorn/man/pml.html">pml</a></span><span class="op">(</span><span class="va">tre</span>, <span class="va">tipseq</span>, k<span class="op">=</span><span class="fl">4</span><span class="op">)</span>
@@ -1227,14 +1227,14 @@ FIGURE 1.4: <strong>Converting <code>pml</code> object to <code>treedata</code> 
 in the <code>treedata</code> object. <a href="http://bioconductor.org/packages/treeio"><strong>treeio</strong></a> provides several accessor
 methods to extract tree structure, features/attributes that stored in the object,
 and their corresponding values.</p>
-<p>The <code>get.tree()</code> or <code>as.phylo()</code> methods can convert the <code>treedata</code> object to a
+<p>The <code>get.tree()</code> or <code><a href="https://rdrr.io/pkg/ape/man/as.phylo.html">as.phylo()</a></code> methods can convert the <code>treedata</code> object to a
 <code>phylo</code> object which is the fundamental tree object in the R community and
 many packages work with <code>phylo</code> object.</p>
 <div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">beast_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"examples/MCC_FluA_H3.tree"</span>, package<span class="op">=</span><span class="st">"ggtree"</span><span class="op">)</span>
 <span class="va">beast_tree</span> <span class="op">&lt;-</span> <span class="fu">read.beast</span><span class="op">(</span><span class="va">beast_file</span><span class="op">)</span>
 <span class="co"># or get.tree</span>
-<span class="fu">as.phylo</span><span class="op">(</span><span class="va">beast_tree</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/pkg/ape/man/as.phylo.html">as.phylo</a></span><span class="op">(</span><span class="va">beast_tree</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
 ## Phylogenetic tree with 76 tips and 75 internal nodes.
 ## 
@@ -1276,7 +1276,7 @@ the object and associated with the phylogeny.</p>
 ## #   rate_median &lt;dbl&gt;, rate_range &lt;list&gt;, node &lt;int&gt;</code></pre>
 <p>If users are only interested in a subset of the features/attributes return by
 <code>get.fields</code>, they can extract the information from the output of <code>get.data</code> or
-directly subset the data by <code><a href="https://rdrr.io/r/base/Extract.html">[</a></code> or <code><a href="https://rdrr.io/r/base/Extract.html">[[</a></code>.</p>
+directly subset the data by <code>[</code> or <code>[[</code>.</p>
 <div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">beast_tree</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"node"</span>, <span class="st">"height"</span><span class="op">)</span><span class="op">]</span></code></pre></div>
 <pre><code>## # A tibble: 151 × 2
@@ -1354,7 +1354,7 @@ directly subset the data by <code><a href="https://rdrr.io/r/base/Extract.html">
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-10-29.</p>
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-11-01.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
