@@ -133,7 +133,7 @@ names(tl) <- acc
 
 ## writeXStringSet(tipseq_aln, file = "data/HPV58_aln.fas")
 #tipseq_aln <- readDNAStringSet("data/HPV58_aln.fas")
-tipseq_aln <- TDbook::HPV58_aln %>% 
+tipseq_aln <- TDbook::dna_HPV58_aln %>% 
               as.character %>%
               lapply(., paste0, collapse = "") %>%
               unlist() %>%
@@ -195,7 +195,7 @@ library(ggtree)
 library(TDbook)
 
 #tree <- read.newick("data/RMI.phy_phyml_tree_rooted_labeled.txt", node.label='support') 
-tree <- read.newick(text_RMI_tree, node.label = "support")
+tree <- read.newick(text=text_RMI_tree, node.label = "support")
 root <- rootnode(tree)  
 ggtree(tree, color="black", size=1.5, linetype=1,  right=TRUE) + 
     geom_tiplab(size=4.5, hjust = -0.060, fontface="bold") +  xlim(0, 0.09) + 

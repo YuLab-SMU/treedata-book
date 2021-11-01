@@ -346,24 +346,22 @@ A phylogenetic tree can be rerooted with a specified `outgroup`. The `r CRANpkg(
 
 We linked external data to a tree and stored all the information in a `treedata` object, `trda`. 
 
-```{r reroot, fig.width=14, fig.height=5, fig.cap="(ref:rerootcap)", fig.scap="(ref:rerootscap)"}
+```{r reroot_build_td}
 library(ggtree)
 library(treeio)
 library(tidytree)
 library(TDbook)
 
-#tree <- read.tree("data/tree_boots.nwk")
-tree <- tree_boots
+# The phylogenetic tree (phylo class)
+# tree_boots
 # the tip label information
-#tip.da <- read.csv("data/tip_data.csv")
-tip.da <- df_tip_data
+# df_tip_data
 # the node label information
-#node.da <- read.csv("data/inode_data.csv")
-node.da <- df_inode_data
+# df_inode_data
 # These associated dataset can be added to the treedata using left_join or full_join 
-trda <- tree %>% 
-        left_join(tip.da, by=c("label" = "Newick_label")) %>% 
-        left_join(node.da, by=c("label" = "newick_label"))
+trda <- tree_boots %>% 
+        left_join(df_tip_data, by=c("label" = "Newick_label")) %>% 
+        left_join(df_inode_data, by=c("label" = "newick_label"))
 trda
 ```
 
