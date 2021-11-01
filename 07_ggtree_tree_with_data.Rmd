@@ -27,23 +27,27 @@ In `r Biocpkg("ggtree")`, we implemented an operator, `%<+%`, to attach annotati
 ```{r attacher, fig.width=9.5, fig.height=6.2, warning=FALSE, message=FALSE, fig.cap="(ref:attachercap)", fig.scap="(ref:attacherscap)", out.width='100%'}
 library(ggimage)
 library(ggtree)
+library(TDbook)
 ## url <- paste0("https://raw.githubusercontent.com/TreeViz/",
 ##             "metastyle/master/design/viz_targets_exercise/")
 
 ## x <- read.tree(paste0(url, "tree_boots.nwk"))
 ## info <- read.csv(paste0(url, "tip_data.csv"))
 
-x <- read.tree("data/tree_boots.nwk")
-info <- read.csv("data/tip_data.csv")
+#x <- read.tree("data/tree_boots.nwk")
+#info <- read.csv("data/tip_data.csv")
+#x <- tree_boots
+#info <- df_tip_data
 
-p <- ggtree(x) %<+% info + xlim(-.1, 4)
+p <- ggtree(tree_boots) %<+% df_tip_data + xlim(-.1, 4)
 p2 <- p + geom_tiplab(offset = .6, hjust = .5) +
     geom_tippoint(aes(shape = trophic_habit, color = trophic_habit, size = mass_in_kg)) + 
     theme(legend.position = "right") + scale_size_continuous(range = c(3, 10))
 
-## d2 <- read.csv(paste0(url, "inode_data.csv"))
-d2 <- read.csv("data/inode_data.csv")
-p2 %<+% d2 + geom_label(aes(label = vernacularName.y, fill = posterior)) + 
+##d2 <- read.csv(paste0(url, "inode_data.csv"))
+##d2 <- read.csv("data/inode_data.csv")
+##d2 <- df_inode_data
+p2 %<+% df_inode_data + geom_label(aes(label = vernacularName.y, fill = posterior)) + 
     scale_fill_gradientn(colors = RColorBrewer::brewer.pal(3, "YlGnBu"))
 ```
 
@@ -66,19 +70,21 @@ The `geom_facet()` is designed to work with most of the `geom` layers defined in
 
 ```{r plottree, fig.width=12, fig.height=7, message=F, fig.cap="(ref:plottreecap)", fig.scap="(ref:plottreescap)", out.width='100%'}
 library(ggtree)
+library(TDbook)
 ## remote_folder <- paste0("https://raw.githubusercontent.com/katholt/",
 ##                         "plotTree/master/tree_example_april2015/")
-remote_folder <- "data/tree_example_april2015/" 
+#remote_folder <- "data/tree_example_april2015/" 
 
 ## read the phylogenetic tree
-tree <- read.tree(paste0(remote_folder, "tree.nwk"))
-
+##tree <- read.tree(paste0(remote_folder, "tree.nwk"))
+tree <- tree_nwk
 ## read the sampling information data set
-info <- read.csv(paste0(remote_folder,"info.csv"))
-
+##info <- read.csv(paste0(remote_folder,"info.csv"))
+info <- df_info
 ## read and process the allele table
-snps<-read.csv(paste0(remote_folder, "alleles.csv"), header = F,
-                row.names = 1, stringsAsFactor = F)
+##snps<-read.csv(paste0(remote_folder, "alleles.csv"), header = F,
+##                row.names = 1, stringsAsFactor = F)
+snps <- df_alleles
 snps_strainCols <- snps[1,] 
 snps<-snps[-1,] # drop strain names
 colnames(snps) <- snps_strainCols
@@ -94,7 +100,8 @@ lsnp <- tidyr::gather(lsnp, name, value, -pos)
 snp_data <- lsnp[lsnp$value, c("name", "pos")]
 
 ## read the trait data
-bar_data <- read.csv(paste0(remote_folder, "bar.csv"))
+## bar_data <- read.csv(paste0(remote_folder, "bar.csv"))
+bar_data <- df_bar_data
 
 ## visualize the tree 
 p <- ggtree(tree) 
@@ -236,9 +243,13 @@ gheatmap(p2, df2, offset=15, width=.3,
 The `msaplot()` accepts a tree (output of `ggtree()`) and a fasta file, then it can visualize the tree with sequence alignment. We can specify the `width` (relative to the tree) of the alignment and adjust the relative position by `offset`, which are similar to the `gheatmap()` function (Figure \@ref(fig:msaplot)A)..
 
 ```{r eval=F}
-tree <- read.tree("data/tree.nwk")
-p <- ggtree(tree) + geom_tiplab(size=3)
-msaplot(p, "data/sequence.fasta", offset=3, width=2)
+#tree <- read.tree("data/tree.nwk")
+library(TDbook)
+
+#tree <- tree_seq_nwk
+p <- ggtree(tree_seq_nwk) + geom_tiplab(size=3)
+#msaplot(p, "data/sequence.fasta", offset=3, width=2)
+msaplot(p, AA_sequence, offset=3, width=2)
 ```
 
 
@@ -246,9 +257,10 @@ msaplot(p, "data/sequence.fasta", offset=3, width=2)
 A specific slice of the alignment can also be displayed by specifying the `window` parameter (Figure \@ref(fig:msaplot)B)..
 
 ```{r fig.width=7, fig.height=7, fig.align='center', warning=FALSE, eval=F}
-p <- ggtree(tree, layout='circular') + 
+p <- ggtree(tree_seq_nwk, layout='circular') + 
     geom_tiplab(offset=4, align=TRUE) + xlim(NA, 12)
-msaplot(p, "data/sequence.fasta", window=c(120, 200))  
+#msaplot(p, "data/sequence.fasta", window=c(120, 200))  
+msaplot(p, AA_sequence, window=c(120, 200))
 ```
 
 
@@ -258,15 +270,19 @@ msaplot(p, "data/sequence.fasta", window=c(120, 200))
 
 
 ```{r msaplot, fig.width=14, fig.height=7, warning=FALSE, echo=F, fig.cap="(ref:msaplotcap)", fig.scap="(ref:msaplotscap)", out.width='100%'}
-tree <- read.tree("data/tree.nwk")
-p <- ggtree(tree) + geom_tiplab(size=3) + 
-    theme(legend.position="none")
-g1 = msaplot(p, "data/sequence.fasta", offset=3, width=2)
+library(ggtree)
+library(TDbook)
 
-p2 <- ggtree(tree, layout='circular') + 
+#tree <- read.tree("data/tree.nwk")
+#tree <- tree_seq_nwk
+p <- ggtree(tree_seq_nwk) + geom_tiplab(size=3) + 
+    theme(legend.position="none")
+g1 = msaplot(p, AA_sequence, offset=3, width=2)
+
+p2 <- ggtree(tree_seq_nwk, layout='circular') + 
     geom_tiplab(offset=4, align=TRUE) + xlim(NA, 12) + 
     theme(legend.position="none")
-g2 = msaplot(p2, "data/sequence.fasta", window=c(120, 200))  
+g2 = msaplot(p2, AA_sequence, window=c(120, 200))  
 plot_list(g1, g2, ncol=2, tag_levels='A')
 ```
 
