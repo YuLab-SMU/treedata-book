@@ -319,7 +319,7 @@ ggtree(tree) + theme_tree2()
 
 (ref:treescalescap) Display tree scale.
 
-(ref:treescalecap) **Display tree scale.** `geom_treescale()` automatically add a scale bar for evolutionary distance (A). Users can modify color, width and position of the scale (B) as well as the size of the scale bar and text and their relative position (C). Another possible solution is to enable x-axis which is useful for time-scale tree (D).
+(ref:treescalecap) **Display tree scale.** `geom_treescale()` automatically add a scale bar for evolutionary distance (A). Users can modify the color, width, and position of the scale (B) as well as the size of the scale bar and text and their relative position (C). Another possible solution is to enable the x-axis which is useful for the time-scale tree (D).
 
 ```{r treescale, fig.width=8, fig.height=6, echo=F, fig.cap="(ref:treescalecap)", fig.scap="(ref:treescalescap)", out.width='100%'}
 
@@ -337,7 +337,7 @@ Tree scale is not restricted to evolution distance, `r Biocpkg('treeio')` can re
 
 ### Displaying nodes/tips {#geom-nodepoint}
 
-Showing all the internal nodes and tips in the tree can be done by adding a layer of points using `geom_nodepoint()`,  `geom_tippoint()` or `geom_point()`.
+Showing all the internal nodes and tips in the tree can be done by adding a layer of points using `geom_nodepoint()`,  `geom_tippoint()`, or `geom_point()`.
 
 
 ```{r fig.width=3, fig.height=3, fig.align="center", eval=F}
@@ -373,12 +373,12 @@ Users can use `geom_text()` or `geom_label()` to display the node (if available)
 p + geom_tiplab(size=3, color="purple")
 ```
 
-The `geom_tiplab()` layer not only supports using *text* or *label* geom to display labels,
+The `geom_tiplab()` layer not only supports using *text* or *label* geom to display labels, but
 it also supports *image* geom to label tip with image files (see [Chapter 7](#chapter7)). A corresponding
 geom, `geom_nodelab()` is also provided for displaying node labels. 
 
 
-For *circular* and *unrooted* layout, `r Biocpkg('ggtree')` supports rotating node labels according to the angles of the branches (Figure \@ref(fig:tiplab)B).
+For *circular* and *unrooted* layouts, `r Biocpkg('ggtree')` supports rotating node labels according to the angles of the branches (Figure \@ref(fig:tiplab)B).
 
 ```{r fig.width=6, fig.height=6, warning=FALSE, fig.align="center", eval=FALSE}
 ggtree(tree, layout="circular") + geom_tiplab(aes(angle=angle), color='blue')
@@ -386,7 +386,7 @@ ggtree(tree, layout="circular") + geom_tiplab(aes(angle=angle), color='blue')
 
 
 
-For long tip labels, the label maybe truncated. There are several ways to solve this issue (see [FAQ: Tip label truncated](#faq-label-truncated)). Another solution to solve this issue is to display tip labels as y-axis labels (Figure \@ref(fig:tiplab)C). However, it only works for rectangular and dendrogram layouts and users need to use `theme()` to adjust tip labels in this case.
+For long tip labels, the label may be truncated. There are several ways to solve this issue (see [FAQ: Tip label truncated](#faq-label-truncated)). Another solution to solve this issue is to display tip labels as y-axis labels (Figure \@ref(fig:tiplab)C). However, it only works for rectangular and dendrogram layouts and users need to use `theme()` to adjust tip labels in this case.
 
 
 ```{r fig.width=6, fig.height=6, warning=FALSE, fig.align="center", eval=FALSE}
@@ -396,7 +396,7 @@ ggtree(tree) + geom_tiplab(as_ylab=TRUE, color='firebrick')
 
 (ref:tiplabscap) Display tip labels.
 
-(ref:tiplabcap) **Display tip labels.** `geom_tiplab()` supports displaying tip labels (A). For circular, fan or unrooted tree layout, the labels can be rotated to fit the angle of the branches (B). For dendrogram/rectangular layout, tip labels can be displayed as y-axis label (C).
+(ref:tiplabcap) **Display tip labels.** `geom_tiplab()` supports displaying tip labels (A). For the circular, fan, or unrooted tree layouts, the labels can be rotated to fit the angle of the branches (B). For dendrogram/rectangular layout, tip labels can be displayed as y-axis labels (C).
 
 
 ```{r tiplab, fig.width=13.5, fig.height=5.5, echo=F, fig.cap="(ref:tiplabcap)", fig.scap="(ref:tiplabscap)", out.width='100%'}
@@ -412,7 +412,7 @@ By default, the positions to display text are based on the node positions, we ca
 
 ### Displaying root edge
 
-The `ggtree()` doesn't plot root edge by default. Users can use `geom_rootedge()` to automatically display root edge (Figure \@ref(fig:rootedge)A). If there is no root edge information, `geom_rootedge()` will display nothing by default (Figure \@ref(fig:rootedge)B). Users can set the root edge to the tree (Figure \@ref(fig:rootedge)C) or specify `rootedge` in `geom_rootedge()` (Figure \@ref(fig:rootedge)D). A long root length is useful to increase readibility of the circular tree (see also [FAQ: Enlarge center space](#faq-enlarge-center-space)).
+The `ggtree()` doesn't plot the root edge by default. Users can use `geom_rootedge()` to automatically display the root edge (Figure \@ref(fig:rootedge)A). If there is no root edge information, `geom_rootedge()` will display nothing by default (Figure \@ref(fig:rootedge)B). Users can set the root edge to the tree (Figure \@ref(fig:rootedge)C) or specify `rootedge` in `geom_rootedge()` (Figure \@ref(fig:rootedge)D). A long root length is useful to increase readability of the circular tree (see also [FAQ: Enlarge center space](#faq-enlarge-center-space)).
 
 
 ```{r eval=F}
@@ -428,7 +428,7 @@ ggtree(tree2) + geom_tiplab() + geom_rootedge()
 tree2$root.edge <- 2
 ggtree(tree2) + geom_tiplab() + geom_rootedge()
 
-## specify length of root edge for just plotting
+## specify the length of root edge for just plotting
 ## this will ignore tree$root.edge
 ggtree(tree2) + geom_tiplab() + geom_rootedge(rootedge = 3)
 ```
@@ -436,7 +436,7 @@ ggtree(tree2) + geom_tiplab() + geom_rootedge(rootedge = 3)
 
 (ref:rootedgescap) Display root edge.
 
-(ref:rootedgecap) **Display root edge.** `geom_rootedge()` supports displaying root edge if the root edge was presented (A). It shows nothing if there is no root edge (B). In this case, users can manually set the root edge for the tree (C) or just specify the length of root for plotting (D).
+(ref:rootedgecap) **Display root edge.** `geom_rootedge()` supports displaying root edge if the root edge was presented (A). It shows nothing if there is no root edge (B). In this case, users can manually set the root edge for the tree (C) or just specify the length of the root for plotting (D).
 
 
 ```{r rootedge, fig.width=6, fig.height=4, echo=F, fig.cap="(ref:rootedgecap)", fig.scap="(ref:rootedgescap)"}
@@ -466,7 +466,7 @@ In `r Biocpkg("ggtree")` [@yu_two_2018], coloring phylogenetic tree is easy, by 
 
 (ref:colortreescap) Color tree by continuous or discrete feature.
 
-(ref:colortreecap) **Color tree by continuous or discrete feature.** Edges are colored by values that associated with child node.
+(ref:colortreecap) **Color tree by continuous or discrete feature.** Edges are colored by values associated with the child nodes.
 
 
 ```{r colortree, fig.width=5, fig.height=5, fig.cap="(ref:colortreecap)", fig.scap="(ref:colortreescap)"}
@@ -475,7 +475,7 @@ ggtree(beast_tree, aes(color=rate)) +
     theme(legend.position="right")
 ```
 
-Users can use any feature (if available), including clade posterior and _d~N~/d~S~_ ,_etc._, to scale the color of the tree. If the feature is a continuous numerical value, `r Biocpkg("ggtree")` provides a `continuous` parameter to support plotting continuous state transition in edges. Here, we use an example^[<http://www.phytools.org/eqg2015/asr.html>] to demonstrate this functionality. If you want to add a thin black border in tree branches, you can place a tree with black and slightly thicker branches below your tree to emulate edge outlines as demonstrated in Figure \@ref(fig:continuousColor)B.
+Users can use any feature (if available), including clade posterior and _d~N~/d~S~_, _etc._, to scale the color of the tree. If the feature is a continuous numerical value, `r Biocpkg("ggtree")` provides a `continuous` parameter to support plotting continuous state transition in edges. Here, we use an example^[<http://www.phytools.org/eqg2015/asr.html>] to demonstrate this functionality. If you want to add a thin black border in tree branches, you can place a tree with black and slightly thicker branches below your tree to emulate edge outlines as demonstrated in Figure \@ref(fig:continuousColor)B.
 
 
 
@@ -492,23 +492,17 @@ library(ggplot2)
 library(TDbook)
 ## ref: http://www.phytools.org/eqg2015/asr.html
 ##
-## anole.tree<-read.tree("http://www.phytools.org/eqg2015/data/anole.tre")
-## svl <- read.csv("http://www.phytools.org/eqg2015/data/svl.csv",
-##     row.names=1)
-#anole.tree <- read.tree("data/anole.tre")
-anole.tree <- tree_anole
-#svl <- read.csv("data/svl.csv", row.names = 1)
-svl <- df_svl
-svl <- as.matrix(svl)[,1]
-fit <- phytools::fastAnc(anole.tree,svl,vars=TRUE,CI=TRUE)
+## load `tree_anole` and `df_svl` from 'TDbook'
+svl <- as.matrix(df_svl)[,1]
+fit <- phytools::fastAnc(tree_anole, svl, vars=TRUE, CI=TRUE)
 
-td <- data.frame(node = nodeid(anole.tree, names(svl)),
+td <- data.frame(node = nodeid(tree_anole, names(svl)),
                trait = svl)
 nd <- data.frame(node = names(fit$ace), trait = fit$ace)
 
 d <- rbind(td, nd)
 d$node <- as.numeric(d$node)
-tree <- full_join(anole.tree, d, by = 'node')
+tree <- full_join(tree_anole, d, by = 'node')
 
 p1 <- ggtree(tree, aes(color=trait), layout = 'circular', 
         ladderize = FALSE, continuous = TRUE, size=2) +
@@ -559,7 +553,7 @@ p2 <- ggtree(beast_tree, branch.length='rate') + theme_tree2() +
     labs(caption="Substitution rate")
 ```
 
-The following example draw a tree inferred by CodeML (Figure \@ref(fig:rescaleTree)C), and the branches can be rescaled by using _d~N~/d~S~_ values (Figure \@ref(fig:rescaleTree)D).
+The following example draws a tree inferred by CodeML (Figure \@ref(fig:rescaleTree)C), and the branches can be rescaled by using _d~N~/d~S~_ values (Figure \@ref(fig:rescaleTree)D).
 
 ```{r rescaleCodeml, fig.width=10, fig.height=5}
 mlcfile <- system.file("extdata/PAML_Codeml", "mlc", package="treeio")
@@ -573,7 +567,7 @@ p4 <- ggtree(mlc_tree, branch.length='dN_vs_dS') + theme_tree2() +
 
 (ref:rescaleTreescap) Rescale tree branches.
 
-(ref:rescaleTreecap) **Rescale tree branches.** A time scaled tree inferred by BEAST (A) and its branches were rescaled by substitution rate (B). A tree inferred by CodeML (C) and the branches were rescaled by _d~N~/d~S~_ values (D).
+(ref:rescaleTreecap) **Rescale tree branches.** A time-scaled tree inferred by BEAST (A) and its branches were rescaled by substitution rate (B). A tree was inferred by CodeML (C) and the branches were rescaled by _d~N~/d~S~_ values (D).
 
 
 ```{r rescaleTree, fig.width=8, fig.height=6, echo=FALSE,fig.cap="(ref:rescaleTreecap)", fig.scap="(ref:rescaleTreescap)", out.width='100%'}
@@ -623,11 +617,11 @@ ggtree(x, color="orange", size=1) + theme_tree('grey30'),
     ncol=2)
 ```
 
-Users can also use an image file as tree background, see example in [Appendix B](#ggimage-bgimage).
+Users can also use an image file as the tree background, see example in [Appendix B](#ggimage-bgimage).
 
 ## Visualize a list of trees
 
-The `r Biocpkg("ggtree")` supports `multiPhylo` and `treedataList` objects and a list of trees can be viewed simultaneously. The trees will visualized one on the top of another and can be plotted in different panels through `facet_wrap()` or `facet_grid()` functions. 
+The `r Biocpkg("ggtree")` supports `multiPhylo` and `treedataList` objects and a list of trees can be viewed simultaneously. The trees will visualize one on top of another and can be plotted in different panels through `facet_wrap()` or `facet_grid()` functions. 
 
 (ref:multiPhyloscap) Visualizing multiPhylo object.
 
@@ -643,7 +637,7 @@ r8s <- read.r8s(system.file("extdata/r8s", "H3_r8s_output.log", package="treeio"
 ggtree(r8s) + facet_wrap( ~.id, scale="free") + theme_tree2()
 ```
 
-One hundred bootstrap trees can also be view simultaneously. This allows researchers to explore a large set of phylogenetic trees to find consensus and distinct trees. Consensus tree can be summarized via density tree (Figure \@ref(fig:densiTree)). 
+One hundred bootstrap trees can also be viewed simultaneously. This allows researchers to explore a large set of phylogenetic trees to find consensus and distinct trees. The consensus tree can be summarized via a density tree (Figure \@ref(fig:densiTree)). 
 
 (ref:bp100scap) Visualizing one hundred bootstrap trees simultaneously.
 
@@ -662,7 +656,7 @@ ggtree(btrees) + facet_wrap(~.id, ncol=10)
 
 To annotate one tree (the same tree) with the values from different variables, one can plot them separately and use `r CRANpkg("patchwork")` or `r CRANpkg("aplot")` to combine them side by side. 
 
-Another solution is to utilize the ability of plotting a list of trees by `r Biocpkg("ggtree")`, and then add annotation layers for the selected variable at a specific panel via the [subset](#geom2) aesthetic mapping supported by `r Biocpkg("ggtree")` or using the `td_filter()` as demonstrated in Figure \@ref(fig:onetreefacet). The `.id` is the conserved variable that is internally used to stored the IDs of different trees. 
+Another solution is to utilize the ability to plot a list of trees by `r Biocpkg("ggtree")`, and then add annotation layers for the selected variable at a specific panel via the [subset](#geom2) aesthetic mapping supported by `r Biocpkg("ggtree")` or using the `td_filter()` as demonstrated in Figure \@ref(fig:onetreefacet). The `.id` is the conserved variable that is internally used to store the IDs of different trees. 
 
 
 (ref:onetreefacetscap) Annotate one tree with values from different variables.
@@ -687,7 +681,7 @@ ggtree(trs) + facet_wrap(~.id) +
 
 ### DensiTree {#densitree}
 
-Another way to view the bootstrap trees is to merge them together to form a density tree using `ggdensitree()` function. This will help us to identify consensus and differences among a large set of trees. The trees will be stacked on top of each other and the structures of the trees will be rotated to ensure the consistency of the tip order. The tip order is determined by the `tip.order` parameter and by default (`tip.order = 'mode') the tips are ordered by the most common seen topology. The user can pass in a character vector to specify the tip order, or pass in an integer, N, to order the tips by the order of the tips in the Nth tree. Passing `mds` to `tip.order` will order the tips based on MDS (Multidimensional Scaling) of the path length between the tips, or passing `mds_dist` will order the tips based on MDS of the distance between the tips. 
+Another way to view the bootstrap trees is to merge them to form a density tree using `ggdensitree()` function. This will help us to identify consensus and differences among a large set of trees. The trees will be stacked on top of each other and the structures of the trees will be rotated to ensure the consistency of the tip order. The tip order is determined by the `tip.order` parameter and by default (`tip.order = 'mode'`) the tips are ordered by the most commonly seen topology. The user can pass in a character vector to specify the tip order, or pass in an integer, N, to order the tips by the order of the tips in the Nth tree. Passing `mds` to `tip.order` will order the tips based on MDS (Multidimensional Scaling) of the path length between the tips, or passing `mds_dist` will order the tips based on MDS of the distance between the tips. 
 
 
 
@@ -704,7 +698,7 @@ ggdensitree(btrees, alpha=.3, colour='steelblue') +
 
 ## Summary {#summary4}
 
-Visualizing phylogenetic tree using `r Biocpkg("ggtree")` is easy by using a single command `ggtree(tree)`. The `r Biocpkg("ggtree")` package provides several geometric layers to display tree components such as tip labels, symbolic points for both external and internal nodes, root edge, *etc*. Associated data can be used to rescale branch lengths, color the tree and be displayed on the tree. All these can be done by the `r CRANpkg("ggplot2")` grammar of graphic syntax, which makes it very easy to overlay layers and customize the tree graph (via `r CRANpkg("ggplot2")` themes and scales). The `r Biocpkg("ggtree")` package also provides several layers that are specifically designed for tree annotation which will be introduced in [Chapter 5](#chapter5). The `r Biocpkg("ggtree")` package makes the presentation of trees and associated data extremely easy. Simple graphs are easy to generate, while complex graphs are simply superimposed layers and are also easy to generate. 
+Visualizing phylogenetic tree using `r Biocpkg("ggtree")` is easy by using a single command `ggtree(tree)`. The `r Biocpkg("ggtree")` package provides several geometric layers to display tree components such as tip labels, symbolic points for both external and internal nodes, root edge, *etc*. Associated data can be used to rescale branch lengths, color the tree, and be displayed on the tree. All these can be done by the `r CRANpkg("ggplot2")` grammar of graphic syntax, which makes it very easy to overlay layers and customize the tree graph (via `r CRANpkg("ggplot2")` themes and scales). The `r Biocpkg("ggtree")` package also provides several layers that are specifically designed for tree annotation which will be introduced in [Chapter 5](#chapter5). The `r Biocpkg("ggtree")` package makes the presentation of trees and associated data extremely easy. Simple graphs are easy to generate, while complex graphs are simply superimposed layers and are also easy to generate. 
 
 
 

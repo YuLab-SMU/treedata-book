@@ -14,11 +14,11 @@ library("ggtree")
 
 ## Visualizing and Annotating Tree using Grammar of Graphics
 
-The `r Biocpkg("ggtree")` [@yu_ggtree:_2017] is designed for a more general-purpose or a specific type of tree visualization and annotation. It supports grammar of graphics\index{grammar of graphics} implemented in `r CRANpkg("ggplot2")` and users can freely visualize/annotate a tree by combining several annotation layers. 
+The `r Biocpkg("ggtree")` [@yu_ggtree:_2017] is designed for a more general-purpose or a specific type of tree visualization and annotation. It supports the grammar of graphics\index{grammar of graphics} implemented in `r CRANpkg("ggplot2")` and users can freely visualize/annotate a tree by combining several annotation layers. 
 
 (ref:ggtreeNHXscap) Annotating tree using grammar of graphics.
 
-(ref:ggtreeNHXcap) **Annotating tree using grammar of graphics.** The NHX tree was annotated using grammar of graphic syntax by combining different layers using the `+` operator. Species information was labelled on the middle of the branches, Duplication events were shown on the most recent common ancestor and clade bootstrap values were displayed near to it.
+(ref:ggtreeNHXcap) **Annotating tree using the grammar of graphics.** The NHX tree was annotated using the grammar of graphic syntax by combining different layers using the `+` operator. Species information was labeled on the middle of the branches, Duplication events were shown on the most recent common ancestor and clade bootstrap values were displayed near to it.
 
 
 ```{r echo=F, message=F, warning=F, out.width='100%'}
@@ -60,28 +60,28 @@ print(p)
 
 Here, as an example, we visualized the tree with several layers to display annotation stored in NHX tags, including a layer of `geom_tiplab()` to display tip labels (gene name in this case), a layer using `geom_label()` to show species information (the `S` tag) colored by lightgreen, a layer of duplication event information (the `D` tag) colored by steelblue and another layer using `geom_text()` to show bootstrap value (the `B` tag).
 
-Layers defined in `r CRANpkg("ggplot2")` can be applied to `r Biocpkg("ggtree")` directly as demonstrated in Figure \@ref(fig:ggtreeNHX) of using `geom_label()` and `geom_text()`. But `r CRANpkg("ggplot2")` does not provide graphic layers that are specifically designed for phylogenetic tree annotation. For instance, layers for tip labels, tree branch scale legend, highlight or labeling clade are all unavailable. To make tree annotation more flexible, several layers have been implemented in `r Biocpkg("ggtree")` (Table \@ref(tab:geoms)), enabling different ways of annotation on various parts/components of a phylogenetic tree.
+Layers defined in `r CRANpkg("ggplot2")` can be applied to `r Biocpkg("ggtree")` directly as demonstrated in Figure \@ref(fig:ggtreeNHX) of using `geom_label()` and `geom_text()`. But `r CRANpkg("ggplot2")` does not provide graphic layers that are specifically designed for phylogenetic tree annotation. For instance, layers for tip labels, tree branch scale legend, highlight, or labeling clade are all unavailable. To make tree annotation more flexible, several layers have been implemented in `r Biocpkg("ggtree")` (Table \@ref(tab:geoms)), enabling different ways of annotation on various parts/components of a phylogenetic tree.
 
 ```{r geoms, echo=FALSE, message=FALSE}
 geoms <- matrix(c(
   "geom_balance", "highlights the two direct descendant clades of an internal node",
   "geom_cladelab", "annotate a clade with bar and text label (or image)",
-  "geom_facet", "plot associated data in specific panel (facet) and align the plot with the tree",
-  "geom_hilight", "highlight selected clade with rectanglar or round shape",
+  "geom_facet", "plot associated data in a specific panel (facet) and align the plot with the tree",
+  "geom_hilight", "highlight selected clade with rectangular or round shape",
   "geom_inset", "add insets (subplots) to tree nodes",
-  "geom_label2", "modified version of geom_label, with subsetting supported",
+  "geom_label2", "the modified version of geom_label, with subset aesthetic supported",
   "geom_nodepoint", "annotate internal nodes with symbolic points",
-  "geom_point2", "modified version of geom_point, with subsetting supported",
+  "geom_point2", "the modified version of geom_point, with subset aesthetic supported",
   "geom_range", "bar layer to present uncertainty of evolutionary inference",
   "geom_rootpoint", "annotate root node with symbolic point",
   "geom_rootedge", "add root edge to a tree", 
-  "geom_segment2", "modified version of geom_segment, with subsetting supported",
+  "geom_segment2", "the modified version of geom_segment, with subset aesthetic supported",
   "geom_strip", "annotate associated taxa with bar and (optional) text label",
   "geom_taxalink", "Linking related taxa",
-  "geom_text2", "modified version of geom_text, with subsetting supported",
-  "geom_tiplab", "layer of tip labels",
+  "geom_text2", "the modified version of geom_text, with subset aesthetic supported",
+  "geom_tiplab", "the layer of tip labels",
   "geom_tippoint", "annotate external nodes with symbolic points",
-  "geom_tree", "tree structure layer, with multiple layout supported",
+  "geom_tree", "tree structure layer, with multiple layouts supported",
   "geom_treescale", "tree branch scale legend"
 ), ncol=2, byrow=TRUE)
 geoms <- as.data.frame(geoms)
@@ -96,7 +96,7 @@ knitr::kable(geoms, caption = "Geom layers defined in ggtree.", booktabs = T) %>
 
 The `r Biocpkg("ggtree")` [@yu_ggtree:_2017] implements `geom_cladelab()` layer to annotate a selected clade with a bar indicating the clade with a corresponding label.
 
-The `geom_cladelab()` layer accepts a selected internal node number and label corresponding clade automatically (Figure \@ref(fig:cladelabel)A). To get the internal node number, please refer to [Chapter 2](#accesor-tidytree). 
+The `geom_cladelab()` layer accepts a selected internal node number and labels the corresponding clade automatically (Figure \@ref(fig:cladelabel)A). To get the internal node number, please refer to [Chapter 2](#accesor-tidytree). 
 
 
 ```{r eval=F}
@@ -108,7 +108,7 @@ p + geom_cladelab(node=45, label="test label") +
     geom_cladelab(node=34, label="another clade")
 ```
 
-Users can set the parameter, `align = TRUE`, to align the clade label, `offset`, to adjust the position and color to set the color of the bar and label text ,*etc* (Figure \@ref(fig:cladelabel)B). 
+Users can set the parameter, `align = TRUE`, to align the clade label, `offset`, to adjust the position and color to set the color of the bar and label text, *etc* (Figure \@ref(fig:cladelabel)B). 
 
 
 ```{r eval=F}
@@ -132,7 +132,7 @@ p + geom_cladelab(node=34, label="another clade", align=T, geom='label', fill='l
 
 (ref:cladelabelscap) Labelling clades.
 
-(ref:cladelabelcap) **Labeling clades.** Default (A); aligning and coloring clade bar and text (B); changing size and angle (C) and using `geom_label()` with background color in text (D).
+(ref:cladelabelcap) **Labeling clades.** Default (A); aligning and coloring clade bar and text (B); changing size and angle (C) and using `geom_label()` with background color in the text (D).
 
 ```{r cladelabel, echo=FALSE, fig.width=12, fig.height=7.6, fig.cap="(ref:cladelabelcap)", fig.scap="(ref:cladelabelscap)", out.width='100%'}
 set.seed(2015-12-21)
@@ -215,7 +215,7 @@ ggtree(tree, layout="daylight") +
 
 
 
-The `geom_cladelab()` is designed for labeling Monophyletic (Clade) while there are related taxa that are not form a clade. In `r Biocpkg("ggtree")`, we provide another layer, `geom_strip()`, to add a strip/bar to indicate the association with optional label for Polyphyletic or Paraphyletic (Figure \@ref(fig:striplabel)B).
+The `geom_cladelab()` is designed for labeling Monophyletic (Clade) while there are related taxa that do not form a clade. In `r Biocpkg("ggtree")`, we provide another layer, `geom_strip()`, to add a strip/bar to indicate the association with an optional label for Polyphyletic or Paraphyletic (Figure \@ref(fig:striplabel)B).
 
 ```{r eval=F}
 p + geom_tiplab() + 
@@ -227,7 +227,7 @@ p + geom_tiplab() +
 
 (ref:striplabelscap) Labeling associated taxa.
 
-(ref:striplabelcap) **Labeling associated taxa.** The `geom_cladelab()` is designed for labeling Monophyletic and supports unrooted layout (A). The `geom_strip()` is designed for labeling all types of associated taxa, including Monophyletic, Polyphyletic and Paraphyletic (B).
+(ref:striplabelcap) **Labeling associated taxa.** The `geom_cladelab()` is designed for labeling Monophyletic and supports unrooted layouts (A). The `geom_strip()` is designed for labeling all types of associated taxa, including Monophyletic, Polyphyletic, and Paraphyletic (B).
 
 ```{r striplabel, fig.width=13.5, fig.height=6.5, echo=FALSE, warning=FALSE, fig.cap="(ref:striplabelcap)", fig.scap="(ref:striplabelscap)", out.width='100%'}
 
@@ -247,7 +247,7 @@ plot_grid(p5, p6, ncol=2, labels=LETTERS[1:2])
 
 ### Highlight clades
 
-The `r Biocpkg("ggtree")` implements the `geom_hilight()` layer, that accepts an internal node number and add a layer of a rectangle to highlight the selected clade (Figure \@ref(fig:hilight)) ^[If you want to plot the tree above the highlighting area, visit [FAQ](#faq-under-the-tree) for details.].
+The `r Biocpkg("ggtree")` implements the `geom_hilight()` layer, which accepts an internal node number and adds a layer of a rectangle to highlight the selected clade (Figure \@ref(fig:hilight)) ^[If you want to plot the tree above the highlighting area, visit [FAQ](#faq-under-the-tree) for details.].
 
 ```{r eval=F, fig.width=5, fig.height=5, fig.align="center", warning=FALSE}
 nwk <- system.file("extdata", "sample.nwk", package="treeio")
@@ -287,7 +287,7 @@ ggtree(tree) +
 ```
 
 
-The `geom_hilight()` layer supports using aesthetic mapping to automatically highlight clades as demonstrated in Figure \@ref(fig:hilight)E-F. For plot in cartesian coordinates (*e.g.*, rectangular layout), the rectangule can be rounded (Figure \@ref(fig:hilight)E) or filled with gradient colors (Figure \@ref(fig:hilight)F).
+The `geom_hilight()` layer supports using aesthetic mapping to automatically highlight clades as demonstrated in Figure \@ref(fig:hilight)E-F. For plot in cartesian coordinates (*e.g.*, rectangular layout), the rectangle can be rounded (Figure \@ref(fig:hilight)E) or filled with gradient colors (Figure \@ref(fig:hilight)F).
 
 ```{r eval=FALSE, fig.width=5, fig.height=5, fig.align='center', warning=FALSE, message=FALSE}
 ## using external data
@@ -295,7 +295,7 @@ d <- data.frame(node=c(17, 21), type=c("A", "B"))
 ggtree(tree) + geom_hilight(data=d, aes(node=node, fill=type),
                             type = "roundrect")
 
-## using data stored in tree object
+## using data stored in the tree object
 x <- read.nhx(system.file("extdata/NHX/ADH.nhx", package="treeio"))
 ggtree(x) + geom_hilight(mapping=aes(subset = node %in% c(10, 12), 
                                     fill = S),
@@ -308,7 +308,7 @@ ggtree(x) + geom_hilight(mapping=aes(subset = node %in% c(10, 12),
 
 (ref:hilightscap) Highlight selected clades.
 
-(ref:hilightcap) **Highlight selected clades.** Rectangular layout (A), circular/fan (B) and unrooted layouts. Highlight neighboring subclades simultaneously (D). Highlight selected clades using associated data (E and F).
+(ref:hilightcap) **Highlight selected clades.** Rectangular layout (A), circular/fan (B), and unrooted layouts. Highlight neighboring subclades simultaneously (D). Highlight selected clades using associated data (E and F).
 
 
 ```{r hilight, echo = FALSE, fig.width=12, fig.height=8, warning=FALSE, fig.cap="(ref:hilightcap)", fig.scap="(ref:hilightscap)", out.width='100%'}
@@ -344,13 +344,13 @@ plot_list(p1, p2, p3, p4, p5, p6, ncol=3, tag_levels='A')
 
 ### Taxa connection
 
-Some evolutionary events (*e.g.*, reassortment, horizontal gene transfer) cannot be modeled by a simple tree. `r Biocpkg("ggtree")` provides the `geom_taxalink()` layer that allows drawing straight or curved lines between any of two nodes in the tree, allow it to represent evolutionary events by connecting taxa. It works with rectangular (Figure \@ref(fig:taxalink)A), circular (Figure \@ref(fig:taxalink)B) and inward circular (Figure \@ref(fig:taxalink)C) layouts. The `geom_taxalink()` is not only useful for presenting evolutionary events, it can also be used to combine evolutionary trees to present relationships or interactions between species [@ggtreeExtra_2021].
+Some evolutionary events (*e.g.*, reassortment, horizontal gene transfer) cannot be modeled by a simple tree. The `r Biocpkg("ggtree")` provides the `geom_taxalink()` layer that allows drawing straight or curved lines between any of two nodes in the tree, allowing it to represent evolutionary events by connecting taxa. It works with rectangular (Figure \@ref(fig:taxalink)A), circular (Figure \@ref(fig:taxalink)B), and inward circular (Figure \@ref(fig:taxalink)C) layouts. The `geom_taxalink()` is not only useful for presenting evolutionary events, but it can also be used to combine evolutionary trees to present relationships or interactions between species [@ggtreeExtra_2021].
 
 The `geom_taxalink()` layout supports aesthetic mapping, which requires a `data.frame` that stored association information with/without metadata as input (Figure \@ref(fig:taxalink)D).
 
 (ref:taxalinkscap) Linking related taxa.
 
-(ref:taxalinkcap) **Linking related taxa.** This can be used to indicate evolutionary events or relationships between species. Rectangular layout (A), circular layout (B) and inward circular layout (C and D). It supports aesthetic mapping to map variable to set line sizes and colors (D). 
+(ref:taxalinkcap) **Linking related taxa.** This can be used to indicate evolutionary events or relationships between species. Rectangular layout (A), circular layout (B), and inward circular layout (C and D). It supports aesthetic mapping to map variables to set line sizes and colors (D). 
 
 
 ```{r taxalink, fig.cap="(ref:taxalinkcap)", fig.scap="(ref:taxalinkscap)", fig.width=12, fig.height=10, warning=FALSE, out.width='100%'}
@@ -401,14 +401,14 @@ plot_list(p1, p2, p3, p4, ncol=2, tag_levels='A')
 
 ### Uncertainty of evolutionary inference
 
-The `geom_range()` layer supports displaying interval (highest posterior density, confidence interval, range) as horizontal bars on tree nodes. The center of the interval will anchor to the corresponding node. The center by default is the mean value of the interval (Figure \@ref(fig:geomRange)A). We can set the `center` to the estimated mean or median value (Figure \@ref(fig:geomRange)B), or the observed value. As the tree branch and the interval may not be in the same scale, `r Biocpkg("ggtree")` provides `scale_x_range` to add second x axis for the range (Figure \@ref(fig:geomRange)C). Note that x axis is disabled by the default theme and we need to enable it if we want to display it (*e.g.*, using `theme_tree2()`).
+The `geom_range()` layer supports displaying interval (highest posterior density, confidence interval, range) as horizontal bars on tree nodes. The center of the interval will anchor to the corresponding node. The center by default is the mean value of the interval (Figure \@ref(fig:geomRange)A). We can set the `center` to the estimated mean or median value (Figure \@ref(fig:geomRange)B), or the observed value. As the tree branch and the interval may not be on the same scale, `r Biocpkg("ggtree")` provides `scale_x_range` to add a second x-axis for the range (Figure \@ref(fig:geomRange)C). Note that x-axis is disabled by the default theme and we need to enable it if we want to display it (*e.g.*, using `theme_tree2()`).
 
 
 
 
 (ref:geomRangescap) Displaying uncertainty of evolutionary inference.
 
-(ref:geomRangecap) **Displaying uncertainty of evolutionary inference.** The center (mean value of the range (A) or estimated value (B)) is anchored to the tree nodes. A second x axis was used for range scaling (C). 
+(ref:geomRangecap) **Displaying uncertainty of evolutionary inference.** The center (mean value of the range (A) or estimated value (B)) is anchored to the tree nodes. A second x-axis was used for range scaling (C). 
 
 ```{ eval=FALSE}
 file <- system.file("extdata/MEGA7", "mtCDNA_timetree.nex", package = "treeio")
@@ -434,10 +434,10 @@ plot_grid(p1, p2, p3, ncol=3, labels = LETTERS[1:3])
 
 ### Tree annotation using data from evolutionary analysis software
 
-[Chapter 1](#chapter) introduced using `r Biocpkg("treeio")` package [@wang_treeio_2020] to parse different tree formats and commonly used software outputs to obtain phylogeny-associated data. These imported data, as `S4` objects, can be visualized directly using `r Biocpkg("ggtree")`. Figure \@ref(fig:ggtreeNHX) demonstrates a tree annotated using the information (species classification, duplication event and bootstrap value) stored in NHX\index{NHX} file. `r pkg_phyldog` and `pkg_revbayes` output NHX files that can be parsed by `r Biocpkg("treeio")` and visualized by `r Biocpkg("ggtree")` with annotation using their inference data.
+[Chapter 1](#chapter) introduced using `r Biocpkg("treeio")` package [@wang_treeio_2020] to parse different tree formats and commonly used software outputs to obtain phylogeny-associated data. These imported data, as `S4` objects, can be visualized directly using `r Biocpkg("ggtree")`. Figure \@ref(fig:ggtreeNHX) demonstrates a tree annotated using the information (species classification, duplication event, and bootstrap value) stored in NHX\index{NHX} file. `r pkg_phyldog` and `pkg_revbayes` output NHX files that can be parsed by `r Biocpkg("treeio")` and visualized by `r Biocpkg("ggtree")` with annotation using their inference data.
 
 
-Furthermore, the evolutionary data from the inference of `r pkg_beast`, `r pkg_mrbayes` and `r pkg_revbayes`, *d~N~/d~S~* values inferred by `r pkg_codeml`, ancestral sequences\index{ancestral sequences} inferred by `r pkg_hyphy`, `r pkg_codeml` or `r pkg_baseml` and short read placement by `r pkg_epa` and `r pkg_pplacer` can be used to annotate the tree directly. 
+Furthermore, the evolutionary data from the inference of `r pkg_beast`, `r pkg_mrbayes`, and `r pkg_revbayes`, *d~N~/d~S~* values inferred by `r pkg_codeml`, ancestral sequences\index{ancestral sequences} inferred by `r pkg_hyphy`, `r pkg_codeml`, or `r pkg_baseml` and short read placement by `r pkg_epa` and `r pkg_pplacer` can be used to annotate the tree directly. 
 
 (ref:beastscap) Annotating `r pkg_beast` tree with _length\_95%\_HPD_ and posterior.
 
