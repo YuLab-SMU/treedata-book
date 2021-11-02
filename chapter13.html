@@ -20,7 +20,6 @@
 <link href="libs/bootstrap/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap/bootstrap.bundle.min.js"></script><script src="libs/bs3compat/transition.js"></script><script src="libs/bs3compat/tabs.js"></script><script src="libs/bs3compat/bs3compat.js"></script><link href="libs/bs4_book/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book/bs4_book.js"></script><script src="libs/kePrint/kePrint.js"></script><link href="libs/lightable/lightable.css" rel="stylesheet">
-<link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet">
 <script src="libs/htmlwidgets/htmlwidgets.js"></script><script src="libs/pathseg/pathseg.js"></script><script src="libs/comic/comic.min.js"></script><script src="libs/comicR-binding/comicR.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS -->
 </head>
 <body data-spy="scroll" data-target="#toc">
@@ -92,7 +91,8 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yulab-smu.top/treedata-book/">ggtree</a></span><span class="op">)</span>
 
-<span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/read.tree.html">read.tree</a></span><span class="op">(</span><span class="st">"data/HPV58.tree"</span><span class="op">)</span>
+<span class="co">#tree &lt;- read.tree("data/HPV58.tree")</span>
+<span class="va">tree</span> <span class="op">&lt;-</span> <span class="va">tree_HPV58</span>
 
 <span class="va">clade</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html">c</a></span><span class="op">(</span>A3 <span class="op">=</span> <span class="fl">92</span>, A1 <span class="op">=</span> <span class="fl">94</span>, A2 <span class="op">=</span> <span class="fl">108</span>, B1 <span class="op">=</span> <span class="fl">156</span>, B2 <span class="op">=</span> <span class="fl">159</span>, C <span class="op">=</span> <span class="fl">163</span>, D1 <span class="op">=</span> <span class="fl">173</span>, D2 <span class="op">=</span> <span class="fl">176</span><span class="op">)</span>
 <span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tidytree/man/groupClade.html">groupClade</a></span><span class="op">(</span><span class="va">tree</span>, <span class="va">clade</span><span class="op">)</span>
@@ -241,8 +241,10 @@ FIGURE 13.1: <strong>Phylogeny of HPV58 complete genomes with dot and line plots
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/YuLab-SMU/treeio">treeio</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yulab-smu.top/treedata-book/">ggtree</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/YuLab-SMU/TDBook">TDbook</a></span><span class="op">)</span>
 
-<span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/treeio/reference/read.newick.html">read.newick</a></span><span class="op">(</span><span class="st">"data/RMI.phy_phyml_tree_rooted_labeled.txt"</span>, node.label<span class="op">=</span><span class="st">'support'</span><span class="op">)</span> 
+<span class="co">#tree &lt;- read.newick("data/RMI.phy_phyml_tree_rooted_labeled.txt", node.label='support') </span>
+<span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/treeio/reference/read.newick.html">read.newick</a></span><span class="op">(</span>text<span class="op">=</span><span class="va">text_RMI_tree</span>, node.label <span class="op">=</span> <span class="st">"support"</span><span class="op">)</span>
 <span class="va">root</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tidytree/man/rootnode.html">rootnode</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span>  
 <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span>, color<span class="op">=</span><span class="st">"black"</span>, size<span class="op">=</span><span class="fl">1.5</span>, linetype<span class="op">=</span><span class="fl">1</span>,  right<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span> 
     <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">4.5</span>, hjust <span class="op">=</span> <span class="op">-</span><span class="fl">0.060</span>, fontface<span class="op">=</span><span class="st">"bold"</span><span class="op">)</span> <span class="op">+</span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.09</span><span class="op">)</span> <span class="op">+</span> 
@@ -269,7 +271,9 @@ FIGURE 13.2: <strong>Partitioning bootstrap values</strong>. Bootstrap values we
 
 
 <div class="sourceCode" id="cb256"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mytree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/read.tree.html">read.tree</a></span><span class="op">(</span><span class="st">"data/Tree 30.4.19.nwk"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/YuLab-SMU/TDBook">TDbook</a></span><span class="op">)</span>
+<span class="co">#mytree &lt;- read.tree("data/Tree 30.4.19.nwk")</span>
+<span class="va">mytree</span> <span class="op">&lt;-</span> <span class="va">tree_treenwk_30.4.19</span>
 
 <span class="co"># Define nodes for coloring later on</span>
 <span class="va">tiplab</span> <span class="op">&lt;-</span> <span class="va">mytree</span><span class="op">$</span><span class="va">tip.label</span>
@@ -451,7 +455,7 @@ FIGURE 13.4: <strong>Genomic features with phylogenetic tree.</strong>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-11-01.</p>
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-11-02.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
