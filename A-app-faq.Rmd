@@ -17,7 +17,7 @@ library(BiocManager)
 install("ggtree")
 ```
 
-Bioconductor release is adhere to specific R version. Please make sure you are using latest version of R if you want to install the latest release of Bioconductor packages, including `ggtree`. Beware that bugs will only be fixed in current release and develop branches. If you find a bug, please follow the guide^[<https://guangchuangyu.github.io/2016/07/how-to-bug-author/>] to report it.
+Bioconductor release is adhered to a specific R version. Please make sure you are using the latest version of R if you want to install the latest release of Bioconductor packages, including `ggtree`. Beware that bugs will only be fixed in the current release and develop branches. If you find a bug, please follow the guide^[<https://guangchuangyu.github.io/2016/07/how-to-bug-author/>] to report it.
 
 
 ## Basic R related {#faq-r}
@@ -27,7 +27,7 @@ Bioconductor release is adhere to specific R version. Please make sure you are u
 If you are new to `R` and want to use `ggtree` for tree visualization, please do
 learn some basic `R` and `ggplot2`.
 
-A very common issue is that users always copy-paste command without looking at
+A very common issue is that users always copy-paste commands without looking at
 the function's behavior. `system.file()` was used in the `treeio` and `ggtree` package documentation to find files in the packages.
 
 
@@ -62,15 +62,15 @@ ggtree(rtree(30)) + geom_point()
 For example, we can add symbolic points to nodes with `geom_point()` directly.
 The magic here is we don't need to map `x` and `y` position of the points by providing `aes(x, y)` to `geom_point()` since it was already mapped by `ggtree` function and it serves as a global mapping for all layers.
 
-But what if we provide a `dataset` in a layer and the `dataset` doesn't contain column of `x` and/or `y`,
+But what if we provide a `dataset` in a layer and the `dataset` doesn't contain columns of `x` and/or `y`,
 the layer function also try to map `x` and `y` and also others if you map them in `ggtree` function.
-As these variable is not available in your `dataset`, you will get the following error:
+As these variables are not available in your `dataset`, you will get the following error:
 
 ```
 Error in eval(expr, envir, enclos) : object 'x' not found
 ```
 
-This can be fixed by using parameter `inherit.aes=FALSE` which will disable inheriting mapping from `ggtree` function.
+This can be fixed by using the parameter `inherit.aes=FALSE` which will disable inheriting mapping from `ggtree` function.
 
 ### Never use `$` in aes {#faq-dollar-aes}
 
@@ -89,7 +89,7 @@ See the explaination in the [ggplot2 book 2ed](https://github.com/hadley/ggplot2
 For rectangular/dendrogram layout tree, users can display tip labels as y-axis labels. In this case, no matter how long the labels is, they will not be truncated (see Figure \@ref(fig:tiplab)C).
 
 
-This reason for this issue is that `r CRANpkg("ggplot2")` can't auto adjust `xlim` based on added text^[<https://twitter.com/hadleywickham/status/600280284869697538>].
+The reason for this issue is that `r CRANpkg("ggplot2")` can't auto adjust `xlim` based on added text^[<https://twitter.com/hadleywickham/status/600280284869697538>].
 
 
 ```r
@@ -114,9 +114,9 @@ p + coord_cartesian(clip = 'off') +
   theme_tree2(plot.margin=margin(6, 120, 6, 6))
 ```
 
-(ref:truncatedTipscap) Allocating more spaces for truncated tip lables.
+(ref:truncatedTipscap) Allocating more spaces for truncated tip labels.
 
-(ref:truncatedTipcap) **Allocating more spaces for truncated tip lables.** Long tip lables may be truncated (A). One solution is to allocate more spaces for plot panel (B) and another solution is to allow plotting labels outside the plot panel (C).
+(ref:truncatedTipcap) **Allocating more spaces for truncated tip labels.** Long tip labels may be truncated (A). One solution is to allocate more spaces for plot panel (B) and another solution is to allow plotting labels outside the plot panel (C).
 
 
 ```{r truncatedTip, fig.width=12, fig.height=4, echo=FALSE, fig.cap="(ref:truncatedTipcap)", fig.scap="(ref:truncatedTipscap)", out.width='100%'}
@@ -149,22 +149,22 @@ d <- data.frame(label = LETTERS[1:4],
 rename_taxa(tree, d, label, label2) %>% write.tree
 ```
 
-If the input tree object is a `treedata` instance, you can use `write.beast()` to export the tree with with associated data to a BEAST compatible NEXUS file.
+If the input tree object is a `treedata` instance, you can use `write.beast()` to export the tree with associated data to a BEAST compatible NEXUS file.
 
-Renaming phylogeny tip labels seems not be a good idea, since it may introduce problems when mapping the original sequence alignment to the tree. Personally, I recommend to store the new labels as a tip annotation in `treedata` object. 
+Renaming phylogeny tip labels seems not to be a good idea, since it may introduce problems when mapping the original sequence alignment to the tree. Personally, I recommend storing the new labels as a tip annotation in `treedata` object. 
 
 ```{r warnings = F}
 tree2 <- full_join(tree, d, by = "label")
 tree2
 ```
 
-If you just want to show different or additional information when plotting the tree, you don't need to modify tip labels. This could be easily done via the `%<+%` operator to attach the modified version of the labels and than use `geom_tiplab` to display
+If you just want to show different or additional information when plotting the tree, you don't need to modify tip labels. This could be easily done via the `%<+%` operator to attach the modified version of the labels and then use `geom_tiplab` to display
 the modified version (Figure \@ref(fig:renameTip)).
 
 
 (ref:renameTipscap) Alternative tip labels.
 
-(ref:renameTipcap) **Alternative tip labels.** Original tip lables (A) and modified version (B).
+(ref:renameTipcap) **Alternative tip labels.** Original tip labels (A) and modified version (B).
 
 
 ```{r renameTip, fig.width=8, fig.height=3, fig.cap="(ref:renameTipcap)", fig.scap="(ref:renameTipscap)", out.width='100%'}
@@ -181,7 +181,7 @@ cowplot::plot_grid(p1, p2, ncol=2, labels = c("A", "B"))
 
 If you want to format labels, you need to set `parse=TRUE` in `geom_text`/`geom_tiplab` and the `label` should be string that can be parsed into expression and displayed as described in `?plotmath`.
 
-For example, the tip labels contains two parts, species name and accession number and we want to display species name in _italic_, we can use command like this to format specific tip/node label (Figure \@ref(fig:formatTip)A):
+For example, the tip labels contain two parts, species name and accession number and we want to display species name in _italic_, we can use a command like this to format specific tip/node label (Figure \@ref(fig:formatTip)A):
 
 ```{r formatTip-A, eval=F}
 set.seed(2019-06-24)
@@ -269,7 +269,7 @@ ggtree(tr) + geom_label2(aes(label=label,
       subset = !is.na(as.numeric(label)) & as.numeric(label) > 80))
 ```
 
-As this is a very common issue, we implemented a `read.newick()` function in the `r Biocpkg("treeio")` package to allow parsing internal node labels as support values. So that it can be more easy to disaply bootstrap values using the following code:
+As this is a very common issue, we implemented a `read.newick()` function in the `r Biocpkg("treeio")` package to allow parsing internal node labels as support values. So that it can be easier to display bootstrap values using the following code:
 
 ```r
 tr <- read.newick(nwk, node.label='support')
@@ -343,7 +343,7 @@ print(pg)
 ### Specifying the order of the tips 
 
 
-The `rotateConstr()` function provided in `r CRANpkg("ape")` rotates internal branches based on the specified order of the tips and the order should be followed when plotting the tree (from bottom to top). As `ggtree()` always ladderize the input tree, users need to disable by passing `ladderize = FALSE`. Then the the order of the tree will be displayed as expected (Figure \@ref(fig:rotateConstr)). Users can also extract tip order that displayed by `ggtree()` using the `get_taxa_name()` function as demonstrated in [session 12.6](#tiporder).  
+The `rotateConstr()` function provided in `r CRANpkg("ape")` rotates internal branches based on the specified order of the tips and the order should be followed when plotting the tree (from bottom to top). As `ggtree()` always ladderize the input tree, users need to disable by passing `ladderize = FALSE`. Then the order of the tree will be displayed as expected (Figure \@ref(fig:rotateConstr)). Users can also extract tip order that displayed by `ggtree()` using the `get_taxa_name()` function as demonstrated in [session 12.6](#tiporder).  
 
 (ref:rotateConstrscap) Specifying tree order.
 
@@ -356,7 +356,7 @@ ggtree(y, ladderize = FALSE) + geom_tiplab()
 
 ### Shrink outlier long branch
 
-When outgroups are on a very long branch length (Figure \@ref(fig:outgroupEdge)A), we would like to keep the out groups in the tree but ignore their branch lengths (Figure \@ref(fig:outgroupEdge)B)^[example from: <https://groups.google.com/d/msg/bioc-ggtree/T2ySvqv351g/mHsyljvBCwAJ>]. This can be easily done by modifying coordination of the out groups (Figure \@ref(fig:outgroupEdge)B). Another approach is to truncate the plot using `r CRANpkg("ggbreak")` (Figure \@ref(fig:outgroupEdge)C).
+When outgroups are on a very long branch length (Figure \@ref(fig:outgroupEdge)A), we would like to keep the outgroups in the tree but ignore their branch lengths (Figure \@ref(fig:outgroupEdge)B)^[example from: <https://groups.google.com/d/msg/bioc-ggtree/T2ySvqv351g/mHsyljvBCwAJ>]. This can be easily done by modifying the coordination of the outgroups (Figure \@ref(fig:outgroupEdge)B). Another approach is to truncate the plot using `r CRANpkg("ggbreak")` (Figure \@ref(fig:outgroupEdge)C).
 
 
 (ref:outgroupEdgescap) Shrink outlier long branch.
@@ -391,9 +391,9 @@ p1 + p + p2 + plot_annotation(tag_levels="A")
 
 ### Attach a new tip to a tree {#bind-tip}
 
-Sometimes there are known branches that are not in the tree, and we would like to have them on the tree. Another scenario is that we have a newly sequence species and would like to update reference tree with this species by inferring its evolutionary position.
+Sometimes there are known branches that are not in the tree, and we would like to have them on the tree. Another scenario is that we have a new sequence species and would like to update the reference tree with this species by inferring its evolutionary position.
 
-Users can use `phytools::bind.tip()` [@revell_phytools_2012] to attach a new tip to a tree. With `r CRANpkg("tidytree")`, it is easy to add annotation to differentiate newly introduce and original branches and to reflect uncertainty of the added branch splits off as demonstrated in Figure \@ref(fig:bindTip). 
+Users can use `phytools::bind.tip()` [@revell_phytools_2012] to attach a new tip to a tree. With `r CRANpkg("tidytree")`, it is easy to add annotation to differentiate newly introduced and original branches and to reflect the uncertainty of the added branch splits off as demonstrated in Figure \@ref(fig:bindTip). 
 
 (ref:bindTipscap) Attaching a new tip to a tree.
 
@@ -426,7 +426,7 @@ ggtree(tr3, aes(linetype=type)) +  geom_tiplab() +
 ``` 
 
 
-### Change colours or line types of arbitrary selected branches
+### Change colours or line types of arbitrarily selected branches
 
 If you want to colour or change line types of specific branches, you only need to prepare a data frame with variables of branch setting (e.g. selected and unselected). 
 
@@ -454,7 +454,7 @@ Users can use the `r CRANpkg("gginnards")` package to manipulate plot elements f
 
 ### Add an arbitrary point to a branch {#arbitrary-point}
 
-If you want to add an arbitrary point to a branch^[<https://twitter.com/melanoidin/status/1262703932993871874>], you can use `geom_nodepoint`, `geom_tippoint` or `geom_point2` (works for both external and internal nodes) to filter selected node (end point of the branch) via the `subset` aesthetic mapping and specify horizontal position by `x = x - offset` aesthetic mapping, where the offset can be an absolute value (Figure \@ref(fig:pointOnBranch)A) or proportion to branch length (Figure \@ref(fig:pointOnBranch)B).
+If you want to add an arbitrary point to a branch^[<https://twitter.com/melanoidin/status/1262703932993871874>], you can use `geom_nodepoint`, `geom_tippoint` or `geom_point2` (works for both external and internal nodes) to filter selected node (endpoint of the branch) via the `subset` aesthetic mapping and specify horizontal position by `x = x - offset` aesthetic mapping, where the offset can be an absolute value (Figure \@ref(fig:pointOnBranch)A) or proportion to branch length (Figure \@ref(fig:pointOnBranch)B).
 
 
 
@@ -481,7 +481,7 @@ cowplot::plot_grid(p1, p2, labels=c("A", "B"))
 
 ## Different x-axis labels for different facet panels
 
-This is not supported by `r CRANpkg("ggplot2")` in general. However, we can just draw text labels for each panels and put the labels beyond the plot panels as demonstrated in Figure \@ref(fig:xlabFacets).
+This is not supported by `r CRANpkg("ggplot2")` in general. However, we can just draw text labels for each panel and put the labels beyond the plot panels as demonstrated in Figure \@ref(fig:xlabFacets).
 
 (ref:xlabFacetsscap) X-axis titles for different facet panels.
 
@@ -537,9 +537,9 @@ Another solution is to use `ggplot()` instead of `ggtree()` and `+ geom_tree()` 
 ggplot(x) + geom_hilight(node=7, alpha=1) + geom_tree() + theme_tree()     
 ```
 
-(ref:treeLayerOrderscap) Add layers behind tree structure.
+(ref:treeLayerOrderscap) Add layers behind the tree structure.
 
-(ref:treeLayerOrdercap) **Add layers behind tree structure.** A layer on top of the tree structure (A). Reverse layer order of A (B). Add layer behind the tree layer (C).
+(ref:treeLayerOrdercap) **Add layers behind the tree structure.** A layer on top of the tree structure (A). Reverse layer order of A (B). Add layer behind the tree layer (C).
 
 
 ```{r treeLayerOrder, echo=F, fig.width=6, fig.height=3, fig.cap="(ref:treeLayerOrdercap)", fig.scap="(ref:treeLayerOrderscap)", out.width="100%"}
@@ -554,7 +554,7 @@ cowplot::plot_grid(g, p,
 
 ## Enlarge center space in circular/fan layout tree {#faq-enlarge-center-space}
 
-This question was asked several times^[<https://groups.google.com/d/msg/bioc-ggtree/gruC4FztU8I/mwavqWCXAQAJ>, <https://groups.google.com/d/msg/bioc-ggtree/UoGQekWHIvw/ZswUUZKSGwAJ> and <https://github.com/GuangchuangYu/ggtree/issues/95>], and a published example can be found in <https://www.ncbi.nlm.nih.gov/pubmed/27605062>. Increasing percentage of center white space in circular tree is useful to avoid overlapping tip labels and to increase readibility of the tree by moving all nodes and branches further out. This can be done simply by using `+xlim()` to allocate more space, just like in Figure \@ref(fig:layout2)G, or assign a long root branch that is similar to the "Root Length" parameter in FigTree. 
+This question was asked several times^[<https://groups.google.com/d/msg/bioc-ggtree/gruC4FztU8I/mwavqWCXAQAJ>, <https://groups.google.com/d/msg/bioc-ggtree/UoGQekWHIvw/ZswUUZKSGwAJ> and <https://github.com/GuangchuangYu/ggtree/issues/95>], and a published example can be found in <https://www.ncbi.nlm.nih.gov/pubmed/27605062>. Increasing percentage of center white space in a circular tree is useful to avoid overlapping tip labels and to increase the readability of the tree by moving all nodes and branches further out. This can be done simply by using `+xlim()` to allocate more space, just like in Figure \@ref(fig:layout2)G, or assign a long root branch that is similar to the "Root Length" parameter in FigTree. 
 
 
 (ref:innerspacescap) Enlarge center space in circular tree.
