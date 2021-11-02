@@ -12,30 +12,35 @@ The `r Biocpkg("treeio")` packages [@wang_treeio_2020] allows parsing evolutiona
 The `phylo4` and `phylo4d` are defined in the `r CRANpkg("phylobase")` package. The `phylo4` object is a S4 version of `phylo`, while `phylo4d` extends `phylo4` with a data frame that contains trait data. The `r CRANpkg("phylobase")` package provides `plot` method, which internally calls the `treePlot` function, to display the tree with the data. However there are some restrictions of the `plot` method, it can only plot numeric values for tree-associated data as bubbles and cannot generate figure legend. `Phylobase` doesn't implement a visualization method to display categorical values. Using associated data as visual characteristics such as color, size and shape, is also not supported. Although it is possible to color the tree using associated data, it requires users to extract the data and map them to color vector manually follow by passing the color vector to the `plot` method. This is tedious and error-prone since the order of the color vector needs to be consistent with the edge list stored in the object.
 
 
-The `r Biocpkg("ggtree")` package supports `phylo4d` object and all the associated data stored in the `phylo4d` object can be used directly to annotate the tree (Fig. \ref{fig:fp4d}).
+The `r Biocpkg("ggtree")` package supports `phylo4d` object and all the associated data stored in the `phylo4d` object can be used directly to annotate the tree (Fig. \ref{fig:fp4d}A).
 
-(ref:fp4dscap) Visualizing phylo4d data using ggtree.
+(ref:fp4dscap) Visualizing `phylo4d` data using ggtree.
 
-(ref:fp4dcap) **Visualizing phylo4d data using ggtree.** 
+(ref:fp4dcap) **Visualizing `phylo4d` data using ggtree.** Reproduce the output of the `plot()` method provided in the `r CRANpkg("phylobase")` package (A); Visuzlize the trait data as a heatmap which is not supported in the `r CRANpkg("phylobase")` package (B).
 
-```{r fp4d, warning=F, fig.width=8.5, fig.height=6.5, fig.cap="(ref:fp4dcap)", fig.scap="(ref:fp4dscap)", out.width="90%"}
+```{r fp4d, warning=F, fig.width=10, fig.height=6.2, fig.cap="(ref:fp4dcap)", fig.scap="(ref:fp4dscap)", out.width="90%"}
 library(phylobase)
 data(geospiza_raw)
 g1 <- as(geospiza_raw$tree, "phylo4")
 g2 <- phylo4d(g1, geospiza_raw$data, missing.data="warn")
 
-d1 <- data.frame(x = seq(0.93, 1.15, length.out = 5),
+d1 <- data.frame(x = seq(1.1, 2, length.out = 5),
                 lab = names(geospiza_raw$data))
 
-ggtree(g2) + geom_tippoint(aes(size = wingL), x = d1$x[1], shape = 1) + 
+p1 <- ggtree(g2) + geom_tippoint(aes(size = wingL), x = d1$x[1], shape = 1) + 
     geom_tippoint(aes(size = tarsusL), x = d1$x[2], shape = 1) + 
     geom_tippoint(aes(size = culmenL), x = d1$x[3], shape = 1) + 
     geom_tippoint(aes(size = beakD),   x = d1$x[4], shape = 1) + 
     geom_tippoint(aes(size = gonysW),  x = d1$x[5], shape = 1) + 
     scale_size_continuous(range = c(3,12), name="") + 
-    geom_text(aes(x = x, y = 0, label = lab), data = d1, angle = 90) +
-    geom_tiplab(offset = .3) + xlim(0, 1.3) +
+    geom_text(aes(x = x, y = 0, label = lab), data = d1, angle = 45) +
+    geom_tiplab(offset = 1.3) + xlim(0, 3) +
     theme(legend.position = c(.1, .75))  
+    
+p2 <- gheatmap(ggtree(g1), data=geospiza_raw$data, colnames_angle=45) + 
+  geom_tiplab(offset=1) + hexpand(.2) + theme(legend.position = c(.1, .75))
+
+aplot::plot_list(p1, p2, ncol=2, tag_levels='A')    
 ```
 
 
