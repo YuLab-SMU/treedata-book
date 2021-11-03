@@ -4,12 +4,12 @@
 
 ## ggtree for phylogenetic tree objects
 
-The `r Biocpkg("treeio")` packages [@wang_treeio_2020] allows parsing evolutionary inferences from several software outputs and linking external data to the tree structure. It serves as an infrastructure to bring evolutionary data to the R community. The `r Biocpkg("ggtree")` package [@yu_ggtree:_2017] works seamlessly with `r Biocpkg("treeio")` to visualize tree associated data to annotate the tree. The `r Biocpkg("ggtree")` package is a general tool for tree visualization and annotation and it fits the ecosystem of R packages. Most of the S3/S4 tree objects defined by other R packages are also supported by `r Biocpkg("ggtree")`, including `phylo`([session 4.2](#visualizing-phylogenetic-tree-with-ggtree)), `multiPhylo` ([session 4.4](#visualize-a-list-of-trees)), `phylo4`, `phylo4d`, `phyloseq` and `obkData`. With `r Biocpkg("ggtree")`, we are able to generate more complex tree graphs which is not possible or easy to do with other packages. For example, the visualization of the `phyloseq` object in Figure \@ref(fig:phyloseq) is not supported by the `r Biocpkg("phyloseq")` package. The `r Biocpkg("ggtree")` package also extend the possibility of linking external data to these tree object [@yu_two_2018].
+The `r Biocpkg("treeio")` packages [@wang_treeio_2020] allows parsing evolutionary inferences from several software outputs and linking external data to the tree structure. It serves as an infrastructure to bring evolutionary data to the R community. The `r Biocpkg("ggtree")` package [@yu_ggtree:_2017] works seamlessly with `r Biocpkg("treeio")` to visualize tree associated data to annotate the tree. The `r Biocpkg("ggtree")` package is a general tool for tree visualization and annotation and it fits the ecosystem of R packages. Most of the S3/S4 tree objects defined by other R packages are also supported by `r Biocpkg("ggtree")`, including `phylo`([session 4.2](#visualizing-phylogenetic-tree-with-ggtree)), `multiPhylo` ([session 4.4](#visualize-a-list-of-trees)), `phylo4`, `phylo4d`, `phyloseq`, and `obkData`. With `r Biocpkg("ggtree")`, we are able to generate more complex tree graphs which is not possible or easy to do with other packages. For example, the visualization of the `phyloseq` object in Figure \@ref(fig:phyloseq) is not supported by the `r Biocpkg("phyloseq")` package. The `r Biocpkg("ggtree")` package also extend the possibility of linking external data to these tree object [@yu_two_2018].
 
 
 ### The phylo4 and phylo4d objects {#phylobase}
 
-The `phylo4` and `phylo4d` are defined in the `r CRANpkg("phylobase")` package. The `phylo4` object is a S4 version of `phylo`, while `phylo4d` extends `phylo4` with a data frame that contains trait data. The `r CRANpkg("phylobase")` package provides `plot` method, which internally calls the `treePlot` function, to display the tree with the data. However there are some restrictions of the `plot` method, it can only plot numeric values for tree-associated data as bubbles and cannot generate figure legend. `Phylobase` doesn't implement a visualization method to display categorical values. Using associated data as visual characteristics such as color, size and shape, is also not supported. Although it is possible to color the tree using associated data, it requires users to extract the data and map them to color vector manually follow by passing the color vector to the `plot` method. This is tedious and error-prone since the order of the color vector needs to be consistent with the edge list stored in the object.
+The `phylo4` and `phylo4d` are defined in the `r CRANpkg("phylobase")` package. The `phylo4` object is an S4 version of `phylo`, while `phylo4d` extends `phylo4` with a data frame that contains trait data. The `r CRANpkg("phylobase")` package provides a `plot()` method, which is internally called the `treePlot()` function, to display the tree with the data. However there are some restrictions of the `plot()` method, it can only plot numeric values for tree-associated data as bubbles and cannot generate figure legend. `Phylobase` doesn't implement a visualization method to display categorical values. Using associated data as visual characteristics such as color, size, and shape, is also not supported. Although it is possible to color the tree using associated data, it requires users to extract the data and map them to the color vector manually follow by passing the color vector to the `plot` method. This is tedious and error-prone since the order of the color vector needs to be consistent with the edge list stored in the object.
 
 
 The `r Biocpkg("ggtree")` package supports `phylo4d` object and all the associated data stored in the `phylo4d` object can be used directly to annotate the tree (Fig. \ref{fig:fp4d}A).
@@ -49,7 +49,7 @@ aplot::plot_list(p1, p2, ncol=2, tag_levels='A')
 
 ### The phylog object {#phylog}
 
-The `phylog` is defined in the `r CRANpkg("ade4")` package. The package is designed for analyzing ecological data and provides `newick2phylog()`, `hclust2phylog()` and `taxo2phylog()` functions to create phylogeny from Newick string, hierarchical clustering result or a taxonomy (see also the `r Biocpkg("MicrobiotaProcess")` package described in [Chapter 11]](#MicrobiotaProcess-taxonomy)). The `phylog` object is also supported by `r Biocpkg("ggtree")` as demonstrated in Figure \@ref(fig:phylog).
+The `phylog` is defined in the `r CRANpkg("ade4")` package. The package is designed for analyzing ecological data and provides `newick2phylog()`, `hclust2phylog()`, and `taxo2phylog()` functions to create phylogeny from Newick string, hierarchical clustering result, or a taxonomy (see also the `r Biocpkg("MicrobiotaProcess")` package described in [Chapter 11]](#MicrobiotaProcess-taxonomy)). The `phylog` object is also supported by `r Biocpkg("ggtree")` as demonstrated in Figure \@ref(fig:phylog).
 
 (ref:phylogscap) Visualizing a `phylog` tree object.
 
@@ -71,7 +71,7 @@ ggtree(tax.phy) + geom_tiplab() +
 
 ### The phyloseq object {#phyloseq}
 
-The `phyloseq` class defined in the `r Biocpkg("phyloseq")` package was designed for storing microbiome data, including a phylogenetic tree, associated sample data and taxonomy assignment. It can import data from popular pipelines, such as `r pkg_qiime` [@kuczynski_using_2011], `r pkg_mothur` [@schloss_introducing_2009], `r Biocpkg("dada2")` [@callahan_dada2_2016] and `r pkg_pyrotagger` [@kunin_pyrotagger_2010], *etc*. The `r Biocpkg("ggtree")` supports visualizing the phylogenetic tree stored in the `phyloseq` object and related data can be used to annotate the tree as demonstrated in Figure \@ref(fig:reproducephyloseq) and \@ref(fig:phyloseq).
+The `phyloseq` class defined in the `r Biocpkg("phyloseq")` package was designed for storing microbiome data, including a phylogenetic tree, associated sample data, and taxonomy assignment. It can import data from popular pipelines, such as `r pkg_qiime` [@kuczynski_using_2011], `r pkg_mothur` [@schloss_introducing_2009], `r Biocpkg("dada2")` [@callahan_dada2_2016] and `r pkg_pyrotagger` [@kunin_pyrotagger_2010], *etc*. The `r Biocpkg("ggtree")` supports visualizing the phylogenetic tree stored in the `phyloseq` object and related data can be used to annotate the tree as demonstrated in Figures \@ref(fig:reproducephyloseq) and \@ref(fig:phyloseq).
 
 (ref:reproducephyloseqscap) Visualizing a `phyloseq` tree object.
 
@@ -93,11 +93,11 @@ ggtree(GP.chl) + geom_text2(aes(subset=!isTip, label=label), hjust=-.2, size=4) 
 ```
 
 
-Figure \@ref(fig:reproducephyloseq) reproduces the output of the `phyloseq::plot_tree()` function. Users of `r Biocpkg("phyloseq")` will find `r Biocpkg("ggtree")` useful for visualizing microbiome data and for further annotation, since `r Biocpkg("ggtree")` supports high-level of annotation using the grammar of graphics and can add tree data layers that are not available in `r Biocpkg("phyloseq")`.
+Figure \@ref(fig:reproducephyloseq) reproduces the output of the `phyloseq::plot_tree()` function. Users of `r Biocpkg("phyloseq")` will find `r Biocpkg("ggtree")` useful for visualizing microbiome data and for further annotation since `r Biocpkg("ggtree")` supports high-level annotation using the grammar of graphics and can add tree data layers that are not available in `r Biocpkg("phyloseq")`.
 
 (ref:phyloseqscap) Phylogenetic tree with OTU abundance densities.
 
-(ref:phyloseqcap) **Phylogenetic tree with OTU abundance densities.** Tips were colored by Phylum and corresponding abundance across different samples were visualized as density ridgelines and sorted according to the tree structure.
+(ref:phyloseqcap) **Phylogenetic tree with OTU abundance densities.** Tips were colored by Phylum and the corresponding abundances across different samples were visualized as density ridgelines and sorted according to the tree structure.
 
 
 ```{r phyloseq, fig.height=6.6, fig.width=7, message=FALSE, fig.cap="(ref:phyloseqcap)", fig.scap="(ref:phyloseqscap)", out.extra='', warning=FALSE, out.width='100%'}
@@ -130,7 +130,7 @@ ggtree(mergedGP) +
 
 
 
-This example uses microbiome data provided in the `r Biocpkg("phyloseq")` package and density ridgeline is employed to visualize species abundance data. The `geom_facet()` layer automatically re-arranges the abundance data according to the tree structure, visualizes the data using the specified `geom` function, *i.e.* `geom_density_ridges()`, and aligns the density curves with the tree as demonstrated in Fig. \ref{fig:phyloseq}. Note that data stored in the `phyloseq` object is visible to `ggtree()` and can be used directly in tree visualization (`Phylum` was used to color tips and density ridgelines in this example). The source code of this example was firstly published in Supplemental File of [@yu_two_2018].
+This example uses microbiome data provided in the `r Biocpkg("phyloseq")` package and density ridgeline is employed to visualize species abundance data. The `geom_facet()` layer automatically re-arranges the abundance data according to the tree structure, visualizes the data using the specified `geom` function, *i.e.* `geom_density_ridges()`, and aligns the density curves with the tree as demonstrated in Fig. \ref{fig:phyloseq}. Note that data stored in the `phyloseq` object is visible to `ggtree()` and can be used directly in tree visualization (`Phylum` was used to color tips and density ridgelines in this example). The source code of this example was firstly published in the Supplemental File of [@yu_two_2018].
 
 
 <!-- 
@@ -181,7 +181,7 @@ den
 
 The `r Biocpkg("ggtree")` package supports most of the hierarchical clustering objects defined in the R community, including `hclust` and `dendrogram` as well as `agnes`, `diana`, and `twins` that are defined in the `r CRANpkg("cluster")` package, and the `pvclust` object defined in the `r CRANpkg("pvclust")` package (Table \@ref(tab:tree-objects)). Users can use `ggtree(object)` to display its tree structure, and use other layers and utilities to customize the graph and of course, add annotations to the tree.
 
-The `r Biocpkg("ggtree")` provides `layout_dendrogram()` to layout the tree top down, and `theme_dendrogram()` to display tree height (similar to `theme_tree2()` for phylogenetic tree) as demonstrated in Figure \@ref(fig:ggtreehclust) (see also example in [@yu_cp_2020]).
+The `r Biocpkg("ggtree")` provides `layout_dendrogram()` to layout the tree top-down, and `theme_dendrogram()` to display tree height (similar to `theme_tree2()` for phylogenetic tree) as demonstrated in Figure \@ref(fig:ggtreehclust) (see also the example in [@yu_cp_2020]).
 
 
 (ref:ggtreehclustscap) Visualizing dendrogram.
@@ -242,7 +242,7 @@ ggtree(g, layout='slanted', arrow = arrow(length=arrow_size)) +
 
 ## ggtree for other tree-like structures
 
-The `r Biocpkg("ggtree")` package can be used to visualize any data in hierarchical structure. Here, we use the GNI (Gross National Income) numbers in 2014 as an example. After preparing an edge list, that is a matrix or data frame that contains two columns indicating the relationship of parent and child nodes, we can use the `as.phylo()` method provided by the `r Biocpkg("treeio")` package to convert the edge list to a `phylo` object. Then it can be visualized using `r Biocpkg("ggtree")` with associated data. In this example, the population was used to scale the size of circle points for each country.
+The `r Biocpkg("ggtree")` package can be used to visualize any data in a hierarchical structure. Here, we use the GNI (Gross National Income) numbers in 2014 as an example. After preparing an edge list, that is a matrix or data frame that contains two columns indicating the relationship of parent and child nodes, we can use the `as.phylo()` method provided by the `r Biocpkg("treeio")` package to convert the edge list to a `phylo` object. Then it can be visualized using `r Biocpkg("ggtree")` with associated data. In this example, the population was used to scale the size of circle points for each country.
 
 
 
@@ -277,6 +277,6 @@ ggtree(y, layout='circular') %<+% GNI2014 +
 
 ## Summary {#summary9}
 
-The `r Biocpkg("ggtree")` supports various tree objects defined in the R language and extension packages, which makes it very easy to integrate `r Biocpkg("ggtree")` into existing pipelines. Moreover, `r Biocpkg("ggtree")` allows external data integration and exploration of these data on the tree, which will greatly promote the data visualization and result interpretation in the downstream analysis of existing pipelines. Most importantly, the support for converting edge list to a tree object enables more tree-like strucutres to be incorporated into the framework of `r Biocpkg("treeio")` and `r Biocpkg("ggtree")`. This will enable more tree-like strucutres and related heterogeneous data in different disciplines to be integrated and visualized through `r Biocpkg("treeio")` and `r Biocpkg("ggtree")`, which facilitates inegrated analysis and comparative analysis to discover more systematic patterns and insights. 
+The `r Biocpkg("ggtree")` supports various tree objects defined in the R language and extension packages, which makes it very easy to integrate `r Biocpkg("ggtree")` into existing pipelines. Moreover, `r Biocpkg("ggtree")` allows external data integration and exploration of these data on the tree, which will greatly promote the data visualization and result interpretation in the downstream analysis of existing pipelines. Most importantly, the support for converting edge list to a tree object enables more tree-like structures to be incorporated into the framework of `r Biocpkg("treeio")` and `r Biocpkg("ggtree")`. This will enable more tree-like structures and related heterogeneous data in different disciplines to be integrated and visualized through `r Biocpkg("treeio")` and `r Biocpkg("ggtree")`, which facilitates integrated analysis and comparative analysis to discover more systematic patterns and insights. 
 
 
