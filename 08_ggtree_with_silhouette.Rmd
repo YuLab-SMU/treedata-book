@@ -35,7 +35,7 @@ ggtree(x) + xlim(NA, 7) + ylim(NA, 6.2) +
     geom_tiplab(aes(image=paste0(imgdir, '/', label, '.jpg')), 
                 geom="image", offset=2, align=2, size=.2)  + 
     geom_tiplab(geom='label', offset=1, hjust=.5) + 
-    geom_image(x=.8, y=5.5, image=paste0(imgdir, "/frog.jpg", size=.2)
+    geom_image(x=.8, y=5.5, image=paste0(imgdir, "/frog.jpg"), size=.2)
 ```
 
 ## Annotating Tree with Phylopic {#phylopic}
@@ -199,7 +199,7 @@ Phylomoji is a phylogenetic tree of emoji. It is fun^[<https://twitter.com/hasht
 (ref:phylomoji1cap) **Parsing label as emoji.** Text (*e.g.* node or tip labels) can be parsed as emoji. 
 
 
-```{r phylomoji1, dev='png', fig.width=7, fig.height=5, warning=F, fig.cap="(ref:phylomoji1cap)", fig.scap="(ref:phylomoji1scap)", out.width='100%', echo=FALSE}
+```{r eval=FALSE}
 library(ggplot2)
 library(ggtree)
 
@@ -214,8 +214,11 @@ p <- ggtree(tree, linetype = "dashed", size=1, color='firebrick') %<+% d +
   xlim(0, 4.5) + ylim(0.5, 6.5) +
   geom_tiplab(parse="emoji", size=15, vjust=.25) +
   geom_tiplab(aes(label = group), geom="label", x=3.5, hjust=1)
+```
 
-print(p)
+```{r phylomoji1, fig.width=7, fig.height=5, warning=F, fig.cap="(ref:phylomoji1cap)", fig.scap="(ref:phylomoji1scap)", out.width='100%', echo=FALSE}
+knitr::include_graphics("img/phylomoji-ggtree.png")
+
 #if (knitr::is_html_output()) {
 #  print(p)
 #} else {
@@ -247,7 +250,8 @@ p2 %>% rotate_tree(-90)
 (ref:emojifancap) **Phylomoji in cirular and fan layouts.** 
 
 
-```{r emojifan, dev='png', fig.width=9.2, fig.height=7.3, warning=F, echo=F, fig.cap="(ref:emojifancap)", fig.scap="(ref:emojifanscap)", out.width='100%'}
+```{r emojifan, fig.width=9.2, fig.height=7.3, warning=F, echo=F, fig.cap="(ref:emojifancap)", fig.scap="(ref:emojifanscap)", out.width='100%'}
+if (FALSE) {
 p <- ggtree(tree, layout = "circular", size=1) +  
   geom_tiplab(parse="emoji", size=10, vjust=.25)
 
@@ -269,11 +273,15 @@ c <- plot_list(p3x, labels='C')
 g <- ggplot() + xlim(0,1) + ylim(0,1) 
 
 gg <- g + annotation_custom(ggplotGrob(c), xmin=.5, xmax=1, ymin=0, ymax=1) + 
-  annotation_custom(ggplotGrob(b), xmin=0.005, xmax=.5, ymin=0, ymax=.3) + 
+  annotation_custom(ggplotGrob(b), xmin=0.02, xmax=.5, ymin=0, ymax=.3) + 
   annotation_custom(ggplotGrob(a), xmin=0, xmax=.5, ymin=.4, ymax=1) +
   theme_void()
+}
 
-print(gg)
+
+knitr::include_graphics("img/phylomoji-ggtree-circular.png")
+
+# print(gg)
 #if (knitr::is_html_output()) {
 #  print(gg)
 #} else {
@@ -364,7 +372,7 @@ knitr::include_graphics("img/apple_emoji2.png")
 
 Producing phylomoji as an ASCII art is also possible. Users can refer to [Appendix D](#ascii-tree) for details.
 
-## Summary (#summary8)
+## Summary {#summary8}
 
 The `r Biocpkg("ggtree")` supports parsing labels, including tip labels, internal node labels, and clade labels, as images, math expression, and emoji, in case the labels can be parsed as image file names, `plotmath` expression, or emoji names respectively. It can be fun, but it's also very useful for scientific research. The use of images on phylogenetic trees can help to present species-related characteristics, including morphological, anatomical, and even macromolecular structures. Moreover, `r Biocpkg("ggtree")` supports summarizing statistical inferences (*e.g.*, biogeographic range reconstruction and posterior distribution) or associated data of the nodes as subplots to be displayed on a phylogenetic tree. 
 
