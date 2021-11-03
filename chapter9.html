@@ -88,31 +88,39 @@
 <span class="header-section-number">9.1.1</span> The phylo4 and phylo4d objects<a class="anchor" aria-label="anchor" href="#phylobase"><i class="fas fa-link"></i></a>
 </h3>
 <p>The <code>phylo4</code> and <code>phylo4d</code> are defined in the <a href="https://CRAN.R-project.org/package=phylobase"><strong>phylobase</strong></a> package. The <code>phylo4</code> object is a S4 version of <code>phylo</code>, while <code>phylo4d</code> extends <code>phylo4</code> with a data frame that contains trait data. The <a href="https://CRAN.R-project.org/package=phylobase"><strong>phylobase</strong></a> package provides <code>plot</code> method, which internally calls the <code>treePlot</code> function, to display the tree with the data. However there are some restrictions of the <code>plot</code> method, it can only plot numeric values for tree-associated data as bubbles and cannot generate figure legend. <code>Phylobase</code> doesn’t implement a visualization method to display categorical values. Using associated data as visual characteristics such as color, size and shape, is also not supported. Although it is possible to color the tree using associated data, it requires users to extract the data and map them to color vector manually follow by passing the color vector to the <code>plot</code> method. This is tedious and error-prone since the order of the color vector needs to be consistent with the edge list stored in the object.</p>
-<p>The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> package supports <code>phylo4d</code> object and all the associated data stored in the <code>phylo4d</code> object can be used directly to annotate the tree (Fig. ).</p>
+<p>The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> package supports <code>phylo4d</code> object and all the associated data stored in the <code>phylo4d</code> object can be used directly to annotate the tree (Fig. A).</p>
 
 
-<div class="sourceCode" id="cb206"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb207"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/fmichonneau/phylobase">phylobase</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">geospiza_raw</span><span class="op">)</span>
 <span class="va">g1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/phylobase/man/setAs-methods.html">as</a></span><span class="op">(</span><span class="va">geospiza_raw</span><span class="op">$</span><span class="va">tree</span>, <span class="st">"phylo4"</span><span class="op">)</span>
 <span class="va">g2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/phylobase/man/phylo4d-methods.html">phylo4d</a></span><span class="op">(</span><span class="va">g1</span>, <span class="va">geospiza_raw</span><span class="op">$</span><span class="va">data</span>, missing.data<span class="op">=</span><span class="st">"warn"</span><span class="op">)</span>
 
-<span class="va">d1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0.93</span>, <span class="fl">1.15</span>, length.out <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>,
+<span class="va">d1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">1.1</span>, <span class="fl">2</span>, length.out <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>,
                 lab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/phylobase/man/print-methods.html">names</a></span><span class="op">(</span><span class="va">geospiza_raw</span><span class="op">$</span><span class="va">data</span><span class="op">)</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">g2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tippoint.html">geom_tippoint</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>size <span class="op">=</span> <span class="va">wingL</span><span class="op">)</span>, x <span class="op">=</span> <span class="va">d1</span><span class="op">$</span><span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, shape <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> 
+<span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">g2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tippoint.html">geom_tippoint</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>size <span class="op">=</span> <span class="va">wingL</span><span class="op">)</span>, x <span class="op">=</span> <span class="va">d1</span><span class="op">$</span><span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, shape <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> 
     <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tippoint.html">geom_tippoint</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>size <span class="op">=</span> <span class="va">tarsusL</span><span class="op">)</span>, x <span class="op">=</span> <span class="va">d1</span><span class="op">$</span><span class="va">x</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, shape <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> 
     <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tippoint.html">geom_tippoint</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>size <span class="op">=</span> <span class="va">culmenL</span><span class="op">)</span>, x <span class="op">=</span> <span class="va">d1</span><span class="op">$</span><span class="va">x</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>, shape <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> 
     <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tippoint.html">geom_tippoint</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>size <span class="op">=</span> <span class="va">beakD</span><span class="op">)</span>,   x <span class="op">=</span> <span class="va">d1</span><span class="op">$</span><span class="va">x</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span>, shape <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> 
     <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tippoint.html">geom_tippoint</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>size <span class="op">=</span> <span class="va">gonysW</span><span class="op">)</span>,  x <span class="op">=</span> <span class="va">d1</span><span class="op">$</span><span class="va">x</span><span class="op">[</span><span class="fl">5</span><span class="op">]</span>, shape <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> 
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_size.html">scale_size_continuous</a></span><span class="op">(</span>range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">12</span><span class="op">)</span>, name<span class="op">=</span><span class="st">""</span><span class="op">)</span> <span class="op">+</span> 
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html">geom_text</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="fl">0</span>, label <span class="op">=</span> <span class="va">lab</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">d1</span>, angle <span class="op">=</span> <span class="fl">90</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span>offset <span class="op">=</span> <span class="fl">.3</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1.3</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.1</span>, <span class="fl">.75</span><span class="op">)</span><span class="op">)</span>  </code></pre></div>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html">geom_text</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="fl">0</span>, label <span class="op">=</span> <span class="va">lab</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">d1</span>, angle <span class="op">=</span> <span class="fl">45</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span>offset <span class="op">=</span> <span class="fl">1.3</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">3</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.1</span>, <span class="fl">.75</span><span class="op">)</span><span class="op">)</span>  
+
+<span class="co">## users can use `as.treedata(g2)` to convert `g2` to a `treedata` object</span>
+<span class="co">## and use `get_tree_data()` function to extract the associated data </span>
+
+<span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/gheatmap.html">gheatmap</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">g1</span><span class="op">)</span>, data<span class="op">=</span><span class="va">geospiza_raw</span><span class="op">$</span><span class="va">data</span>, colnames_angle<span class="op">=</span><span class="fl">45</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span>offset<span class="op">=</span><span class="fl">1</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggexpand.html">hexpand</a></span><span class="op">(</span><span class="fl">.2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.1</span>, <span class="fl">.75</span><span class="op">)</span><span class="op">)</span>
+
+<span class="fu">aplot</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/aplot/man/plot_list.html">plot_list</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, ncol<span class="op">=</span><span class="fl">2</span>, tag_levels<span class="op">=</span><span class="st">'A'</span><span class="op">)</span>    </code></pre></div>
 <div class="figure">
 <span style="display:block;" id="fig:fp4d"></span>
-<img src="treedata_files/figure-html/fp4d-1.svg" alt="Visualizing phylo4d data using ggtree." width="90%"><p class="caption">
-FIGURE 9.1: <strong>Visualizing phylo4d data using ggtree.</strong>
+<img src="treedata_files/figure-html/fp4d-1.png" alt="Visualizing phylo4d data using ggtree. Reproduce the output of the plot() method provided in the phylobase package (A); Visuzlize the trait data as a heatmap which is not supported in the phylobase package (B)." width="90%"><p class="caption">
+FIGURE 9.1: <strong>Visualizing <code>phylo4d</code> data using ggtree.</strong> Reproduce the output of the <code><a href="https://rdrr.io/pkg/phylobase/man/treePlot-methods.html">plot()</a></code> method provided in the <a href="https://CRAN.R-project.org/package=phylobase"><strong>phylobase</strong></a> package (A); Visuzlize the trait data as a heatmap which is not supported in the <a href="https://CRAN.R-project.org/package=phylobase"><strong>phylobase</strong></a> package (B).
 </p>
 </div>
 </div>
@@ -120,10 +128,10 @@ FIGURE 9.1: <strong>Visualizing phylo4d data using ggtree.</strong>
 <h3>
 <span class="header-section-number">9.1.2</span> The phylog object<a class="anchor" aria-label="anchor" href="#phylog"><i class="fas fa-link"></i></a>
 </h3>
-<p>The <code>phylog</code> is defined in <a href="https://CRAN.R-project.org/package=ade4"><strong>ade4</strong></a> package. The package is designed for analyzing ecological data and provides <code>newick2phylog</code>, <code>hclust2phylog</code> and <code>taxo2phylog</code> functions to create phylogeny from Newick string, hierarchical clustering result or a taxonomy (see also the <a href="related-tools.html#MicrobiotaProcess-taxonomy">MicrobiotaProcess</a> package). The <code>phylog</code> object is also supported by <code>ggtree</code> as demonstrated in Figure <a href="chapter9.html#fig:phylog">9.2</a>.</p>
+<p>The <code>phylog</code> is defined in the <a href="https://CRAN.R-project.org/package=ade4"><strong>ade4</strong></a> package. The package is designed for analyzing ecological data and provides <code><a href="https://rdrr.io/pkg/ade4/man/newick2phylog.html">newick2phylog()</a></code>, <code><a href="https://rdrr.io/pkg/ade4/man/newick2phylog.html">hclust2phylog()</a></code> and <code><a href="https://rdrr.io/pkg/ade4/man/newick2phylog.html">taxo2phylog()</a></code> functions to create phylogeny from Newick string, hierarchical clustering result or a taxonomy (see also the <a href="http://bioconductor.org/packages/MicrobiotaProcess"><strong>MicrobiotaProcess</strong></a> package described in [Chapter 11]](#MicrobiotaProcess-taxonomy)). The <code>phylog</code> object is also supported by <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> as demonstrated in Figure <a href="chapter9.html#fig:phylog">9.2</a>.</p>
 
 
-<div class="sourceCode" id="cb207"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb208"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://pbil.univ-lyon1.fr/ADE-4/">ade4</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">taxo.eg</span><span class="op">)</span>
 <span class="va">tax</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ade4/man/as.taxo.html">as.taxo</a></span><span class="op">(</span><span class="va">taxo.eg</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
@@ -144,7 +152,7 @@ FIGURE 9.1: <strong>Visualizing phylo4d data using ggtree.</strong>
 ## esp13    g7    fam4  ORD2
 ## esp14    g8    fam5  ORD2
 ## esp15    g8    fam5  ORD2</code></pre>
-<div class="sourceCode" id="cb209"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb210"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">tax.phy</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ade4/man/newick2phylog.html">taxo2phylog</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ade4/man/as.taxo.html">as.taxo</a></span><span class="op">(</span><span class="va">taxo.eg</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/phylobase/man/print-methods.html">print</a></span><span class="op">(</span><span class="va">tax.phy</span><span class="op">)</span></code></pre></div>
 <pre><code>## Phylogenetic tree with 15 leaves and 16 nodes
@@ -164,12 +172,13 @@ FIGURE 9.1: <strong>Visualizing phylo4d data using ggtree.</strong>
 ## $parts  subsets of descendant nodes                 
 ## $paths  path from root to node or leave             
 ## $droot  distance to root</code></pre>
-<div class="sourceCode" id="cb211"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tax.phy</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_nodelab.html">geom_nodelab</a></span><span class="op">(</span>geom<span class="op">=</span><span class="st">'label'</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb212"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tax.phy</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_nodelab.html">geom_nodelab</a></span><span class="op">(</span>geom<span class="op">=</span><span class="st">'label'</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggexpand.html">hexpand</a></span><span class="op">(</span><span class="fl">.05</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <span style="display:block;" id="fig:phylog"></span>
-<img src="treedata_files/figure-html/phylog-1.svg" alt="Visualizing phylog tree object." width="100%"><p class="caption">
-FIGURE 9.2: <strong>Visualizing phylog tree object.</strong>
+<img src="treedata_files/figure-html/phylog-1.svg" alt="Visualizing a phylog tree object." width="100%"><p class="caption">
+FIGURE 9.2: <strong>Visualizing a <code>phylog</code> tree object.</strong>
 </p>
 </div>
 </div>
@@ -177,10 +186,10 @@ FIGURE 9.2: <strong>Visualizing phylog tree object.</strong>
 <h3>
 <span class="header-section-number">9.1.3</span> The phyloseq object<a class="anchor" aria-label="anchor" href="#phyloseq"><i class="fas fa-link"></i></a>
 </h3>
-<p>The <code>phyloseq</code> class defined in the <a href="http://bioconductor.org/packages/phyloseq"><strong>phyloseq</strong></a> package was designed for storing microbiome data, including phylogenetic tree, associated sample data and taxonomy assignment. It can import data from popular pipelines, such as <em>QIIME</em> <span class="citation">(<a href="references.html#ref-kuczynski_using_2011" role="doc-biblioref">Kuczynski et al. 2011</a>)</span>, <em>mothur</em> <span class="citation">(<a href="references.html#ref-schloss_introducing_2009" role="doc-biblioref">Schloss et al. 2009</a>)</span>, <em>DADA2</em> <span class="citation">(<a href="references.html#ref-callahan_dada2_2016" role="doc-biblioref">Callahan et al. 2016</a>)</span> and <em>PyroTagger</em> <span class="citation">(<a href="references.html#ref-kunin_pyrotagger_2010" role="doc-biblioref">Kunin and Hugenholtz 2010</a>)</span>, <em>etc.</em>. The <em>ggtree</em> supports visualizing the phylogenetic tree stored in <code>phyloseq</code> object and related data can be used to annotate the tree as demonstrated in Figure <a href="chapter9.html#fig:reproducephyloseq">9.3</a> and <a href="chapter9.html#fig:phyloseq">9.4</a>.</p>
+<p>The <code>phyloseq</code> class defined in the <a href="http://bioconductor.org/packages/phyloseq"><strong>phyloseq</strong></a> package was designed for storing microbiome data, including a phylogenetic tree, associated sample data and taxonomy assignment. It can import data from popular pipelines, such as <a href="http://qiime.org/"><strong>QIIME</strong></a> <span class="citation">(<a href="references.html#ref-kuczynski_using_2011" role="doc-biblioref">Kuczynski et al. 2011</a>)</span>, <a href="http://mothur.org/"><strong>mothur</strong></a> <span class="citation">(<a href="references.html#ref-schloss_introducing_2009" role="doc-biblioref">Schloss et al. 2009</a>)</span>, <a href="http://bioconductor.org/packages/dada2"><strong>dada2</strong></a> <span class="citation">(<a href="references.html#ref-callahan_dada2_2016" role="doc-biblioref">Callahan et al. 2016</a>)</span> and <a href="http://pyrotagger.jgi-psf.org/"><strong>PyroTagger</strong></a> <span class="citation">(<a href="references.html#ref-kunin_pyrotagger_2010" role="doc-biblioref">Kunin and Hugenholtz 2010</a>)</span>, <em>etc</em>. The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> supports visualizing the phylogenetic tree stored in the <code>phyloseq</code> object and related data can be used to annotate the tree as demonstrated in Figure <a href="chapter9.html#fig:reproducephyloseq">9.3</a> and <a href="chapter9.html#fig:phyloseq">9.4</a>.</p>
 
 
-<div class="sourceCode" id="cb212"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb213"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://dx.plos.org/10.1371/journal.pone.0061217">phyloseq</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://scales.r-lib.org">scales</a></span><span class="op">)</span>
 
@@ -195,14 +204,14 @@ FIGURE 9.2: <strong>Visualizing phylog tree object.</strong>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"right"</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <span style="display:block;" id="fig:reproducephyloseq"></span>
-<img src="treedata_files/figure-html/reproducephyloseq-1.png" alt="Visualizing phyloseq tree object." width="100%"><p class="caption">
-FIGURE 9.3: <strong>Visualizing phyloseq tree object.</strong>
+<img src="treedata_files/figure-html/reproducephyloseq-1.png" alt="Visualizing a phyloseq tree object. This example mimics the output of the plot_tree() function provided in the phyloseq package." width="100%"><p class="caption">
+FIGURE 9.3: <strong>Visualizing a <code>phyloseq</code> tree object.</strong> This example mimics the output of the <code><a href="https://rdrr.io/pkg/phyloseq/man/plot_tree.html">plot_tree()</a></code> function provided in the <a href="http://bioconductor.org/packages/phyloseq"><strong>phyloseq</strong></a> package.
 </p>
 </div>
-<p>Figure <a href="chapter9.html#fig:reproducephyloseq">9.3</a> reproduce output of <code><a href="https://rdrr.io/pkg/phyloseq/man/plot_tree.html">phyloseq::plot_tree()</a></code>. Users of <a href="http://bioconductor.org/packages/phyloseq"><strong>phyloseq</strong></a> will find <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> useful for visualizing microbiome data and for further annotation, since <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> supports high-level of annotation using grammar of graphics and can add tree data layers that are not available in <a href="http://bioconductor.org/packages/phyloseq"><strong>phyloseq</strong></a>.</p>
+<p>Figure <a href="chapter9.html#fig:reproducephyloseq">9.3</a> reproduces the output of the <code><a href="https://rdrr.io/pkg/phyloseq/man/plot_tree.html">phyloseq::plot_tree()</a></code> function. Users of <a href="http://bioconductor.org/packages/phyloseq"><strong>phyloseq</strong></a> will find <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> useful for visualizing microbiome data and for further annotation, since <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> supports high-level of annotation using the grammar of graphics and can add tree data layers that are not available in <a href="http://bioconductor.org/packages/phyloseq"><strong>phyloseq</strong></a>.</p>
 
 
-<div class="sourceCode" id="cb213"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb214"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://wilkelab.org/ggridges/">ggridges</a></span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"GlobalPatterns"</span><span class="op">)</span>
@@ -226,14 +235,15 @@ FIGURE 9.3: <strong>Visualizing phyloseq tree object.</strong>
             data <span class="op">=</span> <span class="va">melt_simple</span>, 
             geom <span class="op">=</span> <span class="va">geom_density_ridges</span>,
             panel<span class="op">=</span><span class="st">"Abundance"</span>,  
-            color<span class="op">=</span><span class="st">'grey80'</span>, lwd<span class="op">=</span><span class="fl">.3</span><span class="op">)</span></code></pre></div>
+            color<span class="op">=</span><span class="st">'grey80'</span>, lwd<span class="op">=</span><span class="fl">.3</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span><span class="op">(</span>color <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guide_legend.html">guide_legend</a></span><span class="op">(</span>ncol<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span>          </code></pre></div>
 <div class="figure">
 <span style="display:block;" id="fig:phyloseq"></span>
 <img src="treedata_files/figure-html/phyloseq-1.png" alt="Phylogenetic tree with OTU abundance densities. Tips were colored by Phylum and corresponding abundance across different samples were visualized as density ridgelines and sorted according to the tree structure." width="100%"><p class="caption">
 FIGURE 9.4: <strong>Phylogenetic tree with OTU abundance densities.</strong> Tips were colored by Phylum and corresponding abundance across different samples were visualized as density ridgelines and sorted according to the tree structure.
 </p>
 </div>
-<p>This example uses microbiome data provided in <code>phyloseq</code> package and density ridgeline is employed to visualize species abundance data. The <code>geom_facet</code> layer automatically re-arranges the abundance data according to the tree structure, visualizes the data using the specified <code>geom</code> function, <em>i.e.</em> <code>geom_density_ridges</code>, and aligns the density curves with the tree as demonstrated in Fig. . Note that data stored in the <code>phyloseq</code> object is visible to <code>ggtree</code> and can be used directly in tree visualization (<code>Phylum</code> was used to color tips and density ridgelines in this example). The source code of this example was firstly published in Supplemental File of <span class="citation">(<a href="references.html#ref-yu_two_2018" role="doc-biblioref">Yu et al. 2018</a>)</span>.</p>
+<p>This example uses microbiome data provided in the <a href="http://bioconductor.org/packages/phyloseq"><strong>phyloseq</strong></a> package and density ridgeline is employed to visualize species abundance data. The <code><a href="https://rdrr.io/pkg/ggtree/man/facet-plot.html">geom_facet()</a></code> layer automatically re-arranges the abundance data according to the tree structure, visualizes the data using the specified <code>geom</code> function, <em>i.e.</em> <code><a href="https://wilkelab.org/ggridges/reference/geom_density_ridges.html">geom_density_ridges()</a></code>, and aligns the density curves with the tree as demonstrated in Fig. . Note that data stored in the <code>phyloseq</code> object is visible to <code><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree()</a></code> and can be used directly in tree visualization (<code>Phylum</code> was used to color tips and density ridgelines in this example). The source code of this example was firstly published in Supplemental File of <span class="citation">(<a href="references.html#ref-yu_two_2018" role="doc-biblioref">Yu et al. 2018</a>)</span>.</p>
 <!-- 
 ### The obkData object {#obkdata}
 
@@ -269,9 +279,8 @@ ggtree(x, mrsd="2009-09-30", as.Date=TRUE, right=TRUE) +
 <h2>
 <span class="header-section-number">9.2</span> ggtree for dendrograms<a class="anchor" aria-label="anchor" href="#dendrogram"><i class="fas fa-link"></i></a>
 </h2>
-<p>A dendrogram is a tree diagram to display hierarchical clustering and classification/regression trees.</p>
-<p>We can calculate a hierarchical clustering using the function <code>hclust</code></p>
-<div class="sourceCode" id="cb214"><pre class="downlit sourceCode r">
+<p>A dendrogram is a tree diagram to display hierarchical clustering and classification/regression trees. In R, we can calculate a hierarchical clustering using the function <code><a href="https://rdrr.io/r/stats/hclust.html">hclust()</a></code>.</p>
+<div class="sourceCode" id="cb215"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">hc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/hclust.html">hclust</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/dist.html">dist</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span><span class="op">)</span>
 <span class="va">hc</span></code></pre></div>
 <pre><code>## 
@@ -282,15 +291,15 @@ ggtree(x, mrsd="2009-09-30", as.Date=TRUE, right=TRUE) +
 ## Distance         : euclidean 
 ## Number of objects: 32</code></pre>
 <p>The <code>hclust</code> object describes the tree produced by the clustering process. It can be converted to <code>dendrogram</code> object, which stores the tree as deeply-nested lists.</p>
-<div class="sourceCode" id="cb216"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb217"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">den</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/dendrogram.html">as.dendrogram</a></span><span class="op">(</span><span class="va">hc</span><span class="op">)</span>
 <span class="va">den</span></code></pre></div>
 <pre><code>## 'dendrogram' with 2 branches and 32 members total, at height 425.3</code></pre>
-<p>The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> package supports most of the hierarchical clustering objects defined in the R community, including <code>hclust</code> and <code>dendrogram</code> as well as <code>agnes</code>, <code>diana</code> and <code>twins</code> that defined in the <a href="https://CRAN.R-project.org/package=cluster"><strong>cluster</strong></a> package. Users can use <code>ggtree(object)</code> to display its tree structure, and use other layers and utilities to customize the graph and of course, add annotations to the tree.</p>
-<p><a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> provides <code>layout_dendrogram</code> to layout the tree top down, and <code>theme_dendrogram</code> to display tree height (similar to <code>theme_tree2</code> for phylogenetic tree) as demonstrated in Figure <a href="chapter9.html#fig:ggtreehclust">9.5</a> (see also example in <span class="citation">(<a href="references.html#ref-yu_cp_2020" role="doc-biblioref">Yu 2020</a>)</span>).</p>
+<p>The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> package supports most of the hierarchical clustering objects defined in the R community, including <code>hclust</code> and <code>dendrogram</code> as well as <code>agnes</code>, <code>diana</code>, and <code>twins</code> that are defined in the <a href="https://CRAN.R-project.org/package=cluster"><strong>cluster</strong></a> package, and the <code>pvclust</code> object defined in the <a href="https://CRAN.R-project.org/package=pvclust"><strong>pvclust</strong></a> package (Table <a href="figures-and-tables.html#tab:tree-objects">C.2</a>). Users can use <code>ggtree(object)</code> to display its tree structure, and use other layers and utilities to customize the graph and of course, add annotations to the tree.</p>
+<p>The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> provides <code><a href="https://rdrr.io/pkg/ggtree/man/tree-layout.html">layout_dendrogram()</a></code> to layout the tree top down, and <code><a href="https://rdrr.io/pkg/ggtree/man/theme_dendrogram.html">theme_dendrogram()</a></code> to display tree height (similar to <code><a href="https://rdrr.io/pkg/ggtree/man/theme_tree2.html">theme_tree2()</a></code> for phylogenetic tree) as demonstrated in Figure <a href="chapter9.html#fig:ggtreehclust">9.5</a> (see also example in <span class="citation">(<a href="references.html#ref-yu_cp_2020" role="doc-biblioref">Yu 2020</a>)</span>).</p>
 
 
-<div class="sourceCode" id="cb218"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb219"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">clus</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cutree.html">cutree</a></span><span class="op">(</span><span class="va">hc</span>, <span class="fl">4</span><span class="op">)</span>
 <span class="va">g</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/phylobase/man/print-methods.html">names</a></span><span class="op">(</span><span class="va">clus</span><span class="op">)</span>, <span class="va">clus</span><span class="op">)</span>
 
@@ -312,8 +321,8 @@ ggtree(x, mrsd="2009-09-30", as.Date=TRUE, right=TRUE) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.9</span>, <span class="fl">.6</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <span style="display:block;" id="fig:ggtreehclust"></span>
-<img src="treedata_files/figure-html/ggtreehclust-1.png" alt="Visualizing dendrogram." width="100%"><p class="caption">
-FIGURE 9.5: <strong>Visualizing dendrogram.</strong>
+<img src="treedata_files/figure-html/ggtreehclust-1.png" alt="Visualizing dendrogram. Use cutree() to split the tree into several groups and groupClade() to assign this grouping information. The tree was dispalyed in the classic top-down layout with branches colored by the grouping information and the tips were colored and labeled by the number of cylinders." width="100%"><p class="caption">
+FIGURE 9.5: <strong>Visualizing dendrogram.</strong> Use <code><a href="https://rdrr.io/r/stats/cutree.html">cutree()</a></code> to split the tree into several groups and <code><a href="https://rdrr.io/pkg/tidytree/man/groupClade.html">groupClade()</a></code> to assign this grouping information. The tree was dispalyed in the classic top-down layout with branches colored by the grouping information and the tips were colored and labeled by the number of cylinders.
 </p>
 </div>
 </div>
@@ -321,10 +330,10 @@ FIGURE 9.5: <strong>Visualizing dendrogram.</strong>
 <h2>
 <span class="header-section-number">9.3</span> ggtree for tree graph<a class="anchor" aria-label="anchor" href="#igraph"><i class="fas fa-link"></i></a>
 </h2>
-<p><a href="http://bioconductor.org/packages/treeio"><strong>treeio</strong></a> supports converting tree graph (as an <code>igraph</code> object) to <code>phylo</code> object and <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> supports directly visualizing tree graph as demonstrated in Figure <a href="chapter9.html#fig:treeGraph">9.6</a>.</p>
+<p>The tree graph (as an <code>igraph</code> object) can be converted to a <code>phylo</code> object using <code><a href="https://rdrr.io/pkg/ape/man/as.phylo.html">as.phylo()</a></code> method provided in the <a href="http://bioconductor.org/packages/treeio"><strong>treeio</strong></a> package (Table <a href="figures-and-tables.html#tab:tree-objects">C.2</a>). The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> supports directly visualizing tree graph as demonstrated in Figure <a href="chapter9.html#fig:treeGraph">9.6</a>. Note that currently not all <code>igraph</code> objects can be supported by <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a>. Currently, it can only be supported when it is a tree graph.</p>
 
 
-<div class="sourceCode" id="cb219"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb220"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://igraph.org">igraph</a></span><span class="op">)</span>
 <span class="va">g</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/igraph/man/make_tree.html">graph.tree</a></span><span class="op">(</span><span class="fl">40</span>, <span class="fl">3</span><span class="op">)</span>
 <span class="va">arrow_size</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">3</span><span class="op">)</span>, times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">27</span>, <span class="fl">13</span><span class="op">)</span><span class="op">)</span>, <span class="st">"mm"</span><span class="op">)</span>
@@ -333,19 +342,19 @@ FIGURE 9.5: <strong>Visualizing dendrogram.</strong>
   <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span>hjust<span class="op">=</span><span class="fl">.5</span>,vjust<span class="op">=</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/tree-layout.html">layout_dendrogram</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <span style="display:block;" id="fig:treeGraph"></span>
-<img src="treedata_files/figure-html/treeGraph-1.svg" alt="Visualizing tree graph." width="100%"><p class="caption">
-FIGURE 9.6: <strong>Visualizing tree graph.</strong>
+<img src="treedata_files/figure-html/treeGraph-1.svg" alt="Visualizing a tree graph. The lines with arrows indicate the relationship between the parent node and the child node. All nodes were indicated by steelblue circle points." width="100%"><p class="caption">
+FIGURE 9.6: <strong>Visualizing a tree graph.</strong> The lines with arrows indicate the relationship between the parent node and the child node. All nodes were indicated by steelblue circle points.
 </p>
 </div>
 </div>
-<div id="ggtree-for-other-tree-like-structure" class="section level2" number="9.4">
+<div id="ggtree-for-other-tree-like-structures" class="section level2" number="9.4">
 <h2>
-<span class="header-section-number">9.4</span> ggtree for other tree-like structure<a class="anchor" aria-label="anchor" href="#ggtree-for-other-tree-like-structure"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.4</span> ggtree for other tree-like structures<a class="anchor" aria-label="anchor" href="#ggtree-for-other-tree-like-structures"><i class="fas fa-link"></i></a>
 </h2>
-<p>The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> package can be used to visualize any data in hierarchical structure. Here, we use the GNI (Gross National Income) numbers in 2014 as an example. After preparing an edge list, that is a matrix or data frame that contains two columns indicating the relationship of parent and child nodes, we can use <code>as.phylo</code> provided by <a href="http://bioconductor.org/packages/treeio"><strong>treeio</strong></a> to convert the edge list to a phylo object. Then it can be visualized using <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> with associated data. In this example, the population was used to scale the size of circle points for each country.</p>
+<p>The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> package can be used to visualize any data in hierarchical structure. Here, we use the GNI (Gross National Income) numbers in 2014 as an example. After preparing an edge list, that is a matrix or data frame that contains two columns indicating the relationship of parent and child nodes, we can use the <code><a href="https://rdrr.io/pkg/ape/man/as.phylo.html">as.phylo()</a></code> method provided by the <a href="http://bioconductor.org/packages/treeio"><strong>treeio</strong></a> package to convert the edge list to a <code>phylo</code> object. Then it can be visualized using <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> with associated data. In this example, the population was used to scale the size of circle points for each country.</p>
 
 
-<div class="sourceCode" id="cb220"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb221"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/YuLab-SMU/treeio">treeio</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yulab-smu.top/treedata-book/">ggtree</a></span><span class="op">)</span>
@@ -367,10 +376,16 @@ FIGURE 9.6: <strong>Visualizing tree graph.</strong>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>plot.margin<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">margin</a></span><span class="op">(</span><span class="fl">60</span>,<span class="fl">60</span>,<span class="fl">60</span>,<span class="fl">60</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <span style="display:block;" id="fig:gni2014"></span>
-<img src="treedata_files/figure-html/gni2014-1.png" alt="Visualizing data in hierarchical structure." width="100%"><p class="caption">
-FIGURE 9.7: <strong>Visualizing data in hierarchical structure.</strong>
+<img src="treedata_files/figure-html/gni2014-1.png" alt="Visualizing data in any hierarchical structure. Hierarchical data represented as nodes connected by edges can be converted to a phylo object and visualized by ggtree to explore their relationships or other properties that are associated with the relationships." width="100%"><p class="caption">
+FIGURE 9.7: <strong>Visualizing data in any hierarchical structure.</strong> Hierarchical data represented as nodes connected by edges can be converted to a <code>phylo</code> object and visualized by <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> to explore their relationships or other properties that are associated with the relationships.
 </p>
 </div>
+</div>
+<div id="summary9" class="section level2" number="9.5">
+<h2>
+<span class="header-section-number">9.5</span> Summary<a class="anchor" aria-label="anchor" href="#summary9"><i class="fas fa-link"></i></a>
+</h2>
+<p>The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> supports various tree objects defined in the R language and extension packages, which makes it very easy to integrate <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> into existing pipelines. Moreover, <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> allows external data integration and exploration of these data on the tree, which will greatly promote the data visualization and result interpretation in the downstream analysis of existing pipelines. Most importantly, the support for converting edge list to a tree object enables more tree-like strucutres to be incorporated into the framework of <a href="http://bioconductor.org/packages/treeio"><strong>treeio</strong></a> and <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a>. This will enable more tree-like strucutres and related heterogeneous data in different disciplines to be integrated and visualized through <a href="http://bioconductor.org/packages/treeio"><strong>treeio</strong></a> and <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a>, which facilitates inegrated analysis and comparative analysis to discover more systematic patterns and insights.</p>
 
 </div>
 </div>
@@ -393,7 +408,8 @@ FIGURE 9.7: <strong>Visualizing data in hierarchical structure.</strong>
 </li>
 <li><a class="nav-link" href="#dendrogram"><span class="header-section-number">9.2</span> ggtree for dendrograms</a></li>
 <li><a class="nav-link" href="#igraph"><span class="header-section-number">9.3</span> ggtree for tree graph</a></li>
-<li><a class="nav-link" href="#ggtree-for-other-tree-like-structure"><span class="header-section-number">9.4</span> ggtree for other tree-like structure</a></li>
+<li><a class="nav-link" href="#ggtree-for-other-tree-like-structures"><span class="header-section-number">9.4</span> ggtree for other tree-like structures</a></li>
+<li><a class="nav-link" href="#summary9"><span class="header-section-number">9.5</span> Summary</a></li>
 </ul>
 
       <div class="book-extra">
@@ -414,7 +430,7 @@ FIGURE 9.7: <strong>Visualizing data in hierarchical structure.</strong>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-11-02.</p>
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-11-03.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
