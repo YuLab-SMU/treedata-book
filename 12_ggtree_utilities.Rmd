@@ -212,9 +212,9 @@ cowplot::plot_grid(pp1, pp2, ncol=1, rel_heights=c(2, 3))
 The `scale_x_range()` documented in [session 5.2.4](#uncertainty-of-evolutionary-inference).
 
 
-### Expand x limit for specific panel {#xlim_expand}
+### Expand x limit for a specific panel {#xlim_expand}
 
-Sometimes we need to set `xlim` for specific panel (*e.g.* allocate more space for [long tip labels](#faq-label-truncated) at `Tree` panel). However, the `ggplot2::xlim()` function applies to all the panels. `r Biocpkg("ggtree")` provides `xlim_expand()` to adjust `xlim` for user-specific panel. It accepts two parameters, `xlim` and `panel`, and can adjust all individual panels as demonstrated in Figure \@ref(fig:xlimExpand)A. If you only want to adjust `xlim` of the `Tree` panel, you can use `xlim_tree()` as a shortcut.
+Sometimes we need to set `xlim` for a specific panel (*e.g.* allocate more space for [long tip labels](#faq-label-truncated) at `Tree` panel). However, the `ggplot2::xlim()` function applies to all the panels. `r Biocpkg("ggtree")` provides `xlim_expand()` to adjust `xlim` for user-specific panel. It accepts two parameters, `xlim`, and `panel`, and can adjust all individual panels as demonstrated in Figure \@ref(fig:xlimExpand)A. If you only want to adjust `xlim` of the `Tree` panel, you can use `xlim_tree()` as a shortcut.
 
 
 ```{r eval=FALSE}
@@ -265,13 +265,13 @@ plot_grid(plot_grid(ggdraw(), p2, rel_widths=c(.04, 1)),
 
 The `r CRANpkg("ggplot2")` package cannot automatically adjust plot limits and it is very common that long text was truncated. Users need to adjust x (y) limits manually via the `xlim()` (`ylim()`) command (see also [FAQ: Tip label truncated](#faq-label-truncated)). 
 
-The `xlim()` (`ylim()`) is a good solution to this issue. However, we can put the thing more simple, by expanding the plot panel by a ratio of the axis range without knowing what the exact value is. 
+The `xlim()` (`ylim()`) is a good solution to this issue. However, we can put the thing more simply, by expanding the plot panel by a ratio of the axis range without knowing what the exact value is. 
 
-We provide `hexpand()` function to expand x limit by specifying a fraction of the x range and it works for both directions (`direction=1` for right hand side and `direction=-1` for left hand side) (Figure \@ref(fig:hexpand)). Another version `vexpand()` works with similar behavior for y axis and the `ggexpand()` function works for both x and y axes (Figure \@ref(fig:phylonetworx)). 
+We provide `hexpand()` function to expand x limit by specifying a fraction of the x range and it works for both directions (`direction=1` for right-hand side and `direction=-1` for left-hand side) (Figure \@ref(fig:hexpand)). Another version `vexpand()` works with similar behavior for y-axis and the `ggexpand()` function works for both x and y axes (Figure \@ref(fig:phylonetworx)). 
 
 (ref:hexpandscap) Expanding plot limits by a fraction of x or y range.
 
-(ref:hexpandcap) **Expanding plot limits by a fraction of x or y range.** expand x limit at right hand side by default (A). expand x limit for left hand side when direction = -1 and expand y limit at the upper side (B). 
+(ref:hexpandcap) **Expanding plot limits by a fraction of the x or y range.** expand x limit at right-hand side by default (A). expand x limit for left-hand side when direction = -1 and expand y limit at the upper side (B). 
 
 
 ```{r hexpand,fig.cap="(ref:hexpandcap)", fig.scap="(ref:hexpandscap)", fig.width=12, fig.height = 5, out.width='100%'}
@@ -288,7 +288,7 @@ plot_grid(p1, p2, labels=c("A", "B"), rel_widths=c(.6, .4))
 
 ### Filter tree data {#td_filter}
 
-The `r Biocpkg("ggtree")` package defined [several several geom layers](#geom2) that supports subsetting tree data. However, many other geom layers that didn't provide this feature, are defined in `r CRANpkg("ggplot2")` and its extensions. To allow filtering tree data with these layers, `r Biocpkg("ggtree")` provides an accompany function, `td_filter()` that return a function that work similar to `dplyr::filter()` and can be passed to the `data` parameter in geom layers to filter ggtree plot data as demonstrated in Figure \@ref(fig:tdFilter).
+The `r Biocpkg("ggtree")` package defined [several geom layers](#geom2) that support subsetting tree data. However, many other geom layers that didn't provide this feature, are defined in `r CRANpkg("ggplot2")` and its extensions. To allow filtering tree data with these layers, `r Biocpkg("ggtree")` provides an accompanying function, `td_filter()` that returns a function that works similar to `dplyr::filter()` and can be passed to the `data` parameter in geom layers to filter `ggtree` plot data as demonstrated in Figure \@ref(fig:tdFilter).
 
 (ref:tdfilterscap) Filtering ggtree plot data in geom layers.
 
@@ -309,7 +309,7 @@ p + geom_text(aes(label=label),
 
 ### Flatten list-column tree data {#td_unnest}
 
-The ggtree plot data is a tidy data frame that each row represents a unique node. If multiple values are associated with a node, the data should be stored as nested data (i.e. in a list-column).
+The `ggtree` plot data is a tidy data frame that each row represents a unique node. If multiple values are associated with a node, the data should be stored as nested data (i.e. in a list-column).
 
 ```{r}
 set.seed(1997)
@@ -324,7 +324,7 @@ d2  <- nest(d, value =value, group=group)
 d2
 ```
 
-Neste data is supported by the operator, `%<+%`, and can be mapped to the tree structure. If a geom layer can't directly support visualizing nested data, we need to flatten the data before applying the geom layer to display it. The `r Biocpkg("ggtree")` package provides a function, `td_unnest()`, which return a function that works similar to `tidyr::unnest()` and can be used to flatten ggtree plot data as demonstrated in Figure \@ref(fig:tdUnnest)A.
+Neste data is supported by the operator, `%<+%`, and can be mapped to the tree structure. If a geom layer can't directly support visualizing nested data, we need to flatten the data before applying the geom layer to display it. The `r Biocpkg("ggtree")` package provides a function, `td_unnest()`, which returns a function that works similar to `tidyr::unnest()` and can be used to flatten `ggtree` plot data as demonstrated in Figure \@ref(fig:tdUnnest)A.
 
 All tree data utilities provide a `.f` parameter to pass a function to pre-operate the data. This creates the possibility to combine different tree data utilities as demonstrated in Figure \@ref(fig:tdUnnest)B. 
 
@@ -354,7 +354,7 @@ cowplot::plot_grid(p2, p3, labels=LETTERS[1:2])
 
 ### Extract tip order {#tiporder}
 
-To create [composite plots](#composite_plot), users need to re-order their data manually before creating tree associated graphs. The order of their data should be consistent with the tip order presented in ggtree plot. For this purpose, we provide the `get_taxa_name()` function to extract an ordered vector of tips based on the tree structure plotted by ggtree. 
+To create [composite plots](#composite_plot), users need to re-order their data manually before create tree-associated graphs. The order of their data should be consistent with the tip order presented in ggtree plot. For this purpose, we provide the `get_taxa_name()` function to extract an ordered vector of tips based on the tree structure plotted by ggtree. 
 
 (ref:tiporderscap) An example tree for demonstraing `get_taxa_name()` function.
 
@@ -427,11 +427,11 @@ plotly_ggtree_link <- paste0("[interactive phylogenetic tree](", link, ")")
 ```
 
 
-The `r Biocpkg("ggtree")` package supports interactive tree annotation or manipulation by implementing an `identify()` method. Users can click on a node to highlight a clade, to label or rotate it ,*etc.*. Users can also use the `r CRANpkg("plotly")` package to convert `ggtree` to `plotly` object to quickly create 
+The `r Biocpkg("ggtree")` package supports interactive tree annotation or manipulation by implementing an `identify()` method. Users can click on a node to highlight a clade, to label or rotate it, *etc*. Users can also use the `r CRANpkg("plotly")` package to convert a `ggtree` object to a `plotly` object to quickly create 
 ```{r results='asis', echo=FALSE}
-cat(plotly_ggtree_link)
+cat(plotly_ggtree_link, '.', sep='')
 ```
-.
+
 
 
 
