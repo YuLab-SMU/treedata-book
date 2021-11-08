@@ -8,9 +8,10 @@
 ## Visualizing pairwise nucleotide sequence distance with a phylogenetic tree {#hpv58}
 
 
-This example reproduces Fig. 1 of [@chen_ancient_2017]. It extracts accession numbers from tip labels of the HPV58 tree and calculates pairwise nucleotide sequence distances. The distance matrix is visualized as dot and line plots. This example demonstrates the ability to add multiple layers to a specific panel. As illustrated in Figure \@ref(fig:jv2017), the `facet_plot()` function displays sequence distances as a dot plot and then adds a layer of line plot to the same panel, *i.e.* Sequence Distance. In addition, the tree in `facet_plot` can be fully annotated with multiple layers (clade labels, bootstrap support values, *etc.*). The source code of this example was firstly published in the Supplemental File of [@yu_two_2018].
+This example reproduces Fig. 1 of [@chen_ancient_2017]. It extracts accession numbers from tip labels of the HPV58 tree and calculates pairwise nucleotide sequence distances. The distance matrix is visualized as dot and line plots. This example demonstrates the ability to add multiple layers to a specific panel. As illustrated in Figure \@ref(fig:jv2017), the `geom_facet()` function displays sequence distances as a dot plot and then adds a layer of line plot to the same panel, *i.e.* Sequence Distance. In addition, the tree in `geom_facet()` can be fully annotated with multiple layers (clade labels, bootstrap support values, *etc.*). The source code is modified from the Supplemental File of [@yu_two_2018].
 
 ```{r message=FALSE}
+library(TDbook)
 library(tibble)
 library(tidyr)
 library(Biostrings)
@@ -18,7 +19,7 @@ library(treeio)
 library(ggplot2)
 library(ggtree)
 
-#tree <- read.tree("data/HPV58.tree")
+# loaded from TDbook package
 tree <- tree_HPV58
 
 clade <- c(A3 = 92, A1 = 94, A2 = 108, B1 = 156, B2 = 159, C = 163, D1 = 173, D2 = 176)
@@ -166,9 +167,9 @@ td$clade <- g[td$seq2]
 
 ## visualize the sequence differences using dot plot and line plot
 ## and align the sequence difference plot to the tree using facet_plot
-p2 <- facet_plot(p, panel = "Sequence Distance", data = td, geom_point, 
-            mapping = aes(x = dist, color = clade, shape = clade), alpha = .6) %>%
-    facet_plot(panel = "Sequence Distance", data = td, geom = geom_path, 
+p2 <- p + geom_facet(panel = "Sequence Distance", data = td, geom_point, 
+            mapping = aes(x = dist, color = clade, shape = clade), alpha = .6) +
+    geom_facet(panel = "Sequence Distance", data = td, geom = geom_path, 
             mapping=aes(x = dist, group = seq2, color = clade), alpha = .6) + 
     scale_shape_manual(values = 1:8, guide = FALSE) 
 
@@ -177,7 +178,7 @@ print(p2)
 
 ## Displaying different symbolic points for bootstrap values. {#symbolic-bootstrap}
 
-We can cut the bootstrap values into several intervals, *e.g.* to indicate whether the clade is high, moderate, or low support. Then we can use these intervals as categorical variables to set different colors or shapes of symbolic points to indicate the bootstrap values belong to which category.
+We can cut the bootstrap values into several intervals, *e.g.* to indicate whether the clade is of high, moderate, or low support. Then we can use these intervals as categorical variables to set different colors or shapes of symbolic points to indicate the bootstrap values belong to which category.
 
 (ref:bpintervalscap) Partitioning bootstrap values.
 
@@ -188,13 +189,12 @@ We can cut the bootstrap values into several intervals, *e.g.* to indicate wheth
 read.newick <- treeio::read.newick
 ```
 
-```{r bpinterval, fig.width=7.5, fig.height=8.6, fig.cap="(ref:bpintervalcap)", fig.scap="(ref:bpintervalscap)", dev="jpeg", out.width='100%'}
+```{r bpinterval, fig.width=7.5, fig.height=8.6, fig.cap="(ref:bpintervalcap)", fig.scap="(ref:bpintervalscap)", out.width='100%'}
 library(treeio)
 library(ggplot2)
 library(ggtree)
 library(TDbook)
 
-#tree <- read.newick("data/RMI.phy_phyml_tree_rooted_labeled.txt", node.label='support') 
 tree <- read.newick(text=text_RMI_tree, node.label = "support")
 root <- rootnode(tree)  
 ggtree(tree, color="black", size=1.5, linetype=1,  right=TRUE) + 
@@ -219,14 +219,13 @@ This example reproduces Figure 1 of [@larsen_identification_2019]. It used `grou
 
 (ref:treeLarsenscap) Phylogenetic tree of CTLDcps.
 
-(ref:treeLarsencap) **Phylogenetic tree of CTLDcps**. 
+(ref:treeLarsencap) **Phylogenetic tree of CTLDcps**. Using different background colors, line types and colors, and clade labels to differentiate distinguish groups.
 
 
 
 
 ```{r treeLarsen, fig.cap="(ref:treeLarsencap)", fig.scap="(ref:treeLarsenscap)", fig.width=7.5, fig.height=6.3, out.width='100%'}
 library(TDbook)
-#mytree <- read.tree("data/Tree 30.4.19.nwk")
 mytree <- tree_treenwk_30.4.19
 
 # Define nodes for coloring later on
@@ -319,7 +318,7 @@ print(p6)
   
 ## Phylogenetic tree with genome locus structure {#genome-locus}
 
-The `geom_motif` is defined in `ggtree` and it is a wrapper layer of `gggenes::geom_gene_arrow`. The `geom_motif` can automatically adjust genomic alignment by selective gene (via the `on` parameter) and can label genes via the `label` parameter. In the following example, we use `example_genes` dataset provided by `r CRANpkg("gggenes")`. As the dataset only provides genomic coordination of a set of genes, a phylogeny for the genomes needs to be constructed first. We calculate Jaccard similarity based on the ratio of overlapping genes among genomes and correspondingly determine genome distance. The BioNJ algorithm was applied to construct the tree (Figure \@ref(fig:gggenes)). 
+The `geom_motif()` is defined in `r Biocpkg("ggtree")` and it is a wrapper layer of the `gggenes::geom_gene_arrow()`. The `geom_motif()` can automatically adjust genomic alignment by selective gene (via the `on` parameter) and can label genes via the `label` parameter. In the following example, we use `example_genes` dataset provided by `r CRANpkg("gggenes")`. As the dataset only provides genomic coordination of a set of genes, a phylogeny for the genomes needs to be constructed first. We calculate Jaccard similarity based on the ratio of overlapping genes among genomes and correspondingly determine genome distance. The BioNJ algorithm was applied to construct the tree. Then we can use `geom_facet()` to visulaize the tree with the genomic structures (Figure \@ref(fig:gggenes)). 
 
 
 (ref:gggenesscap) Genomic features with a phylogenetic tree.

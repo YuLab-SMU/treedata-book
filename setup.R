@@ -72,9 +72,9 @@ pkg_qiime <- mypkg("QIIME", "http://qiime.org/")
 pkg_r8s <- mypkg("r8s", "http://loco.biosci.arizona.edu/r8s/")
 pkg_raxml <- mypkg("RAxML", "http://evomics.org/learning/phylogenetics/raxml/")
 pkg_revbayes <- mypkg("RevBayes", "http://revbayes.github.io/intro.html")
+pkg_treedataverse <- mypkg("treedataverse", "https://github.com/YuLab-SMU/treedataverse")
 pkg_treedyn <- mypkg("TreeDyn", "http://www.treedyn.org/")
 pkg_treeview <- mypkg("TreeView", "http://en.bio-soft.net/tree/TreeView.html")
-
 
 badge_version <- function(pkg, color="green") {
     v <- packageVersion(pkg)
