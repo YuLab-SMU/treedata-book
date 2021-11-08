@@ -123,12 +123,14 @@ ggtree(x) + ggforce::facet_zoom(xy = node %in% nn)
 ```{r ggimagebg, fig.width=8, fig.height=4, fig.cap="(ref:ggimagebgcap)", fig.scap="(ref:ggimagebgscap)", out.width='100%'} 
 library(ggimage)
 
+imgdir <- system.file("extdata/frogs", package = "TDbook")
+
 set.seed(1982)
 x <- rtree(5)
 p <- ggtree(x) + theme_grey()
-p1 <- p + geom_nodelab(image="img/frogs/frog.jpg", geom="image", size=.12) + 
+p1 <- p + geom_nodelab(image=paste0(imgdir, "/frog.jpg"), geom="image", size=.12) + 
           ggtitle("original image")
-p2 <- p + geom_nodelab(image="img/frogs/frog.jpg", geom="image", size=.12,
+p2 <- p + geom_nodelab(image=paste0(imgdir, "/frog.jpg"), geom="image", size=.12,
             image_fun= function(.) magick::image_transparent(., "white")) + 
             ggtitle("image with background removed")
 plot_grid(p1, p2, ncol=2)

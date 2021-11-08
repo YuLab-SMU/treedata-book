@@ -107,16 +107,13 @@ library(ggplot2)
 library(ggnewscale)
 library(TDbook)
 
-#tree <- read.tree("data/HMP_tree/hmptree.nwk")
+# load data from TDbook, including tree_hmptree, 
+# df_tippoint (the abundance and types of microbes),
+# df_ring_heatmap (the abundance of microbes at different body sites),
+# and df_barplot_attr (the abundance of microbes of greatest prevalence at the body sites)
 tree <- tree_hmptree
-# the abundance and types of microbes
-#dat1 <- read.csv("data/HMP_tree/tippoint_attr.csv")
 dat1 <- df_tippoint
-# the abundance of microbes at different body sites.
-#dat2 <- read.csv("data/HMP_tree/ringheatmap_attr.csv")
 dat2 <- df_ring_heatmap
-# the abundance of microbes at the body sites of greatest prevalence.
-#dat3 <- read.csv("data/HMP_tree/barplot_attr.csv")
 dat3 <- df_barplot_attr
 
 # adjust the order
@@ -235,8 +232,7 @@ library(tidytree)
 library(ggstar)
 library(TDbook)
 
-#dat <- read.csv("data/microreact/Candida_auris/microreact-project-Candidaauris-data.csv")
-#tr <- read.tree("data/microreact/Candida_auris/microreact-project-Candidaauris-tree.nwk")
+# load tr and dat from the TDbook package 
 dat <- df_Candidaauris_data
 tr <- tree_Candidaauris
 
@@ -395,9 +391,8 @@ library(dplyr)
 library(ggstar)
 library(TDbook)
 
-#tr <- read.tree("data/microreact/Salmonella_Typhi/microreact-project-NJIDqgsS-tree.nwk")
+# load tree_NJIDqgsS and df_NJIDqgsS from TDbook
 tr <- tree_NJIDqgsS
-#metada <- read.csv("data/microreact/Salmonella_Typhi/microreact-project-NJIDqgsS-data.csv")
 metada <- df_NJIDqgsS
 metadata <- metada %>%
             select(c("id", "country", "country__colour", "year", "year__colour", "haplotype"))
@@ -500,8 +495,7 @@ such as `geom_star` in `r CRANpkg("ggstar")`, which provides the regular polygon
 
 -->
 
-
-Both `geom_facet()` and `geom_fruit()` are becoming more powerful to present data with trees as more geometric layers will be implemented by the `r CRANpkg("ggplot2")` community.
+Compare to `geom_facet()`, `geom_fruit()` layer provided in `r Biocpkg("ggtreeExtra")` is a better implementation of Method 2 proposed by [@yu_two_2018]. The `geom_facet()` and `geom_fruit()` have the same design philosophy and have a similar user interface. They rely on other geometric layers to visualize the tree-associated data. These dependent layers are provided by `r CRANpkg("ggplot2")` and its extension packages, including `r Biocpkg("ggtree")`. As more and more layers are implemented by the `r CRANpkg("ggplot2")` community, the types of data and graphics that `geom_facet()` and `geom_fruit()` can present will also increase.
 
 
 

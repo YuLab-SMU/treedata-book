@@ -7,7 +7,7 @@ library(knitr)
 opts_chunk$set(message=FALSE, warning=FALSE, eval=TRUE, echo=TRUE, cache=TRUE)
 ```
 
-
+The `r Biocpkg("ggtree")` package is a general package for visualizing tree structures and associated data. If you have some special requirements that are not directly provided by `r Biocpkg("ggtree")`, you may need to use one of the extension packages buit on top of `r Biocpkg("ggtree")`. For example, the `r CRANpkg("RevGadgets")` package for visualizing the output of the `r pkg_revbayes`, the `r Biocpkg("sitePath")` package for visualizing fixation events on phylogenetic pathways, and the `r Biocpkg("enrichplot")` package for visualizing hierarchical structure of the enriched pathways.  
 
 
 ```{r revdep}
@@ -19,20 +19,13 @@ x <- tools::package_dependencies('ggtree', db=db,
 print(x)                                
 ```
 
-There are `r length(unlist(x))` packages in CRAN or Bioconductor that depend or import `r Biocpkg("ggtree")` and several packages on GitHub that extend ggtree.
+There are `r length(unlist(x))` packages in CRAN or Bioconductor that depend or import `r Biocpkg("ggtree")` and several packages on GitHub that extend `r Biocpkg("ggtree")`. Here we briefly introudce some extension packages, including `r Biocpkg("MicrobiotaProcess")` and `r Biocpkg("tanggle")`.
 
-
-
-+ [deeptime](https://github.com/willgearty/deeptime): Plotting Tools for Anyone Working in Deep Time
-
-+ [ggdaisie](https://github.com/richelbilderbeek/ggdaisie): ggtree and DAISIE R package
-+ [microbiomeViz](https://github.com/lch14forever/microbiomeViz): Visualize microbiome data with black magic ggtree
-+ [microbiomeMarker](https://github.com/yiluheihei/microbiomeMarker): microbiome biomarker analysis
 
 
 ## Taxonomy annotation using MicrobiotaProcess {#MicrobiotaProcess}
 
-The `r Biocpkg("MicrobiotaProcess")` package provides a LEfSe-like algorithm [@segata_metagenomic_2011] to discover microbiome biomarkers by comparing taxon abundance between different classes. It also provides several methods to visualize the analysis result. The `ggdiffcalde()` is developed based on `r Biocpkg("ggtree")` [@yu_ggtree:_2017]. In addition to the `diff_analysis()` result, it also supports a data frame that contains a hierarchical relationship (*e.g.* [taxonomy annotation](#MicrobiotaProcess-taxonomy) or KEGG annotation) with another data frame that contains taxa and factor information and/or pvalue. The following example demonstrates how to use data frames (*i.e.* analysis results) to visualize the differential taxonomy tree. More details can be found on the vignette of the `r Biocpkg("MicrobiotaProcess")` package. 
+The `r Biocpkg("MicrobiotaProcess")` package provides a LEfSe-like algorithm [@segata_metagenomic_2011] to discover microbiome biomarkers by comparing taxon abundance between different classes. It provides several methods to visualize the analysis result. The `ggdiffcalde()` is developed based on `r Biocpkg("ggtree")` [@yu_ggtree:_2017]. In addition to the `diff_analysis()` result, it also supports a data frame that contains a hierarchical relationship (*e.g.* [taxonomy annotation](#MicrobiotaProcess-taxonomy) or KEGG annotation) with another data frame that contains taxa and factor information and/or pvalue. The following example demonstrates how to use data frames (*i.e.* analysis results) to visualize the differential taxonomy tree. More details can be found on the vignette of the `r Biocpkg("MicrobiotaProcess")` package. 
 
 
 (ref:CRCdiffscap) Visualize differential taxonomy clade.
@@ -44,8 +37,7 @@ library(MicrobiotaProcess)
 library(ggplot2)
 library(TDbook)
 
-#taxa <- read.csv("data/alltax_info.csv")
-#dt <- read.csv("data/difftax_tab.csv")
+# load `df_difftax` and `df_difftax_info` from TDbook
 taxa <- df_alltax_info
 dt <- df_difftax
 
@@ -74,9 +66,9 @@ ggdiffclade(obj=taxa,
 The data frame of this example is from the analysis result of `diff_analysis()` using public datasets [@kostic2012genomic]. The `colors` represent the features enriched in the relevant class groups. The size of circle points represents the `-log10(pvalue)`, *i.e.* a larger point indicates a greater significance. In Figure \@ref(fig:CRCdiffclade), we can find that *Fusobacterium* sequences were enriched in carcinomas, while Firmicutes, Bacteroides, and Clostridiales were depleted in tumors. These results were consistent with the original article [@kostic2012genomic]. The species of *Campylobacter* has been proven to be associated with colorectal cancer [@He289; @wu2013dysbiosis; @amer2017microbiome]. We can find in Figure \@ref(fig:CRCdiffclade) that *Campylobacter* was enriched in tumors, while its relative abundance is lower than *Fusobacterium*.  
 
 
-## Visualizing phylogenetic network 
+## Visualizing phylogenetic network using tanggle
 
-[ggnetworx](https://github.com/KlausVigo/ggnetworx): phylogenetic networks using ggplot2 and ggtree
+The `r Biocpkg("tanggle")` package provides functions to display split network. It extends the `r Biocpkg("ggtree")` package [@yu_ggtree:_2017] to allow the visualization of phylogenetic networks. 
 
 
 (ref:phylonetworxscap) Phylogenetic network.
@@ -86,16 +78,22 @@ The data frame of this example is from the analysis result of `diff_analysis()` 
 ```{r phylonetworx, fig.width=7, fig.height=7, message=FALSE, fig.cap="(ref:phylonetworxcap)", fig.scap="(ref:phylonetworxscap)", out.extra='', warning=FALSE}
 library(ggplot2)
 library(ggtree)
-library(ggnetworx)
+library(tanggle)
 
 file <- system.file("extdata/trees/woodmouse.nxs", package = "phangorn")
 Nnet <- phangorn::read.nexus.networx(file)
 
-ggplot(Nnet, aes(x, y))  + geom_splitnet() + theme_tree()+   
+ggsplitnet(Nnet) +
     geom_tiplab2(aes(color=label), hjust=-.1)+
+    geom_nodepoint(color='firebrick', alpha=.4) +
     scale_color_manual(values=rainbow(15)) +   
     theme(legend.position="none") +
     ggexpand(.1) + ggexpand(.1, direction=-1)
 ```                 
 
+
+## Summary {#summary11}
+
+
+The `r Biocpkg("ggtree")` is designed to support the grammar of graphics, allowing users to quickly explore phylogenetic data through visualization. When users have special needs and `r Biocpkg("ggtree")` does not provide them, it is highly recommended to develop extension packages to implement these missing functions. This is a good mechanism, and we also hope that `r Biocpkg("ggtree")` users can become a `r Biocpkg("ggtree")` community. In this way, more functions for special needs can be developed and shared among users. Everyone will benefit from it, and I am very excited that this is happening.
 

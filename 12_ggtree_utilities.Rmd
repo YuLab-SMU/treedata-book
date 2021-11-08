@@ -8,10 +8,10 @@
 
 ### facet_widths {#facet_widths}
 
+Adjusting relative widths of facet panels is a common requirement, especially for using `geom_facet()` to visualize a tree with associated data. However, this is not supported by the `r CRANpkg("ggplot2")` package. To address this issue, `r Biocpkg("ggtree")` provides the `facet_widths()` function and it works with both `ggtree` and `ggplot` objects.   
 
 ```{r eval=F}
 library(ggplot2)
-library(ggstance)
 library(ggtree)
 library(reshape2)
 
@@ -26,9 +26,10 @@ b <- 1 - a
 df <- data.frame(tree$tip.label, a, b)
 df <- melt(df, id = "tree.tip.label")
 
-p2 <- facet_plot(p + xlim_tree(8), panel = 'bar', data = df, geom = geom_barh, 
+p2 <- p + geom_facet(panel = 'bar', data = df, geom = geom_bar, 
                  mapping = aes(x = value, fill = as.factor(variable)), 
-                 width = 0.8, stat='identity') + xlim_tree(9)
+                 orientation = 'y', width = 0.8, stat='identity') + 
+        xlim_tree(9)
 
 facet_widths(p2, widths = c(1, 2))
 ```
@@ -55,7 +56,6 @@ facet_widths(p, c(setosa = .5))
 
 ```{r facetWidth, echo=F, fig.width=6, fig.height=7, fig.scap="(ref:facetWidthscap)", fig.cap="(ref:facetWidthcap)"}
 library(ggplot2)
-library(ggstance)
 library(ggtree)
 library(reshape2)
 
@@ -70,9 +70,10 @@ b <- 1 - a
 df <- data.frame(tree$tip.label, a, b)
 df <- melt(df, id = "tree.tip.label")
 
-p2 <- facet_plot(p + xlim_tree(8), panel = 'bar', data = df, geom = geom_barh, 
+p2 <- p + geom_facet(panel = 'bar', data = df, geom = geom_bar, 
                  mapping = aes(x = value, fill = as.factor(variable)), 
-                 width = 0.8, stat='identity') + xlim_tree(9)
+                 orientation = 'y', width = 0.8, stat='identity') + 
+        xlim_tree(9)
 
 pp = facet_widths(p2, widths = c(1, 2))
 
@@ -80,14 +81,16 @@ g <- ggplot(iris, aes(Sepal.Width, Petal.Length)) +
   geom_point() + facet_grid(.~Species)
 gg = facet_widths(g, c(setosa = .5))
 
-plot_grid(plot_grid(ggdraw(), pp, rel_widths=c(.04, 1)), 
-        gg, ncol=1, labels = LETTERS[1:2], rel_heights=c(1.5, 1))
+#plot_grid(plot_grid(ggdraw(), pp, rel_widths=c(.04, 1)), 
+#        gg, ncol=1, labels = LETTERS[1:2], rel_heights=c(1.5, 1))
+
+plot_list(pp, gg, ncol=1, tag_levels='A', heights=c(1.5, 1))
 ```
 
 
 ### facet_labeller {#facet_labeller}
 
-The `facet_labeller()` function was designed to re-label selected panels, and it currently only works with `ggtree` objects (*i.e.* `facet_plot` outputs).
+The `facet_labeller()` function was designed to re-label selected panels, and it currently only works with `ggtree` objects (*i.e.* `geom_facet()` outputs). A more versatile version that works with both `ggtree` and `ggplot` objects is implemented in the `r CRANpkg("ggfun")` package (*i.e.* the `facet_set()` function).
 
 ```{r eval=F}
 facet_labeller(p2, c(Tree = "phylogeny", bar = "HELLO"))
@@ -107,9 +110,11 @@ facet_labeller(p2, c(Tree = "phylogeny")) %>% facet_widths(c(Tree = .4))
 ```{r facetLab, echo=FALSE,fig.width=6, fig.height=9, fig.scap="(ref:facetLabscap)", fig.cap="(ref:facetLabcap)"}
 pg1 <- facet_labeller(p2, c(Tree = "phylogeny", bar = "HELLO")) 
 pg2 <- facet_labeller(p2, c(Tree = "phylogeny")) %>% facet_widths(c(Tree = .4))
-plot_grid(plot_grid(ggdraw(), pg1, rel_widths=c(.04, 1)), 
-        plot_grid(ggdraw(), pg2, rel_widths=c(.04, 1)), 
-        ncol=1, labels = c("A", "B"))
+#plot_grid(plot_grid(ggdraw(), pg1, rel_widths=c(.04, 1)), 
+#        plot_grid(ggdraw(), pg2, rel_widths=c(.04, 1)), 
+#        ncol=1, labels = c("A", "B"))
+
+plot_list(pg1, pg2, ncol=1, tag_levels='A')
 ```
 
 ## Geometric layers {#geom2}
@@ -117,12 +122,12 @@ plot_grid(plot_grid(ggdraw(), pg1, rel_widths=c(.04, 1)),
 
 Subsetting is not supported in layers defined in `r CRANpkg("ggplot2")`, while it is quite useful in phylogenetic annotation since it allows us to annotate at specific node(s) (e.g. only label bootstrap values that are larger than 75).
 
-In `r Biocpkg("ggtree")`, we provide a modified version of layers defined in `ggplot2` to support aesthetic mapping of `subset`, including:
+In `r Biocpkg("ggtree")`, we provide several modified versions of layers defined in `r CRANpkg("ggplot2")` to support the `subset` aesthetic mapping, including:
 
-+ geom_segment2
-+ geom_point2
-+ geom_text2
-+ geom_label2
++ `geom_segment2()`
++ `geom_point2()`
++ `geom_text2()`
++ `geom_label2()`
 
 
 (ref:layer2scap) Geometric layers that support subsetting.
@@ -145,7 +150,8 @@ p <- ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
 
 p2 <- ggtree(rtree(10)) + 
     geom_label2(aes(subset = node <5, label = label))
-plot_grid(p, p2, ncol=2, labels=c("A", "B"))
+    
+plot_list(p, p2, ncol=2, tag_levels='A')
 ```
 
 ## Layout utilities
