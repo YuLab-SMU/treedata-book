@@ -6,15 +6,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Chapter 12 ggtree utilities | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
 <meta name="author" content="Guangchuang Yu">
-<meta name="description" content='12.1 Facet utilities  12.1.1 facet_widths library(ggplot2) library(ggstance) library(ggtree) library(reshape2) set.seed(123) tree &lt;- rtree(30) p &lt;- ggtree(tree, branch.length = "none") +  ...'>
+<meta name="description" content="12.1 Facet utilities  12.1.1 facet_widths Adjusting relative widths of facet panels is a common requirement, especially for using geom_facet() to visualize a tree with associated data. However,...">
 <meta name="generator" content="bookdown 0.24 with bs4_book()">
 <meta property="og:title" content="Chapter 12 ggtree utilities | Data Integration, Manipulation and Visualization of Phylogenetic Trees">
 <meta property="og:type" content="book">
 <meta property="og:image" content="/book-cover.png">
-<meta property="og:description" content='12.1 Facet utilities  12.1.1 facet_widths library(ggplot2) library(ggstance) library(ggtree) library(reshape2) set.seed(123) tree &lt;- rtree(30) p &lt;- ggtree(tree, branch.length = "none") +  ...'>
+<meta property="og:description" content="12.1 Facet utilities  12.1.1 facet_widths Adjusting relative widths of facet panels is a common requirement, especially for using geom_facet() to visualize a tree with associated data. However,...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Chapter 12 ggtree utilities | Data Integration, Manipulation and Visualization of Phylogenetic Trees">
-<meta name="twitter:description" content='12.1 Facet utilities  12.1.1 facet_widths library(ggplot2) library(ggstance) library(ggtree) library(reshape2) set.seed(123) tree &lt;- rtree(30) p &lt;- ggtree(tree, branch.length = "none") +  ...'>
+<meta name="twitter:description" content="12.1 Facet utilities  12.1.1 facet_widths Adjusting relative widths of facet panels is a common requirement, especially for using geom_facet() to visualize a tree with associated data. However,...">
 <meta name="twitter:image" content="/book-cover.png">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs/header-attrs.js"></script><script src="libs/jquery/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap/bootstrap.min.css" rel="stylesheet">
@@ -86,9 +86,9 @@
 <h3>
 <span class="header-section-number">12.1.1</span> facet_widths<a class="anchor" aria-label="anchor" href="#facet_widths"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb231"><pre class="downlit sourceCode r">
+<p>Adjusting relative widths of facet panels is a common requirement, especially for using <code><a href="https://rdrr.io/pkg/ggtree/man/facet-plot.html">geom_facet()</a></code> to visualize a tree with associated data. However, this is not supported by the <a href="https://CRAN.R-project.org/package=ggplot2"><strong>ggplot2</strong></a> package. To address this issue, <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> provides the <code><a href="https://rdrr.io/pkg/ggtree/man/facet_widths.html">facet_widths()</a></code> function and it works with both <code>ggtree</code> and <code>ggplot</code> objects.</p>
+<div class="sourceCode" id="cb232"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lionel-/ggstance">ggstance</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yulab-smu.top/treedata-book/">ggtree</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hadley/reshape">reshape2</a></span><span class="op">)</span>
 
@@ -103,16 +103,17 @@
 <span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">tree</span><span class="op">$</span><span class="va">tip.label</span>, <span class="va">a</span>, <span class="va">b</span><span class="op">)</span>
 <span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/reshape2/man/melt.html">melt</a></span><span class="op">(</span><span class="va">df</span>, id <span class="op">=</span> <span class="st">"tree.tip.label"</span><span class="op">)</span>
 
-<span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/facet-plot.html">facet_plot</a></span><span class="op">(</span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/xlim_tree.html">xlim_tree</a></span><span class="op">(</span><span class="fl">8</span><span class="op">)</span>, panel <span class="op">=</span> <span class="st">'bar'</span>, data <span class="op">=</span> <span class="va">df</span>, geom <span class="op">=</span> <span class="va">geom_barh</span>, 
+<span class="va">p2</span> <span class="op">&lt;-</span> <span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/facet-plot.html">geom_facet</a></span><span class="op">(</span>panel <span class="op">=</span> <span class="st">'bar'</span>, data <span class="op">=</span> <span class="va">df</span>, geom <span class="op">=</span> <span class="va">geom_bar</span>, 
                  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">value</span>, fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">variable</span><span class="op">)</span><span class="op">)</span>, 
-                 width <span class="op">=</span> <span class="fl">0.8</span>, stat<span class="op">=</span><span class="st">'identity'</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/xlim_tree.html">xlim_tree</a></span><span class="op">(</span><span class="fl">9</span><span class="op">)</span>
+                 orientation <span class="op">=</span> <span class="st">'y'</span>, width <span class="op">=</span> <span class="fl">0.8</span>, stat<span class="op">=</span><span class="st">'identity'</span><span class="op">)</span> <span class="op">+</span> 
+        <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/xlim_tree.html">xlim_tree</a></span><span class="op">(</span><span class="fl">9</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/facet_widths.html">facet_widths</a></span><span class="op">(</span><span class="va">p2</span>, widths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>It also supports using a name vector to set the widths of specific panels. The following code will display an identical figure to Figure <a href="chapter12.html#fig:facetWidth">12.1</a>A.</p>
-<div class="sourceCode" id="cb232"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb233"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/facet_widths.html">facet_widths</a></span><span class="op">(</span><span class="va">p2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>Tree <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>The <code><a href="https://rdrr.io/pkg/ggtree/man/facet_widths.html">facet_widths()</a></code> function also works with other <code>ggplot</code> objects as demonstrated in Figure <a href="chapter12.html#fig:facetWidth">12.1</a>B.</p>
-<div class="sourceCode" id="cb233"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb234"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">Sepal.Width</span>, <span class="va">Petal.Length</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html">facet_grid</a></span><span class="op">(</span><span class="va">.</span><span class="op">~</span><span class="va">Species</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/facet_widths.html">facet_widths</a></span><span class="op">(</span><span class="va">p</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>setosa <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -129,11 +130,11 @@ FIGURE 12.1: <strong>Adjust relative widths of ggplot facets.</strong> The <code
 <h3>
 <span class="header-section-number">12.1.2</span> facet_labeller<a class="anchor" aria-label="anchor" href="#facet_labeller"><i class="fas fa-link"></i></a>
 </h3>
-<p>The <code><a href="https://rdrr.io/pkg/ggtree/man/facet_labeller.html">facet_labeller()</a></code> function was designed to re-label selected panels, and it currently only works with <code>ggtree</code> objects (<em>i.e.</em> <code>facet_plot</code> outputs).</p>
-<div class="sourceCode" id="cb234"><pre class="downlit sourceCode r">
+<p>The <code><a href="https://rdrr.io/pkg/ggtree/man/facet_labeller.html">facet_labeller()</a></code> function was designed to re-label selected panels, and it currently only works with <code>ggtree</code> objects (<em>i.e.</em> <code><a href="https://rdrr.io/pkg/ggtree/man/facet-plot.html">geom_facet()</a></code> outputs). A more versatile version that works with both <code>ggtree</code> and <code>ggplot</code> objects is implemented in the <a href="https://CRAN.R-project.org/package=ggfun"><strong>ggfun</strong></a> package (<em>i.e.</em> the <code>facet_set()</code> function).</p>
+<div class="sourceCode" id="cb235"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/facet_labeller.html">facet_labeller</a></span><span class="op">(</span><span class="va">p2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>Tree <span class="op">=</span> <span class="st">"phylogeny"</span>, bar <span class="op">=</span> <span class="st">"HELLO"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>If you want to combine <code><a href="https://rdrr.io/pkg/ggtree/man/facet_widths.html">facet_widths()</a></code> with <code><a href="https://rdrr.io/pkg/ggtree/man/facet_labeller.html">facet_labeller()</a></code>, you need to call <code><a href="https://rdrr.io/pkg/ggtree/man/facet_labeller.html">facet_labeller()</a></code> to re-label the panels before using <code><a href="https://rdrr.io/pkg/ggtree/man/facet_widths.html">facet_widths()</a></code> to set the relative widths of each panel. Otherwise, it won’t work since the output of <code><a href="https://rdrr.io/pkg/ggtree/man/facet_widths.html">facet_widths()</a></code> is re-drawn from <code>grid</code> object.</p>
-<div class="sourceCode" id="cb235"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb236"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/facet_labeller.html">facet_labeller</a></span><span class="op">(</span><span class="va">p2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>Tree <span class="op">=</span> <span class="st">"phylogeny"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/facet_widths.html">facet_widths</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>Tree <span class="op">=</span> <span class="fl">.4</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 
 
@@ -150,14 +151,14 @@ FIGURE 12.2: <strong>Rename facet labels.</strong> Rename multiple labels simult
 <span class="header-section-number">12.2</span> Geometric layers<a class="anchor" aria-label="anchor" href="#geom2"><i class="fas fa-link"></i></a>
 </h2>
 <p>Subsetting is not supported in layers defined in <a href="https://CRAN.R-project.org/package=ggplot2"><strong>ggplot2</strong></a>, while it is quite useful in phylogenetic annotation since it allows us to annotate at specific node(s) (e.g. only label bootstrap values that are larger than 75).</p>
-<p>In <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a>, we provide a modified version of layers defined in <code>ggplot2</code> to support aesthetic mapping of <code>subset</code>, including:</p>
+<p>In <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a>, we provide several modified versions of layers defined in <a href="https://CRAN.R-project.org/package=ggplot2"><strong>ggplot2</strong></a> to support the <code>subset</code> aesthetic mapping, including:</p>
 <ul>
-<li>geom_segment2</li>
-<li>geom_point2</li>
-<li>geom_text2</li>
-<li>geom_label2</li>
+<li><code><a href="https://rdrr.io/pkg/ggtree/man/geom_segment2.html">geom_segment2()</a></code></li>
+<li><code><a href="https://rdrr.io/pkg/ggtree/man/geom_point2.html">geom_point2()</a></code></li>
+<li><code><a href="https://rdrr.io/pkg/ggtree/man/geom_text2.html">geom_text2()</a></code></li>
+<li><code><a href="https://rdrr.io/pkg/ggtree/man/geom_label2.html">geom_label2()</a></code></li>
 </ul>
-<div class="sourceCode" id="cb236"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb237"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yulab-smu.top/treedata-book/">ggtree</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">mpg</span><span class="op">)</span>
@@ -172,7 +173,8 @@ FIGURE 12.2: <strong>Rename facet labels.</strong> Rename multiple labels simult
 
 <span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ape/man/rtree.html">rtree</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
     <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_label2.html">geom_label2</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>subset <span class="op">=</span> <span class="va">node</span> <span class="op">&lt;</span><span class="fl">5</span>, label <span class="op">=</span> <span class="va">label</span><span class="op">)</span><span class="op">)</span>
-<span class="fu">plot_grid</span><span class="op">(</span><span class="va">p</span>, <span class="va">p2</span>, ncol<span class="op">=</span><span class="fl">2</span>, labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+
+<span class="fu"><a href="https://rdrr.io/pkg/aplot/man/plot_list.html">plot_list</a></span><span class="op">(</span><span class="va">p</span>, <span class="va">p2</span>, ncol<span class="op">=</span><span class="fl">2</span>, tag_levels<span class="op">=</span><span class="st">'A'</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <span style="display:block;" id="fig:layer2"></span>
 <img src="treedata_files/figure-html/layer2-1.svg" alt="Geometric layers that support subsetting. These layers work with ggplot2 (A) and ggtree (B)." width="100%"><p class="caption">
@@ -184,10 +186,10 @@ FIGURE 12.3: <strong>Geometric layers that support subsetting.</strong> These la
 <h2>
 <span class="header-section-number">12.3</span> Layout utilities<a class="anchor" aria-label="anchor" href="#layout-utilities"><i class="fas fa-link"></i></a>
 </h2>
-<p>In <a href="chapter4.html#tree-layouts">session 4.2.2</a>, we introduce several layouts supported by <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a>. The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> package also provides several layout functions that can transform from one to another. Note that not all layouts are supported (see <a href="chapter12.html#tab:layoutLayerTab">12.1</a>).</p>
+<p>In <a href="chapter4.html#tree-layouts">session 4.2</a>, we introduce several layouts supported by <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a>. The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> package also provides several layout functions that can transform from one to another. Note that not all layouts are supported (see <a href="chapter12.html#tab:layoutLayerTab">12.1</a>).</p>
 <div class="inline-table"><table class="table table-sm">
 <caption>
-<span id="tab:layoutLayerTab">TABLE 12.1: </span>Layout layers.
+<span id="tab:layoutLayerTab">TABLE 12.1: </span>Layout transformers.
 </caption>
 <thead><tr>
 <th style="text-align:left;">
@@ -240,7 +242,7 @@ transform rectangular/circular layout to inward_circular layout
 </tr>
 </tbody>
 </table></div>
-<div class="sourceCode" id="cb237"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb238"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">2019</span><span class="op">)</span>
 <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/rtree.html">rtree</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span>
 <span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
@@ -253,8 +255,8 @@ transform rectangular/circular layout to inward_circular layout
 
 <div class="figure">
 <span style="display:block;" id="fig:layoutLayer"></span>
-<img src="treedata_files/figure-html/layoutLayer-1.svg" alt="Layout layers for transforming among different layouts. Default rectangular layout (A); transform rectangular to dendrogram layout (B); transform circular to rectangular layout (C); transform rectangular to circular layout (D); transform rectangular to fan layout (E); transform rectangular to inward circular layout (F)." width="100%"><p class="caption">
-FIGURE 12.4: <strong>Layout layers for transforming among different layouts</strong>. Default rectangular layout (A); transform rectangular to dendrogram layout (B); transform circular to rectangular layout (C); transform rectangular to circular layout (D); transform rectangular to fan layout (E); transform rectangular to inward circular layout (F).
+<img src="treedata_files/figure-html/layoutLayer-1.svg" alt="Layout functions for transforming among different layouts. Default rectangular layout (A); transform rectangular to dendrogram layout (B); transform circular to rectangular layout (C); transform rectangular to circular layout (D); transform rectangular to fan layout (E); transform rectangular to inward circular layout (F)." width="100%"><p class="caption">
+FIGURE 12.4: <strong>Layout functions for transforming among different layouts</strong>. Default rectangular layout (A); transform rectangular to dendrogram layout (B); transform circular to rectangular layout (C); transform rectangular to circular layout (D); transform rectangular to fan layout (E); transform rectangular to inward circular layout (F).
 </p>
 </div>
 </div>
@@ -262,23 +264,23 @@ FIGURE 12.4: <strong>Layout layers for transforming among different layouts</str
 <h2>
 <span class="header-section-number">12.4</span> Scale utilities<a class="anchor" aria-label="anchor" href="#scale-utilities"><i class="fas fa-link"></i></a>
 </h2>
-<p>The <code><a href="https://rdrr.io/pkg/ggtree/man/scale_x_range.html">scale_x_range()</a></code> documented in <a href="chapter5.html#uncertainty-of-evolutionary-inference">session 5.2.4</a>.</p>
+<p>The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> package provides several scale functions to manipulate x-axis, including the <code><a href="https://rdrr.io/pkg/ggtree/man/scale_x_range.html">scale_x_range()</a></code> documented in <a href="chapter5.html#uncertainty-of-evolutionary-inference">session 5.2.4</a>, <code><a href="https://rdrr.io/pkg/ggtree/man/xlim_tree.html">xlim_tree()</a></code>, <code><a href="https://rdrr.io/pkg/ggtree/man/xlim_expand.html">xlim_expand()</a></code>, <code><a href="https://rdrr.io/pkg/ggtree/man/ggexpand.html">ggexpand()</a></code>, <code><a href="https://rdrr.io/pkg/ggtree/man/ggexpand.html">hexpand()</a></code> and <code><a href="https://rdrr.io/pkg/ggtree/man/ggexpand.html">vexpand()</a></code>.</p>
 <div id="xlim_expand" class="section level3" number="12.4.1">
 <h3>
-<span class="header-section-number">12.4.1</span> Expand x limit for specific panel<a class="anchor" aria-label="anchor" href="#xlim_expand"><i class="fas fa-link"></i></a>
+<span class="header-section-number">12.4.1</span> Expand x limit for a specific facet panel<a class="anchor" aria-label="anchor" href="#xlim_expand"><i class="fas fa-link"></i></a>
 </h3>
-<p>Sometimes we need to set <code>xlim</code> for specific panel (<em>e.g.</em> allocate more space for <a href="faq.html#faq-label-truncated">long tip labels</a> at <code>Tree</code> panel). However, the <code><a href="https://ggplot2.tidyverse.org/reference/lims.html">ggplot2::xlim()</a></code> function applies to all the panels. <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> provides <code><a href="https://rdrr.io/pkg/ggtree/man/xlim_expand.html">xlim_expand()</a></code> to adjust <code>xlim</code> for user-specific panel. It accepts two parameters, <code>xlim</code> and <code>panel</code>, and can adjust all individual panels as demonstrated in Figure <a href="chapter12.html#fig:xlimExpand">12.5</a>A. If you only want to adjust <code>xlim</code> of the <code>Tree</code> panel, you can use <code><a href="https://rdrr.io/pkg/ggtree/man/xlim_tree.html">xlim_tree()</a></code> as a shortcut.</p>
-<div class="sourceCode" id="cb238"><pre class="downlit sourceCode r">
+<p>Sometimes we need to set <code>xlim</code> for a specific facet panel (<em>e.g.</em> allocate more space for <a href="faq.html#faq-label-truncated">long tip labels</a> at <code>Tree</code> panel). However, the <code><a href="https://ggplot2.tidyverse.org/reference/lims.html">ggplot2::xlim()</a></code> function applies to all the panels. The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> provides <code><a href="https://rdrr.io/pkg/ggtree/man/xlim_expand.html">xlim_expand()</a></code> to adjust <code>xlim</code> for user-specific facet panel. It accepts two parameters, <code>xlim</code>, and <code>panel</code>, and can adjust all individual panels as demonstrated in Figure <a href="chapter12.html#fig:xlimExpand">12.5</a>A. If you only want to adjust <code>xlim</code> of the <code>Tree</code> panel, you can use <code><a href="https://rdrr.io/pkg/ggtree/man/xlim_tree.html">xlim_tree()</a></code> as a shortcut.</p>
+<div class="sourceCode" id="cb239"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">2019</span><span class="op">-</span><span class="fl">05</span><span class="op">-</span><span class="fl">02</span><span class="op">)</span>
 <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/rtree.html">rtree</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span>
 <span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">tip.label</span>, 
                 value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span><span class="op">)</span>
-<span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/facet-plot.html">facet_plot</a></span><span class="op">(</span><span class="va">p</span>, panel <span class="op">=</span> <span class="st">"Dot"</span>, data <span class="op">=</span> <span class="va">d</span>, 
+<span class="va">p2</span> <span class="op">&lt;-</span> <span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/facet-plot.html">geom_facet</a></span><span class="op">(</span>panel <span class="op">=</span> <span class="st">"Dot"</span>, data <span class="op">=</span> <span class="va">d</span>, 
             geom <span class="op">=</span> <span class="va">geom_point</span>, mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">value</span><span class="op">)</span><span class="op">)</span>
 <span class="va">p2</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/xlim_tree.html">xlim_tree</a></span><span class="op">(</span><span class="fl">6</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/xlim_expand.html">xlim_expand</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">10</span>, <span class="fl">10</span><span class="op">)</span>, <span class="st">'Dot'</span><span class="op">)</span></code></pre></div>
 <p>The <code><a href="https://rdrr.io/pkg/ggtree/man/xlim_expand.html">xlim_expand()</a></code> function also works with <code><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html">ggplot2::facet_grid()</a></code>. As demonstrating in Figure <a href="chapter12.html#fig:xlimExpand">12.5</a>B, only the <code>xlim</code> of <em>virginica</em> panel was adjusted by <code><a href="https://rdrr.io/pkg/ggtree/man/xlim_expand.html">xlim_expand()</a></code>.</p>
-<div class="sourceCode" id="cb239"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb240"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">g</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">Sepal.Length</span>, <span class="va">Sepal.Width</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html">facet_grid</a></span><span class="op">(</span><span class="va">.</span> <span class="op">~</span> <span class="va">Species</span>, scales <span class="op">=</span> <span class="st">"free_x"</span><span class="op">)</span> 
 <span class="va">g</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/xlim_expand.html">xlim_expand</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">15</span><span class="op">)</span>, <span class="st">'virginica'</span><span class="op">)</span></code></pre></div>
@@ -286,8 +288,8 @@ FIGURE 12.4: <strong>Layout layers for transforming among different layouts</str
 
 <div class="figure">
 <span style="display:block;" id="fig:xlimExpand"></span>
-<img src="treedata_files/figure-html/xlimExpand-1.svg" alt="Setting xlim for user-specific panel. xlim for ggtree::facet_plot (A, Tree and Dot panels), and ggplot2::facet_grid (B, virginica panel)." width="100%"><p class="caption">
-FIGURE 12.5: <strong>Setting xlim for user-specific panel.</strong> xlim for <code><a href="https://rdrr.io/pkg/ggtree/man/facet-plot.html">ggtree::facet_plot</a></code> (A, Tree and Dot panels), and <code><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html">ggplot2::facet_grid</a></code> (B, virginica panel).
+<img src="treedata_files/figure-html/xlimExpand-1.svg" alt="Setting xlim for user-specific facet panels. Using xlim_tree() to set the Tree panel of the ggtree output (A) and xlim_expand() to set the Dot panel of the ggtree output (A) and the virginica panel of the ggplot output (B)." width="100%"><p class="caption">
+FIGURE 12.5: <strong>Setting xlim for user-specific facet panels.</strong> Using <code><a href="https://rdrr.io/pkg/ggtree/man/xlim_tree.html">xlim_tree()</a></code> to set the Tree panel of the <code>ggtree</code> output (A) and <code><a href="https://rdrr.io/pkg/ggtree/man/xlim_expand.html">xlim_expand()</a></code> to set the Dot panel of the <code>ggtree</code> output (A) and the virginica panel of the <code>ggplot</code> output (B).
 </p>
 </div>
 </div>
@@ -296,22 +298,23 @@ FIGURE 12.5: <strong>Setting xlim for user-specific panel.</strong> xlim for <co
 <span class="header-section-number">12.4.2</span> Expand plot limit by the ratio of plot range<a class="anchor" aria-label="anchor" href="#ggexpand"><i class="fas fa-link"></i></a>
 </h3>
 <p>The <a href="https://CRAN.R-project.org/package=ggplot2"><strong>ggplot2</strong></a> package cannot automatically adjust plot limits and it is very common that long text was truncated. Users need to adjust x (y) limits manually via the <code><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim()</a></code> (<code><a href="https://ggplot2.tidyverse.org/reference/lims.html">ylim()</a></code>) command (see also <a href="faq.html#faq-label-truncated">FAQ: Tip label truncated</a>).</p>
-<p>The <code><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim()</a></code> (<code><a href="https://ggplot2.tidyverse.org/reference/lims.html">ylim()</a></code>) is a good solution to this issue. However, we can put the thing more simple, by expanding the plot panel by a ratio of the axis range without knowing what the exact value is.</p>
-<p>We provide <code><a href="https://rdrr.io/pkg/ggtree/man/ggexpand.html">hexpand()</a></code> function to expand x limit by specifying a fraction of the x range and it works for both directions (<code>direction=1</code> for right hand side and <code>direction=-1</code> for left hand side) (Figure <a href="chapter12.html#fig:hexpand">12.6</a>). Another version <code><a href="https://rdrr.io/pkg/ggtree/man/ggexpand.html">vexpand()</a></code> works with similar behavior for y axis and the <code><a href="https://rdrr.io/pkg/ggtree/man/ggexpand.html">ggexpand()</a></code> function works for both x and y axes (Figure <a href="chapter11.html#fig:phylonetworx">11.2</a>).</p>
+<p>The <code><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim()</a></code> (<code><a href="https://ggplot2.tidyverse.org/reference/lims.html">ylim()</a></code>) is a good solution to this issue. However, we can put the thing more simply, by expanding the plot panel by a ratio of the axis range without knowing what the exact value is.</p>
+<p>We provide <code><a href="https://rdrr.io/pkg/ggtree/man/ggexpand.html">hexpand()</a></code> function to expand x limit by specifying a fraction of the x range and it works for both directions (<code>direction=1</code> for right-hand side and <code>direction=-1</code> for left-hand side) (Figure <a href="chapter12.html#fig:hexpand">12.6</a>). Another version of <code><a href="https://rdrr.io/pkg/ggtree/man/ggexpand.html">vexpand()</a></code> works with similar behavior for y-axis and the <code><a href="https://rdrr.io/pkg/ggtree/man/ggexpand.html">ggexpand()</a></code> function works for both x and y axes (Figure <a href="chapter11.html#fig:phylonetworx">11.2</a>).</p>
 
 
-<div class="sourceCode" id="cb240"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb241"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">x</span><span class="op">$</span><span class="va">tip.label</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">'to make the label longer_'</span>, <span class="va">x</span><span class="op">$</span><span class="va">tip.label</span><span class="op">)</span>
 <span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggexpand.html">hexpand</a></span><span class="op">(</span><span class="fl">.3</span><span class="op">)</span>
 <span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">Sepal.Width</span>, <span class="va">Petal.Width</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
     <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggexpand.html">hexpand</a></span><span class="op">(</span><span class="fl">.2</span>, direction <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggexpand.html">vexpand</a></span><span class="op">(</span><span class="fl">.2</span><span class="op">)</span>
-<span class="fu">plot_grid</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>, rel_widths<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.6</span>, <span class="fl">.4</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+
+<span class="fu"><a href="https://rdrr.io/pkg/aplot/man/plot_list.html">plot_list</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, tag_levels<span class="op">=</span><span class="st">"A"</span>, widths<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.6</span>, <span class="fl">.4</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <span style="display:block;" id="fig:hexpand"></span>
-<img src="treedata_files/figure-html/hexpand-1.png" alt="Expanding plot limits by a fraction of x or y range. expand x limit at right hand side by default (A). expand x limit for left hand side when direction = -1 and expand y limit at the upper side (B)." width="100%"><p class="caption">
-FIGURE 12.6: <strong>Expanding plot limits by a fraction of x or y range.</strong> expand x limit at right hand side by default (A). expand x limit for left hand side when direction = -1 and expand y limit at the upper side (B).
+<img src="treedata_files/figure-html/hexpand-1.png" alt="Expanding plot limits by a fraction of the x or y range. Expand x limit at right-hand side by default (A), and expand x limit for left-hand side when direction = -1 and expand y limit at the upper side (B)." width="100%"><p class="caption">
+FIGURE 12.6: <strong>Expanding plot limits by a fraction of the x or y range.</strong> Expand x limit at right-hand side by default (A), and expand x limit for left-hand side when direction = -1 and expand y limit at the upper side (B).
 </p>
 </div>
 </div>
@@ -324,10 +327,10 @@ FIGURE 12.6: <strong>Expanding plot limits by a fraction of x or y range.</stron
 <h3>
 <span class="header-section-number">12.5.1</span> Filter tree data<a class="anchor" aria-label="anchor" href="#td_filter"><i class="fas fa-link"></i></a>
 </h3>
-<p>The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> package defined <a href="chapter12.html#geom2">several several geom layers</a> that supports subsetting tree data. However, many other geom layers that didn’t provide this feature, are defined in <a href="https://CRAN.R-project.org/package=ggplot2"><strong>ggplot2</strong></a> and its extensions. To allow filtering tree data with these layers, <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> provides an accompany function, <code><a href="https://rdrr.io/pkg/ggtree/man/td_filter.html">td_filter()</a></code> that return a function that work similar to <code><a href="https://dplyr.tidyverse.org/reference/filter.html">dplyr::filter()</a></code> and can be passed to the <code>data</code> parameter in geom layers to filter ggtree plot data as demonstrated in Figure <a href="chapter12.html#fig:tdFilter">12.7</a>.</p>
+<p>The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> package defined <a href="chapter12.html#geom2">several geom layers</a> that support subsetting tree data. However, many other geom layers that didn’t provide this feature, are defined in <a href="https://CRAN.R-project.org/package=ggplot2"><strong>ggplot2</strong></a> and its extensions. To allow filtering tree data with these layers, <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> provides an accompanying function, <code><a href="https://rdrr.io/pkg/ggtree/man/td_filter.html">td_filter()</a></code> that returns a function that works similar to <code><a href="https://dplyr.tidyverse.org/reference/filter.html">dplyr::filter()</a></code> and can be passed to the <code>data</code> parameter in geom layers to filter <code>ggtree</code> plot data as demonstrated in Figure <a href="chapter12.html#fig:tdFilter">12.7</a>.</p>
 
 
-<div class="sourceCode" id="cb241"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb242"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yulab-smu.top/treedata-book/">tidytree</a></span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1997</span><span class="op">)</span>
@@ -337,11 +340,13 @@ FIGURE 12.6: <strong>Expanding plot limits by a fraction of x or y range.</stron
 <span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html">geom_text</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label<span class="op">=</span><span class="va">label</span><span class="op">)</span>, 
             data<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/td_filter.html">td_filter</a></span><span class="op">(</span><span class="va">isTip</span> <span class="op">&amp;</span> 
                         <span class="va">node</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">selected_nodes</span><span class="op">)</span>, 
-            hjust<span class="op">=</span><span class="fl">0</span><span class="op">)</span></code></pre></div>
+            hjust<span class="op">=</span><span class="fl">0</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_nodepoint.html">geom_nodepoint</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>subset <span class="op">=</span> <span class="va">node</span> <span class="op">==</span><span class="fl">67</span><span class="op">)</span>, 
+                    size<span class="op">=</span><span class="fl">5</span>, color<span class="op">=</span><span class="st">'blue'</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <span style="display:block;" id="fig:tdFilter"></span>
-<img src="treedata_files/figure-html/tdFilter-1.svg" alt="Filtering ggtree plot data in geom layers." width="98%"><p class="caption">
-FIGURE 12.7: <strong>Filtering ggtree plot data in geom layers.</strong>
+<img src="treedata_files/figure-html/tdFilter-1.svg" alt="Filtering ggtree plot data in geom layers. Only selected tips (offspring of the node indicated by the blue circle point) were labeled." width="98%"><p class="caption">
+FIGURE 12.7: <strong>Filtering ggtree plot data in geom layers.</strong> Only selected tips (offspring of the node indicated by the blue circle point) were labeled.
 </p>
 </div>
 </div>
@@ -349,8 +354,8 @@ FIGURE 12.7: <strong>Filtering ggtree plot data in geom layers.</strong>
 <h3>
 <span class="header-section-number">12.5.2</span> Flatten list-column tree data<a class="anchor" aria-label="anchor" href="#td_unnest"><i class="fas fa-link"></i></a>
 </h3>
-<p>The ggtree plot data is a tidy data frame that each row represents a unique node. If multiple values are associated with a node, the data should be stored as nested data (i.e. in a list-column).</p>
-<div class="sourceCode" id="cb242"><pre class="downlit sourceCode r">
+<p>The <code>ggtree</code> plot data is a tidy data frame that each row represents a unique node. If multiple values are associated with a node, the data can be stored as nested data (i.e. in a list-column).</p>
+<div class="sourceCode" id="cb243"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1997</span><span class="op">)</span>
 <span class="va">tr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/rtree.html">rtree</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>
 <span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>id<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="va">tr</span><span class="op">$</span><span class="va">tip.label</span>,<span class="fl">2</span><span class="op">)</span>, 
@@ -369,11 +374,11 @@ FIGURE 12.7: <strong>Filtering ggtree plot data in geom layers.</strong>
 ## 3 t5    &lt;tibble [2 × 1]&gt; &lt;tibble [2 × 1]&gt;
 ## 4 t4    &lt;tibble [2 × 1]&gt; &lt;tibble [2 × 1]&gt;
 ## 5 t3    &lt;tibble [2 × 1]&gt; &lt;tibble [2 × 1]&gt;</code></pre>
-<p>Neste data is supported by the operator, <code>%&lt;+%</code>, and can be mapped to the tree structure. If a geom layer can’t directly support visualizing nested data, we need to flatten the data before applying the geom layer to display it. The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> package provides a function, <code><a href="https://rdrr.io/pkg/ggtree/man/td_unnest.html">td_unnest()</a></code>, which return a function that works similar to <code><a href="https://tidyr.tidyverse.org/reference/nest.html">tidyr::unnest()</a></code> and can be used to flatten ggtree plot data as demonstrated in Figure <a href="chapter12.html#fig:tdUnnest">12.8</a>A.</p>
+<p>Nested data is supported by the operator, <code>%&lt;+%</code>, and can be mapped to the tree structure. If a geom layer can’t directly support visualizing nested data, we need to flatten the data before applying the geom layer to display it. The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> package provides a function, <code><a href="https://rdrr.io/pkg/ggtree/man/td_unnest.html">td_unnest()</a></code>, which returns a function that works similar to <code><a href="https://tidyr.tidyverse.org/reference/nest.html">tidyr::unnest()</a></code> and can be used to flatten <code>ggtree</code> plot data as demonstrated in Figure <a href="chapter12.html#fig:tdUnnest">12.8</a>A.</p>
 <p>All tree data utilities provide a <code>.f</code> parameter to pass a function to pre-operate the data. This creates the possibility to combine different tree data utilities as demonstrated in Figure <a href="chapter12.html#fig:tdUnnest">12.8</a>B.</p>
 
 
-<div class="sourceCode" id="cb244"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb245"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tr</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/ggtree/man/attacher.html">%&lt;+%</a></span> <span class="va">d2</span>
 <span class="va">p2</span> <span class="op">&lt;-</span> <span class="va">p</span> <span class="op">+</span> 
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, size<span class="op">=</span> <span class="va">value</span>, colour<span class="op">=</span><span class="va">group</span><span class="op">)</span>, 
@@ -387,11 +392,11 @@ FIGURE 12.7: <strong>Filtering ggtree plot data in geom layers.</strong>
             alpha<span class="op">=</span><span class="fl">.4</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_size.html">scale_size</a></span><span class="op">(</span>range<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">10</span><span class="op">)</span>, limits<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span>
 
-<span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html">plot_grid</a></span><span class="op">(</span><span class="va">p2</span>, <span class="va">p3</span>, labels<span class="op">=</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span>            </code></pre></div>
+<span class="fu"><a href="https://rdrr.io/pkg/aplot/man/plot_list.html">plot_list</a></span><span class="op">(</span><span class="va">p2</span>, <span class="va">p3</span>, tag_levels <span class="op">=</span> <span class="st">'A'</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <span style="display:block;" id="fig:tdUnnest"></span>
-<img src="treedata_files/figure-html/tdUnnest-1.svg" alt="Flattening ggtree plot data. (A) list-columns can be flattened by td_unnest(). (B) Different tree data utilites can be combined to work together (e.g. filter data by td_filter() and then flatten it by td_unnest()." width="100%"><p class="caption">
-FIGURE 12.8: <strong>Flattening ggtree plot data.</strong> (A) list-columns can be flattened by <code><a href="https://rdrr.io/pkg/ggtree/man/td_unnest.html">td_unnest()</a></code>. (B) Different tree data utilites can be combined to work together (e.g. filter data by <code><a href="https://rdrr.io/pkg/ggtree/man/td_filter.html">td_filter()</a></code> and then flatten it by <code><a href="https://rdrr.io/pkg/ggtree/man/td_unnest.html">td_unnest()</a></code>.
+<img src="treedata_files/figure-html/tdUnnest-1.svg" alt="Flattening ggtree plot data. List-columns can be flattened by td_unnest() and two circle points were displayed on each tip simultaneously (A). Different tree data utilites can be combined to work together (e.g. filter data by td_filter() and then flatten it by td_unnest() (B)." width="100%"><p class="caption">
+FIGURE 12.8: <strong>Flattening ggtree plot data.</strong> List-columns can be flattened by <code><a href="https://rdrr.io/pkg/ggtree/man/td_unnest.html">td_unnest()</a></code> and two circle points were displayed on each tip simultaneously (A). Different tree data utilites can be combined to work together (e.g. filter data by <code><a href="https://rdrr.io/pkg/ggtree/man/td_filter.html">td_filter()</a></code> and then flatten it by <code><a href="https://rdrr.io/pkg/ggtree/man/td_unnest.html">td_unnest()</a></code> (B).
 </p>
 </div>
 </div>
@@ -404,15 +409,18 @@ FIGURE 12.8: <strong>Flattening ggtree plot data.</strong> (A) list-columns can 
 <h3>
 <span class="header-section-number">12.6.1</span> Extract tip order<a class="anchor" aria-label="anchor" href="#tiporder"><i class="fas fa-link"></i></a>
 </h3>
-<p>To create <a href="chapter7.html#composite_plot">composite plots</a>, users need to re-order their data manually before creating tree associated graphs. The order of their data should be consistent with the tip order presented in ggtree plot. For this purpose, we provide the <code><a href="https://rdrr.io/pkg/ggtree/man/get_taxa_name.html">get_taxa_name()</a></code> function to extract an ordered vector of tips based on the tree structure plotted by ggtree.</p>
+<p>To create <a href="chapter7.html#composite_plot">composite plots</a>, users need to re-order their data manually before creating tree-associated graphs. The order of their data should be consistent with the tip order presented in the <code><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree()</a></code> plot. For this purpose, we provide the <code><a href="https://rdrr.io/pkg/ggtree/man/get_taxa_name.html">get_taxa_name()</a></code> function to extract an ordered vector of tips based on the tree structure plotted by <code><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree()</a></code>.</p>
 
 
-<div class="sourceCode" id="cb245"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb246"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
 <span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/rtree.html">rtree</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>
 <span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
     <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom-hilight.html">geom_hilight</a></span><span class="op">(</span>node <span class="op">=</span> <span class="fl">12</span>, extendto <span class="op">=</span> <span class="fl">2.5</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/MicrobiotaProcess/man/print.html">print</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></code></pre></div>
+
+<span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"Taxa order:"</span>, 
+        <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/get_taxa_name.html">get_taxa_name</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span>, collapse<span class="op">=</span><span class="st">', '</span><span class="op">)</span><span class="op">)</span>
+<span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title<span class="op">=</span><span class="va">x</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <span style="display:block;" id="fig:tiporder"></span>
 <img src="treedata_files/figure-html/tiporder-1.svg" alt="An example tree for demonstraing get_taxa_name() function." width="98%"><p class="caption">
@@ -420,12 +428,12 @@ FIGURE 12.9: <strong>An example tree for demonstraing <code><a href="https://rdr
 </p>
 </div>
 <p>The <code><a href="https://rdrr.io/pkg/ggtree/man/get_taxa_name.html">get_taxa_name()</a></code> function will return a vector of ordered tip labels according to the tree structure displayed in Figure <a href="chapter12.html#fig:tiporder">12.9</a>.</p>
-<div class="sourceCode" id="cb246"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb247"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/get_taxa_name.html">get_taxa_name</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></code></pre></div>
 <pre><code>##  [1] "t9"  "t8"  "t3"  "t2"  "t7"  "t10" "t1"  "t5" 
 ##  [9] "t6"  "t4"</code></pre>
-<p>If user specific a node, the <code><a href="https://rdrr.io/pkg/ggtree/man/get_taxa_name.html">get_taxa_name()</a></code> will extract order tips of selected clade (i.e. highlighted region in the Figure <a href="chapter12.html#fig:tiporder">12.9</a>).</p>
-<div class="sourceCode" id="cb248"><pre class="downlit sourceCode r">
+<p>If user specify a node, the <code><a href="https://rdrr.io/pkg/ggtree/man/get_taxa_name.html">get_taxa_name()</a></code> will extract the tip order of the selected clade (i.e. highlighted region in the Figure <a href="chapter12.html#fig:tiporder">12.9</a>).</p>
+<div class="sourceCode" id="cb249"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/get_taxa_name.html">get_taxa_name</a></span><span class="op">(</span><span class="va">p</span>, node <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "t5" "t6" "t4"</code></pre>
 </div>
@@ -434,7 +442,7 @@ FIGURE 12.9: <strong>An example tree for demonstraing <code><a href="https://rdr
 <span class="header-section-number">12.6.2</span> Padding taxa labels<a class="anchor" aria-label="anchor" href="#padding-taxa-labels"><i class="fas fa-link"></i></a>
 </h3>
 <p>The <code><a href="https://rdrr.io/pkg/ggtree/man/label_pad.html">label_pad()</a></code> function adds padding characters (default is <code>·</code>) to taxa labels.</p>
-<div class="sourceCode" id="cb250"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb251"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">2015</span><span class="op">-</span><span class="fl">12</span><span class="op">-</span><span class="fl">21</span><span class="op">)</span>
 <span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/rtree.html">rtree</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>
 <span class="va">tree</span><span class="op">$</span><span class="va">tip.label</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"long string for test"</span>
@@ -458,15 +466,15 @@ FIGURE 12.9: <strong>An example tree for demonstraing <code><a href="https://rdr
 <p>This feature is useful if we want to align tip labels to the end as demonstrated in Figure <a href="chapter12.html#fig:labelpad">12.10</a>. Note that in this case, monospace font should be used to ensure the lengths of the labels displayed in the plot are the same.</p>
 
 
-<div class="sourceCode" id="cb252"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/ggtree/man/attacher.html">%&lt;+%</a></span> <span class="va">d</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">3</span><span class="op">)</span>
+<div class="sourceCode" id="cb253"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/ggtree/man/attacher.html">%&lt;+%</a></span> <span class="va">d</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">5</span><span class="op">)</span>
 <span class="va">p1</span> <span class="op">&lt;-</span> <span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label<span class="op">=</span><span class="va">newlabel</span><span class="op">)</span>, 
                     align<span class="op">=</span><span class="cn">TRUE</span>, family<span class="op">=</span><span class="st">'mono'</span>,
                     linetype <span class="op">=</span> <span class="st">"dotted"</span>, linesize <span class="op">=</span> <span class="fl">.7</span><span class="op">)</span> 
 <span class="va">p2</span> <span class="op">&lt;-</span> <span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label<span class="op">=</span><span class="va">newlabel2</span><span class="op">)</span>, 
                     align<span class="op">=</span><span class="cn">TRUE</span>, family<span class="op">=</span><span class="st">'mono'</span>,
-                    linetype <span class="op">=</span> <span class="cn">NULL</span>, offset<span class="op">=</span><span class="op">-</span><span class="fl">.5</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">2</span><span class="op">)</span>
-<span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html">plot_grid</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, ncol<span class="op">=</span><span class="fl">2</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span><span class="op">)</span>                            </code></pre></div>
+                    linetype <span class="op">=</span> <span class="cn">NULL</span>, offset<span class="op">=</span><span class="op">-</span><span class="fl">.5</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">5</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/aplot/man/plot_list.html">plot_list</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, ncol<span class="op">=</span><span class="fl">2</span>, tag_levels <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span>                            </code></pre></div>
 <div class="figure">
 <span style="display:block;" id="fig:labelpad"></span>
 <img src="treedata_files/figure-html/labelpad-1.svg" alt="Align tip label to the end. With dotted line (A) and without dotted line (B)." width="100%"><p class="caption">
@@ -479,9 +487,8 @@ FIGURE 12.10: <strong>Align tip label to the end.</strong> With dotted line (A) 
 <h2>
 <span class="header-section-number">12.7</span> Interactive ggtree annotation<a class="anchor" aria-label="anchor" href="#identify"><i class="fas fa-link"></i></a>
 </h2>
-<p>The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> package supports interactive tree annotation or manipulation by implementing an <code><a href="https://rdrr.io/r/graphics/identify.html">identify()</a></code> method. Users can click on a node to highlight a clade, to label or rotate it ,<em>etc.</em>. Users can also use the <a href="https://CRAN.R-project.org/package=plotly"><strong>plotly</strong></a> package to convert <code>ggtree</code> to <code>plotly</code> object to quickly create
-<a href="related-tools.html#plotly">interactive phylogenetic tree</a>
-.</p>
+<p>The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> package supports interactive tree annotation or manipulation by implementing an <code><a href="https://rdrr.io/r/graphics/identify.html">identify()</a></code> method. Users can click on a node to highlight a clade, to label or rotate it, <em>etc</em>. Users can also use the <a href="https://CRAN.R-project.org/package=plotly"><strong>plotly</strong></a> package to convert a <code>ggtree</code> object to a <code>plotly</code> object to quickly create
+<a href="related-tools.html#plotly">interactive phylogenetic tree</a>.</p>
 
 
 <div class="figure">
@@ -516,7 +523,7 @@ FIGURE 12.11: <strong>Interactive phylogenetic tree using identify() method.</st
 <li><a class="nav-link" href="#layout-utilities"><span class="header-section-number">12.3</span> Layout utilities</a></li>
 <li>
 <a class="nav-link" href="#scale-utilities"><span class="header-section-number">12.4</span> Scale utilities</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#xlim_expand"><span class="header-section-number">12.4.1</span> Expand x limit for specific panel</a></li>
+<li><a class="nav-link" href="#xlim_expand"><span class="header-section-number">12.4.1</span> Expand x limit for a specific facet panel</a></li>
 <li><a class="nav-link" href="#ggexpand"><span class="header-section-number">12.4.2</span> Expand plot limit by the ratio of plot range</a></li>
 </ul>
 </li>
@@ -549,7 +556,7 @@ FIGURE 12.11: <strong>Interactive phylogenetic tree using identify() method.</st
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-11-04.</p>
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-11-08.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
