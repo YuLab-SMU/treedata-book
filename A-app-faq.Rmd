@@ -36,8 +36,8 @@ Once it was installed, loading the package will load the core `r pkg_treedataver
 If you are new to `R` and want to use `r Biocpkg("ggtree")` for tree visualization, please do
 learn some basic `R` and `r CRANpkg("ggplot2")`.
 
-A very common issue is that users always copy-paste commands without looking at
-the function's behavior. `system.file()` was used in the `treeio` and `ggtree` package documentation to find files in the packages.
+A very common issue is that users copy-paste commands without looking at
+the function's behavior. The `system.file()` function was used in some of our examples to find files packed in the packages.
 
 
 
@@ -56,37 +56,35 @@ Usage:
                  mustWork = FALSE)
 ```
 
-For users who want to use their files, please just use relative or absolute file path (*e.g.* `f = "your/folder/filename"`).
+For users who want to use their files, please just use relative or absolute file path (*e.g.* `file = "your/folder/filename"`).
 
 
 
 ## Aesthetic mapping {#faq-aes-mapping}
 
-### Inherit _aes_ {#faq-inherit-aes}
+### Inherit aesthetic mapping {#faq-inherit-aes}
 
 ```r
 ggtree(rtree(30)) + geom_point()
 ```
 
 For example, we can add symbolic points to nodes with `geom_point()` directly.
-The magic here is we don't need to map the `x` and `y` position of the points by providing `aes(x, y)` to `geom_point()` since it was already mapped by `ggtree` function and it serves as a global mapping for all layers.
+The magic here is we don't need to map the `x` and `y` position of the points by providing `aes(x, y)` to `geom_point()` since it was already mapped by the `ggtree()` function and it serves as a global mapping for all layers.
 
-But what if we provide a `dataset` in a layer and the `dataset` doesn't contain columns of `x` and/or `y`,
-the layer function also try to map `x` and `y` and also others if you map them in `ggtree` function.
-As these variables are not available in your `dataset`, you will get the following error:
+But what if we provide a dataset in a layer and the dataset doesn't contain columns of `x` and/or `y`,
+the layer function also try to map `x` and `y` and also others if you map them in the `ggtree()` function.
+As these variables are not available in your dataset, you will get the following error:
 
 ```
 Error in eval(expr, envir, enclos) : object 'x' not found
 ```
 
-This can be fixed by using the parameter `inherit.aes=FALSE` which will disable inheriting mapping from `ggtree` function.
+This can be fixed by using the parameter `inherit.aes=FALSE` which will disable inheriting mapping from the `ggtree()` function.
 
-### Never use `$` in aes {#faq-dollar-aes}
+### Never use `$` in aesthetic mapping {#faq-dollar-aes}
 
-NEVER DO THIS^[<https://groups.google.com/d/msg/bioc-ggtree/hViM6vRZF94/MsZT8qRgBwAJ>
-and <https://github.com/GuangchuangYu/ggtree/issues/106>].
-
-See the explanation in the [ggplot2 book 2ed](https://github.com/hadley/ggplot2-book/blob/master/layers.Rmd#L185):
+Never do this^[<https://groups.google.com/d/msg/bioc-ggtree/hViM6vRZF94/MsZT8qRgBwAJ>
+and <https://github.com/GuangchuangYu/ggtree/issues/106>] and please refer to the explanation in the [ggplot2 book 2ed](https://github.com/hadley/ggplot2-book/blob/master/layers.Rmd#L185) [@wickham_ggplot2_2016]:
 
 >Never refer to a variable with `$` (e.g., `diamonds$carat`) in `aes()`. This breaks containment so that the plot no longer contains everything it needs and causes problems if ggplot2 changes the order of the rows, as it does when facetting.
 
@@ -94,8 +92,6 @@ See the explanation in the [ggplot2 book 2ed](https://github.com/hadley/ggplot2-
 ## Text & Label {#faq-text}
 
 ### Tip label truncated {#faq-label-truncated}
-
-For rectangular/dendrogram layout trees, users can display tip labels as y-axis labels. In this case, no matter how long the labels are, they will not be truncated (see Figure \@ref(fig:tiplab)C).
 
 
 The reason for this issue is that `r CRANpkg("ggplot2")` can't auto-adjust `xlim` based on added text^[<https://twitter.com/hadleywickham/status/600280284869697538>].
@@ -134,13 +130,16 @@ library(ggtree)
 ## example tree from https://support.bioconductor.org/p/72398/
 tree<-read.tree(text="(Organism1.006G249400.1:0.03977,(Organism2.022118m:0.01337,(Organism3.J34265.1:0.00284,Organism4.G02633.1:0.00468)0.51:0.0104):0.02469);")
 p <- ggtree(tree) + geom_tiplab()
-p2 <- ggtree(tree) + geom_tiplab() + xlim(0, 0.08)
+p2 <- ggtree(tree) + geom_tiplab() + xlim(0, 0.1)
 p3 <- p + coord_cartesian(clip = 'off') + 
-  theme_tree2(plot.margin=margin(6, 120, 6, 6))
-cowplot::plot_grid(p, p2, p3, ncol=3, labels=c("A", "B", "C"))
+  theme_tree2(plot.margin=margin(6, 140, 6, 6))
+plot_list(p, p2, p3, ncol=3, tag_levels="A")
 ```
 
-The third solution is using `hexpand()` as demonstrated in [session 10.5.2](#ggexpand). 
+The third solution is using `hexpand()` as demonstrated in [session 12.4](#ggexpand). 
+
+
+For rectangular/dendrogram layout trees, users can display tip labels as y-axis labels. In this case, no matter how long the labels are, they will not be truncated (see Figure \@ref(fig:tiplab)C).
 
 
 ### Modify (tip) labels {#faq-modify-label}
@@ -158,7 +157,7 @@ d <- data.frame(label = LETTERS[1:4],
 rename_taxa(tree, d, label, label2) %>% write.tree
 ```
 
-If the input tree object is a `treedata` instance, you can use `write.beast()` to export the tree with associated data to a BEAST compatible NEXUS file.
+If the input tree object is a `treedata` instance, you can use `write.beast()` to export the tree with associated data to a BEAST compatible NEXUS file (see [Chapter 3](#chapter3)).
 
 Renaming phylogeny tip labels seems not to be a good idea, since it may introduce problems when mapping the original sequence alignment to the tree. Personally, I recommend storing the new labels as a tip annotation in `treedata` object. 
 
@@ -167,7 +166,7 @@ tree2 <- full_join(tree, d, by = "label")
 tree2
 ```
 
-If you just want to show different or additional information when plotting the tree, you don't need to modify tip labels. This could be easily done via the `%<+%` operator to attach the modified version of the labels and then use `geom_tiplab` to display
+If you just want to show different or additional information when plotting the tree, you don't need to modify tip labels. This could be easily done via the `%<+%` operator to attach the modified version of the labels and then use the `geom_tiplab()` layer to display
 the modified version (Figure \@ref(fig:renameTip)).
 
 
@@ -183,39 +182,16 @@ p1 <- p + geom_tiplab()
 ## the following command will produce an identical figure of p2
 ## ggtree(tree2) + geom_tiplab(aes(label = label2))
 p2 <- p %<+% d + geom_tiplab(aes(label=label2))
-cowplot::plot_grid(p1, p2, ncol=2, labels = c("A", "B"))
+plot_list(p1, p2, ncol=2, tag_levels = "A")
 ```
 
 ### Formatting (tip) labels {#faq-formatting-label}
 
-If you want to format labels, you need to set `parse=TRUE` in `geom_text`/`geom_tiplab` and the `label` should be a string that can be parsed into expression and displayed as described in `?plotmath`.
+If you want to format labels, you need to set `parse=TRUE` in the `geom_text()`/`geom_tiplab()`/`geom_nodelab()` and the `label` should be a string that can be parsed into expression and displayed as described in `?plotmath`. Users can use the `r CRANpkg("latex2exp")` package to convert LaTeX math formulas to R's plotmath expressions, or use the `r CRANpkg("ggtext")` package to render Markdown or HTML.
 
-For example, the tip labels contain two parts, species name, and accession number and we want to display species name in _italic_, we can use a command like this to format specific tip/node label (Figure \@ref(fig:formatTip)A):
+For example, the tip labels contain several parts (*e.g.* genus, species, and geo), we can differentiate these pieces of information with different formats (Figure \@ref(fig:formatTip)A).
 
 ```{r formatTip-A, eval=F}
-set.seed(2019-06-24)
-tree <- rtree(30)
-p1 <- ggtree(tree) + 
-  geom_tiplab(aes(subset=node==35), 
-                  label='paste(italic("species name"), 
-                              " accession number")', 
-              parse=T) + xlim(0, 6)
-```
-
-
-Another example for formating all tip labels is demonstrated in Figure \@ref(fig:formatTip)B:
-
-```{r formatTip-B, eval=F}
-p2 <- ggtree(tree) + 
-  geom_tiplab(aes(label=paste0('bold(', label, 
-                  ')~italic(', node, ')')), 
-            parse=TRUE) + xlim(0, 5)
-```
-
-The `label` can be provided by a `data.frame` that contains related information
-of the taxa (Figure \@ref(fig:formatTip)C).
-
-```{r formatTip-C, eval=F}
 tree <- read.tree(text = "((a,(b,c)),d);")
 genus <- c("Gorilla", "Pan", "Homo", "Pongo")
 species <- c("gorilla", "spp.", "sapiens", "pygmaeus")
@@ -223,27 +199,43 @@ geo <- c("Africa", "Africa", "World", "Asia")
 d <- data.frame(label = tree$tip.label, genus = genus,
                 species = species, geo = geo)
 
-p3 <- ggtree(tree) %<+% d + xlim(NA, 6) +
+p1 <- ggtree(tree) %<+% d + xlim(NA, 6) +
     geom_tiplab(aes(label=paste0('italic(', genus, 
-                  ')~bolditalic(', species, ')~', geo)), 
+                  ')~bolditalic(', species, ')~', "(", geo, ")")), 
                 parse=T)
-cowplot::plot_grid(p1, p2, p3, ncol=3, labels = LETTERS[1:3])                
+```
+
+Using Markdown or HTML to format text may be easier, and this is supported via the `r CRANpkg("ggtext")` package (Figure \@ref(fig:formatTip)B).
+
+
+```{r formatTip-B, eval=F}
+library(ggtext)
+
+d2 <- dplyr::mutate(d, 
+  color = c("#E495A5", "#ABB065", "#39BEB1", "#ACA4E2"),
+  name = glue::glue("<i style='color:{color}'>{genus} **{species}**</i> ({geo})")
+) 
+
+p2 <- ggtree(tree) %<+% d2 + 
+  geom_richtext(data=td_filter(isTip), 
+                aes(label=name), label.color=NA) + 
+  hexpand(.3)
+
+plot_list(p1, p2, ncol=2, tag_levels = 'A') 
 ```
 
 
 (ref:formatTipscap) Formatting labels.
 
-(ref:formatTipcap) **Formatting labels.** Formatting specific tip/node label (A), all tip labels (B & C).
+(ref:formatTipcap) **Formatting labels.** Formatting specific tip labels using `plotmath` expression (A), and Markdown/HTML (B).
 
-```{r formatTip, fig.width=12, fig.height=4, echo = F, fig.cap="(ref:formatTipcap)", fig.scap="(ref:formatTipscap)", ref.label = c('formatTip-A', 'formatTip-B', 'formatTip-C'), echo=FALSE, out.width='100%'}
+```{r formatTip, fig.width=9.2, fig.height=4.2, echo = F, fig.cap="(ref:formatTipcap)", fig.scap="(ref:formatTipscap)", ref.label = c('formatTip-A', 'formatTip-B'), echo=FALSE, out.width='100%'}
 ```
 
 ### Avoid overlapping text labels {#faq-ggrepel}
 
-Users can use the `r CRANpkg("ggrepel")` package to repel overlapping text labels^[<https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html>].
-.
+Users can use the `r CRANpkg("ggrepel")` package to repel overlapping text labels (Figure \@ref(fig:repelTip)).
 
-For example:
 
 (ref:repelTipscap) Repel labels.
 
@@ -261,9 +253,9 @@ ggtree(raxml) + geom_label_repel(aes(label=bootstrap, fill=bootstrap)) +
 
 ### Bootstrap values from Newick format {#faq-bootstrap}
 
-It's quite command to store `bootstrap` value as node label in `newick` format. Visualizing node label is easy using `geom_text2(aes(subset = !isTip, label=label))`.
+It's quite command to store *bootstrap* value as node label in the Newick format. Visualizing node label is easy using `geom_text2(aes(subset = !isTip, label=label))`.
 
-If you want to only display a subset of `bootstrap` (e.g. bootstrap > 80), you can't simply using `geom_text2(subset= (label > 80), label=label)` (or `geom_label2`) since `label` is a character vector, which contains node label (bootstrap value) and tip label (taxa name). If we use `geom_text2(subset=(as.numeric(label) > 80), label=label)`, it will also fail since `NAs` were introduced by coercion. We need to convert `NAs` to logical `FALSE`, this can be done by the following code:
+If you want to only display a subset of *bootstrap* (*e.g.* bootstrap > 80), you can't simply using `geom_text2(subset= (label > 80), label=label)` (or `geom_label2`) since `label` is a character vector, which contains node label (bootstrap value) and tip label (taxa name). If we use `geom_text2(subset=(as.numeric(label) > 80), label=label)`, it will also fail since `NAs` were introduced by coercion. We need to convert `NAs` to logical `FALSE`, this can be done by the following code:
 
 
 (ref:nwkbsscap) Bootstrap value stored in node label.
@@ -306,7 +298,7 @@ q + geom_text(data=d, aes(label=label))
 
 ### Plot the same tree as in `plot.phylo()`
 
-By default, `ggtree()` ladderizes the input tree so that the tree will appear less cluttered. This is the reason why the tree visualized by `ggtree()` is different from the one using `plot.phylo()` which displays nonladderized tree. To disable the ladderize effect, user can pass the parameter `ladderize = FALSE` to the `ggtree()` function as demonstrated in Figure \@ref:(fig:ggtreeladderize). 
+By default, `ggtree()` ladderizes the input tree so that the tree will appear less cluttered. This is the reason why the tree visualized by `ggtree()` is different from the one using `plot.phylo()` which displays nonladderized tree. To disable the ladderize effect, user can pass the parameter `ladderize = FALSE` to the `ggtree()` function as demonstrated in Figure \@ref(fig:ggtreeladderize). 
 
 
 ```{r eval=FALSE}
@@ -339,7 +331,7 @@ x <- rtree(5)
 ## don't know why throw error when combine them in bookdown
 ## it is OK in interactive R terminal
 
-# cowplot::plot_grid(p1, p2, p3, labels=c("A", "B", "C"), ncol=3)
+# plot_list(p1, p2, p3, ncol=3, tag_levels = 'A') 
 ```
 
 ```{r ggtreeladderize, fig.cap="(ref:ggtreeladderizecap)", fig.scap="(ref:ggtreeladderizescap)", fig.width=8, fig.height=4, echo=FALSE, out.width="100%"}
@@ -350,7 +342,7 @@ print(pg)
 ### Specifying the order of the tips 
 
 
-The `rotateConstr()` function provided in `r CRANpkg("ape")` rotates internal branches based on the specified order of the tips and the order should be followed when plotting the tree (from bottom to top). As `ggtree()` always ladderize the input tree, users need to disable by passing `ladderize = FALSE`. Then the order of the tree will be displayed as expected (Figure \@ref(fig:rotateConstr)). Users can also extract tip order that displayed by `ggtree()` using the `get_taxa_name()` function as demonstrated in [session 12.6](#tiporder).  
+The `rotateConstr()` function provided in the `r CRANpkg("ape")` package rotates internal branches based on the specified order of the tips and the order should be followed when plotting the tree (from bottom to top). As `ggtree()` by default ladderizes the input tree, users need to disable by passing `ladderize = FALSE`. Then the order of the tree will be displayed as expected (Figure \@ref(fig:rotateConstr)). Users can also extract tip order that displayed by `ggtree()` using the `get_taxa_name()` function as demonstrated in [session 12.6](#tiporder).  
 
 (ref:rotateConstrscap) Specifying tree order.
 
@@ -363,7 +355,7 @@ ggtree(y, ladderize = FALSE) + geom_tiplab()
 
 ### Shrink outlier long branch
 
-When outgroups are on a very long branch length (Figure \@ref(fig:outgroupEdge)A), we would like to keep the outgroups in the tree but ignore their branch lengths (Figure \@ref(fig:outgroupEdge)B)^[example from: <https://groups.google.com/d/msg/bioc-ggtree/T2ySvqv351g/mHsyljvBCwAJ>]. This can be easily done by modifying the coordinations of the outgroups (Figure \@ref(fig:outgroupEdge)B). Another approach is to truncate the plot using `r CRANpkg("ggbreak")` (Figure \@ref(fig:outgroupEdge)C).
+When outgroups are on a very long branch length (Figure \@ref(fig:outgroupEdge)A), we would like to keep the outgroups in the tree but ignore their branch lengths (Figure \@ref(fig:outgroupEdge)B)^[example from: <https://groups.google.com/d/msg/bioc-ggtree/T2ySvqv351g/mHsyljvBCwAJ>]. This can be easily done by modifying the coordinations of the outgroups (Figure \@ref(fig:outgroupEdge)B). Another approach is to truncate the plot using the `r CRANpkg("ggbreak")` package (Figure \@ref(fig:outgroupEdge)C).
 
 
 (ref:outgroupEdgescap) Shrink outlier long branch.
@@ -374,7 +366,7 @@ When outgroups are on a very long branch length (Figure \@ref(fig:outgroupEdge)A
 ```{r outgroupEdge, fig.cap="(ref:outgroupEdgecap)", fig.scap="(ref:outgroupEdgescap)", fig.width=9, fig.height=5, out.width="100%", fig.keep="last"}
 library(TDbook)
 library(ggtree)
-#x <- read.tree("data/long-branch-example.newick")
+
 x <- tree_long_branch_example
 m <- MRCA(x, 75, 76)
 y <- groupClade(x, m)
@@ -392,7 +384,7 @@ library(ggbreak)
 p2 <- p1 + scale_x_break(c(0.03, 0.09)) + hexpand(.05)
 
 ## align plot
-p1 + p + p2 + plot_annotation(tag_levels="A")
+plot_list(p1, p, p2, ncol=3, tag_levels="A")
 ```
 
 
@@ -404,7 +396,7 @@ Users can use `phytools::bind.tip()` [@revell_phytools_2012] to attach a new tip
 
 (ref:bindTipscap) Attaching a new tip to a tree.
 
-(ref:bindTipcap) **Attaching a new tip to a tree.** 
+(ref:bindTipcap) **Attaching a new tip to a tree.** Different line types were employed to distinguish the newly introduce tip and an error bar was added to indicate the uncertainty of the added branch position.
 
 
 ```{r bindTip, fig.cap="(ref:bindTipcap)", fig.scap="(ref:bindTipscap)", fig.width=6, fig.height=5, out.width="100%"}
@@ -461,13 +453,13 @@ Users can use the `r CRANpkg("gginnards")` package to manipulate plot elements f
 
 ### Add an arbitrary point to a branch {#arbitrary-point}
 
-If you want to add an arbitrary point to a branch^[<https://twitter.com/melanoidin/status/1262703932993871874>], you can use `geom_nodepoint`, `geom_tippoint`, or `geom_point2` (works for both external and internal nodes) to filter selected node (the endpoint of the branch) via the `subset` aesthetic mapping and specify horizontal position by `x = x - offset` aesthetic mapping, where the offset can be an absolute value (Figure \@ref(fig:pointOnBranch)A) or proportion to branch length (Figure \@ref(fig:pointOnBranch)B).
+If you want to add an arbitrary point to a branch^[<https://twitter.com/melanoidin/status/1262703932993871874>], you can use `geom_nodepoint()`, `geom_tippoint()`, or `geom_point2()` (works for both external and internal nodes) to filter selected node (the endpoint of the branch) via the `subset` aesthetic mapping and specify horizontal position by `x = x - offset` aesthetic mapping, where the offset can be an absolute value (Figure \@ref(fig:pointOnBranch)A) or proportion to the branch length (Figure \@ref(fig:pointOnBranch)B).
 
 
 
 (ref:pointOnBranchscap) Add an arbitrary point on a branch.
 
-(ref:pointOnBranchcap) **Add an arbitrary point on a branch.** 
+(ref:pointOnBranchcap) **Add an arbitrary point on a branch.** Position of the symbolic point can be adjusted by an absolute value (A) or proportion to the branch length (B).
 
 
 ```{r pointOnBranch, fig.cap="(ref:pointOnBranchcap)", fig.scap="(ref:pointOnBranchscap)", fig.width=8, fig.height=4.5, out.width="100%"}
@@ -482,7 +474,7 @@ p2 <- p + geom_nodepoint(aes(subset = node == 13, x = x - branch.length * 0.2),
                         size = 3, colour = 'firebrick') + 
        geom_nodepoint(aes(subset = node == 13, x = x - branch.length * 0.8),
                         size = 5, colour = 'steelblue')
-cowplot::plot_grid(p1, p2, labels=c("A", "B"))
+plot_list(p1, p2, ncol=2, tag_levels="A")
 ```
 
 
@@ -504,13 +496,14 @@ x <- rtree(30)
 p <- ggtree(x) + geom_tiplab()
 d <- data.frame(label = x$tip.label, 
                 value = rnorm(30))
-p2 <- facet_plot(p, panel = "Dot", data = d, 
+p2 <- p + geom_facet(panel = "Dot", data = d, 
             geom = geom_point, mapping = aes(x = value)) 
             
 p2 <- p2 + theme_bw() + 
     xlim_tree(5) + xlim_expand(c(-5, 5), 'Dot') 
 
-d = data.frame(.panel = c('Tree', 'Dot'), 
+# .panel is the internal variable use in `geom_facet` for faceting.
+d <- data.frame(.panel = c('Tree', 'Dot'), 
                 lab = c("Distance", "Dot Units"), 
                 x=c(2.5,0), y=-2)
 
