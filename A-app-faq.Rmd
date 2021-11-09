@@ -199,10 +199,15 @@ geo <- c("Africa", "Africa", "World", "Asia")
 d <- data.frame(label = tree$tip.label, genus = genus,
                 species = species, geo = geo)
 
-p1 <- ggtree(tree) %<+% d + xlim(NA, 6) +
-    geom_tiplab(aes(label=paste0('italic(', genus, 
-                  ')~bolditalic(', species, ')~', "(", geo, ")")), 
-                parse=T)
+library(glue)
+d2 <- dplyr::mutate(d, 
+  lab = glue("italic({genus})~bolditalic({species})~({geo})"),
+  color = c("#E495A5", "#ABB065", "#39BEB1", "#ACA4E2"),
+  name = glue("<i style='color:{color}'>{genus} **{species}**</i> ({geo})")
+) 
+
+p1 <- ggtree(tree) %<+% d2 + xlim(NA, 6) +
+    geom_tiplab(aes(label=lab), parse=T)
 ```
 
 Using Markdown or HTML to format text may be easier, and this is supported via the `r CRANpkg("ggtext")` package (Figure \@ref(fig:formatTip)B).
@@ -210,11 +215,6 @@ Using Markdown or HTML to format text may be easier, and this is supported via t
 
 ```{r formatTip-B, eval=F}
 library(ggtext)
-
-d2 <- dplyr::mutate(d, 
-  color = c("#E495A5", "#ABB065", "#39BEB1", "#ACA4E2"),
-  name = glue::glue("<i style='color:{color}'>{genus} **{species}**</i> ({geo})")
-) 
 
 p2 <- ggtree(tree) %<+% d2 + 
   geom_richtext(data=td_filter(isTip), 
@@ -517,7 +517,7 @@ p2 + scale_y_continuous(limits=c(0, 31),
 
 ## Plot something behind the phylogeny {#faq-under-the-tree}
 
-The `ggtree` function plot the tree structure and normally we add layers on top of the tree.
+The `ggtree()` function plot the tree structure and normally we add layers on top of the tree.
 
 ```{r tree_behind_box}
 set.seed(1982)
@@ -554,7 +554,7 @@ cowplot::plot_grid(g, p,
 
 ## Enlarge center space in circular/fan layout tree {#faq-enlarge-center-space}
 
-This question was asked several times^[<https://groups.google.com/d/msg/bioc-ggtree/gruC4FztU8I/mwavqWCXAQAJ>, <https://groups.google.com/d/msg/bioc-ggtree/UoGQekWHIvw/ZswUUZKSGwAJ> and <https://github.com/GuangchuangYu/ggtree/issues/95>], and a published example can be found in <https://www.ncbi.nlm.nih.gov/pubmed/27605062>. Increasing the percentage of center white space in a circular tree is useful to avoid overlapping tip labels and to increase the readability of the tree by moving all nodes and branches further out. This can be done simply by using `+xlim()` to allocate more space, just like in Figure \@ref(fig:layout2)G, or assign a long root branch that is similar to the "Root Length" parameter in FigTree. 
+This question was asked several times^[<https://groups.google.com/d/msg/bioc-ggtree/gruC4FztU8I/mwavqWCXAQAJ>, <https://groups.google.com/d/msg/bioc-ggtree/UoGQekWHIvw/ZswUUZKSGwAJ> and <https://github.com/GuangchuangYu/ggtree/issues/95>], and a published example can be found in [@barton_broad_2016]. Increasing the percentage of center white space in a circular tree is useful to avoid overlapping tip labels and to increase the readability of the tree by moving all nodes and branches further out. This can be done simply by using `xlim()` or `hexpand()` to allocate more space, just like in Figure \@ref(fig:layout2)G, or assign a long root branch that is similar to the "Root Length" parameter in `r pkg_figtree`. 
 
 
 (ref:innerspacescap) Enlarge center space in circular tree.
@@ -566,16 +566,16 @@ This question was asked several times^[<https://groups.google.com/d/msg/bioc-ggt
 ```{r circular-space, fig.width=8, fig.height=4, fig.cap="(ref:innerspacecap)", fig.scap="(ref:innerspacescap)", out.width="100%"}
 set.seed(1982)
 tree <- rtree(30)
-plot_grid(
+plot_list(
   ggtree(tree, layout='circular') + xlim(-10, NA),
   ggtree(tree, layout='circular') + geom_rootedge(5),
-  labels = c("A", "B", ncol=2)
+  tag_levels = "A", ncol=2
 )
 ```
 
 ## Use the most distant tip from the root as the origin of the time scale
 
-The `revts` will reverse the x-axis by setting the most recent tip to 0. We can use `scale_x_continuous(labels=abs)` to label x-axis using absolute values.
+The `revts()` will reverse the x-axis by setting the most recent tip to 0. We can use `scale_x_continuous(labels=abs)` to label x-axis using absolute values.
 
 (ref:distantTipscap) Origin of the time scale.
 
@@ -586,7 +586,7 @@ The `revts` will reverse the x-axis by setting the most recent tip to 0. We can 
 tr <- rtree(10)
 p <- ggtree(tr) + theme_tree2()
 p2 <- revts(p) + scale_x_continuous(labels=abs)
-plot_grid(p, p2, ncol=2, labels=c("A", "B"))
+plot_list(p, p2, ncol=2, tag_levels="A")
 ```
 
 ## Remove blank margins for circular layout tree {#circular-blank}
@@ -652,7 +652,7 @@ panel_border <- theme(panel.border=element_rect(colour='black', fill=NA, size=2)
 xx <- image_ggplot(x) + panel_border
 yy <- image_ggplot(y) + panel_border
 
-xx + yy + plot_annotation(tag_levels = "A")
+plot_list(xx, yy, tag_levels = "A", ncol=2)
 ``` 
 
 

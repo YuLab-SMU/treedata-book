@@ -28,7 +28,7 @@ ggtree(tree, layout="circular", size=0.2) +
 
 ## rtol: An R interface to Open Tree API {#rtol}
 
-`r CRANpkg("rtol")` [@michonneau_rotl:_2016] is an R package to interact with the Open Tree of Life data APIs. 
+The `r CRANpkg("rtol")` [@michonneau_rotl:_2016] is an R package to interact with the Open Tree of Life data APIs. 
 
 (ref:rotlSubtreescap) Get an induced subtree from the big Open Tree.
 
@@ -67,11 +67,12 @@ print(d, row.names=FALSE)
 
 It is neat to print ASCII-art of the phylogeny. Sometimes we don't want to plot the tree, but just take a glance at the tree structure without leaving the focus from the R console. However, it is not a good idea to print the whole tree as ASCII text if the tree is large. Sometimes we just want to look at a specific portion of the tree and its immediate relatives. At this scenario, we can use `treeio::tree_subset()` function (see [session 2.4](subsetting-tree-with-data)) to extract selected portion of a tree. Then we can print ASCII-art of the tree subset to explore the evolutionary relationship of the species of our interest in the R console.
 
-`r Biocpkg("ggtree")` supports parsing tip labels as emoji to create [phylomoji](#phylomoji). With the `r CRANpkg("data.tree")` and `r CRANpkg("emojifont")` packages, we can also print phylomoji as ASCII text.
+The `r Biocpkg("ggtree")` supports parsing tip labels as emoji to create [phylomoji](#phylomoji). With the `r CRANpkg("data.tree")` and `r CRANpkg("emojifont")` packages, we can also print phylomoji as ASCII text.
 
 
 
 ```{r asciiTreeEmoji, comment=NA, eval=FALSE}
+library(data.tree)
 library(emojifont)
 
 tt <- '((snail,mushroom),(((sunflower,evergreen_tree),leaves),green_salad));'
@@ -83,7 +84,17 @@ print(d, row.names=FALSE)
 ```
 
 
-Another way to print ASCII-art pf phylogeny is to use the `ascii()` device defined in [devout](https://github.com/coolbutuseless/devout) package. Here is an example:
+(ref:emojidatatreescap) Print phylomoji as ASCII text.
+
+(ref:emojidatatreecap) **Print phylomoji as ASCII text.**
+
+
+
+```{r emojidatatree, fig.cap="(ref:emojidatatreecap)", fig.scap="(ref:emojidatatreescap)", out.width='100%'} 
+knitr::include_graphics("img/data-tree-emojim.png")
+```
+
+Another way to print ASCII-art of phylogeny is to use the `ascii()` device defined in [devout](https://github.com/coolbutuseless/devout) package. Here is an example:
 
 ```{r devout-ascii, comment=NA}
 library(devout)
@@ -96,9 +107,11 @@ invisible(dev.off())
 ## Zoom in selected portion {#facet-zoom}
 
 
-(ref:facetZoomscap) Zoom in selected clade.
+In addition to using `viewClade()` function, users can use the `r CRANpkg("ggforce")` package to zoom in a selected clade. 
 
-(ref:facetZoomcap) **Zoom in selected clade.**
+(ref:facetZoomscap) Zoom in a selected clade.
+
+(ref:facetZoomcap) **Zoom in a selected clade.**
 
 
 ```{r facetZoom, fig.width=6, fig.height=4, fig.cap="(ref:facetZoomcap)", fig.scap="(ref:facetZoomscap)"}
@@ -111,7 +124,7 @@ ggtree(x) + ggforce::facet_zoom(xy = node %in% nn)
 
 ## Tips for using `ggtree` with `ggimage` {#ggimage-tips}
 
-`r Biocpkg("ggtree")` supports annotating a tree with silhouette images via the `r CRANpkg("ggimage")` package. `r CRANpkg("ggimage")` provides the grammar of graphic syntax to work with image files. It allows processing images on the fly via the `image_fun` parameter, which accepts a function to process `magick-image` objects. The `r CRANpkg("magick")` package provides several functions and these functions can be combined to perform a particular task.
+The `r Biocpkg("ggtree")` supports annotating a tree with silhouette images via the `r CRANpkg("ggimage")` package. The `r CRANpkg("ggimage")` provides the grammar of graphic syntax to work with image files. It allows processing images on the fly via the `image_fun` parameter, which accepts a function to process `magick-image` objects. The `r CRANpkg("magick")` package provides several functions and these functions can be combined to perform a particular task.
 
 ### Example 1: Remove background of images {#ggimage-rm-image-bg}
 
@@ -138,7 +151,7 @@ plot_grid(p1, p2, ncol=2)
 
 ### Example 2: Plot tree on a background image {#ggimage-bgimage}
 
-The `geom_bgimage` adds a layer of the image and puts the layer to the bottom of the layer stack. It is a normal layer and doesn't change the structure of the output `ggtree` object. Users can add annotation layers without the background image layer.
+The `geom_bgimage()` adds a layer of the image and puts the layer to the bottom of the layer stack. It is a normal layer and doesn't change the structure of the output `ggtree` object. Users can add annotation layers without the background image layer.
 
 (ref:bgimagescap) Use an image file as a tree background.
 
@@ -161,7 +174,7 @@ install.packages("IRkernel")
 IRkernel::installspec()
 ```
 
-Then you can use ggtree and other R packages in Jupyter notebook. Here is a screenshot of recreating Figure \@ref(fig:phylomoji1) in Jupyter notebook.
+Then you can use `r Biocpkg("ggtree")` and other R packages in the Jupyter notebook. Here is a screenshot of recreating Figure \@ref(fig:phylomoji1) in the Jupyter notebook.
 
 (ref:jupyterscap) ggtree in Jupyter notebook.
 
