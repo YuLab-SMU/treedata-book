@@ -44,4 +44,4 @@ CRAN and can be installed using `install.packages("TDbook")`.
 Package names in this book are formated as bold text (*e.g.*,
 [**ggtree**](http://bioconductor.org/packages/ggtree)), and function
 names are followed by parentheses (*e.g.*, `treeio::read.beast()`). The
-doulbe-colon operator (`::`) means accessing an object from a package.
+double-colon operator (`::`) means accessing an object from a package.
