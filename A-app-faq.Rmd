@@ -245,7 +245,8 @@ Users can use the `r CRANpkg("ggrepel")` package to repel overlapping text label
 ```{r repelTip, fig.width=12, fig.height=8, fig.cap="(ref:repelTipcap)", fig.scap="(ref:repelTipscap)", out.width='100%'}
 library(ggrepel)
 library(ggtree)
-raxml_file <- system.file("extdata/RAxML", "RAxML_bipartitionsBranchLabels.H3", package="treeio")
+raxml_file <- system.file("extdata/RAxML", 
+                    "RAxML_bipartitionsBranchLabels.H3", package="treeio")
 raxml <- read.raxml(raxml_file)
 ggtree(raxml) + geom_label_repel(aes(label=bootstrap, fill=bootstrap)) + 
   theme(legend.position = c(.1, .8)) + scale_fill_viridis_c()
@@ -648,7 +649,8 @@ ggsave(filename = f, plot = p, width=7, height=7)
 x <- image_read(f, density=300)
 y <- image_trim(x)
 
-panel_border <- theme(panel.border=element_rect(colour='black', fill=NA, size=2))
+panel_border <- theme(panel.border=element_rect(colour='black', 
+                                            fill=NA, size=2))
 xx <- image_ggplot(x) + panel_border
 yy <- image_ggplot(y) + panel_border
 

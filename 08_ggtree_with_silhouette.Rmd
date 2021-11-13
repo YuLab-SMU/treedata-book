@@ -22,11 +22,12 @@ Online tools such as `r pkg_itol` [@letunic_interactive_2007] and `r pkg_evolvie
 (ref:frogimagecap) **Labelling taxa with images.** Users need to specify `geom = "image"` and mapping the image file names onto the `image` aesthetics. 
 
 
-```{r frogimage, fig.width=4.25, fig.height=3.5, message=F, warning=F, dev='png', fig.cap="(ref:frogimagecap)", fig.scap="(ref:frogimagescap)", out.width='100%'}
+```{r frogimage, fig.width=6, fig.height=4.6, message=F, warning=F, dev='png', fig.cap="(ref:frogimagecap)", fig.scap="(ref:frogimagescap)", out.width='100%'}
 library(ggimage)
 library(ggtree)
 
-nwk <- "((((bufonidae, dendrobatidae), ceratophryidae), (centrolenidae, leptodactylidae)), hylidae);"
+nwk <- paste0("((((bufonidae, dendrobatidae), ceratophryidae),",
+          "(centrolenidae, leptodactylidae)), hylidae);")
 
 imgdir <- system.file("extdata/frogs", package = "TDbook")
 
@@ -75,7 +76,9 @@ options(phylopic_dir = "data/phylopic")
 
 ```{r ggimage_phylopic, eval=FALSE}
 library(ggtree)
-newick <- "((Pongo_abelii,(Gorilla_gorilla_gorilla,(Pan_paniscus,Pan_troglodytes)Pan,Homo_sapiens)Homininae)Hominidae,Nomascus_leucogenys)Hominoidea;"
+newick <- paste0("((Pongo_abelii,(Gorilla_gorilla_gorilla,(Pan_paniscus,",
+          "Pan_troglodytes)Pan,Homo_sapiens)Homininae)Hominidae,",
+          "Nomascus_leucogenys)Hominoidea;")
 
 tree <- read.tree(text=newick)
 
@@ -276,6 +279,10 @@ gg <- g + annotation_custom(ggplotGrob(c), xmin=.5, xmax=1, ymin=0, ymax=1) +
   annotation_custom(ggplotGrob(b), xmin=0.02, xmax=.5, ymin=0, ymax=.3) + 
   annotation_custom(ggplotGrob(a), xmin=0, xmax=.5, ymin=.4, ymax=1) +
   theme_void()
+
+ggsave(gg, filename = "img/phylomoji-ggtree-circular.png", 
+      width=9.2, height=7.3, bg='white')
+
 }
 
 
@@ -340,11 +347,12 @@ p
 
 ### Apple Color Emoji
 
-Although `R`'s graphical devices don't support `r icons::fontawesome("apple")` `AppleColorEmoji` font on MacOS, it's still possible to use it. We can export the `plot` to a `svg` file and render it in `r icons::icon_style(icons::fontawesome("safari"), fill ='steelblue')``Safari`.
+Although `R`'s graphical devices don't support `AppleColorEmoji` font on MacOS, it's still possible to use it. We can export the `plot` to a `svg` file and render it in `Safari`.
 
 ```r
 library(ggtree)
-tree_text <- "(((((cow, (whale, dolphin)), (pig2, boar)), camel), fish), seedling);"
+tree_text <- paste0("(((((cow, (whale, dolphin)), (pig2, boar)),",
+                    "camel), fish), seedling);")
 x <- read.tree(text=tree_text)
 library(ggimage)
 library(gridSVG)
@@ -364,7 +372,7 @@ ps = grid.export("emoji.svg", addClass=T)
 
 
 
-```{r applemoji, out.width="80%", echo=F, fig.scap="(ref:applemojiscap)", fig.cap="(ref:applemojicap)"}
+```{r applemoji, out.width="100%", echo=F, fig.scap="(ref:applemojiscap)", fig.cap="(ref:applemojicap)"}
 knitr::include_graphics("img/apple_emoji2.png")
 ```
 

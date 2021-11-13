@@ -13,12 +13,12 @@ R.version.string
 library(treedataverse)
 ```
 
-    ## ── Attaching packages ─── treedataverse 0.0.1 ──
+    ##  Attaching packages  treedataverse 0.0.1 
 
-    ## ✔ ape         5.5        ✔ treeio      1.18.0
-    ## ✔ dplyr       1.0.7      ✔ ggtree      3.2.0 
-    ## ✔ ggplot2     3.3.5      ✔ ggtreeExtra 1.4.0 
-    ## ✔ tidytree    0.3.6
+    ##  ape         5.5         treeio      1.18.0
+    ##  dplyr       1.0.7       ggtree      3.2.0 
+    ##  ggplot2     3.3.5       ggtreeExtra 1.4.0 
+    ##  tidytree    0.3.6
 
 The [**treedataverse**](https://github.com/YuLab-SMU/treedataverse) is a
 meta package to make it easy to install and load core packages for

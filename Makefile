@@ -27,7 +27,8 @@ word:
 
 softwareinfo:
 	Rscript -e 'rmarkdown::render("software-info.Rmd", rmarkdown::md_document(variant="gfm"))';\
-	sed -i 's/────────────────────────────────//g' software-info.md
+	sed -i 's/─//g' software-info.md;\
+	sed -i 's/✔//g' software-info.md
 
 clean:
 	Rscript -e 'bookdown::clean_book()';\

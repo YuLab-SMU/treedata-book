@@ -22,27 +22,35 @@ library(ggtree)
 # loaded from TDbook package
 tree <- tree_HPV58
 
-clade <- c(A3 = 92, A1 = 94, A2 = 108, B1 = 156, B2 = 159, C = 163, D1 = 173, D2 = 176)
+clade <- c(A3 = 92, A1 = 94, A2 = 108, B1 = 156, 
+            B2 = 159, C = 163, D1 = 173, D2 = 176)
 tree <- groupClade(tree, clade)
 cols <- c(A1 = "#EC762F", A2 = "#CA6629", A3 = "#894418", B1 = "#0923FA", 
          B2 = "#020D87", C = "#000000", D1 = "#9ACD32",D2 = "#08630A")
 
 ## visualize the tree with tip labels and tree scale
-p <- ggtree(tree, aes(color = group), ladderize = FALSE) %>% rotate(rootnode(tree)) + 
-    geom_tiplab(aes(label = paste0("italic('", label, "')")), parse = TRUE, size = 2.5) +
+p <- ggtree(tree, aes(color = group), ladderize = FALSE) %>% 
+    rotate(rootnode(tree)) + 
+    geom_tiplab(aes(label = paste0("italic('", label, "')")), 
+                parse = TRUE, size = 2.5) +
     geom_treescale(x = 0, y = 1, width = 0.002) + 
-    scale_color_manual(values = c(cols, "black"), na.value = "black", name = "Lineage",
-                      breaks = c("A1", "A2", "A3", "B1", "B2", "C", "D1", "D2")) +
+    scale_color_manual(values = c(cols, "black"), 
+                na.value = "black", name = "Lineage",
+                breaks = c("A1", "A2", "A3", "B1", "B2", "C", "D1", "D2")) +
     guides(color = guide_legend(override.aes = list(size = 5, shape = 15))) +
     theme_tree2(legend.position = c(.1, .88))
 ## Optional
 ## add labels for monophyletic (A, C and D) and paraphyletic (B) groups 
 dat <- tibble(node = c(94, 108, 131, 92, 156, 159, 163, 173, 176,172),
-              name = c("A1", "A2", "A3", "A", "B1", "B2", "C", "D1", "D2", "D"),
-              offset = c(0.003, 0.003, 0.003, 0.00315, 0.003, 0.003, 0.0031, 0.003, 0.003, 0.00315),
-              offset.text = c(-.001, -.001, -.001, 0.0002, -.001, -.001, 0.0002, -.001, -.001, 0.0002),
+              name = c("A1", "A2", "A3", "A", "B1", 
+                        "B2", "C", "D1", "D2", "D"),
+              offset = c(0.003, 0.003, 0.003, 0.00315, 0.003, 
+                        0.003, 0.0031, 0.003, 0.003, 0.00315),
+              offset.text = c(-.001, -.001, -.001, 0.0002, -.001, 
+                        -.001, 0.0002, -.001, -.001, 0.0002),
               barsize = c(1.2, 1.2, 1.2, 2, 1.2, 1.2, 3.2, 1.2, 1.2, 2),
-              extend = list(c(0, 0.5), 0.5, c(0.5, 0), 0, c(0, 0.5), c(0.5, 0), 0, c(0, 0.5), c(0.5, 0), 0)
+              extend = list(c(0, 0.5), 0.5, c(0.5, 0), 0, c(0, 0.5), 
+                        c(0.5, 0), 0, c(0, 0.5), c(0.5, 0), 0)
             ) %>% 
        dplyr::group_split(barsize)
 
@@ -93,8 +101,9 @@ p <- p +
          fontface = 3,
          align = TRUE
      ) +
-     geom_strip(65, 71, "italic(B)", color = "darkgrey", offset = 0.00315, align = TRUE,
-                offset.text = 0.0002, barsize = 2, fontsize = 5, parse = TRUE)
+     geom_strip(65, 71, "italic(B)", color = "darkgrey", 
+                offset = 0.00315, align = TRUE, offset.text = 0.0002, 
+                barsize = 2, fontsize = 5, parse = TRUE)
 
 ## Optional
 ## display support values
@@ -103,9 +112,11 @@ p <- p + geom_nodelab(aes(subset = (node == 92), label = "*"),
     geom_nodelab(aes(subset = (node == 155), label = "*"), 
                     color = "black", nudge_x = -.0003, nudge_y = -1) +
     geom_nodelab(aes(subset = (node == 158), label = "95/92/1.00"), 
-                    color = "black", nudge_x = -0.0001, nudge_y = -1, hjust = 1) +
+                    color = "black", nudge_x = -0.0001, 
+                    nudge_y = -1, hjust = 1) +
     geom_nodelab(aes(subset = (node == 162), label = "98/97/1.00"), 
-                    color = "black", nudge_x = -0.0001, nudge_y = -1, hjust = 1) +
+                    color = "black", nudge_x = -0.0001, 
+                    nudge_y = -1, hjust = 1) +
     geom_nodelab(aes(subset = (node == 172), label = "*"), 
                     color = "black", nudge_x = -.0003, nudge_y = -1) 
 ```
@@ -167,10 +178,12 @@ td$clade <- g[td$seq2]
 
 ## visualize the sequence differences using dot plot and line plot
 ## and align the sequence difference plot to the tree using facet_plot
-p2 <- p + geom_facet(panel = "Sequence Distance", data = td, geom_point, 
-            mapping = aes(x = dist, color = clade, shape = clade), alpha = .6) +
-    geom_facet(panel = "Sequence Distance", data = td, geom = geom_path, 
-            mapping=aes(x = dist, group = seq2, color = clade), alpha = .6) + 
+p2 <- p + geom_facet(panel = "Sequence Distance", 
+            data = td, geom = geom_point, alpha = .6, 
+            mapping = aes(x = dist, color = clade, shape = clade)) +
+    geom_facet(panel = "Sequence Distance", 
+            data = td, geom = geom_path, alpha = .6, 
+            mapping=aes(x = dist, group = seq2, color = clade)) + 
     scale_shape_manual(values = 1:8, guide = FALSE) 
 
 print(p2)

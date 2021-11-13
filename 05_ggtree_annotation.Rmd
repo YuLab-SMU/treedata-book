@@ -112,21 +112,25 @@ Users can set the parameter, `align = TRUE`, to align the clade label, `offset`,
 
 
 ```{r eval=F}
-p + geom_cladelab(node=45, label="test label", align=TRUE,  offset = .2, textcolor='red', barcolor='red') +
-    geom_cladelab(node=34, label="another clade", align=TRUE, offset = .2, textcolor='blue', barcolor='blue')
+p + geom_cladelab(node=45, label="test label", align=TRUE,  
+                  offset = .2, textcolor='red', barcolor='red') +
+    geom_cladelab(node=34, label="another clade", align=TRUE, 
+                  offset = .2, textcolor='blue', barcolor='blue')
 ```
 
 Users can change the `angle` of the clade label text and relative position from text to bar via the parameter `offset.text`. The size of the bar and text can be changed via the parameters `barsize` and `fontsize` respectively (Figure \@ref(fig:cladelabel)C).
 
 ```{r eval=F}
-p + geom_cladelab(node=45, label="test label", align=T, angle=270, hjust='center', offset.text=.5, barsize=1.5, fontsize=8) +
-    geom_cladelab(node=34, label="another clade", align=T, angle=45)
+p + geom_cladelab(node=45, label="test label", align=TRUE, angle=270, 
+            hjust='center', offset.text=.5, barsize=1.5, fontsize=8) +
+    geom_cladelab(node=34, label="another clade", align=TRUE, angle=45)
 ```
 
 Users can also use `geom_label()` to label the text and can set the background color by `fill` parameter (Figure \@ref(fig:cladelabel)D).
 
 ```{r eval=F}
-p + geom_cladelab(node=34, label="another clade", align=T, geom='label', fill='lightblue')
+p + geom_cladelab(node=34, label="another clade", align=TRUE, 
+                  geom='label', fill='lightblue')
 ```
 
 
@@ -359,25 +363,27 @@ p1 <- ggtree(tree) + geom_tiplab() + geom_taxalink(taxa1='A', taxa2='E') +
     arrow=arrow(length=unit(0.02, "npc")))
 
 p2 <- ggtree(tree, layout="circular") + 
-      geom_taxalink(taxa1='A', taxa2='E', color="grey", alpha=0.5, offset=0.05,
-                    arrow=arrow(length=unit(0.01, "npc"))) + 
-      geom_taxalink(taxa1='F', taxa2='K', color='red', linetype = 'dashed', alpha=0.5, offset=0.05,
-                    arrow=arrow(length=unit(0.01, "npc"))) +
-      geom_taxalink(taxa1="L", taxa2="M", color="blue", alpha=0.5, offset=0.05,
-                    hratio=0.8, arrow=arrow(length=unit(0.01, "npc"))) + 
+      geom_taxalink(taxa1='A', taxa2='E', color="grey", alpha=0.5, 
+                offset=0.05, arrow=arrow(length=unit(0.01, "npc"))) + 
+      geom_taxalink(taxa1='F', taxa2='K', color='red', 
+                linetype = 'dashed', alpha=0.5, offset=0.05,
+                arrow=arrow(length=unit(0.01, "npc"))) +
+      geom_taxalink(taxa1="L", taxa2="M", color="blue", alpha=0.5, 
+                offset=0.05, hratio=0.8, 
+                arrow=arrow(length=unit(0.01, "npc"))) + 
       geom_tiplab()
 
 # when the tree was created using reverse x, 
 # we can set outward to FALSE, which will generate the inward curve lines.
 p3 <- ggtree(tree, layout="inward_circular", xlim=150) +
-      geom_taxalink(taxa1='A', taxa2='E', color="grey", alpha=0.5, offset=-0.2, 
-                    outward=FALSE,
+      geom_taxalink(taxa1='A', taxa2='E', color="grey", alpha=0.5, 
+                    offset=-0.2, outward=FALSE,
                     arrow=arrow(length=unit(0.01, "npc"))) +
-      geom_taxalink(taxa1='F', taxa2='K', color='red', linetype = 'dashed', alpha=0.5, offset=-0.2,
-                    outward=FALSE,
+      geom_taxalink(taxa1='F', taxa2='K', color='red', linetype = 'dashed', 
+                    alpha=0.5, offset=-0.2, outward=FALSE,
                     arrow=arrow(length=unit(0.01, "npc"))) +
-      geom_taxalink(taxa1="L", taxa2="M", color="blue", alpha=0.5, offset=-0.2, 
-                    outward=FALSE,
+      geom_taxalink(taxa1="L", taxa2="M", color="blue", alpha=0.5, 
+                    offset=-0.2, outward=FALSE,
                     arrow=arrow(length=unit(0.01, "npc"))) +
       geom_tiplab(hjust=1) 
 
@@ -410,11 +416,12 @@ The `geom_range()` layer supports displaying interval (highest posterior density
 
 (ref:geomRangecap) **Displaying uncertainty of evolutionary inference.** The center (mean value of the range (A) or estimated value (B)) is anchored to the tree nodes. A second x-axis was used for range scaling (C). 
 
-```{ eval=FALSE}
+```{r eval=FALSE}
 file <- system.file("extdata/MEGA7", "mtCDNA_timetree.nex", package = "treeio")
 x <- read.mega(file)
 p1 <- ggtree(x) + geom_range('reltime_0.95_CI', color='red', size=3, alpha=.3)
-p2 <- ggtree(x) + geom_range('reltime_0.95_CI', color='red', size=3, alpha=.3, center='reltime')  
+p2 <- ggtree(x) + geom_range('reltime_0.95_CI', color='red', size=3, 
+                              alpha=.3, center='reltime')  
 p3 <- p2 + scale_x_range() + theme_tree2()
 ```
 

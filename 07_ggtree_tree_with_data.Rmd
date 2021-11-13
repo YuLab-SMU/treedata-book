@@ -32,10 +32,13 @@ library(TDbook)
 # load `tree_boots`, `df_tip_data`, and `df_inode_data` from 'TDbook'
 p <- ggtree(tree_boots) %<+% df_tip_data + xlim(-.1, 4)
 p2 <- p + geom_tiplab(offset = .6, hjust = .5) +
-    geom_tippoint(aes(shape = trophic_habit, color = trophic_habit, size = mass_in_kg)) + 
-    theme(legend.position = "right") + scale_size_continuous(range = c(3, 10))
+    geom_tippoint(aes(shape = trophic_habit, color = trophic_habit, 
+                size = mass_in_kg)) + 
+    theme(legend.position = "right") + 
+    scale_size_continuous(range = c(3, 10))
 
-p2 %<+% df_inode_data + geom_label(aes(label = vernacularName.y, fill = posterior)) + 
+p2 %<+% df_inode_data + 
+    geom_label(aes(label = vernacularName.y, fill = posterior)) + 
     scale_fill_gradientn(colors = RColorBrewer::brewer.pal(3, "YlGnBu"))
 ```
 
@@ -88,9 +91,9 @@ p <- p %<+% df_info + geom_tippoint(aes(color=location))
 ## and align them based on tree structure
 p + geom_facet(panel = "SNP", data = snp_data, geom = geom_point, 
                mapping=aes(x = pos, color = location), shape = '|') +
-    geom_facet(panel = "Trait", data = df_bar_data, geom = ggstance::geom_barh, 
-                aes(x = dummy_bar_value, color = location, fill = location), 
-                stat = "identity", width = .6) +
+    geom_facet(panel = "Trait", data = df_bar_data, geom = geom_col, 
+                aes(x = dummy_bar_value, color = location, 
+                fill = location), orientation = 'y', width = .6) +
     theme_tree2(legend.position=c(.05, .85))
 ```
 
@@ -191,8 +194,10 @@ nwk <- system.file("extdata", "sample.nwk", package="treeio")
 tree <- read.tree(nwk)
 circ <- ggtree(tree, layout = "circular")
 
-df <- data.frame(first=c("a", "b", "a", "c", "d", "d", "a", "b", "e", "e", "f", "c", "f"),
-                 second= c("z", "z", "z", "z", "y", "y", "y", "y", "x", "x", "x", "a", "a"))
+df <- data.frame(first=c("a", "b", "a", "c", "d", "d", "a", 
+                        "b", "e", "e", "f", "c", "f"),
+                 second= c("z", "z", "z", "z", "y", "y", 
+                        "y", "y", "x", "x", "x", "a", "a"))
 rownames(df) <- tree$tip.label
 
 df2 <- as.data.frame(matrix(rnorm(39), ncol=3))

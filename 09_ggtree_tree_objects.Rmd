@@ -85,9 +85,11 @@ data(GlobalPatterns)
 GP <- prune_taxa(taxa_sums(GlobalPatterns) > 0, GlobalPatterns)
 GP.chl <- subset_taxa(GP, Phylum=="Chlamydiae")
 
-ggtree(GP.chl) + geom_text2(aes(subset=!isTip, label=label), hjust=-.2, size=4) +
+ggtree(GP.chl) + 
+  geom_text2(aes(subset=!isTip, label=label), hjust=-.2, size=4) +
   geom_tiplab(aes(label=Genus), hjust=-.3) +
-  geom_point(aes(x=x+hjust, color=SampleType, shape=Family, size=Abundance),na.rm=TRUE) +
+  geom_point(aes(x=x+hjust, color=SampleType, shape=Family, 
+                size=Abundance), na.rm=TRUE) +
   scale_size_continuous(trans=log_trans(5)) +
   theme(legend.position="right")
 ```
@@ -207,9 +209,10 @@ d <- data.frame(label = names(clus),
 
 p %<+% d + 
   layout_dendrogram() + 
-  geom_tippoint(size=5, shape=21, aes(fill=factor(cyl), x=x+.5), color='black') + 
+  geom_tippoint(aes(fill=factor(cyl), x=x+.5), 
+                size=5, shape=21, color='black') + 
   geom_tiplab(aes(label=cyl), size=3, hjust=.5, color='black') +
-  geom_tiplab(angle=90, hjust=1, offset=-10, show.legend=F) + 
+  geom_tiplab(angle=90, hjust=1, offset=-10, show.legend=FALSE) + 
   scale_color_brewer(palette='Set1', breaks=1:4) +
   theme_dendrogram(plot.margin=margin(6,6,80,6)) +
   theme(legend.position=c(.9, .6))
