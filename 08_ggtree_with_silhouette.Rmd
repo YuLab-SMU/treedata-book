@@ -22,7 +22,7 @@ Online tools such as `r pkg_itol` [@letunic_interactive_2007] and `r pkg_evolvie
 (ref:frogimagecap) **Labelling taxa with images.** Users need to specify `geom = "image"` and mapping the image file names onto the `image` aesthetics. 
 
 
-```{r frogimage, fig.width=6, fig.height=4.6, message=F, warning=F, dev='png', fig.cap="(ref:frogimagecap)", fig.scap="(ref:frogimagescap)", out.width='100%'}
+```{r frogimage, fig.width=8, fig.height=6, message=F, warning=F, dev='png', dpi=150, fig.cap="(ref:frogimagecap)", fig.scap="(ref:frogimagescap)", out.width='100%'}
 library(ggimage)
 library(ggtree)
 
@@ -355,25 +355,26 @@ tree_text <- paste0("(((((cow, (whale, dolphin)), (pig2, boar)),",
                     "camel), fish), seedling);")
 x <- read.tree(text=tree_text)
 library(ggimage)
-library(gridSVG)
 p <-  ggtree(x, size=2) + geom_tiplab(size=20, parse='emoji') +
-    xlim(NA, 7) + ylim(NA, 8.5) +
-    geom_phylopic(image="79ad5f09-cf21-4c89-8e7d-0c82a00ce728",
-                  color="firebrick", alpha = .3, size=Inf)
+    xlim(NA, 7) + ylim(NA, 8.5) 
 
-p
-ps = grid.export("emoji.svg", addClass=T)
+svglite::svglite("emoji.svg", width = 10, height = 7)
+print(p)
+dev.off()
+
+# or use `grid.export()` 
+# ps = gridSVG::grid.export("emoji.svg", addClass=T)
 ```
 
 
 (ref:applemojiscap) Use Apple Color Emoji in `ggtree`.
 
-(ref:applemojicap) **Use Apple Color Emoji in `ggtree`.** The background is an image of a *opisthocomus* from Phylopic database and the tip labels were parsed as emojis using `AppleColorEmoji` font. 
+(ref:applemojicap) **Use Apple Color Emoji in `ggtree`.** The tip labels were parsed as emojis using `AppleColorEmoji` font in Safari. 
 
 
 
 ```{r applemoji, out.width="100%", echo=F, fig.scap="(ref:applemojiscap)", fig.cap="(ref:applemojicap)"}
-knitr::include_graphics("img/apple_emoji2.png")
+knitr::include_graphics("img/apple_emoji.png", auto_pdf = TRUE)
 ```
 
 ### Phylomoji in ASCII art
