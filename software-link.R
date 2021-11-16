@@ -1,5 +1,6 @@
 
-library(yulab.utils)
+pacman::p_load(yulab.utils)
+
 # pkg name in bold
 options("yulab.utils_pkgfmt" = '**%s**') 
 

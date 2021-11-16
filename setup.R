@@ -1,20 +1,26 @@
-library(ape)
-library(Biostrings)
-## library(OutbreakTools)
-library(igraph)
-library(phylobase)
+if (!requireNamespace("pacman", quietly = TRUE)) {
+    install.packages("pacman")
+}
 
-library(emojifont)
-library(ggplot2)
-library(dplyr)
-library(kableExtra)
-library(tidytree)
-library(treeio)
-library(ggtree)
+library(pacman)
 
-library(cowplot)
-library(patchwork)
-library(aplot)
+p_load(ape)
+p_load(Biostrings)
+## p_load(OutbreakTools)
+p_load(igraph)
+p_load(phylobase)
+
+p_load(emojifont)
+p_load(ggplot2)
+p_load(dplyr)
+p_load(kableExtra)
+p_load(tidytree)
+p_load(treeio)
+p_load(ggtree)
+
+p_load(cowplot)
+p_load(patchwork)
+p_load(aplot)
 
 source("conflicted.R")
 source("software-link.R")
