@@ -286,7 +286,7 @@ FIGURE 8.5: <strong>Parsing label as emoji.</strong> Text (<em>e.g.</em> node or
 <span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/open_tree.html">open_tree</a></span><span class="op">(</span><span class="va">p</span>, angle<span class="op">=</span><span class="fl">200</span><span class="op">)</span> 
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">p2</span><span class="op">)</span>
 
-<span class="va">p2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/rotate_tree.html">rotate_tree</a></span><span class="op">(</span><span class="op">-</span><span class="fl">90</span><span class="op">)</span></code></pre></div>
+<span class="va">p2</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/rotate_tree.html">rotate_tree</a></span><span class="op">(</span><span class="op">-</span><span class="fl">90</span><span class="op">)</span></code></pre></div>
 
 
 <div class="figure">
@@ -353,20 +353,21 @@ FIGURE 8.7: <strong>Emoji to label clades.</strong>
                     <span class="st">"camel), fish), seedling);"</span><span class="op">)</span>
 <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/read.tree.html">read.tree</a></span><span class="op">(</span>text<span class="op">=</span><span class="va">tree_text</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/GuangchuangYu/ggimage">ggimage</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">gridSVG</span><span class="op">)</span>
 <span class="va">p</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">x</span>, size<span class="op">=</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">20</span>, parse<span class="op">=</span><span class="st">'emoji'</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">7</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">ylim</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">8.5</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://rdrr.io/pkg/ggimage/man/geom_phylopic.html">geom_phylopic</a></span><span class="op">(</span>image<span class="op">=</span><span class="st">"79ad5f09-cf21-4c89-8e7d-0c82a00ce728"</span>,
-                  color<span class="op">=</span><span class="st">"firebrick"</span>, alpha <span class="op">=</span> <span class="fl">.3</span>, size<span class="op">=</span><span class="cn">Inf</span><span class="op">)</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">7</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">ylim</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">8.5</span><span class="op">)</span> 
 
-<span class="va">p</span>
-<span class="va">ps</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/gridSVG/man/grid.export.html">grid.export</a></span><span class="op">(</span><span class="st">"emoji.svg"</span>, addClass<span class="op">=</span><span class="cn">T</span><span class="op">)</span></code></pre></div>
+<span class="fu">svglite</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/svglite/man/svglite.html">svglite</a></span><span class="op">(</span><span class="st">"emoji.svg"</span>, width <span class="op">=</span> <span class="fl">10</span>, height <span class="op">=</span> <span class="fl">7</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html">dev.off</a></span><span class="op">(</span><span class="op">)</span>
+
+<span class="co"># or use `grid.export()` </span>
+<span class="co"># ps = gridSVG::grid.export("emoji.svg", addClass=T)</span></code></pre></div>
 
 
 <div class="figure">
 <span style="display:block;" id="fig:applemoji"></span>
-<img src="img/apple_emoji2.png" alt="Use Apple Color Emoji in ggtree. The background is an image of a opisthocomus from Phylopic database and the tip labels were parsed as emojis using AppleColorEmoji font." width="100%"><p class="caption">
-FIGURE 8.8: <strong>Use Apple Color Emoji in <code>ggtree</code>.</strong> The background is an image of a <em>opisthocomus</em> from Phylopic database and the tip labels were parsed as emojis using <code>AppleColorEmoji</code> font.
+<img src="img/apple_emoji.png" alt="Use Apple Color Emoji in ggtree. The tip labels were parsed as emojis using AppleColorEmoji font in Safari." width="100%"><p class="caption">
+FIGURE 8.8: <strong>Use Apple Color Emoji in <code>ggtree</code>.</strong> The tip labels were parsed as emojis using <code>AppleColorEmoji</code> font in Safari.
 </p>
 </div>
 </div>
@@ -428,7 +429,7 @@ FIGURE 8.8: <strong>Use Apple Color Emoji in <code>ggtree</code>.</strong> The b
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-11-13.</p>
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-11-16.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
