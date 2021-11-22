@@ -342,7 +342,7 @@ It was not easy to retrieve phylogenetic trees with evolutionary data from diffe
 to complete each other or compare similar analyses from different software (*e.g.*, clade probability inferred from `BEAST` and `MrBayes`). Without programming library to parse these software outputs make it difficult to integrate evolutionary statistics for comparison and further analysis.
 -->
 
-## Getting Tree Data with *treeio*
+## Getting Tree Data with `r Biocpkg("treeio")`
 
 Phylogenetic trees are commonly used to present evolutionary relationships of
 species. Information associated with taxon species/strains may be further
@@ -475,7 +475,7 @@ knitr::include_graphics("img/treeio-diagram.png", auto_pdf = TRUE)
 The `r Biocpkg("treeio")` package [@wang_treeio_2020] defined `S4` classes for storing phylogenetic trees with diverse types of associated data or covariates from different sources including analysis outputs from different software packages. It also defined corresponding parser functions for parsing phylogenetic trees with annotation data and stored them as data objects in R for further manipulation or analysis (see Table \@ref(tab:treeio-function)). Several accessor functions were defined to facilitate accessing the tree annotation data, including `get.fields` for obtaining annotation features available in the tree object, `get.placements` for obtaining the phylogenetic placement results (*i.e.*, the output of `r pkg_pplacer`, `r pkg_epa`, *etc.*), `get.subs` for obtaining the genetic substitutions from parent node to child node, and `get.tipseq` for getting the tip sequences. 
 
 
-The `S3` class, `phylo`, which was defined in `r CRANpkg("ape")`\index{ape} [@paradis_ape_2004] package, is widely used in `R` community and many packages. As *treeio* uses `S4` class, to enable those available R packages to analyze the tree imported by *treeio*, *treeio* provides `as.phylo` function to convert *treeio*-generated tree object to `phylo` object that only contains tree structure without annotation data. In the other way, *treeio* also provides `as.treedata` function to convert `phylo` object with evolutionary analysis result (*e.g.*, bootstrap values calculated by `r CRANpkg("ape")` or ancestral states inferred by `r CRANpkg("phangorn")`\index{phangorn} [@schliep_phangorn_2011] *etc*) to be stored as a `treedata` `S4` object, making it easy to map the data to the tree structure and to be visualized using `r Biocpkg("ggtree")` [@yu_ggtree:_2017].
+The `S3` class, `phylo`, which was defined in `r CRANpkg("ape")`\index{ape} [@paradis_ape_2004] package, is widely used in `R` community and many packages. As `r Biocpkg("treeio")` uses `S4` class, to enable those available R packages to analyze the tree imported by `r Biocpkg("treeio")`, `r Biocpkg("treeio")` provides `as.phylo` function to convert `r Biocpkg("treeio")`-generated tree object to `phylo` object that only contains tree structure without annotation data. In the other way, `r Biocpkg("treeio")` also provides `as.treedata` function to convert `phylo` object with evolutionary analysis result (*e.g.*, bootstrap values calculated by `r CRANpkg("ape")` or ancestral states inferred by `r CRANpkg("phangorn")`\index{phangorn} [@schliep_phangorn_2011] *etc*) to be stored as a `treedata` `S4` object, making it easy to map the data to the tree structure and to be visualized using `r Biocpkg("ggtree")` [@yu_ggtree:_2017].
 
 
 <!--
