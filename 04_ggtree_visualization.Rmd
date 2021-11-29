@@ -505,14 +505,14 @@ d$node <- as.numeric(d$node)
 tree <- full_join(tree_anole, d, by = 'node')
 
 p1 <- ggtree(tree, aes(color=trait), layout = 'circular', 
-        ladderize = FALSE, continuous = TRUE, size=2) +
+        ladderize = FALSE, continuous = 'colour', size=2) +
     scale_color_gradientn(colours=c("red", 'orange', 'green', 'cyan', 'blue')) +
     geom_tiplab(hjust = -.1) + 
     xlim(0, 1.2) + 
     theme(legend.position = c(.05, .85)) 
 
 p2 <- ggtree(tree, layout='circular', ladderize = FALSE, size=2.8) + 
-    geom_tree(aes(color=trait), continuous=T, size=2) +  
+    geom_tree(aes(color=trait), continuous = 'colour', size=2) +  
     scale_color_gradientn(colours=c("red", 'orange', 'green', 'cyan', 'blue')) +
     geom_tiplab(aes(color=trait), hjust = -.1) + 
     xlim(0, 1.2) + 
@@ -530,7 +530,7 @@ Besides, we can use a two-dimensional tree (as demonstrated in Figure \@ref(fig:
 
 
 ```{r phenogram, fig.width=6, fig.height=8, fig.cap="(ref:phenogramcap)", fig.scap="(ref:phenogramscap)"}
-ggtree(tree, aes(color=trait), continuous = TRUE, yscale = "trait") + 
+ggtree(tree, aes(color=trait), continuous = 'colour', yscale = "trait") + 
     scale_color_viridis_c() + theme_minimal()
 ```
 

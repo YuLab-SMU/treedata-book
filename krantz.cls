@@ -375,7 +375,7 @@
 \let\@oddfoot\@empty
 \let\@evenfoot\@empty
     \let\@evenhead\even@head
-    \def\@oddhead{\RunningHeadFont\if@mainmatter\ifnum\value{section}>0 \enspace\fi\fi\rightmark\hfill\PageNumFont\thepage}%\odd@head
+    \let\@oddhead\odd@head
   \fi
   }
 \else
@@ -447,9 +447,9 @@
   \def\chaptermark##1{%
     \markboth{%
       ##1}{}}%
-  \def\sectionmark##1{%\pagebreak[3]%
+  \def\sectionmark##1{%
     \markright{%
-      \thesection\enspace##1}}}
+      ##1}}}
 \def\pdfon{\@pdftrue}
 \def\pdfoff{\@pdffalse}
 \if@pdf
