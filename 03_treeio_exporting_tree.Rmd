@@ -20,12 +20,12 @@ The `r Biocpkg("treeio")` package [@wang_treeio_2020] supports parsing various p
 and `r pkg_r8s` output), while some of the others are
 non-standard formats (*e.g.* `r pkg_beast`
 and `r pkg_mrbayes` output that introduce square
-bracket, which was reserved to store comment in standard Nexus format, to store
+bracket, which was reserved to store comments in standard Nexus format, to store
 inferences). With `r Biocpkg("treeio")`, we are
 now able to parse these files to extract phylogenetic trees and map associated
 data on the tree structure. Exporting tree structure is easy, users can use
 the `as.phyo()` method defined in `r Biocpkg("treeio")` to
-convert a `treedata` object to a `phylo` object then using `write.tree()` or
+convert a `treedata` object to a `phylo` object and then use `write.tree()` or
 `write.nexus()` implemented
 in `r CRANpkg("ape")` package
 [@paradis_ape_2004] to export the tree structure as Newick text or Nexus file.
@@ -44,7 +44,7 @@ format](http://beast.community/nexus_metacomments) may not be the best solution,
 it is currently a good approach for storing heterogeneous associated data. The
 beauty of the format is that all the annotated elements are stored within square
 brackets, which are reserved for comments. So that the file can be parsed as
-standard Nexus by ignoring annotated elements and existing programs should be
+standard Nexus format by ignoring annotated elements and existing programs could be
 able to read it.
 
 ## Exporting Tree Data to *BEAST* Nexus Format
@@ -226,7 +226,7 @@ Some software tools that do not support these outputs can be supported through d
 
 (ref:beastFigtreescap) Visualizing BEAST file in FigTree.
 
-(ref:beastFigtreecap) **Visualizing BEAST file in FigTree.** Directly visualizing `NHX` file (A) and `CodeML` output (B) in `FigTree` is not supported. `treeio` can convert these files to BEAST compatible NEXUS format which can be directly opened in `FigTree` and visualized annotated data.
+(ref:beastFigtreecap) **Visualizing BEAST file in FigTree.** Directly visualizing `NHX` file (A) and `CodeML` output (B) in `FigTree` is not supported. `treeio` can convert these files to BEAST compatible NEXUS format which can be directly opened in `FigTree` and visualized together with annotated data.
 
 ```{r beastFigtree, fig.width=8, fig.height=9.6, echo=FALSE, fig.cap="(ref:beastFigtreecap)", fig.scap="(ref:beastFigtreescap)", out.width="100%"}
 # knitr::include_graphics("img/phyldog.png")
@@ -318,7 +318,7 @@ writeLines(x)
 ```
 
 
-After merging, the `fake_trait` and `another_trait` stored in `fake_data` will be linked to the tree, `phylo`, and stored in the `treedata` object, the `fake_tree`. The `write.beast()` function export the tree with associated data to a single BEAST format file. The associated data can be used to visualize the tree using `r Biocpkg("ggtree")` (Figure \@ref(fig:beast)) or `r pkg_figtree` (Figure \@ref(fig:beastFigtree)).
+After merging, the `fake_trait` and `another_trait` stored in `fake_data` will be linked to the tree, `phylo`, and stored in the `treedata` object, the `fake_tree`. The `write.beast()` function exports the tree with associated data to a single BEAST format file. The associated data can be used to visualize the tree using `r Biocpkg("ggtree")` (Figure \@ref(fig:beast)) or `r pkg_figtree` (Figure \@ref(fig:beastFigtree)).
 
 
 ### Merging tree data from different sources
@@ -481,4 +481,4 @@ read.jtree(jtree_file)
 
 ## Summary {#summary3}
 
-Phylogenetic tree-associated data is often stored in a separate file and needs the expertise to map the data to the tree structure. Lacking standardization to store and represent phylogeny and associated data makes it difficult for researchers to access and integrate the phylogenetic data into their studies. The `r Biocpkg("treeio")` package provides functions to import phylogeny with associated data from several sources, including analysis finding from commonly used software and external data such as experimental, clinical, or metadata. These tree + data can be exported into a single file as `BEAST` or `jtree` formats, and the output file can be parsed back to R by `r Biocpkg("treeio")` and the data is easy to access. The input and output utilities supplied by `r Biocpkg("treeio")` package lay the foundation for phylogenetic data integration for downstream comparative study and visualization. It creates the possibility of integrating a tree with associated data from different sources and extends the applications of phylogenetic analysis in different disciplines. 
+Phylogenetic tree-associated data is often stored in a separate file and needs the expertise to map the data to the tree structure. Lacking standardization to store and represent phylogeny and associated data makes it difficult for researchers to access and integrate the phylogenetic data into their studies. The `r Biocpkg("treeio")` package provides functions to import phylogeny with associated data from several sources, including analysis findings from commonly used software and external data such as experimental data, clinical data, or metadata. These tree and their associated data can be exported into a single file as `BEAST` or `jtree` formats, and the output file can be parsed back to R by `r Biocpkg("treeio")` and the data is easy to access. The input and output utilities supplied by `r Biocpkg("treeio")` package lay the foundation for phylogenetic data integration for downstream comparative study and visualization. It creates the possibility of integrating a tree with associated data from different sources and extends the applications of phylogenetic analysis in different disciplines. 
