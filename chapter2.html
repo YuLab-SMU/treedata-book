@@ -249,7 +249,7 @@ as linking external data to the same tree structure.</p>
 <div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">child</span><span class="op">(</span><span class="va">tree</span>, <span class="fl">5</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 1 6</code></pre>
-<p>Beware that the methods work for tree objects output related node numbers, while the methods implemented for the <code>tbl_tree</code> object output a <code>tibble</code> object that contains related information.</p>
+<p>Beware that the methods for tree objects output relevant node numbers, while the methods for <code>tbl_tree</code> object output a <code>tibble</code> object that contains related information.</p>
 </div>
 </div>
 <div id="data-integration" class="section level2" number="2.2">
@@ -346,7 +346,7 @@ FIGURE 2.1: <strong>Correlation of <em>d<sub>N</sub>/d<sub>S</sub></em>, <em>d<s
 <p>The output is illustrated in Fig. <a href="chapter2.html#fig:correlations">2.1</a>. We can then test the association of these node/branch-specific data using Pearson correlation, which in this case showed that <em>d<sub>N</sub></em> and <em>d<sub>S</sub></em>, but not <em>d<sub>N</sub>/d<sub>S</sub></em> are significantly (<em>p</em>-values) associated with <em>rate</em>.</p>
 <p>Using the <code><a href="https://docs.ropensci.org/treeio/reference/merge_tree.html">merge_tree()</a></code> function, we are able to compare analysis results using an identical
 model from different software packages or different models using different or
-identical software. It also allows users to integrate different analysis finding
+identical software. It also allows users to integrate different analysis findings
 from different software packages. Merging tree data is not restricted to
 software findings, associating external data to analysis findings is also
 granted. The <code><a href="https://docs.ropensci.org/treeio/reference/merge_tree.html">merge_tree()</a></code> function is chainable and allows several tree objects
@@ -396,10 +396,10 @@ above, there is a wide range of heterogeneous data, including phenotypic data,
 experimental data, and clinical data, <em>etc.</em>, that need to be integrated and
 linked to phylogeny. For example, in the study of viral evolution, tree nodes may be
 associated with epidemiological information, such as location, age, and subtype.
-Functional annotations may need to be mapped on gene trees for comparative
+Functional annotations may need to be mapped onto gene trees for comparative
 genomics studies. To facilitate data
 integration, <a href="http://bioconductor.org/packages/treeio"><strong>treeio</strong></a> provides
-<code><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">full_join()</a></code> method to link external data to phylogeny and store it in either <code>phylo</code> or <code>treedata</code> object. Beware that linking external data to a <code>phylo</code> object will produce a <code>treedata</code> object to store the input <code>phylo</code> with associated data. The <code>full_join</code> methods can also be used at tidy data frame level (<em>i.e.</em> <code>tbl_tree</code> object described previously) and at <code>ggtree</code> level (described in <a href="chapter7.html#attach-operator">Chapter 7</a>) <span class="citation">(<a href="references.html#ref-yu_two_2018" role="doc-biblioref">Yu et al. 2018</a>)</span>.</p>
+<code><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">full_join()</a></code> methods to link external data to phylogeny and store it in either <code>phylo</code> or <code>treedata</code> object. Beware that linking external data to a <code>phylo</code> object will produce a <code>treedata</code> object to store the input <code>phylo</code> with associated data. The <code>full_join</code> methods can also be used at tidy data frame level (<em>i.e.</em> <code>tbl_tree</code> object described previously) and at <code>ggtree</code> level (described in <a href="chapter7.html#attach-operator">Chapter 7</a>) <span class="citation">(<a href="references.html#ref-yu_two_2018" role="doc-biblioref">Yu et al. 2018</a>)</span>.</p>
 <p>The following example calculated bootstrap values and merged that values with the tree (a <code>phylo</code> object) by matching their node numbers.</p>
 <div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ape-package.ird.fr/">ape</a></span><span class="op">)</span>
@@ -466,8 +466,8 @@ and <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a
 </h3>
 <p>The <code><a href="https://rdrr.io/pkg/tidytree/man/groupOTU.html">groupOTU()</a></code> and <code><a href="https://rdrr.io/pkg/tidytree/man/groupClade.html">groupClade()</a></code> methods are designed for adding taxa grouping
 information to the input tree object. The methods were implemented in <a href="https://CRAN.R-project.org/package=tidytree"><strong>tidytree</strong></a>,
-<a href="http://bioconductor.org/packages/treeio"><strong>treeio</strong></a>, and <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> respectively to support adding grouping information at the
-<code>tbl_tree</code>, <code>phylo</code> and <code>treedata</code>, and <code>ggtree</code> levels. This grouping information can be
+<a href="http://bioconductor.org/packages/treeio"><strong>treeio</strong></a>, and <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> respectively to support adding grouping information for the
+<code>tbl_tree</code>, <code>phylo</code> and <code>treedata</code>, and <code>ggtree</code> objects. This grouping information can be
 used directly in tree visualization (<em>e.g.</em> <a href="chapter6.html#group-taxa-vis">coloring a tree based on grouping information</a>)
 with <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> (Figure <a href="chapter6.html#fig:groupOTU">6.5</a>).</p>
 <div id="groupclade" class="section level4" number="2.2.3.1">
@@ -560,7 +560,7 @@ They can be monophyletic (clade), polyphyletic or paraphyletic.</p>
 ## # … with 15 more rows</code></pre>
 <p>If there are conflicts when tracing back to the most recent common ancestor, users can set <code>overlap</code>
 parameter to “origin” (the first one counts), “overwrite” (default, the last one
-counts), or “abandon” (un-selected for grouping)<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://groups.google.com/forum/#!msg/bioc-ggtree/Q4LnwoTf1DM/uqYdYB_VBAAJ" class="uri"&gt;https://groups.google.com/forum/#!msg/bioc-ggtree/Q4LnwoTf1DM/uqYdYB_VBAAJ&lt;/a&gt;&lt;/p&gt;'><sup>7</sup></a>.</p>
+counts), or “abandon” (un-selected for grouping)<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://groups.google.com/forum/#!msg/bioc-ggtree/Q4LnwoTf1DM/uqYdYB_VBAAJ" class="uri"&gt;https://groups.google.com/forum/#!msg/bioc-ggtree/Q4LnwoTf1DM/uqYdYB_VBAAJ&lt;/a&gt;&lt;/p&gt;'><sup>8</sup></a>.</p>
 </div>
 </div>
 </div>
@@ -814,8 +814,8 @@ FIGURE 2.5: <strong>Subsetting tree for a specific tip.</strong> The original tr
   ncol<span class="op">=</span><span class="fl">2</span>, tag_levels <span class="op">=</span> <span class="st">'A'</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <span style="display:block;" id="fig:subsetNode"></span>
-<img src="treedata_files/figure-html/subsetNode-1.png" alt="Subsetting tree for the specific clade. Extracting a clade (A). Extract a clade and trace it back to look at its immediate relatives (B). Viewing a very large tree (C) and a selected portion of it (D)." width="100%"><p class="caption">
-FIGURE 2.6: <strong>Subsetting tree for the specific clade.</strong> Extracting a clade (A). Extract a clade and trace it back to look at its immediate relatives (B). Viewing a very large tree (C) and a selected portion of it (D).
+<img src="treedata_files/figure-html/subsetNode-1.png" alt="Subsetting tree for the specific clade. Extracting a clade (A). Extracting a clade and tracing it back to look at its immediate relatives (B). Viewing a very large tree (C) and a selected portion of it (D)." width="100%"><p class="caption">
+FIGURE 2.6: <strong>Subsetting tree for the specific clade.</strong> Extracting a clade (A). Extracting a clade and tracing it back to look at its immediate relatives (B). Viewing a very large tree (C) and a selected portion of it (D).
 </p>
 </div>
 </div>
@@ -903,7 +903,7 @@ FIGURE 2.8: <strong>Plot multiple phylogenetic trees side-by-side.</strong> Plot
 <h2>
 <span class="header-section-number">2.7</span> Summary<a class="anchor" aria-label="anchor" href="#summary2"><i class="fas fa-link"></i></a>
 </h2>
-<p>The <a href="http://bioconductor.org/packages/treeio"><strong>treeio</strong></a> package allows us to import diverse phylogeny associated data into R. However, a phylogenetic tree is stored in a way to facilitate computational processing which is not human friendly and needs the expertise to manipulate and explore tree data. The <a href="https://CRAN.R-project.org/package=tidytree"><strong>tidytree</strong></a> package provides a tidy interface for exploring tree data, while <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> provides a set of utilities to visualize and explore tree data using the grammar of graphics. This full suite of packages makes it easy for ordinary users to interact with tree data and allow us to integrate phylogeny associated data from different sources (<em>e.g.</em> experimental result or analysis finding), which creates the possibilities of integrative and comparative study. Moreover, this package suite brings phylogenetic analysis into the tidyverse and certainly takes us to the next level of processing phylogenetic data.</p>
+<p>The <a href="http://bioconductor.org/packages/treeio"><strong>treeio</strong></a> package allows us to import diverse phylogeny associated data into R. However, a phylogenetic tree is stored in a way to facilitate computational processing which is not human friendly and needs the expertise to manipulate and explore tree data. The <a href="https://CRAN.R-project.org/package=tidytree"><strong>tidytree</strong></a> package provides a tidy interface for exploring tree data, while <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> provides a set of utilities to visualize and explore tree data using the grammar of graphics. This full suite of packages makes it easy for ordinary users to interact with tree data and allows us to integrate phylogeny associated data from different sources (<em>e.g.</em> experimental results or analysis findings), which creates the possibilities of integrative and comparative study. Moreover, this package suite brings phylogenetic analysis into the tidyverse and certainly takes us to the next level of processing phylogenetic data.</p>
 
 <div style="page-break-after: always;"></div>
 </div>
@@ -957,7 +957,7 @@ FIGURE 2.8: <strong>Plot multiple phylogenetic trees side-by-side.</strong> Plot
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-11-23.</p>
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-11-29.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
