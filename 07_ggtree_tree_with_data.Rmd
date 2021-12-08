@@ -18,7 +18,7 @@ The `r Biocpkg("ggtree")` package provides two general methods for mapping and v
 
 ## Mapping data to the tree structure {#attach-operator}
 
-In `r Biocpkg("ggtree")`, we implemented an operator, `%<+%`, to attach annotation data to a `ggtree` graphic object. Any data that contains a column of "node" or the first column of taxa labels can be integrated using the `%<+%` operator. Multiple datasets can be attached progressively. When the data are attached, all the information stored in the data serve as numerical/categorical node attributes and can be directly used to visualize the tree by scaling the attributes as different colors or line sizes, labeling the tree using the original values of the attributes or parsing them as [math expression](#faq-formatting-label), [emoji](#phylomoji) or [silhouette image](#ggimage). The following example uses the `%<+%` operator to integrate taxon (`df_tip_data`) and internal node (`df_inode_data`) information and map the data to different colors or shapes of symbolic points and labels (Figure \@ref(fig:attacher)). The tip data contains `imageURL` that links to online figures of the species, which can be parsed and used as tip labels in `r Biocpkg("ggtree")` (see [chapter 8](#chapter8)). 
+In `r Biocpkg("ggtree")`, we implemented an operator, `%<+%`, to attach annotation data to a `ggtree` graphic object. Any data that contains a column of "node" or the first column of taxa labels can be integrated using the `%<+%` operator. Multiple datasets can be attached progressively. When the data are attached, all the information stored in the data serves as numerical/categorical node attributes and can be directly used to visualize the tree by scaling the attributes as different colors or line sizes, labeling the tree using the original values of the attributes or parsing them as [math expression](#faq-formatting-label), [emoji](#phylomoji) or [silhouette image](#ggimage). The following example uses the `%<+%` operator to integrate taxon (`df_tip_data`) and internal node (`df_inode_data`) information and map the data to different colors or shapes of symbolic points and labels (Figure \@ref(fig:attacher)). The tip data contains `imageURL` that links to online figures of the species, which can be parsed and used as tip labels in `r Biocpkg("ggtree")` (see [chapter 8](#chapter8)). 
 
 (ref:attacherscap) Example of attaching multiple datasets.
 
@@ -51,12 +51,12 @@ Although the data integrated by the `%<+%` operator in `r Biocpkg("ggtree")` is 
 
 For associating phylogenetic tree with different types of plot produced by user's data, `r Biocpkg("ggtree")` provides `geom_facet()` layer and `facet_plot()` function which accept an input `data.frame` and a `geom` layer to draw the input data. The data will be displayed in an additional panel of the plot. The `geom_facet()` (or `facet_plot`) is a general solution for linking the graphic layer to a tree. The function internally re-orders the input data based on the tree structure and visualizes the data at the specific panel by the geometric layer. Users are free to visualize several panels to plot different types of data as demonstrated in Figure \@ref(fig:phyloseq) and to use different geometric layers to plot the same dataset (Figure \@ref(fig:jv2017)) or different datasets on the same panel.
 
-The `geom_facet()` is designed to work with most of the `geom` layers defined in `r CRANpkg("ggplot2")` and other `r CRANpkg("ggplot2")`-based packages. A list of the geometric layers that work seamlessly with `geom_facet()` and `facet_plot()` can be found in Table \@ref(tab:facet-geom). As the `r CRANpkg("ggplot2")` community keeps expanding and more `geom` layers will be implemented in either `r CRANpkg("ggplot2")` or other extensions, `geom_facet()` and `facet_plot()` will gain more power to present data in the future. Note that different `geom` layers can be combined to present data on the same panel and the combinations of different `geom` layers create the possibility to present more complex data with phylogeny (see also Figure \@ref(fig:jv2017) and \@ref(fig:gggenes)). Users can progressively adding multiple panels to present and compare different datasets in the evolutionary context (Figure \@ref(fig:plottree)). Detailed descriptions can be found in [Supplemental File](https://github.com/GuangchuangYu/plotting_tree_with_data/) of [@yu_two_2018].
+The `geom_facet()` is designed to work with most of the `geom` layers defined in `r CRANpkg("ggplot2")` and other `r CRANpkg("ggplot2")`-based packages. A list of the geometric layers that work seamlessly with `geom_facet()` and `facet_plot()` can be found in Table \@ref(tab:facet-geom). As the `r CRANpkg("ggplot2")` community keeps expanding and more `geom` layers will be implemented in either `r CRANpkg("ggplot2")` or other extensions, `geom_facet()` and `facet_plot()` will gain more power to present data in the future. Note that different `geom` layers can be combined to present data on the same panel and the combinations of different `geom` layers create the possibility to present more complex data with phylogeny (see also Figure \@ref(fig:jv2017) and \@ref(fig:gggenes)). Users can progressively add multiple panels to present and compare different datasets in the evolutionary context (Figure \@ref(fig:plottree)). Detailed descriptions can be found in [Supplemental File](https://github.com/GuangchuangYu/plotting_tree_with_data/) of [@yu_two_2018].
 
 
 (ref:plottreescap) Example of plotting SNP and trait data.
 
-(ref:plottreecap) **Example of plotting SNP and trait data**. The 'location' informaton was attached to the tree and used to color tip symbols (Tree panel), and other datasets. SNP and Trait data were visualized as dot chart (SNP panel) and bar chart (Trait panel). 
+(ref:plottreecap) **Example of plotting SNP and trait data**. The 'location' information was attached to the tree and used to color tip symbols (Tree panel), and other datasets. SNP and Trait data were visualized as dot chart (SNP panel) and bar chart (Trait panel). 
 
 
 ```{r plottree, fig.width=12, fig.height=7, message=F, fig.cap="(ref:plottreecap)", fig.scap="(ref:plottreescap)", out.width='100%'}
@@ -99,9 +99,9 @@ p + geom_facet(panel = "SNP", data = snp_data, geom = geom_point,
 
 Companion functions to adjust [panel widths](#facet_widths) and [rename panel names](#facet_labeller) are described in [session 12.1](#facet-utils). Removing the panel name is also possible and an example was presented in Figure \@ref(fig:gggenes). We can also use `r CRANpkg("aplot")` or `r CRANpkg("patchwork")` to create composite plots as described in [session 7.5](#composite_plot). 
 
-The `geom_facet()` (or `facet_plot()`) internally used `ggplot2::facet_grid()` and only works with cartesian coordinate system. To align graph to the tree for polar system (e.g. for circular or fan layouts), we developed another Bioconductor package, `r Biocpkg("ggtreeExtra")`. The `r Biocpkg("ggtreeExtra")` package provides the `geom_fruit()` layer that works similar to `geom_facet()` (details described in [Chapter 10](#chapter10)). The `geom_fruit()` is a better implementation of the Method 2 proposed in [@yu_two_2018].
+The `geom_facet()` (or `facet_plot()`) internally used `ggplot2::facet_grid()` and only works with cartesian coordinate system. To align the graph to the tree for the polar system (e.g. for circular or fan layouts), we developed another Bioconductor package, `r Biocpkg("ggtreeExtra")`. The `r Biocpkg("ggtreeExtra")` package provides the `geom_fruit()` layer that works similar to `geom_facet()` (details described in [Chapter 10](#chapter10)). The `geom_fruit()` is a better implementation of the Method 2 proposed in [@yu_two_2018].
 
-## Visualize a tree with associated matrix {#gheatmap}
+## Visualize a tree with an associated matrix {#gheatmap}
 
 
 The `gheatmap()` function is designed to visualize the phylogenetic tree with a heatmap of an associated matrix (either numerical or categorical). The `geom_facet()` layer is a general solution for plotting data with the tree, including heatmap. The `gheatmap()` function is specifically designed for plotting heatmap with a tree and provides a shortcut for handling column labels and color palettes. Another difference is that `geom_facet()` only supports rectangular and slanted tree layouts while `gheatmap()` supports rectangular, slanted, and circular (Figure \@ref(fig:mgheatmap)) layouts. 
@@ -143,7 +143,7 @@ gheatmap(p, genotype, offset=8, width=0.6,
 
 (ref:gheatmapscap) Example of plotting matrix with `gheatmap()`.
 
-(ref:gheatmapcap) **Example of plotting matrix with `gheatmap()`**. A H3 influenza tree with genotype table visualized as a heatmap (A); Tips were aligned and with a tailored x-axis for divergene times (tree) and genomic segments (heatmap) (B).
+(ref:gheatmapcap) **Example of plotting matrix with `gheatmap()`**. A H3 influenza tree with a genotype table visualized as a heatmap (A); Tips were aligned and with a tailored x-axis for divergence times (tree) and genomic segments (heatmap) (B).
 
 
 ```{r gheatmap, fig.width=8, fig.height=12, warning=FALSE, message=FALSE, echo=F,fig.cap="(ref:gheatmapcap)", fig.scap="(ref:gheatmapscap)", out.width='100%'}
@@ -350,7 +350,7 @@ If we align them using `r CRANpkg("cowplot")`, the composite plots are not align
 cowplot::plot_grid(g, p2, p1, ncol=3) 
 ```
 
-Using `r CRANpkg("aplot")`, it will do all the dirty works for us and all the subplots are aligned properly as demonstrated in Figure \@ref(fig:composite)B.
+Using `r CRANpkg("aplot")`, it will do all the dirty work for us and all the subplots are aligned properly as demonstrated in Figure \@ref(fig:composite)B.
 
 ```r
 library(aplot)
@@ -360,7 +360,7 @@ p2 %>% insert_left(g) %>% insert_right(p1, width=.5)
 
 (ref:compositescap) Example of aligning tree with data side by side to create composite plot.
 
-(ref:compositecap) **Example of aligning tree with data side by side to create composite plot**. `r CRANpkg("cowplot")`` just places the subplots together (A), while `r CRANpkg("aplot")` does extra works to make sure that tree-associated subplots are properly ordered according to the tree structure (B). Note: The 'A' category in the bar plot that is not matched with the tree was removed.
+(ref:compositecap) **Example of aligning tree with data side by side to create composite plot**. `r CRANpkg("cowplot")`` just places the subplots together (A), while `r CRANpkg("aplot")` does extra work to make sure that tree-associated subplots are properly ordered according to the tree structure (B). Note: The 'A' category in the bar plot that is not matched with the tree was removed.
 
 ```{r composite, echo = FALSE, fig.width=12, fig.height=10, fig.cap="(ref:compositecap)", fig.scap="(ref:compositescap)", out.width='100%'}
 pg1 <- cowplot::plot_grid(g, p2, p1, ncol=3)
@@ -393,13 +393,13 @@ p %<% rtree(50)
 ## Summary {#summary7}
 
 
-Although there are many software packages that support visualizing phylogenetic trees, plotting a tree with data is often missing or with only limited supports. Some of the packages define `S4` classes to store phylogenetic tree with domain-specific data, such as `r CRANpkg("OutbreakTools")` [@jombart_outbreaktools_2014] defined `obkData` for storing tree with epidemiology data and `r Biocpkg("phyloseq")` [@mcmurdie_phyloseq_2013] defines `phyloseq` for storing tree with microbiome data. These packages are capable to present some of the data stored in the object on the tree. However, not all the associated data are supported. For example, species abundance stored in the `phyloseq` object is not supported to be visualized using the `r Biocpkg("phyloseq")` package. These packages did not provide any utilities to integrate external data for tree visualization. None of these packages support visualizing external data and aligning the plot to a tree based on the tree structure. 
+Although there are many software packages that support visualizing phylogenetic trees, plotting a tree with data is often missing or with only limited support. Some of the packages define `S4` classes to store phylogenetic tree with domain-specific data, such as `r CRANpkg("OutbreakTools")` [@jombart_outbreaktools_2014] defined `obkData` for storing tree with epidemiology data and `r Biocpkg("phyloseq")` [@mcmurdie_phyloseq_2013] defines `phyloseq` for storing tree with microbiome data. These packages are capable of presenting some of the data stored in the object on the tree. However, not all the associated data are supported. For example, species abundance stored in the `phyloseq` object is not supported to be visualized using the `r Biocpkg("phyloseq")` package. These packages did not provide any utilities to integrate external data for tree visualization. None of these packages support visualizing external data and aligning the plot to a tree based on the tree structure. 
 
 
 The `r Biocpkg("ggtree")` package provides two general solutions for integrating data. Method 1, the `%<+%` operator, can integrate external and internal node data and map the data as a visual characteristic to visualize the tree and other datasets used in `geom_facet()` or `ggtreeExtra::geom_fruit()`. Method 2, the `geom_facet` layer or `ggtreeExtra::geom_fruit()`, has no restriction of input data as long as there is a `geom` function available to plot the data (*e.g.* species abundance displayed by `geom_density_ridges` as demonstrated in Figure \@ref(fig:phyloseq)). Users are free to combine different panels and combine different `geom` layers in the same panel (Figure \@ref(fig:jv2017)). The `r Biocpkg("ggtree")` package has many unique features that cannot be found in other implementations [@yu_two_2018]:
 
 1. Integrating node/edge data to the tree can be mapped to visual characteristics of the tree or other datasets (Figure \ref(fig:attacher)).
-2. Capable of parsing expression (math symbols or text formatting), emoji, and image files ([chapter 8](#chapter8)). 
+2. Capable of parsing expressions (math symbols or text formatting), emoji, and image files ([chapter 8](#chapter8)). 
 3. No predefinition of input data types or how the data should be plotted in `geom_facet()` (Table \@ref(tab:facet-geom)).
 4. Combining different `geom` functions to visualize associated data is supported (Figure \@ref(fig:jv2017)).
 5. Visualizing different datasets on the same panel is supported.
@@ -410,5 +410,5 @@ The `r Biocpkg("ggtree")` package provides two general solutions for integrating
 
 Modular design is a unique feature for `r Biocpkg("ggtree")` to stand out from other packages. The tree can be visualized with data stored in the tree object or external data linked by the `%<+%` operator, and fully annotated with multiple layers of annotations (Figure \@ref(fig:attacher) and \@ref(fig:jv2017)), before passing it to `geom_facet()` layer. The `geom_facet()` layer can be called progressively to add multiple panels or multiple layers on the same panels (Figure \@ref(fig:jv2017)). This creates the possibility of plotting a full annotated tree with complex data panels that contain multiple graphic layers.
 
-The `r Biocpkg("ggtree")` package fits the `R` ecosystem and extends the abilities to integrate and present data with trees to existing phylogenetic packages. As demonstrated in Figure \@ref(fig:phyloseq), we can plot species abundance distributions with the `phyloseq` object. This cannot be easily done without `r Biocpkg("ggtree")`. With `r Biocpkg("ggtree")`, we are able to attach additional data to tree objects using the `%<+%` operator and align graphs to a tree using the `geom_facet()` layer. Integrating `r Biocpkg("ggtree")` to existing workflows will extend the abilities and broaden the applications to present phylogeny-associated data, especially for comparative studies.
+The `r Biocpkg("ggtree")` package fits the `R` ecosystem and extends the abilities to integrate and present data with trees to existing phylogenetic packages. As demonstrated in Figure \@ref(fig:phyloseq), we can plot species abundance distributions with the `phyloseq` object. This cannot be easily done without `r Biocpkg("ggtree")`. With `r Biocpkg("ggtree")`, we are able to attach additional data to tree objects using the `%<+%` operator and align graphs to a tree using the `geom_facet()` layer. Integrating `r Biocpkg("ggtree")` into existing workflows will extend the abilities and broaden the applications to present phylogeny-associated data, especially for comparative studies.
 
