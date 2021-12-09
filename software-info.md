@@ -7,7 +7,7 @@ follows:
 R.version.string
 ```
 
-    ## [1] "R version 4.1.1 (2021-08-10)"
+    ## [1] "R version 4.1.2 (2021-11-01)"
 
 ``` r
 library(treedataverse)
@@ -15,9 +15,9 @@ library(treedataverse)
 
     ##  Attaching packages  treedataverse 0.0.1 
 
-    ##  ape         5.5         treeio      1.18.0
-    ##  dplyr       1.0.7       ggtree      3.2.0 
-    ##  ggplot2     3.3.5       ggtreeExtra 1.4.0 
+    ##  ape         5.5            treeio      1.18.1   
+    ##  dplyr       1.0.7          ggtree      3.2.1
+    ##  ggplot2     3.3.5          ggtreeExtra 1.4.1    
     ##  tidytree    0.3.6
 
 The [**treedataverse**](https://github.com/YuLab-SMU/treedataverse) is a
