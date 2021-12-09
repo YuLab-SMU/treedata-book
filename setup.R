@@ -22,6 +22,17 @@ p_load(cowplot)
 p_load(patchwork)
 p_load(aplot)
 
+p_load(phytools)
+p_load(hexbin)
+p_load(TDbook)
+p_load(ggimage)
+p_load(phyloseq)
+p_load(treemap)
+p_load(ggtreeExtra)
+p_load(ggstar)
+p_load(MicrobiotaProcess)
+p_load(tanggle)
+
 source("conflicted.R")
 source("software-link.R")
 
