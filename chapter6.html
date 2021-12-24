@@ -7,7 +7,7 @@
 <title>Chapter 6 Visual Exploration of Phylogenetic Tree | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
 <meta name="author" content="Guangchuang Yu">
 <meta name="description" content="The ggtree (Yu et al. 2017) supports many ways of manipulating the tree visually, including viewing selected clade to explore large tree (Figure 6.1), taxa clustering (Figure 6.5), rotating clade...">
-<meta name="generator" content="bookdown 0.24 with bs4_book()">
+<meta name="generator" content="bookdown 0.24.4 with bs4_book()">
 <meta property="og:title" content="Chapter 6 Visual Exploration of Phylogenetic Tree | Data Integration, Manipulation and Visualization of Phylogenetic Trees">
 <meta property="og:type" content="book">
 <meta property="og:image" content="/book-cover.png">
@@ -193,13 +193,13 @@ convert a tree to fan layout by specific open angle
 FIGURE 6.1: <strong>Viewing a selected clade of a tree.</strong> An example tree used to demonstrate how <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> supports exploring or manipulating phylogenetic tree visually (A). The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> supports visualizing selected clade (B). A clade can be selected by specifying a node number or determined by the most recent common ancestor of selected tips.
 </p>
 </div>
-<p>Some of the functions, <em>e.g.</em>, <code><a href="https://rdrr.io/pkg/ggtree/man/viewClade.html">viewClade()</a></code>, work with clade and accept a parameter of an internal node number. To get the internal node number, users can use the <code><a href="https://rdrr.io/pkg/tidytree/man/MRCA.html">MRCA()</a></code> function (as in Figure <a href="chapter6.html#fig:viewClade">6.1</a>) by providing two taxa names. The function will return the node number of input taxa’s most recent common ancestor (MRCA). It works with a tree and graphic (<em>i.e.</em>, the <code><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree()</a></code> output) object. The <a href="https://CRAN.R-project.org/package=tidytree"><strong>tidytree</strong></a> package also provides an <code><a href="https://rdrr.io/pkg/tidytree/man/MRCA.html">MRCA()</a></code> method to extract information of the MRCA node (see details in <a href="chapter2.html#accesor-tidytree">session 2.1.3</a>).</p>
+<p>Some of the functions, <em>e.g.</em>, <code><a href="https://rdrr.io/pkg/ggtree/man/viewClade.html">viewClade()</a></code>, work with clade and accept a parameter of an internal node number. To get the internal node number, users can use the <code><a href="https://rdrr.io/pkg/tidytree/man/MRCA.html">MRCA()</a></code> function (as in Figure <a href="chapter6.html#fig:viewClade">6.1</a>) by providing two taxa names. The function will return the node number of input taxa’s most recent common ancestor (MRCA). It works with a tree and graphic (<em>i.e.</em>, the <code><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree()</a></code> output) object. The <a href="https://CRAN.R-project.org/package=tidytree"><strong>tidytree</strong></a> package also provides an <code><a href="https://rdrr.io/pkg/tidytree/man/MRCA.html">MRCA()</a></code> method to extract information from the MRCA node (see details in <a href="chapter2.html#accesor-tidytree">session 2.1.3</a>).</p>
 </div>
 <div id="scale-clade" class="section level2" number="6.2">
 <h2>
 <span class="header-section-number">6.2</span> Scaling Selected Clade<a class="anchor" aria-label="anchor" href="#scale-clade"><i class="fas fa-link"></i></a>
 </h2>
-<p>The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> provides another option to zoom out (or compress) selected clades via the <code><a href="https://rdrr.io/pkg/ggtree/man/scaleClade.html">scaleClade()</a></code> function. In this way, we retain the topology and branch lengths of compressed clades. This helps to save the space to highlight those clades of primary interest to the study.</p>
+<p>The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> provides another option to zoom out (or compress) selected clades via the <code><a href="https://rdrr.io/pkg/ggtree/man/scaleClade.html">scaleClade()</a></code> function. In this way, we retain the topology and branch lengths of compressed clades. This helps to save the space to highlight those clades of primary interest in the study.</p>
 
 
 <div class="sourceCode" id="cb177"><pre class="downlit sourceCode r">
@@ -236,7 +236,7 @@ FIGURE 6.3: <strong>Collapsing selected clades and expanding collapsed clades.</
 </p>
 </div>
 <p>Here two clades were collapsed and labeled by the green circle and red square symbolic points. Collapsing is a common strategy to collapse clades that are too large for displaying in full or are not the primary interest of the study. In <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a>, we can expand (<em>i.e.</em>, uncollapse) the collapsed branches back with the <code><a href="https://rdrr.io/pkg/ggtree/man/expand.html">expand()</a></code> function to show details of species relationships as demonstrated in Figure <a href="chapter6.html#fig:collapseExpand">6.3</a>B.</p>
-<p>Triangles are often used to represent the collapsed clade and <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> also supports it. The <code><a href="https://dplyr.tidyverse.org/reference/compute.html">collapse()</a></code> function provides a “mode” parameter, which by default is “none” and the selected clade was collapsed as a “tip.” Users can specify the <code>mode</code> to “max” that uses the farthest tip (Figure <a href="chapter6.html#fig:collapseMode">6.4</a>A), “min” that uses the closest tip (Figure <a href="chapter6.html#fig:collapseMode">6.4</a>B), and “mixed” that uses both (Figure <a href="chapter6.html#fig:collapseMode">6.4</a>C).</p>
+<p>Triangles are often used to represent the collapsed clade and <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> also supports it. The <code><a href="https://dplyr.tidyverse.org/reference/compute.html">collapse()</a></code> function provides a “mode” parameter, which by default is “none” and the selected clade was collapsed as a “tip”. Users can specify the <code>mode</code> to “max” that uses the farthest tip (Figure <a href="chapter6.html#fig:collapseMode">6.4</a>A), “min” that uses the closest tip (Figure <a href="chapter6.html#fig:collapseMode">6.4</a>B), and “mixed” that uses both (Figure <a href="chapter6.html#fig:collapseMode">6.4</a>C).</p>
 <div class="sourceCode" id="cb179"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p2</span> <span class="op">&lt;-</span> <span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">node</span> <span class="op">&lt;-</span> <span class="fl">21</span>
@@ -265,7 +265,7 @@ FIGURE 6.4: <strong>Collapse clade as a triangle.</strong> ‘max’ takes the p
 </h2>
 <p>The <code><a href="https://rdrr.io/pkg/tidytree/man/groupClade.html">groupClade()</a></code> function assigns the branches and nodes under different clades into different groups. It accepts an internal node or a vector of internal nodes to cluster clade/clades.</p>
 <p>Similarly, the <code><a href="https://rdrr.io/pkg/tidytree/man/groupOTU.html">groupOTU()</a></code> function assigns branches and nodes to different groups based on user-specified groups of operational taxonomic units (OTUs) that are not necessarily within a clade but can be monophyletic (clade), polyphyletic or paraphyletic. It accepts a vector of OTUs (taxa name) or a list of OTUs and will trace back from OTUs to their most recent common ancestor (MRCA) and cluster them together as demonstrated in Figure <a href="chapter6.html#fig:groupOTU">6.5</a>.</p>
-<p>A phylogenetic tree can be annotated by mapping different line type, size, color. or shape to the branches or nodes that have been assigned to different groups.</p>
+<p>A phylogenetic tree can be annotated by mapping different line types, sizes, colors, or shapes of the branches or nodes that have been assigned to different groups.</p>
 
 
 <div class="sourceCode" id="cb182"><pre class="downlit sourceCode r">
@@ -299,7 +299,7 @@ FIGURE 6.5: <strong>Grouping OTUs.</strong> OTU clustering based on their relati
 <h2>
 <span class="header-section-number">6.5</span> Exploring tree structure<a class="anchor" aria-label="anchor" href="#exploring-tree-structure"><i class="fas fa-link"></i></a>
 </h2>
-<p>To facilitate exploring the tree structure, <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> supports rotating selected clade by 180 degree using the <code><a href="https://rdrr.io/pkg/ggtree/man/rotate.html">rotate()</a></code> function (Figure <a href="chapter6.html#fig:rfClade">6.6</a>B). Position of immediate descendant clades of internal node can be exchanged via <code><a href="https://rdrr.io/pkg/ggtree/man/flip.html">flip()</a></code> function (Figure <a href="chapter6.html#fig:rfClade">6.6</a>C).</p>
+<p>To facilitate exploring the tree structure, <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> supports rotating selected clade by 180 degrees using the <code><a href="https://rdrr.io/pkg/ggtree/man/rotate.html">rotate()</a></code> function (Figure <a href="chapter6.html#fig:rfClade">6.6</a>B). Position of immediate descendant clades of the internal node can be exchanged via <code><a href="https://rdrr.io/pkg/ggtree/man/flip.html">flip()</a></code> function (Figure <a href="chapter6.html#fig:rfClade">6.6</a>C).</p>
 
 
 <div class="sourceCode" id="cb184"><pre class="downlit sourceCode r">
@@ -308,8 +308,8 @@ FIGURE 6.5: <strong>Grouping OTUs.</strong> OTU clustering based on their relati
 <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/flip.html">flip</a></span><span class="op">(</span><span class="va">p2</span>, <span class="fl">17</span>, <span class="fl">21</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <span style="display:block;" id="fig:rfClade"></span>
-<img src="treedata_files/figure-html/rfClade-1.svg" alt="Exploring tree structure. A clade (indicated by dark green circle) in a tree (A) can be rotated by 180° (B) and the positions of its immediate descendant clades (colored by blue and red) can be exchanged (C)." width="100%"><p class="caption">
-FIGURE 6.6: <strong>Exploring tree structure.</strong> A clade (indicated by dark green circle) in a tree (A) can be rotated by 180° (B) and the positions of its immediate descendant clades (colored by blue and red) can be exchanged (C).
+<img src="treedata_files/figure-html/rfClade-1.svg" alt="Exploring tree structure. A clade (indicated by a dark green circle) in a tree (A) can be rotated by 180° (B) and the positions of its immediate descendant clades (colored by blue and red) can be exchanged (C)." width="100%"><p class="caption">
+FIGURE 6.6: <strong>Exploring tree structure.</strong> A clade (indicated by a dark green circle) in a tree (A) can be rotated by 180° (B) and the positions of its immediate descendant clades (colored by blue and red) can be exchanged (C).
 </p>
 </div>
 <p>Most of the tree manipulation functions are working on clades, while <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> also provides functions to manipulate a tree, including <code><a href="https://rdrr.io/pkg/ggtree/man/open_tree.html">open_tree()</a></code> to transform a tree in either rectangular or circular layout to the fan layout, and <code><a href="https://rdrr.io/pkg/ggtree/man/rotate_tree.html">rotate_tree()</a></code> function to rotate a tree for specific angle in both circular or fan layouts, as demonstrated in Figure <a href="chapter6.html#fig:openTree">6.7</a> and <a href="chapter6.html#fig:rotateTree">6.8</a>.</p>
@@ -320,8 +320,8 @@ FIGURE 6.6: <strong>Exploring tree structure.</strong> A clade (indicated by dar
 
 <div class="figure">
 <span style="display:block;" id="fig:openTree"></span>
-<img src="treedata_files/figure-html/openTree-1.svg" alt="Transforming a tree to fan layout. A tree can be transformed to fan layout by open_tree with a specific angle." width="98%"><p class="caption">
-FIGURE 6.7: <strong>Transforming a tree to fan layout.</strong> A tree can be transformed to fan layout by <code>open_tree</code> with a specific <code>angle</code>.
+<img src="treedata_files/figure-html/openTree-1.svg" alt="Transforming a tree to fan layout. A tree can be transformed to a fan layout by open_tree with a specific angle." width="98%"><p class="caption">
+FIGURE 6.7: <strong>Transforming a tree to fan layout.</strong> A tree can be transformed to a fan layout by <code>open_tree</code> with a specific <code>angle</code>.
 </p>
 </div>
 <div class="sourceCode" id="cb186"><pre class="downlit sourceCode r">
@@ -334,7 +334,7 @@ FIGURE 6.7: <strong>Transforming a tree to fan layout.</strong> A tree can be tr
 FIGURE 6.8: <strong>Rotating tree.</strong> A circular/fan layout tree can be rotated by any specific <code>angle</code>.
 </p>
 </div>
-<p>The following example rotates four selected clades (Figure <a href="chapter6.html#fig:rotategif">6.9</a>). It is easy to traverses all the internal nodes and rotates them one by one.</p>
+<p>The following example rotates four selected clades (Figure <a href="chapter6.html#fig:rotategif">6.9</a>). It is easy to traverse all the internal nodes and rotate them one by one.</p>
 
 
 <!--
@@ -373,8 +373,8 @@ knitr::include_graphics("img/rotate_clade.gif")
 <span class="fu">plot_list</span><span class="op">(</span>gglist<span class="op">=</span><span class="va">pp</span>, tag_levels<span class="op">=</span><span class="st">'A'</span>, nrow<span class="op">=</span><span class="fl">1</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <span style="display:block;" id="fig:rotategif"></span>
-<img src="treedata_files/figure-html/rotategif-1.png" alt="Rotate selected clades. Four clades were randomly selected to rotate (indicated by red symbol)." width="98%"><p class="caption">
-FIGURE 6.9: <strong>Rotate selected clades.</strong> Four clades were randomly selected to rotate (indicated by red symbol).
+<img src="treedata_files/figure-html/rotategif-1.png" alt="Rotate selected clades. Four clades were randomly selected to rotate (indicated by the red symbol)." width="98%"><p class="caption">
+FIGURE 6.9: <strong>Rotate selected clades.</strong> Four clades were randomly selected to rotate (indicated by the red symbol).
 </p>
 </div>
 <!--
@@ -452,7 +452,7 @@ FIGURE 6.11: <strong>Rotate tree with different angles.</strong>
 <h2>
 <span class="header-section-number">6.6</span> Summary<a class="anchor" aria-label="anchor" href="#summary6"><i class="fas fa-link"></i></a>
 </h2>
-<p>A good visualization tool can not only facilitate users to present the data, but it should also be able to facilitate users to explore the data. Data exploration can allow users to better understand the data and also help discover hidden patterns. The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> provides a set of functions to allow visually manipulating phylogenetic tree and exploring tree structure with associated data. Exploring data in the evolutionary context may help discover new systematic patterns and generate new hypotheses.</p>
+<p>A good visualization tool can not only facilitate users to present the data, but it should also be able to facilitate users to explore the data. Data exploration can allow users to better understand the data and also help discover hidden patterns. The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> provides a set of functions to allow visually manipulating phylogenetic trees and exploring tree structures with associated data. Exploring data in the evolutionary context may help discover new systematic patterns and generate new hypotheses.</p>
 
 <div style="page-break-after: always;"></div>
 </div>
@@ -486,7 +486,7 @@ FIGURE 6.11: <strong>Rotate tree with different angles.</strong>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-11-29.</p>
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-12-24.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

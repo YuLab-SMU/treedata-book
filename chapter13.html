@@ -7,7 +7,7 @@
 <title>Chapter 13 Gallery of reproducible examples | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
 <meta name="author" content="Guangchuang Yu">
 <meta name="description" content="13.1 Visualizing pairwise nucleotide sequence distance with a phylogenetic tree This example reproduces Fig. 1 of (Chen et al. 2017). It extracts accession numbers from tip labels of the HPV58...">
-<meta name="generator" content="bookdown 0.24 with bs4_book()">
+<meta name="generator" content="bookdown 0.24.4 with bs4_book()">
 <meta property="og:title" content="Chapter 13 Gallery of reproducible examples | Data Integration, Manipulation and Visualization of Phylogenetic Trees">
 <meta property="og:type" content="book">
 <meta property="og:image" content="/book-cover.png">
@@ -114,7 +114,7 @@
     <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/theme_tree2.html">theme_tree2</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html">c</a></span><span class="op">(</span><span class="fl">.1</span>, <span class="fl">.88</span><span class="op">)</span><span class="op">)</span>
 <span class="co">## Optional</span>
 <span class="co">## add labels for monophyletic (A, C and D) and paraphyletic (B) groups </span>
-<span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>node <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html">c</a></span><span class="op">(</span><span class="fl">94</span>, <span class="fl">108</span>, <span class="fl">131</span>, <span class="fl">92</span>, <span class="fl">156</span>, <span class="fl">159</span>, <span class="fl">163</span>, <span class="fl">173</span>, <span class="fl">176</span>,<span class="fl">172</span><span class="op">)</span>,
+<span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tibble/man/tibble.html">tibble</a></span><span class="op">(</span>node <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html">c</a></span><span class="op">(</span><span class="fl">94</span>, <span class="fl">108</span>, <span class="fl">131</span>, <span class="fl">92</span>, <span class="fl">156</span>, <span class="fl">159</span>, <span class="fl">163</span>, <span class="fl">173</span>, <span class="fl">176</span>,<span class="fl">172</span><span class="op">)</span>,
               name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html">c</a></span><span class="op">(</span><span class="st">"A1"</span>, <span class="st">"A2"</span>, <span class="st">"A3"</span>, <span class="st">"A"</span>, <span class="st">"B1"</span>, 
                         <span class="st">"B2"</span>, <span class="st">"C"</span>, <span class="st">"D1"</span>, <span class="st">"D2"</span>, <span class="st">"D"</span><span class="op">)</span>,
               offset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html">c</a></span><span class="op">(</span><span class="fl">0.003</span>, <span class="fl">0.003</span>, <span class="fl">0.003</span>, <span class="fl">0.00315</span>, <span class="fl">0.003</span>, 
@@ -216,8 +216,8 @@
 <span class="va">tipseq_d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">tipseq_dist</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/start.html">width</a></span><span class="op">(</span><span class="va">tipseq_aln</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span>
 
 <span class="co">## convert the matrix to a tidy data frame for facet_plot</span>
-<span class="va">dd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">tipseq_d</span><span class="op">)</span>
-<span class="va">dd</span><span class="op">$</span><span class="va">seq1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames</a></span><span class="op">(</span><span class="va">tipseq_d</span><span class="op">)</span>
+<span class="va">dd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tibble/man/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">tipseq_d</span><span class="op">)</span>
+<span class="va">dd</span><span class="op">$</span><span class="va">seq1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tibble/man/rownames.html">rownames</a></span><span class="op">(</span><span class="va">tipseq_d</span><span class="op">)</span>
 <span class="va">td</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span><span class="op">(</span><span class="va">dd</span>,<span class="va">seq2</span>, <span class="va">dist</span>, <span class="op">-</span><span class="va">seq1</span><span class="op">)</span>
 <span class="va">td</span><span class="op">$</span><span class="va">seq1</span> <span class="op">&lt;-</span> <span class="va">tl</span><span class="op">[</span><span class="va">td</span><span class="op">$</span><span class="va">seq1</span><span class="op">]</span>
 <span class="va">td</span><span class="op">$</span><span class="va">seq2</span> <span class="op">&lt;-</span> <span class="va">tl</span><span class="op">[</span><span class="va">td</span><span class="op">$</span><span class="va">seq2</span><span class="op">]</span>
@@ -400,7 +400,7 @@ FIGURE 13.3: <strong>Phylogenetic tree of CTLDcps</strong>. Using different back
 <span class="va">g</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/unique.html">unique</a></span><span class="op">(</span><span class="va">example_genes</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span>
 <span class="va">n</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">g</span><span class="op">)</span>
 <span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span>nrow <span class="op">=</span> <span class="va">n</span>, ncol <span class="op">=</span> <span class="va">n</span><span class="op">)</span>
-<span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">g</span>
+<span class="fu"><a href="https://rdrr.io/pkg/tibble/man/rownames.html">rownames</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">g</span>
 <span class="va">genes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/lapply.html">lapply</a></span><span class="op">(</span><span class="va">g</span>, <span class="va">get_genes</span>, data <span class="op">=</span> <span class="va">example_genes</span><span class="op">)</span>
 
 <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span><span class="op">)</span> <span class="op">{</span>
@@ -467,7 +467,7 @@ FIGURE 13.4: <strong>Genomic features with a phylogenetic tree.</strong>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-11-29.</p>
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-12-24.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
