@@ -18,4 +18,6 @@ conflict_prefer("slice", "dplyr")
 conflict_prefer("strsplit", "base")
 conflict_prefer("paste", "base")
 conflict_prefer("geom_errorbarh", "ggplot2")
+conflict_prefer("tax_table", "MicrobiotaProcess")
+
 conflict_prefer("as.data.frame", "BiocGenerics")
