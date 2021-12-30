@@ -20,10 +20,14 @@ library(ggtree)
 
 # The original kostic2012crc is a MPSE object
 data(kostic2012crc)
-# Converting it (MPSE) to phyloseq object
-kostic2012crc %<>% as.phyloseq()
-taxa <- phyloseq::tax_table(kostic2012crc)
-tree <- as.treedata(taxa)
+
+taxa <- tax_table(kostic2012crc)
+#The rownames (usually is OTUs or other features ) of the taxa will be served as the tip labels
+#if include.rownames = TRUE
+tree <- as.treedata(taxa, include.rownames=TRUE)
+# Or extract the taxa tree (treedata) with mp_extract_tree, because the 
+# taxonomy information is stored as treedata in the MPSE class (kostic2012crc).
+# tree <- kostic2012crc %>% mp_extract_tree()
 
 ggtree(tree, layout="circular", size=0.2) +
      geom_tiplab(size=1)
