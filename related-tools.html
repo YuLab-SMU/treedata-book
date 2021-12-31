@@ -93,11 +93,11 @@
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">kostic2012crc</span><span class="op">)</span>
 
 <span class="va">taxa</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MicrobiotaProcess/man/MPSE-accessors.html">tax_table</a></span><span class="op">(</span><span class="va">kostic2012crc</span><span class="op">)</span>
-<span class="co">#The rownames (usually is OTUs or other features ) of the taxa will be as the tip labels</span>
+<span class="co">#The rownames (usually is OTUs or other features ) of the taxa will be served as the tip labels</span>
 <span class="co">#if include.rownames = TRUE</span>
 <span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tidytree/man/as.treedata.html">as.treedata</a></span><span class="op">(</span><span class="va">taxa</span>, include.rownames<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
 <span class="co"># Or extract the taxa tree (treedata) with mp_extract_tree, because the </span>
-<span class="co"># taxonomy information is stored as treedata in MPSE class (kostic2012crc).</span>
+<span class="co"># taxonomy information is stored as treedata in the MPSE class (kostic2012crc).</span>
 <span class="co"># tree &lt;- kostic2012crc %&gt;% mp_extract_tree()</span>
 
 <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span>, layout<span class="op">=</span><span class="st">"circular"</span>, size<span class="op">=</span><span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span>
@@ -163,7 +163,7 @@ FIGURE B.2: <strong>Get an induced subtree from the big Open Tree.</strong>
 <span class="va">id</span> <span class="op">&lt;-</span> <span class="va">tree</span><span class="op">$</span><span class="va">tip.label</span>
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span>
 <span class="va">grp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">n_grp</span><span class="op">]</span>, size <span class="op">=</span> <span class="va">n_samples</span>, replace <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
-<span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/tibble/man/tibble.html">tibble</a></span><span class="op">(</span>id <span class="op">=</span> <span class="va">id</span>,
+<span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>id <span class="op">=</span> <span class="va">id</span>,
                       grp <span class="op">=</span> <span class="va">grp</span><span class="op">)</span>
 <span class="co"># PLOT THE TREE -----------------------------------------------------------</span>
 <span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span>
@@ -249,7 +249,7 @@ FIGURE B.3: <strong>Interactive phylogenetic tree by combining ggtree with plotl
           ¦   ¦--t10   
           ¦   °--t9    
           °--t2        </code></pre>
-<p>It is neat to print ASCII-art of the phylogeny. Sometimes we don’t want to plot the tree, but just take a glance at the tree structure without leaving the focus from the R console. However, it is not a good idea to print the whole tree as ASCII text if the tree is large. Sometimes we just want to look at a specific portion of the tree and its immediate relatives. At this scenario, we can use <code><a href="https://docs.ropensci.org/treeio/reference/tree_subset.html">treeio::tree_subset()</a></code> function (see <a href="subsetting-tree-with-data">session 2.4</a>) to extract selected portion of a tree. Then we can print ASCII-art of the tree subset to explore the evolutionary relationship of the species of our interest in the R console.</p>
+<p>It is neat to print ASCII-art of the phylogeny. Sometimes we don’t want to plot the tree, but just take a glance at the tree structure without leaving the focus from the R console. However, it is not a good idea to print the whole tree as ASCII text if the tree is large. Sometimes we just want to look at a specific portion of the tree and its immediate relatives. In this scenario, we can use <code><a href="https://docs.ropensci.org/treeio/reference/tree_subset.html">treeio::tree_subset()</a></code> function (see <a href="subsetting-tree-with-data">session 2.4</a>) to extract selected portion of a tree. Then we can print ASCII-art of the tree subset to explore the evolutionary relationship of the species of our interest in the R console.</p>
 <p>The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> supports parsing tip labels as emoji to create <a href="chapter8.html#phylomoji">phylomoji</a>. With the <a href="https://CRAN.R-project.org/package=data.tree"><strong>data.tree</strong></a> and <a href="https://CRAN.R-project.org/package=emojifont"><strong>emojifont</strong></a> packages, we can also print phylomoji as ASCII text.</p>
 <div class="sourceCode" id="cb304"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://github.com/gluc/data.tree">data.tree</a></span><span class="op">)</span>
@@ -346,8 +346,8 @@ FIGURE B.5: <strong>Zoom in a selected clade.</strong>
 <span class="fu">plot_grid</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, ncol<span class="op">=</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <span style="display:block;" id="fig:ggimagebg"></span>
-<img src="treedata_files/figure-html/ggimagebg-1.svg" alt="Remove image background. Plotting silhouette images on a phylogenetic tree without (A) and with (B) background remove." width="100%"><p class="caption">
-FIGURE B.6: <strong>Remove image background.</strong> Plotting silhouette images on a phylogenetic tree without (A) and with (B) background remove.
+<img src="treedata_files/figure-html/ggimagebg-1.svg" alt="Remove image background. Plotting silhouette images on a phylogenetic tree with background not removed (A) and removed (B)." width="100%"><p class="caption">
+FIGURE B.6: <strong>Remove image background.</strong> Plotting silhouette images on a phylogenetic tree with background not removed (A) and removed (B).
 </p>
 </div>
 </div>
@@ -427,7 +427,7 @@ FIGURE B.8: <strong>ggtree in Jupyter notebook.</strong> Running ggtree in Jupyt
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-12-24.</p>
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2021-12-31.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
