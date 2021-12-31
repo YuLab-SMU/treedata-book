@@ -254,9 +254,9 @@ ggtree(raxml) + geom_label_repel(aes(label=bootstrap, fill=bootstrap)) +
 
 ### Bootstrap values from Newick format {#faq-bootstrap}
 
-It's quite command to store *bootstrap* value as node label in the Newick format. Visualizing node label is easy using `geom_text2(aes(subset = !isTip, label=label))`.
+It is quite common to store *bootstrap* value as node label in the Newick format. Visualizing node label is easy using `geom_text2(aes(subset = !isTip, label=label))`.
 
-If you want to only display a subset of *bootstrap* (*e.g.* bootstrap > 80), you can't simply using `geom_text2(subset= (label > 80), label=label)` (or `geom_label2`) since `label` is a character vector, which contains node label (bootstrap value) and tip label (taxa name). If we use `geom_text2(subset=(as.numeric(label) > 80), label=label)`, it will also fail since `NAs` were introduced by coercion. We need to convert `NAs` to logical `FALSE`, this can be done by the following code:
+If you want to only display a subset of *bootstrap* (*e.g.* bootstrap > 80), you can't simply use `geom_text2(subset= (label > 80), label=label)` (or `geom_label2`) since `label` is a character vector, which contains node label (bootstrap value) and tip label (taxa name). `geom_text2(subset=(as.numeric(label) > 80), label=label)` won't work either, since `NAs` were introduced by coercion. We need to convert `NAs` to logical `FALSE`. This can be done by the following code:
 
 
 (ref:nwkbsscap) Bootstrap value stored in node label.
@@ -271,7 +271,7 @@ ggtree(tr) + geom_label2(aes(label=label,
       subset = !is.na(as.numeric(label)) & as.numeric(label) > 80))
 ```
 
-As this is a very common issue, we implemented a `read.newick()` function in the `r Biocpkg("treeio")` package to allow parsing internal node labels as support values. So that it can be easier to display bootstrap values using the following code:
+As this is a very common issue, we implemented a `read.newick()` function in the `r Biocpkg("treeio")` package to allow parsing internal node labels as supported values. As a result, it can be easier to display bootstrap values using the following code:
 
 ```r
 tr <- read.newick(nwk, node.label='support')
@@ -313,7 +313,7 @@ ggtree(x) + geom_tiplab()
 ```
 
 
-(ref:ggtreeladderizescap) Ladderize and nonladderize tree.
+(ref:ggtreeladderizescap) Ladderized and nonladderized tree.
 
 (ref:ggtreeladderizecap) **Ladderize and nonladderize tree.** `plot.phylo()` displays nonladderized tree (A), use `ladderize = FALSE` to display nonladderized tree in `ggtree()` (B), `ggtree()` displays ladderized tree by default (C).
 
@@ -356,7 +356,7 @@ ggtree(y, ladderize = FALSE) + geom_tiplab()
 
 ### Shrink outlier long branch
 
-When outgroups are on a very long branch length (Figure \@ref(fig:outgroupEdge)A), we would like to keep the outgroups in the tree but ignore their branch lengths (Figure \@ref(fig:outgroupEdge)B)^[example from: <https://groups.google.com/d/msg/bioc-ggtree/T2ySvqv351g/mHsyljvBCwAJ>]. This can be easily done by modifying the coordinations of the outgroups (Figure \@ref(fig:outgroupEdge)B). Another approach is to truncate the plot using the `r CRANpkg("ggbreak")` package (Figure \@ref(fig:outgroupEdge)C).
+When outgroups are on a very long branch length (Figure \@ref(fig:outgroupEdge)A), we would like to keep the outgroups in the tree but ignore their branch lengths (Figure \@ref(fig:outgroupEdge)B)^[example from: <https://groups.google.com/d/msg/bioc-ggtree/T2ySvqv351g/mHsyljvBCwAJ>]. This can be easily done by modifying the coordinates of the outgroups (Figure \@ref(fig:outgroupEdge)B). Another approach is to truncate the plot using the `r CRANpkg("ggbreak")` package (Figure \@ref(fig:outgroupEdge)C).
 
 
 (ref:outgroupEdgescap) Shrink outlier long branch.
@@ -391,13 +391,13 @@ plot_list(p1, p, p2, ncol=3, tag_levels="A")
 
 ### Attach a new tip to a tree {#bind-tip}
 
-Sometimes there are known branches that are not in the tree, and we would like to have them on the tree. Another scenario is that we have a new sequence species and would like to update the reference tree with this species by inferring its evolutionary position.
+Sometimes there are known branches that are not in the tree, but we would like to have them on the tree. Another common scenario is when we have a new sequence species and would like to update the reference tree with this species by inferring its evolutionary position.
 
 Users can use `phytools::bind.tip()` [@revell_phytools_2012] to attach a new tip to a tree. With `r CRANpkg("tidytree")`, it is easy to add an annotation to differentiate newly introduced and original branches and to reflect the uncertainty of the added branch splits off as demonstrated in Figure \@ref(fig:bindTip). 
 
 (ref:bindTipscap) Attaching a new tip to a tree.
 
-(ref:bindTipcap) **Attaching a new tip to a tree.** Different line types were employed to distinguish the newly introduce tip and an error bar was added to indicate the uncertainty of the added branch position.
+(ref:bindTipcap) **Attaching a new tip to a tree.** Different line types were employed to distinguish the newly introduced tip and an error bar was added to indicate the uncertainty of the added branch position.
 
 
 ```{r bindTip, fig.cap="(ref:bindTipcap)", fig.scap="(ref:bindTipscap)", fig.width=6, fig.height=5, out.width="100%"}
@@ -603,7 +603,7 @@ opts_chunk$set(crop = TRUE)
 ```
 
 
-Otherwise, we can use command-line tools to remove extra white space:
+Otherwise, we can use command-line tools to remove extra whitespace:
 
 ```shell
 ## for pdf
@@ -628,9 +628,9 @@ image_trim(x)
 
 Here is an example:
 
-(ref:trimSpacescap) Trim extra white space for polar coordinates.
+(ref:trimSpacescap) Trim extra whitespace for polar coordinates.
 
-(ref:trimSpacecap) **Trim extra white space for polar coordinates.** Original plot (A). Trim version (B).
+(ref:trimSpacecap) **Trim extra whitespace for polar coordinates.** Original plot (A). Trimmed version (B).
 
 
 ```{r trimSpace, fig.width=8.8, fig.height=4.5, fig.cap="(ref:trimSpacecap)", fig.scap="(ref:trimSpacescap)", out.width="100%"}
