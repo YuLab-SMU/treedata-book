@@ -10,6 +10,7 @@ pkg_atv <- mypkg("ATV", "http://phylogeny.lirmm.fr/phylo_cgi/one_task.cgi?task_t
 pkg_baseml <- mypkg("BASEML", "http://abacus.gene.ucl.ac.uk/software/paml.html")
 pkg_beast <- mypkg("BEAST", "http://beast2.org/")
 pkg_codeml <- mypkg("CODEML", "http://abacus.gene.ucl.ac.uk/software/paml.html")
+pkg_devout <- mypkg("devout", "https://github.com/coolbutuseless/devout")
 pkg_epa <- mypkg("EPA", "http://sco.h-its.org/exelixis/web/software/epa/index.html")
 pkg_evolview <- mypkg("EvolView", "https://www.evolgenius.info/evolview/")
 pkg_figtree <- mypkg("FigTree", "http://beast.community/figtree")
