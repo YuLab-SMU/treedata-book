@@ -26,7 +26,7 @@ To make it easy to install and load multiple core packages in a single step, we 
 BiocManager::install("YuLab-SMU/treedataverse")
 ```
 
-Once it was installed, loading the package will load the core `r pkg_treedataverse` packages, including `r CRANpkg("tidytree")`, `r Biocpkg("treeio")`, `r Biocpkg("ggtree")`, and `r Biocpkg("ggtreeExtra")`.
+Once it is installed, loading the package will load the core `r pkg_treedataverse` packages, including `r CRANpkg("tidytree")`, `r Biocpkg("treeio")`, `r Biocpkg("ggtree")`, and `r Biocpkg("ggtreeExtra")`.
 
 
 ## Basic R related {#faq-r}
@@ -72,7 +72,7 @@ For example, we can add symbolic points to nodes with `geom_point()` directly.
 The magic here is we don't need to map the `x` and `y` position of the points by providing `aes(x, y)` to `geom_point()` since it was already mapped by the `ggtree()` function and it serves as a global mapping for all layers.
 
 But what if we provide a dataset in a layer and the dataset doesn't contain columns of `x` and/or `y`,
-the layer function also try to map `x` and `y` and also others if you map them in the `ggtree()` function.
+the layer function also tries to map `x` and `y` and also others if you map them in the `ggtree()` function.
 As these variables are not available in your dataset, you will get the following error:
 
 ```
@@ -136,7 +136,7 @@ p3 <- p + coord_cartesian(clip = 'off') +
 plot_list(p, p2, p3, ncol=3, tag_levels="A")
 ```
 
-The third solution is using `hexpand()` as demonstrated in [session 12.4](#ggexpand). 
+The third solution is to use `hexpand()` as demonstrated in [session 12.4](#ggexpand). 
 
 
 For rectangular/dendrogram layout trees, users can display tip labels as y-axis labels. In this case, no matter how long the labels are, they will not be truncated (see Figure \@ref(fig:tiplab)C).
@@ -299,7 +299,7 @@ q + geom_text(data=d, aes(label=label))
 
 ### Plot the same tree as in `plot.phylo()`
 
-By default, `ggtree()` ladderizes the input tree so that the tree will appear less cluttered. This is the reason why the tree visualized by `ggtree()` is different from the one using `plot.phylo()` which displays nonladderized tree. To disable the ladderize effect, user can pass the parameter `ladderize = FALSE` to the `ggtree()` function as demonstrated in Figure \@ref(fig:ggtreeladderize). 
+By default, `ggtree()` ladderizes the input tree so that the tree will appear less cluttered. This is the reason why the tree visualized by `ggtree()` is different from the one using `plot.phylo()` which displays nonladderized tree. To disable the ladderize effect, users can pass the parameter `ladderize = FALSE` to the `ggtree()` function as demonstrated in Figure \@ref(fig:ggtreeladderize). 
 
 
 ```{r eval=FALSE}
@@ -343,7 +343,7 @@ print(pg)
 ### Specifying the order of the tips 
 
 
-The `rotateConstr()` function provided in the `r CRANpkg("ape")` package rotates internal branches based on the specified order of the tips and the order should be followed when plotting the tree (from bottom to top). As `ggtree()` by default ladderizes the input tree, users need to disable by passing `ladderize = FALSE`. Then the order of the tree will be displayed as expected (Figure \@ref(fig:rotateConstr)). Users can also extract tip order that displayed by `ggtree()` using the `get_taxa_name()` function as demonstrated in [session 12.6](#tiporder).  
+The `rotateConstr()` function provided in the `r CRANpkg("ape")` package rotates internal branches based on the specified order of the tips and the order should be followed when plotting the tree (from bottom to top). As `ggtree()` by default ladderizes the input tree, users need to disable by passing `ladderize = FALSE`. Then the order of the tree will be displayed as expected (Figure \@ref(fig:rotateConstr)). Users can also extract tip order displayed by `ggtree()` using the `get_taxa_name()` function as demonstrated in [session 12.6](#tiporder).  
 
 (ref:rotateConstrscap) Specifying tree order.
 
@@ -460,7 +460,7 @@ If you want to add an arbitrary point to a branch^[<https://twitter.com/melanoid
 
 (ref:pointOnBranchscap) Add an arbitrary point on a branch.
 
-(ref:pointOnBranchcap) **Add an arbitrary point on a branch.** Position of the symbolic point can be adjusted by an absolute value (A) or proportion to the branch length (B).
+(ref:pointOnBranchcap) **Add an arbitrary point on a branch.** The position of the symbolic point can be adjusted by an absolute value (A) or proportion to the branch length (B).
 
 
 ```{r pointOnBranch, fig.cap="(ref:pointOnBranchcap)", fig.scap="(ref:pointOnBranchscap)", fig.width=8, fig.height=4.5, out.width="100%"}
@@ -518,7 +518,7 @@ p2 + scale_y_continuous(limits=c(0, 31),
 
 ## Plot something behind the phylogeny {#faq-under-the-tree}
 
-The `ggtree()` function plot the tree structure and normally we add layers on top of the tree.
+The `ggtree()` function plots the tree structure and normally we add layers on top of the tree.
 
 ```{r tree_behind_box}
 set.seed(1982)
@@ -555,7 +555,7 @@ cowplot::plot_grid(g, p,
 
 ## Enlarge center space in circular/fan layout tree {#faq-enlarge-center-space}
 
-This question was asked several times^[<https://groups.google.com/d/msg/bioc-ggtree/gruC4FztU8I/mwavqWCXAQAJ>, <https://groups.google.com/d/msg/bioc-ggtree/UoGQekWHIvw/ZswUUZKSGwAJ> and <https://github.com/GuangchuangYu/ggtree/issues/95>], and a published example can be found in [@barton_broad_2016]. Increasing the percentage of center white space in a circular tree is useful to avoid overlapping tip labels and to increase the readability of the tree by moving all nodes and branches further out. This can be done simply by using `xlim()` or `hexpand()` to allocate more space, just like in Figure \@ref(fig:layout2)G, or assign a long root branch that is similar to the "Root Length" parameter in `r pkg_figtree`. 
+This question was asked several times^[<https://groups.google.com/d/msg/bioc-ggtree/gruC4FztU8I/mwavqWCXAQAJ>, <https://groups.google.com/d/msg/bioc-ggtree/UoGQekWHIvw/ZswUUZKSGwAJ> and <https://github.com/GuangchuangYu/ggtree/issues/95>], and a published example can be found in [@barton_broad_2016]. Increasing the percentage of center white space in a circular tree is useful to avoid overlapping tip labels and to increase the readability of the tree by moving all nodes and branches further out. This can be done simply by using `xlim()` or `hexpand()` to allocate more space, just like in Figure \@ref(fig:layout2)G, or assigning a long root branch that is similar to the "Root Length" parameter in `r pkg_figtree`. 
 
 
 (ref:innerspacescap) Enlarge center space in circular tree.
