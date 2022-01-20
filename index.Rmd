@@ -6,27 +6,34 @@ knit: "bookdown::render_book"
 site: bookdown::bookdown_site
 output:
   bookdown::bs4_book:
-  bookdown::pdf_book:
+  bookdown::pdf_book: 
     dev: "cairo_pdf"
     latex_engine: xelatex
+    keep_tex: yes
+    number_sections: true
 bibliography: references.bib
 biblio-style: apalike
 always_allow_html: yes
 toc_appendix: yes
-fontsize: "11pt"
-monofontoptions: "Scale=0.7"
 toc-depth: 2
 link-citations: yes
 colorlinks: false
+documentclass: krantz
+language:
+  ui:
+    chapter_name: "Chapter "
 lot: yes
 lof: yes
+fontsize: 11pt
+monofont: "Source Code Pro"
+monofontoptions: "Scale=0.7"
 github-repo: YuLab-SMU/treedata-book
 twiter-handle: guangchuangyu
-description: "Master ggtree package suit to handle tree with data."
-documentclass: krantz
+description: "Master ggtree package suite to handle tree with data."
 classoption: twoside
 highlight_bw: yes
 graphics: yes
+#papersize: a4
 geometry: "left=35mm,right=35mm,top=25mm,bottom=25mm"
 cover-image: book-cover.png
 ---
@@ -40,11 +47,14 @@ options(
 )
 
 
-## manual setting. the ropenscilabs/icon package will set up everything for you.
+## manual setting. the ropenscilabs/icons package will set up everything for you.
 ## fontawesome supports
 ## htmltools::tagList(rmarkdown::html_dependency_font_awesome())
+## icons::download_fontawesome()
 
 library(knitr)
+#knit_hooks$set(crop = hook_pdfcrop)
+
 opts_chunk$set(message=FALSE, warning=FALSE, eval=TRUE, 
             echo=TRUE, cache=TRUE, out.width="98%",
             fig.process=svg2png)
@@ -54,9 +64,6 @@ if (knitr::is_latex_output()) {
 } else {
     opts_chunk$set(dev = "svg")
 }
-
-
-
 
 ```
 
@@ -76,37 +83,27 @@ if (knitr::is_latex_output()) {
 
 # Preface {-}
 
-The book is meant as a guide for data integration, manipulation and visualization of phylogenetic trees using a suite of R packages, `r CRANpkg("tidytree")`, `r Biocpkg("treeio")` and `r Biocpkg("ggtree")`. Hence, if you are starting to read this book, we assume you have a working knowledge of how to use R and `r CRANpkg("ggplot2")`.
+I am so excited to have this book published. The book is meant as a guide for data integration, manipulation and visualization of phylogenetic trees using a suite of R packages, `r CRANpkg("tidytree")`, `r Biocpkg("treeio")`, `r Biocpkg("ggtree")` and `r Biocpkg("ggtreeExtra")`. Hence, if you are starting to read this book, we assume you have a working knowledge of how to use R and `r CRANpkg("ggplot2")`. 
 
+The development of the `r Biocpkg("ggtree")` package started during my PhD study at the University of Hong Kong. I joined the State Key Laboratory of Emerging Infectious Diseases (SKLEID) under the supervision of Yi Guan and Tommy Lam. I was asked to provide assistance to modify the newick tree string to incorporate some additional information, such as amino acid substitutions, in the internal node labels of the phylogeny for visualization. I wrote an R script to do it and soon realized that most phylogenetic tree visualization software can only display one type of data through node labels. Basically, we cannot display two data variables at the same time for comparative analysis. In order to produce tree graphs displaying different types of branch/node associated information, such as bootstrap values and substitutions, people mostly relied on post-processing image software. This situation motivates me to develop `r Biocpkg("ggtree")`. First of all, I think a good user interface must fully support the `r CRANpkg("ggplot2")` syntax, which allows us to draw graphs by superimposing layers. In this way, simple graphs are simple, and complex graphs are just a combination of simple layers, which are easy to generate. 
 
-## How to read this book
+After several years of development, `r Biocpkg("ggtree")` has evolved into a package suite, including `r CRANpkg("tidytree")` for manipulating tree with data using the tidy interface; `r Biocpkg("treeio")` for importing and exporting tree with richly annotated data; `r Biocpkg("ggtree")` for tree visualization and annotation and `r Biocpkg("ggtreeExtra")` for presenting data with a phylogeny side-by-side for a rectangular layout or in outer rings for a circular layout. The `r Biocpkg("ggtree")` is a general tool that supports different types of tree and tree-like structures and can be applied to different disciplines to help researchers presenting and interpreting data in the evolutionary or hierarchical context. 
+
 
 ## Structure of the book
 
 
 + Part 1 (Tree data input, output and manipulation) describes `r Biocpkg("treeio")` package for tree data input and output, and `r CRANpkg("tidytree")` package for tree data manipulation.
-+ Part 2 (Tree data visualization and annotation) introduces tree visualization and annotation using grammar of graphic syntax implemented in the `r Biocpkg("ggtree")` package. It emphasizes on presenting tree associated data on the tree.
-+ Part 3 (ggtree extensions) introduces ggtreeExtra for presenting data on circular layout trees and other extensions including MicrobiotaProcess and ggnetworx *etc.*.
++ Part 2 (Tree data visualization and annotation) introduces tree visualization and annotation using the grammar of graphic syntax implemented in the `r Biocpkg("ggtree")` package. It emphasizes on presenting tree-associated data on the tree.
++ Part 3 (ggtree extensions) introduces `r Biocpkg("ggtreeExtra")` for presenting data on circular layout trees and other extensions including `r Biocpkg("MicrobiotaProcess")` and `r Biocpkg("tanggle")` *etc*.
 + Part 4 (Miscellaneous topics) describes utilities provided by the `r Biocpkg("ggtree")` package suite and presents a set of reproducible examples.
 
 
-
-
-## Software information and conventions
-
-
-The basic R session information when compiling this book is as follows:
-
-```{r tidy=FALSE}
-xfun::session_info(
-    c('ape', 'aplot', 'ggplot2', 'ggtree', 
-      'ggtreeExtra', 'tidytree', 'treeio'),
-    dependencies = FALSE)
+```{r, child="software-info.md"}
 ```
 
-Package names are in bold text (*e.g.*, **ggtree**), and function names are followed by parentheses (*e.g.*, `treeio::read.beast()`). The doulbe-colon operator (`::`) means accessing an object from a package. 
+## Acknowledgements {-}
 
-\newpage
+Many people have contributed to this book with spelling and grammar corrections. I'd particularly like to thank Shuangbin Xu, Lin Li and Xiao Luo for their detailed technical reviews of the book, and Tiao You for designing the front cover of the book. 
 
-# Acknowledgements {-}
-
+Many others have contributed over the development of the `r Biocpkg("ggtree")` package suite. I would like to thank Hadley Wickham, for creating the `r CRANpkg("ggplot2")` package that `r Biocpkg("ggtree")` relies on; Tommy Tsan-Yuk Lam and Yi Guan for being great advisors and supporting the development of `r Biocpkg("ggtree")` during my PhD; Richard Ree for inviting me to catalysis meeting on phylogenetic tree visualization; William Pearson for inviting me to publish a protocol paper of `r Biocpkg("ggtree")` on the Current Procotols in Bioinformatics Journal; Shuangbin Xu, Yonghe Xia, Justin Silverman, Bradley Jones, Watal M. Iwasaki, Ruizhu Huang, Casey Dunn, Tyler Bradley, Konstantinos Geles, Zebulun Arendsee and many others who have contributed source code or given me feedback; and last, but not least, the members of the `r Biocpkg("ggtree")` mailing list^[<https://groups.google.com/forum/#!forum/bioc-ggtree>], for providing many challenging problems that have helped improve the `r Biocpkg("ggtree")` package suite. 

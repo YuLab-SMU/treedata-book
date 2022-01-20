@@ -1,75 +1,49 @@
-library(conflicted)
-library(ape)
-library(Biostrings)
-## library(OutbreakTools)
-library(igraph)
-library(phylobase)
+if (!requireNamespace("pacman", quietly = TRUE)) {
+    install.packages("pacman")
+}
 
-library(emojifont)
-library(ggplot2)
-library(dplyr)
-library(kableExtra)
-library(tidytree)
-library(treeio)
-library(ggtree)
+library(pacman)
 
-library(cowplot)
-library(patchwork)
-library(aplot)
+p_load(ape)
+p_load(Biostrings)
+## p_load(OutbreakTools)
+p_load(igraph)
+p_load(phylobase)
 
-conflict_prefer("expand", "ggtree")
-conflict_prefer("mask", "treeio")
-conflict_prefer("parent", "treeio")
-conflict_prefer("ancestor", "treeio")
-conflict_prefer("get.data", "treeio")
-conflict_prefer("drop.tip", "treeio")
-conflict_prefer("read.newick", "treeio")
-conflict_prefer("MRCA", "tidytree")
+p_load(emojifont)
+p_load(ggplot2)
+p_load(dplyr)
+p_load(kableExtra)
+p_load(tidytree)
+p_load(treeio)
+p_load(ggtree)
 
-conflict_prefer("filter", "dplyr")
-conflict_prefer("rename", "dplyr")
-conflict_prefer("collapse", "dplyr")
-conflict_prefer("intersect", "dplyr")
-conflict_prefer("union", "dplyr")
-conflict_prefer("slice", "dplyr")
-conflict_prefer("strsplit", "base")
-conflict_prefer("paste", "base")
-conflict_prefer("geom_errorbarh", "ggplot2")
-conflict_prefer("as.data.frame", "BiocGenerics")
+p_load(cowplot)
+p_load(patchwork)
+p_load(aplot)
 
+p_load(phytools)
+p_load(hexbin)
+p_load(TDbook)
+p_load(ggimage)
+p_load(phyloseq)
+p_load(treemap)
+p_load(ggtreeExtra)
+p_load(ggstar)
+p_load(MicrobiotaProcess)
+p_load(tanggle)
+p_load(gggenes)
+p_load(ggtext)
+p_load(ggbreak)
+p_load(rotl)
+p_load(gridSVG)
+p_load(data.tree)
+p_load(rsvg)
 
-
+source("conflicted.R")
+source("software-link.R")
 
 theme_set(theme_grey())
-
-library(yulab.utils)
-# pkg name in bold
-options("yulab.utils_pkgfmt" = '**%s**') 
-
-
-pkg_paml <- mypkg("PAML", "http://abacus.gene.ucl.ac.uk/software/paml.html")
-pkg_baseml <- mypkg("BASEML", "http://abacus.gene.ucl.ac.uk/software/paml.html")
-pkg_codeml <- mypkg("CODEML", "http://abacus.gene.ucl.ac.uk/software/paml.html")
-pkg_hyphy <- mypkg("HyPhy", "https://veg.github.io/hyphy-site/")
-pkg_r8s <- mypkg("r8s", "http://loco.biosci.arizona.edu/r8s/")
-pkg_raxml <- mypkg("RAxML", "http://evomics.org/learning/phylogenetics/raxml/")
-pkg_phyldog <- mypkg("PHYLDOG", "http://pbil.univ-lyon1.fr/software/phyldog/") 
-pkg_revbayes <- mypkg("RevBayes", "http://revbayes.github.io/intro.html")
-pkg_archaeopteryx <- mypkg("Archaeopteryx", "https://sites.google.com/site/cmzmasek/home/software/archaeopteryx")
-pkg_phyloch <- mypkg("PHYLOCH", "http://www.christophheibl.de/Rpackages.html")
-pkg_beast <- mypkg("BEAST", "http://beast2.org/")
-pkg_epa <- mypkg("EPA", "http://sco.h-its.org/exelixis/web/software/epa/index.html")
-pkg_pplacer <- mypkg("PPLACER", "http://matsen.fhcrc.org/pplacer/")
-pkg_astral <- mypkg("ASTRAL", "https://github.com/smirarab/ASTRAL")
-pkg_mega <- mypkg("MEGA", "https://www.megasoftware.net/")
-pkg_mrbayes <- mypkg("MrBayes", "http://nbisweden.github.io/MrBayes/")
-pkg_figtree <- mypkg("FigTree", "http://beast.community/figtree")
-pkg_treeview <- mypkg("TreeView", "http://en.bio-soft.net/tree/TreeView.html")
-pkg_treedyn <- mypkg("TreeDyn", "http://www.treedyn.org/")
-pkg_evolview <- mypkg("EvolView", "https://www.evolgenius.info/evolview/")
-pkg_itol <- mypkg("iTOL", "https://itol.embl.de/")
-pkg_phylip <- mypkg("PHYLIP", "https://evolution.genetics.washington.edu/phylip.html")
-pkg_paup <- mypkg("PAUP\\*", "https://paup.phylosolutions.com/")
 
 
 badge_version <- function(pkg, color="green") {
@@ -94,3 +68,12 @@ svg2png <- function(path, options) {
     file.remove(path)
     return(output)
 }
+
+
+trim_fig <- function(path, options) {
+    output <- sub(".png$", "-crop.png", path)
+    system2("convert", paste("-trim", path, output))
+    file.remove(path)
+    return(output)
+}
+

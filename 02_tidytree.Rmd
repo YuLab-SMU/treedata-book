@@ -26,7 +26,7 @@ options(show_data_for_treedata = FALSE)
 ## Manipulating tree data using tidy interface {#tidytree}
 
 All the tree data parsed/merged
-by `r Biocpkg("treeio")` [@wang_treeio_2020] can be converted to tidy
+by `r Biocpkg("treeio")` [@wang_treeio_2020] can be converted to a tidy
 data frame using the `r CRANpkg("tidytree")`
 package. The `r CRANpkg("tidytree")` package
 provides tidy interfaces to manipulate trees with associated data. For instance,
@@ -41,7 +41,7 @@ The `phylo` class defined in the `r CRANpkg("ape")` package [@paradis_ape_2004] 
 fundamental for phylogenetic analysis in R. Most of the R packages
 in [this field](https://CRAN.R-project.org/view=Phylogenetics) rely
 extensively on the `phylo` object. The `r CRANpkg("tidytree")` package provides `as_tibble`
-method to convert the `phylo` object to tidy data frame, a `tbl_tree` object.
+method to convert the `phylo` object to a tidy data frame, a `tbl_tree` object.
 
 ```{r}
 library(ape)
@@ -60,7 +60,7 @@ as.phylo(x)
 ```
 
 Using `tbl_tree` object makes tree and data manipulation more effective and
-easier (see also example in [FAQ](#bind-tip)). For example, we can link evolutionary trait to phylogeny using the `r CRANpkg("dplyr")` verbs `full_join()`:
+easier (see also the example in [FAQ](#bind-tip)). For example, we can link evolutionary trait to phylogeny using the `r CRANpkg("dplyr")` verbs `full_join()`:
 
 ```{r}
 d <- tibble(label = paste0('t', 1:4),
@@ -72,7 +72,7 @@ y
 
 ### The `treedata` object
 
-The `r CRANpkg("tidytree")` package defines `treedata` class to store phylogenetic tree with
+The `r CRANpkg("tidytree")` package defines `treedata` class to store a phylogenetic tree with
 associated data. After mapping external data to the tree structure, the
 `tbl_tree` object can be converted to a `treedata` object.
 
@@ -82,7 +82,7 @@ as.treedata(y)
 ```
 
 The `treedata` class is used
-in the [treeio](https://bioconductor.org/packages/treeio/) package [@wang_treeio_2020] to store evolutionary evidence inferred by commonly used software (`r pkg_beast`, `r pkg_epa`, `r pkg_hyphy`, `r pkg_mrbayes`, `r pkg_paml`, `r pkg_phyldog`, `r pkg_pplacer`, `r pkg_r8s`, `r pkg_raxml` and `r pkg_revbayes`, etc.) (see details in [Chapter 1](#chapter1)).
+in the [treeio](https://bioconductor.org/packages/treeio/) package [@wang_treeio_2020] to store evolutionary evidence inferred by commonly used software (`r pkg_beast`, `r pkg_epa`, `r pkg_hyphy`, `r pkg_mrbayes`, `r pkg_paml`, `r pkg_phyldog`, `r pkg_pplacer`, `r pkg_r8s`, `r pkg_raxml`, and `r pkg_revbayes`, etc.) (see details in [Chapter 1](#chapter1)).
 
 The `r CRANpkg("tidytree")` package also provides the `as_tibble()` method to convert a `treedata` object to a tidy data frame. The phylogenetic tree structure and the evolutionary
 inferences were stored in the `tbl_tree` object, making it consistent and easier
@@ -119,7 +119,7 @@ All these methods are also implemented in `r Biocpkg("treeio")` for working with
 child(tree, 5)
 ```
 
-Beware that the methods work for tree objects output related node numbers, while the methods implemented for the `tbl_tree` object output a `tibble` object that contains related information.
+Beware that the methods for tree objects output relevant node numbers, while the methods for `tbl_tree` object output a `tibble` object that contains related information.
 
 
 ## Data Integration
@@ -134,7 +134,7 @@ and clade support values (posterior) inferred by `r pkg_beast`/`r pkg_mrbayes`.
 In addition, `r Biocpkg("treeio")` supports linking external data to phylogeny. It brings these external phylogenetic data (either from software output or external sources) to the R
 community and makes it available for further analysis in R.
 Furthermore, `r Biocpkg("treeio")` can combine
-multiple phylogenetic trees together into one with their node/branch-specific
+multiple phylogenetic trees into one with their node/branch-specific
 attribute data. Essentially, as a result, one such attribute (*e.g.*,
 substitution rate) can be mapped to another attribute (*e.g.*, *d~N~/d~S~*) of
 the same node/branch for comparison and further computations [@yu_ggtree:_2017; @yu_two_2018].
@@ -169,15 +169,15 @@ node/branch-specific data imported from `r pkg_beast`
 and `r pkg_codeml` output files are
 all available in the `merged_tree` object. The tree object was converted to a
 tidy data frame using the [tidytree](https://cran.r-project.org/package=tidytree)
-package and visualized as hexbin scatterplot of *d~N~/d~S~*, *d~N~* and *d~S~* inferred
+package and visualized as hexbin scatterplots of *d~N~/d~S~*, *d~N~*, and *d~S~* inferred
 by `r pkg_codeml` versus *rate*
 (substitution rate in a unit of substitutions/site/year) inferred
 by `r pkg_beast` on the same branches.
 
 
-(ref:correlationscap) Correlation of *d~N~/d~S~*, *d~N~* and *d~S~* versus substitution rate.
+(ref:correlationscap) Correlation of *d~N~/d~S~*, *d~N~*, and *d~S~* versus substitution rate.
 
-(ref:correlationcap) **Correlation of *d~N~/d~S~*, *d~N~* and *d~S~* versus substitution rate.** After merging the *BEAST* and *CodeML* outputs, the branch-specific estimates (substitution rate, *d~N~/d~S~* , *d~N~* and *d~S~*) from the two analysis programs are compared on the same branch basis. The associations of *d~N~/d~S~*, *d~N~* and *d~S~* vs. *rate* are visualized in hexbin scatter plots.
+(ref:correlationcap) **Correlation of *d~N~/d~S~*, *d~N~*, and *d~S~* versus substitution rate.** After merging the *BEAST* and *CodeML* outputs, the branch-specific estimates (substitution rate, *d~N~/d~S~* , *d~N~*, and *d~S~*) from the two analysis programs are compared on the same branch basis. The associations of *d~N~/d~S~*, *d~N~*, and *d~S~* vs. *rate* are visualized in hexbin scatter plots.
 
 
 ```{r correlations, fig.width=9, fig.height=3, warning=FALSE, fig.cap="(ref:correlationcap)", fig.scap="(ref:correlationscap)", out.extra='', out.width="100%"}
@@ -198,7 +198,7 @@ The output is illustrated in Fig. \@ref(fig:correlations). We can then test the 
 
 Using the `merge_tree()` function, we are able to compare analysis results using an identical
 model from different software packages or different models using different or
-identical software. It also allows users to integrate different analysis finding
+identical software. It also allows users to integrate different analysis findings
 from different software packages. Merging tree data is not restricted to
 software findings, associating external data to analysis findings is also
 granted. The `merge_tree()` function is chainable and allows several tree objects
@@ -214,9 +214,9 @@ triple_tree <- merge_tree(merged_tree, fake_tree)
 triple_tree
 ```
 
-The `triple_tree` object showed above contains analysis results obtained from `r pkg_beast`
+The `triple_tree` object shown above contains analysis results obtained from `r pkg_beast`
 and `r pkg_codeml`, and evolutionary
-traits from external sources. All these information can be used to annotate the
+traits from external sources. All these pieces of information can be used to annotate the
 tree using `r Biocpkg("ggtree")` [@yu_ggtree:_2017] and `r Biocpkg("ggtreeExtra")` [@ggtreeExtra_2021].
 
 
@@ -226,16 +226,16 @@ tree using `r Biocpkg("ggtree")` [@yu_ggtree:_2017] and `r Biocpkg("ggtreeExtra"
 
 In addition to analysis findings that are associated with the tree as demonstrated
 above, there is a wide range of heterogeneous data, including phenotypic data,
-experimental data and clinical data ,*etc.*, that need to be integrated and
+experimental data, and clinical data, *etc.*, that need to be integrated and
 linked to phylogeny. For example, in the study of viral evolution, tree nodes may be
-associated with epidemiological information, such as location, age and subtype.
-Functional annotations may need to be mapped on gene trees for comparative
+associated with epidemiological information, such as location, age, and subtype.
+Functional annotations may need to be mapped onto gene trees for comparative
 genomics studies. To facilitate data
 integration, `r Biocpkg("treeio")` provides
-`full_join()` method to link external data to phylogeny and store it in either `phylo` or `treedata` object. Beware that linking external data to a `phylo` object will produce a `treedata` object to store the input `phylo` with associated data. The `full_join` methods can also be used at tidy data frame level (*i.e.* `tbl_tree` object described previously) and at `ggtree` level (described in [Chapter 7](#attach-operator)) [@yu_two_2018].
+`full_join()` methods to link external data to phylogeny and store it in either `phylo` or `treedata` object. Beware that linking external data to a `phylo` object will produce a `treedata` object to store the input `phylo` with associated data. The `full_join` methods can also be used at tidy data frame level (*i.e.* `tbl_tree` object described previously) and at `ggtree` level (described in [Chapter 7](#attach-operator)) [@yu_two_2018].
 
 
-The following example calculated bootstrap values and merging that values with the tree (a `phylo` object) by matching their node numbers.
+The following example calculated bootstrap values and merged that values with the tree (a `phylo` object) by matching their node numbers.
 
 
 
@@ -249,7 +249,7 @@ bp2 <- tibble(node=1:Nnode(tr) + Ntip(tr), bootstrap = bp)
 full_join(tr, bp2, by="node")
 ```
 
-Another example demonstrates merging evolutionary trait with the tree (a `treedata` object) by matching their tip labels.
+Another example demonstrates merging evolutionary traits with the tree (a `treedata` object) by matching their tip labels.
 
 
 ```{r}
@@ -259,14 +259,14 @@ x <- tibble(label = as.phylo(beast)$tip.label, trait = rnorm(Ntip(beast)))
 full_join(beast, x, by="label")
 ```
 
-Manipulating tree object is frustrated with the fragmented functions available
+Manipulating tree objects is frustrated with the fragmented functions available
 for working with `phylo` objects, not to mention linking external data to the
 phylogeny structure. With the `r Biocpkg("treeio")` package [@wang_treeio_2020], it is easy to combine tree data from various sources. 
-In addition, with the `r CRANpkg("tidytree")` package, manipulating tree is more easier using the [tidy data principles](https://www.jstatsoft.org/article/view/v059i10) and 
+In addition, with the `r CRANpkg("tidytree")` package, manipulating trees is easier using the [tidy data principles](https://www.jstatsoft.org/article/view/v059i10) and 
 consistent with tools already in wide use, including
 `r CRANpkg("dplyr")`,
 `r CRANpkg("tidyr")`,
-`r CRANpkg("ggplot2")`
+`r CRANpkg("ggplot2")`,
 and `r Biocpkg("ggtree")` [@yu_ggtree:_2017].
 
 
@@ -274,9 +274,9 @@ and `r Biocpkg("ggtree")` [@yu_ggtree:_2017].
 
 The `groupOTU()` and `groupClade()` methods are designed for adding taxa grouping
 information to the input tree object. The methods were implemented in `r CRANpkg("tidytree")`,
-`r Biocpkg("treeio")` and `r Biocpkg("ggtree")` respectively to support adding grouping information at the 
-`tbl_tree`, `phylo` and `treedata`, and `ggtree` levels. These grouping information can be
-used directly in tree visualization (*e.g.* [coloring tree based on grouping information](#group-taxa-vis))
+`r Biocpkg("treeio")`, and `r Biocpkg("ggtree")` respectively to support adding grouping information for the 
+`tbl_tree`, `phylo` and `treedata`, and `ggtree` objects. This grouping information can be
+used directly in tree visualization (*e.g.* [coloring a tree based on grouping information](#group-taxa-vis))
 with `r Biocpkg("ggtree")` (Figure \@ref(fig:groupOTU)).
 
 
@@ -289,7 +289,8 @@ to add grouping information of selected clade/clades.
 
 
 ```{r}
-nwk <- '(((((((A:4,B:4):6,C:5):8,D:6):3,E:21):10,((F:4,G:12):14,H:8):13):13,((I:5,J:2):30,(K:11,L:11):2):17):4,M:56);'
+nwk <- '(((((((A:4,B:4):6,C:5):8,D:6):3,E:21):10,((F:4,G:12):14,H:8):13):
+        13,((I:5,J:2):30,(K:11,L:11):2):17):4,M:56);'
 tree <- read.tree(text=nwk)
 
 groupClade(as_tibble(tree), c(17, 21))
@@ -314,14 +315,14 @@ groupOTU(tr, c('t2', 't4'), group_name = "fake_group") %>%
   as_tibble
 ```
 
-Another example of working with the `ggtree` object can be found in [session 6.5](#group-taxa-vis).
+Another example of working with the `ggtree` object can be found in [session 6.4](#group-taxa-vis).
 
 
 The `groupOTU` will trace back from input nodes to most recent common ancestor.
 In this example, nodes 1, 4, 5 and 6 are
 grouping together (`4 (t2) -> 6 -> 5` and `1 (t4) -> 5`).
 
-Related OTUs are grouping together and they are not necessarily within a clade.
+Related OTUs are grouping and they are not necessarily within a clade.
 They can be monophyletic (clade), polyphyletic or paraphyletic.
 
 ```{r}
@@ -335,56 +336,115 @@ as_tibble(tree) %>% groupOTU(cls)
 
 If there are conflicts when tracing back to the most recent common ancestor, users can set `overlap`
 parameter to "origin" (the first one counts), "overwrite" (default, the last one
-counts) or "abandon" (un-selected for grouping)^[<https://groups.google.com/forum/#!msg/bioc-ggtree/Q4LnwoTf1DM/uqYdYB_VBAAJ>].
+counts), or "abandon" (un-selected for grouping)^[<https://groups.google.com/forum/#!msg/bioc-ggtree/Q4LnwoTf1DM/uqYdYB_VBAAJ>].
 
 
 ## Rerooting tree {#reroot-treeio}
 
-A phylogenetic tree can be rerooted with a specified `outgroup`. The `r CRANpkg("ape")` package implements a `root()` method to reroot a tree stored in a `phylo` object, while the `r Biocpkg("treeio")` package provides the `root()` method for `treedata` object. This method is designed to re-root a phylogenetic tree with associated data with respect to the specified `outgroup` or at the specified `node` based on the `root()` implemented in the `r CRANpkg("ape")` package.
+A phylogenetic tree can be rerooted with a specified `outgroup`. The `r CRANpkg("ape")` package implements a `root()` method to reroot a tree stored in a `phylo` object, while the `r Biocpkg("treeio")` package provides the `root()` method for `treedata` object. This method is designed to re-root a phylogenetic tree with associated data concerning the specified `outgroup` or at the specified `node` based on the `root()` implemented in the `r CRANpkg("ape")` package.
+
+
+We first linked external data to a tree using `left_join()` and stored all the information in a `treedata` object, `trda`. 
+
+```{r reroot_build_td}
+library(ggtree)
+library(treeio)
+library(tidytree)
+library(TDbook)
+
+# load `tree_boots`, `df_tip_data`, and `df_inode_data` from 'TDbook'
+
+trda <- tree_boots %>% 
+        left_join(df_tip_data, by=c("label" = "Newick_label")) %>% 
+        left_join(df_inode_data, by=c("label" = "newick_label"))
+trda
+```
+
+
+Then we can reroot the tree with the associated data mapping to the branches and nodes correctly as demonstrated in Figure \@ref(fig:reroot). The figure was visualized using `r Biocpkg("ggtree")` (see also Chapter [4](#chapter4) and [5](#chapter5)).
 
 
 (ref:rerootscap) Reroot a phylogenetic tree with associated data.
 
-(ref:rerootcap) **Reroot a phylogenetic tree with associated data.** Original tree (A) and  rerooted tree (B) with branch length and support value presented. 
+(ref:rerootcap) **Reroot a phylogenetic tree with associated data.** Original tree (A) and  rerooted tree (B) with associated data mapped to the branches or nodes of the tree correctly. (A) and (B) present before and after rooting on the branch leading to the tip node 'Suricata_suricatta' respectively.
 
 
-```{r reroot, fig.width=8, fig.height=4, fig.cap="(ref:rerootcap)", fig.scap="(ref:rerootscap)"}
-trda <- read.newick("data/reroot/test.nw", node.label="support")
-trda2 <- root(trda, outgroup = "X", edgelabel = TRUE)
-p1 <- ggtree(trda) + 
-      geom_tiplab() + 
+```{r reroot, fig.width=14, fig.height=5, fig.cap="(ref:rerootcap)", fig.scap="(ref:rerootscap)"}
+# reroot
+trda2 <- root(trda, outgroup = "Suricata_suricatta", edgelabel = TRUE)
+# The original tree
+p1 <- trda %>%
+      ggtree() +
       geom_nodelab(
-        mapping = aes(x = branch, label = support), 
-        color = "red",
-        nudge_y = -0.1
+        mapping = aes(
+          x = branch,
+          label = bootstrap
+        ),
+        nudge_y = 0.36
+      ) +
+      xlim(-.1, 4) +
+      geom_tippoint(
+        mapping = aes(
+          shape = trophic_habit, 
+          color = trophic_habit, 
+          size = mass_in_kg
+        )
+      ) +
+      scale_size_continuous(range = c(3, 10)) +
+      geom_tiplab(
+        offset = .14, 
       ) +
       geom_nodelab(
-        mapping = aes(x = branch, label = branch.length),
-        color = "blue",
-        nudge_y = 0.1
-      )
+        mapping = aes(
+          label = vernacularName.y, 
+          fill = posterior
+        ),
+        geom = "label"
+      ) + 
+      scale_fill_gradientn(colors = RColorBrewer::brewer.pal(3, "YlGnBu")) +
+      theme(legend.position = "right")  
+
 # after reroot
-p2 <- ggtree(trda2) +
-      geom_tiplab() +
+p2 <- trda2 %>%
+      ggtree() +
       geom_nodelab(
-        mapping = aes(x = branch, label = support),
-        color = "red",
-        nudge_y = -0.1
+        mapping = aes(
+          x = branch,
+          label = bootstrap
+        ),
+        nudge_y = 0.36
+      ) +
+      xlim(-.1, 5) +
+      geom_tippoint(
+        mapping = aes(
+          shape = trophic_habit,
+          color = trophic_habit,
+          size = mass_in_kg
+        )
+      ) +
+      scale_size_continuous(range = c(3, 10)) +
+      geom_tiplab(
+        offset = .14,
       ) +
       geom_nodelab(
-        mapping = aes(x = branch, label = branch.length),
-        color = "blue",
-        nudge_y = 0.1
-      )
+        mapping = aes(
+          label = vernacularName.y,
+          fill = posterior
+        ),
+        geom = "label"
+      ) +
+      scale_fill_gradientn(colors = RColorBrewer::brewer.pal(3, "YlGnBu")) +
+      theme(legend.position = "right")
+
 plot_list(p1, p2, tag_levels='A', ncol=2)
 ```
 
 
-The `outgroup` parameter represents the specific new `outgroup`, it can be a node label (character) or node number. If it is a single one value, meaning using the node below this tip as the new root, if it has multiple values, meaning the most recent common of the values will be used as the new root. Note that, if the node labels should be treated as edge labels, the `edgelabel` should be set to `TRUE` to return the correct relationship between `node` and `associated data`. For more details about reroot, including precautions and pitfalls, please refer to the review article [@reroot_review].
+The `outgroup` parameter represents the specific new `outgroup`, it can be a node label (character) or node number. If it is a single one value, meaning using the node below this tip as the new root, if it has multiple values, meaning the most recent common of the values will be used as the new root. Note that, if the node labels should be treated as edge labels, the `edgelabel` should be set to `TRUE` to return the correct relationship between the `node` and `associated data`. For more details about reroot, including precautions and pitfalls, please refer to the review article [@reroot_review].
 
 ## Rescaling Tree Branches {#rescale-treeio}
 
-Phylogenetic data can be merged for joint analysis (Figure \@ref(fig:correlations)). They can be displayed on the same tree structure as a more complex annotation to help visually inspection of their evolutionary patterns. All the numerical data stored in `treedata` object can be used to re-scale tree branches. For example, CodeML infers d~N~/d~S~, d~N~ and d~S~, all these statistics can be used as branch lengths. All these values can also be used to color the tree (session [4.3.4](#color-tree)) and can be projected to vertical dimension to create a two-dimensional tree or phenogram (session [4.2.2](#layouts-of-phylogenetic-tree) and Figure \@ref(fig:2d) and \@ref(fig:continuousColor)). 
+Phylogenetic data can be merged for joint analysis (Figure \@ref(fig:correlations)). They can be displayed on the same tree structure as a more complex annotation to help visually inspection of their evolutionary patterns. All the numerical data stored in a `treedata` object can be used to re-scale tree branches. For example, CodeML infers d~N~/d~S~, d~N~, and d~S~, all these statistics can be used as branch lengths. All these values can also be used to color the tree (session [4.3.4](#color-tree)) and can be projected to a vertical dimension to create a two-dimensional tree or phenogram (session [4.2.2](#layouts-of-phylogenetic-tree) and Figure \@ref(fig:2d) and \@ref(fig:continuousColor)). 
 
 
 
@@ -407,13 +467,13 @@ Instead of modifying branch lengths in the tree object using the `rescale_tree()
 
 ### Removing tips in a phylogenetic tree {#remove-tip}
 
-Sometimes we want to remove selected tips from a phylogenetic tree. This is due to several reasons, including low sequence quality, errors in sequence assembly, an alignment error in part of the sequence and an error in phylogenetic inference ,*etc*.
+Sometimes we want to remove selected tips from a phylogenetic tree. This is due to several reasons, including low sequence quality, errors in sequence assembly, an alignment error in part of the sequence, and an error in phylogenetic inference, *etc*.
 
 Let's say that we want to remove three tips (colored by red) from the tree (Figure \@ref(fig:removeTip)A), the `drop.tip()` method removes specified tips and updates the tree (Figure \@ref(fig:removeTip)B). All associated data will be maintained in the updated tree. 
 
-(ref:removeTipscap) Removing tips from tree.
+(ref:removeTipscap) Removing tips from a tree.
 
-(ref:removeTipcap) **Removing tips from tree.** Original tree with three tips (colored by red) to remove (A). Updated tree that removed selected tips (B).
+(ref:removeTipcap) **Removing tips from a tree.** Original tree with three tips (colored by red) to remove (A). The updated tree removed selected tips (B).
 
 
 ```{r removeTip, fig.width=12, fig.height=6, fig.cap="(ref:removeTipcap)", fig.scap="(ref:removeTipscap)", out.width="100%"}
@@ -433,15 +493,15 @@ plot_list(p1, p2, ncol=2, tag_levels = "A")
 
 ### Subsetting tree by tip label {#subset-tip}
 
-Sometimes a tree can be large and difficult to look at only the portions of interest. The `tree_subset()` function was created in the `r Biocpkg("treeio")` package [@wang_treeio_2020] to extract a subset of the tree portion while still maintaining the structure of the tree portion. The `beast_tree` in Figure \@ref(fig:subsetTip)A is slightly crowded. Obviously, we can make the figure taller to allow more space for the labels (similar to use "Expansion" slider in `FigTree`) or we can make the text smaller. However, these solutions are not always applicable when you have a lot of tips (*e.g.* hundreds or thousands of tips). In particular, when you are only interested in the portion of the tree around a particular tip, you certainly don't want to explore a large tree to find the centain species you are interested in.
+Sometimes a tree can be large and difficult to look at only the portions of interest. The `tree_subset()` function was created in the `r Biocpkg("treeio")` package [@wang_treeio_2020] to extract a subset of the tree portion while still maintaining the structure of the tree portion. The `beast_tree` in Figure \@ref(fig:subsetTip)A is slightly crowded. Obviously, we can make the figure taller to allow more space for the labels (similar to using the "Expansion" slider in `FigTree`) or we can make the text smaller. However, these solutions are not always applicable when you have a lot of tips (*e.g.* hundreds or thousands of tips). In particular, when you are only interested in the portion of the tree around a particular tip, you certainly don't want to explore a large tree to find the certain species you are interested in.
 
 Let's say you are interested in tip *A/Swine/HK/168/2012* from the tree (Figure \@ref(fig:subsetTip)A) and you want to look at the immediate relatives of this tip. 
 
 The `tree_subset()` function allows you to look at the portions of the tree that are of interest. By default, the `tree_subset()` function will internally call the [`groupOTU()`](#groupotu) to assign the group specified tip from the rest of the other tips (Figure \@ref(fig:subsetTip)B). Additionally, the branch lengths and related associated data are maintained after subsetting (Figure \@ref(fig:subsetTip)C). The root of the tree is always anchored at zero for the subset tree by default and all the distances are relative to this root. If you want all the distances are relative to the original root, you can specify the root position (by `root.position` parameter) to the root edge of the subset tree, which is the sum of branch lengths from the original root to the root of the subset tree (Figure \@ref(fig:subsetTip)D and E).
 
-(ref:subsetTipscap) Subsetting tree for specific tip.
+(ref:subsetTipscap) Subsetting tree for a specific tip.
 
-(ref:subsetTipcap) **Subsetting tree for specific tip.** The original tree (A). The subset tree (B). Subset tree with data (C). Visualize the subset tree relative to the original position, without root edge (D) and with root edge (E).
+(ref:subsetTipcap) **Subsetting tree for a specific tip.** The original tree (A). The subset tree (B). Subset tree with data (C). Visualize the subset tree relative to the original position, without root edge (D) and with root edge (E).
 
 ```{r subsetTip, fig.width=12, fig.height=7, echo=T, fig.cap="(ref:subsetTipcap)", fig.scap="(ref:subsetTipscap)", out.extra='', out.width="100%"}
 beast_file <- system.file("examples/MCC_FluA_H3.tree", package="ggtree")
@@ -477,12 +537,12 @@ plot_list(p1, p2, p3, p4, p5,
 
 ### Subsetting tree by internal node number {#subset-node}
 
-If you are interested in a certain clade, you can specify the input node as an internal node number. The `tree_subset()` function will take the clade as a whole and also trace back to particular levels to look at the immediate relatives of the clade (Figure \@ref(fig:subsetNode)A and B). We can use the `tree_subset()` function to zoom in selected portions and plot a whole tree with the portion of it, which is similar to the `ape::zoom()` function to explore a very large tree (Figure \@ref(fig:subsetNode)C and D). Users can also use `viewClade()` function to restrict tree visualization at specific clade as demonstrated in [session 6.1](#viewing-selected-clade).
+If you are interested in a certain clade, you can specify the input node as an internal node number. The `tree_subset()` function will take the clade as a whole and also trace it back to particular levels to look at the immediate relatives of the clade (Figure \@ref(fig:subsetNode)A and B). We can use the `tree_subset()` function to zoom in selected portions and plot a whole tree with the portion of it, which is similar to the `ape::zoom()` function to explore a very large tree (Figure \@ref(fig:subsetNode)C and D). Users can also use `viewClade()` function to restrict tree visualization at specific clade as demonstrated in [session 6.1](#viewing-selected-clade).
 
 
-(ref:subsetNodescap) Subsetting tree for specific clade.
+(ref:subsetNodescap) Subsetting tree for a specific clade.
 
-(ref:ssubsetNodecap) **Subsetting tree for specific clade.** Extracting a clade (A). Extracting a clade and trace back to look at its immediate relatives (B). Viewing a very large tree (C) and a selected portion of it (D).
+(ref:ssubsetNodecap) **Subsetting tree for the specific clade.** Extracting a clade (A). Extracting a clade and tracing it back to look at its immediate relatives (B). Viewing a very large tree (C) and a selected portion of it (D).
 
 ```{r subsetNode, fig.width=10, fig.height=10, echo=T, fig.cap="(ref:ssubsetNodecap)", fig.scap="(ref:subsetNodescap)", out.extra='', out.width="100%"}
 clade <- tree_subset(beast_tree, node=121, levels_back=0)
@@ -516,7 +576,7 @@ plot_list(p1, p2, p3, p4,
 
 ## Manipulating tree data for visualization {#ggtree-fortify}
 
-Tree visualization is supported by `r Biocpkg("ggtree")` [@yu_ggtree:_2017]. Although `r Biocpkg("ggtree")` implemented several methods for [visual exploration of tree with data](#chapter6), you may want to do something that is not supported directly. In this case, you need to manipulate tree data with node coordination positions that are used for visualization. This is quite easy with `r Biocpkg("ggtree")`. Users can use the `fortify()` method which internally calls `tidytree::as_tibble()` to convert the tree to a tidy data frame and add columns of coordination positions (*i.e.* x, y, branch and angle) that are used to plot the tree. You can also access the data via `ggtree(tree)$data`.
+Tree visualization is supported by `r Biocpkg("ggtree")` [@yu_ggtree:_2017]. Although `r Biocpkg("ggtree")` implemented several methods for [visual exploration of trees with data](#chapter6), you may want to do something that is not supported directly. In this case, you need to manipulate tree data with node coordination positions that are used for visualization. This is quite easy with `r Biocpkg("ggtree")`. Users can use the `fortify()` method which internally calls `tidytree::as_tibble()` to convert the tree to a tidy data frame and add columns of coordination positions (*i.e.* x, y, branch, and angle) that are used to plot the tree. You can also access the data via `ggtree(tree)$data`.
 
 Here is an example to plot two trees face to face that is similar to a graph produced by the `ape::cophyloplot()` function.
 
@@ -524,7 +584,7 @@ Here is an example to plot two trees face to face that is similar to a graph pro
 
 (ref:cophyloscap) Plot two phylogenetic trees face to face.
 
-(ref:cophylocap) **Plot two phylogenetic trees face to face.** Plotting a tree using `ggtree()` (left hand side) and subsequently add another layer of tree by `geom_tree()` (right hand side). The relative positions of the plotted trees can be manually adjusted and adding layers to each of the tree (*e.g.* tip labels and highlighting clades) is independent.
+(ref:cophylocap) **Plot two phylogenetic trees face to face.** Plotting a tree using `ggtree()` (left-hand side) and subsequently adding another layer of a tree by `geom_tree()` (right-hand side). The relative positions of the plotted trees can be manually adjusted and adding layers to each of the trees (*e.g.* tip labels and highlighting clades) is independent.
 
 ```{r cophylo, fig.width=8, fig.height=6, message=F, echo=T, fig.cap="(ref:cophylocap)", fig.scap="(ref:cophyloscap)", out.extra='', out.width="100%"}
 library(dplyr)
@@ -548,7 +608,7 @@ d1 <- p1$data
 d2 <- p2$data
 
 ## reverse x-axis and 
-## set offset to make the tree in the right hand side of the first tree
+## set offset to make the tree on the right-hand side of the first tree
 d2$x <- max(d2$x) - d2$x + max(d1$x) + 1
 
 pp <- p1 + geom_tree(data=d2, layout='ellipse') +      
@@ -567,15 +627,16 @@ dd <- bind_rows(d1, d2) %>%
 
 pp + geom_line(aes(x, y, group=label), data=dd, color='grey') +
     geom_tiplab(geom = 'shadowtext', bg.colour = alpha('firebrick', .5)) +
-    geom_tiplab(data = d2, hjust=1, geom = 'shadowtext', bg.colour = alpha('firebrick', .5))
+    geom_tiplab(data = d2, hjust=1, geom = 'shadowtext', 
+                bg.colour = alpha('firebrick', .5))
 ```
 
 It is quite easy to plot multiple trees and connect taxa in one figure. For instance, plotting trees constructed from all internal gene segments of influenza virus and connecting equivalent strains across the trees [@venkatesh_avian_2018]. 
 
 
-(ref:cophylo3scap) Plot multiple phylogenetic trees side by side.
+(ref:cophylo3scap) Plot multiple phylogenetic trees side-by-side.
 
-(ref:cophylo3cap) **Plot multiple phylogenetic trees side by side.** Plotting a tree using `ggtree()` and subsequently add multiple layers of trees by `geom_tree()`.
+(ref:cophylo3cap) **Plot multiple phylogenetic trees side-by-side.** Plotting a tree using `ggtree()` and subsequently adding multiple layers of trees by `geom_tree()`.
 
 ```{r cophylo3, fig.width=8, fig.height=6, message=F, echo=T, fig.cap="(ref:cophylo3cap)", fig.scap="(ref:cophylo3scap)", out.extra='', out.width="100%"}
 z <- rtree(30)
@@ -595,5 +656,5 @@ p1 + geom_tree(data = d2) + geom_tree(data = d3) + geom_tiplab(data=d3) +
 
 ## Summary {#summary2}
 
-The `r Biocpkg("treeio")` package allows us to import diverse phylogeny associated data into R. However, phylogenetic tree is stored in a way to facilitate computational processing which is not human friendly and needs the expertise to manipulate and explore tree data. The `r CRANpkg("tidytree")` package provides tidy interface for exploring tree data, while `r Biocpkg("ggtree")` provides a set of utilities to visualize and explore tree data using the grammar of graphics. This full suite of packages makes it easy for ordinary users to interact with tree data and allow us to integrate phylogeny associated data from different sources (*e.g.* experimental result or analysis finding), which creates the possibilities of integrative and comparative study. Moreover, this package suite brings phylogenetic analysis into the tidyverse and certainly takes us to the next level of processing phylogenetic data.
+The `r Biocpkg("treeio")` package allows us to import diverse phylogeny associated data into R. However, a phylogenetic tree is stored in a way to facilitate computational processing which is not human friendly and needs the expertise to manipulate and explore tree data. The `r CRANpkg("tidytree")` package provides a tidy interface for exploring tree data, while `r Biocpkg("ggtree")` provides a set of utilities to visualize and explore tree data using the grammar of graphics. This full suite of packages makes it easy for ordinary users to interact with tree data and allows us to integrate phylogeny associated data from different sources (*e.g.* experimental results or analysis findings), which creates the possibilities of integrative and comparative study. Moreover, this package suite brings phylogenetic analysis into the tidyverse and certainly takes us to the next level of processing phylogenetic data.
 

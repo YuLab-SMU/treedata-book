@@ -5,12 +5,13 @@
 
 
 
-## Visualizing pairwise nucleotide sequence distance with phylogenetic tree {#hpv58}
+## Visualizing pairwise nucleotide sequence distance with a phylogenetic tree {#hpv58}
 
 
-This example reproduces Fig. 1 of [@chen_ancient_2017]. It extracts accession numbers from tip labels of the HPV58 tree and calculates pairwise nucleotide sequence distances. The distance matrix is visualized as dot and line plots. This example demonstrates the abilitiy of adding multiple layers to a specific panel. As illustrated in Figure \@ref(fig:jv2017), the `facet_plot` function displays sequence distances as a dot plot and then adds a layer of line plot to the same panel, *i.e.* Sequence Distance. In addition, the tree in `facet_plot` can be fully annotated with multiple layers (clade labels, bootstrap support values, *etc.*). The source code of this example was firstly published in Supplemental File of [@yu_two_2018].
+This example reproduces Fig. 1 of [@chen_ancient_2017]. It extracts accession numbers from tip labels of the HPV58 tree and calculates pairwise nucleotide sequence distances. The distance matrix is visualized as dot and line plots. This example demonstrates the ability to add multiple layers to a specific panel. As illustrated in Figure \@ref(fig:jv2017), the `geom_facet()` function displays sequence distances as a dot plot and then adds a layer of line plot to the same panel, *i.e.* Sequence Distance. In addition, the tree in `geom_facet()` can be fully annotated with multiple layers (clade labels, bootstrap support values, *etc.*). The source code is modified from the Supplemental File of [@yu_two_2018].
 
 ```{r message=FALSE}
+library(TDbook)
 library(tibble)
 library(tidyr)
 library(Biostrings)
@@ -18,29 +19,38 @@ library(treeio)
 library(ggplot2)
 library(ggtree)
 
-tree <- read.tree("data/HPV58.tree")
+# loaded from TDbook package
+tree <- tree_HPV58
 
-clade <- c(A3 = 92, A1 = 94, A2 = 108, B1 = 156, B2 = 159, C = 163, D1 = 173, D2 = 176)
+clade <- c(A3 = 92, A1 = 94, A2 = 108, B1 = 156, 
+            B2 = 159, C = 163, D1 = 173, D2 = 176)
 tree <- groupClade(tree, clade)
 cols <- c(A1 = "#EC762F", A2 = "#CA6629", A3 = "#894418", B1 = "#0923FA", 
          B2 = "#020D87", C = "#000000", D1 = "#9ACD32",D2 = "#08630A")
 
 ## visualize the tree with tip labels and tree scale
-p <- ggtree(tree, aes(color = group), ladderize = FALSE) %>% rotate(rootnode(tree)) + 
-    geom_tiplab(aes(label = paste0("italic('", label, "')")), parse = TRUE, size = 2.5) +
+p <- ggtree(tree, aes(color = group), ladderize = FALSE) %>% 
+    rotate(rootnode(tree)) + 
+    geom_tiplab(aes(label = paste0("italic('", label, "')")), 
+                parse = TRUE, size = 2.5) +
     geom_treescale(x = 0, y = 1, width = 0.002) + 
-    scale_color_manual(values = c(cols, "black"), na.value = "black", name = "Lineage",
-                      breaks = c("A1", "A2", "A3", "B1", "B2", "C", "D1", "D2")) +
+    scale_color_manual(values = c(cols, "black"), 
+                na.value = "black", name = "Lineage",
+                breaks = c("A1", "A2", "A3", "B1", "B2", "C", "D1", "D2")) +
     guides(color = guide_legend(override.aes = list(size = 5, shape = 15))) +
     theme_tree2(legend.position = c(.1, .88))
 ## Optional
 ## add labels for monophyletic (A, C and D) and paraphyletic (B) groups 
 dat <- tibble(node = c(94, 108, 131, 92, 156, 159, 163, 173, 176,172),
-              name = c("A1", "A2", "A3", "A", "B1", "B2", "C", "D1", "D2", "D"),
-              offset = c(0.003, 0.003, 0.003, 0.00315, 0.003, 0.003, 0.0031, 0.003, 0.003, 0.00315),
-              offset.text = c(-.001, -.001, -.001, 0.0002, -.001, -.001, 0.0002, -.001, -.001, 0.0002),
+              name = c("A1", "A2", "A3", "A", "B1", 
+                        "B2", "C", "D1", "D2", "D"),
+              offset = c(0.003, 0.003, 0.003, 0.00315, 0.003, 
+                        0.003, 0.0031, 0.003, 0.003, 0.00315),
+              offset.text = c(-.001, -.001, -.001, 0.0002, -.001, 
+                        -.001, 0.0002, -.001, -.001, 0.0002),
               barsize = c(1.2, 1.2, 1.2, 2, 1.2, 1.2, 3.2, 1.2, 1.2, 2),
-              extend = list(c(0, 0.5), 0.5, c(0.5, 0), 0, c(0, 0.5), c(0.5, 0), 0, c(0, 0.5), c(0.5, 0), 0)
+              extend = list(c(0, 0.5), 0.5, c(0.5, 0), 0, c(0, 0.5), 
+                        c(0.5, 0), 0, c(0, 0.5), c(0.5, 0), 0)
             ) %>% 
        dplyr::group_split(barsize)
 
@@ -91,8 +101,9 @@ p <- p +
          fontface = 3,
          align = TRUE
      ) +
-     geom_strip(65, 71, "italic(B)", color = "darkgrey", offset = 0.00315, align = TRUE,
-                offset.text = 0.0002, barsize = 2, fontsize = 5, parse = TRUE)
+     geom_strip(65, 71, "italic(B)", color = "darkgrey", 
+                offset = 0.00315, align = TRUE, offset.text = 0.0002, 
+                barsize = 2, fontsize = 5, parse = TRUE)
 
 ## Optional
 ## display support values
@@ -101,9 +112,11 @@ p <- p + geom_nodelab(aes(subset = (node == 92), label = "*"),
     geom_nodelab(aes(subset = (node == 155), label = "*"), 
                     color = "black", nudge_x = -.0003, nudge_y = -1) +
     geom_nodelab(aes(subset = (node == 158), label = "95/92/1.00"), 
-                    color = "black", nudge_x = -0.0001, nudge_y = -1, hjust = 1) +
+                    color = "black", nudge_x = -0.0001, 
+                    nudge_y = -1, hjust = 1) +
     geom_nodelab(aes(subset = (node == 162), label = "98/97/1.00"), 
-                    color = "black", nudge_x = -0.0001, nudge_y = -1, hjust = 1) +
+                    color = "black", nudge_x = -0.0001, 
+                    nudge_y = -1, hjust = 1) +
     geom_nodelab(aes(subset = (node == 172), label = "*"), 
                     color = "black", nudge_x = -.0003, nudge_y = -1) 
 ```
@@ -131,7 +144,12 @@ acc <- sub("\\w+\\|", "", tl)
 names(tl) <- acc
 
 ## writeXStringSet(tipseq_aln, file = "data/HPV58_aln.fas")
-tipseq_aln <- readDNAStringSet("data/HPV58_aln.fas")
+#tipseq_aln <- readDNAStringSet("data/HPV58_aln.fas")
+tipseq_aln <- TDbook::dna_HPV58_aln %>% 
+              as.character %>%
+              lapply(., paste0, collapse = "") %>%
+              unlist() %>%
+              Biostrings::DNAStringSet()
 ```
 
 
@@ -144,10 +162,10 @@ tipseq_aln <- readDNAStringSet("data/HPV58_aln.fas")
 ## calculate pairwise hamming distances among sequences
 tipseq_dist <- stringDist(tipseq_aln, method = "hamming")
 
-## calculate percentage of differences
+## calculate the percentage of differences
 tipseq_d <- as.matrix(tipseq_dist) / width(tipseq_aln[1]) * 100
 
-## convert the matrix to tidy data frame for facet_plot
+## convert the matrix to a tidy data frame for facet_plot
 dd <- as_tibble(tipseq_d)
 dd$seq1 <- rownames(tipseq_d)
 td <- gather(dd,seq2, dist, -seq1)
@@ -160,10 +178,12 @@ td$clade <- g[td$seq2]
 
 ## visualize the sequence differences using dot plot and line plot
 ## and align the sequence difference plot to the tree using facet_plot
-p2 <- facet_plot(p, panel = "Sequence Distance", data = td, geom_point, 
-            mapping = aes(x = dist, color = clade, shape = clade), alpha = .6) %>%
-    facet_plot(panel = "Sequence Distance", data = td, geom = geom_path, 
-            mapping=aes(x = dist, group = seq2, color = clade), alpha = .6) + 
+p2 <- p + geom_facet(panel = "Sequence Distance", 
+            data = td, geom = geom_point, alpha = .6, 
+            mapping = aes(x = dist, color = clade, shape = clade)) +
+    geom_facet(panel = "Sequence Distance", 
+            data = td, geom = geom_path, alpha = .6, 
+            mapping=aes(x = dist, group = seq2, color = clade)) + 
     scale_shape_manual(values = 1:8, guide = FALSE) 
 
 print(p2)
@@ -171,7 +191,7 @@ print(p2)
 
 ## Displaying different symbolic points for bootstrap values. {#symbolic-bootstrap}
 
-We can cut the bootstrap values into several intervals, *e.g.* to indicate whether the clade is high, moderate or low support. Then we can use these intervals as categorical variables to set different colours or shapes of symbolic points to indicate the bootstrap values belong to which category.
+We can cut the bootstrap values into several intervals, *e.g.* to indicate whether the clade is of high, moderate, or low support. Then we can use these intervals as categorical variables to set different colors or shapes of symbolic points to indicate the bootstrap values belong to which category.
 
 (ref:bpintervalscap) Partitioning bootstrap values.
 
@@ -182,12 +202,13 @@ We can cut the bootstrap values into several intervals, *e.g.* to indicate wheth
 read.newick <- treeio::read.newick
 ```
 
-```{r bpinterval, fig.width=7.5, fig.height=8.6, fig.cap="(ref:bpintervalcap)", fig.scap="(ref:bpintervalscap)", dev="jpeg", out.width='100%'}
+```{r bpinterval, fig.width=7.5, fig.height=8.6, fig.cap="(ref:bpintervalcap)", fig.scap="(ref:bpintervalscap)", out.width='100%'}
 library(treeio)
 library(ggplot2)
 library(ggtree)
+library(TDbook)
 
-tree <- read.newick("data/RMI.phy_phyml_tree_rooted_labeled.txt", node.label='support') 
+tree <- read.newick(text=text_RMI_tree, node.label = "support")
 root <- rootnode(tree)  
 ggtree(tree, color="black", size=1.5, linetype=1,  right=TRUE) + 
     geom_tiplab(size=4.5, hjust = -0.060, fontface="bold") +  xlim(0, 0.09) + 
@@ -205,19 +226,20 @@ ggtree(tree, color="black", size=1.5, linetype=1,  right=TRUE) +
 ## Highlighting different groups. {#phylo-grouping}
 
 
-This example reproduces Figure 1 of [@larsen_identification_2019]. It used `groupOTU` to add grouping information of chicken CTLDcps. The branch linetype and color are defined based on this grouping information. Two groups of CTLDcps are highlighted in different background colors using `geom_hilight` (red for Group II and green for Group V). The avian-specific expansion of group V with the subgroup of A and B- are labelled using `geom_cladelab` (Figure \@ref(fig:treeLarsen)).
+This example reproduces Figure 1 of [@larsen_identification_2019]. It used `groupOTU()` to add grouping information of chicken CTLDcps. The branch line type and color are defined based on this grouping information. Two groups of CTLDcps are highlighted in different background colors using `geom_hilight` (red for Group II and green for Group V). The avian-specific expansion of group V with the subgroups of A and B- are labeled using `geom_cladelab` (Figure \@ref(fig:treeLarsen)).
 
 
 
 (ref:treeLarsenscap) Phylogenetic tree of CTLDcps.
 
-(ref:treeLarsencap) **Phylogenetic tree of CTLDcps**. 
+(ref:treeLarsencap) **Phylogenetic tree of CTLDcps**. Using different background colors, line types and colors, and clade labels to differentiate distinguish groups.
 
 
 
 
 ```{r treeLarsen, fig.cap="(ref:treeLarsencap)", fig.scap="(ref:treeLarsenscap)", fig.width=7.5, fig.height=6.3, out.width='100%'}
-mytree <- read.tree("data/Tree 30.4.19.nwk")
+library(TDbook)
+mytree <- tree_treenwk_30.4.19
 
 # Define nodes for coloring later on
 tiplab <- mytree$tip.label
@@ -309,12 +331,12 @@ print(p6)
   
 ## Phylogenetic tree with genome locus structure {#genome-locus}
 
-The `geom_motif` is defined in `ggtree` and it is a wrapper layer of `gggenes::geom_gene_arrow`. The `geom_motif` can automatically adjust genomic alignment by selective gene (via the `on` parameter) and can label genes via the `label` parameter. In the following example, we use `example_genes` dataset provided by `r CRANpkg("gggenes")`. As the dataset only provides genomic coordination of a set of genes, a phylogeny for the genomes needs to be constructed first. We calculate Jaccard similarity based on the ratio of overlapping genes among genomes and correspondingly determine genome distance. BioNJ algorithm was applied to construct the tree (Figure \@ref(fig:gggenes)). 
+The `geom_motif()` is defined in `r Biocpkg("ggtree")` and it is a wrapper layer of the `gggenes::geom_gene_arrow()`. The `geom_motif()` can automatically adjust genomic alignment by selective gene (via the `on` parameter) and can label genes via the `label` parameter. In the following example, we use `example_genes` dataset provided by `r CRANpkg("gggenes")`. As the dataset only provides genomic coordination of a set of genes, a phylogeny for the genomes needs to be constructed first. We calculate Jaccard similarity based on the ratio of overlapping genes among genomes and correspondingly determine genome distance. The BioNJ algorithm was applied to construct the tree. Then we can use `geom_facet()` to visualize the tree with the genomic structures (Figure \@ref(fig:gggenes)). 
 
 
-(ref:gggenesscap) Genomic features with phylogenetic tree.
+(ref:gggenesscap) Genomic features with a phylogenetic tree.
 
-(ref:gggenescap) **Genomic features with phylogenetic tree.**
+(ref:gggenescap) **Genomic features with a phylogenetic tree.**
 
 
 ```{r gggenes, fig.width=9, fig.height=4, fig.cap="(ref:gggenescap)", fig.scap="(ref:gggenesscap)", out.width='100%'}

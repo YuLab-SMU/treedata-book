@@ -1,0 +1,23 @@
+pacman::p_load(conflicted)
+
+conflict_prefer("expand", "ggtree")
+conflict_prefer("mask", "treeio")
+conflict_prefer("parent", "treeio")
+conflict_prefer("ancestor", "treeio")
+conflict_prefer("get.data", "treeio")
+conflict_prefer("drop.tip", "treeio")
+conflict_prefer("read.newick", "treeio")
+conflict_prefer("MRCA", "tidytree")
+
+conflict_prefer("filter", "dplyr")
+conflict_prefer("rename", "dplyr")
+conflict_prefer("collapse", "dplyr")
+conflict_prefer("intersect", "dplyr")
+conflict_prefer("union", "dplyr")
+conflict_prefer("slice", "dplyr")
+conflict_prefer("strsplit", "base")
+conflict_prefer("paste", "base")
+conflict_prefer("geom_errorbarh", "ggplot2")
+conflict_prefer("tax_table", "MicrobiotaProcess")
+
+conflict_prefer("as.data.frame", "BiocGenerics")

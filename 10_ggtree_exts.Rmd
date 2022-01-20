@@ -2,23 +2,23 @@
 
 \newpage
 
-# ggtreeExtra for presenting data on circular layout {#chapter10}
+# ggtreeExtra for presenting data on a circular layout {#chapter10}
 
 ## Introduction
 
 
-The `r Biocpkg("ggtree")` package [@yu_ggtree:_2017] provides programmable visualization and annotation of [phylogenetic trees](#chapter5) and [other tree-like structures](#chapter9). It supports visualizing tree data in multiple layers or with the tree side by side (see also [Chapter 7](#chapter7) and [@yu_two_2018]). Although `r Biocpkg("ggtree")` supports [many layouts](#tree-layouts), the `geom_facet()` layer only works with `rectangular`, `roundrect`, `ellipse` and `slanted` layouts to present tree data on different panels. There are no direct supports in `r Biocpkg("ggtree")` to present data on the outer rings of tree in `circular`, `fan` and `radial` layouts. To solve this issue, we developed the `r Biocpkg("ggtreeExtra")` package, which allows users to align associated graph layers in outer rings of circular layout tree. In addition, it also works with `rectangular` tree layout (Figure \@ref(fig:HMPplot2)). 
+The `r Biocpkg("ggtree")` package [@yu_ggtree:_2017] provides programmable visualization and annotation of [phylogenetic trees](#chapter5) and [other tree-like structures](#chapter9). It supports visualizing tree data in multiple layers or with the tree side by side (see also [Chapter 7](#chapter7) and [@yu_two_2018]). Although `r Biocpkg("ggtree")` supports [many layouts](#tree-layouts), the `geom_facet()` layer only works with `rectangular`, `roundrect`, `ellipse`, and `slanted` layouts to present tree data on different panels. There is no direct support in `r Biocpkg("ggtree")` to present data on the outer rings of a tree in `circular`, `fan`, and `radial` layouts. To solve this issue, we developed the `r Biocpkg("ggtreeExtra")` package, which allows users to align associated graph layers in outer rings of circular layout tree. In addition, it also works with a `rectangular` tree layout (Figure \@ref(fig:HMPplot2)). 
 
 
-## Aligning graphs to the tree based on tree structure {#geom-fruit1}
+## Aligning graphs to the tree based on a tree structure {#geom-fruit1}
 
-The `r Biocpkg("ggtreeExtra")` package provides a layer function, `geom_fruit()`, to align graphs with the tree side by side. Similar to the `geom_facet()` layout described in [Chapter 7](#chapter7), `geom_fruit()` internally re-order the input data based on the tree structure and visualizes the data using specified geometric layer function with user-provided aesthetic mapping and non-variable setting. The graph will be displayed on the outer ring of the tree. 
-
-
-The `geom_fruit()` is designed to work with most of `geom` layers defined in `r CRANpkg("ggplot2")` and its extensions. The position of the graph (*i.e.* on the outer ring) is controlled by the `position` parameter, which accepts a `Positioin` object. The default value of the `position` parameter is 'auto' and the `geom_fruit()` layer will guess and determine (hopefully) a suitable position for the specified geometric layer. That means using `position_stackx()` for `geom_bar()`, `position_dodgex()` for `geom_violin()` and `geom_boxplot()`, and `position_identityx()` for others (*e.g.* `geom_point()` and `geom_tile()` *etc.*). A geometric layer that has a `position` parameter should be compatible with `geom_fruit()`, as it allows using position functions defined in the `r Biocpkg("ggtreeExtra")` package to adjust output layer position. Besides, the `geom_fruit()` layer allows setting `axis` and background grid lines for the current layer using the `axis.params` and `grid.params` parameters respectively.
+The `r Biocpkg("ggtreeExtra")` package provides a layer function, `geom_fruit()`, to align graphs with the tree side by side. Similar to the `geom_facet()` layout described in [Chapter 7](#chapter7), `geom_fruit()` internally re-order the input data based on the tree structure and visualizes the data using a specified geometric layer function with user-provided aesthetic mapping and non-variable setting. The graph will be displayed on the outer ring of the tree. 
 
 
-The following example uses microbiome data provided in the `r Biocpkg("phyloseq")` package and boxplot is employed to visualize species abundance data. The `geom_fruit()` layer automatically re-arranges the abundance data according to the circular tree structure and visualizes the data using the specific `geom` function (*i.e.* `geom_boxplot()`). Visualizing this dataset using `geom_density_ridges()` with `geom_facet()` can be found in Fig. 1 of [@yu_two_2018].
+The `geom_fruit()` is designed to work with most `geom` layers defined in `r CRANpkg("ggplot2")` and its extensions. The position of the graph (*i.e.* on the outer ring) is controlled by the `position` parameter, which accepts a `Position` object. The default value of the `position` parameter is 'auto' and the `geom_fruit()` layer will guess and determine (hopefully) a suitable position for the specified geometric layer. That means using `position_stackx()` for `geom_bar()`, `position_dodgex()` for `geom_violin()` and `geom_boxplot()`, and `position_identityx()` for others (*e.g.* `geom_point()` and `geom_tile()`, *etc*). A geometric layer that has a `position` parameter should be compatible with `geom_fruit()`, as it allows using position functions defined in the `r Biocpkg("ggtreeExtra")` package to adjust output layer position. Besides, the `geom_fruit()` layer allows setting `axis` and background grid lines for the current layer using the `axis.params` and `grid.params` parameters respectively.
+
+
+The following example uses microbiome data provided in the `r Biocpkg("phyloseq")` package and a boxplot is employed to visualize species abundance data. The `geom_fruit()` layer automatically re-arranges the abundance data according to the circular tree structure and visualizes the data using the specific `geom` function (*i.e.* `geom_boxplot()`). Visualizing this dataset using `geom_density_ridges()` with `geom_facet()` can be found in Fig. 1 of [@yu_two_2018].
 
 
 (ref:psboxplotscap) Phylogenetic tree with OTU abundance distribution.
@@ -80,8 +80,8 @@ p <- p +
          guide=guide_legend(keywidth=0.8, keyheight=0.8, ncol=1)
      ) +
      theme(
-         legend.title=element_text(size=9), # The title of legend 
-         legend.text=element_text(size=7) # The label text of legend, the sizes should be adjust with dpi.
+         legend.title=element_text(size=9), 
+         legend.text=element_text(size=7) 
      )
 p
 ```
@@ -90,14 +90,14 @@ p
 
 ## Aligning multiple graphs to the tree for multi-dimensional data {#geom-fruit2}
 
-We are able to add multiple `geom_fruit()` layers to a tree and the circular layout is indeed more compact and efficient for multi-dimensional data. This example reproduces Fig.2 of [@morgan2013HMP]. The data is provided by GraPhlAn [@GraPhlAn], which contained the relative abundance of the microbiome at different body sites. This example demonstrates the abilities of adding multiple layers (heat map and bar plot) to present different types of data (Figure \@ref(fig:HMPplot)). 
+We are able to add multiple `geom_fruit()` layers to a tree and the circular layout is indeed more compact and efficient for multi-dimensional data. This example reproduces Fig.2 of [@morgan2013HMP]. The data is provided by GraPhlAn [@GraPhlAn], which contained the relative abundance of the microbiome at different body sites. This example demonstrates the ability to add multiple layers (heat map and bar plot) to present different types of data (Figure \@ref(fig:HMPplot)). 
 
 
-(ref:HMPscap) Presenting microbiome data (abundance and location) on phylogenetic tree.
+(ref:HMPscap) Presenting microbiome data (abundance and location) on a phylogenetic tree.
 
-(ref:HMPcap) **Presenting microbiome data (abundance and location) on phylogenetic tree.** The tree was annotated with symbolic points, highlighted clades and clade labels. Two `geom_fruit()` layers were used to visualize location and abundance information.
+(ref:HMPcap) **Presenting microbiome data (abundance and location) on a phylogenetic tree.** The tree was annotated with symbolic points, highlighted clades, and clade labels. Two `geom_fruit()` layers were used to visualize location and abundance information.
 
-```{r HMPplot, fig.width=7, fig.height=7,  warning=FALSE, message=FALSE, fig.cap="(ref:HMPcap)", fig.scap="(ref:HMPscap)", out.extra='', warning=FALSE, out.width="100%"}
+```{r HMPplot, dev='png', dpi=300, fig.width=7, fig.height=7,  warning=FALSE, message=FALSE, fig.cap="(ref:HMPcap)", fig.scap="(ref:HMPscap)", out.extra='', warning=FALSE, out.width="100%"}
 library(ggtreeExtra)
 library(ggtree)
 library(treeio)
@@ -105,24 +105,28 @@ library(tidytree)
 library(ggstar)
 library(ggplot2)
 library(ggnewscale)
+library(TDbook)
 
-tree <- read.tree("data/HMP_tree/hmptree.nwk")
-# the abundance and types of microbes
-dat1 <- read.csv("data/HMP_tree/tippoint_attr.csv")
-# the abundance of microbes at different body sites.
-dat2 <- read.csv("data/HMP_tree/ringheatmap_attr.csv")
-# the abundance of microbes at the body sites of greatest prevalence.
-dat3 <- read.csv("data/HMP_tree/barplot_attr.csv")
+# load data from TDbook, including tree_hmptree, 
+# df_tippoint (the abundance and types of microbes),
+# df_ring_heatmap (the abundance of microbes at different body sites),
+# and df_barplot_attr (the abundance of microbes of greatest prevalence)
+tree <- tree_hmptree
+dat1 <- df_tippoint
+dat2 <- df_ring_heatmap
+dat3 <- df_barplot_attr
 
 # adjust the order
-dat2$Sites <- factor(dat2$Sites, levels=c("Stool (prevalence)", "Cheek (prevalence)",
-                                          "Plaque (prevalence)","Tongue (prevalence)",
-                                          "Nose (prevalence)", "Vagina (prevalence)",
-                                          "Skin (prevalence)"))
-dat3$Sites <- factor(dat3$Sites, levels=c("Stool (prevalence)", "Cheek (prevalence)",
-                                          "Plaque (prevalence)", "Tongue (prevalence)",
-                                          "Nose (prevalence)", "Vagina (prevalence)",
-                                          "Skin (prevalence)"))
+dat2$Sites <- factor(dat2$Sites, 
+                    levels=c("Stool (prevalence)", "Cheek (prevalence)",
+                             "Plaque (prevalence)","Tongue (prevalence)",
+                             "Nose (prevalence)", "Vagina (prevalence)",
+                             "Skin (prevalence)"))
+dat3$Sites <- factor(dat3$Sites, 
+                    levels=c("Stool (prevalence)", "Cheek (prevalence)",
+                             "Plaque (prevalence)", "Tongue (prevalence)",
+                             "Nose (prevalence)", "Vagina (prevalence)",
+                             "Skin (prevalence)"))
 # extract the clade label information. Because some nodes of tree are annotated to genera,
 # which can be displayed with high light using ggtree.
 nodeids <- nodeid(tree, tree$node.label[nchar(tree$node.label)>4])
@@ -154,34 +158,40 @@ p <- ggtree(tree, layout="fan", size=0.15, open.angle=5) +
 p <- p %<+% dat1 + geom_star(
                         mapping=aes(fill=Phylum, starshape=Type, size=Size),
                         position="identity",starstroke=0.1) +
-         scale_fill_manual(values=c("#FFC125","#87CEFA","#7B68EE","#808080","#800080",
-                                    "#9ACD32","#D15FEE","#FFC0CB","#EE6A50","#8DEEEE",
-                                    "#006400","#800000","#B0171F","#191970"),
-                           guide=guide_legend(keywidth = 0.5, keyheight = 0.5, order=1,
-                                              override.aes=list(starshape=15)),
+        scale_fill_manual(values=c("#FFC125","#87CEFA","#7B68EE","#808080",
+                                "#800080", "#9ACD32","#D15FEE","#FFC0CB",
+                                "#EE6A50","#8DEEEE", "#006400","#800000",
+                                "#B0171F","#191970"),
+                           guide=guide_legend(keywidth = 0.5, 
+                                        keyheight = 0.5, order=1,
+                                        override.aes=list(starshape=15)),
                            na.translate=FALSE)+
-         scale_starshape_manual(values=c(15, 1),
-                                guide=guide_legend(keywidth = 0.5, keyheight = 0.5, order=2),
-                                na.translate=FALSE)+
-         scale_size_continuous(range = c(1, 2.5),
-                               guide = guide_legend(keywidth = 0.5, keyheight = 0.5, order=3,
-                                                    override.aes=list(starshape=15)))
+        scale_starshape_manual(values=c(15, 1),
+                           guide=guide_legend(keywidth = 0.5, 
+                                        keyheight = 0.5, order=2),
+                           na.translate=FALSE)+
+        scale_size_continuous(range = c(1, 2.5),
+                           guide = guide_legend(keywidth = 0.5, 
+                                        keyheight = 0.5, order=3,
+                                        override.aes=list(starshape=15)))
                                                     
 p <- p + new_scale_fill() +
          geom_fruit(data=dat2, geom=geom_tile,
-                    mapping=aes(y=ID, x=Sites, alpha=Abundance, fill=Sites),
-                    color = "grey50", offset = 0.04,size = 0.02)+
+                  mapping=aes(y=ID, x=Sites, alpha=Abundance, fill=Sites),
+                  color = "grey50", offset = 0.04,size = 0.02)+
          scale_alpha_continuous(range=c(0, 1),
-                             guide=guide_legend(keywidth = 0.3, keyheight = 0.3, order=5)) +
+                             guide=guide_legend(keywidth = 0.3, 
+                                             keyheight = 0.3, order=5)) +
          geom_fruit(data=dat3, geom=geom_bar,
                     mapping=aes(y=ID, x=HigherAbundance, fill=Sites),
                     pwidth=0.38, 
                     orientation="y", 
                     stat="identity",
          ) +
-         scale_fill_manual(values=c("#0000FF","#FFA500","#FF0000","#800000",
-                                    "#006400","#800080","#696969"),
-                           guide=guide_legend(keywidth = 0.3, keyheight = 0.3, order=4))+
+         scale_fill_manual(values=c("#0000FF","#FFA500","#FF0000",
+                                "#800000", "#006400","#800080","#696969"),
+                           guide=guide_legend(keywidth = 0.3, 
+                                        keyheight = 0.3, order=4))+
          geom_treescale(fontsize=2, linesize=0.3, x=4.9, y=0.1) +
          theme(legend.position=c(0.93, 0.5),
                legend.background=element_rect(fill=NA),
@@ -192,16 +202,16 @@ p <- p + new_scale_fill() +
 p
 ```
 
-The shape of the tip points indicates the types of microbes (commensal microbes or potential pathogens). The transparency of the heatmap indicates the abundance of the microbes, and the colours of the heatmap indicate different sites of the human body. The bar plot indicates the relative abundance of the most prevalent species at the body sites. The node labels contain taxonomy information in this example, and the information was used to highlight and label corresponding clades using `geom_hilight()` and `geom_cladelab()` respectively.
+The shape of the tip points indicates the types of microbes (commensal microbes or potential pathogens). The transparency of the heatmap indicates the abundance of the microbes, and the colors of the heatmap indicate different sites of the human body. The bar plot indicates the relative abundance of the most prevalent species at the body sites. The node labels contain taxonomy information in this example, and the information was used to highlight and label corresponding clades using `geom_hilight()` and `geom_cladelab()` respectively.
 
 
-The `geom_fruit()` layer supports rectangular layout. Users can either add a `geom_fruit()` layer to a rectangular tree (e.g. `ggtree(tree_object) + geom_fruit(...)`) or using `layout_rectangular()` to transform a circular layout tree to a rectangular layout tree as demonstrated in Figure \@ref(fig:HMPplot2).
+The `geom_fruit()` layer supports rectangular layout. Users can either add a `geom_fruit()` layer to a rectangular tree (e.g. `ggtree(tree_object) + geom_fruit(...)`) or use `layout_rectangular()` to transform a circular layout tree to a rectangular layout tree as demonstrated in Figure \@ref(fig:HMPplot2).
 
 (ref:HMP2scap) Illustration of using `geom_fruit()` in rectangular tree layout.
 
-(ref:HMP2cap) **Illustration of using `geom_fruit()` in rectangular tree layout.** 
+(ref:HMP2cap) **Illustration of using `geom_fruit()` in rectangular tree layout.** The figure was produced by transforming Figure \@ref(fig:HMPplot) using the rectangular layout. Transforming a rectangular layout tree to a circular layout tree is also supported.
 
-```{r HMPplot2, fig.width=7, fig.height=7, warning=FALSE, message=FALSE, fig.cap="(ref:HMP2cap)", fig.scap="(ref:HMP2scap)", out.extra='', warning=FALSE, out.width="100%"}
+```{r HMPplot2, dev='png', dpi=300, fig.width=7, fig.height=7, warning=FALSE, message=FALSE, fig.cap="(ref:HMP2cap)", fig.scap="(ref:HMP2scap)", out.extra='', warning=FALSE, out.width="100%"}
 p + layout_rectangular() + 
     theme(legend.position=c(.05, .7))
 ```
@@ -209,12 +219,12 @@ p + layout_rectangular() +
 
 ## Examples for population genetics
 
-The `r Biocpkg("ggtree")` [@yu_ggtree:_2017] and `r Biocpkg("ggtreeExtra")` packages are designed as general tools and can be applied to many research fields, such as infectious disease epidemiology, metagenome, population genetics, evolutionary biology and ecology. We have introduced examples for metagenome research (Figure \@ref(fig:psbox) and Figure \@ref(fig:HMPplot)). In this session, we present examples for population genetics by reproducing Fig. 4 of [@Chowe:_2020] and Fig 1 of [@RN46:_2015]. 
+The `r Biocpkg("ggtree")` [@yu_ggtree:_2017] and `r Biocpkg("ggtreeExtra")` packages are designed as general tools and can be applied to many research fields, such as infectious disease epidemiology, metagenome, population genetics, evolutionary biology, and ecology. We have introduced examples for metagenome research (Figure \@ref(fig:psbox) and Figure \@ref(fig:HMPplot)). In this session, we present examples for population genetics by reproducing Fig. 4 of [@Chowe:_2020] and Fig 1 of [@RN46:_2015]. 
 
 
-(ref:Cauriscap) Antifungal susceptibility and point mutations in drug targets in Candida auris.
+(ref:Cauriscap) Antifungal susceptibility and point mutations in drug targets in Candida Auris.
 
-(ref:Cauricap) **Antifungal susceptibility and point mutations in drug targets in *Candida auris* **.
+(ref:Cauricap) **Antifungal susceptibility and point mutations in drug targets in *Candida Auris* **.
 
 (ref:Styphiscap) Population structure of the 1,832 S. Typhi isolates.
 
@@ -225,12 +235,15 @@ library(ggtree)
 library(ggtreeExtra)
 library(ggplot2)
 library(ggnewscale)
+library(reshape2)
 library(dplyr)
 library(tidytree)
 library(ggstar)
+library(TDbook)
 
-dat <- read.csv("data/microreact/Candida_auris/microreact-project-Candidaauris-data.csv")
-tr <- read.tree("data/microreact/Candida_auris/microreact-project-Candidaauris-tree.nwk")
+# load tr and dat from the TDbook package 
+dat <- df_Candidaauris_data
+tr <- tree_Candidaauris
 
 countries <- c("Canada", "United States",
                "Colombia", "Panama",
@@ -249,10 +262,9 @@ COUNTRYcolors <- dat1[match(countries,dat$COUNTRY),"COUNTRY__colour"]
 
 # For the heatmap layer
 dat2 <- dat %>% select(c("ID", "FCZ", "AMB", "MCF"))
-dat2 <- reshape2::melt(dat2,id="ID", variable.name="Antifungal", value.name="type")
+dat2 <- melt(dat2,id="ID", variable.name="Antifungal", value.name="type")
 dat2$type <- paste(dat2$Antifungal, dat2$type)
-dat2$type <- unlist(lapply(dat2$type,
-                           function(x)ifelse(grepl("Not_", x), "Susceptible", x)))
+dat2$type[grepl("Not_", dat2$type)] = "Susceptible"
 dat2$Antifungal <- factor(dat2$Antifungal, levels=c("FCZ", "AMB", "MCF"))
 dat2$type <- factor(dat2$type,
                     levels=c("FCZ Resistant",
@@ -262,11 +274,12 @@ dat2$type <- factor(dat2$type,
 
 # For the points layer
 dat3 <- dat %>% select(c("ID", "ERG11", "FKS1")) %>%
-        reshape2::melt(id="ID", variable.name="point", value.name="mutation")
+        melt(id="ID", variable.name="point", value.name="mutation")
 dat3$mutation <- paste(dat3$point, dat3$mutation)
-dat3$mutation <- unlist(lapply(dat3$mutation, function(x)ifelse(grepl("WT",x), NA,x)))
-dat3$mutation <- factor(dat3$mutation, levels=c("ERG11 Y132F", "ERG11 K143R",
-                                                "ERG11 F126L", "FKS1 S639Y/P/F"))
+dat3$mutation[grepl("WT", dat3$mutation)] <- NA
+dat3$mutation <- factor(dat3$mutation, 
+                        levels=c("ERG11 Y132F", "ERG11 K143R",
+                                 "ERG11 F126L", "FKS1 S639Y/P/F"))
 
 # For the clade group
 dat4 <- dat %>% select(c("ID", "CLADE"))
@@ -353,11 +366,12 @@ p3 <- p2 +
           name="Point mutations",
           values=c("#329901", "#0600FF", "#FF0100", "#9900CC"),
           guide=guide_legend(keywidth=0.5, keyheight=0.5, order=4,
-                             override.aes=list(starshape=c("ERG11 Y132F"=15,
-                                                           "ERG11 K143R"=15,
-                                                           "ERG11 F126L"=15,
-                                                           "FKS1 S639Y/P/F"=1),
-                                               size=2)
+                             override.aes=list(
+                                    starshape=c("ERG11 Y132F"=15,
+                                                "ERG11 K143R"=15,
+                                                "ERG11 F126L"=15,
+                                                "FKS1 S639Y/P/F"=1),
+                                    size=2)
                             ),
           na.translate=FALSE,
       ) +
@@ -367,14 +381,14 @@ p3 <- p2 +
       ) +
       theme(
           legend.background=element_rect(fill=NA),
-          legend.title=element_text(size=7), # The size should be adjusted with different devout.
+          legend.title=element_text(size=7), 
           legend.text=element_text(size=5.5),
           legend.spacing.y = unit(0.02, "cm")
       )
 p3
 ```
 
-In this example, the phylogenetic tree is annotated with different colours to display different clades. The external heatmaps present the susceptibility to fluconazole (FCZ), amphotericin B (AMB) and micafungin (MCF). The external points display the point mutations in lanosterol 14-alpha-demethylase ERG11 (Y132F, K143R, and F126L) and beta-1,3-D-glucan synthase FKS1 (S639Y/P/F) associated with resistance [@Chowe:_2020].
+In this example, the phylogenetic tree is annotated with different colors to display different clades. The external heatmaps present the susceptibility to fluconazole (FCZ), amphotericin B (AMB), and micafungin (MCF). The external points display the point mutations in lanosterol 14-alpha-demethylase ERG11 (Y132F, K143R, and F126L) and beta-1,3-D-glucan synthase FKS1 (S639Y/P/F) associated with resistance [@Chowe:_2020].
 
 ```{r Styphiplot, fig.width=7, fig.height=7, warning=FALSE, message=FALSE, fig.cap="(ref:Styphicap)", fig.scap="(ref:Styphiscap)", out.extra='', warning=FALSE, out.width="100%"}
 library(ggtreeExtra)
@@ -385,14 +399,15 @@ library(treeio)
 library(tidytree)
 library(dplyr)
 library(ggstar)
+library(TDbook)
 
-tr <- read.tree("data/microreact/Salmonella_Typhi/microreact-project-NJIDqgsS-tree.nwk")
-
-metada <- read.csv("data/microreact/Salmonella_Typhi/microreact-project-NJIDqgsS-data.csv")
-
+# load tree_NJIDqgsS and df_NJIDqgsS from TDbook
+tr <- tree_NJIDqgsS
+metada <- df_NJIDqgsS
 metadata <- metada %>%
-            select(c("id", "country", "country__colour", "year", "year__colour", "haplotype"))
-metadata$haplotype <- unlist(lapply(metadata$haplotype, function(x)ifelse(nchar(x)>0,x,NA)))
+            select(c("id", "country", "country__colour", 
+                    "year", "year__colour", "haplotype"))
+metadata$haplotype[nchar(metadata$haplotype) == 0] <- NA
 
 countrycolors <- metada %>%
                  select(c("country", "country__colour")) %>%
@@ -467,14 +482,14 @@ p3 <-p2 +
          guide=guide_legend(keywidth=0.3, keyheight=0.3, ncol=2, order=2)
      ) +
      theme(
-           legend.title=element_text(size=6), # The size should be adjusted with the different devout.
+           legend.title=element_text(size=6), 
            legend.text=element_text(size=4.5),
            legend.spacing.y = unit(0.02, "cm")
            )
 p3
 ```
 
-This is a rooted maximum-likelihood tree of *S. Typhi* inferred from 22,145 SNPs [@RN46:_2015], the colours of the tip points represent the geographical origin of the isolates, and the red symbolic points indicate the haplotype of H58 lineage. The colour of the external heatmap indicates the years of isolation [@RN46:_2015].
+This is a rooted maximum-likelihood tree of *S. Typhi* inferred from 22,145 SNPs [@RN46:_2015], the colors of the tip points represent the geographical origin of the isolates, and the red symbolic points indicate the haplotype of H58 lineage. The color of the external heatmap indicates the years of isolation [@RN46:_2015].
 
 
 ## Summary {#summary10}
@@ -491,8 +506,7 @@ such as `geom_star` in `r CRANpkg("ggstar")`, which provides the regular polygon
 
 -->
 
-
-Both `geom_facet()` and `geom_fruit()` are becoming more powerful to present data with trees as more geometric layers will be implemented by the `r CRANpkg("ggplot2")` community.
+Compared to `geom_facet()`, `geom_fruit()` layer provided in `r Biocpkg("ggtreeExtra")` is a better implementation of Method 2 proposed by [@yu_two_2018]. The `geom_facet()` and `geom_fruit()` have the same design philosophy and have a similar user interface. They rely on other geometric layers to visualize the tree-associated data. These dependent layers are provided by `r CRANpkg("ggplot2")` and its extension packages, including `r Biocpkg("ggtree")`. As more and more layers are implemented by the `r CRANpkg("ggplot2")` community, the types of data and graphics that `geom_facet()` and `geom_fruit()` can present will also increase.
 
 
 
