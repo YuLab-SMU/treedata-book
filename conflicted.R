@@ -1,4 +1,5 @@
-library(conflicted)
+pacman::p_load(conflicted)
+
 conflict_prefer("expand", "ggtree")
 conflict_prefer("mask", "treeio")
 conflict_prefer("parent", "treeio")

@@ -80,8 +80,8 @@ p <- p +
          guide=guide_legend(keywidth=0.8, keyheight=0.8, ncol=1)
      ) +
      theme(
-         legend.title=element_text(size=9), # The title of legend 
-         legend.text=element_text(size=7) # The label text of legend, the sizes should be adjust with dpi.
+         legend.title=element_text(size=9), 
+         legend.text=element_text(size=7) 
      )
 p
 ```
@@ -97,7 +97,7 @@ We are able to add multiple `geom_fruit()` layers to a tree and the circular lay
 
 (ref:HMPcap) **Presenting microbiome data (abundance and location) on a phylogenetic tree.** The tree was annotated with symbolic points, highlighted clades, and clade labels. Two `geom_fruit()` layers were used to visualize location and abundance information.
 
-```{r HMPplot, fig.width=7, fig.height=7,  warning=FALSE, message=FALSE, fig.cap="(ref:HMPcap)", fig.scap="(ref:HMPscap)", out.extra='', warning=FALSE, out.width="100%"}
+```{r HMPplot, dev='png', dpi=300, fig.width=7, fig.height=7,  warning=FALSE, message=FALSE, fig.cap="(ref:HMPcap)", fig.scap="(ref:HMPscap)", out.extra='', warning=FALSE, out.width="100%"}
 library(ggtreeExtra)
 library(ggtree)
 library(treeio)
@@ -110,21 +110,23 @@ library(TDbook)
 # load data from TDbook, including tree_hmptree, 
 # df_tippoint (the abundance and types of microbes),
 # df_ring_heatmap (the abundance of microbes at different body sites),
-# and df_barplot_attr (the abundance of microbes of greatest prevalence at the body sites)
+# and df_barplot_attr (the abundance of microbes of greatest prevalence)
 tree <- tree_hmptree
 dat1 <- df_tippoint
 dat2 <- df_ring_heatmap
 dat3 <- df_barplot_attr
 
 # adjust the order
-dat2$Sites <- factor(dat2$Sites, levels=c("Stool (prevalence)", "Cheek (prevalence)",
-                                          "Plaque (prevalence)","Tongue (prevalence)",
-                                          "Nose (prevalence)", "Vagina (prevalence)",
-                                          "Skin (prevalence)"))
-dat3$Sites <- factor(dat3$Sites, levels=c("Stool (prevalence)", "Cheek (prevalence)",
-                                          "Plaque (prevalence)", "Tongue (prevalence)",
-                                          "Nose (prevalence)", "Vagina (prevalence)",
-                                          "Skin (prevalence)"))
+dat2$Sites <- factor(dat2$Sites, 
+                    levels=c("Stool (prevalence)", "Cheek (prevalence)",
+                             "Plaque (prevalence)","Tongue (prevalence)",
+                             "Nose (prevalence)", "Vagina (prevalence)",
+                             "Skin (prevalence)"))
+dat3$Sites <- factor(dat3$Sites, 
+                    levels=c("Stool (prevalence)", "Cheek (prevalence)",
+                             "Plaque (prevalence)", "Tongue (prevalence)",
+                             "Nose (prevalence)", "Vagina (prevalence)",
+                             "Skin (prevalence)"))
 # extract the clade label information. Because some nodes of tree are annotated to genera,
 # which can be displayed with high light using ggtree.
 nodeids <- nodeid(tree, tree$node.label[nchar(tree$node.label)>4])
@@ -156,34 +158,40 @@ p <- ggtree(tree, layout="fan", size=0.15, open.angle=5) +
 p <- p %<+% dat1 + geom_star(
                         mapping=aes(fill=Phylum, starshape=Type, size=Size),
                         position="identity",starstroke=0.1) +
-         scale_fill_manual(values=c("#FFC125","#87CEFA","#7B68EE","#808080","#800080",
-                                    "#9ACD32","#D15FEE","#FFC0CB","#EE6A50","#8DEEEE",
-                                    "#006400","#800000","#B0171F","#191970"),
-                           guide=guide_legend(keywidth = 0.5, keyheight = 0.5, order=1,
-                                              override.aes=list(starshape=15)),
+        scale_fill_manual(values=c("#FFC125","#87CEFA","#7B68EE","#808080",
+                                "#800080", "#9ACD32","#D15FEE","#FFC0CB",
+                                "#EE6A50","#8DEEEE", "#006400","#800000",
+                                "#B0171F","#191970"),
+                           guide=guide_legend(keywidth = 0.5, 
+                                        keyheight = 0.5, order=1,
+                                        override.aes=list(starshape=15)),
                            na.translate=FALSE)+
-         scale_starshape_manual(values=c(15, 1),
-                                guide=guide_legend(keywidth = 0.5, keyheight = 0.5, order=2),
-                                na.translate=FALSE)+
-         scale_size_continuous(range = c(1, 2.5),
-                               guide = guide_legend(keywidth = 0.5, keyheight = 0.5, order=3,
-                                                    override.aes=list(starshape=15)))
+        scale_starshape_manual(values=c(15, 1),
+                           guide=guide_legend(keywidth = 0.5, 
+                                        keyheight = 0.5, order=2),
+                           na.translate=FALSE)+
+        scale_size_continuous(range = c(1, 2.5),
+                           guide = guide_legend(keywidth = 0.5, 
+                                        keyheight = 0.5, order=3,
+                                        override.aes=list(starshape=15)))
                                                     
 p <- p + new_scale_fill() +
          geom_fruit(data=dat2, geom=geom_tile,
-                    mapping=aes(y=ID, x=Sites, alpha=Abundance, fill=Sites),
-                    color = "grey50", offset = 0.04,size = 0.02)+
+                  mapping=aes(y=ID, x=Sites, alpha=Abundance, fill=Sites),
+                  color = "grey50", offset = 0.04,size = 0.02)+
          scale_alpha_continuous(range=c(0, 1),
-                             guide=guide_legend(keywidth = 0.3, keyheight = 0.3, order=5)) +
+                             guide=guide_legend(keywidth = 0.3, 
+                                             keyheight = 0.3, order=5)) +
          geom_fruit(data=dat3, geom=geom_bar,
                     mapping=aes(y=ID, x=HigherAbundance, fill=Sites),
                     pwidth=0.38, 
                     orientation="y", 
                     stat="identity",
          ) +
-         scale_fill_manual(values=c("#0000FF","#FFA500","#FF0000","#800000",
-                                    "#006400","#800080","#696969"),
-                           guide=guide_legend(keywidth = 0.3, keyheight = 0.3, order=4))+
+         scale_fill_manual(values=c("#0000FF","#FFA500","#FF0000",
+                                "#800000", "#006400","#800080","#696969"),
+                           guide=guide_legend(keywidth = 0.3, 
+                                        keyheight = 0.3, order=4))+
          geom_treescale(fontsize=2, linesize=0.3, x=4.9, y=0.1) +
          theme(legend.position=c(0.93, 0.5),
                legend.background=element_rect(fill=NA),
@@ -203,7 +211,7 @@ The `geom_fruit()` layer supports rectangular layout. Users can either add a `ge
 
 (ref:HMP2cap) **Illustration of using `geom_fruit()` in rectangular tree layout.** The figure was produced by transforming Figure \@ref(fig:HMPplot) using the rectangular layout. Transforming a rectangular layout tree to a circular layout tree is also supported.
 
-```{r HMPplot2, fig.width=7, fig.height=7, warning=FALSE, message=FALSE, fig.cap="(ref:HMP2cap)", fig.scap="(ref:HMP2scap)", out.extra='', warning=FALSE, out.width="100%"}
+```{r HMPplot2, dev='png', dpi=300, fig.width=7, fig.height=7, warning=FALSE, message=FALSE, fig.cap="(ref:HMP2cap)", fig.scap="(ref:HMP2scap)", out.extra='', warning=FALSE, out.width="100%"}
 p + layout_rectangular() + 
     theme(legend.position=c(.05, .7))
 ```
@@ -227,6 +235,7 @@ library(ggtree)
 library(ggtreeExtra)
 library(ggplot2)
 library(ggnewscale)
+library(reshape2)
 library(dplyr)
 library(tidytree)
 library(ggstar)
@@ -253,10 +262,9 @@ COUNTRYcolors <- dat1[match(countries,dat$COUNTRY),"COUNTRY__colour"]
 
 # For the heatmap layer
 dat2 <- dat %>% select(c("ID", "FCZ", "AMB", "MCF"))
-dat2 <- reshape2::melt(dat2,id="ID", variable.name="Antifungal", value.name="type")
+dat2 <- melt(dat2,id="ID", variable.name="Antifungal", value.name="type")
 dat2$type <- paste(dat2$Antifungal, dat2$type)
-dat2$type <- unlist(lapply(dat2$type,
-                           function(x)ifelse(grepl("Not_", x), "Susceptible", x)))
+dat2$type[grepl("Not_", dat2$type)] = "Susceptible"
 dat2$Antifungal <- factor(dat2$Antifungal, levels=c("FCZ", "AMB", "MCF"))
 dat2$type <- factor(dat2$type,
                     levels=c("FCZ Resistant",
@@ -266,11 +274,12 @@ dat2$type <- factor(dat2$type,
 
 # For the points layer
 dat3 <- dat %>% select(c("ID", "ERG11", "FKS1")) %>%
-        reshape2::melt(id="ID", variable.name="point", value.name="mutation")
+        melt(id="ID", variable.name="point", value.name="mutation")
 dat3$mutation <- paste(dat3$point, dat3$mutation)
-dat3$mutation <- unlist(lapply(dat3$mutation, function(x)ifelse(grepl("WT",x), NA,x)))
-dat3$mutation <- factor(dat3$mutation, levels=c("ERG11 Y132F", "ERG11 K143R",
-                                                "ERG11 F126L", "FKS1 S639Y/P/F"))
+dat3$mutation[grepl("WT", dat3$mutation)] <- NA
+dat3$mutation <- factor(dat3$mutation, 
+                        levels=c("ERG11 Y132F", "ERG11 K143R",
+                                 "ERG11 F126L", "FKS1 S639Y/P/F"))
 
 # For the clade group
 dat4 <- dat %>% select(c("ID", "CLADE"))
@@ -357,11 +366,12 @@ p3 <- p2 +
           name="Point mutations",
           values=c("#329901", "#0600FF", "#FF0100", "#9900CC"),
           guide=guide_legend(keywidth=0.5, keyheight=0.5, order=4,
-                             override.aes=list(starshape=c("ERG11 Y132F"=15,
-                                                           "ERG11 K143R"=15,
-                                                           "ERG11 F126L"=15,
-                                                           "FKS1 S639Y/P/F"=1),
-                                               size=2)
+                             override.aes=list(
+                                    starshape=c("ERG11 Y132F"=15,
+                                                "ERG11 K143R"=15,
+                                                "ERG11 F126L"=15,
+                                                "FKS1 S639Y/P/F"=1),
+                                    size=2)
                             ),
           na.translate=FALSE,
       ) +
@@ -371,7 +381,7 @@ p3 <- p2 +
       ) +
       theme(
           legend.background=element_rect(fill=NA),
-          legend.title=element_text(size=7), # The size should be adjusted with different devout.
+          legend.title=element_text(size=7), 
           legend.text=element_text(size=5.5),
           legend.spacing.y = unit(0.02, "cm")
       )
@@ -395,8 +405,9 @@ library(TDbook)
 tr <- tree_NJIDqgsS
 metada <- df_NJIDqgsS
 metadata <- metada %>%
-            select(c("id", "country", "country__colour", "year", "year__colour", "haplotype"))
-metadata$haplotype <- unlist(lapply(metadata$haplotype, function(x)ifelse(nchar(x)>0,x,NA)))
+            select(c("id", "country", "country__colour", 
+                    "year", "year__colour", "haplotype"))
+metadata$haplotype[nchar(metadata$haplotype) == 0] <- NA
 
 countrycolors <- metada %>%
                  select(c("country", "country__colour")) %>%
@@ -471,7 +482,7 @@ p3 <-p2 +
          guide=guide_legend(keywidth=0.3, keyheight=0.3, ncol=2, order=2)
      ) +
      theme(
-           legend.title=element_text(size=6), # The size should be adjusted with the different devout.
+           legend.title=element_text(size=6), 
            legend.text=element_text(size=4.5),
            legend.spacing.y = unit(0.02, "cm")
            )

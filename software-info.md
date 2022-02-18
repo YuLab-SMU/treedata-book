@@ -7,18 +7,18 @@ follows:
 R.version.string
 ```
 
-    ## [1] "R version 4.1.1 (2021-08-10)"
+    ## [1] "R version 4.1.2 (2021-11-01)"
 
 ``` r
 library(treedataverse)
 ```
 
-    ## ── Attaching packages ─── treedataverse 0.0.1 ──
+    ##  Attaching packages  treedataverse 0.0.1 
 
-    ## ✔ ape         5.5        ✔ treeio      1.18.0
-    ## ✔ dplyr       1.0.7      ✔ ggtree      3.2.0 
-    ## ✔ ggplot2     3.3.5      ✔ ggtreeExtra 1.4.0 
-    ## ✔ tidytree    0.3.6
+    ##  ape         5.5            treeio      1.18.1   
+    ##  dplyr       1.0.7          ggtree      3.2.1
+    ##  ggplot2     3.3.5          ggtreeExtra 1.4.1    
+    ##  tidytree    0.3.6
 
 The [**treedataverse**](https://github.com/YuLab-SMU/treedataverse) is a
 meta package to make it easy to install and load core packages for
@@ -44,4 +44,4 @@ CRAN and can be installed using `install.packages("TDbook")`.
 Package names in this book are formated as bold text (*e.g.*,
 [**ggtree**](http://bioconductor.org/packages/ggtree)), and function
 names are followed by parentheses (*e.g.*, `treeio::read.beast()`). The
-doulbe-colon operator (`::`) means accessing an object from a package.
+double-colon operator (`::`) means accessing an object from a package.
