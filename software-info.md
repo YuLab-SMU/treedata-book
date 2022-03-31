@@ -41,7 +41,7 @@ citation if the information is available. The
 [**TDbook**](https://CRAN.R-project.org/package=TDbook) is available on
 CRAN and can be installed using `install.packages("TDbook")`.
 
-Package names in this book are formated as bold text (*e.g.*,
+Package names in this book are formatted as bold text (*e.g.*,
 [**ggtree**](http://bioconductor.org/packages/ggtree)), and function
 names are followed by parentheses (*e.g.*, `treeio::read.beast()`). The
 double-colon operator (`::`) means accessing an object from a package.
