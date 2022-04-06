@@ -1,3 +1,10 @@
+
+pdfbook:
+	sed -i 's/gh-pages/pdf/g' _bookdown.yml;\
+	sed -i 's/colorlinks: true/colorlinks: false/g' index.Rmd;\
+	Rscript -e 'library(bookdown); render_book("index.Rmd", pdf_book(keep_tex=TRUE))'
+
+
 bs4:
 	rm -rf gh-pages/libs;\
 	sed -i 's/pdf/gh-pages/g' _bookdown.yml;\
@@ -13,10 +20,6 @@ gitbook:
 ##pdf:
 ##	pagedjs-cli ./gh-pages/index.html -o treedata-book.pdf
 
-pdfbook:
-	sed -i 's/gh-pages/pdf/g' _bookdown.yml;\
-	sed -i 's/colorlinks: true/colorlinks: false/g' index.Rmd;\
-	Rscript -e 'library(bookdown); render_book("index.Rmd", pdf_book(keep_tex=TRUE))'
 
 latex:
 	Rscript -e 'rmarkdown::pandoc_convert("treedata.knit.md", to = "latex", output = "treedata.tex", options = "--standalone")'
