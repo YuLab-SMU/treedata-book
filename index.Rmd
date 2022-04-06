@@ -1,24 +1,25 @@
 ---
-title: 'Data Integration, Manipulation and Visualization of Phylogenetic Trees'
+title: 'Data Integration, Manipulation and Visualization of Phylogenetic Trees with R'
 author: Guangchuang Yu
 date: "`r Sys.Date()`"
 knit: "bookdown::render_book"
 site: bookdown::bookdown_site
+documentclass: krantz
 output:
   bookdown::bs4_book:
   bookdown::pdf_book: 
     dev: "cairo_pdf"
     latex_engine: xelatex
-    keep_tex: yes
+    keep_tex: true
+    keep_md: true
     number_sections: true
 bibliography: references.bib
-biblio-style: apalike
+csl: apa.csl
 always_allow_html: yes
 toc_appendix: yes
 toc-depth: 2
 link-citations: yes
 colorlinks: false
-documentclass: krantz
 language:
   ui:
     chapter_name: "Chapter "
@@ -46,6 +47,7 @@ options(
   htmltools.dir.version = FALSE, formatR.indent = 2, width = 55, digits = 4
 )
 
+options(tinytex.clean = FALSE)
 
 ## manual setting. the ropenscilabs/icons package will set up everything for you.
 ## fontawesome supports
@@ -80,7 +82,7 @@ if (knitr::is_latex_output()) {
 -->
 
 \newpage
-
+\frontmatter
 # Preface {-}
 
 I am so excited to have this book published. The book is meant as a guide for data integration, manipulation and visualization of phylogenetic trees using a suite of R packages, `r CRANpkg("tidytree")`, `r Biocpkg("treeio")`, `r Biocpkg("ggtree")` and `r Biocpkg("ggtreeExtra")`. Hence, if you are starting to read this book, we assume you have a working knowledge of how to use R and `r CRANpkg("ggplot2")`. 
@@ -90,7 +92,7 @@ The development of the `r Biocpkg("ggtree")` package started during my PhD study
 After several years of development, `r Biocpkg("ggtree")` has evolved into a package suite, including `r CRANpkg("tidytree")` for manipulating tree with data using the tidy interface; `r Biocpkg("treeio")` for importing and exporting tree with richly annotated data; `r Biocpkg("ggtree")` for tree visualization and annotation and `r Biocpkg("ggtreeExtra")` for presenting data with a phylogeny side-by-side for a rectangular layout or in outer rings for a circular layout. The `r Biocpkg("ggtree")` is a general tool that supports different types of tree and tree-like structures and can be applied to different disciplines to help researchers presenting and interpreting data in the evolutionary or hierarchical context. 
 
 
-## Structure of the book
+## Structure of the book {-}
 
 
 + Part I (Tree data input, output and manipulation) describes `r Biocpkg("treeio")` package for tree data input and output, and `r CRANpkg("tidytree")` package for tree data manipulation.

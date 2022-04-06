@@ -1,4 +1,4 @@
-## Software information and conventions
+## Software information and conventions {-}
 
 The R and core packages information when compiling this book is as
 follows:

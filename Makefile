@@ -16,8 +16,11 @@ gitbook:
 pdfbook:
 	sed -i 's/gh-pages/pdf/g' _bookdown.yml;\
 	sed -i 's/colorlinks: true/colorlinks: false/g' index.Rmd;\
-	Rscript -e 'library(bookdown); render_book("index.Rmd", "pdf_book")'
+	Rscript -e 'library(bookdown); render_book("index.Rmd", pdf_book(keep_tex=TRUE))'
 
+latex:
+	Rscript -e 'rmarkdown::pandoc_convert("treedata.knit.md", to = "latex", output = "treedata.tex", options = "--standalone")'
+	
 epub:
 	Rscript -e 'library(bookdown); render_book("index.Rmd", "epub_book")'
 
