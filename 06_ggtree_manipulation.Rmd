@@ -1,6 +1,6 @@
 \newpage
 
-# Visual Exploration of Phylogenetic Tree {#chapter6}
+# Visual Exploration of Phylogenetic Trees {#chapter6}
 
 
 ```{r include=FALSE}
@@ -19,19 +19,19 @@ The `r Biocpkg("ggtree")` [@yu_ggtree:_2017] supports many ways of manipulating 
 
 ```{r treeman, echo=FALSE, out.extra='', message=FALSE}
 treeman <- matrix(c(
-  "collapse", "collapse a selecting clade",
-  "expand", "expand collapsed clade",
-  "flip", "exchange position of 2 clades that share a parent node",
-  "groupClade", "grouping clades",
-  "groupOTU", "grouping OTUs by tracing back to the most recent common ancestor",
-  "identify", "interactive tree manipulation",
-  "rotate", "rotating a selected clade by 180 degree",
-  "rotate_tree", "rotating circular layout tree by a specific angle",
-  "scaleClade", "zoom in or zoom out selecting clade",
-  "open_tree", "convert a tree to fan layout by specific open angle"
+  "collapse", "Collapse a selecting clade",
+  "expand", "Expand collapsed clade",
+  "flip", "Exchange position of 2 clades that share a parent node",
+  "groupClade", "Grouping clades",
+  "groupOTU", "Grouping OTUs by tracing back to the most recent common ancestor",
+  "identify", "Interactive tree manipulation",
+  "rotate", "Rotating a selected clade by 180 degree",
+  "rotate_tree", "Rotating circular layout tree by a specific angle",
+  "scaleClade", "Zoom in or zoom out selecting clade",
+  "open_tree", "Convert a tree to fan layout by specific open angle"
 ), ncol=2, byrow=TRUE)
 treeman <- as.data.frame(treeman)
-colnames(treeman) <- c("Function", "Descriptiotn")
+colnames(treeman) <- c("Function", "Description")
 knitr::kable(treeman, caption = "Tree manipulation functions.", booktabs = T) %>%
   kable_styling(latex_options = c("striped", "hold_position"), full_width = T)
 ```
@@ -79,7 +79,7 @@ The `r Biocpkg("ggtree")` provides another option to zoom out (or compress) sele
 
 (ref:scaleCladescap) Scaling selected clade.
 
-(ref:scaleCladecap) **Scaling selected clade.** Clades can be zoom in (if `scale > 1`) to highlight or zoom out to save space. 
+(ref:scaleCladecap) **Scaling selected clade.** Clades can be zoomed in (if `scale > 1`) to highlight or zoomed out to save space. 
 
 
 ```{r scaleClade, message=FALSE, fig.cap="(ref:scaleCladecap)", fig.scap="(ref:scaleCladescap)", out.extra='', out.width='100%'}
@@ -219,7 +219,7 @@ ggtree(tree_iris, aes(color=Species), layout = 'circular',
 ```
 
 
-## Exploring tree structure
+## Exploring Tree Structure
 
 To facilitate exploring the tree structure, `r Biocpkg("ggtree")` supports rotating selected clade by 180 degrees using the `rotate()` function (Figure \@ref(fig:rfClade)B). Position of immediate descendant clades of the internal node can be exchanged via `flip()` function (Figure \@ref(fig:rfClade)C).
 
@@ -244,7 +244,7 @@ plot_list(p1, p2, p3, ncol=3, tag_levels='A')
 
 
 
-Most of the tree manipulation functions are working on clades, while `r Biocpkg("ggtree")` also provides functions to manipulate a tree, including `open_tree()` to transform a tree in either rectangular or circular layout to the fan layout, and `rotate_tree()` function to rotate a tree for specific angle in both circular or fan layouts, as demonstrated in Figure \@ref(fig:openTree) and \@ref(fig:rotateTree).
+Most of the tree manipulation functions are working on clades, while `r Biocpkg("ggtree")` also provides functions to manipulate a tree, including `open_tree()` to transform a tree in either rectangular or circular layout to the fan layout, and `rotate_tree()` function to rotate a tree for specific angle in both circular or fan layouts, as demonstrated in Figures \@ref(fig:openTree) and \@ref(fig:rotateTree).
 
 
 
@@ -284,7 +284,7 @@ ggplot() + ylim(0.5, 1) + xlim(0, 1)  + theme_tree() +
 
 
 
-The following example rotates four selected clades (Figure \@ref(fig:rotategif)). It is easy to traverse all the internal nodes and rotate them one by one.
+The following example rotates four selected clades (Figure \@ref(fig:rotategif)). It is easy to traverse all the internal nodes and rotate them one-by-one.
 
 (ref:rotategifscap) Rotate selected clades.
 
@@ -416,5 +416,5 @@ Interactive tree manipulation is also possible via the `identify()` method (see 
 
 ## Summary {#summary6}
 
-A good visualization tool can not only facilitate users to present the data, but it should also be able to facilitate users to explore the data. Data exploration can allow users to better understand the data and also help discover hidden patterns. The `r Biocpkg("ggtree")` provides a set of functions to allow visually manipulating phylogenetic trees and exploring tree structures with associated data. Exploring data in the evolutionary context may help discover new systematic patterns and generate new hypotheses.
+A good visualization tool can not only help users to present the data, but it should also be able to help users to explore the data. Data exploration can allow users to better understand the data and also help discover hidden patterns. The `r Biocpkg("ggtree")` provides a set of functions to allow visually manipulating phylogenetic trees and exploring tree structures with associated data. Exploring data in the evolutionary context may help discover new systematic patterns and generate new hypotheses.
 
