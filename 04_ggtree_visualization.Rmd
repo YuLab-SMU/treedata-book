@@ -337,7 +337,7 @@ Tree scale is not restricted to evolution distance, `r Biocpkg('treeio')` can re
 
 ### Displaying nodes/tips {#geom-nodepoint}
 
-Showing all the internal nodes and tips in the tree can be done by adding a layer of points using `geom_nodepoint()`,  `geom_tippoint()`, or `geom_point()`.
+Showing all the internal nodes and tips in the tree can be done by adding a layer of points using `geom_nodepoint()`,  `geom_tippoint()`, or `geom_point()` (Figure \@ref(fig:nodeTip)).
 
 
 ```{r fig.width=3, fig.height=3, fig.align="center", eval=F}
@@ -461,7 +461,7 @@ cowplot::plot_grid(p1, p2, p3, p4, ncol=2, labels = LETTERS[1:4])
 
 ### Color tree
 
-In `r Biocpkg("ggtree")` [@yu_two_2018], coloring phylogenetic tree is easy, by using `aes(color=VAR)` to map the color of the tree based on a specific variable (both numerical and categorical variables are supported).
+In `r Biocpkg("ggtree")` [@yu_two_2018], coloring phylogenetic tree is easy, by using `aes(color=VAR)` to map the color of the tree based on a specific variable (both numerical and categorical variables are supported, see Figure \@ref(fig:colortree)).
 
 
 (ref:colortreescap) Color tree by continuous or discrete feature.
@@ -475,7 +475,7 @@ ggtree(beast_tree, aes(color=rate)) +
     theme(legend.position="right")
 ```
 
-Users can use any feature (if available), including clade posterior and _d~N~/d~S~_, _etc._, to scale the color of the tree. If the feature is a continuous numerical value, `r Biocpkg("ggtree")` provides a `continuous` parameter to support plotting continuous state transition in edges. Here, we use an example^[<http://www.phytools.org/eqg2015/asr.html>] to demonstrate this functionality. If you want to add a thin black border in tree branches, you can place a tree with black and slightly thicker branches below your tree to emulate edge outlines as demonstrated in Figure \@ref(fig:continuousColor)B.
+Users can use any feature (if available), including clade posterior and _d~N~/d~S~_, _etc._, to scale the color of the tree. If the feature is a continuous numerical value, `r Biocpkg("ggtree")` provides a `continuous` parameter to support plotting continuous state transition in edges. Here, we use an example^[<http://www.phytools.org/eqg2015/asr.html>] to demonstrate this functionality (Figure \@ref(fig:continuousColor)A). If you want to add a thin black border in tree branches, you can place a tree with black and slightly thicker branches below your tree to emulate edge outlines as demonstrated in Figure \@ref(fig:continuousColor)B.
 
 
 
@@ -521,7 +521,7 @@ p2 <- ggtree(tree, layout='circular', ladderize = FALSE, size=2.8) +
 plot_list(p1, p2, ncol=2, tag_levels="A")    
 ```
 
-Besides, we can use a two-dimensional tree (as demonstrated in Figure \@ref(fig:2d)) to visualize phenotype on the vertical dimension to create the phenogram. We can use the `r CRANpkg("ggrepel")` package to repel tip labels to avoid overlapping as demonstrated in Figure \@ref(fig:repelTip).
+Besides, we can use a two-dimensional tree (as demonstrated in Figure \@ref(fig:2d)) to visualize phenotype on the vertical dimension to create the phenogram Figure \@ref(fig:phenogram). We can use the `r CRANpkg("ggrepel")` package to repel tip labels to avoid overlapping as demonstrated in Figure \@ref(fig:repelTip).
 
 
 (ref:phenogramscap) Phenogram.
@@ -590,7 +590,7 @@ ggtree(beast_tree2) + theme_tree2()
 
 The `theme_tree()` defined a totally blank canvas, while `theme_tree2()` adds
 phylogenetic distance (via *x*-axis). These two themes all accept a parameter of
-`bgcolor` that defined the background color. Users can use any [theme components](http://ggplot2.tidyverse.org/reference/theme.html) to the `theme_tree()` or `theme_tree2()` functions to modify them.
+`bgcolor` that defined the background color. Users can use any [theme components](http://ggplot2.tidyverse.org/reference/theme.html) to the `theme_tree()` or `theme_tree2()` functions to modify them  (Figure \@ref(fig:theme)).
 
 
 ```{r eval=F}
@@ -621,14 +621,14 @@ Users can also use an image file as the tree background, see example in [Appendi
 
 ## Visualize a List of Trees
 
-The `r Biocpkg("ggtree")` supports `multiPhylo` and `treedataList` objects and a list of trees can be viewed simultaneously. The trees will visualize one on top of another and can be plotted in different panels through `facet_wrap()` or `facet_grid()` functions. 
+The `r Biocpkg("ggtree")` supports `multiPhylo` and `treedataList` objects and a list of trees can be viewed simultaneously. The trees will visualize one on top of another and can be plotted in different panels through `facet_wrap()` or `facet_grid()` functions (Figure \@ref(fig:multiPhylo)). 
 
 (ref:multiPhyloscap) Visualizing multiPhylo object.
 
 (ref:multiPhylocap) **Visualizing multiPhylo object.** The `ggtree()` function supports visualizing multiple trees stored in the `multiPhylo` or `treedataList` objects.
 
 
-```{r mutiPhylo, fig.width=12, fig.height=4,fig.cap="(ref:multiPhylocap)", fig.scap="(ref:multiPhyloscap)", out.width='100%'}
+```{r multiPhylo, fig.width=12, fig.height=4,fig.cap="(ref:multiPhylocap)", fig.scap="(ref:multiPhyloscap)", out.width='100%'}
 ## trees <- lapply(c(10, 20, 40), rtree)
 ## class(trees) <- "multiPhylo"
 ## ggtree(trees) + facet_wrap(~.id, scale="free") + geom_tiplab()
@@ -638,7 +638,7 @@ r8s <- read.r8s(f)
 ggtree(r8s) + facet_wrap( ~.id, scale="free") + theme_tree2()
 ```
 
-One hundred bootstrap trees can also be viewed simultaneously. This allows researchers to explore a large set of phylogenetic trees to find consensus and distinct trees. The consensus tree can be summarized via a density tree (Figure \@ref(fig:densiTree)). 
+One hundred bootstrap trees can also be viewed simultaneously (Figure \@ref(fig:bp100)). This allows researchers to explore a large set of phylogenetic trees to find consensus and distinct trees. The consensus tree can be summarized via a density tree (Figure \@ref(fig:densiTree)). 
 
 (ref:bp100scap) Visualizing one hundred bootstrap trees simultaneously.
 
@@ -682,7 +682,7 @@ ggtree(trs) + facet_wrap(~.id) +
 
 ### DensiTree {#densitree}
 
-Another way to view the bootstrap trees is to merge them to form a density tree using `ggdensitree()` function. This will help us to identify consensus and differences among a large set of trees. The trees will be stacked on top of each other and the structures of the trees will be rotated to ensure the consistency of the tip order. The tip order is determined by the `tip.order` parameter and by default (`tip.order = 'mode'`) the tips are ordered by the most commonly seen topology. The user can pass in a character vector to specify the tip order, or pass in an integer, N, to order the tips by the order of the tips in the Nth tree. Passing `mds` to `tip.order` will order the tips based on MDS (Multidimensional Scaling) of the path length between the tips, or passing `mds_dist` will order the tips based on MDS of the distance between the tips. 
+Another way to view the bootstrap trees is to merge them to form a density tree using `ggdensitree()` function (Figure \@ref(fig:densiTree)). This will help us to identify consensus and differences among a large set of trees. The trees will be stacked on top of each other and the structures of the trees will be rotated to ensure the consistency of the tip order. The tip order is determined by the `tip.order` parameter and by default (`tip.order = 'mode'`) the tips are ordered by the most commonly seen topology. The user can pass in a character vector to specify the tip order, or pass in an integer, N, to order the tips by the order of the tips in the Nth tree. Passing `mds` to `tip.order` will order the tips based on MDS (Multidimensional Scaling) of the path length between the tips, or passing `mds_dist` will order the tips based on MDS of the distance between the tips. 
 
 
 
