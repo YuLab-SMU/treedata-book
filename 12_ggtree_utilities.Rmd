@@ -2,9 +2,9 @@
 
 \newpage
 
-# ggtree utilities {#chapter12}
+# ggtree Utilities {#chapter12}
 
-## Facet utilities {#facet-utils}
+## Facet Utilities {#facet-utils}
 
 ### facet_widths {#facet_widths}
 
@@ -90,7 +90,7 @@ plot_list(pp, gg, ncol=1, tag_levels='A', heights=c(1.5, 1))
 
 ### facet_labeller {#facet_labeller}
 
-The `facet_labeller()` function was designed to re-label selected panels, and it currently only works with `ggtree` objects (*i.e.* `geom_facet()` outputs). A more versatile version that works with both `ggtree` and `ggplot` objects is implemented in the `r CRANpkg("ggfun")` package (*i.e.* the `facet_set()` function).
+The `facet_labeller()` function was designed to re-label selected panels, and it currently only works with `ggtree` objects (*i.e.*, `geom_facet()` outputs). A more versatile version that works with both `ggtree` and `ggplot` objects is implemented in the `r CRANpkg("ggfun")` package (*i.e.*, the `facet_set()` function).
 
 ```{r eval=F}
 facet_labeller(p2, c(Tree = "phylogeny", bar = "HELLO"))
@@ -117,10 +117,10 @@ pg2 <- facet_labeller(p2, c(Tree = "phylogeny")) %>% facet_widths(c(Tree = .4))
 plot_list(pg1, pg2, ncol=1, tag_levels='A')
 ```
 
-## Geometric layers {#geom2}
+## Geometric Layers {#geom2}
 
 
-Subsetting is not supported in layers defined in `r CRANpkg("ggplot2")`, while it is quite useful in phylogenetic annotation since it allows us to annotate at specific node(s) (e.g. only label bootstrap values that are larger than 75).
+Subsetting is not supported in layers defined in `r CRANpkg("ggplot2")`, while it is quite useful in phylogenetic annotation since it allows us to annotate at specific node(s) (e.g., only label bootstrap values that are larger than 75).
 
 In `r Biocpkg("ggtree")`, we provide several modified versions of layers defined in `r CRANpkg("ggplot2")` to support the `subset` aesthetic mapping, including:
 
@@ -154,7 +154,7 @@ p2 <- ggtree(rtree(10)) +
 plot_list(p, p2, ncol=2, tag_levels='A')
 ```
 
-## Layout utilities
+## Layout Utilities
 
 In [session 4.2](#tree-layouts), we introduce several layouts supported by `r Biocpkg("ggtree")`. The `r Biocpkg("ggtree")` package also provides several layout functions that can transform from one to another. Note that not all layouts are supported (see \@ref(tab:layoutLayerTab)).
 
@@ -223,15 +223,15 @@ plot_list(p,
 
 
 
-## Scale utilities
+## Scale Utilities
 
 
-The `r Biocpkg("ggtree")` package provides several scale functions to manipulate x-axis, including the `scale_x_range()` documented in [session 5.2.4](#uncertainty-of-evolutionary-inference), `xlim_tree()`, `xlim_expand()`, `ggexpand()`, `hexpand()` and `vexpand()`.
+The `r Biocpkg("ggtree")` package provides several scale functions to manipulate the *x*-axis, including the `scale_x_range()` documented in [session 5.2.4](#uncertainty-of-evolutionary-inference), `xlim_tree()`, `xlim_expand()`, `ggexpand()`, `hexpand()` and `vexpand()`.
 
 
 ### Expand x limit for a specific facet panel {#xlim_expand}
 
-Sometimes we need to set `xlim` for a specific facet panel (*e.g.* allocate more space for [long tip labels](#faq-label-truncated) at `Tree` panel). However, the `ggplot2::xlim()` function applies to all the panels. The `r Biocpkg("ggtree")` provides `xlim_expand()` to adjust `xlim` for user-specific facet panel. It accepts two parameters, `xlim`, and `panel`, and can adjust all individual panels as demonstrated in Figure \@ref(fig:xlimExpand)A. If you only want to adjust `xlim` of the `Tree` panel, you can use `xlim_tree()` as a shortcut.
+Sometimes we need to set `xlim` for a specific facet panel (*e.g.*, allocate more space for [long tip labels](#faq-label-truncated) at `Tree` panel). However, the `ggplot2::xlim()` function applies to all the panels. The `r Biocpkg("ggtree")` provides `xlim_expand()` to adjust `xlim` for user-specific facet panel. It accepts two parameters, `xlim`, and `panel`, and can adjust all individual panels as demonstrated in Figure \@ref(fig:xlimExpand)A. If you only want to adjust `xlim` of the `Tree` panel, you can use `xlim_tree()` as a shortcut.
 
 
 ```{r eval=FALSE}
@@ -247,7 +247,7 @@ p2 + xlim_tree(6) + xlim_expand(c(-10, 10), 'Dot')
 
 
 
-The `xlim_expand()` function also works with `ggplot2::facet_grid()`. As demonstrating in Figure \@ref(fig:xlimExpand)B, only the `xlim` of *virginica* panel was adjusted by `xlim_expand()`.
+The `xlim_expand()` function also works with `ggplot2::facet_grid()`. As demonstrated in Figure \@ref(fig:xlimExpand)B, only the `xlim` of *virginica* panel was adjusted by `xlim_expand()`.
 
 
 ```{r eval=FALSE}
@@ -258,7 +258,7 @@ g + xlim_expand(c(0, 15), 'virginica')
 
 (ref:xlimExpandscap) Setting xlim for user-specific facet panels.
 
-(ref:xlimExpandcap) **Setting xlim for user-specific facet panels.** Using `xlim_tree()` to set the Tree panel of the `ggtree` output (A) and `xlim_expand()` to set the Dot panel of the `ggtree` output (A) and the virginica panel of the `ggplot` output (B).
+(ref:xlimExpandcap) **Setting xlim for user-specific facet panels.** Using `xlim_tree()` to set the Tree panel of the `ggtree` output (A) and `xlim_expand()` to set the Dot panel of the `ggtree` output (A) and the Virginica panel of the `ggplot` output (B).
 
 
 ```{r xlimExpand, echo=FALSE, fig.cap="(ref:xlimExpandcap)", fig.scap="(ref:xlimExpandscap)", fig.width=12, fig.height = 5, out.width='100%'}
@@ -286,7 +286,7 @@ The `r CRANpkg("ggplot2")` package cannot automatically adjust plot limits and i
 
 The `xlim()` (`ylim()`) is a good solution to this issue. However, we can put the thing more simply, by expanding the plot panel by a ratio of the axis range without knowing what the exact value is. 
 
-We provide `hexpand()` function to expand x limit by specifying a fraction of the x range and it works for both directions (`direction=1` for right-hand side and `direction=-1` for left-hand side) (Figure \@ref(fig:hexpand)). Another version of `vexpand()` works with similar behavior for y-axis and the `ggexpand()` function works for both x and y axes (Figure \@ref(fig:phylonetworx)). 
+We provide `hexpand()` function to expand x limit by specifying a fraction of the x range and it works for both directions (`direction=1` for right-hand side and `direction=-1` for left-hand side) (Figure \@ref(fig:hexpand)). Another version of `vexpand()` works with similar behavior for *y*-axis and the `ggexpand()` function works for both *x*- and *y*-axis (Figure \@ref(fig:phylonetworx)). 
 
 (ref:hexpandscap) Expanding plot limits by a fraction of x or y range.
 
@@ -331,7 +331,7 @@ p + geom_text(aes(label=label),
 
 ### Flatten list-column tree data {#td_unnest}
 
-The `ggtree` plot data is a tidy data frame that each row represents a unique node. If multiple values are associated with a node, the data can be stored as nested data (i.e. in a list-column).
+The `ggtree` plot data is a tidy data frame where each row represents a unique node. If multiple values are associated with a node, the data can be stored as nested data (i.e., in a list-column).
 
 ```{r}
 set.seed(1997)
@@ -352,7 +352,7 @@ All tree data utilities provide a `.f` parameter to pass a function to pre-opera
 
 (ref:tdunnestscap) Flattening ggtree plot data.
 
-(ref:tdunnestcap) **Flattening ggtree plot data.** List-columns can be flattened by `td_unnest()` and two circle points were displayed on each tip simultaneously (A). Different tree data utilities can be combined to work together (e.g. filter data by `td_filter()` and then flatten it by `td_unnest()`) (B). 
+(ref:tdunnestcap) **Flattening ggtree plot data.** List-columns can be flattened by `td_unnest()` and two circle points were displayed on each tip simultaneously (A). Different tree data utilities can be combined to work together, e.g., filter data by `td_filter()`, and then flatten it by `td_unnest()`) (B). 
 
 ```{r tdUnnest,fig.cap="(ref:tdunnestcap)", fig.scap="(ref:tdunnestscap)", fig.width=8, fig.height = 5, out.width='100%'}
 p <- ggtree(tr) %<+% d2
@@ -372,7 +372,7 @@ plot_list(p2, p3, tag_levels = 'A')
 ```
 
 
-## Tree utilities
+## Tree Utilities
 
 ### Extract tip order {#tiporder}
 
@@ -380,7 +380,7 @@ To create [composite plots](#composite_plot), users need to re-order their data 
 
 (ref:tiporderscap) An example tree for demonstraing `get_taxa_name()` function.
 
-(ref:tipordercap) **An example tree for demonstraing `get_taxa_name()` function.**
+(ref:tipordercap) **An example tree for demonstrating `get_taxa_name()` function.**
 
 
 ```{r tiporder,fig.cap="(ref:tipordercap)", fig.scap="(ref:tiporderscap)", fig.width=5, fig.height = 5}
@@ -400,7 +400,7 @@ The `get_taxa_name()` function will return a vector of ordered tip labels accord
 get_taxa_name(p)
 ```
 
-If users specify a node, the `get_taxa_name()` will extract the tip order of the selected clade (i.e. highlighted region in the Figure \@ref(fig:tiporder)).
+If users specify a node, the `get_taxa_name()` will extract the tip order of the selected clade (i.e., highlighted region in the Figure \@ref(fig:tiporder)).
 
 
 ```{r}
@@ -427,7 +427,7 @@ This feature is useful if we want to align tip labels to the end as demonstrated
 
 (ref:labelpadscap) Align tip label to the end.
 
-(ref:labelpadcap) **Align tip label to the end.** With dotted line (A) and without dotted line (B). 
+(ref:labelpadcap) **Align tip label to the end.** With a dotted line (A) and without a dotted line (B). 
 
 
 ```{r labelpad, fig.width=6.9, fig.height=3.4, fig.cap="(ref:labelpadcap)", fig.scap="(ref:labelpadscap)", out.width='100%'}
@@ -442,7 +442,7 @@ plot_list(p1, p2, ncol=2, tag_levels = "A")
 ```
 
 
-## Interactive ggtree annotation {#identify}
+## Interactive ggtree Annotation {#identify}
 
 
 ```{r echo=FALSE}
@@ -452,7 +452,7 @@ plotly_ggtree_link <- paste0("[interactive phylogenetic tree](", link, ")")
 ```
 
 
-The `r Biocpkg("ggtree")` package supports interactive tree annotation or manipulation by implementing an `identify()` method. Users can click on a node to highlight a clade, to label or rotate it, *etc*. Users can also use the `r CRANpkg("plotly")` package to convert a `ggtree` object to a `plotly` object to quickly create 
+The `r Biocpkg("ggtree")` package supports interactive tree annotation or manipulation by implementing an `identify()` method. Users can click on a node to highlight a clade, to label or rotate it, *etc*. Users can also use the `r CRANpkg("plotly")` package to convert a `ggtree` object to a `plotly` object to quickly create an 
 ```{r results='asis', echo=FALSE}
 cat(plotly_ggtree_link, '.', sep='')
 ```
@@ -464,7 +464,7 @@ cat(plotly_ggtree_link, '.', sep='')
 ```
 
 
-Video of using `identify()` to interactively manipulate phylogenetic tree can be found on Youtube `r icons::icon_style(icons::fontawesome("youtube"), fill='red')` and Youku:
+Video of using `identify()` to interactively manipulate a phylogenetic tree can be found on Youtube `r icons::icon_style(icons::fontawesome("youtube"), fill='red')` and Youku:
 
 + Highlighting clades: [Youtube `r icons::icon_style(icons::fontawesome("youtube"), fill='red')`](https://youtu.be/KcF8Ec38mzI) and [Youku](http://v.youku.com/v_show/id_XMTYyMzgyODYyOA).
 + Labelling  clades: [Youtube `r icons::icon_style(icons::fontawesome("youtube"), fill='red')`](https://youtu.be/SmcceRD_jxg) and [Youku](http://v.youku.com/v_show/id_XMTYyNDIzODA0NA). 
