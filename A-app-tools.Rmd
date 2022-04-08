@@ -2,9 +2,9 @@
 \newpage
 
 
-# Related tools {#related-tools}
+# Related Tools {#related-tools}
 
-## MicrobiotaProcess: Convert taxonomy table to a `treedata` object {#MicrobiotaProcess-taxonomy}
+## MicrobiotaProcess: Convert Taxonomy Table to a `treedata` Object {#MicrobiotaProcess-taxonomy}
 
 Taxonomy (genus, family, ...) data are widely used in microbiome or ecology. Hierarchical taxonomies are the tree-like structure that organizes items into subcategories and can be converted to a tree object (see also the [phylog object](#phylog)). The `r Biocpkg("MicrobiotaProcess")` supports converting a `taxonomyTable` object, defined in the `r Biocpkg("phyloseq")` package, to a `treedata` object, and the taxonomic hierarchical relationship can be visualized using `r Biocpkg("ggtree")`. When there are taxonomy names that are [confused and missing](https://github.com/YuLab-SMU/MicrobiotaProcess/issues/14), the `as.treedata()` method for `taxonomyTable` objects will complete their upper-level taxonomic information automatically.  
 
@@ -33,7 +33,7 @@ ggtree(tree, layout="circular", size=0.2) +
      geom_tiplab(size=1)
 ```
 
-## rtol: An R interface to Open Tree API {#rtol}
+## rtol: An R Interface to Open Tree API {#rtol}
 
 The `r CRANpkg("rtol")` [@michonneau_rotl:_2016] is an R package to interact with the Open Tree of Life data APIs. 
 
@@ -62,7 +62,7 @@ ggtree(tr) + geom_tiplab() + xlim(NA, 5)
 ```
 
 
-## Print ASCII-art rooted tree {#ascii-tree}
+## Print ASCII-art Rooted Tree {#ascii-tree}
 
 ```{r asciiTree, comment=NA}
 library(data.tree)
@@ -72,7 +72,7 @@ names(d) <- NULL
 print(d, row.names=FALSE)
 ```
 
-It is neat to print ASCII-art of the phylogeny. Sometimes we don't want to plot the tree, but just take a glance at the tree structure without leaving the focus from the R console. However, it is not a good idea to print the whole tree as ASCII text if the tree is large. Sometimes we just want to look at a specific portion of the tree and its immediate relatives. In this scenario, we can use `treeio::tree_subset()` function (see [session 2.4](subsetting-tree-with-data)) to extract selected portion of a tree. Then we can print ASCII-art of the tree subset to explore the evolutionary relationship of the species of our interest in the R console.
+It is neat to print ASCII-art of the phylogeny. Sometimes, we don't want to plot the tree, but just take a glance at the tree structure without leaving the focus from the R console. However, it is not a good idea to print the whole tree as ASCII text if the tree is large. Sometimes, we just want to look at a specific portion of the tree and its immediate relatives. In this scenario, we can use `treeio::tree_subset()` function (see [session 2.4](subsetting-tree-with-data)) to extract selected portion of a tree. Then we can print ASCII-art of the tree subset to explore the evolutionary relationship of the species of our interest in the R console.
 
 The `r Biocpkg("ggtree")` supports parsing tip labels as emoji to create [phylomoji](#phylomoji). With the `r CRANpkg("data.tree")` and `r CRANpkg("emojifont")` packages, we can also print phylomoji as ASCII text.
 
@@ -111,14 +111,14 @@ invisible(dev.off())
 ```
 
 
-## Zoom in the selected portion {#facet-zoom}
+## Zoom in on the Selected Portion {#facet-zoom}
 
 
-In addition to using `viewClade()` function, users can use the `r CRANpkg("ggforce")` package to zoom in a selected clade. 
+In addition to using `viewClade()` function, users can use the `r CRANpkg("ggforce")` package to zoom in on a selected clade. 
 
-(ref:facetZoomscap) Zoom in a selected clade.
+(ref:facetZoomscap) Zoom in on a selected clade.
 
-(ref:facetZoomcap) **Zoom in a selected clade.**
+(ref:facetZoomcap) **Zoom in on a selected clade.**
 
 
 ```{r facetZoom, fig.width=6, fig.height=4, fig.cap="(ref:facetZoomcap)", fig.scap="(ref:facetZoomscap)"}
@@ -129,9 +129,9 @@ ggtree(x) + ggforce::facet_zoom(xy = node %in% nn)
 ```
 
 
-## Tips for using `ggtree` with `ggimage` {#ggimage-tips}
+## Tips for Using `ggtree` with `ggimage` {#ggimage-tips}
 
-The `r Biocpkg("ggtree")` supports annotating a tree with silhouette images via the `r CRANpkg("ggimage")` package. The `r CRANpkg("ggimage")` provides the grammar of graphic syntax to work with image files. It allows processing images on the fly via the `image_fun` parameter, which accepts a function to process `magick-image` objects. The `r CRANpkg("magick")` package provides several functions and these functions can be combined to perform a particular task.
+The `r Biocpkg("ggtree")` supports annotating a tree with silhouette images via the `r CRANpkg("ggimage")` package. The `r CRANpkg("ggimage")` provides the grammar of graphic syntax to work with image files. It allows processing images on the fly via the `image_fun` parameter, which accepts a function to process `magick-image` objects. The `r CRANpkg("magick")` package provides several functions, and these functions can be combined to perform a particular task.
 
 ### Example 1: Remove background of images {#ggimage-rm-image-bg}
 
@@ -174,7 +174,7 @@ ggtree(rtree(20), size=1.5, color="white") +
 ```
 
 
-## Run ggtree in Jupyter notebook
+## Run ggtree in Jupyter Notebook
 
 If you have [Jupyter notebook](https://jupyter.org/) installed on your system, you can install [IRkernel](https://irkernel.github.io/) with the following command in R:
 
