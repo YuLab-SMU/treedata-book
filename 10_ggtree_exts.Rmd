@@ -2,23 +2,23 @@
 
 \newpage
 
-# ggtreeExtra for presenting data on a circular layout {#chapter10}
+# ggtreeExtra for Presenting Data on a Circular Layout {#chapter10}
 
 ## Introduction
 
 
-The `r Biocpkg("ggtree")` package [@yu_ggtree:_2017] provides programmable visualization and annotation of [phylogenetic trees](#chapter5) and [other tree-like structures](#chapter9). It supports visualizing tree data in multiple layers or with the tree side by side (see also [Chapter 7](#chapter7) and [@yu_two_2018]). Although `r Biocpkg("ggtree")` supports [many layouts](#tree-layouts), the `geom_facet()` layer only works with `rectangular`, `roundrect`, `ellipse`, and `slanted` layouts to present tree data on different panels. There is no direct support in `r Biocpkg("ggtree")` to present data on the outer rings of a tree in `circular`, `fan`, and `radial` layouts. To solve this issue, we developed the `r Biocpkg("ggtreeExtra")` package, which allows users to align associated graph layers in outer rings of circular layout tree. In addition, it also works with a `rectangular` tree layout (Figure \@ref(fig:HMPplot2)). 
+The `r Biocpkg("ggtree")` package [@yu_ggtree:_2017] provides programmable visualization and annotation of [phylogenetic trees](#chapter5) and [other tree-like structures](#chapter9). It supports visualizing tree data in multiple layers or with the tree side-by-side (see also [Chapter 7](#chapter7) and [@yu_two_2018]). Although `r Biocpkg("ggtree")` supports [many layouts](#tree-layouts), the `geom_facet()` layer only works with `rectangular`, `roundrect`, `ellipse`, and `slanted` layouts to present tree data on different panels. There is no direct support in `r Biocpkg("ggtree")` to present data on the outer rings of a tree in `circular`, `fan`, and `radial` layouts. To solve this issue, we developed the `r Biocpkg("ggtreeExtra")` package, which allows users to align associated graph layers in outer rings of circular layout tree. In addition, it also works with a `rectangular` tree layout (Figure \@ref(fig:HMPplot2)). 
 
 
-## Aligning graphs to the tree based on a tree structure {#geom-fruit1}
+## Aligning Graphs to the Tree Based on a Tree Structure {#geom-fruit1}
 
-The `r Biocpkg("ggtreeExtra")` package provides a layer function, `geom_fruit()`, to align graphs with the tree side by side. Similar to the `geom_facet()` layout described in [Chapter 7](#chapter7), `geom_fruit()` internally re-orders the input data based on the tree structure and visualizes the data using a specified geometric layer function with user-provided aesthetic mapping and non-variable setting. The graph will be displayed on the outer ring of the tree. 
-
-
-The `geom_fruit()` is designed to work with most `geom` layers defined in `r CRANpkg("ggplot2")` and its extensions. The position of the graph (*i.e.* on the outer ring) is controlled by the `position` parameter, which accepts a `Position` object. The default value of the `position` parameter is 'auto' and the `geom_fruit()` layer will guess and determine (hopefully) a suitable position for the specified geometric layer. That means using `position_stackx()` for `geom_bar()`, `position_dodgex()` for `geom_violin()` and `geom_boxplot()`, and `position_identityx()` for others (*e.g.* `geom_point()` and `geom_tile()`, *etc*). A geometric layer that has a `position` parameter should be compatible with `geom_fruit()`, as it allows using position functions defined in the `r Biocpkg("ggtreeExtra")` package to adjust output layer position. Besides, the `geom_fruit()` layer allows setting `axis` and background grid lines for the current layer using the `axis.params` and `grid.params` parameters respectively.
+The `r Biocpkg("ggtreeExtra")` package provides a layer function, `geom_fruit()`, to align graphs with the tree side-by-side. Similar to the `geom_facet()` layout described in [Chapter 7](#chapter7), `geom_fruit()` internally re-orders the input data based on the tree structure and visualizes the data using a specified geometric layer function with user-provided aesthetic mapping and non-variable setting. The graph will be displayed on the outer ring of the tree. 
 
 
-The following example uses microbiome data provided in the `r Biocpkg("phyloseq")` package and a boxplot is employed to visualize species abundance data. The `geom_fruit()` layer automatically re-arranges the abundance data according to the circular tree structure and visualizes the data using the specific `geom` function (*i.e.* `geom_boxplot()`). Visualizing this dataset using `geom_density_ridges()` with `geom_facet()` can be found in Fig. 1 of [@yu_two_2018].
+The `geom_fruit()` is designed to work with most `geom` layers defined in `r CRANpkg("ggplot2")` and its extensions. The position of the graph (*i.e.*, on the outer ring) is controlled by the `position` parameter, which accepts a `Position` object. The default value of the `position` parameter is 'auto' and the `geom_fruit()` layer will guess and determine (hopefully) a suitable position for the specified geometric layer. That means using `position_stackx()` for `geom_bar()`, `position_dodgex()` for `geom_violin()` and `geom_boxplot()`, and `position_identityx()` for others (*e.g.*, `geom_point()` and, `geom_tile()`, *etc.*). A geometric layer that has a `position` parameter should be compatible with `geom_fruit()`, as it allows using position functions defined in the `r Biocpkg("ggtreeExtra")` package to adjust output layer positions. Besides, the `geom_fruit()` layer allows setting `axis` and background grid lines for the current layer using the `axis.params` and `grid.params` parameters, respectively.
+
+
+The following example uses microbiome data provided in the `r Biocpkg("phyloseq")` package and a boxplot is employed to visualize species abundance data. The `geom_fruit()` layer automatically re-arranges the abundance data according to the circular tree structure and visualizes the data using the specific `geom` function (*i.e.*, `geom_boxplot()`). Visualizing this dataset using `geom_density_ridges()` with `geom_facet()` can be found in figure 1 of [@yu_two_2018].
 
 
 (ref:psboxplotscap) Phylogenetic tree with OTU abundance distribution.
@@ -88,9 +88,9 @@ p
 
 
 
-## Aligning multiple graphs to the tree for multi-dimensional data {#geom-fruit2}
+## Aligning Multiple Graphs to the Tree for Multi-dimensional Data {#geom-fruit2}
 
-We are able to add multiple `geom_fruit()` layers to a tree and the circular layout is indeed more compact and efficient for multi-dimensional data. This example reproduces Fig.2 of [@morgan2013HMP]. The data is provided by GraPhlAn [@GraPhlAn], which contained the relative abundance of the microbiome at different body sites. This example demonstrates the ability to add multiple layers (heat map and bar plot) to present different types of data (Figure \@ref(fig:HMPplot)). 
+We are able to add multiple `geom_fruit()` layers to a tree and the circular layout is indeed more compact and efficient for multi-dimensional data. This example reproduces figure 2 of [@morgan2013HMP]. The data is provided by GraPhlAn [@GraPhlAn], which contained the relative abundance of the microbiome at different body sites. This example demonstrates the ability to add multiple layers (heat map and bar plot) to present different types of data (Figure \@ref(fig:HMPplot)). 
 
 
 (ref:HMPscap) Presenting microbiome data (abundance and location) on a phylogenetic tree.
@@ -202,10 +202,10 @@ p <- p + new_scale_fill() +
 p
 ```
 
-The shape of the tip points indicates the types of microbes (commensal microbes or potential pathogens). The transparency of the heatmap indicates the abundance of the microbes, and the colors of the heatmap indicate different sites of the human body. The bar plot indicates the relative abundance of the most prevalent species at the body sites. The node labels contain taxonomy information in this example, and the information was used to highlight and label corresponding clades using `geom_hilight()` and `geom_cladelab()` respectively.
+The shape of the tip points indicates the types of microbes (commensal microbes or potential pathogens). The transparency of the heatmap indicates the abundance of the microbes, and the colors of the heatmap indicate different sites of the human body. The bar plot indicates the relative abundance of the most prevalent species at the body sites. The node labels contain taxonomy information in this example, and the information was used to highlight and label corresponding clades using `geom_hilight()` and `geom_cladelab()`, respectively.
 
 
-The `geom_fruit()` layer supports rectangular layout. Users can either add a `geom_fruit()` layer to a rectangular tree (e.g. `ggtree(tree_object) + geom_fruit(...)`) or use `layout_rectangular()` to transform a circular layout tree to a rectangular layout tree as demonstrated in Figure \@ref(fig:HMPplot2).
+The `geom_fruit()` layer supports rectangular layout. Users can either add a `geom_fruit()` layer to a rectangular tree (e.g., `ggtree(tree_object) + geom_fruit(...)`) or use `layout_rectangular()` to transform a circular layout tree to a rectangular layout tree as demonstrated in Figure \@ref(fig:HMPplot2).
 
 (ref:HMP2scap) Illustration of using `geom_fruit()` in rectangular tree layout.
 
@@ -217,9 +217,9 @@ p + layout_rectangular() +
 ```
 
 
-## Examples for population genetics
+## Examples for Population Genetics
 
-The `r Biocpkg("ggtree")` [@yu_ggtree:_2017] and `r Biocpkg("ggtreeExtra")` packages are designed as general tools and can be applied to many research fields, such as infectious disease epidemiology, metagenome, population genetics, evolutionary biology, and ecology. We have introduced examples for metagenome research (Figure \@ref(fig:psbox) and Figure \@ref(fig:HMPplot)). In this session, we present examples for population genetics by reproducing Fig. 4 of [@Chowe:_2020] and Fig 1 of [@RN46:_2015]. 
+The `r Biocpkg("ggtree")` [@yu_ggtree:_2017] and `r Biocpkg("ggtreeExtra")` packages are designed as general tools and can be applied to many research fields, such as infectious disease epidemiology, metagenome, population genetics, evolutionary biology, and ecology. We have introduced examples for metagenome research (Figure \@ref(fig:psbox) and Figure \@ref(fig:HMPplot)). In this session, we present examples for population genetics by reproducing figure 4 of [@Chowe:_2020] and figure 1 of [@RN46:_2015]. 
 
 
 (ref:Cauriscap) Antifungal susceptibility and point mutations in drug targets in Candida Auris.
