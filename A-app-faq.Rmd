@@ -3,13 +3,13 @@
 
 \newpage
 
-# Frequently asked questions {#faq}
+# Frequently Asked Questions {#faq}
 
 The [ggtree mailing-list](https://groups.google.com/forum/?#!forum/bioc-ggtree)^[<https://groups.google.com/forum/?#!forum/bioc-ggtree>] is a great place to get help, once you have created a reproducible example that illustrates your problem.
 
 ## Installation {#installation}
 
-The `r Biocpkg("ggtree")` is released within the Bioconductor project, you need to use `r CRANpkg("BiocManager")` to install it.
+The `r Biocpkg("ggtree")` is released within the Bioconductor project; you need to use `r CRANpkg("BiocManager")` to install it.
 
 ```r
 ## you need to install BiocManager before using it
@@ -21,23 +21,23 @@ install("ggtree")
 Bioconductor release is adhered to a specific R version. Please make sure you are using the latest version of R if you want to install the latest release of Bioconductor packages, including `r Biocpkg("ggtree")`. Beware that bugs will only be fixed in the current release and develop branches. If you find a bug, please follow the guide^[<https://guangchuangyu.github.io/2016/07/how-to-bug-author/>] to report it.
 
 
-To make it easy to install and load multiple core packages in a single step, we created a meta package, `r pkg_treedataverse`. Users can install the package via the following command:
+To make it easy to install and load multiple core packages in a single step, we created a meta-package, `r pkg_treedataverse`. Users can install the package via the following command:
 
 ```r
 BiocManager::install("YuLab-SMU/treedataverse")
 ```
 
-Once it is installed, loading the package will load the core `r pkg_treedataverse` packages, including `r CRANpkg("tidytree")`, `r Biocpkg("treeio")`, `r Biocpkg("ggtree")`, and `r Biocpkg("ggtreeExtra")`.
+Once it is installed, loading the package will also load the core `r pkg_treedataverse` packages, including `r CRANpkg("tidytree")`, `r Biocpkg("treeio")`, `r Biocpkg("ggtree")`, and `r Biocpkg("ggtreeExtra")`.
 
 
-## Basic R related {#faq-r}
+## Basic R Related {#faq-r}
 
 ### Use your local file {#faq-local-file}
 
 If you are new to `R` and want to use `r Biocpkg("ggtree")` for tree visualization, please do
 learn some basic `R` and `r CRANpkg("ggplot2")`.
 
-A very common issue is that users copy-paste commands without looking at
+A very common issue is that users copy and paste commands without looking at
 the function's behavior. The `system.file()` function was used in some of our examples to find files packed in the packages.
 
 
@@ -57,7 +57,7 @@ Usage:
                  mustWork = FALSE)
 ```
 
-For users who want to use their files, please just use relative or absolute file path (*e.g.* `file = "your/folder/filename"`).
+For users who want to use their files, please just use relative or absolute file path (*e.g.*, `file = "your/folder/filename"`).
 
 
 
@@ -90,7 +90,7 @@ and <https://github.com/GuangchuangYu/ggtree/issues/106>] and please refer to th
 >Never refer to a variable with `$` (e.g., `diamonds$carat`) in `aes()`. This breaks containment so that the plot no longer contains everything it needs and causes problems if ggplot2 changes the order of the rows, as it does when facetting.
 
 
-## Text & Label {#faq-text}
+## Text and Label {#faq-text}
 
 ### Tip label truncated {#faq-label-truncated}
 
@@ -122,7 +122,7 @@ p + coord_cartesian(clip = 'off') +
 
 (ref:truncatedTipscap) Allocating more spaces for truncated tip labels.
 
-(ref:truncatedTipcap) **Allocating more spaces for truncated tip labels.** Long tip labels may be truncated (A). One solution is to allocate more spaces for plot panel (B) and another solution is to allow plotting labels outside the plot panel (C).
+(ref:truncatedTipcap) **Allocating more spaces for truncated tip labels.** Long tip labels may be truncated (A). One solution is to allocate more spaces for plot panel (B), and another solution is to allow plotting labels outside the plot panel (C).
 
 
 ```{r truncatedTip, fig.width=12, fig.height=4, echo=FALSE, fig.cap="(ref:truncatedTipcap)", fig.scap="(ref:truncatedTipscap)", out.width='100%'}
@@ -140,7 +140,7 @@ plot_list(p, p2, p3, ncol=3, tag_levels="A")
 The third solution is to use `hexpand()` as demonstrated in [session 12.4](#ggexpand). 
 
 
-For rectangular/dendrogram layout trees, users can display tip labels as y-axis labels. In this case, no matter how long the labels are, they will not be truncated (see Figure \@ref(fig:tiplab)C).
+For rectangular/dendrogram layout trees, users can display tip labels as *y*-axis labels. In this case, no matter how long the labels are, they will not be truncated (see Figure \@ref(fig:tiplab)C).
 
 
 ### Modify (tip) labels {#faq-modify-label}
@@ -173,7 +173,7 @@ the modified version (Figure \@ref(fig:renameTip)).
 
 (ref:renameTipscap) Alternative tip labels.
 
-(ref:renameTipcap) **Alternative tip labels.** Original tip labels (A) and modified version (B).
+(ref:renameTipcap) **Alternative tip labels.** Original tip labels (A) and a modified version (B).
 
 
 ```{r renameTip, fig.width=8, fig.height=3, fig.cap="(ref:renameTipcap)", fig.scap="(ref:renameTipscap)", out.width='100%'}
@@ -190,7 +190,7 @@ plot_list(p1, p2, ncol=2, tag_levels = "A")
 
 If you want to format labels, you need to set `parse=TRUE` in the `geom_text()`/`geom_tiplab()`/`geom_nodelab()` and the `label` should be a string that can be parsed into expression and displayed as described in `?plotmath`. Users can use the `r CRANpkg("latex2exp")` package to convert LaTeX math formulas to R's plotmath expressions, or use the `r CRANpkg("ggtext")` package to render Markdown or HTML.
 
-For example, the tip labels contain several parts (*e.g.* genus, species, and geo), we can differentiate these pieces of information with different formats (Figure \@ref(fig:formatTip)A).
+For example, the tip labels contain several parts (*e.g.*, genus, species, and geo), we can differentiate these pieces of information with different formats (Figure \@ref(fig:formatTip)A).
 
 ```{r formatTip-A, eval=F}
 tree <- read.tree(text = "((a,(b,c)),d);")
@@ -257,7 +257,7 @@ ggtree(raxml) + geom_label_repel(aes(label=bootstrap, fill=bootstrap)) +
 
 It is quite common to store *bootstrap* value as node label in the Newick format. Visualizing node label is easy using `geom_text2(aes(subset = !isTip, label=label))`.
 
-If you want to only display a subset of *bootstrap* (*e.g.* bootstrap > 80), you can't simply use `geom_text2(subset= (label > 80), label=label)` (or `geom_label2`) since `label` is a character vector, which contains node label (bootstrap value) and tip label (taxa name). `geom_text2(subset=(as.numeric(label) > 80), label=label)` won't work either, since `NAs` were introduced by coercion. We need to convert `NAs` to logical `FALSE`. This can be done by the following code:
+If you want to only display a subset of *bootstrap* (*e.g.*, bootstrap > 80), you can't simply use `geom_text2(subset= (label > 80), label=label)` (or `geom_label2`) since `label` is a character vector, which contains node label (bootstrap value) and tip label (taxa name). `geom_text2(subset=(as.numeric(label) > 80), label=label)` won't work either, since `NAs` were introduced by coercion. We need to convert `NAs` to logical `FALSE`. This can be done by the following code:
 
 
 (ref:nwkbsscap) Bootstrap value stored in node label.
@@ -296,11 +296,11 @@ q + geom_text(data=d, aes(label=label))
 -->
 
 
-## Branch setting
+## Branch Setting
 
 ### Plot the same tree as in `plot.phylo()`
 
-By default, `ggtree()` ladderizes the input tree so that the tree will appear less cluttered. This is the reason why the tree visualized by `ggtree()` is different from the one using `plot.phylo()` which displays nonladderized tree. To disable the ladderize effect, users can pass the parameter `ladderize = FALSE` to the `ggtree()` function as demonstrated in Figure \@ref(fig:ggtreeladderize). 
+By default, `ggtree()` ladderizes the input tree so that the tree will appear less cluttered. This is the reason why the tree visualized by `ggtree()` is different from the one using `plot.phylo()` which displays a non-ladderized tree. To disable the ladderize effect, users can pass the parameter `ladderize = FALSE` to the `ggtree()` function as demonstrated in Figure \@ref(fig:ggtreeladderize). 
 
 
 ```{r eval=FALSE}
@@ -316,7 +316,7 @@ ggtree(x) + geom_tiplab()
 
 (ref:ggtreeladderizescap) Ladderized and nonladderized tree.
 
-(ref:ggtreeladderizecap) **Ladderize and nonladderize tree.** `plot.phylo()` displays nonladderized tree (A), use `ladderize = FALSE` to display nonladderized tree in `ggtree()` (B), `ggtree()` displays ladderized tree by default (C).
+(ref:ggtreeladderizecap) **Ladderized and non-ladderized tree.** `plot.phylo()` displays non-ladderized tree (A), use `ladderize = FALSE` to display non-ladderized tree in `ggtree()` (B), `ggtree()` displays ladderized tree by default (C).
 
 ```{r echo=F}
 library(ape)
@@ -344,7 +344,7 @@ print(pg)
 ### Specifying the order of the tips 
 
 
-The `rotateConstr()` function provided in the `r CRANpkg("ape")` package rotates internal branches based on the specified order of the tips and the order should be followed when plotting the tree (from bottom to top). As `ggtree()` by default ladderizes the input tree, users need to disable by passing `ladderize = FALSE`. Then the order of the tree will be displayed as expected (Figure \@ref(fig:rotateConstr)). Users can also extract tip order displayed by `ggtree()` using the `get_taxa_name()` function as demonstrated in [session 12.6](#tiporder).  
+The `rotateConstr()` function provided in the `r CRANpkg("ape")` package rotates internal branches based on the specified order of the tips, and the order should be followed when plotting the tree (from bottom to top). As `ggtree()` by default ladderizes the input tree, users need to disable by passing `ladderize = FALSE`. Then the order of the tree will be displayed as expected (Figure \@ref(fig:rotateConstr)). Users can also extract tip order displayed by `ggtree()` using the `get_taxa_name()` function as demonstrated in [session 12.6](#tiporder).  
 
 (ref:rotateConstrscap) Specifying tree order.
 
@@ -357,7 +357,7 @@ ggtree(y, ladderize = FALSE) + geom_tiplab()
 
 ### Shrink outlier long branch
 
-When outgroups are on a very long branch length (Figure \@ref(fig:outgroupEdge)A), we would like to keep the outgroups in the tree but ignore their branch lengths (Figure \@ref(fig:outgroupEdge)B)^[example from: <https://groups.google.com/d/msg/bioc-ggtree/T2ySvqv351g/mHsyljvBCwAJ>]. This can be easily done by modifying the coordinates of the outgroups (Figure \@ref(fig:outgroupEdge)B). Another approach is to truncate the plot using the `r CRANpkg("ggbreak")` package (Figure \@ref(fig:outgroupEdge)C) [@ggbreak].
+When outgroups are on a very long branch length (Figure \@ref(fig:outgroupEdge)A), we would like to keep the outgroups in the tree but ignore their branch lengths (Figure \@ref(fig:outgroupEdge)B)^[Example from: <https://groups.google.com/d/msg/bioc-ggtree/T2ySvqv351g/mHsyljvBCwAJ>]. This can be easily done by modifying the coordinates of the outgroups (Figure \@ref(fig:outgroupEdge)B). Another approach is to truncate the plot using the `r CRANpkg("ggbreak")` package (Figure \@ref(fig:outgroupEdge)C) [@ggbreak].
 
 
 (ref:outgroupEdgescap) Shrink outlier long branch.
@@ -394,7 +394,7 @@ plot_list(p1, p, p2, ncol=3, tag_levels="A")
 
 Sometimes there are known branches that are not in the tree, but we would like to have them on the tree. Another common scenario is when we have a new sequence species and would like to update the reference tree with this species by inferring its evolutionary position.
 
-Users can use `phytools::bind.tip()` [@revell_phytools_2012] to attach a new tip to a tree. With `r CRANpkg("tidytree")`, it is easy to add an annotation to differentiate newly introduced and original branches and to reflect the uncertainty of the added branch splits off as demonstrated in Figure \@ref(fig:bindTip). 
+Users can use `phytools::bind.tip()` [@revell_phytools_2012] to attach a new tip to a tree. With `r CRANpkg("tidytree")`, it is easy to add an annotation to differentiate newly introduced and original branches and to reflect the uncertainty of the added branch splits off, as demonstrated in Figure \@ref(fig:bindTip). 
 
 (ref:bindTipscap) Attaching a new tip to a tree.
 
@@ -413,7 +413,7 @@ tr <- rtree(5)
 tr2 <- bind.tip(tr, 'U', edge.length = 0.1, where = 7, position=0.15)
 d <- as_tibble(tr2)
 d$type <- "original"
-d$type[d$label == 'U'] <- 'newly introduce'
+d$type[d$label == 'U'] <- 'newly introduced'
 d$sd <- NA
 d$sd[parent(d, 'U')$node] <- 0.05
 
@@ -421,7 +421,7 @@ tr3 <- as.treedata(d)
 ggtree(tr3, aes(linetype=type)) +  geom_tiplab() +
   geom_errorbarh(aes(xmin=x-sd, xmax=x+sd, y = y - 0.3), 
                 linetype='dashed', height=0.1) +
-  scale_linetype_manual(values = c("newly introduce" = "dashed", 
+  scale_linetype_manual(values = c("newly introduced" = "dashed", 
                                    "original" = "solid")) + 
   theme(legend.position=c(.8, .2)) 
 ``` 
@@ -429,7 +429,7 @@ ggtree(tr3, aes(linetype=type)) +  geom_tiplab() +
 
 ### Change colors or line types of arbitrarily selected branches
 
-If you want to color or change line types of specific branches, you only need to prepare a data frame with variables of branch setting (e.g. selected and unselected). 
+If you want to color or change line types of specific branches, you only need to prepare a data frame with variables of branch setting (e.g., selected and unselected). 
 
 (ref:btypescap) Change colors and line types of specific branches.
 
@@ -455,7 +455,7 @@ Users can use the `r CRANpkg("gginnards")` package to manipulate plot elements f
 
 ### Add an arbitrary point to a branch {#arbitrary-point}
 
-If you want to add an arbitrary point to a branch^[<https://twitter.com/melanoidin/status/1262703932993871874>], you can use `geom_nodepoint()`, `geom_tippoint()`, or `geom_point2()` (works for both external and internal nodes) to filter selected node (the endpoint of the branch) via the `subset` aesthetic mapping and specify horizontal position by `x = x - offset` aesthetic mapping, where the offset can be an absolute value (Figure \@ref(fig:pointOnBranch)A) or proportion to the branch length (Figure \@ref(fig:pointOnBranch)B).
+If you want to add an arbitrary point to a branch^[<https://twitter.com/melanoidin/status/1262703932993871874>], you can use `geom_nodepoint()`, `geom_tippoint()`, or `geom_point2()` (works for both external and internal nodes) to filter selected node (the endpoint of the branch) via the `subset` aesthetic mapping and specify horizontal position by `x = x - offset` aesthetic mapping, where the offset can be an absolute value (Figure \@ref(fig:pointOnBranch)A) or in proportion to the branch length (Figure \@ref(fig:pointOnBranch)B).
 
 
 
@@ -480,7 +480,7 @@ plot_list(p1, p2, ncol=2, tag_levels="A")
 ```
 
 
-## Different x-axis labels for different facet panels
+## Different X-axis Labels for Different Facet Panels
 
 This is not supported by `r CRANpkg("ggplot2")` in general. However, we can just draw text labels for each panel and put the labels beyond the plot panels as demonstrated in Figure \@ref(fig:xlabFacets).
 
@@ -504,7 +504,7 @@ p2 <- p + geom_facet(panel = "Dot", data = d,
 p2 <- p2 + theme_bw() + 
     xlim_tree(5) + xlim_expand(c(-5, 5), 'Dot') 
 
-# .panel is the internal variable use in `geom_facet` for faceting.
+# .panel is the internal variable used in `geom_facet` for faceting.
 d <- data.frame(.panel = c('Tree', 'Dot'), 
                 lab = c("Distance", "Dot Units"), 
                 x=c(2.5,0), y=-2)
@@ -517,9 +517,9 @@ p2 + scale_y_continuous(limits=c(0, 31),
     theme(plot.margin=margin(6, 6, 40, 6))
 ```
 
-## Plot something behind the phylogeny {#faq-under-the-tree}
+## Plot Something behind the Phylogeny {#faq-under-the-tree}
 
-The `ggtree()` function plots the tree structure and normally we add layers on top of the tree.
+The `ggtree()` function plots the tree structure, and normally we add layers on top of the tree.
 
 ```{r tree_behind_box}
 set.seed(1982)
@@ -554,7 +554,7 @@ cowplot::plot_grid(g, p,
 
 
 
-## Enlarge center space in circular/fan layout tree {#faq-enlarge-center-space}
+## Enlarge Center Space in Circular/Fan Layout Tree {#faq-enlarge-center-space}
 
 This question was asked several times^[<https://groups.google.com/d/msg/bioc-ggtree/gruC4FztU8I/mwavqWCXAQAJ>, <https://groups.google.com/d/msg/bioc-ggtree/UoGQekWHIvw/ZswUUZKSGwAJ> and <https://github.com/GuangchuangYu/ggtree/issues/95>], and a published example can be found in [@barton_broad_2016]. Increasing the percentage of center white space in a circular tree is useful to avoid overlapping tip labels and to increase the readability of the tree by moving all nodes and branches further out. This can be done simply by using `xlim()` or `hexpand()` to allocate more space, just like in Figure \@ref(fig:layout2)G, or assigning a long root branch that is similar to the "Root Length" parameter in `r pkg_figtree`. 
 
@@ -575,13 +575,13 @@ plot_list(
 )
 ```
 
-## Use the most distant tip from the root as the origin of the time scale
+## Use the Most Distant Tip from the Root as the Origin of the Time-scale
 
 The `revts()` will reverse the x-axis by setting the most recent tip to 0. We can use `scale_x_continuous(labels=abs)` to label x-axis using absolute values.
 
 (ref:distantTipscap) Origin of the time scale.
 
-(ref:distantTipcap) **Origin of the time scale.** Forward: from the root to tips (A). Backward: from the most distant tip to the root (B).
+(ref:distantTipcap) **Origin of the time scale.** Forward: from the root to the tips (A). Backward: from the most distant tip to the root (B).
 
 
 ```{r distantTip, fig.cap="(ref:distantTipcap)", fig.scap="(ref:distantTipscap)", fig.width=6, fig.height=3, out.width="100%"}
@@ -591,7 +591,7 @@ p2 <- revts(p) + scale_x_continuous(labels=abs)
 plot_list(p, p2, ncol=2, tag_levels="A")
 ```
 
-## Remove blank margins for circular layout tree {#circular-blank}
+## Remove Blank Margins for Circular Layout Tree {#circular-blank}
 
 For plots in polar coordinates, such as a circular layout tree, it is very common that extra spaces will be generated. 
 
@@ -604,7 +604,7 @@ opts_chunk$set(crop = TRUE)
 ```
 
 
-Otherwise, we can use command-line tools to remove extra whitespace:
+Otherwise, we can use command-line tools to remove extra white space:
 
 ```shell
 ## for pdf
@@ -629,9 +629,9 @@ image_trim(x)
 
 Here is an example:
 
-(ref:trimSpacescap) Trim extra whitespace for polar coordinates.
+(ref:trimSpacescap) Trim extra white space for polar coordinates.
 
-(ref:trimSpacecap) **Trim extra whitespace for polar coordinates.** Original plot (A). Trimmed version (B).
+(ref:trimSpacecap) **Trim extra white space for polar coordinates.** Original plot (A). Trimmed version (B).
 
 
 ```{r trimSpace, fig.width=8.8, fig.height=4.5, fig.cap="(ref:trimSpacecap)", fig.scap="(ref:trimSpacescap)", out.width="100%"}
@@ -659,8 +659,8 @@ plot_list(xx, yy, tag_levels = "A", ncol=2)
 ``` 
 
 
-## Edit tree graphic details {#export-edit}
+## Edit Tree Graphic Details {#export-edit}
 
 
-It can be hard to modify plot details for ordinary users using `r CRANpkg("ggplot2")`/`r Biocpkg("ggtree")`. We recommend using the `r CRANpkg("eoffice")` package to export `r Biocpkg("ggtree")` output to 'Microsoft Office' Document and edit the tree graphic in 'PowerPoint'.
+It can be hard to modify plot details for ordinary users using `r CRANpkg("ggplot2")`/`r Biocpkg("ggtree")`. We recommend using the `r CRANpkg("eoffice")` package to export `r Biocpkg("ggtree")` output to a 'Microsoft Office' Document and edit the tree graphic in 'PowerPoint'.
 
