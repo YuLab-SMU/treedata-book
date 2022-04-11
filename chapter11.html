@@ -4,23 +4,48 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Chapter 11 Other ggtree extensions | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
+<title>Chapter 11 Other ggtree Extensions | Data Integration, Manipulation and Visualization of Phylogenetic Trees with R</title>
 <meta name="author" content="Guangchuang Yu">
 <meta name="description" content="The ggtree package is a general package for visualizing tree structures and associated data. If you have some special requirements that are not directly provided by ggtree, you may need to use one...">
-<meta name="generator" content="bookdown 0.24.4 with bs4_book()">
-<meta property="og:title" content="Chapter 11 Other ggtree extensions | Data Integration, Manipulation and Visualization of Phylogenetic Trees">
+<meta name="generator" content="bookdown 0.25.4 with bs4_book()">
+<meta property="og:title" content="Chapter 11 Other ggtree Extensions | Data Integration, Manipulation and Visualization of Phylogenetic Trees with R">
 <meta property="og:type" content="book">
 <meta property="og:image" content="/book-cover.png">
 <meta property="og:description" content="The ggtree package is a general package for visualizing tree structures and associated data. If you have some special requirements that are not directly provided by ggtree, you may need to use one...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chapter 11 Other ggtree extensions | Data Integration, Manipulation and Visualization of Phylogenetic Trees">
+<meta name="twitter:title" content="Chapter 11 Other ggtree Extensions | Data Integration, Manipulation and Visualization of Phylogenetic Trees with R">
 <meta name="twitter:description" content="The ggtree package is a general package for visualizing tree structures and associated data. If you have some special requirements that are not directly provided by ggtree, you may need to use one...">
 <meta name="twitter:image" content="/book-cover.png">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs/header-attrs.js"></script><script src="libs/jquery/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap/bootstrap.bundle.min.js"></script><script src="libs/bs3compat/transition.js"></script><script src="libs/bs3compat/tabs.js"></script><script src="libs/bs3compat/bs3compat.js"></script><link href="libs/bs4_book/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book/bs4_book.js"></script><script src="libs/kePrint/kePrint.js"></script><link href="libs/lightable/lightable.css" rel="stylesheet">
-<script src="libs/htmlwidgets/htmlwidgets.js"></script><script src="libs/pathseg/pathseg.js"></script><script src="libs/comic/comic.min.js"></script><script src="libs/comicR-binding/comicR.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS -->
+<script src="libs/htmlwidgets/htmlwidgets.js"></script><script src="libs/pathseg/pathseg.js"></script><script src="libs/comic/comic.min.js"></script><script src="libs/comicR-binding/comicR.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
 </head>
 <body data-spy="scroll" data-target="#toc">
 
@@ -30,7 +55,7 @@
 
     <div class="d-flex align-items-start justify-content-between">
       <h1>
-        <a href="index.html" title="">Data Integration, Manipulation and Visualization of Phylogenetic Trees</a>
+        <a href="index.html" title="">Data Integration, Manipulation and Visualization of Phylogenetic Trees with R</a>
       </h1>
       <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
     </div>
@@ -51,19 +76,19 @@
 <li class="book-part">Part II: Tree data visualization and annotation</li>
 <li><a class="" href="chapter4.html"><span class="header-section-number">4</span> Phylogenetic Tree Visualization</a></li>
 <li><a class="" href="chapter5.html"><span class="header-section-number">5</span> Phylogenetic Tree Annotation</a></li>
-<li><a class="" href="chapter6.html"><span class="header-section-number">6</span> Visual Exploration of Phylogenetic Tree</a></li>
+<li><a class="" href="chapter6.html"><span class="header-section-number">6</span> Visual Exploration of Phylogenetic Trees</a></li>
 <li><a class="" href="chapter7.html"><span class="header-section-number">7</span> Plotting tree with data</a></li>
 <li><a class="" href="chapter8.html"><span class="header-section-number">8</span> Annotating Tree with Silhouette Images and Sub-plots</a></li>
-<li><a class="" href="chapter9.html"><span class="header-section-number">9</span> ggtree for other tree-like objects</a></li>
+<li><a class="" href="chapter9.html"><span class="header-section-number">9</span> ggtree for Other Tree-like Objects</a></li>
 <li class="book-part">Part III: ggtree extensions</li>
-<li><a class="" href="chapter10.html"><span class="header-section-number">10</span> ggtreeExtra for presenting data on a circular layout</a></li>
-<li><a class="active" href="chapter11.html"><span class="header-section-number">11</span> Other ggtree extensions</a></li>
+<li><a class="" href="chapter10.html"><span class="header-section-number">10</span> ggtreeExtra for Presenting Data on a Circular Layout</a></li>
+<li><a class="active" href="chapter11.html"><span class="header-section-number">11</span> Other ggtree Extensions</a></li>
 <li class="book-part">Part IV: Miscellaneous topics</li>
-<li><a class="" href="chapter12.html"><span class="header-section-number">12</span> ggtree utilities</a></li>
-<li><a class="" href="chapter13.html"><span class="header-section-number">13</span> Gallery of reproducible examples</a></li>
+<li><a class="" href="chapter12.html"><span class="header-section-number">12</span> ggtree Utilities</a></li>
+<li><a class="" href="chapter13.html"><span class="header-section-number">13</span> Gallery of Reproducible Examples</a></li>
 <li class="book-part">Appendix</li>
-<li><a class="" href="faq.html"><span class="header-section-number">A</span> Frequently asked questions</a></li>
-<li><a class="" href="related-tools.html"><span class="header-section-number">B</span> Related tools</a></li>
+<li><a class="" href="faq.html"><span class="header-section-number">A</span> Frequently Asked Questions</a></li>
+<li><a class="" href="related-tools.html"><span class="header-section-number">B</span> Related Tools</a></li>
 <li><a class="" href="figures-and-tables.html"><span class="header-section-number">C</span> Figures and Tables</a></li>
 <li><a class="" href="publications-of-the-ggtree-package-suite.html"><span class="header-section-number">D</span> Publications of the ggtree package suite</a></li>
 <li><a class="" href="references.html">References</a></li>
@@ -76,9 +101,9 @@
 </div>
   </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="chapter11" class="section level1" number="11">
 <h1>
-<span class="header-section-number">11</span> Other ggtree extensions<a class="anchor" aria-label="anchor" href="#chapter11"><i class="fas fa-link"></i></a>
+<span class="header-section-number">11</span> Other ggtree Extensions<a class="anchor" aria-label="anchor" href="#chapter11"><i class="fas fa-link"></i></a>
 </h1>
-<p>The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> package is a general package for visualizing tree structures and associated data. If you have some special requirements that are not directly provided by <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a>, you may need to use one of the extension packages buit on top of <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a>. For example, the <a href="https://CRAN.R-project.org/package=RevGadgets"><strong>RevGadgets</strong></a> package for visualizing the output of the <a href="http://revbayes.github.io/intro.html"><strong>RevBayes</strong></a>, the <a href="http://bioconductor.org/packages/sitePath"><strong>sitePath</strong></a> package for visualizing fixation events on phylogenetic pathways, and the <a href="http://bioconductor.org/packages/enrichplot"><strong>enrichplot</strong></a> package for visualizing hierarchical structure of the enriched pathways.</p>
+<p>The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> package is a general package for visualizing tree structures and associated data. If you have some special requirements that are not directly provided by <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a>, you may need to use one of the extension packages built on top of <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a>. For example, the <a href="https://CRAN.R-project.org/package=RevGadgets"><strong>RevGadgets</strong></a> package for visualizing the output of the <a href="http://revbayes.github.io/intro.html"><strong>RevBayes</strong></a>, the <a href="http://bioconductor.org/packages/sitePath"><strong>sitePath</strong></a> package for visualizing fixation events on phylogenetic pathways, and the <a href="http://bioconductor.org/packages/enrichplot"><strong>enrichplot</strong></a> package for visualizing hierarchical structure of the enriched pathways.</p>
 <div class="sourceCode" id="cb229"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">rp</span> <span class="op">&lt;-</span> <span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/repositories.html">repositories</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">db</span> <span class="op">&lt;-</span> <span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/available.packages.html">available.packages</a></span><span class="op">(</span>repo<span class="op">=</span><span class="va">rp</span><span class="op">)</span>
@@ -93,12 +118,12 @@
 ##  [7] "philr"             "singleCellTK"     
 ##  [9] "sitePath"          "systemPipeTools"  
 ## [11] "tanggle"           "treekoR"</code></pre>
-<p>There are 12 packages in CRAN or Bioconductor that depend or import <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> and several packages on GitHub that extend <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a>. Here we briefly introudce some extension packages, including <a href="http://bioconductor.org/packages/MicrobiotaProcess"><strong>MicrobiotaProcess</strong></a> and <a href="http://bioconductor.org/packages/tanggle"><strong>tanggle</strong></a>.</p>
+<p>There are 12 packages in CRAN or Bioconductor that depend on or import <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> and several packages on GitHub that extend <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a>. Here we briefly introduce some extension packages, including <a href="http://bioconductor.org/packages/MicrobiotaProcess"><strong>MicrobiotaProcess</strong></a> and <a href="http://bioconductor.org/packages/tanggle"><strong>tanggle</strong></a>.</p>
 <div id="MicrobiotaProcess" class="section level2" number="11.1">
 <h2>
-<span class="header-section-number">11.1</span> Taxonomy annotation using MicrobiotaProcess<a class="anchor" aria-label="anchor" href="#MicrobiotaProcess"><i class="fas fa-link"></i></a>
+<span class="header-section-number">11.1</span> Taxonomy Annotation Using MicrobiotaProcess<a class="anchor" aria-label="anchor" href="#MicrobiotaProcess"><i class="fas fa-link"></i></a>
 </h2>
-<p>The <a href="http://bioconductor.org/packages/MicrobiotaProcess"><strong>MicrobiotaProcess</strong></a> package provides a LEfSe-like algorithm <span class="citation">(<a href="references.html#ref-segata_metagenomic_2011" role="doc-biblioref">Segata et al. 2011</a>)</span> to discover microbiome biomarkers by comparing taxon abundance between different classes. It provides several methods to visualize the analysis result. The <code>ggdiffcalde()</code> is developed based on <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> <span class="citation">(<a href="references.html#ref-yu_ggtree:_2017" role="doc-biblioref">Yu et al. 2017</a>)</span>. In addition to the <code><a href="https://rdrr.io/pkg/MicrobiotaProcess/man/diff_analysis.html">diff_analysis()</a></code> result, it also supports a data frame that contains a hierarchical relationship (<em>e.g.</em> <a href="related-tools.html#MicrobiotaProcess-taxonomy">taxonomy annotation</a> or KEGG annotation) with another data frame that contains taxa and factor information and/or pvalue. The following example demonstrates how to use data frames (<em>i.e.</em> analysis results) to visualize the differential taxonomy tree. More details can be found on the vignette of the <a href="http://bioconductor.org/packages/MicrobiotaProcess"><strong>MicrobiotaProcess</strong></a> package.</p>
+<p>The <a href="http://bioconductor.org/packages/MicrobiotaProcess"><strong>MicrobiotaProcess</strong></a> package provides a LEfSe-like algorithm <span class="citation">(<a href="references.html#ref-segata_metagenomic_2011" role="doc-biblioref">Segata et al., 2011</a>)</span> to discover microbiome biomarkers by comparing taxon abundance between different classes. It provides several methods to visualize the analysis result. The <code>ggdiffcalde</code> is developed based on <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> <span class="citation">(<a href="references.html#ref-yu_ggtree:_2017" role="doc-biblioref">Yu et al., 2017</a>)</span>. In addition to the <code><a href="https://rdrr.io/pkg/MicrobiotaProcess/man/diff_analysis.html">diff_analysis()</a></code> result, it also supports a data frame that contains a hierarchical relationship (<em>e.g.</em>, <a href="related-tools.html#MicrobiotaProcess-taxonomy">taxonomy annotation</a> or KEGG annotation) with another data frame that contains taxa and factor information and/or pvalue. The following example demonstrates how to use data frames (<em>i.e.</em>, analysis results) to visualize the differential taxonomy tree. More details can be found on the vignette of the <a href="http://bioconductor.org/packages/MicrobiotaProcess"><strong>MicrobiotaProcess</strong></a> package.</p>
 
 
 <div class="sourceCode" id="cb231"><pre class="downlit sourceCode r">
@@ -137,13 +162,13 @@
 FIGURE 11.1: <strong>Visualize differential taxonomy clade.</strong>
 </p>
 </div>
-<p>The data frame of this example is from the analysis result of <code><a href="https://rdrr.io/pkg/MicrobiotaProcess/man/diff_analysis.html">diff_analysis()</a></code> using public datasets <span class="citation">(<a href="references.html#ref-kostic2012genomic" role="doc-biblioref">Kostic et al. 2012</a>)</span>. The <code>colors</code> represent the features enriched in the relevant class groups. The size of circle points represents the <code>-log10(pvalue)</code>, <em>i.e.</em> a larger point indicates a greater significance. In Figure <a href="chapter11.html#fig:CRCdiffclade">11.1</a>, we can find that <em>Fusobacterium</em> sequences were enriched in carcinomas, while Firmicutes, Bacteroides, and Clostridiales were depleted in tumors. These results were consistent with the original article <span class="citation">(<a href="references.html#ref-kostic2012genomic" role="doc-biblioref">Kostic et al. 2012</a>)</span>. The species of <em>Campylobacter</em> has been proven to be associated with colorectal cancer <span class="citation">(<a href="references.html#ref-He289" role="doc-biblioref">Zhen He et al. 2019</a>; <a href="references.html#ref-wu2013dysbiosis" role="doc-biblioref">Wu et al. 2013</a>; <a href="references.html#ref-amer2017microbiome" role="doc-biblioref">Amer et al. 2017</a>)</span>. We can find in Figure <a href="chapter11.html#fig:CRCdiffclade">11.1</a> that <em>Campylobacter</em> was enriched in tumors, while its relative abundance is lower than <em>Fusobacterium</em>.</p>
+<p>The data frame of this example is from the analysis result of <code><a href="https://rdrr.io/pkg/MicrobiotaProcess/man/diff_analysis.html">diff_analysis()</a></code> using public datasets <span class="citation">(<a href="references.html#ref-kostic2012genomic" role="doc-biblioref">Kostic et al., 2012</a>)</span>. The <code>colors</code> represent the features enriched in the relevant class groups. The size of circle points represents the <code>-log10(pvalue)</code>, <em>i.e.</em>, a larger point indicates a greater significance. In Figure <a href="chapter11.html#fig:CRCdiffclade">11.1</a>, we can find that <em>Fusobacterium</em> sequences were enriched in carcinomas, while Firmicutes, Bacteroides, and Clostridiales were greatly reduced in tumors. These results were consistent with the original article <span class="citation">(<a href="references.html#ref-kostic2012genomic" role="doc-biblioref">Kostic et al., 2012</a>)</span>. The species of <em>Campylobacter</em> has been proven to be associated with colorectal cancer <span class="citation">(<a href="references.html#ref-amer2017microbiome" role="doc-biblioref">Amer et al., 2017</a>; <a href="references.html#ref-He289" role="doc-biblioref">He et al., 2019</a>; <a href="references.html#ref-wu2013dysbiosis" role="doc-biblioref">Wu et al., 2013</a>)</span>. We can find in Figure <a href="chapter11.html#fig:CRCdiffclade">11.1</a> that <em>Campylobacter</em> was enriched in tumors, while its relative abundance is lower than <em>Fusobacterium</em>.</p>
 </div>
 <div id="visualizing-phylogenetic-network-using-tanggle" class="section level2" number="11.2">
 <h2>
-<span class="header-section-number">11.2</span> Visualizing phylogenetic network using tanggle<a class="anchor" aria-label="anchor" href="#visualizing-phylogenetic-network-using-tanggle"><i class="fas fa-link"></i></a>
+<span class="header-section-number">11.2</span> Visualizing Phylogenetic Network Using Tanggle<a class="anchor" aria-label="anchor" href="#visualizing-phylogenetic-network-using-tanggle"><i class="fas fa-link"></i></a>
 </h2>
-<p>The <a href="http://bioconductor.org/packages/tanggle"><strong>tanggle</strong></a> package provides functions to display split network. It extends the <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> package <span class="citation">(<a href="references.html#ref-yu_ggtree:_2017" role="doc-biblioref">Yu et al. 2017</a>)</span> to allow the visualization of phylogenetic networks.</p>
+<p>The <a href="http://bioconductor.org/packages/tanggle"><strong>tanggle</strong></a> package provides functions to display a split network. It extends the <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> package <span class="citation">(<a href="references.html#ref-yu_ggtree:_2017" role="doc-biblioref">Yu et al., 2017</a>)</span> to allow the visualization of phylogenetic networks.</p>
 
 
 <div class="sourceCode" id="cb232"><pre class="downlit sourceCode r">
@@ -171,7 +196,7 @@ FIGURE 11.2: <strong>Phylogenetic network</strong>.
 <h2>
 <span class="header-section-number">11.3</span> Summary<a class="anchor" aria-label="anchor" href="#summary11"><i class="fas fa-link"></i></a>
 </h2>
-<p>The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> is designed to support the grammar of graphics, allowing users to quickly explore phylogenetic data through visualization. When users have special needs and <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> does not provide them, it is highly recommended to develop extension packages to implement these missing functions. This is a good mechanism, and we also hope that <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> users can become a <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> community. In this way, more functions for special needs can be developed and shared among users. Everyone will benefit from it, and I am very excited that this is happening.</p>
+<p>The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> is designed to support the grammar of graphics, allowing users to quickly explore phylogenetic data through visualization. When users have special needs and <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> does not provide them, it is highly recommended to develop extension packages to implement these missing functions. This is a good mechanism, and we also hope that <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> users can become a <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> community. In this way, more functions for special needs can be developed and shared among users. Everyone will benefit from it, and it’s exciting that this is happening.</p>
 
 </div>
 </div>
@@ -179,14 +204,14 @@ FIGURE 11.2: <strong>Phylogenetic network</strong>.
 
 
 <div class="chapter-nav">
-<div class="prev"><a href="chapter10.html"><span class="header-section-number">10</span> ggtreeExtra for presenting data on a circular layout</a></div>
-<div class="next"><a href="chapter12.html"><span class="header-section-number">12</span> ggtree utilities</a></div>
+<div class="prev"><a href="chapter10.html"><span class="header-section-number">10</span> ggtreeExtra for Presenting Data on a Circular Layout</a></div>
+<div class="next"><a href="chapter12.html"><span class="header-section-number">12</span> ggtree Utilities</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#chapter11"><span class="header-section-number">11</span> Other ggtree extensions</a></li>
-<li><a class="nav-link" href="#MicrobiotaProcess"><span class="header-section-number">11.1</span> Taxonomy annotation using MicrobiotaProcess</a></li>
-<li><a class="nav-link" href="#visualizing-phylogenetic-network-using-tanggle"><span class="header-section-number">11.2</span> Visualizing phylogenetic network using tanggle</a></li>
+<li><a class="nav-link" href="#chapter11"><span class="header-section-number">11</span> Other ggtree Extensions</a></li>
+<li><a class="nav-link" href="#MicrobiotaProcess"><span class="header-section-number">11.1</span> Taxonomy Annotation Using MicrobiotaProcess</a></li>
+<li><a class="nav-link" href="#visualizing-phylogenetic-network-using-tanggle"><span class="header-section-number">11.2</span> Visualizing Phylogenetic Network Using Tanggle</a></li>
 <li><a class="nav-link" href="#summary11"><span class="header-section-number">11.3</span> Summary</a></li>
 </ul>
 
@@ -208,7 +233,7 @@ FIGURE 11.2: <strong>Phylogenetic network</strong>.
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2022-01-10.</p>
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees with R</strong>" was written by Guangchuang Yu. It was last built on 2022-04-11.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

@@ -4,23 +4,48 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Chapter 8 Annotating Tree with Silhouette Images and Sub-plots | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
+<title>Chapter 8 Annotating Tree with Silhouette Images and Sub-plots | Data Integration, Manipulation and Visualization of Phylogenetic Trees with R</title>
 <meta name="author" content="Guangchuang Yu">
 <meta name="description" content="8.1 Annotating Tree with Images We usually use text to label taxa, i.e. displaying taxa names. If the text is the image file name (either local or remote), ggtree can read the image and display...">
-<meta name="generator" content="bookdown 0.24.4 with bs4_book()">
-<meta property="og:title" content="Chapter 8 Annotating Tree with Silhouette Images and Sub-plots | Data Integration, Manipulation and Visualization of Phylogenetic Trees">
+<meta name="generator" content="bookdown 0.25.4 with bs4_book()">
+<meta property="og:title" content="Chapter 8 Annotating Tree with Silhouette Images and Sub-plots | Data Integration, Manipulation and Visualization of Phylogenetic Trees with R">
 <meta property="og:type" content="book">
 <meta property="og:image" content="/book-cover.png">
 <meta property="og:description" content="8.1 Annotating Tree with Images We usually use text to label taxa, i.e. displaying taxa names. If the text is the image file name (either local or remote), ggtree can read the image and display...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chapter 8 Annotating Tree with Silhouette Images and Sub-plots | Data Integration, Manipulation and Visualization of Phylogenetic Trees">
+<meta name="twitter:title" content="Chapter 8 Annotating Tree with Silhouette Images and Sub-plots | Data Integration, Manipulation and Visualization of Phylogenetic Trees with R">
 <meta name="twitter:description" content="8.1 Annotating Tree with Images We usually use text to label taxa, i.e. displaying taxa names. If the text is the image file name (either local or remote), ggtree can read the image and display...">
 <meta name="twitter:image" content="/book-cover.png">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs/header-attrs.js"></script><script src="libs/jquery/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap/bootstrap.bundle.min.js"></script><script src="libs/bs3compat/transition.js"></script><script src="libs/bs3compat/tabs.js"></script><script src="libs/bs3compat/bs3compat.js"></script><link href="libs/bs4_book/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book/bs4_book.js"></script><script src="libs/kePrint/kePrint.js"></script><link href="libs/lightable/lightable.css" rel="stylesheet">
-<script src="libs/htmlwidgets/htmlwidgets.js"></script><script src="libs/pathseg/pathseg.js"></script><script src="libs/comic/comic.min.js"></script><script src="libs/comicR-binding/comicR.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS -->
+<script src="libs/htmlwidgets/htmlwidgets.js"></script><script src="libs/pathseg/pathseg.js"></script><script src="libs/comic/comic.min.js"></script><script src="libs/comicR-binding/comicR.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
 </head>
 <body data-spy="scroll" data-target="#toc">
 
@@ -30,7 +55,7 @@
 
     <div class="d-flex align-items-start justify-content-between">
       <h1>
-        <a href="index.html" title="">Data Integration, Manipulation and Visualization of Phylogenetic Trees</a>
+        <a href="index.html" title="">Data Integration, Manipulation and Visualization of Phylogenetic Trees with R</a>
       </h1>
       <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
     </div>
@@ -51,19 +76,19 @@
 <li class="book-part">Part II: Tree data visualization and annotation</li>
 <li><a class="" href="chapter4.html"><span class="header-section-number">4</span> Phylogenetic Tree Visualization</a></li>
 <li><a class="" href="chapter5.html"><span class="header-section-number">5</span> Phylogenetic Tree Annotation</a></li>
-<li><a class="" href="chapter6.html"><span class="header-section-number">6</span> Visual Exploration of Phylogenetic Tree</a></li>
+<li><a class="" href="chapter6.html"><span class="header-section-number">6</span> Visual Exploration of Phylogenetic Trees</a></li>
 <li><a class="" href="chapter7.html"><span class="header-section-number">7</span> Plotting tree with data</a></li>
 <li><a class="active" href="chapter8.html"><span class="header-section-number">8</span> Annotating Tree with Silhouette Images and Sub-plots</a></li>
-<li><a class="" href="chapter9.html"><span class="header-section-number">9</span> ggtree for other tree-like objects</a></li>
+<li><a class="" href="chapter9.html"><span class="header-section-number">9</span> ggtree for Other Tree-like Objects</a></li>
 <li class="book-part">Part III: ggtree extensions</li>
-<li><a class="" href="chapter10.html"><span class="header-section-number">10</span> ggtreeExtra for presenting data on a circular layout</a></li>
-<li><a class="" href="chapter11.html"><span class="header-section-number">11</span> Other ggtree extensions</a></li>
+<li><a class="" href="chapter10.html"><span class="header-section-number">10</span> ggtreeExtra for Presenting Data on a Circular Layout</a></li>
+<li><a class="" href="chapter11.html"><span class="header-section-number">11</span> Other ggtree Extensions</a></li>
 <li class="book-part">Part IV: Miscellaneous topics</li>
-<li><a class="" href="chapter12.html"><span class="header-section-number">12</span> ggtree utilities</a></li>
-<li><a class="" href="chapter13.html"><span class="header-section-number">13</span> Gallery of reproducible examples</a></li>
+<li><a class="" href="chapter12.html"><span class="header-section-number">12</span> ggtree Utilities</a></li>
+<li><a class="" href="chapter13.html"><span class="header-section-number">13</span> Gallery of Reproducible Examples</a></li>
 <li class="book-part">Appendix</li>
-<li><a class="" href="faq.html"><span class="header-section-number">A</span> Frequently asked questions</a></li>
-<li><a class="" href="related-tools.html"><span class="header-section-number">B</span> Related tools</a></li>
+<li><a class="" href="faq.html"><span class="header-section-number">A</span> Frequently Asked Questions</a></li>
+<li><a class="" href="related-tools.html"><span class="header-section-number">B</span> Related Tools</a></li>
 <li><a class="" href="figures-and-tables.html"><span class="header-section-number">C</span> Figures and Tables</a></li>
 <li><a class="" href="publications-of-the-ggtree-package-suite.html"><span class="header-section-number">D</span> Publications of the ggtree package suite</a></li>
 <li><a class="" href="references.html">References</a></li>
@@ -83,7 +108,7 @@
 <span class="header-section-number">8.1</span> Annotating Tree with Images<a class="anchor" aria-label="anchor" href="#ggimage"><i class="fas fa-link"></i></a>
 </h2>
 <p>We usually use text to label taxa, <em>i.e.</em> displaying taxa names. If the text is the image file name (either local or remote), <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> can read the image and display the actual image as the label of the taxa (Figure <a href="chapter8.html#fig:frogimage">8.1</a>). The <code><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab()</a></code> and <code><a href="https://rdrr.io/pkg/ggtree/man/geom_nodelab.html">geom_nodelab()</a></code> are capable to render silhouette images by internally called the <a href="https://CRAN.R-project.org/package=ggimage"><strong>ggimage</strong></a> package.</p>
-<p>Online tools such as <a href="https://itol.embl.de/"><strong>iTOL</strong></a> <span class="citation">(<a href="references.html#ref-letunic_interactive_2007" role="doc-biblioref">Letunic and Bork 2007</a>)</span> and <a href="https://www.evolgenius.info/evolview/"><strong>EvolView</strong></a> <span class="citation">(<a href="references.html#ref-he_evolview_2016" role="doc-biblioref">Zilong He et al. 2016</a>)</span> support displaying subplots on a phylogenetic tree. However only bar and pie charts are supported by these tools. Users may want to visualize node-associated data with other visualization methods, such as violin plot <span class="citation">(<a href="references.html#ref-grubaugh_genomic_2017" role="doc-biblioref">Grubaugh et al. 2017</a>)</span>, venn diagram <span class="citation">(<a href="references.html#ref-lott_covenntree:_2015" role="doc-biblioref">Lott et al. 2015</a>)</span>, sequence logo, <em>etc.</em>, and display them on the tree. In <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a>, all kinds of subplots are supported as we can export all subplots to image files and use them to label corresponding nodes on the tree.</p>
+<p>Online tools such as <a href="https://itol.embl.de/"><strong>iTOL</strong></a> <span class="citation">(<a href="references.html#ref-letunic_interactive_2007" role="doc-biblioref">Letunic &amp; Bork, 2007</a>)</span> and <a href="https://www.evolgenius.info/evolview/"><strong>EvolView</strong></a> <span class="citation">(<a href="references.html#ref-he_evolview_2016" role="doc-biblioref">He et al., 2016</a>)</span> support displaying subplots on a phylogenetic tree. However, only bar and pie charts are supported by these tools. Users may want to visualize node-associated data with other visualization methods, such as violin plot <span class="citation">(<a href="references.html#ref-grubaugh_genomic_2017" role="doc-biblioref">Grubaugh et al., 2017</a>)</span>, venn diagram <span class="citation">(<a href="references.html#ref-lott_covenntree:_2015" role="doc-biblioref">Lott et al., 2015</a>)</span>, sequence logo, <em>etc.</em>, and display them on the tree. In <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a>, all kinds of subplots are supported, as we can export all subplots to image files and use them to label corresponding nodes on the tree.</p>
 
 
 <div class="sourceCode" id="cb200"><pre class="downlit sourceCode r">
@@ -112,7 +137,7 @@ FIGURE 8.1: <strong>Labelling taxa with images.</strong> Users need to specify <
 <h2>
 <span class="header-section-number">8.2</span> Annotating Tree with Phylopic<a class="anchor" aria-label="anchor" href="#phylopic"><i class="fas fa-link"></i></a>
 </h2>
-<p><a href="phylopic.org">Phylopic</a> contains more than 3200 silhouettes and covers almost all life forms. The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> package supports using phylopic<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://twitter.com/guangchuangyu/status/593443854541434882" class="uri"&gt;https://twitter.com/guangchuangyu/status/593443854541434882&lt;/a&gt;&lt;/p&gt;'><sup>13</sup></a> to annotate the tree by setting <code>geom="phylopic"</code> and mapping phylopic UID to the <code>image</code> aesthetics. The <a href="https://CRAN.R-project.org/package=ggimage"><strong>ggimage</strong></a> package supports querying phylopic UID from the scientific name, which is very handy for annotating tree with phylopic. In the following example, tip labels were used to query phylopic UID and phylopic images were used to label the tree as another layer of tip labels. Most importantly, we can color or resize the images using numerical/categorical variables and here the values of body mass were used to encode the color of the images (Figure <a href="chapter8.html#fig:phylopic">8.2</a>).</p>
+<p><a href="phylopic.org">Phylopic</a> contains more than 3200 silhouettes and covers almost all life forms. The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> package supports using phylopic<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://twitter.com/guangchuangyu/status/593443854541434882" class="uri"&gt;https://twitter.com/guangchuangyu/status/593443854541434882&lt;/a&gt;&lt;/p&gt;'><sup>13</sup></a> to annotate the tree by setting <code>geom="phylopic"</code> and mapping phylopic UID to the <code>image</code> aesthetics. The <a href="https://CRAN.R-project.org/package=ggimage"><strong>ggimage</strong></a> package supports querying phylopic UID from the scientific name, which is very handy for annotating tree with phylopic. In the following example, tip labels were used to query phylopic UID, and phylopic images were used to label the tree as another layer of tip labels. Most importantly, we can color or resize the images using numerical/categorical variables, and here the values of body mass were used to encode the color of the images (Figure <a href="chapter8.html#fig:phylopic">8.2</a>).</p>
 <!--
 #```
 tree <- ape::read.nexus("data/tree.nex")
@@ -170,7 +195,7 @@ FIGURE 8.2: <strong>Labelling taxa with phylopic images.</strong> The <a href="h
 <h2>
 <span class="header-section-number">8.3</span> Annotating Tree with Sub-plots<a class="anchor" aria-label="anchor" href="#subplots"><i class="fas fa-link"></i></a>
 </h2>
-<p>The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> package provides a layer, <code><a href="https://rdrr.io/pkg/ggtree/man/inset.html">geom_inset()</a></code>, for adding subplots to a phylogenetic tree. The input is a named list of <code>ggplot</code> graphic objects (can be any kind of chart). These objects should be named by node numbers. Users can also use <a href="https://CRAN.R-project.org/package=ggplotify"><strong>ggplotify</strong></a> to convert plots generated by other functions (even implemented by base graphics) to <code>ggplot</code> objects, which can then be used in the <code><a href="https://rdrr.io/pkg/ggtree/man/inset.html">geom_inset()</a></code> layer. To facilitate adding bar and pie charts (<em>e.g.</em> summarized stats of results from ancestral reconstruction) to the phylogenetic tree, <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> provides the <code><a href="https://rdrr.io/pkg/ggtree/man/nodepie.html">nodepie()</a></code> and <code><a href="https://rdrr.io/pkg/ggtree/man/nodebar.html">nodebar()</a></code> functions to create a list of pie or bar charts.</p>
+<p>The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> package provides a layer, <code><a href="https://rdrr.io/pkg/ggtree/man/inset.html">geom_inset()</a></code>, for adding subplots to a phylogenetic tree. The input is a named list of <code>ggplot</code> graphic objects (can be any kind of chart). These objects should be named by node numbers. Users can also use <a href="https://CRAN.R-project.org/package=ggplotify"><strong>ggplotify</strong></a> to convert plots generated by other functions (even implemented by base graphics) to <code>ggplot</code> objects, which can then be used in the <code><a href="https://rdrr.io/pkg/ggtree/man/inset.html">geom_inset()</a></code> layer. To facilitate adding bar and pie charts (<em>e.g.</em>, summarized stats of results from ancestral reconstruction) to the phylogenetic tree, <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> provides the <code><a href="https://rdrr.io/pkg/ggtree/man/nodepie.html">nodepie()</a></code> and <code><a href="https://rdrr.io/pkg/ggtree/man/nodebar.html">nodebar()</a></code> functions to create a list of pie or bar charts.</p>
 <div id="annotate-with-bar-charts" class="section level3" number="8.3.1">
 <h3>
 <span class="header-section-number">8.3.1</span> Annotate with bar charts<a class="anchor" aria-label="anchor" href="#annotate-with-bar-charts"><i class="fas fa-link"></i></a>
@@ -200,7 +225,7 @@ FIGURE 8.2: <strong>Labelling taxa with phylopic images.</strong> The <a href="h
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span> <span class="op">+</span> 
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">8</span><span class="op">)</span>
 <span class="va">p1</span> <span class="op">&lt;-</span> <span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/inset.html">geom_inset</a></span><span class="op">(</span><span class="va">bars</span>, width <span class="op">=</span> <span class="fl">.08</span>, height <span class="op">=</span> <span class="fl">.05</span>, x <span class="op">=</span> <span class="st">"branch"</span><span class="op">)</span> </code></pre></div>
-<p>The <code>x</code> position can be one of ‘node’ or ‘branch’ and can be adjusted by the parameters, <code>hjust</code> and <code>vjust</code>, for horizontal and vertical adjustment respectively. The <code>width</code> and <code>height</code> parameters restrict the size of the inset plots.</p>
+<p>The <code>x</code> position can be one of ‘node’ or ‘branch’ and can be adjusted by the parameters, <code>hjust</code> and <code>vjust</code>, for horizontal and vertical adjustment, respectively. The <code>width</code> and <code>height</code> parameters restrict the size of the inset plots.</p>
 </div>
 <div id="annotate-with-pie-charts" class="section level3" number="8.3.2">
 <h3>
@@ -267,8 +292,8 @@ FIGURE 8.4: <strong>Annotate internal nodes with different types of subplots.</s
   <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">group</span><span class="op">)</span>, geom<span class="op">=</span><span class="st">"label"</span>, x<span class="op">=</span><span class="fl">3.5</span>, hjust<span class="op">=</span><span class="fl">1</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <span style="display:block;" id="fig:phylomoji1"></span>
-<img src="img/phylomoji-ggtree.png" alt="Parsing label as emoji. Text (e.g. node or tip labels) can be parsed as emoji." width="100%"><p class="caption">
-FIGURE 8.5: <strong>Parsing label as emoji.</strong> Text (<em>e.g.</em> node or tip labels) can be parsed as emoji.
+<img src="img/phylomoji-ggtree.png" alt="Parsing label as emoji. Text (e.g., node or tip labels) can be parsed as emoji." width="100%"><p class="caption">
+FIGURE 8.5: <strong>Parsing label as emoji.</strong> Text (<em>e.g.</em>, node or tip labels) can be parsed as emoji.
 </p>
 </div>
 <p>Note that the output may depend on what emoji fonts are installed in your system<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Google Noto emoji fonts was installed in my system&lt;/p&gt;"><sup>17</sup></a>.</p>
@@ -295,7 +320,7 @@ FIGURE 8.5: <strong>Parsing label as emoji.</strong> Text (<em>e.g.</em> node or
 FIGURE 8.6: <strong>Phylomoji in cirular and fan layouts.</strong>
 </p>
 </div>
-<p>Another example using <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> and <a href="https://CRAN.R-project.org/package=emojifont"><strong>emojifont</strong></a> to produce phylogeny of plant emojis can be found in a scientific article <span class="citation">(<a href="references.html#ref-escudero_grand_2020" role="doc-biblioref">Escudero and Wendel 2020</a>)</span>.</p>
+<p>Another example using <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> and <a href="https://CRAN.R-project.org/package=emojifont"><strong>emojifont</strong></a> to produce phylogeny of plant emojis can be found in a scientific article <span class="citation">(<a href="references.html#ref-escudero_grand_2020" role="doc-biblioref">Escudero &amp; Wendel, 2020</a>)</span>.</p>
 </div>
 <div id="emoji-to-label-clades" class="section level3" number="8.4.2">
 <h3>
@@ -382,7 +407,7 @@ FIGURE 8.8: <strong>Use Apple Color Emoji in <code>ggtree</code>.</strong> The t
 <h2>
 <span class="header-section-number">8.5</span> Summary<a class="anchor" aria-label="anchor" href="#summary8"><i class="fas fa-link"></i></a>
 </h2>
-<p>The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> supports parsing labels, including tip labels, internal node labels, and clade labels, as images, math expression, and emoji, in case the labels can be parsed as image file names, <code>plotmath</code> expression, or emoji names respectively. It can be fun, but it’s also very useful for scientific research. The use of images on phylogenetic trees can help to present species-related characteristics, including morphological, anatomical, and even macromolecular structures. Moreover, <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> supports summarizing statistical inferences (<em>e.g.</em>, biogeographic range reconstruction and posterior distribution) or associated data of the nodes as subplots to be displayed on a phylogenetic tree.</p>
+<p>The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> supports parsing labels, including tip labels, internal node labels, and clade labels, as images, math expression, and emoji, in case the labels can be parsed as image file names, <code>plotmath</code> expression, or emoji names, respectively. It can be fun, but it’s also very useful for scientific research. The use of images on phylogenetic trees can help to present species-related characteristics, including morphological, anatomical, and even macromolecular structures. Moreover, <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> supports summarizing statistical inferences (<em>e.g.</em>, biogeographic range reconstruction and posterior distribution) or associated data of the nodes as subplots to be displayed on a phylogenetic tree.</p>
 
 <div style="page-break-after: always;"></div>
 </div>
@@ -390,7 +415,7 @@ FIGURE 8.8: <strong>Use Apple Color Emoji in <code>ggtree</code>.</strong> The t
 
   <div class="chapter-nav">
 <div class="prev"><a href="chapter7.html"><span class="header-section-number">7</span> Plotting tree with data</a></div>
-<div class="next"><a href="chapter9.html"><span class="header-section-number">9</span> ggtree for other tree-like objects</a></div>
+<div class="next"><a href="chapter9.html"><span class="header-section-number">9</span> ggtree for Other Tree-like Objects</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
@@ -429,7 +454,7 @@ FIGURE 8.8: <strong>Use Apple Color Emoji in <code>ggtree</code>.</strong> The t
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2022-01-10.</p>
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees with R</strong>" was written by Guangchuang Yu. It was last built on 2022-04-11.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

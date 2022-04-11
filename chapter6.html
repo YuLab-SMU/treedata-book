@@ -4,23 +4,48 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Chapter 6 Visual Exploration of Phylogenetic Tree | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
+<title>Chapter 6 Visual Exploration of Phylogenetic Trees | Data Integration, Manipulation and Visualization of Phylogenetic Trees with R</title>
 <meta name="author" content="Guangchuang Yu">
-<meta name="description" content="The ggtree (Yu et al. 2017) supports many ways of manipulating the tree visually, including viewing selected clade to explore large tree (Figure 6.1), taxa clustering (Figure 6.5), rotating clade...">
-<meta name="generator" content="bookdown 0.24.4 with bs4_book()">
-<meta property="og:title" content="Chapter 6 Visual Exploration of Phylogenetic Tree | Data Integration, Manipulation and Visualization of Phylogenetic Trees">
+<meta name="description" content="The ggtree (Yu et al., 2017) supports many ways of manipulating the tree visually, including viewing selected clade to explore large tree (Figure 6.1), taxa clustering (Figure 6.5), rotating clade...">
+<meta name="generator" content="bookdown 0.25.4 with bs4_book()">
+<meta property="og:title" content="Chapter 6 Visual Exploration of Phylogenetic Trees | Data Integration, Manipulation and Visualization of Phylogenetic Trees with R">
 <meta property="og:type" content="book">
 <meta property="og:image" content="/book-cover.png">
-<meta property="og:description" content="The ggtree (Yu et al. 2017) supports many ways of manipulating the tree visually, including viewing selected clade to explore large tree (Figure 6.1), taxa clustering (Figure 6.5), rotating clade...">
+<meta property="og:description" content="The ggtree (Yu et al., 2017) supports many ways of manipulating the tree visually, including viewing selected clade to explore large tree (Figure 6.1), taxa clustering (Figure 6.5), rotating clade...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chapter 6 Visual Exploration of Phylogenetic Tree | Data Integration, Manipulation and Visualization of Phylogenetic Trees">
-<meta name="twitter:description" content="The ggtree (Yu et al. 2017) supports many ways of manipulating the tree visually, including viewing selected clade to explore large tree (Figure 6.1), taxa clustering (Figure 6.5), rotating clade...">
+<meta name="twitter:title" content="Chapter 6 Visual Exploration of Phylogenetic Trees | Data Integration, Manipulation and Visualization of Phylogenetic Trees with R">
+<meta name="twitter:description" content="The ggtree (Yu et al., 2017) supports many ways of manipulating the tree visually, including viewing selected clade to explore large tree (Figure 6.1), taxa clustering (Figure 6.5), rotating clade...">
 <meta name="twitter:image" content="/book-cover.png">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs/header-attrs.js"></script><script src="libs/jquery/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap/bootstrap.bundle.min.js"></script><script src="libs/bs3compat/transition.js"></script><script src="libs/bs3compat/tabs.js"></script><script src="libs/bs3compat/bs3compat.js"></script><link href="libs/bs4_book/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book/bs4_book.js"></script><script src="libs/kePrint/kePrint.js"></script><link href="libs/lightable/lightable.css" rel="stylesheet">
-<script src="libs/htmlwidgets/htmlwidgets.js"></script><script src="libs/pathseg/pathseg.js"></script><script src="libs/comic/comic.min.js"></script><script src="libs/comicR-binding/comicR.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS -->
+<script src="libs/htmlwidgets/htmlwidgets.js"></script><script src="libs/pathseg/pathseg.js"></script><script src="libs/comic/comic.min.js"></script><script src="libs/comicR-binding/comicR.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
 </head>
 <body data-spy="scroll" data-target="#toc">
 
@@ -30,7 +55,7 @@
 
     <div class="d-flex align-items-start justify-content-between">
       <h1>
-        <a href="index.html" title="">Data Integration, Manipulation and Visualization of Phylogenetic Trees</a>
+        <a href="index.html" title="">Data Integration, Manipulation and Visualization of Phylogenetic Trees with R</a>
       </h1>
       <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
     </div>
@@ -51,19 +76,19 @@
 <li class="book-part">Part II: Tree data visualization and annotation</li>
 <li><a class="" href="chapter4.html"><span class="header-section-number">4</span> Phylogenetic Tree Visualization</a></li>
 <li><a class="" href="chapter5.html"><span class="header-section-number">5</span> Phylogenetic Tree Annotation</a></li>
-<li><a class="active" href="chapter6.html"><span class="header-section-number">6</span> Visual Exploration of Phylogenetic Tree</a></li>
+<li><a class="active" href="chapter6.html"><span class="header-section-number">6</span> Visual Exploration of Phylogenetic Trees</a></li>
 <li><a class="" href="chapter7.html"><span class="header-section-number">7</span> Plotting tree with data</a></li>
 <li><a class="" href="chapter8.html"><span class="header-section-number">8</span> Annotating Tree with Silhouette Images and Sub-plots</a></li>
-<li><a class="" href="chapter9.html"><span class="header-section-number">9</span> ggtree for other tree-like objects</a></li>
+<li><a class="" href="chapter9.html"><span class="header-section-number">9</span> ggtree for Other Tree-like Objects</a></li>
 <li class="book-part">Part III: ggtree extensions</li>
-<li><a class="" href="chapter10.html"><span class="header-section-number">10</span> ggtreeExtra for presenting data on a circular layout</a></li>
-<li><a class="" href="chapter11.html"><span class="header-section-number">11</span> Other ggtree extensions</a></li>
+<li><a class="" href="chapter10.html"><span class="header-section-number">10</span> ggtreeExtra for Presenting Data on a Circular Layout</a></li>
+<li><a class="" href="chapter11.html"><span class="header-section-number">11</span> Other ggtree Extensions</a></li>
 <li class="book-part">Part IV: Miscellaneous topics</li>
-<li><a class="" href="chapter12.html"><span class="header-section-number">12</span> ggtree utilities</a></li>
-<li><a class="" href="chapter13.html"><span class="header-section-number">13</span> Gallery of reproducible examples</a></li>
+<li><a class="" href="chapter12.html"><span class="header-section-number">12</span> ggtree Utilities</a></li>
+<li><a class="" href="chapter13.html"><span class="header-section-number">13</span> Gallery of Reproducible Examples</a></li>
 <li class="book-part">Appendix</li>
-<li><a class="" href="faq.html"><span class="header-section-number">A</span> Frequently asked questions</a></li>
-<li><a class="" href="related-tools.html"><span class="header-section-number">B</span> Related tools</a></li>
+<li><a class="" href="faq.html"><span class="header-section-number">A</span> Frequently Asked Questions</a></li>
+<li><a class="" href="related-tools.html"><span class="header-section-number">B</span> Related Tools</a></li>
 <li><a class="" href="figures-and-tables.html"><span class="header-section-number">C</span> Figures and Tables</a></li>
 <li><a class="" href="publications-of-the-ggtree-package-suite.html"><span class="header-section-number">D</span> Publications of the ggtree package suite</a></li>
 <li><a class="" href="references.html">References</a></li>
@@ -76,9 +101,9 @@
 </div>
   </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="chapter6" class="section level1" number="6">
 <h1>
-<span class="header-section-number">6</span> Visual Exploration of Phylogenetic Tree<a class="anchor" aria-label="anchor" href="#chapter6"><i class="fas fa-link"></i></a>
+<span class="header-section-number">6</span> Visual Exploration of Phylogenetic Trees<a class="anchor" aria-label="anchor" href="#chapter6"><i class="fas fa-link"></i></a>
 </h1>
-<p>The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> <span class="citation">(<a href="references.html#ref-yu_ggtree:_2017" role="doc-biblioref">Yu et al. 2017</a>)</span> supports many ways of manipulating the tree visually, including viewing selected clade to explore large tree (Figure <a href="chapter6.html#fig:viewClade">6.1</a>), taxa clustering (Figure <a href="chapter6.html#fig:groupOTU">6.5</a>), rotating clade or tree (Figure <a href="chapter6.html#fig:rfClade">6.6</a>B and <a href="chapter6.html#fig:rotateTree">6.8</a>), zoom out or collapsing clades (Figure <a href="chapter6.html#fig:collapseExpand">6.3</a>A and <a href="chapter6.html#fig:scaleClade">6.2</a>), <em>etc.</em>. Details of the tree manipulation functions are summarized in Table <a href="chapter6.html#tab:treeman">6.1</a>.</p>
+<p>The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> <span class="citation">(<a href="references.html#ref-yu_ggtree:_2017" role="doc-biblioref">Yu et al., 2017</a>)</span> supports many ways of manipulating the tree visually, including viewing selected clade to explore large tree (Figure <a href="chapter6.html#fig:viewClade">6.1</a>), taxa clustering (Figure <a href="chapter6.html#fig:groupOTU">6.5</a>), rotating clade or tree (Figure <a href="chapter6.html#fig:rfClade">6.6</a>B and <a href="chapter6.html#fig:rotateTree">6.8</a>), zoom out or collapsing clades (Figure <a href="chapter6.html#fig:collapseExpand">6.3</a>A and <a href="chapter6.html#fig:scaleClade">6.2</a>), <em>etc.</em>. Details of the tree manipulation functions are summarized in Table <a href="chapter6.html#tab:treeman">6.1</a>.</p>
 <div class="inline-table"><table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
 <span id="tab:treeman">TABLE 6.1: </span>Tree manipulation functions.
@@ -88,7 +113,7 @@
 Function
 </th>
 <th style="text-align:left;">
-Descriptiotn
+Description
 </th>
 </tr></thead>
 <tbody>
@@ -97,7 +122,7 @@ Descriptiotn
 collapse
 </td>
 <td style="text-align:left;">
-collapse a selecting clade
+Collapse a selecting clade
 </td>
 </tr>
 <tr>
@@ -105,7 +130,7 @@ collapse a selecting clade
 expand
 </td>
 <td style="text-align:left;">
-expand collapsed clade
+Expand collapsed clade
 </td>
 </tr>
 <tr>
@@ -113,7 +138,7 @@ expand collapsed clade
 flip
 </td>
 <td style="text-align:left;">
-exchange position of 2 clades that share a parent node
+Exchange position of 2 clades that share a parent node
 </td>
 </tr>
 <tr>
@@ -121,7 +146,7 @@ exchange position of 2 clades that share a parent node
 groupClade
 </td>
 <td style="text-align:left;">
-grouping clades
+Grouping clades
 </td>
 </tr>
 <tr>
@@ -129,7 +154,7 @@ grouping clades
 groupOTU
 </td>
 <td style="text-align:left;">
-grouping OTUs by tracing back to the most recent common ancestor
+Grouping OTUs by tracing back to the most recent common ancestor
 </td>
 </tr>
 <tr>
@@ -137,7 +162,7 @@ grouping OTUs by tracing back to the most recent common ancestor
 identify
 </td>
 <td style="text-align:left;">
-interactive tree manipulation
+Interactive tree manipulation
 </td>
 </tr>
 <tr>
@@ -145,7 +170,7 @@ interactive tree manipulation
 rotate
 </td>
 <td style="text-align:left;">
-rotating a selected clade by 180 degree
+Rotating a selected clade by 180 degree
 </td>
 </tr>
 <tr>
@@ -153,7 +178,7 @@ rotating a selected clade by 180 degree
 rotate_tree
 </td>
 <td style="text-align:left;">
-rotating circular layout tree by a specific angle
+Rotating circular layout tree by a specific angle
 </td>
 </tr>
 <tr>
@@ -161,7 +186,7 @@ rotating circular layout tree by a specific angle
 scaleClade
 </td>
 <td style="text-align:left;">
-zoom in or zoom out selecting clade
+Zoom in or zoom out selecting clade
 </td>
 </tr>
 <tr>
@@ -169,7 +194,7 @@ zoom in or zoom out selecting clade
 open_tree
 </td>
 <td style="text-align:left;">
-convert a tree to fan layout by specific open angle
+Convert a tree to fan layout by specific open angle
 </td>
 </tr>
 </tbody>
@@ -209,8 +234,8 @@ FIGURE 6.1: <strong>Viewing a selected clade of a tree.</strong> An example tree
 <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/scaleClade.html">scaleClade</a></span><span class="op">(</span><span class="va">p</span>, node<span class="op">=</span><span class="fl">17</span>, scale<span class="op">=</span><span class="fl">.1</span><span class="op">)</span> </code></pre></div>
 <div class="figure">
 <span style="display:block;" id="fig:scaleClade"></span>
-<img src="treedata_files/figure-html/scaleClade-1.svg" alt="Scaling selected clade. Clades can be zoom in (if scale &gt; 1) to highlight or zoom out to save space." width="100%"><p class="caption">
-FIGURE 6.2: <strong>Scaling selected clade.</strong> Clades can be zoom in (if <code>scale &gt; 1</code>) to highlight or zoom out to save space.
+<img src="treedata_files/figure-html/scaleClade-1.svg" alt="Scaling selected clade. Clades can be zoomed in (if scale &gt; 1) to highlight or zoomed out to save space." width="100%"><p class="caption">
+FIGURE 6.2: <strong>Scaling selected clade.</strong> Clades can be zoomed in (if <code>scale &gt; 1</code>) to highlight or zoomed out to save space.
 </p>
 </div>
 <p>If users want to emphasize important clades, they can use the <code><a href="https://rdrr.io/pkg/ggtree/man/scaleClade.html">scaleClade()</a></code> function by passing a numeric value larger than 1 to the <code>scale</code> parameter. Then the selected clade will be zoomed in. Users can also use the <code><a href="https://rdrr.io/pkg/tidytree/man/groupClade.html">groupClade()</a></code> function to assign selected clades with different clade IDs which can be used to color these clades with different colors as shown in Figure <a href="chapter6.html#fig:scaleClade">6.2</a>.</p>
@@ -297,7 +322,7 @@ FIGURE 6.5: <strong>Grouping OTUs.</strong> OTU clustering based on their relati
 </div>
 <div id="exploring-tree-structure" class="section level2" number="6.5">
 <h2>
-<span class="header-section-number">6.5</span> Exploring tree structure<a class="anchor" aria-label="anchor" href="#exploring-tree-structure"><i class="fas fa-link"></i></a>
+<span class="header-section-number">6.5</span> Exploring Tree Structure<a class="anchor" aria-label="anchor" href="#exploring-tree-structure"><i class="fas fa-link"></i></a>
 </h2>
 <p>To facilitate exploring the tree structure, <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> supports rotating selected clade by 180 degrees using the <code><a href="https://rdrr.io/pkg/ggtree/man/rotate.html">rotate()</a></code> function (Figure <a href="chapter6.html#fig:rfClade">6.6</a>B). Position of immediate descendant clades of the internal node can be exchanged via <code><a href="https://rdrr.io/pkg/ggtree/man/flip.html">flip()</a></code> function (Figure <a href="chapter6.html#fig:rfClade">6.6</a>C).</p>
 
@@ -312,7 +337,7 @@ FIGURE 6.5: <strong>Grouping OTUs.</strong> OTU clustering based on their relati
 FIGURE 6.6: <strong>Exploring tree structure.</strong> A clade (indicated by a dark green circle) in a tree (A) can be rotated by 180° (B) and the positions of its immediate descendant clades (colored by blue and red) can be exchanged (C).
 </p>
 </div>
-<p>Most of the tree manipulation functions are working on clades, while <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> also provides functions to manipulate a tree, including <code><a href="https://rdrr.io/pkg/ggtree/man/open_tree.html">open_tree()</a></code> to transform a tree in either rectangular or circular layout to the fan layout, and <code><a href="https://rdrr.io/pkg/ggtree/man/rotate_tree.html">rotate_tree()</a></code> function to rotate a tree for specific angle in both circular or fan layouts, as demonstrated in Figure <a href="chapter6.html#fig:openTree">6.7</a> and <a href="chapter6.html#fig:rotateTree">6.8</a>.</p>
+<p>Most of the tree manipulation functions are working on clades, while <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> also provides functions to manipulate a tree, including <code><a href="https://rdrr.io/pkg/ggtree/man/open_tree.html">open_tree()</a></code> to transform a tree in either rectangular or circular layout to the fan layout, and <code><a href="https://rdrr.io/pkg/ggtree/man/rotate_tree.html">rotate_tree()</a></code> function to rotate a tree for specific angle in both circular or fan layouts, as demonstrated in Figures <a href="chapter6.html#fig:openTree">6.7</a> and <a href="chapter6.html#fig:rotateTree">6.8</a>.</p>
 <div class="sourceCode" id="cb185"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/open_tree.html">open_tree</a></span><span class="op">(</span><span class="va">p</span>, <span class="fl">180</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">p3</span><span class="op">)</span></code></pre></div>
@@ -334,7 +359,7 @@ FIGURE 6.7: <strong>Transforming a tree to fan layout.</strong> A tree can be tr
 FIGURE 6.8: <strong>Rotating tree.</strong> A circular/fan layout tree can be rotated by any specific <code>angle</code>.
 </p>
 </div>
-<p>The following example rotates four selected clades (Figure <a href="chapter6.html#fig:rotategif">6.9</a>). It is easy to traverse all the internal nodes and rotate them one by one.</p>
+<p>The following example rotates four selected clades (Figure <a href="chapter6.html#fig:rotategif">6.9</a>). It is easy to traverse all the internal nodes and rotate them one-by-one.</p>
 
 
 <!--
@@ -370,7 +395,7 @@ knitr::include_graphics("img/rotate_clade.gif")
     <span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_point2.html">geom_point2</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>subset<span class="op">=</span><span class="op">(</span><span class="va">node</span> <span class="op">==</span> <span class="va">n</span><span class="op">)</span><span class="op">)</span>, color<span class="op">=</span><span class="st">'red'</span>, size<span class="op">=</span><span class="fl">3</span><span class="op">)</span>
 <span class="op">}</span><span class="op">)</span>
 
-<span class="fu">plot_list</span><span class="op">(</span>gglist<span class="op">=</span><span class="va">pp</span>, tag_levels<span class="op">=</span><span class="st">'A'</span>, nrow<span class="op">=</span><span class="fl">1</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/pkg/aplot/man/plot_list.html">plot_list</a></span><span class="op">(</span>gglist<span class="op">=</span><span class="va">pp</span>, tag_levels<span class="op">=</span><span class="st">'A'</span>, nrow<span class="op">=</span><span class="fl">1</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <span style="display:block;" id="fig:rotategif"></span>
 <img src="treedata_files/figure-html/rotategif-1.png" alt="Rotate selected clades. Four clades were randomly selected to rotate (indicated by the red symbol)." width="98%"><p class="caption">
@@ -406,7 +431,7 @@ knitr::include_graphics("img/fan_layout.gif")
   <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/open_tree.html">open_tree</a></span><span class="op">(</span><span class="va">p</span>, angle<span class="op">=</span><span class="va">angle</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"open angle:"</span>, <span class="va">angle</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span><span class="op">)</span>
 
-<span class="fu">plot_list</span><span class="op">(</span>gglist<span class="op">=</span><span class="va">pp</span>, tag_levels<span class="op">=</span><span class="st">'A'</span>, nrow<span class="op">=</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/pkg/aplot/man/plot_list.html">plot_list</a></span><span class="op">(</span>gglist<span class="op">=</span><span class="va">pp</span>, tag_levels<span class="op">=</span><span class="st">'A'</span>, nrow<span class="op">=</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb189"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
 <span class="va">tr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/rtree.html">rtree</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span>
@@ -417,7 +442,7 @@ knitr::include_graphics("img/fan_layout.gif")
   <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/open_tree.html">open_tree</a></span><span class="op">(</span><span class="va">p</span>, angle<span class="op">=</span><span class="va">angle</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"open angle:"</span>, <span class="va">angle</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span><span class="op">)</span>
 
-<span class="va">g</span> <span class="op">&lt;-</span> <span class="fu">plot_list</span><span class="op">(</span>gglist<span class="op">=</span><span class="va">pp</span>, tag_levels<span class="op">=</span><span class="st">'A'</span>, nrow<span class="op">=</span><span class="fl">2</span><span class="op">)</span>
+<span class="va">g</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/aplot/man/plot_list.html">plot_list</a></span><span class="op">(</span>gglist<span class="op">=</span><span class="va">pp</span>, tag_levels<span class="op">=</span><span class="st">'A'</span>, nrow<span class="op">=</span><span class="fl">2</span><span class="op">)</span>
 <span class="fu">ggplotify</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggplotify/man/as.ggplot.html">as.ggplot</a></span><span class="op">(</span><span class="va">g</span>, vjust<span class="op">=</span><span class="op">-</span><span class="fl">.1</span>,scale<span class="op">=</span><span class="fl">1.1</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <span style="display:block;" id="fig:fangif"></span>
@@ -452,7 +477,7 @@ FIGURE 6.11: <strong>Rotate tree with different angles.</strong>
 <h2>
 <span class="header-section-number">6.6</span> Summary<a class="anchor" aria-label="anchor" href="#summary6"><i class="fas fa-link"></i></a>
 </h2>
-<p>A good visualization tool can not only facilitate users to present the data, but it should also be able to facilitate users to explore the data. Data exploration can allow users to better understand the data and also help discover hidden patterns. The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> provides a set of functions to allow visually manipulating phylogenetic trees and exploring tree structures with associated data. Exploring data in the evolutionary context may help discover new systematic patterns and generate new hypotheses.</p>
+<p>A good visualization tool can not only help users to present the data, but it should also be able to help users to explore the data. Data exploration can allow users to better understand the data and also help discover hidden patterns. The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> provides a set of functions to allow visually manipulating phylogenetic trees and exploring tree structures with associated data. Exploring data in the evolutionary context may help discover new systematic patterns and generate new hypotheses.</p>
 
 <div style="page-break-after: always;"></div>
 </div>
@@ -463,12 +488,12 @@ FIGURE 6.11: <strong>Rotate tree with different angles.</strong>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#chapter6"><span class="header-section-number">6</span> Visual Exploration of Phylogenetic Tree</a></li>
+<li><a class="nav-link" href="#chapter6"><span class="header-section-number">6</span> Visual Exploration of Phylogenetic Trees</a></li>
 <li><a class="nav-link" href="#viewing-selected-clade"><span class="header-section-number">6.1</span> Viewing Selected Clade</a></li>
 <li><a class="nav-link" href="#scale-clade"><span class="header-section-number">6.2</span> Scaling Selected Clade</a></li>
 <li><a class="nav-link" href="#collapsing-and-expanding-clade"><span class="header-section-number">6.3</span> Collapsing and Expanding Clade</a></li>
 <li><a class="nav-link" href="#group-taxa-vis"><span class="header-section-number">6.4</span> Grouping Taxa</a></li>
-<li><a class="nav-link" href="#exploring-tree-structure"><span class="header-section-number">6.5</span> Exploring tree structure</a></li>
+<li><a class="nav-link" href="#exploring-tree-structure"><span class="header-section-number">6.5</span> Exploring Tree Structure</a></li>
 <li><a class="nav-link" href="#summary6"><span class="header-section-number">6.6</span> Summary</a></li>
 </ul>
 
@@ -486,7 +511,7 @@ FIGURE 6.11: <strong>Rotate tree with different angles.</strong>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2022-01-10.</p>
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees with R</strong>" was written by Guangchuang Yu. It was last built on 2022-04-11.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
