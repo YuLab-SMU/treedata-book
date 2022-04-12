@@ -1,6 +1,6 @@
 \newpage
 
-# Publications of the `r Biocpkg("ggtree")` package suite
+# Publications of the `r Biocpkg("ggtree")` Package Suite
 
 
 1. S Xu, Z Dai, P Guo, X Fu, S Liu, L Zhou, W Tang, T Feng, M Chen, L Zhan, T Wu, E Hu, Y Jiang<sup>\*</sup>, X Bo<sup>\*</sup>, __G Yu__<sup>\*</sup>. ggtreeExtra: Compact visualization of richly annotated phylogenetic data. __*Molecular Biology and Evolution*__. 2021, 38(9):4039-4042.
