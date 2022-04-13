@@ -257,7 +257,7 @@ ggtree(raxml) + geom_label_repel(aes(label=bootstrap, fill=bootstrap)) +
 
 It is quite common to store *bootstrap* value as node label in the Newick format. Visualizing node label is easy using `geom_text2(aes(subset = !isTip, label=label))`.
 
-If you want to only display a subset of *bootstrap* (*e.g.*, bootstrap > 80), you can't simply use `geom_text2(subset= (label > 80), label=label)` (or `geom_label2`) since `label` is a character vector, which contains node label (bootstrap value) and tip label (taxa name). `geom_text2(subset=(as.numeric(label) > 80), label=label)` won't work either, since `NAs` were introduced by coercion. We need to convert `NAs` to logical `FALSE`. This can be done by the following code:
+If you want to only display a subset of *bootstrap* (*e.g.*, bootstrap > 80), you can't simply use `geom_text2(subset= (label > 80), label=label)` (or `geom_label2`) since `label` is a character vector, which contains node label (bootstrap value) and tip label (taxa name). `geom_text2(subset=(as.numeric(label) > 80), label=label)` won't work either, since `NAs` were introduced by coercion. We need to convert `NAs` to logical `FALSE`. This can be done by the following code (Figure \@ref(fig:nwkbs)):
 
 
 (ref:nwkbsscap) Bootstrap value stored in node label.
@@ -429,7 +429,7 @@ ggtree(tr3, aes(linetype=type)) +  geom_tiplab() +
 
 ### Change colors or line types of arbitrarily selected branches
 
-If you want to color or change line types of specific branches, you only need to prepare a data frame with variables of branch setting (e.g., selected and unselected). 
+If you want to color or change line types of specific branches, you only need to prepare a data frame with variables of branch setting (e.g., selected and unselected). Applying the Method 1 described in [@yu_two_2018] to map the data onto the tree will make it easy to set colors and line types (Figure \@ref(fig:btype)).  
 
 (ref:btypescap) Change colors and line types of specific branches.
 
@@ -533,7 +533,7 @@ If we want the layers behind the tree layer, we can reverse the order of all the
 p$layers <- rev(p$layers)
 ```
 
-Another solution is to use `ggplot()` instead of `ggtree()` and `+ geom_tree()` to add the layer of tree structure at the correct position of the layer stack.
+Another solution is to use `ggplot()` instead of `ggtree()` and `+ geom_tree()` to add the layer of tree structure at the correct position of the layer stack (Figure \@ref(fig:treeLayerOrder)).
 
 ```r
 ggplot(x) + geom_hilight(node=7, alpha=1) + geom_tree() + theme_tree()     
@@ -556,7 +556,7 @@ cowplot::plot_grid(g, p,
 
 ## Enlarge Center Space in Circular/Fan Layout Tree {#faq-enlarge-center-space}
 
-This question was asked several times^[<https://groups.google.com/d/msg/bioc-ggtree/gruC4FztU8I/mwavqWCXAQAJ>, <https://groups.google.com/d/msg/bioc-ggtree/UoGQekWHIvw/ZswUUZKSGwAJ> and <https://github.com/GuangchuangYu/ggtree/issues/95>], and a published example can be found in [@barton_broad_2016]. Increasing the percentage of center white space in a circular tree is useful to avoid overlapping tip labels and to increase the readability of the tree by moving all nodes and branches further out. This can be done simply by using `xlim()` or `hexpand()` to allocate more space, just like in Figure \@ref(fig:layout2)G, or assigning a long root branch that is similar to the "Root Length" parameter in `r pkg_figtree`. 
+This question was asked several times^[<https://groups.google.com/d/msg/bioc-ggtree/gruC4FztU8I/mwavqWCXAQAJ>, <https://groups.google.com/d/msg/bioc-ggtree/UoGQekWHIvw/ZswUUZKSGwAJ> and <https://github.com/GuangchuangYu/ggtree/issues/95>], and a published example can be found in [@barton_broad_2016]. Increasing the percentage of center white space in a circular tree is useful to avoid overlapping tip labels and to increase the readability of the tree by moving all nodes and branches further out. This can be done simply by using `xlim()` or `hexpand()` to allocate more space (Figure \@ref(fig:circular-space)A), just like in Figure \@ref(fig:layout2)G, or assigning a long root branch that is similar to the "Root Length" parameter in `r pkg_figtree` (Figure \@ref(fig:circular-space)B). 
 
 
 (ref:innerspacescap) Enlarge center space in circular tree.
@@ -577,7 +577,7 @@ plot_list(
 
 ## Use the Most Distant Tip from the Root as the Origin of the Time-scale
 
-The `revts()` will reverse the x-axis by setting the most recent tip to 0. We can use `scale_x_continuous(labels=abs)` to label x-axis using absolute values.
+The `revts()` will reverse the x-axis by setting the most recent tip to 0. We can use `scale_x_continuous(labels=abs)` to label x-axis using absolute values (Figure \@ref(fig:distantTip)).
 
 (ref:distantTipscap) Origin of the time scale.
 
@@ -627,7 +627,7 @@ image_trim(x)
 ```
 
 
-Here is an example:
+Here is an example (Figure \@ref(fig:trimSpace)):
 
 (ref:trimSpacescap) Trim extra white space for polar coordinates.
 
