@@ -124,7 +124,10 @@ END;
 For example, the above example tree can be saved as the following NEXUS format:
 
 ```{r message=FALSE, echo=FALSE, eval=TRUE, comment=NA}
-write.nexus(tr)
+aa = capture.output(write.nexus(tr))
+i = grep("^\tTREE", aa)
+aa[i] = yulab.utils::str_wrap(aa[i], 60)
+cat(aa, sep="\n")
 ```
 
 
@@ -208,7 +211,7 @@ Jplace is the output format of `r pkg_pplacer`\index{pplacer} [@matsen_pplacer:_
 
 `r pkg_raxml`\index{RAxML} [@stamatakis_raxml_2014] can output Newick format by storing the bootstrap values as internal node labels. Another way that `r pkg_raxml` supports is to place bootstrap value inside square brackets and after branch length. This could not be supported by most of the software that supports Newick format where square brackets will be ignored. 
 
-`r pkg_beast`\index{BEAST} [@bouckaert_beast_2014] output is based on NEXUS and it also introduces square brackets in the tree block to store evolutionary evidence inferred by `r pkg_beast`. Inside brackets, curly braces may also be incorporated if feature values have a length of more than 1 (*e.g.*, Highest Probability Density (HPD) or range of substitution rate). These brackets are placed between node and branch length (*i.e.*, after label if exists and before the colon). The bracket is not defined in Newick format and is a reserved character for NEXUS comment. So this information will be ignored for standard NEXUS parsers. 
+`r pkg_beast`\index{BEAST} [@bouckaert_beast_2014] output is based on NEXUS, and it also introduces square brackets in the tree block to store evolutionary evidence inferred by `r pkg_beast`. Inside brackets, curly braces may also be incorporated if feature values have a length of more than 1 (*e.g.*, Highest Probability Density (HPD) or range of substitution rate). These brackets are placed between node and branch length (*i.e.*, after label if exists and before the colon). The bracket is not defined in Newick format and is a reserved character for NEXUS comment. So this information will be ignored for standard NEXUS parsers. 
 
 
 Here is a sample `TREE` block of the `r pkg_beast` output:
@@ -795,12 +798,20 @@ The `get.tree()` or `as.phylo()` methods can convert the `treedata` object to a
 `phylo` object which is the fundamental tree object in the R community and
 many packages work with `phylo` object.
 
-```{r}
+```{r eval=FALSE}
 beast_file <- system.file("examples/MCC_FluA_H3.tree", package="ggtree")
 beast_tree <- read.beast(beast_file)
 # or get.tree
 as.phylo(beast_tree)
 ```
+
+```{r eval=TRUE}
+beast_file <- system.file("examples/MCC_FluA_H3.tree", package="ggtree")
+beast_tree <- read.beast(beast_file)
+# or get.tree
+print(as.phylo(beast_tree), printlen=3)
+```
+
 
 The `get.fields` method returns a vector of features/attributes stored in
 the object and associated with the phylogeny.
@@ -831,4 +842,4 @@ head(beast_tree[["height_median"]])
 Software tools for inferring molecular evolution (*e.g.*, ancestral states, molecular dating\index{molecular dating} and selection pressure, *etc.*) are proliferating, but there is no single data format that is used by all different programs and capable to store different types of phylogenetic data. Most of the software packages have their unique output formats and these formats are not compatible with each other. Parsing software outputs is challenging, which restricts the joint analysis using different tools. The `r Biocpkg("treeio")` package [@wang_treeio_2020] provides a set of functions (Table \@ref(tab:treeio-function)) for parsing various types of phylogenetic data files and a set of converters (Table \@ref(tab:treeio-treedata-object)) to convert tree-like objects to phylo or treedata objects. These phylogenetic data can be integrated that allow further exploration and comparison. To date, most software tools in the field of molecular evolution are isolated and often not fully compatible with each other's input and output files. These software tools are designed to do their analysis and the outputs are often not readable in other software. No tools have been designed to unify the inference data from different analysis programs. Efficient incorporation of data from different inference methods can enhance the comparison and understanding of the study target, which may help discover new systematic patterns and generate new hypotheses.
 
 
-As phylogenetic trees are growing in their application to identify patterns in an evolutionary context, more different disciplines are employing phylogenetic trees in their research. For example, spatial ecologists may map the geographical positions of the organisms to their phylogenetic trees to understand the biogeography of the species [@schon_age_2015]; disease epidemiologists may incorporate the pathogen sampling time and locations into the phylogenetic analysis to infer the disease transmission dynamics in spatiotemporal space [@he_emergence_2013]; microbiologists may determine the pathogenicity of different pathogen\index{pathogen} strains and map them into their phylogenetic trees to identify the genetic determinants of the pathogenicity [@bosi_comparative_2016]; genomic scientists may use the phylogenetic trees to help taxonomically classify their metagenomic sequence data [@gupta_using_2015]. A robust tool such as `r Biocpkg("treeio")` to import and map different types of data into the phylogenetic tree is important to facilitate these phylogenetics-related research, or *a.k.a* 'phylodynamics'. Such tools could also help integrate different meta-data (time, geography, genotype\index{genotype}, epidemiological information) and analysis results (selective pressure, evolutionary rates) at the highest level and provide a comprehensive understanding of the study organisms. In the field of influenza research, there have been such attempts of studying the phylodynamics\index{phylodynamics} of the influenza virus by mapping different meta-data and analysis results on the same phylogenetic tree and evolutionary time scale [@lam_dissemination_2015]. 
+As phylogenetic trees are growing in their application to identify patterns in an evolutionary context, more different disciplines are employing phylogenetic trees in their research. For example, spatial ecologists may map the geographical positions of the organisms to their phylogenetic trees to understand the biogeography of the species [@schon_age_2015]; disease epidemiologists may incorporate the pathogen sampling time and locations into the phylogenetic analysis to infer the disease transmission dynamics in spatiotemporal space [@he_emergence_2013]; microbiologists may determine the pathogenicity of different pathogen\index{pathogen} strains and map them into their phylogenetic trees to identify the genetic determinants of the pathogenicity [@bosi_comparative_2016]; genomic scientists may use the phylogenetic trees to help taxonomically classify their metagenomic sequence data [@gupta_using_2015]. A robust tool such as `r Biocpkg("treeio")` to import and map different types of data into the phylogenetic tree is important to facilitate these phylogenetics-related research, or 'phylodynamics'. Such tools could also help integrate different meta-data (time, geography, genotype\index{genotype}, epidemiological information) and analysis results (selective pressure, evolutionary rates) at the highest level and provide a comprehensive understanding of the study organisms. In the field of influenza research, there have been such attempts of studying the phylodynamics\index{phylodynamics} of the influenza virus by mapping different meta-data and analysis results on the same phylogenetic tree and evolutionary timescale [@lam_dissemination_2015]. 

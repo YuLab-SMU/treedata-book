@@ -2,8 +2,8 @@
 pdfbook:
 	sed -i 's/gh-pages/pdf/g' _bookdown.yml;\
 	sed -i 's/colorlinks: true/colorlinks: false/g' index.Rmd;\
-	Rscript -e 'library(bookdown); render_book("index.Rmd", pdf_book(keep_tex=TRUE))'
-
+	# Rscript -e 'library(bookdown); render_book("index.Rmd", pdf_book(keep_tex=TRUE))'
+	Rscript -e 'library(bookdown); render_book("index.Rmd", "pdf_book")'
 
 bs4:
 	rm -rf gh-pages/libs;\
