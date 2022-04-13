@@ -90,7 +90,7 @@
 <li><a class="active" href="faq.html"><span class="header-section-number">A</span> Frequently Asked Questions</a></li>
 <li><a class="" href="related-tools.html"><span class="header-section-number">B</span> Related Tools</a></li>
 <li><a class="" href="figures-and-tables.html"><span class="header-section-number">C</span> Figures and Tables</a></li>
-<li><a class="" href="publications-of-the-ggtree-package-suite.html"><span class="header-section-number">D</span> Publications of the ggtree package suite</a></li>
+<li><a class="" href="publications-of-the-ggtree-package-suite.html"><span class="header-section-number">D</span> Publications of the ggtree Package Suite</a></li>
 <li><a class="" href="references.html">References</a></li>
 </ul>
 
@@ -330,7 +330,7 @@ FIGURE A.4: <strong>Repel labels.</strong> Repel labels to avoid overlapping.
 <span class="header-section-number">A.4.5</span> Bootstrap values from Newick format<a class="anchor" aria-label="anchor" href="#faq-bootstrap"><i class="fas fa-link"></i></a>
 </h3>
 <p>It is quite common to store <em>bootstrap</em> value as node label in the Newick format. Visualizing node label is easy using <code>geom_text2(aes(subset = !isTip, label=label))</code>.</p>
-<p>If you want to only display a subset of <em>bootstrap</em> (<em>e.g.</em>, bootstrap &gt; 80), you can’t simply use <code>geom_text2(subset= (label &gt; 80), label=label)</code> (or <code>geom_label2</code>) since <code>label</code> is a character vector, which contains node label (bootstrap value) and tip label (taxa name). <code>geom_text2(subset=(as.numeric(label) &gt; 80), label=label)</code> won’t work either, since <code>NAs</code> were introduced by coercion. We need to convert <code>NAs</code> to logical <code>FALSE</code>. This can be done by the following code:</p>
+<p>If you want to only display a subset of <em>bootstrap</em> (<em>e.g.</em>, bootstrap &gt; 80), you can’t simply use <code>geom_text2(subset= (label &gt; 80), label=label)</code> (or <code>geom_label2</code>) since <code>label</code> is a character vector, which contains node label (bootstrap value) and tip label (taxa name). <code>geom_text2(subset=(as.numeric(label) &gt; 80), label=label)</code> won’t work either, since <code>NAs</code> were introduced by coercion. We need to convert <code>NAs</code> to logical <code>FALSE</code>. This can be done by the following code (Figure <a href="faq.html#fig:nwkbs">A.5</a>):</p>
 
 
 <div class="sourceCode" id="cb277"><pre class="downlit sourceCode r">
@@ -485,7 +485,7 @@ FIGURE A.9: <strong>Attaching a new tip to a tree.</strong> Different line types
 <h3>
 <span class="header-section-number">A.5.5</span> Change colors or line types of arbitrarily selected branches<a class="anchor" aria-label="anchor" href="#change-colors-or-line-types-of-arbitrarily-selected-branches"><i class="fas fa-link"></i></a>
 </h3>
-<p>If you want to color or change line types of specific branches, you only need to prepare a data frame with variables of branch setting (e.g., selected and unselected).</p>
+<p>If you want to color or change line types of specific branches, you only need to prepare a data frame with variables of branch setting (e.g., selected and unselected). Applying the Method 1 described in <span class="citation">(<a href="references.html#ref-yu_two_2018" role="doc-biblioref">Yu et al., 2018</a>)</span> to map the data onto the tree will make it easy to set colors and line types (Figure <a href="faq.html#fig:btype">A.10</a>).</p>
 
 
 <div class="sourceCode" id="cb283"><pre class="downlit sourceCode r">
@@ -588,7 +588,7 @@ FIGURE A.12: <strong>X-axis titles for different facet panels.</strong>
 <p>If we want the layers behind the tree layer, we can reverse the order of all the layers.</p>
 <div class="sourceCode" id="cb287"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p</span><span class="op">$</span><span class="va">layers</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html">rev</a></span><span class="op">(</span><span class="va">p</span><span class="op">$</span><span class="va">layers</span><span class="op">)</span></code></pre></div>
-<p>Another solution is to use <code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot()</a></code> instead of <code><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree()</a></code> and <code>+ geom_tree()</code> to add the layer of tree structure at the correct position of the layer stack.</p>
+<p>Another solution is to use <code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot()</a></code> instead of <code><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree()</a></code> and <code>+ geom_tree()</code> to add the layer of tree structure at the correct position of the layer stack (Figure <a href="faq.html#fig:treeLayerOrder">A.13</a>).</p>
 <div class="sourceCode" id="cb288"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom-hilight.html">geom_hilight</a></span><span class="op">(</span>node<span class="op">=</span><span class="fl">7</span>, alpha<span class="op">=</span><span class="fl">1</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tree.html">geom_tree</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/theme_tree.html">theme_tree</a></span><span class="op">(</span><span class="op">)</span>     </code></pre></div>
 
@@ -604,7 +604,7 @@ FIGURE A.13: <strong>Add layers behind the tree structure.</strong> A layer on t
 <h2>
 <span class="header-section-number">A.8</span> Enlarge Center Space in Circular/Fan Layout Tree<a class="anchor" aria-label="anchor" href="#faq-enlarge-center-space"><i class="fas fa-link"></i></a>
 </h2>
-<p>This question was asked several times<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://groups.google.com/d/msg/bioc-ggtree/gruC4FztU8I/mwavqWCXAQAJ" class="uri"&gt;https://groups.google.com/d/msg/bioc-ggtree/gruC4FztU8I/mwavqWCXAQAJ&lt;/a&gt;, &lt;a href="https://groups.google.com/d/msg/bioc-ggtree/UoGQekWHIvw/ZswUUZKSGwAJ" class="uri"&gt;https://groups.google.com/d/msg/bioc-ggtree/UoGQekWHIvw/ZswUUZKSGwAJ&lt;/a&gt; and &lt;a href="https://github.com/GuangchuangYu/ggtree/issues/95" class="uri"&gt;https://github.com/GuangchuangYu/ggtree/issues/95&lt;/a&gt;&lt;/p&gt;'><sup>24</sup></a>, and a published example can be found in <span class="citation">(<a href="references.html#ref-barton_broad_2016" role="doc-biblioref">Barton et al., 2016</a>)</span>. Increasing the percentage of center white space in a circular tree is useful to avoid overlapping tip labels and to increase the readability of the tree by moving all nodes and branches further out. This can be done simply by using <code><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim()</a></code> or <code><a href="https://rdrr.io/pkg/ggtree/man/ggexpand.html">hexpand()</a></code> to allocate more space, just like in Figure <a href="chapter4.html#fig:layout2">4.3</a>G, or assigning a long root branch that is similar to the “Root Length” parameter in <a href="http://beast.community/figtree"><strong>FigTree</strong></a>.</p>
+<p>This question was asked several times<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://groups.google.com/d/msg/bioc-ggtree/gruC4FztU8I/mwavqWCXAQAJ" class="uri"&gt;https://groups.google.com/d/msg/bioc-ggtree/gruC4FztU8I/mwavqWCXAQAJ&lt;/a&gt;, &lt;a href="https://groups.google.com/d/msg/bioc-ggtree/UoGQekWHIvw/ZswUUZKSGwAJ" class="uri"&gt;https://groups.google.com/d/msg/bioc-ggtree/UoGQekWHIvw/ZswUUZKSGwAJ&lt;/a&gt; and &lt;a href="https://github.com/GuangchuangYu/ggtree/issues/95" class="uri"&gt;https://github.com/GuangchuangYu/ggtree/issues/95&lt;/a&gt;&lt;/p&gt;'><sup>24</sup></a>, and a published example can be found in <span class="citation">(<a href="references.html#ref-barton_broad_2016" role="doc-biblioref">Barton et al., 2016</a>)</span>. Increasing the percentage of center white space in a circular tree is useful to avoid overlapping tip labels and to increase the readability of the tree by moving all nodes and branches further out. This can be done simply by using <code><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim()</a></code> or <code><a href="https://rdrr.io/pkg/ggtree/man/ggexpand.html">hexpand()</a></code> to allocate more space (Figure <a href="faq.html#fig:circular-space">A.14</a>A), just like in Figure <a href="chapter4.html#fig:layout2">4.3</a>G, or assigning a long root branch that is similar to the “Root Length” parameter in <a href="http://beast.community/figtree"><strong>FigTree</strong></a> (Figure <a href="faq.html#fig:circular-space">A.14</a>B).</p>
 
 
 <div class="sourceCode" id="cb289"><pre class="downlit sourceCode r">
@@ -626,7 +626,7 @@ FIGURE A.14: <strong>Enlarge center space in circular tree.</strong> Allocate mo
 <h2>
 <span class="header-section-number">A.9</span> Use the Most Distant Tip from the Root as the Origin of the Time-scale<a class="anchor" aria-label="anchor" href="#use-the-most-distant-tip-from-the-root-as-the-origin-of-the-time-scale"><i class="fas fa-link"></i></a>
 </h2>
-<p>The <code><a href="https://rdrr.io/pkg/ggtree/man/revts.html">revts()</a></code> will reverse the x-axis by setting the most recent tip to 0. We can use <code>scale_x_continuous(labels=abs)</code> to label x-axis using absolute values.</p>
+<p>The <code><a href="https://rdrr.io/pkg/ggtree/man/revts.html">revts()</a></code> will reverse the x-axis by setting the most recent tip to 0. We can use <code>scale_x_continuous(labels=abs)</code> to label x-axis using absolute values (Figure <a href="faq.html#fig:distantTip">A.15</a>).</p>
 
 
 <div class="sourceCode" id="cb290"><pre class="downlit sourceCode r">
@@ -665,7 +665,7 @@ convert -trim x.png x-crop.png</code></pre>
 <span class="co">## x &lt;- image_read_pdf("x.pdf") # for PDF</span>
 
 <span class="fu"><a href="https://docs.ropensci.org/magick/reference/transform.html">image_trim</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></code></pre></div>
-<p>Here is an example:</p>
+<p>Here is an example (Figure <a href="faq.html#fig:trimSpace">A.16</a>):</p>
 
 
 <div class="sourceCode" id="cb294"><pre class="downlit sourceCode r">
@@ -765,7 +765,7 @@ FIGURE A.16: <strong>Trim extra white space for polar coordinates.</strong> Orig
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees with R</strong>" was written by Guangchuang Yu. It was last built on 2022-04-11.</p>
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees with R</strong>" was written by Guangchuang Yu. It was last built on 2022-04-13.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
