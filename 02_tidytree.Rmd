@@ -382,7 +382,7 @@ p1 <- trda %>%
         ),
         nudge_y = 0.36
       ) +
-      xlim(-.1, 4) +
+      xlim(-.1, 4.5) +
       geom_tippoint(
         mapping = aes(
           shape = trophic_habit, 
@@ -414,7 +414,7 @@ p2 <- trda2 %>%
         ),
         nudge_y = 0.36
       ) +
-      xlim(-.1, 5) +
+      xlim(-.1, 5.5) +
       geom_tippoint(
         mapping = aes(
           shape = trophic_habit,
@@ -444,13 +444,13 @@ The `outgroup` parameter represents the specific new `outgroup`, it can be a nod
 
 ## Rescaling Tree Branches {#rescale-treeio}
 
-Phylogenetic data can be merged for joint analysis (Figure \@ref(fig:correlations)). They can be displayed on the same tree structure as a more complex annotation to help visually inspection of their evolutionary patterns. All the numerical data stored in a `treedata` object can be used to re-scale tree branches. For example, CodeML infers d~N~/d~S~, d~N~, and d~S~, all these statistics can be used as branch lengths (Figure \@ref(fig:rescale)). All these values can also be used to color the tree (session [4.3.4](#color-tree)) and can be projected to a vertical dimension to create a two-dimensional tree or phenogram (session [4.2.2](#layouts-of-phylogenetic-tree) and Figure \@ref(fig:2d) and \@ref(fig:continuousColor)). 
+Phylogenetic data can be merged for joint analysis (Figure \@ref(fig:correlations)). They can be displayed on the same tree structure as a more complex annotation to help visually inspection of their evolutionary patterns. All the numerical data stored in a `treedata` object can be used to re-scale tree branches. For example, CodeML infers d~N~/d~S~, d~N~, and d~S~, all these statistics can be used as branch lengths (Figure \@ref(fig:rescale)). All these values can also be used to color the tree (session [4.3.4](#color-tree)) and can be projected to a vertical dimension to create a two-dimensional tree or phenogram (session [4.2.2](#layouts-of-phylogenetic-tree) and Figures \@ref(fig:2d) and \@ref(fig:continuousColor)). 
 
 
 
-(ref:rescalescap) Re-scaling tree branches.
+(ref:rescalescap) Rescaling tree branches.
 
-(ref:rescalecap) **Re-scaling tree branches.** The tree with branches scaled in time (year from the root) (A). The tree was re-scaled using *d~N~* as branch lengths (B). The tree was re-scaled using substitution rates (C).
+(ref:rescalecap) **Rescaling tree branches.** The tree with branches scaled in time (year from the root) (A). The tree was rescaled using *d~N~* as branch lengths (B). The tree was rescaled using substitution rates (C).
 
 ```{r rescale, fig.width=12, fig.height=4.5, message=F, echo=T, fig.cap="(ref:rescalecap)", fig.scap="(ref:rescalescap)", out.extra='', out.width="100%"}
 p1 <- ggtree(merged_tree) + theme_tree2()
@@ -467,7 +467,7 @@ Modifying branch lengths in the tree object in addtion to using the `rescale_tre
 
 ### Removing tips in a phylogenetic tree {#remove-tip}
 
-Sometimes we want to remove selected tips from a phylogenetic tree. This is due to several reasons, including low sequence quality, errors in sequence assembly, an alignment error in part of the sequence, and an error in phylogenetic inference, *etc*.
+Sometimes we want to remove selected tips from a phylogenetic tree. This is due to several reasons, including low sequence quality, errors in sequence assembly, an alignment error in part of the sequence, an error in phylogenetic inference, *etc*.
 
 Let's say that we want to remove three tips (colored red) from the tree (Figure \@ref(fig:removeTip)A), the `drop.tip()` method removes specified tips and updates the tree (Figure \@ref(fig:removeTip)B). All associated data will be maintained in the updated tree. 
 
@@ -501,19 +501,19 @@ The `tree_subset()` function allows you to look at the portions of the tree that
 
 (ref:subsetTipscap) Subsetting tree for a specific tip.
 
-(ref:subsetTipcap) **Subsetting tree for a specific tip.** The Original tree (A). The Subset tree (B). Subset tree with data (C). Visualize the subset tree relative to the original position, without root-edge (D) and with root-edge (E).
+(ref:subsetTipcap) **Subsetting tree for a specific tip.** Original tree (A). Subset tree (B). Subset tree with data (C). Visualize the subset tree relative to the original position, without rootedge (D) and with rootedge (E).
 
 ```{r subsetTip, fig.width=12, fig.height=7, echo=T, fig.cap="(ref:subsetTipcap)", fig.scap="(ref:subsetTipscap)", out.extra='', out.width="100%"}
 beast_file <- system.file("examples/MCC_FluA_H3.tree", package="ggtree")
 beast_tree <- read.beast(beast_file)
 
 p1 = ggtree(beast_tree) + 
-  geom_tiplab() +  xlim(0, 40) + theme_tree2()
+  geom_tiplab(offset=.05) +  xlim(0, 40) + theme_tree2()
 
 tree2 = tree_subset(beast_tree, "A/Swine/HK/168/2012", levels_back=4)  
 p2 <- ggtree(tree2, aes(color=group)) +
   scale_color_manual(values = c("black", "red"), guide = 'none') +
-  geom_tiplab() +  xlim(0, 4) + theme_tree2() 
+  geom_tiplab(offset=.2) +  xlim(0, 4.5) + theme_tree2() 
 
 p3 <- p2 +   
   geom_point(aes(fill = rate), shape = 21, size = 4) +
@@ -527,7 +527,7 @@ p4 <- ggtree(tree2, aes(color=group),
   theme_tree2()
 
 p5 <- p4 + 
-  geom_rootedge() + xlim(0, 40) 
+  geom_rootedge() + xlim(0, 50) 
 
 plot_list(p1, p2, p3, p4, p5, 
         design="AABBCC\nAADDEE", tag_levels='A')
@@ -549,7 +549,7 @@ clade <- tree_subset(beast_tree, node=121, levels_back=0)
 clade2 <- tree_subset(beast_tree, node=121, levels_back=2)
 p1 <- ggtree(clade) + geom_tiplab() + xlim(0, 5)
 p2 <- ggtree(clade2, aes(color=group)) + geom_tiplab() + 
-  xlim(0, 8) + scale_color_manual(values=c("black", "red"))
+  xlim(0, 9) + scale_color_manual(values=c("black", "red"))
 
 
 library(ape)
@@ -567,7 +567,7 @@ x <- tree_subset(chiroptera, clade, levels_back = 0)
 p3 <- ggtree(chiroptera, aes(colour = group)) + 
   scale_color_manual(values=c("black", "red")) +
   theme(legend.position = "none")
-p4 <- ggtree(x) + geom_tiplab() + xlim(0, 5)
+p4 <- ggtree(x) + geom_tiplab() + xlim(0, 6)
 plot_list(p1, p2, p3, p4, 
   ncol=2, tag_levels = 'A')
 ```
@@ -631,7 +631,7 @@ pp + geom_line(aes(x, y, group=label), data=dd, color='grey') +
                 bg.colour = alpha('firebrick', .5))
 ```
 
-It is quite easy to plot multiple trees and connect taxa in one figure; For instance, plotting trees constructed from all internal gene segments of influenza virus and connecting equivalent strains across the trees [@venkatesh_avian_2018]. Figure \@ref(fig:cophylo3) demonstrates the usage of plotting multiple trees by combining multiple layers of `geom_tree()`. 
+It is quite easy to plot multiple trees and connect taxa in one figure; for instance, plotting trees constructed from all internal gene segments of influenza virus and connecting equivalent strains across the trees [@venkatesh_avian_2018]. Figure \@ref(fig:cophylo3) demonstrates the usage of plotting multiple trees by combining multiple layers of `geom_tree()`. 
 
 
 (ref:cophylo3scap) Plot multiple phylogenetic trees side-by-side.
