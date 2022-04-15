@@ -7,7 +7,7 @@
 <title>Chapter 8 Annotating Tree with Silhouette Images and Sub-plots | Data Integration, Manipulation and Visualization of Phylogenetic Trees with R</title>
 <meta name="author" content="Guangchuang Yu">
 <meta name="description" content="8.1 Annotating Tree with Images We usually use text to label taxa, i.e. displaying taxa names. If the text is the image file name (either local or remote), ggtree can read the image and display...">
-<meta name="generator" content="bookdown 0.25.4 with bs4_book()">
+<meta name="generator" content="bookdown 0.25 with bs4_book()">
 <meta property="og:title" content="Chapter 8 Annotating Tree with Silhouette Images and Sub-plots | Data Integration, Manipulation and Visualization of Phylogenetic Trees with R">
 <meta property="og:type" content="book">
 <meta property="og:image" content="/book-cover.png">
@@ -107,11 +107,11 @@
 <h2>
 <span class="header-section-number">8.1</span> Annotating Tree with Images<a class="anchor" aria-label="anchor" href="#ggimage"><i class="fas fa-link"></i></a>
 </h2>
-<p>We usually use text to label taxa, <em>i.e.</em> displaying taxa names. If the text is the image file name (either local or remote), <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> can read the image and display the actual image as the label of the taxa (Figure <a href="chapter8.html#fig:frogimage">8.1</a>). The <code><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab()</a></code> and <code><a href="https://rdrr.io/pkg/ggtree/man/geom_nodelab.html">geom_nodelab()</a></code> are capable to render silhouette images by internally called the <a href="https://CRAN.R-project.org/package=ggimage"><strong>ggimage</strong></a> package.</p>
+<p>We usually use text to label taxa, <em>i.e.</em> displaying taxa names. If the text is the image file name (either local or remote), <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> can read the image and display the actual image as the label of the taxa (Figure <a href="chapter8.html#fig:frogimage">8.1</a>). The <code><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab()</a></code> and <code><a href="https://rdrr.io/pkg/ggtree/man/geom_nodelab.html">geom_nodelab()</a></code> are capable to render silhouette images with supports from in-house developed package, <a href="https://CRAN.R-project.org/package=ggimage"><strong>ggimage</strong></a>.</p>
 <p>Online tools such as <a href="https://itol.embl.de/"><strong>iTOL</strong></a> <span class="citation">(<a href="references.html#ref-letunic_interactive_2007" role="doc-biblioref">Letunic &amp; Bork, 2007</a>)</span> and <a href="https://www.evolgenius.info/evolview/"><strong>EvolView</strong></a> <span class="citation">(<a href="references.html#ref-he_evolview_2016" role="doc-biblioref">He et al., 2016</a>)</span> support displaying subplots on a phylogenetic tree. However, only bar and pie charts are supported by these tools. Users may want to visualize node-associated data with other visualization methods, such as violin plot <span class="citation">(<a href="references.html#ref-grubaugh_genomic_2017" role="doc-biblioref">Grubaugh et al., 2017</a>)</span>, venn diagram <span class="citation">(<a href="references.html#ref-lott_covenntree:_2015" role="doc-biblioref">Lott et al., 2015</a>)</span>, sequence logo, <em>etc.</em>, and display them on the tree. In <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a>, all kinds of subplots are supported, as we can export all subplots to image files and use them to label corresponding nodes on the tree.</p>
 
 
-<div class="sourceCode" id="cb200"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb201"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/GuangchuangYu/ggimage">ggimage</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yulab-smu.top/treedata-book/">ggtree</a></span><span class="op">)</span>
 
@@ -166,7 +166,7 @@ options(phylopic_dir = "data/phylopic")
 
 
 -->
-<div class="sourceCode" id="cb201"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb202"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yulab-smu.top/treedata-book/">ggtree</a></span><span class="op">)</span>
 <span class="va">newick</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"((Pongo_abelii,(Gorilla_gorilla_gorilla,(Pan_paniscus,"</span>,
           <span class="st">"Pan_troglodytes)Pan,Homo_sapiens)Homininae)Hominidae,"</span>,
@@ -203,7 +203,7 @@ FIGURE 8.2: <strong>Labelling taxa with phylopic images.</strong> The <a href="h
 <p>This example uses <code><a href="https://rdrr.io/pkg/ape/man/ace.html">ape::ace()</a></code> function to estimate ancestral character states. The likelihoods of the stats were visualized as stacked bar charts which were overlayed onto internal nodes of the tree using the <code><a href="https://rdrr.io/pkg/ggtree/man/inset.html">geom_inset()</a></code> layer (Figure <a href="chapter8.html#fig:pieInset">8.3</a>A).</p>
 
 
-<div class="sourceCode" id="cb202"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb203"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/liamrevell/phytools">phytools</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">anoletree</span><span class="op">)</span>
 <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/phytools/man/getStates.html">getStates</a></span><span class="op">(</span><span class="va">anoletree</span>,<span class="st">"tips"</span><span class="op">)</span>
@@ -234,7 +234,7 @@ FIGURE 8.2: <strong>Labelling taxa with phylopic images.</strong> The <a href="h
 <p>Similarly, users can use the <code><a href="https://rdrr.io/pkg/ggtree/man/nodepie.html">nodepie()</a></code> function to generate a list of pie charts and place these charts to annotate corresponding nodes (Figure <a href="chapter8.html#fig:pieInset">8.3</a>B). Both <code><a href="https://rdrr.io/pkg/ggtree/man/nodebar.html">nodebar()</a></code> and <code><a href="https://rdrr.io/pkg/ggtree/man/nodepie.html">nodepie()</a></code> accept a parameter of <code>alpha</code> to allow transparency.</p>
 
 
-<div class="sourceCode" id="cb203"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb204"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pies</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/nodepie.html">nodepie</a></span><span class="op">(</span><span class="va">ancstats</span>, cols <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>
 <span class="va">pies</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">pies</span>, <span class="kw">function</span><span class="op">(</span><span class="va">g</span><span class="op">)</span> <span class="va">g</span><span class="op">+</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">cols</span><span class="op">)</span><span class="op">)</span>
 <span class="va">p2</span> <span class="op">&lt;-</span> <span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/inset.html">geom_inset</a></span><span class="op">(</span><span class="va">pies</span>, width <span class="op">=</span> <span class="fl">.1</span>, height <span class="op">=</span> <span class="fl">.1</span><span class="op">)</span> 
@@ -254,7 +254,7 @@ FIGURE 8.3: <strong>Annotate internal nodes with bar or pie charts.</strong> Usi
 <p>The <code><a href="https://rdrr.io/pkg/ggtree/man/inset.html">geom_inset()</a></code> layer accepts a list of ‘ggplot’ graphic objects and these input objects are not restricted to pie or bar charts. They can be any kind of charts or hybrid of these charts. The <code><a href="https://rdrr.io/pkg/ggtree/man/inset.html">geom_inset()</a></code> is not only useful to display ancestral stats, but also applicable to visualize different types of data that are associated with selected nodes in the tree. Here, we use a mixture of pie and bar charts to annotate the tree as an example (Figure <a href="chapter8.html#fig:barpieInset">8.4</a>).</p>
 
 
-<div class="sourceCode" id="cb204"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb205"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pies_and_bars</span> <span class="op">&lt;-</span> <span class="va">pies</span>
 <span class="va">i</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">pies</span><span class="op">)</span>, <span class="fl">20</span><span class="op">)</span>
 <span class="va">pies_and_bars</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">bars</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>
@@ -275,7 +275,7 @@ FIGURE 8.4: <strong>Annotate internal nodes with different types of subplots.</s
 <p><a href="https://twitter.com/OxyMLZ/status/1055586178651451392"><img src="img/phylomoji.png"></a></p>
 
 
-<div class="sourceCode" id="cb205"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb206"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yulab-smu.top/treedata-book/">ggtree</a></span><span class="op">)</span>
 
@@ -303,7 +303,7 @@ FIGURE 8.5: <strong>Parsing label as emoji.</strong> Text (<em>e.g.</em>, node o
 <span class="header-section-number">8.4.1</span> Emoji in circular/fan layout tree<a class="anchor" aria-label="anchor" href="#emoji-in-circularfan-layout-tree"><i class="fas fa-link"></i></a>
 </h3>
 <p>It also works with circular and fan layouts as demonstrated in Figure <a href="chapter8.html#fig:emojifan">8.6</a>.</p>
-<div class="sourceCode" id="cb206"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb207"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span>, layout <span class="op">=</span> <span class="st">"circular"</span>, size<span class="op">=</span><span class="fl">1</span><span class="op">)</span> <span class="op">+</span>  
   <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span>parse<span class="op">=</span><span class="st">"emoji"</span>, size<span class="op">=</span><span class="fl">10</span>, vjust<span class="op">=</span><span class="fl">.25</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span>
@@ -330,7 +330,7 @@ FIGURE 8.6: <strong>Phylomoji in cirular and fan layouts.</strong>
 <p>Parsing clade labels as emojis is also supported in the <code><a href="https://rdrr.io/pkg/ggtree/man/geom_cladelab.html">geom_cladelab()</a></code> layer. For example, in a phylogenetic tree of influenza viruses, we can use emojis to label clades to represent host species similar to Figure <a href="chapter8.html#fig:emojiclade">8.7</a>.</p>
 
 
-<div class="sourceCode" id="cb207"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb208"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
 <span class="va">tr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/rtree.html">rtree</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span>
 
@@ -373,7 +373,7 @@ FIGURE 8.7: <strong>Emoji to label clades.</strong>
 <span class="header-section-number">8.4.3</span> Apple Color Emoji<a class="anchor" aria-label="anchor" href="#apple-color-emoji"><i class="fas fa-link"></i></a>
 </h3>
 <p>Although <code>R</code>’s graphical devices don’t support <code>AppleColorEmoji</code> font on MacOS, it’s still possible to use it. We can export the <code>plot</code> to a <code>svg</code> file and render it in <code>Safari</code> (Figure <a href="chapter8.html#fig:applemoji">8.8</a>).</p>
-<div class="sourceCode" id="cb208"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb209"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yulab-smu.top/treedata-book/">ggtree</a></span><span class="op">)</span>
 <span class="va">tree_text</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"(((((cow, (whale, dolphin)), (pig2, boar)),"</span>,
                     <span class="st">"camel), fish), seedling);"</span><span class="op">)</span>
@@ -455,7 +455,7 @@ FIGURE 8.8: <strong>Use Apple Color Emoji in <code>ggtree</code>.</strong> The t
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees with R</strong>" was written by Guangchuang Yu. It was last built on 2022-04-13.</p>
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees with R</strong>" was written by Guangchuang Yu. It was last built on 2022-04-15.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

@@ -7,7 +7,7 @@
 <title>Chapter 3 Exporting tree with data | Data Integration, Manipulation and Visualization of Phylogenetic Trees with R</title>
 <meta name="author" content="Guangchuang Yu">
 <meta name="description" content="3.1 Introduction The treeio package (Wang et al., 2020) supports parsing various phylogenetic tree file formats including software outputs that contain evolutionary evidence. Some of the formats...">
-<meta name="generator" content="bookdown 0.25.4 with bs4_book()">
+<meta name="generator" content="bookdown 0.25 with bs4_book()">
 <meta property="og:title" content="Chapter 3 Exporting tree with data | Data Integration, Manipulation and Visualization of Phylogenetic Trees with R">
 <meta property="og:type" content="book">
 <meta property="og:image" content="/book-cover.png">
@@ -134,9 +134,7 @@ format. In my opinion, although <a href="http://beast.community/nexus_metacommen
 format</a> may not be the best solution,
 it is currently a good approach for storing heterogeneous associated data. The
 beauty of the format is that all the annotated elements are stored within square
-brackets, which are reserved for comments. So that the file can be parsed as
-standard Nexus format by ignoring annotated elements and existing programs could be
-able to read it.</p>
+brackets, which are reserved for comments. In this way, existing programs that can read standard Nexus format are able to parse it by ignoring the annotated elements.</p>
 </div>
 <div id="exporting-tree-data-to-beast-nexus-format" class="section level2" number="3.2">
 <h2>
@@ -151,7 +149,7 @@ With <a href="http://bioconductor.org/packages/treeio"><strong>treeio</strong></
 software output to BEAST format if the output can be parsed
 by <a href="http://bioconductor.org/packages/treeio"><strong>treeio</strong></a> (see <a href="chapter1.html#chapter1">Chapter 1</a>).</p>
 <p>Here is an example of converting NHX file to BEAST format:</p>
-<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nhxfile</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/NHX"</span>, <span class="st">"phyldog.nhx"</span>, package<span class="op">=</span><span class="st">"treeio"</span><span class="op">)</span>
 <span class="va">nhx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/treeio/reference/read.nhx.html">read.nhx</a></span><span class="op">(</span><span class="va">nhxfile</span><span class="op">)</span>
 <span class="co"># write.beast(nhx, file = "phyldog.tree")</span>
@@ -214,7 +212,7 @@ S=26]:0.22283)[&amp;Ev=S,ND=29,S=17]:0.0292362)[&amp;Ev=D,ND=8,S=17]:0.185603,
 S=12]:0.185603)[&amp;Ev=S,ND=30,S=9];
 END;</code></pre>
 <p>Another example of converting <a href="http://abacus.gene.ucl.ac.uk/software/paml.html"><strong>CODEML</strong></a> output to BEAST format:</p>
-<div class="sourceCode" id="cb112"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mlcfile</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/PAML_Codeml"</span>, <span class="st">"mlc"</span>, package<span class="op">=</span><span class="st">"treeio"</span><span class="op">)</span>
 <span class="va">ml</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/treeio/reference/read.codeml_mlc.html">read.codeml_mlc</a></span><span class="op">(</span><span class="va">mlcfile</span><span class="op">)</span>
 <span class="co"># write.beast(ml, file = "codeml.tree")</span>
@@ -238,7 +236,7 @@ FIGURE 3.1: <strong>Visualizing BEAST file in FigTree.</strong> Directly visuali
 <p>Using the utilities provided
 by <a href="https://CRAN.R-project.org/package=tidytree"><strong>tidytree</strong></a> and <a href="http://bioconductor.org/packages/treeio"><strong>treeio</strong></a>, it is easy to link
 external data onto the corresponding phylogeny. The <code><a href="https://docs.ropensci.org/treeio/reference/write.beast.html">write.beast()</a></code> function enables users to export the tree with external data to a single tree file.</p>
-<div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb114"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">phylo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/as.phylo.html">as.phylo</a></span><span class="op">(</span><span class="va">nhx</span><span class="op">)</span>
 <span class="co">## save space for printing the tree text</span>
 <span class="va">phylo</span><span class="op">$</span><span class="va">edge.length</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">phylo</span><span class="op">$</span><span class="va">edge.length</span>, <span class="fl">2</span><span class="op">)</span>
@@ -254,7 +252,7 @@ Physonect_sp_@2066767:0.08):0.03,(Stephalia_dilata@2960089:0.08,
 Cordagalma_sp_@1525873:0.07):0):0.03):0):0.04):0,Rhizophysa_filiformis@3073669:
 0.22):0.03):0.19,(Hydra_magnipapillata@52244:0.06,
 Ectopleura_larynx@3556167:0.33):0.19);</code></pre>
-<div class="sourceCode" id="cb115"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb116"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">N</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/treeio/reference/getNodeNum.html">Nnode2</a></span><span class="op">(</span><span class="va">phylo</span><span class="op">)</span>
 <span class="va">fake_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>node <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">N</span>, fake_trait <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span>, 
                     another_trait <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>
@@ -301,7 +299,7 @@ END;</code></pre>
 <p>Not only Newick tree text can be combined with associated data, but also tree
 data obtained from software output can be combined with external data, as well
 as different tree objects can be merged (for details, see <a href="chapter2.html#chapter2">Chapter 2</a>).</p>
-<div class="sourceCode" id="cb117"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb118"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## combine tree object with data</span>
 <span class="va">tree_with_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">full_join</a></span><span class="op">(</span><span class="va">nhx</span>, <span class="va">fake_data</span>, by <span class="op">=</span> <span class="st">"node"</span><span class="op">)</span>
 <span class="va">tree_with_data</span></code></pre></div>
@@ -323,24 +321,24 @@ as different tree objects can be merged (for details, see <a href="chapter2.html
 ## 
 ## with the following features available:
 ##   'Ev', 'ND', 'S', 'fake_trait', 'another_trait'.</code></pre>
-<div class="sourceCode" id="cb119"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb120"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## merge two tree object</span>
 <span class="va">tree2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/treeio/reference/merge_tree.html">merge_tree</a></span><span class="op">(</span><span class="va">nhx</span>, <span class="va">fake_tree</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/identical.html">identical</a></span><span class="op">(</span><span class="va">tree_with_data</span>, <span class="va">tree2</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>After merging data from different sources, the tree with the associated data can
 be exported into a single file.</p>
-<div class="sourceCode" id="cb121"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">outfile</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".tree"</span><span class="op">)</span>
 <span class="fu"><a href="https://docs.ropensci.org/treeio/reference/write.beast.html">write.beast</a></span><span class="op">(</span><span class="va">tree2</span>, file <span class="op">=</span> <span class="va">outfile</span><span class="op">)</span></code></pre></div>
 <p>The output BEAST Nexus file can be imported into R using the <code>read.beast</code>
 function and all the associated data can be used to annotate the tree
 using <a href="https://bioconductor.org/packages/ggtree/">ggtree</a> <span class="citation">(<a href="references.html#ref-yu_ggtree:_2017" role="doc-biblioref">Yu et al., 2017</a>)</span>.</p>
-<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb123"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://docs.ropensci.org/treeio/reference/beast-parser.html">read.beast</a></span><span class="op">(</span><span class="va">outfile</span><span class="op">)</span></code></pre></div>
 <pre><code>## 'treedata' S4 object that stored information
 ## of
-##  '/tmp/RtmpS9eVBp/file257d46e3af635.tree'.
+##  '/tmp/Rtmp5AWs09/fileacaba915d635.tree'.
 ## 
 ## ...@ phylo:
 ## 
@@ -377,7 +375,7 @@ is widely supported in almost all modern programming languages. To make it easy
 to import a tree with data in other programming
 languages, <a href="http://bioconductor.org/packages/treeio"><strong>treeio</strong></a> supports
 exporting a tree with data in the <code>jtree</code> format, which is JSON-based and can be easy to parse using any language that supports JSON.</p>
-<div class="sourceCode" id="cb124"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># write.jtree(tree2)</span>
 
 <span class="co"># to save space, use a subtree</span>
@@ -431,7 +429,7 @@ exporting a tree with data in the <code>jtree</code> format, which is JSON-based
     "metadata": {"info": "R-package treeio", "data": "Tue Nov 16 10:21:20 2021"}
 }</code></pre>
 <p>The <code>jtree</code> format is based on JSON and can be parsed using JSON parser.</p>
-<div class="sourceCode" id="cb126"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb127"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">jtree_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">'.jtree'</span><span class="op">)</span>
 <span class="fu"><a href="https://docs.ropensci.org/treeio/reference/write-jtree.html">write.jtree</a></span><span class="op">(</span><span class="va">tree3</span>, file <span class="op">=</span> <span class="va">jtree_file</span><span class="op">)</span>
 <span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html">fromJSON</a></span><span class="op">(</span><span class="va">jtree_file</span><span class="op">)</span></code></pre></div>
@@ -456,11 +454,11 @@ $metadata$data
 <p>The <code>jtree</code> file can be directly imported as a <code>treedata</code> object using
 the <code><a href="https://docs.ropensci.org/treeio/reference/read-jtree.html">read.jtree()</a></code> function provided also
 in <a href="http://bioconductor.org/packages/treeio"><strong>treeio</strong></a> package (see also <a href="chapter1.html#jtree">session 1.3</a>).</p>
-<div class="sourceCode" id="cb128"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb129"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://docs.ropensci.org/treeio/reference/read-jtree.html">read.jtree</a></span><span class="op">(</span><span class="va">jtree_file</span><span class="op">)</span></code></pre></div>
 <pre><code>## 'treedata' S4 object that stored information
 ## of
-##  '/tmp/RtmpS9eVBp/file257d474af56c7.jtree'.
+##  '/tmp/Rtmp5AWs09/fileacaba69c81b63.jtree'.
 ## 
 ## ...@ phylo:
 ## 
@@ -523,7 +521,7 @@ in <a href="http://bioconductor.org/packages/treeio"><strong>treeio</strong></a>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees with R</strong>" was written by Guangchuang Yu. It was last built on 2022-04-13.</p>
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees with R</strong>" was written by Guangchuang Yu. It was last built on 2022-04-15.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

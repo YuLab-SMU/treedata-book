@@ -7,7 +7,7 @@
 <title>Chapter 13 Gallery of Reproducible Examples | Data Integration, Manipulation and Visualization of Phylogenetic Trees with R</title>
 <meta name="author" content="Guangchuang Yu">
 <meta name="description" content="13.1 Visualizing pairwise nucleotide sequence distance with a phylogenetic tree This example reproduces figure 1 of (Chen et al., 2017). It extracts accession numbers from tip labels of the HPV58...">
-<meta name="generator" content="bookdown 0.25.4 with bs4_book()">
+<meta name="generator" content="bookdown 0.25 with bs4_book()">
 <meta property="og:title" content="Chapter 13 Gallery of Reproducible Examples | Data Integration, Manipulation and Visualization of Phylogenetic Trees with R">
 <meta property="og:type" content="book">
 <meta property="og:image" content="/book-cover.png">
@@ -107,8 +107,8 @@
 <h2>
 <span class="header-section-number">13.1</span> Visualizing pairwise nucleotide sequence distance with a phylogenetic tree<a class="anchor" aria-label="anchor" href="#hpv58"><i class="fas fa-link"></i></a>
 </h2>
-<p>This example reproduces figure 1 of <span class="citation">(<a href="references.html#ref-chen_ancient_2017" role="doc-biblioref">Chen et al., 2017</a>)</span>. It extracts accession numbers from tip labels of the HPV58 tree and calculates pairwise nucleotide sequence distances. The distance matrix is visualized as dot and line plots. This example demonstrates the ability to add multiple layers to a specific panel. As illustrated in Figure <a href="chapter13.html#fig:jv2017">13.1</a>, the <code><a href="https://rdrr.io/pkg/ggtree/man/facet-plot.html">geom_facet()</a></code> function displays sequence distances as a dot plot and then adds a layer of line plot to the same panel, <em>i.e.</em>, sequence distance. In addition, the tree in <code><a href="https://rdrr.io/pkg/ggtree/man/facet-plot.html">geom_facet()</a></code> can be fully annotated with multiple layers (clade labels, bootstrap support values, <em>etc.</em>). The source code is modified from the Supplemental File of <span class="citation">(<a href="references.html#ref-yu_two_2018" role="doc-biblioref">Yu et al., 2018</a>)</span>.</p>
-<div class="sourceCode" id="cb255"><pre class="downlit sourceCode r">
+<p>This example reproduces figure 1 of <span class="citation">(<a href="references.html#ref-chen_ancient_2017" role="doc-biblioref">Chen et al., 2017</a>)</span>. It extracts accession numbers from tip labels of the HPV58 tree and calculates pairwise nucleotide sequence distances. The distance matrix is visualized as dot and line plots. This example demonstrates the ability to add multiple layers to a specific panel. As illustrated in Figure <a href="chapter13.html#fig:jv2017">13.1</a>, the <code><a href="https://rdrr.io/pkg/ggtree/man/facet-plot.html">geom_facet()</a></code> function displays sequence distances as a dot plot and then adds a layer of line plot to the same panel, <em>i.e.</em>, sequence distance. In addition, the tree in <code><a href="https://rdrr.io/pkg/ggtree/man/facet-plot.html">geom_facet()</a></code> can be fully annotated with multiple layers (clade labels, bootstrap support values, <em>etc.</em>). The source code is modified from the supplemental file of <span class="citation">(<a href="references.html#ref-yu_two_2018" role="doc-biblioref">Yu et al., 2018</a>)</span>.</p>
+<div class="sourceCode" id="cb256"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/YuLab-SMU/TDBook">TDbook</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org">tidyr</a></span><span class="op">)</span>
@@ -217,7 +217,7 @@
                     nudge_y <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, hjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_nodelab.html">geom_nodelab</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>subset <span class="op">=</span> <span class="op">(</span><span class="va">node</span> <span class="op">==</span> <span class="fl">172</span><span class="op">)</span>, label <span class="op">=</span> <span class="st">"*"</span><span class="op">)</span>, 
                     color <span class="op">=</span> <span class="st">"black"</span>, nudge_x <span class="op">=</span> <span class="op">-</span><span class="fl">.0003</span>, nudge_y <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span> </code></pre></div>
-<div class="sourceCode" id="cb256"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb257"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## extract accession numbers from tip labels</span>
 <span class="va">tl</span> <span class="op">&lt;-</span> <span class="va">tree</span><span class="op">$</span><span class="va">tip.label</span>
 <span class="va">acc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">sub</a></span><span class="op">(</span><span class="st">"\\w+\\|"</span>, <span class="st">""</span>, <span class="va">tl</span><span class="op">)</span>
@@ -233,7 +233,7 @@
 <span class="va">tipseq_aln</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/XStringSet-class.html">DNAStringSet</a></span><span class="op">(</span><span class="va">tipseq_aln</span><span class="op">)</span></code></pre></div>
 
 
-<div class="sourceCode" id="cb257"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb258"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## calculate pairwise hamming distances among sequences</span>
 <span class="va">tipseq_dist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/stringDist.html">stringDist</a></span><span class="op">(</span><span class="va">tipseq_aln</span>, method <span class="op">=</span> <span class="st">"hamming"</span><span class="op">)</span>
 
@@ -276,7 +276,7 @@ FIGURE 13.1: <strong>Phylogeny of HPV58 complete genomes with dot and line plots
 <p>We can cut the bootstrap values into several intervals, <em>e.g.</em>, to indicate whether the clade is of high, moderate, or low support. Then we can use these intervals as categorical variables to set different colors or shapes of symbolic points to indicate the bootstrap values belong to which category (Figure <a href="chapter13.html#fig:bpinterval">13.2</a>).</p>
 
 
-<div class="sourceCode" id="cb258"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb259"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/YuLab-SMU/treeio">treeio</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yulab-smu.top/treedata-book/">ggtree</a></span><span class="op">)</span>
@@ -303,12 +303,12 @@ FIGURE 13.2: <strong>Partitioning bootstrap values</strong>. Bootstrap values we
 </div>
 <div id="phylo-grouping" class="section level2" number="13.3">
 <h2>
-<span class="header-section-number">13.3</span> Highlighting Different Groups.<a class="anchor" aria-label="anchor" href="#phylo-grouping"><i class="fas fa-link"></i></a>
+<span class="header-section-number">13.3</span> Highlighting Different Groups<a class="anchor" aria-label="anchor" href="#phylo-grouping"><i class="fas fa-link"></i></a>
 </h2>
 <p>This example reproduces Figure 1 of <span class="citation">(<a href="references.html#ref-larsen_identification_2019" role="doc-biblioref">Larsen et al., 2019</a>)</span>. It used <code><a href="https://rdrr.io/pkg/tidytree/man/groupOTU.html">groupOTU()</a></code> to add grouping information of chicken CTLDcps. The branch line type and color are defined based on this grouping information. Two groups of CTLDcps are highlighted in different background colors using <code>geom_hilight</code> (red for Group II and green for Group V). The avian-specific expansion of Group V with the subgroups of A and B- are labeled using <code>geom_cladelab</code> (Figure <a href="chapter13.html#fig:treeLarsen">13.3</a>).</p>
 
 
-<div class="sourceCode" id="cb259"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb260"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/YuLab-SMU/TDBook">TDbook</a></span><span class="op">)</span>
 <span class="va">mytree</span> <span class="op">&lt;-</span> <span class="va">tree_treenwk_30.4.19</span>
 
@@ -412,7 +412,7 @@ FIGURE 13.3: <strong>Phylogenetic tree of CTLDcps</strong>. Using different back
 <p>The <code><a href="https://rdrr.io/pkg/ggtree/man/geom_motif.html">geom_motif()</a></code> is defined in <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> and it is a wrapper layer of the <code><a href="https://wilkox.org/gggenes/reference/geom_gene_arrow.html">gggenes::geom_gene_arrow()</a></code>. The <code><a href="https://rdrr.io/pkg/ggtree/man/geom_motif.html">geom_motif()</a></code> can automatically adjust genomic alignment by selective gene (via the <code>on</code> parameter) and can label genes via the <code>label</code> parameter. In the following example, we use <code>example_genes</code> dataset provided by <a href="https://CRAN.R-project.org/package=gggenes"><strong>gggenes</strong></a>. As the dataset only provides genomic coordination of a set of genes, a phylogeny for the genomes needs to be constructed first. We calculate Jaccard similarity based on the ratio of overlapping genes among genomes and correspondingly determine genome distance. The BioNJ algorithm was applied to construct the tree. Then we can use <code><a href="https://rdrr.io/pkg/ggtree/man/facet-plot.html">geom_facet()</a></code> to visualize the tree with the genomic structures (Figure <a href="chapter13.html#fig:gggenes">13.4</a>).</p>
 
 
-<div class="sourceCode" id="cb260"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb261"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://wilkox.org/gggenes/">gggenes</a></span><span class="op">)</span>
@@ -470,7 +470,7 @@ FIGURE 13.4: <strong>Genomic features with a phylogenetic tree.</strong>
 <li><a class="nav-link" href="#chapter13"><span class="header-section-number">13</span> Gallery of Reproducible Examples</a></li>
 <li><a class="nav-link" href="#hpv58"><span class="header-section-number">13.1</span> Visualizing pairwise nucleotide sequence distance with a phylogenetic tree</a></li>
 <li><a class="nav-link" href="#symbolic-bootstrap"><span class="header-section-number">13.2</span> Displaying Different Symbolic Points for Bootstrap Values.</a></li>
-<li><a class="nav-link" href="#phylo-grouping"><span class="header-section-number">13.3</span> Highlighting Different Groups.</a></li>
+<li><a class="nav-link" href="#phylo-grouping"><span class="header-section-number">13.3</span> Highlighting Different Groups</a></li>
 <li><a class="nav-link" href="#genome-locus"><span class="header-section-number">13.4</span> Phylogenetic Tree with Genome Locus Structure</a></li>
 </ul>
 
@@ -492,7 +492,7 @@ FIGURE 13.4: <strong>Genomic features with a phylogenetic tree.</strong>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees with R</strong>" was written by Guangchuang Yu. It was last built on 2022-04-13.</p>
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees with R</strong>" was written by Guangchuang Yu. It was last built on 2022-04-15.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

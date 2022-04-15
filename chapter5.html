@@ -7,7 +7,7 @@
 <title>Chapter 5 Phylogenetic Tree Annotation | Data Integration, Manipulation and Visualization of Phylogenetic Trees with R</title>
 <meta name="author" content="Guangchuang Yu">
 <meta name="description" content="5.1 Visualizing and Annotating Tree Using Grammar of Graphics The ggtree (Yu et al., 2017) is designed for a more general-purpose or a specific type of tree visualization and annotation. It...">
-<meta name="generator" content="bookdown 0.25.4 with bs4_book()">
+<meta name="generator" content="bookdown 0.25 with bs4_book()">
 <meta property="og:title" content="Chapter 5 Phylogenetic Tree Annotation | Data Integration, Manipulation and Visualization of Phylogenetic Trees with R">
 <meta property="og:type" content="book">
 <meta property="og:image" content="/book-cover.png">
@@ -110,7 +110,7 @@
 <p>The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> <span class="citation">(<a href="references.html#ref-yu_ggtree:_2017" role="doc-biblioref">Yu et al., 2017</a>)</span> is designed for a more general-purpose or a specific type of tree visualization and annotation. It supports the grammar of graphics implemented in <a href="https://CRAN.R-project.org/package=ggplot2"><strong>ggplot2</strong></a> and users can freely visualize/annotate a tree by combining several annotation layers.</p>
 
 
-<div class="sourceCode" id="cb159"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb160"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yulab-smu.top/treedata-book/">ggtree</a></span><span class="op">)</span>
 <span class="va">treetext</span> <span class="op">=</span> <span class="st">"(((ADH2:0.1[&amp;&amp;NHX:S=human], ADH1:0.11[&amp;&amp;NHX:S=human]):
 0.05 [&amp;&amp;NHX:S=primates:D=Y:B=100],ADHY:
@@ -229,7 +229,7 @@ Annotates root node with symbolic point
 geom_rootedge
 </td>
 <td style="text-align:left;">
-Adds root edge to a tree
+Adds root-edge to a tree
 </td>
 </tr>
 <tr>
@@ -309,7 +309,7 @@ Tree branch scale legend
 </h3>
 <p>The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> <span class="citation">(<a href="references.html#ref-yu_ggtree:_2017" role="doc-biblioref">Yu et al., 2017</a>)</span> implements <code><a href="https://rdrr.io/pkg/ggtree/man/geom_cladelab.html">geom_cladelab()</a></code> layer to annotate a selected clade with a bar indicating the clade with a corresponding label.</p>
 <p>The <code><a href="https://rdrr.io/pkg/ggtree/man/geom_cladelab.html">geom_cladelab()</a></code> layer accepts a selected internal node number and labels the corresponding clade automatically (Figure <a href="chapter5.html#fig:cladelabel">5.2</a>A). To get the internal node number, please refer to <a href="chapter2.html#accesor-tidytree">Chapter 2</a>.</p>
-<div class="sourceCode" id="cb160"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb161"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">2015</span><span class="op">-</span><span class="fl">12</span><span class="op">-</span><span class="fl">21</span><span class="op">)</span>
 <span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/rtree.html">rtree</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span>
 <span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">8</span><span class="op">)</span>
@@ -317,18 +317,18 @@ Tree branch scale legend
 <span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_cladelab.html">geom_cladelab</a></span><span class="op">(</span>node<span class="op">=</span><span class="fl">45</span>, label<span class="op">=</span><span class="st">"test label"</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_cladelab.html">geom_cladelab</a></span><span class="op">(</span>node<span class="op">=</span><span class="fl">34</span>, label<span class="op">=</span><span class="st">"another clade"</span><span class="op">)</span></code></pre></div>
 <p>Users can set the parameter, <code>align = TRUE</code>, to align the clade label, <code>offset</code>, to adjust the position and color to set the color of the bar and label text, <em>etc.</em> (Figure <a href="chapter5.html#fig:cladelabel">5.2</a>B).</p>
-<div class="sourceCode" id="cb161"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb162"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_cladelab.html">geom_cladelab</a></span><span class="op">(</span>node<span class="op">=</span><span class="fl">45</span>, label<span class="op">=</span><span class="st">"test label"</span>, align<span class="op">=</span><span class="cn">TRUE</span>,  
                   offset <span class="op">=</span> <span class="fl">.2</span>, textcolor<span class="op">=</span><span class="st">'red'</span>, barcolor<span class="op">=</span><span class="st">'red'</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_cladelab.html">geom_cladelab</a></span><span class="op">(</span>node<span class="op">=</span><span class="fl">34</span>, label<span class="op">=</span><span class="st">"another clade"</span>, align<span class="op">=</span><span class="cn">TRUE</span>, 
                   offset <span class="op">=</span> <span class="fl">.2</span>, textcolor<span class="op">=</span><span class="st">'blue'</span>, barcolor<span class="op">=</span><span class="st">'blue'</span><span class="op">)</span></code></pre></div>
 <p>Users can change the <code>angle</code> of the clade label text and relative position from text to bar via the parameter <code>offset.text</code>. The size of the bar and text can be changed via the parameters <code>barsize</code> and <code>fontsize</code>, respectively (Figure <a href="chapter5.html#fig:cladelabel">5.2</a>C).</p>
-<div class="sourceCode" id="cb162"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb163"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_cladelab.html">geom_cladelab</a></span><span class="op">(</span>node<span class="op">=</span><span class="fl">45</span>, label<span class="op">=</span><span class="st">"test label"</span>, align<span class="op">=</span><span class="cn">TRUE</span>, angle<span class="op">=</span><span class="fl">270</span>, 
             hjust<span class="op">=</span><span class="st">'center'</span>, offset.text<span class="op">=</span><span class="fl">.5</span>, barsize<span class="op">=</span><span class="fl">1.5</span>, fontsize<span class="op">=</span><span class="fl">8</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_cladelab.html">geom_cladelab</a></span><span class="op">(</span>node<span class="op">=</span><span class="fl">34</span>, label<span class="op">=</span><span class="st">"another clade"</span>, align<span class="op">=</span><span class="cn">TRUE</span>, angle<span class="op">=</span><span class="fl">45</span><span class="op">)</span></code></pre></div>
 <p>Users can also use <code><a href="https://ggplot2.tidyverse.org/reference/geom_text.html">geom_label()</a></code> to label the text and can set the background color by <code>fill</code> parameter (Figure <a href="chapter5.html#fig:cladelabel">5.2</a>D).</p>
-<div class="sourceCode" id="cb163"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb164"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_cladelab.html">geom_cladelab</a></span><span class="op">(</span>node<span class="op">=</span><span class="fl">34</span>, label<span class="op">=</span><span class="st">"another clade"</span>, align<span class="op">=</span><span class="cn">TRUE</span>, 
                   geom<span class="op">=</span><span class="st">'label'</span>, fill<span class="op">=</span><span class="st">'lightblue'</span><span class="op">)</span></code></pre></div>
 
@@ -340,7 +340,7 @@ FIGURE 5.2: <strong>Labeling clades.</strong> Default (A); aligning and coloring
 </p>
 </div>
 <p>In addition, <code><a href="https://rdrr.io/pkg/ggtree/man/geom_cladelab.html">geom_cladelab()</a></code> allows users to use the image or phylopic to annotate the clades, and supports using aesthetic mapping to automatically annotate the clade with bar and text label or image (<em>e.g.</em>, mapping variable to color the clade labels) (Figure <a href="chapter5.html#fig:cladelabaes">5.3</a>).</p>
-<div class="sourceCode" id="cb164"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb165"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>node <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">45</span>, <span class="fl">34</span><span class="op">)</span>, 
             name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"test label"</span>, <span class="st">"another clade"</span><span class="op">)</span><span class="op">)</span>
 <span class="co"># The node and label is required when geom="text" </span>
@@ -374,14 +374,14 @@ FIGURE 5.3: <strong>Labeling clades using aesthetic mapping.</strong> The geom_c
 </p>
 </div>
 <p>The <code><a href="https://rdrr.io/pkg/ggtree/man/geom_cladelab.html">geom_cladelab()</a></code> layer also supports unrooted tree layouts (Figure <a href="chapter5.html#fig:striplabel">5.4</a>A).</p>
-<div class="sourceCode" id="cb165"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb166"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span>, layout<span class="op">=</span><span class="st">"daylight"</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_cladelab.html">geom_cladelab</a></span><span class="op">(</span>node<span class="op">=</span><span class="fl">35</span>, label<span class="op">=</span><span class="st">"test label"</span>, angle<span class="op">=</span><span class="fl">0</span>, 
                   fontsize<span class="op">=</span><span class="fl">8</span>, offset<span class="op">=</span><span class="fl">.5</span>, vjust<span class="op">=</span><span class="fl">.5</span><span class="op">)</span>  <span class="op">+</span> 
   <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_cladelab.html">geom_cladelab</a></span><span class="op">(</span>node<span class="op">=</span><span class="fl">55</span>, label<span class="op">=</span><span class="st">'another clade'</span>, 
                   angle<span class="op">=</span><span class="op">-</span><span class="fl">95</span>, hjust<span class="op">=</span><span class="fl">.5</span>, fontsize<span class="op">=</span><span class="fl">8</span><span class="op">)</span></code></pre></div>
 <p>The <code><a href="https://rdrr.io/pkg/ggtree/man/geom_cladelab.html">geom_cladelab()</a></code> is designed for labeling Monophyletic (Clade) while there are related taxa that do not form a clade. In <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a>, we provide another layer, <code><a href="https://rdrr.io/pkg/ggtree/man/geom_strip.html">geom_strip()</a></code>, to add a strip/bar to indicate the association with an optional label for Polyphyletic or Paraphyletic (Figure <a href="chapter5.html#fig:striplabel">5.4</a>B).</p>
-<div class="sourceCode" id="cb166"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb167"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_strip.html">geom_strip</a></span><span class="op">(</span><span class="st">'t10'</span>, <span class="st">'t30'</span>, barsize<span class="op">=</span><span class="fl">2</span>, color<span class="op">=</span><span class="st">'red'</span>, 
             label<span class="op">=</span><span class="st">"associated taxa"</span>, offset.text<span class="op">=</span><span class="fl">.1</span><span class="op">)</span> <span class="op">+</span> 
@@ -400,8 +400,8 @@ FIGURE 5.4: <strong>Labeling associated taxa.</strong> The <code><a href="https:
 <h3>
 <span class="header-section-number">5.2.2</span> Highlight clades<a class="anchor" aria-label="anchor" href="#highlight-clades"><i class="fas fa-link"></i></a>
 </h3>
-<p>The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> implements the <code><a href="https://rdrr.io/pkg/ggtree/man/geom-hilight.html">geom_hilight()</a></code> layer, which accepts an internal node number and adds a layer of a rectangle to highlight the selected clade (Figure <a href="chapter5.html#fig:hilight">5.5</a>) <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;If you want to plot the tree above the highlighting area, visit &lt;a href="faq.html#faq-under-the-tree"&gt;FAQ&lt;/a&gt; for details.&lt;/p&gt;'><sup>10</sup></a>.</p>
-<div class="sourceCode" id="cb167"><pre class="downlit sourceCode r">
+<p>The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> implements the <code><a href="https://rdrr.io/pkg/ggtree/man/geom-hilight.html">geom_hilight()</a></code> layer, which accepts an internal node number and adds a layer of a rectangle to highlight the selected clade (Figure <a href="chapter5.html#fig:hilight">5.5</a>)<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;If you want to plot the tree above the highlighting area, visit &lt;a href="faq.html#faq-under-the-tree"&gt;FAQ&lt;/a&gt; for details.&lt;/p&gt;'><sup>10</sup></a>.</p>
+<div class="sourceCode" id="cb168"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nwk</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"sample.nwk"</span>, package<span class="op">=</span><span class="st">"treeio"</span><span class="op">)</span>
 <span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/read.tree.html">read.tree</a></span><span class="op">(</span><span class="va">nwk</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span> <span class="op">+</span> 
@@ -412,19 +412,19 @@ FIGURE 5.4: <strong>Labeling associated taxa.</strong> The <code><a href="https:
     <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom-hilight.html">geom_hilight</a></span><span class="op">(</span>node<span class="op">=</span><span class="fl">21</span>, fill<span class="op">=</span><span class="st">"steelblue"</span>, alpha<span class="op">=</span><span class="fl">.6</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom-hilight.html">geom_hilight</a></span><span class="op">(</span>node<span class="op">=</span><span class="fl">23</span>, fill<span class="op">=</span><span class="st">"darkgreen"</span>, alpha<span class="op">=</span><span class="fl">.6</span><span class="op">)</span></code></pre></div>
 <p>The <code>geom_hilight</code> layer also supports highlighting clades for unrooted layout trees with round (‘encircle’) or rectangular (‘rect’) shape (Figure <a href="chapter5.html#fig:hilight">5.5</a>C).</p>
-<div class="sourceCode" id="cb168"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb169"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## type can be 'encircle' or 'rect'</span>
 <span class="va">pg</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom-hilight.html">geom_hilight</a></span><span class="op">(</span>node<span class="op">=</span><span class="fl">55</span>, linetype <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom-hilight.html">geom_hilight</a></span><span class="op">(</span>node<span class="op">=</span><span class="fl">35</span>, fill<span class="op">=</span><span class="st">'darkgreen'</span>, type<span class="op">=</span><span class="st">"rect"</span><span class="op">)</span></code></pre></div>
 <p>Another way to highlight selected clades is by setting the clades with different colors and/or line types as demonstrated in Figure <a href="chapter6.html#fig:scaleClade">6.2</a>.</p>
 <p>In addition to <code><a href="https://rdrr.io/pkg/ggtree/man/geom-hilight.html">geom_hilight()</a></code>, <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> also implements <code><a href="https://rdrr.io/pkg/ggtree/man/geom_balance.html">geom_balance()</a></code>
 which is designed to highlight neighboring subclades of a given internal node (Figure <a href="chapter5.html#fig:hilight">5.5</a>D).</p>
-<div class="sourceCode" id="cb169"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb170"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_balance.html">geom_balance</a></span><span class="op">(</span>node<span class="op">=</span><span class="fl">16</span>, fill<span class="op">=</span><span class="st">'steelblue'</span>, color<span class="op">=</span><span class="st">'white'</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, extend<span class="op">=</span><span class="fl">1</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_balance.html">geom_balance</a></span><span class="op">(</span>node<span class="op">=</span><span class="fl">19</span>, fill<span class="op">=</span><span class="st">'darkgreen'</span>, color<span class="op">=</span><span class="st">'white'</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, extend<span class="op">=</span><span class="fl">1</span><span class="op">)</span> </code></pre></div>
 <p>The <code><a href="https://rdrr.io/pkg/ggtree/man/geom-hilight.html">geom_hilight()</a></code> layer supports using aesthetic mapping to automatically highlight clades as demonstrated in Figures <a href="chapter5.html#fig:hilight">5.5</a>E-F. For plot in Cartesian coordinates (<em>e.g.</em>, rectangular layout), the rectangle can be rounded (Figure <a href="chapter5.html#fig:hilight">5.5</a>E) or filled with gradient colors (Figure <a href="chapter5.html#fig:hilight">5.5</a>F).</p>
-<div class="sourceCode" id="cb170"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb171"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## using external data</span>
 <span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>node<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">17</span>, <span class="fl">21</span><span class="op">)</span>, type<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom-hilight.html">geom_hilight</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">d</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>node<span class="op">=</span><span class="va">node</span>, fill<span class="op">=</span><span class="va">type</span><span class="op">)</span>,
@@ -454,7 +454,7 @@ FIGURE 5.5: <strong>Highlight selected clades.</strong> Rectangular layout (A), 
 <p>The <code><a href="https://rdrr.io/pkg/ggtree/man/geom_taxalink.html">geom_taxalink()</a></code> layout supports aesthetic mapping, which requires a <code>data.frame</code> that stores association information with/without meta-data as input (Figure <a href="chapter5.html#fig:taxalink">5.6</a>D).</p>
 
 
-<div class="sourceCode" id="cb171"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb172"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_taxalink.html">geom_taxalink</a></span><span class="op">(</span>taxa1<span class="op">=</span><span class="st">'A'</span>, taxa2<span class="op">=</span><span class="st">'E'</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_taxalink.html">geom_taxalink</a></span><span class="op">(</span>taxa1<span class="op">=</span><span class="st">'F'</span>, taxa2<span class="op">=</span><span class="st">'K'</span>, color<span class="op">=</span><span class="st">'red'</span>, linetype <span class="op">=</span> <span class="st">'dashed'</span>,
     arrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grid/arrow.html">arrow</a></span><span class="op">(</span>length<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">0.02</span>, <span class="st">"npc"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
@@ -514,7 +514,7 @@ FIGURE 5.6: <strong>Linking related taxa.</strong> This can be used to indicate 
 <p>The <code><a href="https://rdrr.io/pkg/ggtree/man/geom_range.html">geom_range()</a></code> layer supports displaying interval (highest posterior density, confidence interval, range) as horizontal bars on tree nodes. The center of the interval will anchor to the corresponding node. The center by default is the mean value of the interval (Figure <a href="chapter5.html#fig:geomRange">5.7</a>A). We can set the <code>center</code> to the estimated mean or median value (Figure <a href="chapter5.html#fig:geomRange">5.7</a>B), or the observed value. As the tree branch and the interval may not be on the same scale, <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> provides <code>scale_x_range</code> to add a second <em>x</em>-axis for the range (Figure <a href="chapter5.html#fig:geomRange">5.7</a>C). Note that <em>x</em>-axis is disabled by the default theme, and we need to enable it if we want to display it (<em>e.g.</em>, using <code><a href="https://rdrr.io/pkg/ggtree/man/theme_tree2.html">theme_tree2()</a></code>).</p>
 
 
-<div class="sourceCode" id="cb172"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb173"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/MEGA7"</span>, <span class="st">"mtCDNA_timetree.nex"</span>, package <span class="op">=</span> <span class="st">"treeio"</span><span class="op">)</span>
 <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/treeio/reference/beast-parser.html">read.mega</a></span><span class="op">(</span><span class="va">file</span><span class="op">)</span>
 <span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_range.html">geom_range</a></span><span class="op">(</span><span class="st">'reltime_0.95_CI'</span>, color<span class="op">=</span><span class="st">'red'</span>, size<span class="op">=</span><span class="fl">3</span>, alpha<span class="op">=</span><span class="fl">.3</span><span class="op">)</span>
@@ -541,7 +541,7 @@ FIGURE 5.7: <strong>Displaying uncertainty of evolutionary inference.</strong> T
 <p>Furthermore, the evolutionary data from the inference of <a href="http://beast2.org/"><strong>BEAST</strong></a>, <a href="http://nbisweden.github.io/MrBayes/"><strong>MrBayes</strong></a>, and <a href="http://revbayes.github.io/intro.html"><strong>RevBayes</strong></a>, <em>d<sub>N</sub>/d<sub>S</sub></em> values inferred by <a href="http://abacus.gene.ucl.ac.uk/software/paml.html"><strong>CODEML</strong></a>, ancestral sequences inferred by <a href="https://veg.github.io/hyphy-site/"><strong>HyPhy</strong></a>, <a href="http://abacus.gene.ucl.ac.uk/software/paml.html"><strong>CODEML</strong></a>, or <a href="http://abacus.gene.ucl.ac.uk/software/paml.html"><strong>BASEML</strong></a> and short read placement by <a href="http://sco.h-its.org/exelixis/web/software/epa/index.html"><strong>EPA</strong></a> and <a href="http://matsen.fhcrc.org/pplacer/"><strong>PPLACER</strong></a> can be used to annotate the tree directly.</p>
 
 
-<div class="sourceCode" id="cb173"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb174"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/BEAST"</span>, <span class="st">"beast_mcc.tree"</span>, package<span class="op">=</span><span class="st">"treeio"</span><span class="op">)</span>
 <span class="va">beast</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/treeio/reference/beast-parser.html">read.beast</a></span><span class="op">(</span><span class="va">file</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">beast</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>color<span class="op">=</span><span class="va">rate</span><span class="op">)</span><span class="op">)</span>  <span class="op">+</span>
@@ -555,11 +555,11 @@ FIGURE 5.7: <strong>Displaying uncertainty of evolutionary inference.</strong> T
 FIGURE 5.8: <strong>Annotating <a href="http://beast2.org/"><strong>BEAST</strong></a> tree with <em>length_95%_HPD</em> and posterior.</strong> Branch length credible intervals (95% HPD) were displayed as red horizontal bars and clade posterior values were shown on the middle of branches.
 </p>
 </div>
-<p>In Figure <a href="chapter5.html#fig:beast">5.8</a>, the tree was visualized and annotated with posterior &gt; 0.9 and demonstrated length uncertainty (95% Highest Posterior Density (HPD) interval).</p>
+<p>In Figure <a href="chapter5.html#fig:beast">5.8</a>, the tree was visualized and annotated with posterior &gt;0.9 and demonstrated length uncertainty (95% Highest Posterior Density (HPD) interval).</p>
 <p>Ancestral sequences inferred by <a href="https://veg.github.io/hyphy-site/"><strong>HyPhy</strong></a> can be parsed using <a href="http://bioconductor.org/packages/treeio"><strong>treeio</strong></a>, whereas the substitutions along each tree branch were automatically computed and stored inside the phylogenetic tree object (<em>i.e.</em>, <code>S4</code> object). The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> package can utilize this information stored in the object to annotate the tree, as demonstrated in Figure <a href="chapter5.html#fig:hyphy">5.9</a>.</p>
 
 
-<div class="sourceCode" id="cb174"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb175"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nwk</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/HYPHY"</span>, <span class="st">"labelledtree.tree"</span>, 
                    package<span class="op">=</span><span class="st">"treeio"</span><span class="op">)</span>
 <span class="va">ancseq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/HYPHY"</span>, <span class="st">"ancseq.nex"</span>, 
@@ -578,7 +578,7 @@ FIGURE 5.9: <strong>Annotating tree with amino acid substitution determined by a
 <p><a href="http://abacus.gene.ucl.ac.uk/software/paml.html"><strong>PAML</strong></a>’s <a href="http://abacus.gene.ucl.ac.uk/software/paml.html"><strong>BASEML</strong></a> and <a href="http://abacus.gene.ucl.ac.uk/software/paml.html"><strong>CODEML</strong></a> can also be used to infer ancestral sequences, whereas <a href="http://abacus.gene.ucl.ac.uk/software/paml.html"><strong>CODEML</strong></a> can infer selection pressure. After parsing this information using <a href="http://bioconductor.org/packages/treeio"><strong>treeio</strong></a>, <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> can integrate this information into the same tree structure and be used for annotation as illustrated in Figure <a href="chapter5.html#fig:codeml">5.10</a>.</p>
 
 
-<div class="sourceCode" id="cb175"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb176"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">rstfile</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/PAML_Codeml"</span>, <span class="st">"rst"</span>, 
                        package<span class="op">=</span><span class="st">"treeio"</span><span class="op">)</span>
 <span class="va">mlcfile</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/PAML_Codeml"</span>, <span class="st">"mlc"</span>, 
@@ -646,7 +646,7 @@ FIGURE 5.10: <strong>Annotating tree with amino acid substitution and <em>d<sub>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees with R</strong>" was written by Guangchuang Yu. It was last built on 2022-04-13.</p>
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees with R</strong>" was written by Guangchuang Yu. It was last built on 2022-04-15.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

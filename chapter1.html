@@ -7,7 +7,7 @@
 <title>Chapter 1 Importing Tree with Data | Data Integration, Manipulation and Visualization of Phylogenetic Trees with R</title>
 <meta name="author" content="Guangchuang Yu">
 <meta name="description" content="1.1 Overview of Phylogenetic Tree Construction Phylogenetic trees are used to describe genealogical relationships among a group of organisms, which can be constructed based on the genetic...">
-<meta name="generator" content="bookdown 0.25.4 with bs4_book()">
+<meta name="generator" content="bookdown 0.25 with bs4_book()">
 <meta property="og:title" content="Chapter 1 Importing Tree with Data | Data Integration, Manipulation and Visualization of Phylogenetic Trees with R">
 <meta property="og:type" content="book">
 <meta property="og:image" content="/book-cover.png">
@@ -157,7 +157,7 @@ BEGIN characters;
 END;</code></pre>
 <p>For example, the above example tree can be saved as the following NEXUS format:</p>
 <pre><code>#NEXUS
-[R-package APE, Fri Dec 31 09:56:12 2021]
+[R-package APE, Fri Apr 15 15:43:58 2022]
 
 BEGIN TAXA;
     DIMENSIONS NTAX = 5;
@@ -177,7 +177,8 @@ BEGIN TREES;
         4   t4,
         5   t3
     ;
-    TREE * UNTITLED = [&amp;R] ((1:0.04,2:0.34):0.89,(3:0.37,(4:0.03,5:0.67):0.9):0.59);
+    TREE * UNTITLED = [&amp;R]
+((1:0.04,2:0.34):0.89,(3:0.37,(4:0.03,5:0.67):0.9):0.59);
 END;</code></pre>
 <p>Comments can be placed using square brackets. Some blocks can be recognized by most of the programs including <code>TAXA</code> (contains information of taxa), <code>DATA</code> (contains data matrix, <em>e.g.</em>, sequence alignment), and <code>TREE</code> (contains a phylogenetic tree, <em>i.e.</em>, Newick tree text). Notably, blocks can be very diverse and some of them are only recognized by one particular program. For example NEXUS file exported by <a href="https://paup.phylosolutions.com/"><strong>PAUP*</strong></a> has a <em>paup</em> block that contains <em>PAUP*</em> commands, whereas <a href="http://beast.community/figtree"><strong>FigTree</strong></a> exports the NEXUS file with a <em>figtree</em> block that contains visualization settings. NEXUS organizes different types of data into different blocks, whereas programs that support reading NEXUS can parse some blocks they recognized and ignore those they could not. This is a good mechanism to allow different programs to use the same format without crashing when unsupported types of data are present. Notably, most of the programs only support parsing <code>TAXA</code>, <code>DATA</code>, and <code>TREE</code> blocks; therefore, a program/platform that could generically read all kinds of data blocks from the NEXUS would be useful for phylogenetic data integration.</p>
 <p>The <code>DATA</code> block is widely used to store sequence alignment. For this purpose, the user can store tree and sequence data in Phylip format which are essentially Phylip multiple sequence alignment and Newick tree text, respectively. It is used in <a href="https://evolution.genetics.washington.edu/phylip.html"><strong>PHYLIP</strong></a>.</p>
@@ -241,7 +242,7 @@ ADH1:0.11[&amp;&amp;NHX:S=yeast]):0.1[&amp;&amp;NHX:S=Fungi])[&amp;&amp;NHX:D=N]
 <span class="header-section-number">1.2.5</span> Software outputs<a class="anchor" aria-label="anchor" href="#software-outputs"><i class="fas fa-link"></i></a>
 </h3>
 <p><a href="http://evomics.org/learning/phylogenetics/raxml/"><strong>RAxML</strong></a> <span class="citation">(<a href="references.html#ref-stamatakis_raxml_2014" role="doc-biblioref">Stamatakis, 2014</a>)</span> can output Newick format by storing the bootstrap values as internal node labels. Another way that <a href="http://evomics.org/learning/phylogenetics/raxml/"><strong>RAxML</strong></a> supports is to place bootstrap value inside square brackets and after branch length. This could not be supported by most of the software that supports Newick format where square brackets will be ignored.</p>
-<p><a href="http://beast2.org/"><strong>BEAST</strong></a> <span class="citation">(<a href="references.html#ref-bouckaert_beast_2014" role="doc-biblioref">Bouckaert et al., 2014</a>)</span> output is based on NEXUS and it also introduces square brackets in the tree block to store evolutionary evidence inferred by <a href="http://beast2.org/"><strong>BEAST</strong></a>. Inside brackets, curly braces may also be incorporated if feature values have a length of more than 1 (<em>e.g.</em>, Highest Probability Density (HPD) or range of substitution rate). These brackets are placed between node and branch length (<em>i.e.</em>, after label if exists and before the colon). The bracket is not defined in Newick format and is a reserved character for NEXUS comment. So this information will be ignored for standard NEXUS parsers.</p>
+<p><a href="http://beast2.org/"><strong>BEAST</strong></a> <span class="citation">(<a href="references.html#ref-bouckaert_beast_2014" role="doc-biblioref">Bouckaert et al., 2014</a>)</span> output is based on NEXUS, and it also introduces square brackets in the tree block to store evolutionary evidence inferred by <a href="http://beast2.org/"><strong>BEAST</strong></a>. Inside brackets, curly braces may also be incorporated if feature values have a length of more than 1 (<em>e.g.</em>, Highest Probability Density (HPD) or range of substitution rate). These brackets are placed between node and branch length (<em>i.e.</em>, after label if exists and before the colon). The bracket is not defined in Newick format and is a reserved character for NEXUS comment. So this information will be ignored for standard NEXUS parsers.</p>
 <p>Here is a sample <code>TREE</code> block of the <a href="http://beast2.org/"><strong>BEAST</strong></a> output:</p>
 <pre><code>TREE * TREE1 = [&amp;R] (((11[&amp;length=9.47]:9.39,14[&amp;length=6.47]:6.39)
 [&amp;length=25.72]:25.44,4[&amp;length=9.14]:8.82)[&amp;length=3.01]:3.1,
@@ -1258,16 +1259,21 @@ many packages work with <code>phylo</code> object.</p>
 <span class="va">beast_tree</span> <span class="op">&lt;-</span> <span class="fu">read.beast</span><span class="op">(</span><span class="va">beast_file</span><span class="op">)</span>
 <span class="co"># or get.tree</span>
 <span class="fu"><a href="https://rdrr.io/pkg/ape/man/as.phylo.html">as.phylo</a></span><span class="op">(</span><span class="va">beast_tree</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">beast_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"examples/MCC_FluA_H3.tree"</span>, package<span class="op">=</span><span class="st">"ggtree"</span><span class="op">)</span>
+<span class="va">beast_tree</span> <span class="op">&lt;-</span> <span class="fu">read.beast</span><span class="op">(</span><span class="va">beast_file</span><span class="op">)</span>
+<span class="co"># or get.tree</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ape/man/as.phylo.html">as.phylo</a></span><span class="op">(</span><span class="va">beast_tree</span><span class="op">)</span>, printlen<span class="op">=</span><span class="fl">3</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
 ## Phylogenetic tree with 76 tips and 75 internal nodes.
 ## 
 ## Tip labels:
-##   A/Hokkaido/30-1-a/2013, A/New_York/334/2004, A/New_York/463/2005, A/New_York/452/1999, A/New_York/238/2005, A/New_York/523/1998, ...
+##   A/Hokkaido/30-1-a/2013, A/New_York/334/2004, A/New_York/463/2005, ...
 ## 
 ## Rooted; includes branch lengths.</code></pre>
 <p>The <code>get.fields</code> method returns a vector of features/attributes stored in
 the object and associated with the phylogeny.</p>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">get.fields</span><span class="op">(</span><span class="va">beast_tree</span><span class="op">)</span></code></pre></div>
 <pre><code>##  [1] "height"          "height_0.95_HPD"
 ##  [3] "height_median"   "height_range"   
@@ -1277,7 +1283,7 @@ the object and associated with the phylogeny.</p>
 ## [11] "rate_0.95_HPD"   "rate_median"    
 ## [13] "rate_range"</code></pre>
 <p>The <code>get.data</code> method returns a tibble of all the associated data.</p>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">get.data</span><span class="op">(</span><span class="va">beast_tree</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 151 × 14
 ##    height height_0.95_HPD height_median height_range
@@ -1300,7 +1306,7 @@ the object and associated with the phylogeny.</p>
 <p>If users are only interested in a subset of the features/attributes returned by
 <code>get.fields</code>, they can extract the information from the output of <code>get.data</code> or
 directly subset the data by <code>[</code> or <code>[[</code>.</p>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">beast_tree</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"node"</span>, <span class="st">"height"</span><span class="op">)</span><span class="op">]</span></code></pre></div>
 <pre><code>## # A tibble: 151 × 2
 ##     node height
@@ -1316,7 +1322,7 @@ directly subset the data by <code>[</code> or <code>[[</code>.</p>
 ##  9    16    9  
 ## 10     2    9  
 ## # … with 141 more rows</code></pre>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">beast_tree</span><span class="op">[[</span><span class="st">"height_median"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <pre><code>## height_median1 height_median2 height_median3 
 ##             19             17             14 
@@ -1329,7 +1335,7 @@ directly subset the data by <code>[</code> or <code>[[</code>.</p>
 <span class="header-section-number">1.4</span> Summary<a class="anchor" aria-label="anchor" href="#summary1"><i class="fas fa-link"></i></a>
 </h2>
 <p>Software tools for inferring molecular evolution (<em>e.g.</em>, ancestral states, molecular dating and selection pressure, <em>etc.</em>) are proliferating, but there is no single data format that is used by all different programs and capable to store different types of phylogenetic data. Most of the software packages have their unique output formats and these formats are not compatible with each other. Parsing software outputs is challenging, which restricts the joint analysis using different tools. The <a href="http://bioconductor.org/packages/treeio"><strong>treeio</strong></a> package <span class="citation">(<a href="references.html#ref-wang_treeio_2020" role="doc-biblioref">Wang et al., 2020</a>)</span> provides a set of functions (Table <a href="chapter1.html#tab:treeio-function">1.1</a>) for parsing various types of phylogenetic data files and a set of converters (Table <a href="chapter1.html#tab:treeio-treedata-object">1.2</a>) to convert tree-like objects to phylo or treedata objects. These phylogenetic data can be integrated that allow further exploration and comparison. To date, most software tools in the field of molecular evolution are isolated and often not fully compatible with each other’s input and output files. These software tools are designed to do their analysis and the outputs are often not readable in other software. No tools have been designed to unify the inference data from different analysis programs. Efficient incorporation of data from different inference methods can enhance the comparison and understanding of the study target, which may help discover new systematic patterns and generate new hypotheses.</p>
-<p>As phylogenetic trees are growing in their application to identify patterns in an evolutionary context, more different disciplines are employing phylogenetic trees in their research. For example, spatial ecologists may map the geographical positions of the organisms to their phylogenetic trees to understand the biogeography of the species <span class="citation">(<a href="references.html#ref-schon_age_2015" role="doc-biblioref">Schön et al., 2015</a>)</span>; disease epidemiologists may incorporate the pathogen sampling time and locations into the phylogenetic analysis to infer the disease transmission dynamics in spatiotemporal space <span class="citation">(<a href="references.html#ref-he_emergence_2013" role="doc-biblioref">Y.-Q. He et al., 2013</a>)</span>; microbiologists may determine the pathogenicity of different pathogen strains and map them into their phylogenetic trees to identify the genetic determinants of the pathogenicity <span class="citation">(<a href="references.html#ref-bosi_comparative_2016" role="doc-biblioref">Bosi et al., 2016</a>)</span>; genomic scientists may use the phylogenetic trees to help taxonomically classify their metagenomic sequence data <span class="citation">(<a href="references.html#ref-gupta_using_2015" role="doc-biblioref">Gupta &amp; Sharma, 2015</a>)</span>. A robust tool such as <a href="http://bioconductor.org/packages/treeio"><strong>treeio</strong></a> to import and map different types of data into the phylogenetic tree is important to facilitate these phylogenetics-related research, or <em>a.k.a</em> ‘phylodynamics’. Such tools could also help integrate different meta-data (time, geography, genotype, epidemiological information) and analysis results (selective pressure, evolutionary rates) at the highest level and provide a comprehensive understanding of the study organisms. In the field of influenza research, there have been such attempts of studying the phylodynamics of the influenza virus by mapping different meta-data and analysis results on the same phylogenetic tree and evolutionary time scale <span class="citation">(<a href="references.html#ref-lam_dissemination_2015" role="doc-biblioref">Lam et al., 2015</a>)</span>.</p>
+<p>As phylogenetic trees are growing in their application to identify patterns in an evolutionary context, more different disciplines are employing phylogenetic trees in their research. For example, spatial ecologists may map the geographical positions of the organisms to their phylogenetic trees to understand the biogeography of the species <span class="citation">(<a href="references.html#ref-schon_age_2015" role="doc-biblioref">Schön et al., 2015</a>)</span>; disease epidemiologists may incorporate the pathogen sampling time and locations into the phylogenetic analysis to infer the disease transmission dynamics in spatiotemporal space <span class="citation">(<a href="references.html#ref-he_emergence_2013" role="doc-biblioref">Y.-Q. He et al., 2013</a>)</span>; microbiologists may determine the pathogenicity of different pathogen strains and map them into their phylogenetic trees to identify the genetic determinants of the pathogenicity <span class="citation">(<a href="references.html#ref-bosi_comparative_2016" role="doc-biblioref">Bosi et al., 2016</a>)</span>; genomic scientists may use the phylogenetic trees to help taxonomically classify their metagenomic sequence data <span class="citation">(<a href="references.html#ref-gupta_using_2015" role="doc-biblioref">Gupta &amp; Sharma, 2015</a>)</span>. A robust tool such as <a href="http://bioconductor.org/packages/treeio"><strong>treeio</strong></a> to import and map different types of data into the phylogenetic tree is important to facilitate these phylogenetics-related research, or ‘phylodynamics’. Such tools could also help integrate different meta-data (time, geography, genotype, epidemiological information) and analysis results (selective pressure, evolutionary rates) at the highest level and provide a comprehensive understanding of the study organisms. In the field of influenza research, there have been such attempts of studying the phylodynamics of the influenza virus by mapping different meta-data and analysis results on the same phylogenetic tree and evolutionary timescale <span class="citation">(<a href="references.html#ref-lam_dissemination_2015" role="doc-biblioref">Lam et al., 2015</a>)</span>.</p>
 
 <div style="page-break-after: always;"></div>
 </div>
@@ -1377,7 +1383,7 @@ directly subset the data by <code>[</code> or <code>[[</code>.</p>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees with R</strong>" was written by Guangchuang Yu. It was last built on 2022-04-13.</p>
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees with R</strong>" was written by Guangchuang Yu. It was last built on 2022-04-15.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
