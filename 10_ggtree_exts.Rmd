@@ -18,7 +18,7 @@ The `r Biocpkg("ggtreeExtra")` package provides a layer function, `geom_fruit()`
 The `geom_fruit()` is designed to work with most `geom` layers defined in `r CRANpkg("ggplot2")` and its extensions. The position of the graph (*i.e.*, on the outer ring) is controlled by the `position` parameter, which accepts a `Position` object. The default value of the `position` parameter is 'auto' and the `geom_fruit()` layer will guess and determine (hopefully) a suitable position for the specified geometric layer. That means using `position_stackx()` for `geom_bar()`, `position_dodgex()` for `geom_violin()` and `geom_boxplot()`, and `position_identityx()` for others (*e.g.*, `geom_point()`, `geom_tile()`, *etc.*). A geometric layer that has a `position` parameter should be compatible with `geom_fruit()`, as it allows using position functions defined in the `r Biocpkg("ggtreeExtra")` package to adjust output layer positions. Besides, the `geom_fruit()` layer allows setting `axis` and background grid lines for the current layer using the `axis.params` and `grid.params` parameters, respectively.
 
 
-The following example uses microbiome data provided in the `r Biocpkg("phyloseq")` package and a boxplot is employed to visualize species abundance data. The `geom_fruit()` layer automatically re-arranges the abundance data according to the circular tree structure and visualizes the data using the specific `geom` function (*i.e.*, `geom_boxplot()`). Visualizing this dataset using `geom_density_ridges()` with `geom_facet()` can be found in figure 1 of [@yu_two_2018].
+The following example uses microbiome data provided in the `r Biocpkg("phyloseq")` package and a boxplot is employed to visualize species abundance data. The `geom_fruit()` layer automatically rearranges the abundance data according to the circular tree structure and visualizes the data using the specific `geom` function (*i.e.*, `geom_boxplot()`). Visualizing this dataset using `geom_density_ridges()` with `geom_facet()` can be found in figure 1 of [@yu_two_2018].
 
 
 (ref:psboxplotscap) Phylogenetic tree with OTU abundance distribution.
@@ -127,8 +127,8 @@ dat3$Sites <- factor(dat3$Sites,
                              "Plaque (prevalence)", "Tongue (prevalence)",
                              "Nose (prevalence)", "Vagina (prevalence)",
                              "Skin (prevalence)"))
-# extract the clade label information. Because some nodes of tree are annotated to genera,
-# which can be displayed with high light using ggtree.
+# extract the clade label information. Because some nodes of tree are
+# annotated to genera, which can be displayed with high light using ggtree.
 nodeids <- nodeid(tree, tree$node.label[nchar(tree$node.label)>4])
 nodedf <- data.frame(node=nodeids)
 nodelab <- gsub("[\\.0-9]", "", tree$node.label[nchar(tree$node.label)>4])
@@ -219,7 +219,7 @@ p + layout_rectangular() +
 
 ## Examples for Population Genetics
 
-The `r Biocpkg("ggtree")` [@yu_ggtree:_2017] and `r Biocpkg("ggtreeExtra")` packages are designed as general tools and can be applied to many research fields, such as infectious disease epidemiology, metagenome, population genetics, evolutionary biology, and ecology. We have introduced examples for metagenome research (Figure \@ref(fig:psbox) and Figure \@ref(fig:HMPplot)). In this session, we present examples for population genetics by reproducing figure 4 of [@Chowe:_2020] (Figure \@ref(fig:Caurisplot)) and figure 1 of [@RN46:_2015] (Figure \@ref(fig:Styphiplot)). 
+The `r Biocpkg("ggtree")` [@yu_ggtree:_2017] and `r Biocpkg("ggtreeExtra")` packages are designed as general tools and can be applied to many research fields, such as infectious disease epidemiology, metagenome, population genetics, evolutionary biology, and ecology. We have introduced examples for metagenome research (Figure \@ref(fig:psbox) and Figure \@ref(fig:HMPplot)). In this session, we present examples for population genetics by reproducing figure 4 of [@Chowe:_2020] and figure 1 of [@RN46:_2015]. 
 
 
 (ref:Cauriscap) Antifungal susceptibility and point mutations in drug targets in Candida Auris.
@@ -388,7 +388,7 @@ p3 <- p2 +
 p3
 ```
 
-In this example, the phylogenetic tree is annotated with different colors to display different clades. The external heatmaps present the susceptibility to fluconazole (FCZ), amphotericin B (AMB), and micafungin (MCF). The external points display the point mutations in lanosterol 14-alpha-demethylase ERG11 (Y132F, K143R, and F126L) and beta-1,3-D-glucan synthase FKS1 (S639Y/P/F) associated with resistance [@Chowe:_2020].
+In this example, Figure \@ref(fig:Caurisplot) shows the phylogenetic tree annotated with different colors to display different clades. The external heatmaps present the susceptibility to fluconazole (FCZ), amphotericin B (AMB), and micafungin (MCF). The external points display the point mutations in lanosterol 14-alpha-demethylase ERG11 (Y132F, K143R, and F126L) and beta-1,3-D-glucan synthase FKS1 (S639Y/P/F) associated with resistance [@Chowe:_2020].
 
 ```{r Styphiplot, fig.width=7, fig.height=7, warning=FALSE, message=FALSE, fig.cap="(ref:Styphicap)", fig.scap="(ref:Styphiscap)", out.extra='', warning=FALSE, out.width="100%"}
 library(ggtreeExtra)
@@ -489,7 +489,8 @@ p3 <-p2 +
 p3
 ```
 
-This is a rooted maximum-likelihood tree of *S. Typhi* inferred from 22,145 SNPs [@RN46:_2015], the colors of the tip points represent the geographical origin of the isolates, and the red symbolic points indicate the haplotype of H58 lineage. The color of the external heatmap indicates the years of isolation [@RN46:_2015].
+
+Figure \@ref(fig:Styphiplot) is a rooted maximum-likelihood tree of *S. Typhi* inferred from 22,145 SNPs [@RN46:_2015], the colors of the tip points represent the geographical origin of the isolates, and the red symbolic points indicate the haplotype of H58 lineage. The color of the external heatmap indicates the years of isolation [@RN46:_2015].
 
 
 ## Summary {#summary10}
