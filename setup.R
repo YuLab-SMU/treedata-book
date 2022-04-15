@@ -77,3 +77,15 @@ trim_fig <- function(path, options) {
     return(output)
 }
 
+squote <- function(string) {
+    if (knitr::is_latex_output()) {
+        left_quote_mark <- "`"
+    } else {
+        left_quote_mark <- "'"
+    }
+
+    right_quote_mark <- "'"
+
+    fmt <- "%s%s%s"
+    sprintf(fmt, left_quote_mark, string, right_quote_mark)
+}
