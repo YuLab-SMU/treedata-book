@@ -63,7 +63,7 @@ set.seed(123)
 tree <- rtree(30)
 
 p <- ggtree(tree, branch.length = "none") + 
-    geom_tiplab() + theme(legend.position='none')
+    geom_tiplab(size=3) + theme(legend.position='none')
 
 a <- runif(30, 0,1)
 b <- 1 - a
@@ -90,13 +90,13 @@ plot_list(pp, gg, ncol=1, tag_levels='A', heights=c(1.5, 1))
 
 ### facet_labeller {#facet_labeller}
 
-The `facet_labeller()` function was designed to re-label selected panels (Figure \@ref(fig:facetLab)), and it currently only works with `ggtree` objects (*i.e.*, `geom_facet()` outputs). A more versatile version that works with both `ggtree` and `ggplot` objects is implemented in the `r CRANpkg("ggfun")` package (*i.e.*, the `facet_set()` function).
+The `facet_labeller()` function was designed to relabel selected panels (Figure \@ref(fig:facetLab)), and it currently only works with `ggtree` objects (*i.e.*, `geom_facet()` outputs). A more versatile version that works with both `ggtree` and `ggplot` objects is implemented in the `r CRANpkg("ggfun")` package (*i.e.*, the `facet_set()` function).
 
 ```{r eval=F}
 facet_labeller(p2, c(Tree = "phylogeny", bar = "HELLO"))
 ```
 
-If you want to combine `facet_widths()` with `facet_labeller()`, you need to call `facet_labeller()` to re-label the panels before using `facet_widths()` to set the relative widths of each panel. Otherwise, it won't work since the output of `facet_widths()` is re-drawn from `grid` object.
+If you want to combine `facet_widths()` with `facet_labeller()`, you need to call `facet_labeller()` to relabel the panels before using `facet_widths()` to set the relative widths of each panel. Otherwise, it won't work since the output of `facet_widths()` is redrawn from `grid` object.
 
 ```{r eval=F}
 facet_labeller(p2, c(Tree = "phylogeny")) %>% facet_widths(c(Tree = .4))
@@ -107,13 +107,13 @@ facet_labeller(p2, c(Tree = "phylogeny")) %>% facet_widths(c(Tree = .4))
 (ref:facetLabcap) **Rename facet labels.** Rename multiple labels simultaneously (A) or only for a specific one (B) are all supported. `facet_labeller()` can combine with `facet_widths()` to rename facet label and then adjust relative widths (B).
 
 
-```{r facetLab, echo=FALSE,fig.width=6, fig.height=9, fig.scap="(ref:facetLabscap)", fig.cap="(ref:facetLabcap)"}
+```{r facetLab, echo=FALSE,fig.width=6, fig.height=7, fig.scap="(ref:facetLabscap)", fig.cap="(ref:facetLabcap)"}
 pg1 <- facet_labeller(p2, c(Tree = "phylogeny", bar = "HELLO")) 
 pg2 <- facet_labeller(p2, c(Tree = "phylogeny")) %>% facet_widths(c(Tree = .4))
 #plot_grid(plot_grid(ggdraw(), pg1, rel_widths=c(.04, 1)), 
 #        plot_grid(ggdraw(), pg2, rel_widths=c(.04, 1)), 
 #        ncol=1, labels = c("A", "B"))
-
+ 
 plot_list(pg1, pg2, ncol=1, tag_levels='A')
 ```
 
@@ -287,7 +287,7 @@ plot_list(p2, g + theme_grey() + xlim_expand(c(0, 15), 'virginica'),
 
 The `r CRANpkg("ggplot2")` package cannot automatically adjust plot limits and it is very common that long text was truncated. Users need to adjust x (y) limits manually via the `xlim()` (`ylim()`) command (see also [FAQ: Tip label truncated](#faq-label-truncated)). 
 
-The `xlim()` (`ylim()`) is a good solution to this issue. However, we can put the thing more simply, by expanding the plot panel by a ratio of the axis range without knowing what the exact value is. 
+The `xlim()` (`ylim()`) is a good solution to this issue. However, we can make it more simple, by expanding the plot panel by a ratio of the axis range without knowing what the exact value is. 
 
 We provide `hexpand()` function to expand x limit by specifying a fraction of the x range and it works for both directions (`direction=1` for right-hand side and `direction=-1` for left-hand side) (Figure \@ref(fig:hexpand)). Another version of `vexpand()` works with similar behavior for *y*-axis and the `ggexpand()` function works for both *x*- and *y*-axis (Figure \@ref(fig:phylonetworx)). 
 
@@ -298,7 +298,7 @@ We provide `hexpand()` function to expand x limit by specifying a fraction of th
 
 ```{r hexpand,fig.cap="(ref:hexpandcap)", fig.scap="(ref:hexpandscap)", fig.width=12, fig.height = 5, out.width='100%'}
 x$tip.label <- paste0('to make the label longer_', x$tip.label)
-p1 <- ggtree(x) + geom_tiplab() + hexpand(.3)
+p1 <- ggtree(x) + geom_tiplab() + hexpand(.4)
 p2 <- ggplot(iris, aes(Sepal.Width, Petal.Width)) + 
     geom_point() + 
     hexpand(.2, direction = -1) +
@@ -403,7 +403,7 @@ The `get_taxa_name()` function will return a vector of ordered tip labels accord
 get_taxa_name(p)
 ```
 
-If users specify a node, the `get_taxa_name()` will extract the tip order of the selected clade (i.e., highlighted region in the Figure \@ref(fig:tiporder)).
+If users specify a node, the `get_taxa_name()` will extract the tip order of the selected clade (i.e., highlighted region in Figure \@ref(fig:tiporder)).
 
 
 ```{r}
