@@ -16,6 +16,6 @@ doi: [10.1111/2041-210X.12628](https://doi.org/10.1111/2041-210X.12628).
 
 
 <center>
-<a href="https://www.routledge.com/Data-Integration-Manipulation-and-Visualization-of-Phylogenetic-Trees/Yu/p/book/9781032233574"><img src="https://yulab-smu.top/treedata-book//home/ygc/mybook/treedata-book/9781032233574_cover_review.png" style="width:500px;border:2px solid black;"/></a>
+<a href="https://www.routledge.com/Data-Integration-Manipulation-and-Visualization-of-Phylogenetic-Trees/Yu/p/book/9781032233574"><img src="https://yulab-smu.top/treedata-book/9781032233574_cover_review.png" style="width:500px;border:2px solid black;"/></a>
 </center>
 
