@@ -94,7 +94,7 @@ knitr::kable(geoms, caption = "Geom layers defined in ggtree.", booktabs = T) %>
 
 ### Colored strips
 
-The `r Biocpkg("ggtree")` [@yu_ggtree:_2017] implements `geom_cladelab()` layer to annotate a selected clade with a bar indicating the clade with a corresponding label.
+The `r Biocpkg("ggtree")` [@yu_ggtree:_2017] implements `geom_cladelab()` layer to annotate a selected clade with a bar indicating the clade with a corresponding label\index{geom\textunderscore cladelab}.
 
 The `geom_cladelab()` layer accepts a selected internal node number and labels the corresponding clade automatically (Figure \@ref(fig:cladelabel)A). To get the internal node number, please refer to [Chapter 2](#accesor-tidytree). 
 
@@ -251,7 +251,7 @@ plot_grid(p5, p6, ncol=2, labels=LETTERS[1:2])
 
 ### Highlight clades
 
-The `r Biocpkg("ggtree")` implements the `geom_hilight()` layer, which accepts an internal node number and adds a layer of a rectangle to highlight the selected clade (Figure \@ref(fig:hilight))^[If you want to plot the tree above the highlighting area, visit [FAQ](#faq-under-the-tree) for details.].
+The `r Biocpkg("ggtree")` implements the `geom_hilight()` layer, which accepts an internal node number and adds a layer of a rectangle to highlight the selected clade (Figure \@ref(fig:hilight))^[If you want to plot the tree above the highlighting area, visit [FAQ](#faq-under-the-tree) for details.]\index{geom\textunderscore hilight}.
 
 ```{r eval=F, fig.width=5, fig.height=5, fig.align="center", warning=FALSE}
 nwk <- system.file("extdata", "sample.nwk", package="treeio")
@@ -348,7 +348,7 @@ plot_list(p1, p2, p3, p4, p5, p6, ncol=3, tag_levels='A')
 
 ### Taxa connection
 
-Some evolutionary events (*e.g.*, reassortment, horizontal gene transfer) cannot be modeled by a simple tree. The `r Biocpkg("ggtree")` provides the `geom_taxalink()` layer that allows drawing straight or curved lines between any of two nodes in the tree, allowing it to represent evolutionary events by connecting taxa. It works with rectangular (Figure \@ref(fig:taxalink)A), circular (Figure \@ref(fig:taxalink)B), and inward circular (Figure \@ref(fig:taxalink)C) layouts. The `geom_taxalink()` is not only useful for presenting evolutionary events, but it can also be used to combine evolutionary trees to present relationships or interactions between species [@ggtreeExtra_2021].
+Some evolutionary events (*e.g.*, reassortment, horizontal gene transfer) cannot be modeled by a simple tree. The `r Biocpkg("ggtree")` provides the `geom_taxalink()` layer that allows drawing straight or curved lines between any of two nodes in the tree, allowing it to represent evolutionary events by connecting taxa. It works with rectangular (Figure \@ref(fig:taxalink)A), circular (Figure \@ref(fig:taxalink)B), and inward circular (Figure \@ref(fig:taxalink)C) layouts. The `geom_taxalink()` is not only useful for presenting evolutionary events, but it can also be used to combine evolutionary trees to present relationships or interactions between species [@ggtreeExtra_2021]\index{geom\textunderscore taxalink}.
 
 The `geom_taxalink()` layout supports aesthetic mapping, which requires a `data.frame` that stores association information with/without meta-data as input (Figure \@ref(fig:taxalink)D).
 
@@ -407,7 +407,7 @@ plot_list(p1, p2, p3, p4, ncol=2, tag_levels='A')
 
 ### Uncertainty of evolutionary inference
 
-The `geom_range()` layer supports displaying interval (highest posterior density, confidence interval, range) as horizontal bars on tree nodes. The center of the interval will anchor to the corresponding node. The center by default is the mean value of the interval (Figure \@ref(fig:geomRange)A). We can set the `center` to the estimated mean or median value (Figure \@ref(fig:geomRange)B), or the observed value. As the tree branch and the interval may not be on the same scale, `r Biocpkg("ggtree")` provides `scale_x_range` to add a second *x*-axis for the range (Figure \@ref(fig:geomRange)C). Note that *x*-axis is disabled by the default theme, and we need to enable it if we want to display it (*e.g.*, using `theme_tree2()`).
+The `geom_range()` layer supports displaying interval (highest posterior density, confidence interval, range) as horizontal bars on tree nodes. The center of the interval will anchor to the corresponding node. The center by default is the mean value of the interval (Figure \@ref(fig:geomRange)A). We can set the `center` to the estimated mean or median value (Figure \@ref(fig:geomRange)B), or the observed value. As the tree branch and the interval may not be on the same scale, `r Biocpkg("ggtree")` provides `scale_x_range` to add a second *x*-axis for the range (Figure \@ref(fig:geomRange)C). Note that *x*-axis is disabled by the default theme, and we need to enable it if we want to display it (*e.g.*, using `theme_tree2()`)\index{geom\textunderscore range}.
 
 
 
@@ -448,7 +448,7 @@ Furthermore, the evolutionary data from the inference of `r pkg_beast`, `r pkg_m
 
 (ref:beastscap) Annotating `r pkg_beast` tree with _length\_95%\_HPD_ and posterior.
 
-(ref:beastcap) **Annotating `r pkg_beast` tree with _length\_95%\_HPD_ and posterior.** Branch length credible intervals (95% HPD) were displayed as red horizontal bars and clade posterior values were shown on the middle of branches. 
+(ref:beastcap) **Annotating `r pkg_beast` tree with _length\_95%\_HPD_ and posterior.** Branch length credible intervals (95% HPD) were displayed as red horizontal bars and clade posterior values were shown on the middle of branches\index{BEAST}. 
 
 
 
@@ -465,7 +465,7 @@ ggtree(beast, aes(color=rate))  +
 
 In Figure \@ref(fig:beast), the tree was visualized and annotated with posterior >0.9 and demonstrated length uncertainty (95% Highest Posterior Density (HPD) interval).
 
-Ancestral sequences inferred by `r pkg_hyphy` can be parsed using `r Biocpkg("treeio")`, whereas the substitutions along each tree branch were automatically computed and stored inside the phylogenetic tree object (*i.e.*, `S4` object). The `r Biocpkg("ggtree")` package can utilize this information stored in the object to annotate the tree, as demonstrated in Figure \@ref(fig:hyphy).
+Ancestral sequences inferred by `r pkg_hyphy` can be parsed using `r Biocpkg("treeio")`, whereas the substitutions along each tree branch were automatically computed and stored inside the phylogenetic tree object (*i.e.*, `S4` object). The `r Biocpkg("ggtree")` package can utilize this information stored in the object to annotate the tree, as demonstrated in Figure \@ref(fig:hyphy)\index{HyPhy}.
 
 (ref:hyphyscap) Annotating tree with amino acid substitution determined by ancestral sequences inferred by `r pkg_hyphy`.
 
@@ -485,7 +485,7 @@ ggtree(hy) +
 ```
 
 
-`r pkg_paml`'s `r pkg_baseml` and `r pkg_codeml` can also be used to infer ancestral sequences, whereas `r pkg_codeml`\index{CodeML} can infer selection pressure. After parsing this information using `r Biocpkg("treeio")`, `r Biocpkg("ggtree")` can integrate this information into the same tree structure and be used for annotation as illustrated in Figure \@ref(fig:codeml).
+`r pkg_paml`'s `r pkg_baseml` and `r pkg_codeml` can also be used to infer ancestral sequences, whereas `r pkg_codeml`\index{CodeML} can infer selection pressure. After parsing this information using `r Biocpkg("treeio")`, `r Biocpkg("ggtree")` can integrate this information into the same tree structure and be used for annotation as illustrated in Figure \@ref(fig:codeml)\index{PAML}.
 
 (ref:codemlscap) Annotating tree with amino acid substitution and *d~N~/d~S~* inferred by `r pkg_codeml`.
 

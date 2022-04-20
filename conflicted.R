@@ -1,6 +1,7 @@
 pacman::p_load(conflicted)
 
 conflict_prefer("expand", "ggtree")
+conflict_prefer("rotate", "ggtree")
 conflict_prefer("mask", "treeio")
 conflict_prefer("parent", "treeio")
 conflict_prefer("ancestor", "treeio")

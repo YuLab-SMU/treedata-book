@@ -41,7 +41,7 @@ The `r Biocpkg("treeio")` package is able to parse diverse annotation data from 
 ### Basic Tree Visualization
 
 The `r Biocpkg('ggtree')` package extends `r CRANpkg('ggplot2')` [@wickham_ggplot2_2016] package to support viewing a phylogenetic tree.
-It implements `geom_tree()` layer for displaying a phylogenetic tree, as shown below in Figure \@ref(fig:basicviz)A.
+It implements `geom_tree()`\index{geom\textunderscore tree} layer for displaying a phylogenetic tree, as shown below in Figure \@ref(fig:basicviz)A.
 
 
 ```{r fig.width=3, fig.height=3, fig.align="center", eval=F}
@@ -99,7 +99,7 @@ aplot::plot_list(
 
 ### Layouts of a phylogenetic tree {#tree-layouts}
 
-Viewing phylogenetic with `r Biocpkg("ggtree")` is quite simple, just pass the tree object to the `ggtree()` function. We have developed several types of layouts for tree presentation (Figure \@ref(fig:layout)), including *rectangular* (by default), *roundrect* (rounded rectangular), *ellipse*, *slanted*, *circular*, *fan*, *unrooted*\index{unrooted} (equal angle and daylight methods), time-scaled, and two-dimensional layouts. 
+Viewing phylogenetic with `r Biocpkg("ggtree")` is quite simple, just pass the tree object to the `ggtree()` function. We have developed several types of layouts for tree presentation (Figure \@ref(fig:layout)), including *rectangular* (by default), *roundrect* (rounded rectangular), *ellipse*, *slanted*, *circular*, *fan*, *unrooted*\index{unrooted} (equal angle and daylight methods), time-scaled, and two-dimensional layouts\index{tree layout}. 
 
 Here are examples of visualizing a tree with different layouts:
 
@@ -386,7 +386,7 @@ ggtree(tree, layout="circular") + geom_tiplab(aes(angle=angle), color='blue')
 
 
 
-For long tip labels, the label may be truncated. There are several ways to solve this issue (see [FAQ: Tip label truncated](#faq-label-truncated)). Another solution to solve this issue is to display tip labels as *y*-axis labels (Figure \@ref(fig:tiplab)C). However, it only works for rectangular and dendrogram layouts and users need to use `theme()` to adjust tip labels in this case.
+For long tip labels, the label may be truncated. There are several ways to solve this issue (see [FAQ: Tip label truncated](#faq-label-truncated)). Another solution to solve this issue is to display tip labels as *y*-axis labels (Figure \@ref(fig:tiplab)C). However, it only works for rectangular and dendrogram layouts and users need to use `theme()` to adjust tip labels in this case\index{taxa label}.
 
 
 ```{r fig.width=6, fig.height=6, warning=FALSE, fig.align="center", eval=FALSE}
@@ -461,7 +461,7 @@ cowplot::plot_grid(p1, p2, p3, p4, ncol=2, labels = LETTERS[1:4])
 
 ### Color tree
 
-In `r Biocpkg("ggtree")` [@yu_two_2018], coloring phylogenetic tree is easy, by using `aes(color=VAR)` to map the color of the tree based on a specific variable (both numerical and categorical variables are supported, see Figure \@ref(fig:colortree)).
+In `r Biocpkg("ggtree")` [@yu_two_2018], coloring phylogenetic tree is easy, by using `aes(color=VAR)` to map the color of the tree based on a specific variable (both numerical and categorical variables are supported, see Figure \@ref(fig:colortree))\index{color tree}.
 
 
 (ref:colortreescap) Color tree by continuous or discrete feature.
@@ -521,7 +521,7 @@ p2 <- ggtree(tree, layout='circular', ladderize = FALSE, size=2.8) +
 plot_list(p1, p2, ncol=2, tag_levels="A")    
 ```
 
-Besides, we can use a two-dimensional tree (as demonstrated in Figure \@ref(fig:2d)) to visualize phenotype on the vertical dimension to create the phenogram Figure \@ref(fig:phenogram). We can use the `r CRANpkg("ggrepel")` package to repel tip labels to avoid overlapping as demonstrated in Figure \@ref(fig:repelTip).
+Besides, we can use a two-dimensional tree (as demonstrated in Figure \@ref(fig:2d)) to visualize phenotype on the vertical dimension to create the phenogram Figure \@ref(fig:phenogram). We can use the `r CRANpkg("ggrepel")` package to repel tip labels to avoid overlapping as demonstrated in Figure \@ref(fig:repelTip)\index{tree layout}.
 
 
 (ref:phenogramscap) Phenogram.
@@ -537,7 +537,7 @@ ggtree(tree, aes(color=trait), continuous = 'colour', yscale = "trait") +
 
 ### Rescale tree
 
-Most of the phylogenetic trees are scaled by evolutionary distance (substitution/site). In `r Biocpkg("ggtree")`, users can rescale a phylogenetic tree by any numerical variable inferred by evolutionary analysis (*e.g.*,  _d~N~/d~S~_). 
+Most of the phylogenetic trees are scaled by evolutionary distance (substitution/site). In `r Biocpkg("ggtree")`, users can rescale a phylogenetic tree by any numerical variable inferred by evolutionary analysis (*e.g.*,  _d~N~/d~S~_)\index{tree branch}. 
 
 
 This example displays a time tree (Figure \@ref(fig:rescaleTree)A) and the branches were rescaled by substitution rate inferred by BEAST (Figure \@ref(fig:rescaleTree)B). 
@@ -588,7 +588,7 @@ ggtree(beast_tree2) + theme_tree2()
 ### Modify components of a theme
 
 
-The `theme_tree()` defined a totally blank canvas, while `theme_tree2()` adds
+The `theme_tree()`\index{theme} defined a totally blank canvas, while `theme_tree2()` adds
 phylogenetic distance (via *x*-axis). These two themes all accept a parameter of
 `bgcolor` that defined the background color. Users can use any [theme components](http://ggplot2.tidyverse.org/reference/theme.html) to the `theme_tree()` or `theme_tree2()` functions to modify them  (Figure \@ref(fig:theme)).
 
@@ -621,7 +621,7 @@ Users can also use an image file as the tree background, see example in [Appendi
 
 ## Visualize a List of Trees
 
-The `r Biocpkg("ggtree")` supports `multiPhylo` and `treedataList` objects and a list of trees can be viewed simultaneously. The trees will visualize one on top of another and can be plotted in different panels through `facet_wrap()` or `facet_grid()` functions (Figure \@ref(fig:multiPhylo)). 
+The `r Biocpkg("ggtree")` supports `multiPhylo` and `treedataList` objects and a list of trees can be viewed simultaneously. The trees will visualize one on top of another and can be plotted in different panels through `facet_wrap()` or `facet_grid()` functions (Figure \@ref(fig:multiPhylo))\index{multiple trees}. 
 
 (ref:multiPhyloscap) Visualizing multiPhylo object.
 
@@ -682,7 +682,7 @@ ggtree(trs) + facet_wrap(~.id) +
 
 ### DensiTree {#densitree}
 
-Another way to view the bootstrap trees is to merge them to form a density tree using `ggdensitree()` function (Figure \@ref(fig:densiTree)). This will help us identify consensus and differences among a large set of trees. The trees will be stacked on top of each other and the structures of the trees will be rotated to ensure the consistency of the tip order. The tip order is determined by the `tip.order` parameter and by default (`tip.order = 'mode'`) the tips are ordered by the most commonly seen topology. The user can pass in a character vector to specify the tip order, or pass in an integer, N, to order the tips by the order of the tips in the Nth tree. Passing `mds` to `tip.order` will order the tips based on MDS (Multidimensional Scaling) of the path length between the tips, or passing `mds_dist` will order the tips based on MDS of the distance between the tips. 
+Another way to view the bootstrap trees is to merge them to form a density tree using `ggdensitree()`\index{multiple trees} function (Figure \@ref(fig:densiTree)). This will help us identify consensus and differences among a large set of trees. The trees will be stacked on top of each other and the structures of the trees will be rotated to ensure the consistency of the tip order. The tip order is determined by the `tip.order` parameter and by default (`tip.order = 'mode'`) the tips are ordered by the most commonly seen topology. The user can pass in a character vector to specify the tip order, or pass in an integer, N, to order the tips by the order of the tips in the Nth tree. Passing `mds` to `tip.order` will order the tips based on MDS (Multidimensional Scaling) of the path length between the tips, or passing `mds_dist` will order the tips based on MDS of the distance between the tips. 
 
 
 
