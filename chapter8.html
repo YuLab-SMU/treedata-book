@@ -7,7 +7,7 @@
 <title>Chapter 8 Annotating Tree with Silhouette Images and Sub-plots | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
 <meta name="author" content="Guangchuang Yu">
 <meta name="description" content="8.1 Annotating Tree with Images We usually use text to label taxa, i.e. displaying taxa names. If the text is the image file name (either local or remote), ggtree can read the image and display...">
-<meta name="generator" content="bookdown 0.26 with bs4_book()">
+<meta name="generator" content="bookdown 0.27 with bs4_book()">
 <meta property="og:title" content="Chapter 8 Annotating Tree with Silhouette Images and Sub-plots | Data Integration, Manipulation and Visualization of Phylogenetic Trees">
 <meta property="og:type" content="book">
 <meta property="og:image" content="/book-cover.png">
@@ -112,20 +112,20 @@
 
 
 <div class="sourceCode" id="cb201"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/GuangchuangYu/ggimage">ggimage</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yulab-smu.top/treedata-book/">ggtree</a></span><span class="op">)</span>
-
-<span class="va">nwk</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"((((bufonidae, dendrobatidae), ceratophryidae),"</span>,
-          <span class="st">"(centrolenidae, leptodactylidae)), hylidae);"</span><span class="op">)</span>
-
-<span class="va">imgdir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/frogs"</span>, package <span class="op">=</span> <span class="st">"TDbook"</span><span class="op">)</span>
-
-<span class="va">x</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/read.tree.html">read.tree</a></span><span class="op">(</span>text <span class="op">=</span> <span class="va">nwk</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">7</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">ylim</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">6.2</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>image<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">imgdir</span>, <span class="st">'/'</span>, <span class="va">label</span>, <span class="st">'.jpg'</span><span class="op">)</span><span class="op">)</span>, 
-                geom<span class="op">=</span><span class="st">"image"</span>, offset<span class="op">=</span><span class="fl">2</span>, align<span class="op">=</span><span class="fl">2</span>, size<span class="op">=</span><span class="fl">.2</span><span class="op">)</span>  <span class="op">+</span> 
-    <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span>geom<span class="op">=</span><span class="st">'label'</span>, offset<span class="op">=</span><span class="fl">1</span>, hjust<span class="op">=</span><span class="fl">.5</span><span class="op">)</span> <span class="op">+</span> 
-    <span class="fu"><a href="https://rdrr.io/pkg/ggimage/man/geom_image.html">geom_image</a></span><span class="op">(</span>x<span class="op">=</span><span class="fl">.8</span>, y<span class="op">=</span><span class="fl">5.5</span>, image<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">imgdir</span>, <span class="st">"/frog.jpg"</span><span class="op">)</span>, size<span class="op">=</span><span class="fl">.2</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/GuangchuangYu/ggimage">ggimage</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yulab-smu.top/treedata-book/">ggtree</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">nwk</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"((((bufonidae, dendrobatidae), ceratophryidae),"</span>,</span>
+<span>          <span class="st">"(centrolenidae, leptodactylidae)), hylidae);"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">imgdir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/frogs"</span>, package <span class="op">=</span> <span class="st">"TDbook"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">x</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/read.tree.html">read.tree</a></span><span class="op">(</span>text <span class="op">=</span> <span class="va">nwk</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">7</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">ylim</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">6.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>image<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">imgdir</span>, <span class="st">'/'</span>, <span class="va">label</span>, <span class="st">'.jpg'</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>                geom<span class="op">=</span><span class="st">"image"</span>, offset<span class="op">=</span><span class="fl">2</span>, align<span class="op">=</span><span class="fl">2</span>, size<span class="op">=</span><span class="fl">.2</span><span class="op">)</span>  <span class="op">+</span> </span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span>geom<span class="op">=</span><span class="st">'label'</span>, offset<span class="op">=</span><span class="fl">1</span>, hjust<span class="op">=</span><span class="fl">.5</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/ggimage/man/geom_image.html">geom_image</a></span><span class="op">(</span>x<span class="op">=</span><span class="fl">.8</span>, y<span class="op">=</span><span class="fl">5.5</span>, image<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">imgdir</span>, <span class="st">"/frog.jpg"</span><span class="op">)</span>, size<span class="op">=</span><span class="fl">.2</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <span style="display:block;" id="fig:frogimage"></span>
 <img src="treedata_files/figure-html/frogimage-1.png" alt="Labelling taxa with images. Users need to specify geom = " image and map the file names onto aesthetics. width="100%"><p class="caption">
@@ -167,20 +167,20 @@ options(phylopic_dir = "data/phylopic")
 
 -->
 <div class="sourceCode" id="cb202"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yulab-smu.top/treedata-book/">ggtree</a></span><span class="op">)</span>
-<span class="va">newick</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"((Pongo_abelii,(Gorilla_gorilla_gorilla,(Pan_paniscus,"</span>,
-          <span class="st">"Pan_troglodytes)Pan,Homo_sapiens)Homininae)Hominidae,"</span>,
-          <span class="st">"Nomascus_leucogenys)Hominoidea;"</span><span class="op">)</span>
-
-<span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/read.tree.html">read.tree</a></span><span class="op">(</span>text<span class="op">=</span><span class="va">newick</span><span class="op">)</span>
-
-<span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">ggimage</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggimage/man/phylopic_uid.html">phylopic_uid</a></span><span class="op">(</span><span class="va">tree</span><span class="op">$</span><span class="va">tip.label</span><span class="op">)</span>
-<span class="va">d</span><span class="op">$</span><span class="va">body_mass</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">52</span>, <span class="fl">114</span>, <span class="fl">47</span>, <span class="fl">45</span>, <span class="fl">58</span>, <span class="fl">6</span><span class="op">)</span>
-
-<span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/ggtree/man/attacher.html">%&lt;+%</a></span> <span class="va">d</span> <span class="op">+</span> 
-  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>image<span class="op">=</span><span class="va">uid</span>, colour<span class="op">=</span><span class="va">body_mass</span><span class="op">)</span>, geom<span class="op">=</span><span class="st">"phylopic"</span>, offset<span class="op">=</span><span class="fl">2.5</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label<span class="op">=</span><span class="va">label</span><span class="op">)</span>, offset <span class="op">=</span> <span class="fl">.2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">7</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_color_viridis_c</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yulab-smu.top/treedata-book/">ggtree</a></span><span class="op">)</span></span>
+<span><span class="va">newick</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"((Pongo_abelii,(Gorilla_gorilla_gorilla,(Pan_paniscus,"</span>,</span>
+<span>          <span class="st">"Pan_troglodytes)Pan,Homo_sapiens)Homininae)Hominidae,"</span>,</span>
+<span>          <span class="st">"Nomascus_leucogenys)Hominoidea;"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/read.tree.html">read.tree</a></span><span class="op">(</span>text<span class="op">=</span><span class="va">newick</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">ggimage</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggimage/man/phylopic_uid.html">phylopic_uid</a></span><span class="op">(</span><span class="va">tree</span><span class="op">$</span><span class="va">tip.label</span><span class="op">)</span></span>
+<span><span class="va">d</span><span class="op">$</span><span class="va">body_mass</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">52</span>, <span class="fl">114</span>, <span class="fl">47</span>, <span class="fl">45</span>, <span class="fl">58</span>, <span class="fl">6</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/ggtree/man/attacher.html">%&lt;+%</a></span> <span class="va">d</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>image<span class="op">=</span><span class="va">uid</span>, colour<span class="op">=</span><span class="va">body_mass</span><span class="op">)</span>, geom<span class="op">=</span><span class="st">"phylopic"</span>, offset<span class="op">=</span><span class="fl">2.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label<span class="op">=</span><span class="va">label</span><span class="op">)</span>, offset <span class="op">=</span> <span class="fl">.2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">7</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_color_viridis_c</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <!--  (A). The UID can be searched using scientific names of the taxa (B) -->
 
 
@@ -204,27 +204,27 @@ FIGURE 8.2: <strong>Labelling taxa with phylopic images.</strong> The <a href="h
 
 
 <div class="sourceCode" id="cb203"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/liamrevell/phytools">phytools</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">anoletree</span><span class="op">)</span>
-<span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/phytools/man/getStates.html">getStates</a></span><span class="op">(</span><span class="va">anoletree</span>,<span class="st">"tips"</span><span class="op">)</span>
-<span class="va">tree</span> <span class="op">&lt;-</span> <span class="va">anoletree</span>
-
-<span class="va">cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/grDevices/palette.html">palette</a></span><span class="op">(</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>,<span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="va">fitER</span> <span class="op">&lt;-</span> <span class="fu">ape</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ape/man/ace.html">ace</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">tree</span>,model<span class="op">=</span><span class="st">"ER"</span>,type<span class="op">=</span><span class="st">"discrete"</span><span class="op">)</span>
-<span class="va">ancstats</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">fitER</span><span class="op">$</span><span class="va">lik.anc</span><span class="op">)</span>
-<span class="va">ancstats</span><span class="op">$</span><span class="va">node</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="va">tree</span><span class="op">$</span><span class="va">Nnode</span><span class="op">+</span><span class="fu"><a href="https://rdrr.io/pkg/ape/man/summary.phylo.html">Ntip</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span>
-
-<span class="co">## cols parameter indicate which columns store stats</span>
-<span class="va">bars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/nodebar.html">nodebar</a></span><span class="op">(</span><span class="va">ancstats</span>, cols<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>
-<span class="va">bars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">bars</span>, <span class="kw">function</span><span class="op">(</span><span class="va">g</span><span class="op">)</span> <span class="va">g</span><span class="op">+</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">cols</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">tree2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">full_join</a></span><span class="op">(</span><span class="va">tree</span>, <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, stat <span class="op">=</span> <span class="va">x</span> <span class="op">)</span>, by <span class="op">=</span> <span class="st">'label'</span><span class="op">)</span>
-<span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tippoint.html">geom_tippoint</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">stat</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">cols</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span> <span class="op">+</span> 
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">8</span><span class="op">)</span>
-<span class="va">p1</span> <span class="op">&lt;-</span> <span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/inset.html">geom_inset</a></span><span class="op">(</span><span class="va">bars</span>, width <span class="op">=</span> <span class="fl">.08</span>, height <span class="op">=</span> <span class="fl">.05</span>, x <span class="op">=</span> <span class="st">"branch"</span><span class="op">)</span> </code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/liamrevell/phytools">phytools</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">anoletree</span><span class="op">)</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/phytools/man/getStates.html">getStates</a></span><span class="op">(</span><span class="va">anoletree</span>,<span class="st">"tips"</span><span class="op">)</span></span>
+<span><span class="va">tree</span> <span class="op">&lt;-</span> <span class="va">anoletree</span></span>
+<span></span>
+<span><span class="va">cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/grDevices/palette.html">palette</a></span><span class="op">(</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>,<span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">fitER</span> <span class="op">&lt;-</span> <span class="fu">ape</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ape/man/ace.html">ace</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">tree</span>,model<span class="op">=</span><span class="st">"ER"</span>,type<span class="op">=</span><span class="st">"discrete"</span><span class="op">)</span></span>
+<span><span class="va">ancstats</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">fitER</span><span class="op">$</span><span class="va">lik.anc</span><span class="op">)</span></span>
+<span><span class="va">ancstats</span><span class="op">$</span><span class="va">node</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="va">tree</span><span class="op">$</span><span class="va">Nnode</span><span class="op">+</span><span class="fu"><a href="https://rdrr.io/pkg/ape/man/summary.phylo.html">Ntip</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## cols parameter indicate which columns store stats</span></span>
+<span><span class="va">bars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/nodebar.html">nodebar</a></span><span class="op">(</span><span class="va">ancstats</span>, cols<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span></span>
+<span><span class="va">bars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">bars</span>, <span class="kw">function</span><span class="op">(</span><span class="va">g</span><span class="op">)</span> <span class="va">g</span><span class="op">+</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">cols</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">tree2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">full_join</a></span><span class="op">(</span><span class="va">tree</span>, <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, stat <span class="op">=</span> <span class="va">x</span> <span class="op">)</span>, by <span class="op">=</span> <span class="st">'label'</span><span class="op">)</span></span>
+<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tippoint.html">geom_tippoint</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">stat</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">cols</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">8</span><span class="op">)</span></span>
+<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/inset.html">geom_inset</a></span><span class="op">(</span><span class="va">bars</span>, width <span class="op">=</span> <span class="fl">.08</span>, height <span class="op">=</span> <span class="fl">.05</span>, x <span class="op">=</span> <span class="st">"branch"</span><span class="op">)</span> </span></code></pre></div>
 <p>The <code>x</code> position can be one of ‘node’ or ‘branch’ and can be adjusted by the parameters, <code>hjust</code> and <code>vjust</code>, for horizontal and vertical adjustment, respectively. The <code>width</code> and <code>height</code> parameters restrict the size of the inset plots.</p>
 </div>
 <div id="annotate-with-pie-charts" class="section level3" number="8.3.2">
@@ -235,11 +235,11 @@ FIGURE 8.2: <strong>Labelling taxa with phylopic images.</strong> The <a href="h
 
 
 <div class="sourceCode" id="cb204"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">pies</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/nodepie.html">nodepie</a></span><span class="op">(</span><span class="va">ancstats</span>, cols <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>
-<span class="va">pies</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">pies</span>, <span class="kw">function</span><span class="op">(</span><span class="va">g</span><span class="op">)</span> <span class="va">g</span><span class="op">+</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">cols</span><span class="op">)</span><span class="op">)</span>
-<span class="va">p2</span> <span class="op">&lt;-</span> <span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/inset.html">geom_inset</a></span><span class="op">(</span><span class="va">pies</span>, width <span class="op">=</span> <span class="fl">.1</span>, height <span class="op">=</span> <span class="fl">.1</span><span class="op">)</span> 
-
-<span class="fu"><a href="https://rdrr.io/pkg/aplot/man/plot_list.html">plot_list</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, guides<span class="op">=</span><span class="st">'collect'</span>, tag_levels<span class="op">=</span><span class="st">'A'</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">pies</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/nodepie.html">nodepie</a></span><span class="op">(</span><span class="va">ancstats</span>, cols <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span></span>
+<span><span class="va">pies</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">pies</span>, <span class="kw">function</span><span class="op">(</span><span class="va">g</span><span class="op">)</span> <span class="va">g</span><span class="op">+</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">cols</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/inset.html">geom_inset</a></span><span class="op">(</span><span class="va">pies</span>, width <span class="op">=</span> <span class="fl">.1</span>, height <span class="op">=</span> <span class="fl">.1</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/aplot/man/plot_list.html">plot_list</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, guides<span class="op">=</span><span class="st">'collect'</span>, tag_levels<span class="op">=</span><span class="st">'A'</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <span style="display:block;" id="fig:pieInset"></span>
 <img src="treedata_files/figure-html/pieInset-1.png" alt="Annotate internal nodes with bar or pie charts. Using bar charts (A) or pie charts (B) to display summary statistics of internal nodes." width="100%"><p class="caption">
@@ -255,10 +255,10 @@ FIGURE 8.3: <strong>Annotate internal nodes with bar or pie charts.</strong> Usi
 
 
 <div class="sourceCode" id="cb205"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">pies_and_bars</span> <span class="op">&lt;-</span> <span class="va">pies</span>
-<span class="va">i</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">pies</span><span class="op">)</span>, <span class="fl">20</span><span class="op">)</span>
-<span class="va">pies_and_bars</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">bars</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>
-<span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/inset.html">geom_inset</a></span><span class="op">(</span><span class="va">pies_and_bars</span>, width<span class="op">=</span><span class="fl">.08</span>, height<span class="op">=</span><span class="fl">.05</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">pies_and_bars</span> <span class="op">&lt;-</span> <span class="va">pies</span></span>
+<span><span class="va">i</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">pies</span><span class="op">)</span>, <span class="fl">20</span><span class="op">)</span></span>
+<span><span class="va">pies_and_bars</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">bars</span><span class="op">[</span><span class="va">i</span><span class="op">]</span></span>
+<span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/inset.html">geom_inset</a></span><span class="op">(</span><span class="va">pies_and_bars</span>, width<span class="op">=</span><span class="fl">.08</span>, height<span class="op">=</span><span class="fl">.05</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <span style="display:block;" id="fig:barpieInset"></span>
 <img src="treedata_files/figure-html/barpieInset-1.png" alt="Annotate internal nodes with different types of subplots." width="100%"><p class="caption">
@@ -276,20 +276,20 @@ FIGURE 8.4: <strong>Annotate internal nodes with different types of subplots.</s
 
 
 <div class="sourceCode" id="cb206"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yulab-smu.top/treedata-book/">ggtree</a></span><span class="op">)</span>
-
-<span class="va">tt</span> <span class="op">=</span> <span class="st">'((snail,mushroom),(((sunflower,evergreen_tree),leaves),green_salad));'</span>
-<span class="va">tree</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/read.tree.html">read.tree</a></span><span class="op">(</span>text <span class="op">=</span> <span class="va">tt</span><span class="op">)</span>
-<span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'snail'</span>,<span class="st">'mushroom'</span>, <span class="st">'sunflower'</span>,
-                          <span class="st">'evergreen_tree'</span>,<span class="st">'leaves'</span>, <span class="st">'green_salad'</span><span class="op">)</span>,
-                group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'animal'</span>, <span class="st">'fungi'</span>, <span class="st">'flowering plant'</span>,
-                          <span class="st">'conifers'</span>, <span class="st">'ferns'</span>, <span class="st">'mosses'</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, size<span class="op">=</span><span class="fl">1</span>, color<span class="op">=</span><span class="st">'firebrick'</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/ggtree/man/attacher.html">%&lt;+%</a></span> <span class="va">d</span> <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4.5</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">ylim</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">6.5</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span>parse<span class="op">=</span><span class="st">"emoji"</span>, size<span class="op">=</span><span class="fl">15</span>, vjust<span class="op">=</span><span class="fl">.25</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">group</span><span class="op">)</span>, geom<span class="op">=</span><span class="st">"label"</span>, x<span class="op">=</span><span class="fl">3.5</span>, hjust<span class="op">=</span><span class="fl">1</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yulab-smu.top/treedata-book/">ggtree</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">tt</span> <span class="op">=</span> <span class="st">'((snail,mushroom),(((sunflower,evergreen_tree),leaves),green_salad));'</span></span>
+<span><span class="va">tree</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/read.tree.html">read.tree</a></span><span class="op">(</span>text <span class="op">=</span> <span class="va">tt</span><span class="op">)</span></span>
+<span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'snail'</span>,<span class="st">'mushroom'</span>, <span class="st">'sunflower'</span>,</span>
+<span>                          <span class="st">'evergreen_tree'</span>,<span class="st">'leaves'</span>, <span class="st">'green_salad'</span><span class="op">)</span>,</span>
+<span>                group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'animal'</span>, <span class="st">'fungi'</span>, <span class="st">'flowering plant'</span>,</span>
+<span>                          <span class="st">'conifers'</span>, <span class="st">'ferns'</span>, <span class="st">'mosses'</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, size<span class="op">=</span><span class="fl">1</span>, color<span class="op">=</span><span class="st">'firebrick'</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/ggtree/man/attacher.html">%&lt;+%</a></span> <span class="va">d</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4.5</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">ylim</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">6.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span>parse<span class="op">=</span><span class="st">"emoji"</span>, size<span class="op">=</span><span class="fl">15</span>, vjust<span class="op">=</span><span class="fl">.25</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">group</span><span class="op">)</span>, geom<span class="op">=</span><span class="st">"label"</span>, x<span class="op">=</span><span class="fl">3.5</span>, hjust<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <span style="display:block;" id="fig:phylomoji1"></span>
 <img src="img/phylomoji-ggtree.png" alt="Parsing label as emoji. Text (e.g., node or tip labels) can be parsed as emoji." width="100%"><p class="caption">
@@ -304,15 +304,15 @@ FIGURE 8.5: <strong>Parsing label as emoji.</strong> Text (<em>e.g.</em>, node o
 </h3>
 <p>It also works with circular and fan layouts as demonstrated in Figure <a href="chapter8.html#fig:emojifan">8.6</a>.</p>
 <div class="sourceCode" id="cb207"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span>, layout <span class="op">=</span> <span class="st">"circular"</span>, size<span class="op">=</span><span class="fl">1</span><span class="op">)</span> <span class="op">+</span>  
-  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span>parse<span class="op">=</span><span class="st">"emoji"</span>, size<span class="op">=</span><span class="fl">10</span>, vjust<span class="op">=</span><span class="fl">.25</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span>
-
-<span class="co">## fan layout  </span>
-<span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/open_tree.html">open_tree</a></span><span class="op">(</span><span class="va">p</span>, angle<span class="op">=</span><span class="fl">200</span><span class="op">)</span> 
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">p2</span><span class="op">)</span>
-
-<span class="va">p2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/rotate_tree.html">rotate_tree</a></span><span class="op">(</span><span class="op">-</span><span class="fl">90</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tree</span>, layout <span class="op">=</span> <span class="st">"circular"</span>, size<span class="op">=</span><span class="fl">1</span><span class="op">)</span> <span class="op">+</span>  </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span>parse<span class="op">=</span><span class="st">"emoji"</span>, size<span class="op">=</span><span class="fl">10</span>, vjust<span class="op">=</span><span class="fl">.25</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## fan layout  </span></span>
+<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/open_tree.html">open_tree</a></span><span class="op">(</span><span class="va">p</span>, angle<span class="op">=</span><span class="fl">200</span><span class="op">)</span> </span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">p2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/rotate_tree.html">rotate_tree</a></span><span class="op">(</span><span class="op">-</span><span class="fl">90</span><span class="op">)</span></span></code></pre></div>
 
 
 <div class="figure">
@@ -331,36 +331,36 @@ FIGURE 8.6: <strong>Phylomoji in cirular and fan layouts.</strong>
 
 
 <div class="sourceCode" id="cb208"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
-<span class="va">tr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/rtree.html">rtree</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span>
-
-<span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
-           node <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">41</span>, <span class="fl">53</span>, <span class="fl">48</span><span class="op">)</span>,
-           name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"chicken"</span>, <span class="st">"duck"</span>, <span class="st">"family"</span><span class="op">)</span>
-       <span class="op">)</span>
-
-<span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tr</span><span class="op">)</span> <span class="op">+</span> 
-     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">5.2</span><span class="op">)</span> <span class="op">+</span>
-     <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_cladelab.html">geom_cladelab</a></span><span class="op">(</span>
-         data <span class="op">=</span> <span class="va">dat</span>,
-         mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>
-             node <span class="op">=</span> <span class="va">node</span>, 
-             label <span class="op">=</span> <span class="va">name</span>, 
-             color <span class="op">=</span> <span class="va">name</span>
-         <span class="op">)</span>,
-         parse <span class="op">=</span> <span class="st">"emoji"</span>,
-         fontsize <span class="op">=</span> <span class="fl">12</span>,
-         align <span class="op">=</span> <span class="cn">TRUE</span>,
-         show.legend <span class="op">=</span> <span class="cn">FALSE</span>
-     <span class="op">)</span> <span class="op">+</span>
-     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>
-         values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
-             chicken<span class="op">=</span><span class="st">"firebrick"</span>, 
-             duck<span class="op">=</span><span class="st">"steelblue"</span>, 
-             family <span class="op">=</span> <span class="st">"darkkhaki"</span>
-         <span class="op">)</span>
-     <span class="op">)</span>
-<span class="va">p</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span><span class="va">tr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/rtree.html">rtree</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>           node <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">41</span>, <span class="fl">53</span>, <span class="fl">48</span><span class="op">)</span>,</span>
+<span>           name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"chicken"</span>, <span class="st">"duck"</span>, <span class="st">"family"</span><span class="op">)</span></span>
+<span>       <span class="op">)</span></span>
+<span></span>
+<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">tr</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">5.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>     <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_cladelab.html">geom_cladelab</a></span><span class="op">(</span></span>
+<span>         data <span class="op">=</span> <span class="va">dat</span>,</span>
+<span>         mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span></span>
+<span>             node <span class="op">=</span> <span class="va">node</span>, </span>
+<span>             label <span class="op">=</span> <span class="va">name</span>, </span>
+<span>             color <span class="op">=</span> <span class="va">name</span></span>
+<span>         <span class="op">)</span>,</span>
+<span>         parse <span class="op">=</span> <span class="st">"emoji"</span>,</span>
+<span>         fontsize <span class="op">=</span> <span class="fl">12</span>,</span>
+<span>         align <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>         show.legend <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>     <span class="op">)</span> <span class="op">+</span></span>
+<span>     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span></span>
+<span>         values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>             chicken<span class="op">=</span><span class="st">"firebrick"</span>, </span>
+<span>             duck<span class="op">=</span><span class="st">"steelblue"</span>, </span>
+<span>             family <span class="op">=</span> <span class="st">"darkkhaki"</span></span>
+<span>         <span class="op">)</span></span>
+<span>     <span class="op">)</span></span>
+<span><span class="va">p</span></span></code></pre></div>
 <div class="figure">
 <span style="display:block;" id="fig:emojiclade"></span>
 <img src="treedata_files/figure-html/emojiclade-1.svg" alt="Emoji to label clades." width="100%"><p class="caption">
@@ -374,20 +374,20 @@ FIGURE 8.7: <strong>Emoji to label clades.</strong>
 </h3>
 <p>Although <code>R</code>’s graphical devices don’t support <code>AppleColorEmoji</code> font on MacOS, it’s still possible to use it. We can export the <code>plot</code> to a <code>svg</code> file and render it in <code>Safari</code> (Figure <a href="chapter8.html#fig:applemoji">8.8</a>).</p>
 <div class="sourceCode" id="cb209"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yulab-smu.top/treedata-book/">ggtree</a></span><span class="op">)</span>
-<span class="va">tree_text</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"(((((cow, (whale, dolphin)), (pig2, boar)),"</span>,
-                    <span class="st">"camel), fish), seedling);"</span><span class="op">)</span>
-<span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/read.tree.html">read.tree</a></span><span class="op">(</span>text<span class="op">=</span><span class="va">tree_text</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/GuangchuangYu/ggimage">ggimage</a></span><span class="op">)</span>
-<span class="va">p</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">x</span>, size<span class="op">=</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">20</span>, parse<span class="op">=</span><span class="st">'emoji'</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">7</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">ylim</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">8.5</span><span class="op">)</span> 
-
-<span class="fu">svglite</span><span class="fu">::</span><span class="fu"><a href="https://svglite.r-lib.org/reference/svglite.html">svglite</a></span><span class="op">(</span><span class="st">"emoji.svg"</span>, width <span class="op">=</span> <span class="fl">10</span>, height <span class="op">=</span> <span class="fl">7</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html">dev.off</a></span><span class="op">(</span><span class="op">)</span>
-
-<span class="co"># or use `grid.export()` </span>
-<span class="co"># ps = gridSVG::grid.export("emoji.svg", addClass=T)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yulab-smu.top/treedata-book/">ggtree</a></span><span class="op">)</span></span>
+<span><span class="va">tree_text</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"(((((cow, (whale, dolphin)), (pig2, boar)),"</span>,</span>
+<span>                    <span class="st">"camel), fish), seedling);"</span><span class="op">)</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/read.tree.html">read.tree</a></span><span class="op">(</span>text<span class="op">=</span><span class="va">tree_text</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/GuangchuangYu/ggimage">ggimage</a></span><span class="op">)</span></span>
+<span><span class="va">p</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggtree.html">ggtree</a></span><span class="op">(</span><span class="va">x</span>, size<span class="op">=</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab.html">geom_tiplab</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">20</span>, parse<span class="op">=</span><span class="st">'emoji'</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">7</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">ylim</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">8.5</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="fu">svglite</span><span class="fu">::</span><span class="fu"><a href="https://svglite.r-lib.org/reference/svglite.html">svglite</a></span><span class="op">(</span><span class="st">"emoji.svg"</span>, width <span class="op">=</span> <span class="fl">10</span>, height <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html">dev.off</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># or use `grid.export()` </span></span>
+<span><span class="co"># ps = gridSVG::grid.export("emoji.svg", addClass=T)</span></span></code></pre></div>
 
 
 <div class="figure">
@@ -455,7 +455,7 @@ FIGURE 8.8: <strong>Use Apple Color Emoji in <code>ggtree</code>.</strong> The t
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2022-04-22.</p>
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2022-07-13.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

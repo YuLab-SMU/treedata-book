@@ -7,7 +7,7 @@
 <title>Chapter 11 Other ggtree Extensions | Data Integration, Manipulation and Visualization of Phylogenetic Trees</title>
 <meta name="author" content="Guangchuang Yu">
 <meta name="description" content="The ggtree package is a general package for visualizing tree structures and associated data. If you have some special requirements that are not directly provided by ggtree, you may need to use one...">
-<meta name="generator" content="bookdown 0.26 with bs4_book()">
+<meta name="generator" content="bookdown 0.27 with bs4_book()">
 <meta property="og:title" content="Chapter 11 Other ggtree Extensions | Data Integration, Manipulation and Visualization of Phylogenetic Trees">
 <meta property="og:type" content="book">
 <meta property="og:image" content="/book-cover.png">
@@ -105,12 +105,12 @@
 </h1>
 <p>The <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a> package is a general package for visualizing tree structures and associated data. If you have some special requirements that are not directly provided by <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a>, you may need to use one of the extension packages built on top of <a href="http://bioconductor.org/packages/ggtree"><strong>ggtree</strong></a>. For example, the <a href="https://CRAN.R-project.org/package=RevGadgets"><strong>RevGadgets</strong></a> package for visualizing the output of the <a href="http://revbayes.github.io/intro.html"><strong>RevBayes</strong></a>, the <a href="http://bioconductor.org/packages/sitePath"><strong>sitePath</strong></a> package for visualizing fixation events on phylogenetic pathways, and the <a href="http://bioconductor.org/packages/enrichplot"><strong>enrichplot</strong></a> package for visualizing hierarchical structure of the enriched pathways.</p>
 <div class="sourceCode" id="cb230"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">rp</span> <span class="op">&lt;-</span> <span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/repositories.html">repositories</a></span><span class="op">(</span><span class="op">)</span>
-<span class="va">db</span> <span class="op">&lt;-</span> <span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/available.packages.html">available.packages</a></span><span class="op">(</span>repo<span class="op">=</span><span class="va">rp</span><span class="op">)</span>
-<span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">tools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/tools/package_dependencies.html">package_dependencies</a></span><span class="op">(</span><span class="st">'ggtree'</span>, db<span class="op">=</span><span class="va">db</span>, 
-                                which <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Depends"</span>, <span class="st">"Imports"</span><span class="op">)</span>, 
-                                reverse<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/phylobase/man/print-methods.html">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>                                </code></pre></div>
+<code class="sourceCode R"><span><span class="va">rp</span> <span class="op">&lt;-</span> <span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/repositories.html">repositories</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">db</span> <span class="op">&lt;-</span> <span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/available.packages.html">available.packages</a></span><span class="op">(</span>repo<span class="op">=</span><span class="va">rp</span><span class="op">)</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">tools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/tools/package_dependencies.html">package_dependencies</a></span><span class="op">(</span><span class="st">'ggtree'</span>, db<span class="op">=</span><span class="va">db</span>, </span>
+<span>                                which <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Depends"</span>, <span class="st">"Imports"</span><span class="op">)</span>, </span>
+<span>                                reverse<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/phylobase/man/print-methods.html">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>                                </span></code></pre></div>
 <pre><code>## $ggtree
 ##  [1] "enrichplot"        "ggtreeExtra"      
 ##  [3] "LymphoSeq"         "miaViz"           
@@ -127,35 +127,35 @@
 
 
 <div class="sourceCode" id="cb232"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/YuLab-SMU/MicrobiotaProcess/">MicrobiotaProcess</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/YuLab-SMU/TDBook">TDbook</a></span><span class="op">)</span>
-
-<span class="co"># load `df_difftax` and `df_difftax_info` from TDbook</span>
-<span class="va">taxa</span> <span class="op">&lt;-</span> <span class="va">df_alltax_info</span>
-<span class="va">dt</span> <span class="op">&lt;-</span> <span class="va">df_difftax</span>
-
-<span class="fu"><a href="https://rdrr.io/pkg/MicrobiotaProcess/man/ggdiffclade.html">ggdiffclade</a></span><span class="op">(</span>obj<span class="op">=</span><span class="va">taxa</span>,
-            nodedf<span class="op">=</span><span class="va">dt</span>,
-            factorName<span class="op">=</span><span class="st">"DIAGNOSIS"</span>,
-            layout<span class="op">=</span><span class="st">"radial"</span>,
-            skpointsize<span class="op">=</span><span class="fl">0.6</span>,
-            cladetext<span class="op">=</span><span class="fl">2</span>,
-            linewd<span class="op">=</span><span class="fl">0.2</span>,
-            taxlevel<span class="op">=</span><span class="fl">3</span>,
-            <span class="co"># This argument is to remove the branch of unknown taxonomy.</span>
-            reduce<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span> 
-     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#00AED7"</span>, <span class="st">"#009E73"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
-     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span><span class="op">(</span>color <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guide_legend.html">guide_legend</a></span><span class="op">(</span>keywidth <span class="op">=</span> <span class="fl">0.1</span>, keyheight <span class="op">=</span> <span class="fl">0.6</span>,
-                                 order <span class="op">=</span> <span class="fl">3</span>,ncol<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>panel.background<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_rect</a></span><span class="op">(</span>fill<span class="op">=</span><span class="cn">NA</span><span class="op">)</span>,
-           legend.position<span class="op">=</span><span class="st">"right"</span>,
-           plot.margin<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">margin</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>,
-           legend.spacing.y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">0.02</span>, <span class="st">"cm"</span><span class="op">)</span>, 
-           legend.title<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">7.5</span><span class="op">)</span>, 
-           legend.text<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">5.5</span><span class="op">)</span>, 
-           legend.box.spacing<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">0.02</span>,<span class="st">"cm"</span><span class="op">)</span>
-        <span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/YuLab-SMU/MicrobiotaProcess/">MicrobiotaProcess</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/YuLab-SMU/TDBook">TDbook</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># load `df_difftax` and `df_difftax_info` from TDbook</span></span>
+<span><span class="va">taxa</span> <span class="op">&lt;-</span> <span class="va">df_alltax_info</span></span>
+<span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="va">df_difftax</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/MicrobiotaProcess/man/ggdiffclade.html">ggdiffclade</a></span><span class="op">(</span>obj<span class="op">=</span><span class="va">taxa</span>,</span>
+<span>            nodedf<span class="op">=</span><span class="va">dt</span>,</span>
+<span>            factorName<span class="op">=</span><span class="st">"DIAGNOSIS"</span>,</span>
+<span>            layout<span class="op">=</span><span class="st">"radial"</span>,</span>
+<span>            skpointsize<span class="op">=</span><span class="fl">0.6</span>,</span>
+<span>            cladetext<span class="op">=</span><span class="fl">2</span>,</span>
+<span>            linewd<span class="op">=</span><span class="fl">0.2</span>,</span>
+<span>            taxlevel<span class="op">=</span><span class="fl">3</span>,</span>
+<span>            <span class="co"># This argument is to remove the branch of unknown taxonomy.</span></span>
+<span>            reduce<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#00AED7"</span>, <span class="st">"#009E73"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span><span class="op">(</span>color <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guide_legend.html">guide_legend</a></span><span class="op">(</span>keywidth <span class="op">=</span> <span class="fl">0.1</span>, keyheight <span class="op">=</span> <span class="fl">0.6</span>,</span>
+<span>                                 order <span class="op">=</span> <span class="fl">3</span>,ncol<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>panel.background<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_rect</a></span><span class="op">(</span>fill<span class="op">=</span><span class="cn">NA</span><span class="op">)</span>,</span>
+<span>           legend.position<span class="op">=</span><span class="st">"right"</span>,</span>
+<span>           plot.margin<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">margin</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>,</span>
+<span>           legend.spacing.y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">0.02</span>, <span class="st">"cm"</span><span class="op">)</span>, </span>
+<span>           legend.title<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">7.5</span><span class="op">)</span>, </span>
+<span>           legend.text<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">5.5</span><span class="op">)</span>, </span>
+<span>           legend.box.spacing<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">0.02</span>,<span class="st">"cm"</span><span class="op">)</span></span>
+<span>        <span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <span style="display:block;" id="fig:CRCdiffclade"></span>
 <img src="treedata_files/figure-html/CRCdiffclade-1.png" alt="Visualize differential taxonomy clade." width="98%"><p class="caption">
@@ -172,19 +172,19 @@ FIGURE 11.1: <strong>Visualize differential taxonomy clade.</strong>
 
 
 <div class="sourceCode" id="cb233"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yulab-smu.top/treedata-book/">ggtree</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://klausvigo.github.io/tanggle">tanggle</a></span><span class="op">)</span>
-
-<span class="va">file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/trees/woodmouse.nxs"</span>, package <span class="op">=</span> <span class="st">"phangorn"</span><span class="op">)</span>
-<span class="va">Nnet</span> <span class="op">&lt;-</span> <span class="fu">phangorn</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/phangorn/man/read.nexus.splits.html">read.nexus.networx</a></span><span class="op">(</span><span class="va">file</span><span class="op">)</span>
-
-<span class="fu"><a href="https://klausvigo.github.io/tanggle/reference/ggsplitnet.html">ggsplitnet</a></span><span class="op">(</span><span class="va">Nnet</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab2.html">geom_tiplab2</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>color<span class="op">=</span><span class="va">label</span><span class="op">)</span>, hjust<span class="op">=</span><span class="op">-</span><span class="fl">.1</span><span class="op">)</span><span class="op">+</span>
-    <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_nodepoint.html">geom_nodepoint</a></span><span class="op">(</span>color<span class="op">=</span><span class="st">'firebrick'</span>, alpha<span class="op">=</span><span class="fl">.4</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">rainbow</a></span><span class="op">(</span><span class="fl">15</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>   
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggexpand.html">ggexpand</a></span><span class="op">(</span><span class="fl">.1</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggexpand.html">ggexpand</a></span><span class="op">(</span><span class="fl">.1</span>, direction<span class="op">=</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yulab-smu.top/treedata-book/">ggtree</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://klausvigo.github.io/tanggle">tanggle</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/trees/woodmouse.nxs"</span>, package <span class="op">=</span> <span class="st">"phangorn"</span><span class="op">)</span></span>
+<span><span class="va">Nnet</span> <span class="op">&lt;-</span> <span class="fu">phangorn</span><span class="fu">::</span><span class="fu"><a href="https://klausvigo.github.io/phangorn/reference/read.nexus.splits.html">read.nexus.networx</a></span><span class="op">(</span><span class="va">file</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://klausvigo.github.io/tanggle/reference/ggsplitnet.html">ggsplitnet</a></span><span class="op">(</span><span class="va">Nnet</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_tiplab2.html">geom_tiplab2</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>color<span class="op">=</span><span class="va">label</span><span class="op">)</span>, hjust<span class="op">=</span><span class="op">-</span><span class="fl">.1</span><span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/geom_nodepoint.html">geom_nodepoint</a></span><span class="op">(</span>color<span class="op">=</span><span class="st">'firebrick'</span>, alpha<span class="op">=</span><span class="fl">.4</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">rainbow</a></span><span class="op">(</span><span class="fl">15</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>   </span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggexpand.html">ggexpand</a></span><span class="op">(</span><span class="fl">.1</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggtree/man/ggexpand.html">ggexpand</a></span><span class="op">(</span><span class="fl">.1</span>, direction<span class="op">=</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <span style="display:block;" id="fig:phylonetworx"></span>
 <img src="treedata_files/figure-html/phylonetworx-1.svg" alt="Phylogenetic network." width="98%"><p class="caption">
@@ -233,7 +233,7 @@ FIGURE 11.2: <strong>Phylogenetic network</strong>.
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2022-04-22.</p>
+    <p>"<strong>Data Integration, Manipulation and Visualization of Phylogenetic Trees</strong>" was written by Guangchuang Yu. It was last built on 2022-07-13.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
